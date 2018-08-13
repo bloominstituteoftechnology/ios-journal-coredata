@@ -10,8 +10,28 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
 
-    @IBOutlet weak var titeLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var bodyLabel: UILabel!
+    
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    private func updateViews() {
+        guard let entry = entry else { return }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .medium
+        guard let timestamp = entry.timestamp else { return }
+        
+        let dateString = dateFormatter.string(from: timestamp)
+        titleLabel.text = entry.title
+        timestampLabel.text = dateString
+        bodyLabel.text = entry.bodyText
+    }
     
 }
