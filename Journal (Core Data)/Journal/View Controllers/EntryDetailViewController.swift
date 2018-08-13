@@ -22,17 +22,19 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet var textView: UITextView!
     
     @IBAction func save(_ sender: Any) {
-        guard let title = textField.text, let bodyText = textView.text else { return }
+        guard let title = textField.text, title.count > 0, let bodyText = textView.text else { return }
         
         if let entry = entry {
             entryController?.update(entry: entry, title: title, bodyText: bodyText)
-            navigationController?.popViewController(animated: true)
         } else {
             entryController?.create(title: title, bodyText: bodyText)
-            navigationController?.popViewController(animated: true)
         }
         
-        entryController?.saveToPersistentStore()
+        // The do-catch saving block is written in saveToPersistentStore()
+        // This is being done in the create() and update() in EntryController
+//        entryController?.saveToPersistentStore()
+        
+        navigationController?.popViewController(animated: true)
     }
     
     override func viewDidLoad() {

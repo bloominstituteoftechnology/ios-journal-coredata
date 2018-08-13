@@ -58,16 +58,29 @@ class EntriesTableViewController: UITableViewController {
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ShowEntryDetail" {
-            let detailVC = segue.destination as! EntryDetailViewController
+//        if segue.identifier == "ShowEntryDetail" {
+//            let detailVC = segue.destination as! EntryDetailViewController
+//            detailVC.entryController = entryController
+//
+//            // Get indexPath of selected cell
+//            if let indexPath = tableView.indexPathForSelectedRow?.row {
+//                // Setting the entry at that indexPath to the detailVC's entry property
+//                detailVC.entry = entryController.entries[indexPath]
+//            }
+//        } else if segue.identifier == "ShowAddEntry" {
+//            let detailVC = segue.destination as! EntryDetailViewController
+//            detailVC.entryController = entryController
+//        }
+
+        if let detailVC = segue.destination as? EntryDetailViewController {
+            detailVC.entryController = entryController
             
-            // Get indexPath of selected cell
-            if let indexPath = tableView.indexPathForSelectedRow?.row {
-                // Setting the entry at that indexPath to the detailVC's entry property
-                detailVC.entry = entryController.entries[indexPath]
+            if segue.identifier == "ShowEntryDetail" {
+                if let indexPath = tableView.indexPathForSelectedRow?.row {
+                    // Setting the entry at that indexPath to the detailVC's entry property
+                    detailVC.entry = entryController.entries[indexPath]
+                }
             }
         }
-        
-        // Don't need to do anything for the other segue
     }
 }
