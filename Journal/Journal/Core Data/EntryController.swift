@@ -25,7 +25,7 @@ class EntryController {
         saveToPersistentStore()
     }
     
-    func update(entry: Entry, title: String, body: String, timestamp: Date = Date()) {
+    func update(entry: Entry, title: String, body: String?, timestamp: Date = Date()) {
         entry.title = title
         entry.body = body
         entry.timestamp = timestamp
