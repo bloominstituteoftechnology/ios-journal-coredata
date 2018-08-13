@@ -14,6 +14,10 @@
 		8FB740472122057500D0D857 /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB740462122057500D0D857 /* EntryDetailViewController.swift */; };
 		8FB74049212205AE00D0D857 /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB74048212205AE00D0D857 /* EntriesTableViewController.swift */; };
 		8FB7404B212205DF00D0D857 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB7404A212205DF00D0D857 /* EntryTableViewCell.swift */; };
+		8FB7404D21220AD500D0D857 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB7404C21220AD500D0D857 /* CoreDataStack.swift */; };
+		8FB7405521220BCA00D0D857 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB7405421220BCA00D0D857 /* Entry+Convenience.swift */; };
+		8FE2340121220C6500569369 /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8FE233FF21220C6500569369 /* Journal.xcdatamodeld */; };
+		8FE2340321220E1000569369 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE2340221220E1000569369 /* EntryController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +30,10 @@
 		8FB740462122057500D0D857 /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
 		8FB74048212205AE00D0D857 /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 		8FB7404A212205DF00D0D857 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
+		8FB7404C21220AD500D0D857 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		8FB7405421220BCA00D0D857 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
+		8FE2340021220C6500569369 /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
+		8FE2340221220E1000569369 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +81,10 @@
 		8FB740432122052A00D0D857 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8FB7404C21220AD500D0D857 /* CoreDataStack.swift */,
+				8FB7405421220BCA00D0D857 /* Entry+Convenience.swift */,
+				8FE233FF21220C6500569369 /* Journal.xcdatamodeld */,
+				8FE2340221220E1000569369 /* EntryController.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -165,10 +177,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FE2340121220C6500569369 /* Journal.xcdatamodeld in Sources */,
+				8FB7404D21220AD500D0D857 /* CoreDataStack.swift in Sources */,
 				8FB7404B212205DF00D0D857 /* EntryTableViewCell.swift in Sources */,
 				8FB74049212205AE00D0D857 /* EntriesTableViewController.swift in Sources */,
 				8FB740472122057500D0D857 /* EntryDetailViewController.swift in Sources */,
 				8FB740322122041200D0D857 /* AppDelegate.swift in Sources */,
+				8FE2340321220E1000569369 /* EntryController.swift in Sources */,
+				8FB7405521220BCA00D0D857 /* Entry+Convenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,6 +382,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		8FE233FF21220C6500569369 /* Journal.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8FE2340021220C6500569369 /* Journal.xcdatamodel */,
+			);
+			currentVersion = 8FE2340021220C6500569369 /* Journal.xcdatamodel */;
+			path = Journal.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 8FB740262122041200D0D857 /* Project object */;
 }
