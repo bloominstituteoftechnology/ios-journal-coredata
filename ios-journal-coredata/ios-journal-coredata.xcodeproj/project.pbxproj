@@ -11,13 +11,13 @@
 		3DAEC51421220D800086239E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DAEC51221220D800086239E /* Main.storyboard */; };
 		3DAEC51621220D810086239E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3DAEC51521220D810086239E /* Assets.xcassets */; };
 		3DAEC51921220D810086239E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3DAEC51721220D810086239E /* LaunchScreen.storyboard */; };
-		3DAEC52321220EED0086239E /* JournalTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEC52221220EED0086239E /* JournalTableViewController.swift */; };
 		3DAEC52521220EFF0086239E /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEC52421220EFF0086239E /* EntryDetailViewController.swift */; };
 		3DAEC52821220F330086239E /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEC52721220F330086239E /* EntryTableViewCell.swift */; };
 		3DAEC52B2122119C0086239E /* Entry.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEC5292122119C0086239E /* Entry.xcdatamodeld */; };
 		3DAEC52D212212010086239E /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAEC52C212212010086239E /* Entry+Convenience.swift */; };
 		3DBEFD97212213C800936D61 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DBEFD96212213C800936D61 /* CoreDataStack.swift */; };
 		3DBEFD992122144000936D61 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DBEFD982122144000936D61 /* EntryController.swift */; };
+		3DBEFD9B21221ACD00936D61 /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DBEFD9A21221ACD00936D61 /* EntriesTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,13 +27,13 @@
 		3DAEC51521220D810086239E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3DAEC51821220D810086239E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3DAEC51A21220D810086239E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3DAEC52221220EED0086239E /* JournalTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalTableViewController.swift; sourceTree = "<group>"; };
 		3DAEC52421220EFF0086239E /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
 		3DAEC52721220F330086239E /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
 		3DAEC52A2122119C0086239E /* Entry.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Entry.xcdatamodel; sourceTree = "<group>"; };
 		3DAEC52C212212010086239E /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
 		3DBEFD96212213C800936D61 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		3DBEFD982122144000936D61 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
+		3DBEFD9A21221ACD00936D61 /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,7 +92,7 @@
 		3DAEC52121220DC70086239E /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				3DAEC52221220EED0086239E /* JournalTableViewController.swift */,
+				3DBEFD9A21221ACD00936D61 /* EntriesTableViewController.swift */,
 				3DAEC52421220EFF0086239E /* EntryDetailViewController.swift */,
 			);
 			path = "View Controllers";
@@ -185,9 +185,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DBEFD9B21221ACD00936D61 /* EntriesTableViewController.swift in Sources */,
 				3DBEFD97212213C800936D61 /* CoreDataStack.swift in Sources */,
 				3DAEC52821220F330086239E /* EntryTableViewCell.swift in Sources */,
-				3DAEC52321220EED0086239E /* JournalTableViewController.swift in Sources */,
 				3DAEC52521220EFF0086239E /* EntryDetailViewController.swift in Sources */,
 				3DAEC52B2122119C0086239E /* Entry.xcdatamodeld in Sources */,
 				3DAEC52D212212010086239E /* Entry+Convenience.swift in Sources */,

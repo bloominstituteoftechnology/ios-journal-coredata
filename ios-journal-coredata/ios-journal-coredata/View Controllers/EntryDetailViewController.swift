@@ -23,6 +23,15 @@ class EntryDetailViewController: UIViewController {
     }
 
     @IBAction func save(_ sender: Any) {
+        guard let title = titleTextField.text,
+            !title.isEmpty, let bodyText = bodyTextView.text else { return }
+        
+        if let entry = entry, let entryController = entryController {
+            entryController.update(entry: entry, title: title, bodyText: bodyText)
+        } else {
+            entryController?.create(title: title, bodyText: bodyText)
+        }
+        navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Properties
@@ -31,6 +40,8 @@ class EntryDetailViewController: UIViewController {
             updateViews()
         }
     }
+    
+    var entryController: EntryController?
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
