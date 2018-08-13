@@ -10,7 +10,6 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
     
-    
     func updateViews() {
         if let entry = entry {
             entryTitleLabel.text = entry.title

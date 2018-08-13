@@ -9,7 +9,7 @@
 import UIKit
 
 class EntriesTableViewController: UITableViewController {
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
@@ -18,7 +18,6 @@ class EntriesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return entryController.entries.count
@@ -31,14 +30,14 @@ class EntriesTableViewController: UITableViewController {
 
         return cell
     }
-    
+
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             entryController.deleteEntry(entry: entryController.entries[indexPath.row])
             tableView.reloadData()
         }
     }
-    
+
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "CreateNewEntry" {
@@ -47,16 +46,16 @@ class EntriesTableViewController: UITableViewController {
             }
         } else if segue.identifier == "ShowExistingEntry" {
             if let existingEntryVC = segue.destination as? EntryDetailViewController {
-                
+
                 existingEntryVC.entryController = entryController
-                
+
                 if let indexPath = self.tableView.indexPathForSelectedRow {
                     existingEntryVC.entry = entryController.entries[indexPath.row]
                 }
             }
         }
     }
-    
+
     // MARK: - Properties
     let entryController = EntryController()
 
