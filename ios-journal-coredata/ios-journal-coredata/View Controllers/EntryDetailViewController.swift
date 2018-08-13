@@ -16,8 +16,8 @@ class EntryDetailViewController: UIViewController {
     }
     
     func updateViews() {
-        guard viewDidLoad() else { return }
-        title = entry?.name ?? "Create Entry"
+        guard isViewLoaded else { return }
+        title = entry?.title ?? "Create Entry"
         titleTextField.text = entry?.title
         bodyTextView.text = entry?.bodyText
     }
