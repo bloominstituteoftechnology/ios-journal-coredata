@@ -20,7 +20,7 @@ class EntryController {
     
     // MARK: - CRUD
     
-    func create(title: String, body: String) {
+    func create(title: String, body: String?) {
         let _ = Entry(title: title, body: body)
         saveToPersistentStore()
     }
