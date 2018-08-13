@@ -15,13 +15,13 @@ class EntryController {
     
     var entries: [Entry] {
         // Any changes to the persistent store will become visible in the table view
-        return loadFromPersistentStore()
+        return loadFromCoreData()
     }
     
     func create(title: String, bodyText: String) {
         let _ = Entry(title: title, bodyText: bodyText)
         
-        saveToPersistentStore()
+        saveToCoreData()
     }
     
     func update(entry: Entry, title: String, bodyText: String, timestamp: Date = Date()) {
@@ -29,19 +29,19 @@ class EntryController {
         entry.bodyText = bodyText
         entry.timestamp = timestamp
         
-        saveToPersistentStore()
+        saveToCoreData()
     }
     
     func delete(entry: Entry) {
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
         
-        saveToPersistentStore()
+        saveToCoreData()
     }
     
     // MARK: - Persistence
     
-    func saveToPersistentStore() {
+    func saveToCoreData() {
         let moc = CoreDataStack.shared.mainContext
         
         do {
@@ -51,7 +51,7 @@ class EntryController {
         }
     }
     
-    func loadFromPersistentStore() -> [Entry] {
+    func loadFromCoreData() -> [Entry] {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         let moc = CoreDataStack.shared.mainContext
         
