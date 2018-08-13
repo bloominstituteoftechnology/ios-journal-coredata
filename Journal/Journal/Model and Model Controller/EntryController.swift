@@ -29,13 +29,16 @@ class EntryController{
         saveToPersistentStore()
     }
     //MARK: - Networking
-    func saveToPersistentStore(){
+    @discardableResult func saveToPersistentStore()-> Bool {
         let moc = CoreDataStack.shared.mainContext
         do{
-        try moc.save()
+            try moc.save()
+            return true
+            
         } catch {
             NSLog("Trouble saving: \(error)")
             moc.reset()
+            return false
         }
     }
     
