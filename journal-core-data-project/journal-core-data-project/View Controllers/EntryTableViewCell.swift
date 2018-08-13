@@ -26,6 +26,6 @@ class EntryTableViewCell: UITableViewCell {
         guard let entry = entry else {return}
         titleLabel.text = entry.title
         bodyLabel.text = entry.bodyText
-        timestampLabel.text = entry.timestamp?.debugDescription
+        timestampLabel.text = entry.timestamp?.description
     }
 }

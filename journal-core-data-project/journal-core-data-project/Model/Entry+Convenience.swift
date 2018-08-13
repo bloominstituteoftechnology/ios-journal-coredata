@@ -11,14 +11,12 @@ import CoreData
 
 extension Entry {
     
-    convenience init(title: String, bodyText: String, timestamp: Date, identifier: String = UUID.init().uuidString, managedObjectContext: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init(title: String, bodyText: String, managedObjectContext: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(context: managedObjectContext)
         self.title = title
         self.bodyText = bodyText
         self.timestamp = Date()
-        
+        self.identifier = UUID().uuidString
     }
-    
-    
 }

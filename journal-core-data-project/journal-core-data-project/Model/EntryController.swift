@@ -14,8 +14,8 @@ class EntryController {
     
     //MARK: - Methods
     
-    func create(title: String, bodyText: String, timestamp: Date) {
-        let _ = Entry(title: title, bodyText: bodyText, timestamp: timestamp)
+    func create(title: String, bodyText: String) {
+        let _ = Entry(title: title, bodyText: bodyText)
         saveToPersistentStore()
     }
     

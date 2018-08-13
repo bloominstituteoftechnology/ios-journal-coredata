@@ -33,7 +33,6 @@ class EntriesTableViewController: UITableViewController {
         cell.titleLabel.text = entry.title
         cell.bodyLabel.text = entry.bodyText
         cell.timestampLabel.text = entry.timestamp?.description
-
         return cell
     }
    
