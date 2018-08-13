@@ -15,7 +15,7 @@ class EntryController {
     
     var entries: [Entry] {
         // Any changes to the persistent store will become visible in the table view
-        loadFromPersistentStore()
+        return loadFromPersistentStore()
     }
     
     func create(title: String, bodyText: String) {

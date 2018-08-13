@@ -16,7 +16,7 @@ class CoreDataStack {
     
     // lazy: will only load the first time you access it
     lazy var container: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "Tasks")
+        let container = NSPersistentContainer(name: "Journal")
         container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error {
                 // Kills the app and returns an error
