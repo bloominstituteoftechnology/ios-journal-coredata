@@ -12,14 +12,24 @@ import CoreData
 class EntryController
 {
     var entry: Entry?
-    var entries: [Entry] = []
+    var entries: [Entry]
     {
-        didSet
-        {
-            loadFromPersistentStore()
-        }
+        return loadFromPersistentStore()
     }
     
+    func saveToPersistentStore()
+    {
+        do
+        {
+            let moc = CoreDataStack.shared.mainContext
+            try moc.save()
+            print("save")
+        }
+        catch
+        {
+            NSLog("Error saving managed object context: \(error)")
+        }
+    }
     
     func loadFromPersistentStore() -> [Entry]
     {
@@ -39,24 +49,18 @@ class EntryController
     func createEntry(title: String, bodyText: String)
     {
         let _ = Entry(title: title, bodyText: bodyText)
+        print(title, bodyText)
+        saveToPersistentStore()
     }
     
-    func updateEntry(entry: Entry, title: String, bodyText: String, timestamp:Date = Date())
+    func updateEntry(entry: Entry, title: String, bodyText: String, timestamp: NSDate = NSDate())
     {
         let entry = entry
         entry.title = title
         entry.bodyText = bodyText
-        entry.timestamp = timestamp
-        
-        do
-        {
-            let moc = CoreDataStack.shared.mainContext
-            try moc.save()
-        }
-        catch
-        {
-            NSLog("Error saving managed object context: \(error)")
-        }
+        entry.timestamp = timestamp as Date
+        print(title, bodyText)
+        saveToPersistentStore()
     }
     
     func deleteEntry(entry: Entry)

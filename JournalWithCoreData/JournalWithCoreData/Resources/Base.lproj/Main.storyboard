@@ -15,7 +15,7 @@
         <scene sceneID="FAR-8z-Mgw">
             <objects>
                 <tableViewController id="gO6-NZ-dSr" customClass="EntriesTableViewController" customModule="JournalWithCoreData" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="YYc-9h-Ac1">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="75" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="YYc-9h-Ac1">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.82568794489999997" green="0.95160108799999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -29,18 +29,12 @@
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZlD-uz-w39">
                                             <rect key="frame" x="16" y="11" width="252" height="21"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="21" id="o31-JJ-9ay"/>
-                                            </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dev-4S-jz6">
                                             <rect key="frame" x="16" y="40" width="343" height="21"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="21" id="cwc-mg-bw3"/>
-                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -51,7 +45,7 @@
                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="83" id="33W-hL-584"/>
                                                 <constraint firstAttribute="height" constant="21" id="GCB-Qp-lBD"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <color key="textColor" red="0.4860512018" green="0.4898700714" blue="0.51057106259999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -69,6 +63,7 @@
                                         <constraint firstItem="6ko-Ip-vEq" firstAttribute="leading" secondItem="ZlD-uz-w39" secondAttribute="trailing" constant="8" id="xcC-nJ-XnE"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="bodyTextLabel" destination="dev-4S-jz6" id="Hen-cw-73L"/>
                                     <outlet property="timestampLabel" destination="6ko-Ip-vEq" id="Aqg-KB-zvB"/>
@@ -92,7 +87,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c4g-uj-aU2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="160.80000000000001" y="264.91754122938534"/>
+            <point key="canvasLocation" x="207" y="265"/>
         </scene>
         <!--Title-->
         <scene sceneID="OWw-Oa-4KG">
@@ -164,6 +159,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="bg5-kG-zNe"/>
+        <segue reference="LgO-5L-OTU"/>
     </inferredMetricsTieBreakers>
 </document>
