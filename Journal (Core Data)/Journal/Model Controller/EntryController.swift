@@ -11,8 +11,35 @@ import CoreData
 
 class EntryController {
     
+    // MARK: - CRUD
     
-    // MARK: Persistence
+    var entries: [Entry] {
+        // Any changes to the persistent store will become visible in the table view
+        loadFromPersistentStore()
+    }
+    
+    func create(title: String, bodyText: String) {
+        let _ = Entry(title: title, bodyText: bodyText)
+        
+        saveToPersistentStore()
+    }
+    
+    func update(entry: Entry, title: String, bodyText: String, timestamp: Date = Date()) {
+        entry.title = title
+        entry.bodyText = bodyText
+        entry.timestamp = timestamp
+        
+        saveToPersistentStore()
+    }
+    
+    func delete(entry: Entry) {
+        let moc = CoreDataStack.shared.mainContext
+        moc.delete(entry)
+        
+        saveToPersistentStore()
+    }
+    
+    // MARK: - Persistence
     
     func saveToPersistentStore() {
         let moc = CoreDataStack.shared.mainContext
@@ -25,6 +52,14 @@ class EntryController {
     }
     
     func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Journal
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        let moc = CoreDataStack.shared.mainContext
+        
+        do {
+            return try moc.fetch(fetchRequest)
+        } catch {
+            NSLog("Error fetching entries: \(error)")
+            return []
+        }
     }
 }
