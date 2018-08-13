@@ -28,7 +28,7 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as! EntryTableViewCell
 
-        let entry = entryController.entries[indexPath.row]
+        let entry = entryController.entries[indexPath.row] 
         cell.entry = entry
 
         return cell

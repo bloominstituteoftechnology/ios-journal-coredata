@@ -15,6 +15,7 @@ extension Entry {
         
         self.title = title
         self.bodyText = bodyText
-        
+        self.timestamp = timestamp
+        self.identifier = identifier
     }
 }

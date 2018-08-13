@@ -44,6 +44,7 @@ class EntryController {
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = Date()
+        
         saveToPersistentStore()
     }
     
