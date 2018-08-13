@@ -11,12 +11,19 @@ import UIKit
 class EntryTableViewCell: UITableViewCell {
     
     func updateViews(){
-        titleLabel.text = entry?.title
+        guard let entry = entry else {return}
+        
+        titleLabel.text = entry.title
         
         //FIX: Make this prettier
-        timeStampLabel.text = entry?.timeStamp?.description
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM dd, yyyy HH:mm:ss"
         
-        if let bodyText = entry?.bodyText {
+        guard let date = entry.timeStamp else {return}
+        
+        timeStampLabel.text = dateFormatter.string(from: date)
+        
+        if let bodyText = entry.bodyText {
             bodyTextLabel.text = bodyText
         } else {
             bodyTextLabel.text = ""
