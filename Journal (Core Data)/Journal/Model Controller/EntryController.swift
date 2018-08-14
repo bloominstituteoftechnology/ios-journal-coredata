@@ -18,16 +18,17 @@ class EntryController {
         return loadFromCoreData()
     }
     
-    func create(title: String, bodyText: String) {
-        let _ = Entry(title: title, bodyText: bodyText)
+    func create(title: String, bodyText: String, mood: String) {
+        let _ = Entry(title: title, bodyText: bodyText, mood: mood)
         
         saveToCoreData()
     }
     
-    func update(entry: Entry, title: String, bodyText: String, timestamp: Date = Date()) {
+    func update(entry: Entry, title: String, bodyText: String, timestamp: Date = Date(), mood: String) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = timestamp
+        entry.mood = mood
         
         saveToCoreData()
     }

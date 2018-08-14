@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 extension Entry {
-    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = UUID().uuidString, managedObjectContext: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = UUID().uuidString, mood: String, managedObjectContext: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(context: managedObjectContext)
         
@@ -18,5 +18,16 @@ extension Entry {
         self.bodyText = bodyText
         self.timestamp =  timestamp
         self.identifier = identifier
+        self.mood = mood
+    }
+}
+
+enum Mood: String {
+    case 😀
+    case 😐
+    case 😢
+    
+    static var allMoods: [Mood] {
+        return [.😀, .😐, .😢]
     }
 }

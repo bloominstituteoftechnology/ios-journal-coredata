@@ -22,14 +22,15 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet var textView: UITextView!
     @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     
-    
     @IBAction func save(_ sender: Any) {
         guard let title = textField.text, title.count > 0, let bodyText = textView.text else { return }
         
+        let mood = Mood.allMoods[moodSegmentedControl.selectedSegmentIndex].rawValue
+        
         if let entry = entry {
-            entryController?.update(entry: entry, title: title, bodyText: bodyText)
+            entryController?.update(entry: entry, title: title, bodyText: bodyText, mood: mood)
         } else {
-            entryController?.create(title: title, bodyText: bodyText)
+            entryController?.create(title: title, bodyText: bodyText, mood: mood)
         }
         
         // The do-catch saving block is written in saveToPersistentStore()
@@ -51,6 +52,10 @@ class EntryDetailViewController: UIViewController {
         navigationItem.title = entry?.title ?? "Create Entry"
         textField?.text = entry?.title
         textView?.text = entry?.bodyText
+        
+        guard let moodString = entry?.mood, let mood = Mood(rawValue: moodString)  else { return }
+        
+        moodSegmentedControl.selectedSegmentIndex = Mood.allMoods.index(of: mood)!
     }
 
     
