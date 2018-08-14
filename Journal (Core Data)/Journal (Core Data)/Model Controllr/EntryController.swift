@@ -11,16 +11,12 @@ import CoreData
 
 class EntryController
 {
-    var entries: [Entry]
-    {
-        return loadFromPersistence()
-    }
-    
-    func updateEntry(on entry: Entry, with title: String, note: String)
+    func updateEntry(on entry: Entry, with title: String, note: String, mood: String)
     {
         entry.title = title
         entry.note = note
         entry.timestamp = Date()
+        entry.mood = mood
         
         saveToPersistence()
     }
@@ -31,18 +27,6 @@ class EntryController
             try CoreDataStack.shared.mainContext.save()
         } catch let error {
             NSLog("Failed to save to persistence: \(error)")
-        }
-    }
-    
-    func loadFromPersistence() -> [Entry]
-    {
-        let fetchRequest = NSFetchRequest<Entry>(entityName: "Entry")
-        do {
-            let entries = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
-            return entries
-        } catch {
-            print("Failed to fetch entries:", error)
-            return []
         }
     }
     

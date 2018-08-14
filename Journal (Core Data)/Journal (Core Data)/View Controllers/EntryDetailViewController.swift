@@ -19,6 +19,12 @@ class EntryDetailViewController: UIViewController
     }
     var entryController: EntryController?
     
+    let moodSegmentedControl: UISegmentedControl =
+    {
+        let sc = UISegmentedControl(items: ["🙁", "😐", "😁"])
+        
+        return sc
+    }()
     
     let titleTextField: UITextField =
     {
@@ -58,6 +64,8 @@ class EntryDetailViewController: UIViewController
             title = entry.title
             titleTextField.text = entry.title
             noteTextView.text = entry.note
+            guard let index = Mood.allMoods.index(of: Mood(rawValue: entry.mood!)!) else { return }
+            moodSegmentedControl.selectedSegmentIndex = index
         }
         else
         {
@@ -76,11 +84,11 @@ class EntryDetailViewController: UIViewController
         
         if let entry = entry
         {
-            entryController?.updateEntry(on: entry, with: title, note: noteTextView.text)
+            entryController?.updateEntry(on: entry, with: title, note: noteTextView.text, mood: Mood.allMoods[moodSegmentedControl.selectedSegmentIndex].rawValue)
         }
         else
         {
-            let _ = Entry(title: title, note: noteTextView.text)
+            let _ = Entry(title: title, note: noteTextView.text, mood: Mood.allMoods[moodSegmentedControl.selectedSegmentIndex].rawValue)
             entryController?.saveToPersistence()
         }
         
@@ -89,10 +97,13 @@ class EntryDetailViewController: UIViewController
     
     private func setupUI()
     {
+        view.addSubview(moodSegmentedControl)
         view.addSubview(titleTextField)
         view.addSubview(noteTextView)
         
-        titleTextField.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: nil, right: view.safeAreaLayoutGuide.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingRight: 8, paddingBottom: 0, width: 0, height: 30)
+        moodSegmentedControl.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: nil, right: view.safeAreaLayoutGuide.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingRight: 8, paddingBottom: 0, width: 0, height: 30)
+        
+        titleTextField.anchor(top: moodSegmentedControl.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: nil, right: view.safeAreaLayoutGuide.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingRight: 8, paddingBottom: 0, width: 0, height: 30)
         
         noteTextView.anchor(top: titleTextField.bottomAnchor, left: view.safeAreaLayoutGuide.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.safeAreaLayoutGuide.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingRight: 8, paddingBottom: -80, width: 0, height: 0)
     }
