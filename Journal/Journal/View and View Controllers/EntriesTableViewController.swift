@@ -11,6 +11,12 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
+
     // MARK: - NSFetchedResultsControllerDelegate methods
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
@@ -23,6 +29,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
                     atSectionIndex sectionIndex: Int,
                     for type: NSFetchedResultsChangeType) {
         //decides what to do when section is changed, i.e. deleted or added item will affect the sections displayed
+        
         switch type {
         case .insert:
             tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
@@ -32,35 +39,35 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
             break
         }
     }
+
+
     //decides what to do when objects are changed
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange anObject: Any,
                     at indexPath: IndexPath?,
                     for type: NSFetchedResultsChangeType,
                     newIndexPath: IndexPath?) {
-        guard let indexPath = indexPath,
-            let newIndexPath = newIndexPath else {return}
+        
         
         switch type {
         case .insert:
             //if object is inserted then we need to tell tableView to insert a row
-            tableView.insertRows(at: [newIndexPath], with: .automatic)
+            tableView.insertRows(at: [newIndexPath!], with: .automatic)
         case .delete:
             //if object is deleted then we need to tell tableView to delete old indexPath
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.deleteRows(at: [indexPath!], with: .automatic)
         case .update:
             //if object needs to be updated then we need to tell tableView to reload the rows
-            tableView.reloadRows(at: [indexPath], with: .automatic)
+            tableView.reloadRows(at: [indexPath!], with: .automatic)
         case .move:
             //if object needs to be moved then we need to tell tableView to delete old row and insert new row.
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            tableView.insertRows(at: [newIndexPath], with: .automatic)
+            tableView.deleteRows(at: [indexPath!], with: .automatic)
+            tableView.insertRows(at: [newIndexPath!], with: .automatic)
         }
     }
+
     // MARK: - Table view data source
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
+
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
