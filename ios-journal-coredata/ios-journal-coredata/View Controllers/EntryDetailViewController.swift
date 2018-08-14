@@ -35,13 +35,11 @@ class EntryDetailViewController: UIViewController {
         
         if let entry = entry {
             entryController?.updateEntry(entry: entry, title: textField, bodyText: textView, mood: currentMood)
-            entryController?.saveToPersistentStore()
         } else {
             entryController?.createEntry(title: textField,
                                          identifier: UUID().uuidString,
                                          bodyText: textView,
                                          mood: currentMood)
-            entryController?.saveToPersistentStore()
         }
         
         navigationController?.popViewController(animated: true)

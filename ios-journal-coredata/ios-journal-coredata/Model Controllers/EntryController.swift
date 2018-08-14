@@ -57,21 +57,4 @@ class EntryController {
             NSLog("Error saving managed object context: \(error)")
         }
     }
-    
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataManager.shared.mainContext
-        
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            NSLog("Error fetching entries: \(error)")
-            return []
-        }
-    }
-    
-    
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
 }
