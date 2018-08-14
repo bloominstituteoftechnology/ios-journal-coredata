@@ -19,11 +19,12 @@ class EntryDetailViewController: UIViewController {
     @IBAction func save(_ sender: Any) {
         guard let titleInput = titleField.text,
            let bodyTextInput = bodyTextView.text,
-        let entryController = entryController else {return}
+        let entryController = entryController,
+        let index = segmentedControl?.selectedSegmentIndex else {return}
         if let entry = entry {
-            entryController.update(forEntry: entry, withTitle: titleInput, bodyText: bodyTextInput)
+            entryController.update(forEntry: entry, withTitle: titleInput, bodyText: bodyTextInput, mood: MoodType.types[index].rawValue )
         } else {
-            entryController.create(withTitle: titleInput, bodyText: bodyTextInput)
+            entryController.create(withTitle: titleInput, bodyText: bodyTextInput, mood:  MoodType.types[index].rawValue)
         }
         navigationController?.popViewController(animated: true)
         
@@ -38,6 +39,10 @@ class EntryDetailViewController: UIViewController {
             if let bodyText = entry.bodyText {
                 bodyTextView.text = bodyText
             }
+            //Why is mood optional?
+            let mood = MoodType(rawValue: entry.mood!)!
+            let moodIndex = MoodType.types.index(of: mood)!
+            segmentedControl.selectedSegmentIndex = moodIndex
         } else {
             self.title = "Create Entry"
         }
@@ -51,6 +56,7 @@ class EntryDetailViewController: UIViewController {
     }
     var entryController: EntryController?
     
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
 }

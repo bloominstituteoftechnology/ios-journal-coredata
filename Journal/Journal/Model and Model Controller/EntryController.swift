@@ -9,17 +9,25 @@
 import Foundation
 import CoreData
 
+enum MoodType:String {
+    case sad = "🙁"
+    case neutral = "😐"
+    case happy = "🙂"
+    
+    static var types = [sad, neutral,happy]
+}
 class EntryController{
     //MARK: - CRUD Methods
-    func create(withTitle title: String, bodyText text:String? = nil){
-        let _ = Entry(title: title, bodyText: text)
+    func create(withTitle title: String, bodyText text:String? = nil, mood:String){
+        let _ = Entry(title: title, bodyText: text, mood:mood)
         saveToPersistentStore()
     }
     
-    func update(forEntry entry: Entry, withTitle title: String, bodyText text:String){
+    func update(forEntry entry: Entry, withTitle title: String, bodyText text:String, mood: String){
         entry.title = title
         entry.bodyText = text
         entry.timeStamp = Date()
+        entry.mood = mood
         saveToPersistentStore()
     }
     

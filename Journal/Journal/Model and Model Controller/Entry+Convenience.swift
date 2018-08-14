@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 extension Entry {
-    convenience init(title: String, bodyText: String? = nil, timeStamp: Date = Date(),
+    convenience init(title: String, bodyText: String? = nil, timeStamp: Date = Date(), mood:String,
                      identifier: String = UUID().uuidString,  context: NSManagedObjectContext = CoreDataStack.shared.mainContext){
         
         //Uses the designated initializer the intialize the Entry object
@@ -20,6 +20,7 @@ extension Entry {
         self.bodyText = bodyText
         self.timeStamp = timeStamp
         self.identifier = identifier
+        self.mood = mood
         
     }
 }
