@@ -6,7 +6,8 @@ Today you will take the Journal project you made yesterday and add more function
 
 Please look at the screen recording below to know what the finished project should look like:
 
-![](https://user-images.githubusercontent.com/16965587/43887099-03638784-9b7b-11e8-9556-1c02ffffc32e.gif)
+![](https://user-images.githubusercontent.com/16965587/44080370-10aef76a-9f69-11e8-85de-289b9fea722a.gif)
+
 
 ## Instructions
 
