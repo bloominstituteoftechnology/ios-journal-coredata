@@ -39,12 +39,12 @@ class EntryDetailViewController: UIViewController
         if let entry = entry 
         {
             entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText, timestamp: newTime as NSDate, mood: mood)
-            print(titleTextField.text!, bodyTextTextView.text)
+            print(titleTextField.text!, bodyTextTextView.text, mood)
         }
         else
         {
             entryController?.createEntry(title: title, bodyText: bodyText, mood: mood)
-            print(titleTextField.text!, bodyTextTextView.text)
+            print(titleTextField.text!, bodyTextTextView.text, mood)
         }
         navigationController?.popViewController(animated: true)
     }
