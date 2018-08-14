@@ -94,28 +94,40 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Abk-iV-c52">
-                                <rect key="frame" x="15" y="79" width="345" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Nrr-ZW-sg5">
-                                <rect key="frame" x="15" y="124" width="345" height="528"/>
+                                <rect key="frame" x="15" y="167" width="345" height="485"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="WOZ-Ib-5CY">
+                                <rect key="frame" x="15" y="79" width="345" height="29"/>
+                                <segments>
+                                    <segment title="🙃"/>
+                                    <segment title="😕"/>
+                                    <segment title="🙂"/>
+                                    <segment title="😋"/>
+                                </segments>
+                            </segmentedControl>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Abk-iV-c52">
+                                <rect key="frame" x="15" y="122" width="345" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Nrr-ZW-sg5" firstAttribute="leading" secondItem="DrI-CQ-pr6" secondAttribute="leading" constant="15" id="3Zz-m4-9go"/>
                             <constraint firstItem="Nrr-ZW-sg5" firstAttribute="top" secondItem="Abk-iV-c52" secondAttribute="bottom" constant="15" id="A50-DI-faw"/>
+                            <constraint firstItem="Abk-iV-c52" firstAttribute="top" secondItem="WOZ-Ib-5CY" secondAttribute="bottom" constant="15" id="Hcz-8D-Cz4"/>
                             <constraint firstItem="DrI-CQ-pr6" firstAttribute="bottom" secondItem="Nrr-ZW-sg5" secondAttribute="bottom" constant="15" id="JEa-rI-8jX"/>
-                            <constraint firstItem="Abk-iV-c52" firstAttribute="top" secondItem="DrI-CQ-pr6" secondAttribute="top" constant="15" id="NTZ-7z-Gvs"/>
+                            <constraint firstItem="DrI-CQ-pr6" firstAttribute="trailing" secondItem="WOZ-Ib-5CY" secondAttribute="trailing" constant="15" id="LxG-iq-RHS"/>
+                            <constraint firstItem="WOZ-Ib-5CY" firstAttribute="leading" secondItem="DrI-CQ-pr6" secondAttribute="leading" constant="15" id="UBS-aH-cxV"/>
                             <constraint firstItem="DrI-CQ-pr6" firstAttribute="trailing" secondItem="Nrr-ZW-sg5" secondAttribute="trailing" constant="15" id="ZrZ-ey-7r9"/>
                             <constraint firstItem="Abk-iV-c52" firstAttribute="leading" secondItem="DrI-CQ-pr6" secondAttribute="leading" constant="15" id="as2-ej-NEa"/>
                             <constraint firstItem="DrI-CQ-pr6" firstAttribute="trailing" secondItem="Abk-iV-c52" secondAttribute="trailing" constant="15" id="c4z-Te-Ajk"/>
+                            <constraint firstItem="WOZ-Ib-5CY" firstAttribute="top" secondItem="DrI-CQ-pr6" secondAttribute="top" constant="15" id="cQl-FX-lrA"/>
                             <constraint firstItem="Nrr-ZW-sg5" firstAttribute="top" secondItem="Abk-iV-c52" secondAttribute="bottom" constant="15" id="jWQ-rP-VnY"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="DrI-CQ-pr6"/>
@@ -128,13 +140,14 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="moodSelector" destination="WOZ-Ib-5CY" id="DyQ-AM-9cY"/>
                         <outlet property="textField" destination="Nrr-ZW-sg5" id="vee-q5-rnG"/>
                         <outlet property="titleField" destination="Abk-iV-c52" id="07H-6H-ODX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qTG-rL-DmL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1418" y="73"/>
+            <point key="canvasLocation" x="1416.8" y="72.413793103448285"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="GV6-Pq-HBY">

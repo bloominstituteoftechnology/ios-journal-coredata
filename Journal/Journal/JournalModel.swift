@@ -8,16 +8,26 @@
 
 import Foundation
 import CoreData
+enum EntryMood : String {
+	case DeeplyUnhappy = "🙃"
+	case Dissatisfied = "😕"
+	case Fine = "🙂"
+	case Joyful = "😋"
+
+	static let all:[EntryMood] = [.DeeplyUnhappy, .Dissatisfied, .Fine, .Joyful]
+}
+
 
 extension JournalEntry
 {
-	convenience init(_ title:String, _ text:String, _ moc:NSManagedObjectContext = CoreDataStack.shared.mainContext)
+	convenience init(_ title:String, _ text:String, _ mood:EntryMood = EntryMood.Fine, _ moc:NSManagedObjectContext = CoreDataStack.shared.mainContext)
 	{
 		self.init(context: moc)
 		self.title = title
 		self.text = text
 		self.timestamp = Date()
 		self.identifier = UUID().uuidString
+		self.mood = mood.rawValue
 	}
 }
 
@@ -42,80 +52,43 @@ class CoreDataStack
 class EntryController
 {
 	static var shared = EntryController()
+	lazy var fetchController:NSFetchedResultsController<JournalEntry> = {
+		let moc = CoreDataStack.shared.mainContext
+		var req:NSFetchRequest<JournalEntry> = JournalEntry.fetchRequest()
+		req.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
+		var fetcher = NSFetchedResultsController(
+    			fetchRequest: req,
+    			managedObjectContext: moc,
+    			sectionNameKeyPath: "mood",
+    			cacheName: nil)
+		try! fetcher.performFetch()
 
-	init() {
-		load()
-	}
-
-	var entries:[JournalEntry] = []
-	var toRemove:[JournalEntry] = []
-	var alwaysCleanImmediately:Bool = true
-	var dirty:Bool = false {
-		didSet {
-			print("Dirty")
-			if dirty {
-				save()
-			}
-		}
-	}
-
-
-	func load()
-	{
-		if dirty {
-			NSLog("Trying to reload data over unsaved changes!")
-			return
-		}
-
-		let req:NSFetchRequest<JournalEntry> = JournalEntry.fetchRequest()
-		do {
-			entries = try CoreDataStack.shared.mainContext.fetch(req)
-		} catch {
-			entries = []
-			NSLog("Error fetching tasks \(error)")
-		}
-	}
+		return fetcher
+	}()
 
 	func save(withReset:Bool = true)
 	{
-		print("Saving")
 		let moc = CoreDataStack.shared.mainContext
-		for entry in toRemove {
-			moc.delete(entry)
-		}
-		toRemove.removeAll()
-
 		do { try moc.save() } catch {
 			if withReset {
 				moc.reset()
 			}
 			return
 		}
-
-		dirty = false
 	}
 
 
 	@discardableResult
-	func create(_ title:String, _ text:String) -> JournalEntry
+	func create(_ title:String, _ text:String, _ mood:EntryMood = .Fine) -> JournalEntry
 	{
-		let e = JournalEntry(title, text)
-		entries.append(e)
-		dirty = true
+		let e = JournalEntry(title, text, mood)
 		return e
-	}
-
-	func update(_ e:JournalEntry)
-	{
-		dirty = true
 	}
 
 	func delete(_ entry:JournalEntry)
 	{
-		guard let index = entries.index(of: entry) else {return}
-		entries.remove(at: index)
-		toRemove.append(entry)
-		dirty = true
+		let moc = CoreDataStack.shared.mainContext
+		moc.delete(entry)
 	}
 
 }

@@ -27,34 +27,92 @@ class EntryCell:UITableViewCell
 	}
 }
 
-class EntryListTVC:UITableViewController
+class EntryListTVC:UITableViewController, NSFetchedResultsControllerDelegate
 {
 	var controller = EntryController.shared
-	override func viewWillAppear(_ animated: Bool)
+	var fetcher:NSFetchedResultsController<JournalEntry>!
+
+	override func viewDidLoad()
 	{
+		fetcher = controller.fetchController
+		fetcher.delegate = self
 		tableView.reloadData()
 	}
 
+	override func viewWillAppear(_ animated: Bool)
+	{
+	}
+
+	func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+		tableView.beginUpdates()
+	}
+
+	func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+		switch type {
+		case .insert:
+			tableView.insertSections(IndexSet(integer:sectionIndex), with: .automatic)
+		case .delete:
+			tableView.deleteSections(IndexSet(integer:sectionIndex), with: .automatic)
+		default:
+			break
+		}
+	}
+
+	func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+		switch type {
+		case .insert:
+			print(">>> inserting")
+			guard let path = newIndexPath else {return}
+			tableView.insertRows(at: [path], with: .automatic)
+		case .delete:
+			print(">>> deleting")
+			guard let path = indexPath else {return}
+			tableView.deleteRows(at: [path], with: .automatic)
+		case .update:
+			print(">>> updating")
+			guard let path = indexPath else {return}
+			tableView.reloadRows(at: [path], with: .automatic)
+		case .move:
+			print(">>> moving")
+			guard let path = indexPath, let newPath = newIndexPath else {return}
+			tableView.deleteRows(at: [path], with: .automatic)
+			tableView.insertRows(at: [newPath], with: .automatic)
+		}
+	}
+
+	func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+		tableView.endUpdates()
+	}
+
+	override func numberOfSections(in tableView: UITableView) -> Int
+	{
+		return fetcher.sections!.count
+	}
+	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
 	{
-		return controller.entries.count
+		return fetcher.sections![section].numberOfObjects
 	}
 
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
 	{
 		let defaultCell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath)
 		guard let cell = defaultCell as? EntryCell else {return defaultCell}
-		cell.entry = controller.entries[indexPath.row]
+		cell.entry = fetcher.object(at: indexPath)
 		return cell
 	}
 
 	override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath)
 	{
 		if editingStyle == .delete {
-			let entry = controller.entries[indexPath.row]
+			let entry = fetcher.object(at: indexPath)
 			controller.delete(entry)
-			tableView.deleteRows(at: [indexPath], with: .left)
+			controller.save()
 		}
+	}
+
+	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+		return fetcher.sections![section].name
 	}
 
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?)
@@ -73,6 +131,7 @@ class EntryDetailVC:UIViewController
 {
 	var entryList:EntryListTVC!
 	@IBOutlet weak var titleField: UITextField!
+	@IBOutlet weak var moodSelector: UISegmentedControl!
 	@IBOutlet weak var textField: UITextView!
 	var entry:JournalEntry!
 
@@ -80,6 +139,10 @@ class EntryDetailVC:UIViewController
 		if let entry = entry {
 			titleField.text = entry.title
 			textField.text = entry.text
+			let index = EntryMood.all.map({$0.rawValue}).index(of:entry.mood) ?? 2
+			moodSelector.selectedSegmentIndex = index
+		} else {
+			moodSelector.selectedSegmentIndex = 2
 		}
 	}
 
@@ -89,13 +152,18 @@ class EntryDetailVC:UIViewController
 				return
 		}
 
+		let mood = EntryMood.all[moodSelector.selectedSegmentIndex]
+
 		if let entry = entry {
 			entry.title = title
 			entry.text = text
-			entryList.controller.update(entry)
+			entry.mood = mood.rawValue
 		} else {
-			entryList.controller.create(title, text)
+			entryList.controller.create(title, text, mood)
 		}
+
+		entryList.controller.save(withReset: false)
+
 
 		navigationController?.popViewController(animated: true)
 	}
