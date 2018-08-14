@@ -11,14 +11,25 @@ import CoreData
 
 class EntryController {
     
-    func createEntry(title: String, identifier: String, timestamp: Date = Date(), bodyText: String) {
-        let _ = Entry(title: title, identifier: identifier, timestamp: timestamp, bodyText: bodyText)
+    func createEntry(title: String,
+                     identifier: String,
+                     timestamp: Date = Date(),
+                     bodyText: String,
+                     mood: String) {
+        
+        guard let mood = Mood(rawValue: mood) else { return }
+        let _ = Entry(title: title,
+                      identifier: identifier,
+                      timestamp: timestamp,
+                      bodyText: bodyText,
+                      mood: mood)
     }
     
-    func updateEntry(entry: Entry, title: String, bodyText: String) {
+    func updateEntry(entry: Entry, title: String, bodyText: String, mood: String) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = Date()
+        entry.mood = mood
         
         saveToPersistentStore()
     }
