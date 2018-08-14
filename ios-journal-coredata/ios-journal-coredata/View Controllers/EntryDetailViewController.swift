@@ -48,4 +48,5 @@ class EntryDetailViewController: UIViewController {
     
     @IBOutlet var textField: UITextField!
     @IBOutlet var textView: UITextView!
+    @IBOutlet var moodSegmentedControl: UISegmentedControl!
 }
