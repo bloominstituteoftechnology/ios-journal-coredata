@@ -17,8 +17,6 @@ class EntryController {
     }
     
     func update(entry: Entry, title: String, bodyText: String) {
-        guard let index = entries.index(of: entry) else { return }
-        let entry = entries[index]
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = Date()
@@ -26,8 +24,6 @@ class EntryController {
     }
     
     func delete(entry: Entry) {
-        guard let index = entries.index(of: entry) else { return }
-        let entry = entries[index]
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
         
