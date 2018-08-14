@@ -17,8 +17,6 @@ class EntryController {
     }
     
     func update(entry: Entry, title: String, bodyText: String, mood: String) {
-        guard let index = entries.index(of: entry) else { return }
-        let entry = entries[index]
         entry.title = title
         entry.bodyText = bodyText
         entry.mood = mood
@@ -26,19 +24,19 @@ class EntryController {
         saveToPersistenceStore()
     }
     
-    func delete(entry: Entry) {
-        guard let index = entries.index(of: entry) else { return }
-        let entry = entries[index]
-        let moc = CoreDataStack.shared.mainContext
-        moc.delete(entry)
-        
-        do {
-            try moc.save()
-        } catch {
-            NSLog("Error deleting data from persistence store: \(error)")
-        }
-        
-    }
+//    func delete(entry: Entry) {
+//        guard let index = entries.index(of: entry) else { return }
+//        let entry = entries[index]
+//        let moc = CoreDataStack.shared.mainContext
+//        moc.delete(entry)
+//
+//        do {
+//            try moc.save()
+//        } catch {
+//            NSLog("Error deleting data from persistence store: \(error)")
+//        }
+//
+//    }
     
     func saveToPersistenceStore() {
         let moc = CoreDataStack.shared.mainContext
@@ -50,20 +48,20 @@ class EntryController {
         }
     }
     
-    func loadFromPersistenceStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
-        
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            NSLog("Error fetching data from persistence store: \(error)")
-            return []
-        }
-    }
+//    func loadFromPersistenceStore() -> [Entry] {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let moc = CoreDataStack.shared.mainContext
+//
+//        do {
+//            return try moc.fetch(fetchRequest)
+//        } catch {
+//            NSLog("Error fetching data from persistence store: \(error)")
+//            return []
+//        }
+//    }
     
-    var entries: [Entry] {
-        return loadFromPersistenceStore()
-    }
+//    var entries: [Entry] {
+//        return loadFromPersistenceStore()
+//    }
     
 }
