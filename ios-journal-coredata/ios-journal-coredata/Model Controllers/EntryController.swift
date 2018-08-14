@@ -11,16 +11,17 @@ import CoreData
 
 class EntryController {
     
-    func create(title: String, bodyText: String) {
-        let _ = Entry(title: title, bodyText: bodyText)
+    func create(title: String, bodyText: String, mood: String) {
+        let _ = Entry(title: title, bodyText: bodyText, mood: mood)
         saveToPersistenceStore()
     }
     
-    func update(entry: Entry, title: String, bodyText: String) {
+    func update(entry: Entry, title: String, bodyText: String, mood: String) {
         guard let index = entries.index(of: entry) else { return }
         let entry = entries[index]
         entry.title = title
         entry.bodyText = bodyText
+        entry.mood = mood
         entry.timestamp = Date()
         saveToPersistenceStore()
     }
