@@ -39,17 +39,7 @@ class EntriesTableViewController: UITableViewController {
             // Get the entry at the cell we want to delete
             let entry = entryController.entries[indexPath.row]
             
-            // Get CoreDataStack's mainContext, call .delete()
-            let moc = CoreDataStack.shared.mainContext
-            moc.delete(entry)
-            
-            // Save the deletion
-            do {
-                try moc.save()
-            } catch {
-                // If saving the deletion failed, discard any changes
-                moc.reset()
-            }
+            entryController.delete(entry: entry)
             
             tableView.reloadData()
         }
