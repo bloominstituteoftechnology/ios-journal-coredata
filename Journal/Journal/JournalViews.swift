@@ -19,7 +19,10 @@ class EntryCell:UITableViewCell
 		didSet {
 			titleLabel.text = entry.title
 			etextLabel.text = entry.text
-			dateLabel.text = ""
+			let df = DateFormatter()
+			df.dateFormat = "dd/mm/yy HH:mm"
+			dateLabel.text = df.string(from: entry.timestamp!)
+			print(dateLabel.text ?? "nothing");
 		}
 	}
 }
