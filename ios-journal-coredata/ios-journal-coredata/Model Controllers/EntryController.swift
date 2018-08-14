@@ -57,4 +57,5 @@ class EntryController {
             NSLog("Error saving managed object context: \(error)")
         }
     }
+    
 }
