@@ -37,36 +37,33 @@ class EntryController{
         saveToPersistentStore()
     }
     //MARK: - Networking
-    @discardableResult func saveToPersistentStore()-> Bool {
+    func saveToPersistentStore(){
         let moc = CoreDataStack.shared.mainContext
         do{
             try moc.save()
-            return true
-            
         } catch {
             NSLog("Trouble saving: \(error)")
             moc.reset()
-            return false
         }
     }
     
-    func loadFromPersistentStore() -> [Entry]{
-        //creates a fetch request that is specific to Entry
-        let request: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
-        let loadedEntries:[Entry]
-        
-        do {
-            loadedEntries = try moc.fetch(request)
-        } catch {
-            NSLog("Error loading from persistent store: \(error)")
-            return [Entry]()
-        }
-        return loadedEntries
-    }
+//    func loadFromPersistentStore() -> [Entry]{
+//        //creates a fetch request that is specific to Entry
+//        let request: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let moc = CoreDataStack.shared.mainContext
+//        let loadedEntries:[Entry]
+//        
+//        do {
+//            loadedEntries = try moc.fetch(request)
+//        } catch {
+//            NSLog("Error loading from persistent store: \(error)")
+//            return [Entry]()
+//        }
+//        return loadedEntries
+//    }
     
     //MARK: - Properties
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
+//    var entries: [Entry] {
+//        return loadFromPersistentStore()
+//    }
 }
