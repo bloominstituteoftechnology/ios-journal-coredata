@@ -24,5 +24,7 @@ class CoreDataStack {
     var mainContext: NSManagedObjectContext {
         return container.viewContext
     }
+    
+    static let moc = CoreDataStack.shared.mainContext
 }
 

@@ -11,13 +11,6 @@ import CoreData
 
 class EntryController {
     
-    // MARK: - Properties
-    
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
-    
-    
     // MARK: - CRUD
     
     func create(title: String, body: String?, mood: EntryMood) {
@@ -49,17 +42,6 @@ class EntryController {
         }
         catch {
             NSLog("Error saving entry: \(error)")
-        }
-    }
-    
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            NSLog("Error fetching tasks: \(error)")
-            return []
         }
     }
 }
