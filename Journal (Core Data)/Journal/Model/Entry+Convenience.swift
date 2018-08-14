@@ -10,15 +10,18 @@ import Foundation
 import CoreData
 
 extension Entry {
-    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = UUID().uuidString, mood: String, managedObjectContext: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init(title: String, bodyText: String, mood: String, managedObjectContext: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(context: managedObjectContext)
         
         self.title = title
         self.bodyText = bodyText
-        self.timestamp =  timestamp
-        self.identifier = identifier
         self.mood = mood
+        self.timestamp = Date()
+        self.identifier = UUID().uuidString
+        
+        // By not setting up a way to change properties via initializer arguments, we prevent users of the initializer from modifying those properties.
+        
     }
 }
 
