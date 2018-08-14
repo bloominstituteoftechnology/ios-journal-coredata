@@ -87,8 +87,6 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
             entryController.delete(entry: entry)
-            // I think Spencer said this wasn't needed b/c it's already being deleted in the fetch delegate functions
-//            tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
 

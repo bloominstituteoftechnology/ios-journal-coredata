@@ -27,8 +27,7 @@ class EntryController {
     }
     
     func delete(entry: Entry) {
-        let moc = CoreDataStack.shared.mainContext
-        moc.delete(entry)
+        CoreDataStack.moc.delete(entry)
         saveToPersistentStore()
     }
     
@@ -36,9 +35,8 @@ class EntryController {
     // MARK: - Persistence
     
     func saveToPersistentStore() {
-        let moc = CoreDataStack.shared.mainContext
         do {
-            try moc.save()
+            try CoreDataStack.moc.save()
         }
         catch {
             NSLog("Error saving entry: \(error)")
