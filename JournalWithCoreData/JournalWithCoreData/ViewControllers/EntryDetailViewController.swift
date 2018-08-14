@@ -12,6 +12,7 @@ class EntryDetailViewController: UIViewController
 {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextTextView: UITextView!
+    @IBOutlet weak var moodSegmentControl: UISegmentedControl!
     
     var entry: Entry?
     {
@@ -33,14 +34,16 @@ class EntryDetailViewController: UIViewController
         guard let title = titleTextField.text,
             let bodyText = bodyTextTextView.text else {return}
         let newTime = Date()
+        let mood = EntryMood.allMoods[moodSegmentControl.selectedSegmentIndex]
+        
         if let entry = entry 
         {
-            entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText, timestamp: newTime as NSDate)
+            entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText, timestamp: newTime as NSDate, mood: mood)
             print(titleTextField.text!, bodyTextTextView.text)
         }
         else
         {
-            entryController?.createEntry(title: title, bodyText: bodyText)
+            entryController?.createEntry(title: title, bodyText: bodyText, mood: mood)
             print(titleTextField.text!, bodyTextTextView.text)
         }
         navigationController?.popViewController(animated: true)
@@ -58,6 +61,9 @@ class EntryDetailViewController: UIViewController
         titleTextField.text = entry.title
         bodyTextTextView.text = entry.bodyText
         
+        guard let moodString = entry.mood,
+            let mood = EntryMood(rawValue: moodString) else {return}
+        moodSegmentControl.selectedSegmentIndex = EntryMood.allMoods.index(of: mood)!
     }
     
 
