@@ -10,10 +10,6 @@ import Foundation
 import CoreData
 
 class EntryController {
-    var entries: [Entry] {
-       return loadFromPersistentStore()
-        
-    }
     
     func saveToPersistentStore() {
         let moc = CoreDataStack.shared.mainContext
@@ -21,17 +17,6 @@ class EntryController {
             try moc.save()
         } catch {
             NSLog("Error saving to core data: \(error)")
-        }
-    }
-    
-    func loadFromPersistentStore() -> [Entry] {
-        let moc = CoreDataStack.shared.mainContext
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        do {
-             return try moc.fetch(fetchRequest)
-        } catch {
-            NSLog("Failed to fetch Entries from core data: \(error)")
-            return []
         }
     }
     
