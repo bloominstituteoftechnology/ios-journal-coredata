@@ -13,10 +13,10 @@ class EntryController {
     
     // MARK: - CRUD
     
-    var entries: [Entry] {
-        // Any changes to the persistent store will become visible in the table view
-        return loadFromCoreData()
-    }
+//    var entries: [Entry] {
+//        // Any changes to the persistent store will become visible in the table view
+//        return loadFromCoreData()
+//    }
     
     func create(title: String, bodyText: String, mood: String) {
         let _ = Entry(title: title, bodyText: bodyText, mood: mood)
@@ -52,15 +52,15 @@ class EntryController {
         }
     }
     
-    func loadFromCoreData() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
-        
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            NSLog("Error fetching entries: \(error)")
-            return []
-        }
-    }
+//    func loadFromCoreData() -> [Entry] {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let moc = CoreDataStack.shared.mainContext
+//
+//        do {
+//            return try moc.fetch(fetchRequest)
+//        } catch {
+//            NSLog("Error fetching entries: \(error)")
+//            return []
+//        }
+//    }
 }
