@@ -20,6 +20,8 @@ class EntryDetailViewController: UIViewController {
     
     @IBOutlet var textField: UITextField!
     @IBOutlet var textView: UITextView!
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
+    
     
     @IBAction func save(_ sender: Any) {
         guard let title = textField.text, title.count > 0, let bodyText = textView.text else { return }
