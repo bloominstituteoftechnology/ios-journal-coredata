@@ -11,11 +11,14 @@ import CoreData
 
 class EntryController {
     
+    let baseURL = URL(string: "https://samanthasjournalcoredata.firebaseio.com/")!
+    
     // MARK: - CRUD
     
     func create(title: String, body: String?, mood: EntryMood) {
-        let _ = Entry(title: title, body: body, mood: mood)
+        let entry = Entry(title: title, body: body, mood: mood)
         saveToPersistentStore()
+        put(entry: entry)
     }
     
     func update(entry: Entry, title: String, body: String?, mood: EntryMood, timestamp: Date = Date()) {
@@ -24,9 +27,12 @@ class EntryController {
         entry.mood = mood.rawValue
         entry.timestamp = timestamp
         saveToPersistentStore()
+        put(entry: entry)
     }
     
     func delete(entry: Entry) {
+        // Needs to delete from server first
+        deleteFromServer(entry: entry)
         CoreDataStack.moc.delete(entry)
         saveToPersistentStore()
     }
@@ -41,5 +47,46 @@ class EntryController {
         catch {
             NSLog("Error saving entry: \(error)")
         }
+    }
+    
+    
+    // MARK: - Networking
+    
+    func put(entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
+        // Every entry should have an identifier since they can't be made without one so I force unwrapped it
+        let requestURL = baseURL.appendingPathComponent(entry.identifier!).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(entry)
+        } catch {
+            NSLog("Error encoding entry: \(error)")
+            completion(error)
+        }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error PUTting data: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
+    }
+    
+    func deleteFromServer(entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
+        let requestURL = baseURL.appendingPathComponent(entry.identifier!).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error deleting task: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
     }
 }
