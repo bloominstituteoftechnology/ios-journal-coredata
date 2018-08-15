@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		BF37540221221626004D6677 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37540121221626004D6677 /* CoreDataStack.swift */; };
+		BF92049D2124BF9D000A6789 /* Entry+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF92049C2124BF9D000A6789 /* Entry+Encodable.swift */; };
+		BFC07E6A2124C725000C6C3D /* EntryRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC07E692124C725000C6C3D /* EntryRepresentation.swift */; };
 		BFE183942121FF5400296A6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE183932121FF5400296A6B /* AppDelegate.swift */; };
 		BFE183992121FF5400296A6B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFE183972121FF5400296A6B /* Main.storyboard */; };
 		BFE1839B2121FF5500296A6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFE1839A2121FF5500296A6B /* Assets.xcassets */; };
@@ -23,6 +25,9 @@
 
 /* Begin PBXFileReference section */
 		BF37540121221626004D6677 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		BF3754042123689A004D6677 /* Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 2.xcdatamodel"; sourceTree = "<group>"; };
+		BF92049C2124BF9D000A6789 /* Entry+Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Encodable.swift"; sourceTree = "<group>"; };
+		BFC07E692124C725000C6C3D /* EntryRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryRepresentation.swift; sourceTree = "<group>"; };
 		BFE183902121FF5400296A6B /* journal-core-data-project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "journal-core-data-project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFE183932121FF5400296A6B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFE183982121FF5400296A6B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -49,6 +54,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BF76A5DE2123721800A74F3D /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BFE183AB2122011900296A6B /* EntryTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		BFE183872121FF5400296A6B = {
 			isa = PBXGroup;
 			children = (
@@ -70,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				BFE183B62122081E00296A6B /* Supporting Files */,
+				BF76A5DE2123721800A74F3D /* Views */,
 				BFE183B52122080C00296A6B /* View Controllers */,
 				BFE183A82121FF7300296A6B /* Model */,
 			);
@@ -82,7 +96,9 @@
 				BF37540121221626004D6677 /* CoreDataStack.swift */,
 				BFE183A52121FF7000296A6B /* Journal.xcdatamodeld */,
 				BFE183B12122032F00296A6B /* Entry+Convenience.swift */,
+				BF92049C2124BF9D000A6789 /* Entry+Encodable.swift */,
 				BFE183B32122044B00296A6B /* EntryController.swift */,
+				BFC07E692124C725000C6C3D /* EntryRepresentation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -91,7 +107,6 @@
 			isa = PBXGroup;
 			children = (
 				BFE183AD212201EB00296A6B /* EntryDetailViewController.swift */,
-				BFE183AB2122011900296A6B /* EntryTableViewCell.swift */,
 				BFE183A92122008200296A6B /* EntriesTableViewController.swift */,
 			);
 			path = "View Controllers";
@@ -182,9 +197,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFE183AC2122011900296A6B /* EntryTableViewCell.swift in Sources */,
+				BFC07E6A2124C725000C6C3D /* EntryRepresentation.swift in Sources */,
 				BFE183AA2122008200296A6B /* EntriesTableViewController.swift in Sources */,
 				BFE183942121FF5400296A6B /* AppDelegate.swift in Sources */,
 				BFE183AE212201EB00296A6B /* EntryDetailViewController.swift in Sources */,
+				BF92049D2124BF9D000A6789 /* Entry+Encodable.swift in Sources */,
 				BFE183A72121FF7000296A6B /* Journal.xcdatamodeld in Sources */,
 				BFE183B42122044B00296A6B /* EntryController.swift in Sources */,
 				BFE183B22122032F00296A6B /* Entry+Convenience.swift in Sources */,
@@ -391,9 +408,10 @@
 		BFE183A52121FF7000296A6B /* Journal.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				BF3754042123689A004D6677 /* Model 2.xcdatamodel */,
 				BFE183A62121FF7000296A6B /* Model.xcdatamodel */,
 			);
-			currentVersion = BFE183A62121FF7000296A6B /* Model.xcdatamodel */;
+			currentVersion = BF3754042123689A004D6677 /* Model 2.xcdatamodel */;
 			path = Journal.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
