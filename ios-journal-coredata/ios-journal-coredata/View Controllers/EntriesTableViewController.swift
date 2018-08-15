@@ -81,10 +81,13 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         return cell
     }
     
-    // Override to support editing the table view.
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
+            
+            entryController.deleteEntryFromServer(entry: entry)
+            
             let moc = CoreDataStack.shared.mainContext
             moc.delete(entry)
             
@@ -119,8 +122,9 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: true)
-        fetchRequest.sortDescriptors = [sortDescriptor]
+        // Tcdhe first sortDescriptor must have the same key as the sectionNameKeyPath in the NSFetchedResultsController!
+        let sortDescriptor = [NSSortDescriptor(key: "mood", ascending: true), NSSortDescriptor(key: "timestamp", ascending: true)]
+        fetchRequest.sortDescriptors = sortDescriptor
         let moc = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: moc,
