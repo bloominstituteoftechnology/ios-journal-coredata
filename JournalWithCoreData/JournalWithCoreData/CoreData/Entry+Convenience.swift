@@ -33,4 +33,14 @@ extension Entry
         self.identifier = identifier
         self.mood = mood.rawValue
     }
+    
+    convenience init?(entryRespresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext)
+    {
+        self.init(title: entryRespresentation.title,
+                  bodyText: entryRespresentation.bodyText,
+                  timestamp: entryRespresentation.timestamp,
+                  identifier: entryRespresentation.identifier,
+                  mood: EntryMood(rawValue: entryRespresentation.mood)!,
+                  managedObjectContext: context)
+    }
 }
