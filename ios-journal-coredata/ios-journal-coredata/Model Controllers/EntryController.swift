@@ -12,6 +12,50 @@ import CoreData
 let baseURL: URL = URL(string: "https://journalapp-acf5b.firebaseio.com/")!
 
 class EntryController {
+    typealias CompletionHandler = (Error?) -> Void
+    
+    func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        let identifier = entry.identifier ?? UUID().uuidString
+        let url = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "PUT"
+        
+        do {
+            let encoder = JSONEncoder()
+            urlRequest.httpBody = try encoder.encode(entry)
+        } catch {
+            NSLog("Error with encoding entry: \(error)")
+        }
+        
+        URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+            if let error = error {
+                NSLog("Error with PUTting data: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }.resume()
+    }
+    
+    func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        let identifier = entry.identifier ?? UUID().uuidString
+        let url = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+            if let error = error {
+                NSLog("Could not delete \(entry) from server: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }.resume()
+    }
     
     func createEntry(title: String,
                      identifier: String,
@@ -20,11 +64,12 @@ class EntryController {
                      mood: String) {
         
         guard let mood = Mood(rawValue: mood) else { return }
-        let _ = Entry(title: title,
+        let entry = Entry(title: title,
                       identifier: identifier,
                       timestamp: timestamp,
                       bodyText: bodyText,
                       mood: mood)
+        self.put(entry: entry)
     }
     
     func updateEntry(entry: Entry, title: String, bodyText: String, mood: String) {
@@ -32,6 +77,8 @@ class EntryController {
         entry.bodyText = bodyText
         entry.timestamp = Date()
         entry.mood = mood
+        
+        self.put(entry: entry)
         
         saveToPersistentStore()
     }
@@ -44,6 +91,7 @@ class EntryController {
             let entries = try moc.fetch(fetchRequest)
             if let entryIndex = entries.index(of: entry) {
                 moc.delete(entries[entryIndex])
+                self.deleteEntryFromServer(entry: entry)
                 try moc.save()
             }
         } catch {
