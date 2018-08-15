@@ -146,8 +146,8 @@ class EntryController
     {
         let requestURL = baseURL.appendingPathExtension("json")
         
-        var request = URLRequest(url: requestURL)
-        request.httpMethod = "GET"
+//        var request = URLRequest(url: requestURL)
+//        request.httpMethod = "GET"
         
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
             if let error = error
@@ -164,14 +164,16 @@ class EntryController
                 return
             }
             
-            do {
-                let entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
+            do
+            {
+                var entryReps: [EntryRepresentation] = []
+                entryReps = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({ $0.value })
                 
-                for (_, entryRep) in entryRepresentations {
+                for entryRep in entryReps {
                     
                     guard let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier) else {
-                        
-                        return
+                        let _ = Entry(entryRespresentation: entryRep)
+                        continue 
                         
                     }
                     
@@ -179,17 +181,13 @@ class EntryController
                     {
                        self.update(entry: entry, with: entryRep)
                     }
-                    else
-                    {
-                        let _ = Entry(entryRespresentation: entryRep)
-                    }
                     
                 }
-                
                 self.saveToPersistentStore()
                 completion(nil)
-                
-            } catch {
+            }
+            catch
+            {
                 NSLog("Error decoding task representations: \(error)")
                 completion(error)
                 return
