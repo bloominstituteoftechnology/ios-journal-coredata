@@ -10,6 +10,8 @@ import Foundation
 import CoreData
 
 class EntryController {
+    typealias CompletionHandler = (Error?) -> Void
+    let baseURL = URL(string: "https://journal-coredata.firebaseio.com/")!
     
     func saveToPersistentStore() {
         let moc = CoreDataStack.shared.mainContext
@@ -21,8 +23,10 @@ class EntryController {
     }
     
     func create(title: String, bodyText: String, mood: String) {
-        let _ = Entry(title: title, bodyText: bodyText, mood: Mood(rawValue: mood)!)
+        let entry = Entry(title: title, bodyText: bodyText, mood: Mood(rawValue: mood)!)
+        put(entry: entry)
         saveToPersistentStore()
+        
     }
     
     func update(entry: Entry, title: String, bodyText: String, mood: String) {
@@ -31,12 +35,54 @@ class EntryController {
         entry.timestamp = Date()
         entry.mood = mood
         
+        put(entry: entry)
+        
         saveToPersistentStore()
+        
     }
     
     func delete(entry: Entry) {
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
+        deleteEntryFromServer(entry: entry)
         saveToPersistentStore()
+    }
+    
+    func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        let uuid = entry.identifier ?? UUID().uuidString
+        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        do {
+            request.httpBody = try JSONEncoder().encode(entry)
+            
+        } catch {
+            NSLog("Error encoding json: \(error)")
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error PUTting data to server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
+    }
+    
+    func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        let uuid = entry.identifier ?? UUID().uuidString
+        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error Deleting data on server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
     }
 }
