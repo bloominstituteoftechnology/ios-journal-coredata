@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		131502D82124BFCC007DE3AC /* Entry+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131502D72124BFCC007DE3AC /* Entry+Encodable.swift */; };
+		131502DA2124CD0B007DE3AC /* EntryRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 131502D92124CD0B007DE3AC /* EntryRepresentation.swift */; };
 		13555A342122187500AEEB88 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13555A332122187500AEEB88 /* AppDelegate.swift */; };
 		13555A392122187500AEEB88 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 13555A372122187500AEEB88 /* Main.storyboard */; };
 		13555A3B2122187600AEEB88 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13555A3A2122187600AEEB88 /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		131502D72124BFCC007DE3AC /* Entry+Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Encodable.swift"; sourceTree = "<group>"; };
+		131502D92124CD0B007DE3AC /* EntryRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryRepresentation.swift; sourceTree = "<group>"; };
 		13555A302122187500AEEB88 /* ios-journal-coredata.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ios-journal-coredata.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13555A332122187500AEEB88 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		13555A382122187500AEEB88 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -50,6 +52,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		131502DB2124CD0F007DE3AC /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				131502D92124CD0B007DE3AC /* EntryRepresentation.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		13555A272122187500AEEB88 = {
 			isa = PBXGroup;
 			children = (
@@ -74,6 +84,7 @@
 				13555A57212221A200AEEB88 /* Model Controllers */,
 				13555A452122192B00AEEB88 /* View Controllers */,
 				13555A4A21221A0600AEEB88 /* Views */,
+				131502DB2124CD0F007DE3AC /* Models */,
 				13555A5421221FF800AEEB88 /* Core Data */,
 				13555A4E21221E9400AEEB88 /* Managers */,
 				13555A3A2122187600AEEB88 /* Assets.xcassets */,
@@ -206,6 +217,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13555A4921221A0000AEEB88 /* EntryTableViewCell.swift in Sources */,
+				131502DA2124CD0B007DE3AC /* EntryRepresentation.swift in Sources */,
 				13555A472122194300AEEB88 /* EntriesTableViewController.swift in Sources */,
 				13555A4D21221BCD00AEEB88 /* EntryDetailViewController.swift in Sources */,
 				13555A5321221FA400AEEB88 /* Journal.xcdatamodeld in Sources */,
