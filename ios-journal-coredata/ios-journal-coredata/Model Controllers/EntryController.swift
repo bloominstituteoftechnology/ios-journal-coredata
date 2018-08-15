@@ -9,6 +9,8 @@
 import Foundation
 import CoreData
 
+let baseURL: URL = URL(string: "https://journalapp-acf5b.firebaseio.com/")!
+
 class EntryController {
     
     func createEntry(title: String,
