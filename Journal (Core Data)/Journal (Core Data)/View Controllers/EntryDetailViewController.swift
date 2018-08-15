@@ -63,7 +63,7 @@ class EntryDetailViewController: UIViewController
         {
             title = entry.title
             titleTextField.text = entry.title
-            noteTextView.text = entry.note
+            noteTextView.text = entry.bodyText
             guard let index = Mood.allMoods.index(of: Mood(rawValue: entry.mood!)!) else { return }
             moodSegmentedControl.selectedSegmentIndex = index
         }
@@ -84,12 +84,14 @@ class EntryDetailViewController: UIViewController
         
         if let entry = entry
         {
-            entryController?.updateEntry(on: entry, with: title, note: noteTextView.text, mood: Mood.allMoods[moodSegmentedControl.selectedSegmentIndex].rawValue)
+            entryController?.updateEntry(on: entry, with: title, bodyText: noteTextView.text, mood: Mood.allMoods[moodSegmentedControl.selectedSegmentIndex].rawValue)
+            entryController?.put(entry: entry)
         }
         else
         {
-            let _ = Entry(title: title, note: noteTextView.text, mood: Mood.allMoods[moodSegmentedControl.selectedSegmentIndex].rawValue)
+            let entry = Entry(title: title, bodyText: noteTextView.text, mood: Mood.allMoods[moodSegmentedControl.selectedSegmentIndex].rawValue)
             entryController?.saveToPersistence()
+            entryController?.put(entry: entry)
         }
         
         navigationController?.popViewController(animated: true)

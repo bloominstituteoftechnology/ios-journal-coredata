@@ -17,7 +17,7 @@ class JournalTableViewController: UITableViewController, NSFetchedResultsControl
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> =
     {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true), NSSortDescriptor(key: "timestamp", ascending: true)]
             
         let moc = CoreDataStack.shared.mainContext
             
@@ -46,7 +46,7 @@ class JournalTableViewController: UITableViewController, NSFetchedResultsControl
 
     private func setupNavBar()
     {
-        title = "Journal (Day 2)"
+        title = "Journal (Day 3)"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleNewEntry))
     }
     
@@ -125,7 +125,7 @@ class JournalTableViewController: UITableViewController, NSFetchedResultsControl
         let entry = fetchedResultsController.object(at: indexPath)
         
         cell.textLabel?.text = entry.title
-        cell.detailTextLabel?.text = entry.note
+        cell.detailTextLabel?.text = entry.bodyText
         
         if let timestamp = entry.timestamp
         {

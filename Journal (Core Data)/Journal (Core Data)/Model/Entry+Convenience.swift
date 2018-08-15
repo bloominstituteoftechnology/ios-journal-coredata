@@ -23,15 +23,30 @@ enum Mood: String
 
 extension Entry
 {
-    convenience init(title: String, note: String? = nil, timestamp: Date? = Date(), identifier: String? = UUID().uuidString, mood: String = "😐", managedObjectContext: NSManagedObjectContext = CoreDataStack.shared.mainContext)
+    convenience init(title: String, bodyText: String? = nil, timestamp: Date? = Date(), identifier: String? = UUID().uuidString, mood: String = "😐", managedObjectContext: NSManagedObjectContext = CoreDataStack.shared.mainContext)
     {
         self.init(context: managedObjectContext)
         
         self.title = title
-        self.note = note
+        self.bodyText = bodyText
         self.timestamp = timestamp
         self.identifier = identifier
         self.mood = mood
     }
     
+    convenience init?(entryRepresentation: EntryRepresentation)
+    {
+        self.init(title: entryRepresentation.title, bodyText: entryRepresentation.bodyText, timestamp: entryRepresentation.timestamp, identifier: entryRepresentation.identifier, mood: entryRepresentation.mood)
+    }
+    
+    
 }
+
+
+
+
+
+
+
+
+
