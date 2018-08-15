@@ -34,11 +34,11 @@ class EntryController {
     }
     
     func delete(entry: Entry) {
-        let moc = CoreDataStack.shared.mainContext
-        moc.delete(entry)
-    
         deleteEntryFromServer(entry: entry)
         
+        let moc = CoreDataStack.shared.mainContext
+        moc.delete(entry)
+
         saveToCoreData()
     }
     

@@ -21,7 +21,17 @@ extension Entry {
         self.identifier = UUID().uuidString
         
         // By not setting up a way to change properties via initializer arguments, we prevent users of the initializer from modifying those properties.
+    }
+    
+    // Failable
+    convenience init?(entryRepresentation: EntryRepresentation) {
         
+        self.init(title: entryRepresentation.title,
+                  bodyText: entryRepresentation.bodyText,
+                  mood: entryRepresentation.mood)
+        
+       self.timestamp = entryRepresentation.timestamp
+       self.identifier = entryRepresentation.identifier
     }
 }
 
