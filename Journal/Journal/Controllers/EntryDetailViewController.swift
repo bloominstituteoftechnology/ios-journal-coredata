@@ -31,11 +31,11 @@ class EntryDetailViewController: UIViewController {
     @IBAction func save(_ sender: Any) {
         guard let titleText = titleTextField.text, let bodyText = bodyTextView.text else { return }
         
-        let mood = Mood.allMoods[moodSegmentedControl.selectedSegmentIndex]
+        let mood = Mood.allMoods[moodSegmentedControl.selectedSegmentIndex].rawValue
         if let entry = entry {
-            entryController?.update(entry: entry, title: titleText, bodyText: bodyText, mood: mood.rawValue)
+            entryController?.update(entry: entry, title: titleText, bodyText: bodyText, mood: mood)
         } else {
-            entryController?.create(title: titleText, bodyText: bodyText, mood: mood.rawValue)
+            entryController?.create(title: titleText, bodyText: bodyText, mood: mood)
         }
         navigationController?.popViewController(animated: true)
     }

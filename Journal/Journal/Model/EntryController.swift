@@ -10,6 +10,11 @@ import Foundation
 import CoreData
 
 class EntryController {
+    
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     typealias CompletionHandler = (Error?) -> Void
     let baseURL = URL(string: "https://journal-coredata.firebaseio.com/")!
     
@@ -35,17 +40,24 @@ class EntryController {
         entry.timestamp = Date()
         entry.mood = mood
         
-        put(entry: entry)
-        
         saveToPersistentStore()
+    }
+    
+    func update(entry: Entry, entryRep: EntryRepresentation) {
+        entry.title = entryRep.title
+        entry.bodyText = entryRep.bodyText
+        entry.timestamp = entryRep.timestamp
+        entry.mood = entryRep.mood
         
+        put(entry: entry)
     }
     
     func delete(entry: Entry) {
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
-        deleteEntryFromServer(entry: entry)
         saveToPersistentStore()
+        deleteEntryFromServer(entry: entry)
+        
     }
     
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
@@ -84,5 +96,65 @@ class EntryController {
             }
             completion(nil)
         }.resume()
+    }
+    
+    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", UUID(uuidString: identifier)! as NSUUID)
+        do {
+            let moc = CoreDataStack.shared.mainContext
+            return try moc.fetch(fetchRequest).first
+        } catch {
+            NSLog("Error fetching task with uuid: \(identifier) \(error)")
+            return nil
+        }
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching data from server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+            
+            guard let data = data else {
+                NSLog("No data returned")
+                completion(NSError())
+                return
+            }
+            
+            do {
+                var entryRepresentations: [EntryRepresentation] = []
+                let data = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
+                for data in data.values {
+                    entryRepresentations.append(data)
+                }
+                
+                for entryRep in entryRepresentations {
+                    let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier)
+                    
+                    if let entry = entry {
+                        if entry == entryRep {
+                            // Do nothing here
+                        } else {
+                            self.update(entry: entry, entryRep: entryRep)
+                        }
+                        
+                    } else {
+                        let _ = Entry(entryRep: entryRep)
+                        
+                    }
+                }
+                self.saveToPersistentStore()
+                completion(nil)
+            } catch {
+                NSLog("Error decoding data into json: \(error)")
+            }
+        }.resume()
+        
     }
 }

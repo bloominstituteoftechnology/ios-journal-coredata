@@ -58,9 +58,11 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
-            entryController.delete(entry: entry)
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            DispatchQueue.main.async {
+                self.entryController.delete(entry: entry)
+                // Delete the row from the data source
+                self.tableView.deleteRows(at: [indexPath], with: .fade)
+            }
         } 
     }
     
