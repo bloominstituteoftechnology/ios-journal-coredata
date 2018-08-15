@@ -39,6 +39,12 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         tableView.reloadData()
     }
     
+    override func viewDidLoad()
+    {
+        super.viewDidLoad()
+        
+    }
+    
     // MARK: - NSFetchedResultsControllerDelegate
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>)
@@ -142,6 +148,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
             addView.entryController = entryController
         }
     }
+    
     
 
 }
