@@ -23,7 +23,7 @@ class EntryController {
     }
     
     func create(title: String, bodyText: String, mood: String) {
-        let entry = Entry(title: title, bodyText: bodyText, mood: Mood(rawValue: mood)!)
+        let entry = Entry(title: title, bodyText: bodyText, mood: mood)
         put(entry: entry)
         saveToPersistentStore()
         

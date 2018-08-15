@@ -20,13 +20,18 @@ enum Mood: String {
 }
 
 extension Entry {
-    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = UUID().uuidString, mood: Mood) {
+    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = UUID().uuidString, mood: String) {
         self.init(context: CoreDataStack.shared.mainContext)
         
         self.title = title
         self.bodyText = bodyText
         self.timestamp = timestamp
         self.identifier = identifier
-        self.mood = mood.rawValue
+        self.mood = mood
+    }
+    
+    convenience init?(entryRep: EntryRepresentation) {
+        
+        self.init(title: entryRep.title, bodyText: entryRep.bodyText, timestamp: entryRep.timestamp, identifier: entryRep.identifier, mood: entryRep.mood)
     }
 }
