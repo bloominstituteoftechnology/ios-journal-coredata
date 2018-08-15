@@ -32,4 +32,10 @@ extension Entry {
         
     }
     
+    convenience init?(entryRepresentation: EntryRepresentation) {
+        self.init(title: entryRepresentation.title,
+                  bodyText: entryRepresentation.bodyText,
+                  mood: entryRepresentation.mood)
+    }
+    
 }
