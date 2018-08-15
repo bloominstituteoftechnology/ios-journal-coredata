@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		104BFC542124C773009DA9E9 /* Entry+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104BFC532124C773009DA9E9 /* Entry+Encodable.swift */; };
+		104BFC562124D9EF009DA9E9 /* EntryRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104BFC552124D9EF009DA9E9 /* EntryRepresentation.swift */; };
 		108F8F792122163E00283742 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 108F8F782122163E00283742 /* AppDelegate.swift */; };
 		108F8F7E2122163E00283742 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 108F8F7C2122163E00283742 /* Main.storyboard */; };
 		108F8F802122163F00283742 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 108F8F7F2122163F00283742 /* Assets.xcassets */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		104BFC532124C773009DA9E9 /* Entry+Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Encodable.swift"; sourceTree = "<group>"; };
+		104BFC552124D9EF009DA9E9 /* EntryRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryRepresentation.swift; sourceTree = "<group>"; };
 		108F8F752122163E00283742 /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		108F8F782122163E00283742 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		108F8F7D2122163E00283742 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -101,11 +103,12 @@
 		108F8F9921221BE300283742 /* Model and Model Controller */ = {
 			isa = PBXGroup;
 			children = (
-				108F8F9621221BCA00283742 /* Entry.xcdatamodeld */,
 				108F8F9421221AEE00283742 /* CoreDataStack.swift */,
+				108F8F9621221BCA00283742 /* Entry.xcdatamodeld */,
 				108F8F9A21221C8D00283742 /* Entry+Convenience.swift */,
-				108F8F9C21221E3B00283742 /* EntryController.swift */,
 				104BFC532124C773009DA9E9 /* Entry+Encodable.swift */,
+				104BFC552124D9EF009DA9E9 /* EntryRepresentation.swift */,
+				108F8F9C21221E3B00283742 /* EntryController.swift */,
 			);
 			path = "Model and Model Controller";
 			sourceTree = "<group>";
@@ -182,6 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				108F8F9821221BCA00283742 /* Entry.xcdatamodeld in Sources */,
+				104BFC562124D9EF009DA9E9 /* EntryRepresentation.swift in Sources */,
 				108F8F9521221AEE00283742 /* CoreDataStack.swift in Sources */,
 				108F8F902122192500283742 /* EntryTableViewCell.swift in Sources */,
 				108F8F8E2122176800283742 /* EntriesTableViewController.swift in Sources */,
