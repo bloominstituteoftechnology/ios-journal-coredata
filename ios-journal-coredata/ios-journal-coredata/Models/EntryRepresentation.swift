@@ -25,7 +25,11 @@ func == (lhs: Entry, rhs: EntryRepresentation) -> Bool {
 }
 
 func == (lhs: EntryRepresentation, rhs: Entry) -> Bool {
-    return lhs == rhs
+    return (lhs.bodyText == rhs.bodyText) &&
+        (lhs.identifier == rhs.identifier) &&
+        (lhs.mood == rhs.mood) &&
+        (lhs.timestamp == rhs.timestamp) &&
+        (lhs.title == rhs.title)
 }
 
 func != (lhs: EntryRepresentation, rhs: Entry) -> Bool {
