@@ -47,8 +47,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
                     at indexPath: IndexPath?,
                     for type: NSFetchedResultsChangeType,
                     newIndexPath: IndexPath?) {
-        
-        
+
         switch type {
         case .insert:
             //if object is inserted then we need to tell tableView to insert a row
@@ -116,7 +115,8 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let request:NSFetchRequest<Entry> = Entry.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "timeStamp", ascending: false)]
+        request.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: false),
+            NSSortDescriptor(key: "timeStamp", ascending: false)]
         let moc = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: request,
                                              managedObjectContext: moc,
