@@ -18,7 +18,8 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
         // Sort the entries based on timestamp
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
+                                        NSSortDescriptor(key: "timestamp", ascending: true)]
         
         // Get CoreDataStack's mainContext
         let moc = CoreDataStack.shared.mainContext
@@ -31,8 +32,11 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         // Set this VC as frc's delegate
         frc.delegate = self
         
-        try! frc.performFetch()
-        
+        do {
+            try frc.performFetch()
+        } catch {
+            NSLog("Error fetching: \(error)")
+        }
         return frc
     }()
 
@@ -41,7 +45,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        tableView.reloadData()
+//        tableView.reloadData()
     }
     
     // MARK: - NSFetchedResultsControllerDelegate
