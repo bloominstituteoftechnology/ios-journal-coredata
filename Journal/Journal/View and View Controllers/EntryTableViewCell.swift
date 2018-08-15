@@ -38,6 +38,7 @@ class EntryTableViewCell: UITableViewCell {
     }
     
     
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var bodyTextLabel: UILabel!
     @IBOutlet weak var timeStampLabel: UILabel!

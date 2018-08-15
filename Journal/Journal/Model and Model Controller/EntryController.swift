@@ -16,11 +16,21 @@ enum MoodType:String {
     
     static var types = [sad, neutral,happy]
 }
+
+private let baseURL = URL(string: "https://journal-day-3.firebaseio.com/")!
+
 class EntryController{
     //MARK: - CRUD Methods
     func create(withTitle title: String, bodyText text:String? = nil, mood:String){
-        let _ = Entry(title: title, bodyText: text, mood:mood)
-        saveToPersistentStore()
+        let newEntry = Entry(title: title, bodyText: text, mood:mood)
+        put(entry: newEntry) { (error) in
+            if let error = error {
+                NSLog("Error creating and putting entry: \(error)")
+                CoreDataStack.shared.mainContext.reset()
+            }
+        self.saveToPersistentStore()
+        }
+        
     }
     
     func update(forEntry entry: Entry, withTitle title: String, bodyText text:String, mood: String){
@@ -28,15 +38,27 @@ class EntryController{
         entry.bodyText = text
         entry.timeStamp = Date()
         entry.mood = mood
-        saveToPersistentStore()
+        put(entry: entry) { (error) in
+            if let error = error {
+                NSLog("Error updating and putting entry: \(error)")
+                CoreDataStack.shared.mainContext.reset()
+            }
+            self.saveToPersistentStore()
+        }
     }
     
     func delete(entry: Entry){
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
-        saveToPersistentStore()
+        deleteEntryFromServer(entry: entry){ (error) in
+            if let error = error {
+                NSLog("Error updating and putting entry: \(error)")
+                CoreDataStack.shared.mainContext.reset()
+            }
+            self.saveToPersistentStore()
+        }
     }
-    //MARK: - Networking
+    //MARK: - Persistence
     func saveToPersistentStore(){
         let moc = CoreDataStack.shared.mainContext
         do{
@@ -45,6 +67,50 @@ class EntryController{
             NSLog("Trouble saving: \(error)")
             moc.reset()
         }
+    }
+    
+    //MARK: - Networking
+    typealias CompletionHandler = (Error?) -> Void
+    
+    func put(entry: Entry, completion: @escaping CompletionHandler = {_ in}) {
+        let url = baseURL
+            .appendingPathComponent(entry.identifier!)
+            .appendingPathExtension("json")
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        do {
+            let encoded = try JSONEncoder().encode(entry)
+            request.httpBody = encoded
+        } catch {
+            NSLog("Error encoding: \(error)")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error PUTting: \(error)")
+            }
+            completion(nil)
+            
+        }.resume()
+    }
+    
+    func deleteEntryFromServer(entry:Entry, completion: @escaping CompletionHandler = {_ in}){
+        let url = baseURL
+            .appendingPathComponent(entry.identifier!)
+            .appendingPathExtension("json")
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error deleting from server: \(error)")
+                return
+            }
+            completion(nil)
+        }.resume()
+        
     }
 
 }

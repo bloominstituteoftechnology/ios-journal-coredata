@@ -14,9 +14,8 @@ enum CodingKeys: String, CodingKey {
     case mood
     case identifier
     case timeStamp
-    
-    
 }
+
 extension Entry: Encodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
@@ -26,4 +25,5 @@ extension Entry: Encodable {
         try container.encode(identifier, forKey: .identifier)
         try container.encode(timeStamp, forKey: .timeStamp)
     }
+    
 }
