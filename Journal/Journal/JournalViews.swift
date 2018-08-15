@@ -61,19 +61,15 @@ class EntryListTVC:UITableViewController, NSFetchedResultsControllerDelegate
 	func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
 		switch type {
 		case .insert:
-			print(">>> inserting")
 			guard let path = newIndexPath else {return}
 			tableView.insertRows(at: [path], with: .automatic)
 		case .delete:
-			print(">>> deleting")
 			guard let path = indexPath else {return}
 			tableView.deleteRows(at: [path], with: .automatic)
 		case .update:
-			print(">>> updating")
 			guard let path = indexPath else {return}
 			tableView.reloadRows(at: [path], with: .automatic)
 		case .move:
-			print(">>> moving")
 			guard let path = indexPath, let newPath = newIndexPath else {return}
 			tableView.deleteRows(at: [path], with: .automatic)
 			tableView.insertRows(at: [newPath], with: .automatic)
