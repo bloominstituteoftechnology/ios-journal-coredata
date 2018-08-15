@@ -53,11 +53,13 @@ class EntryController {
     }
     
     func delete(entry: Entry) {
-        let moc = CoreDataStack.shared.mainContext
-        moc.delete(entry)
-        saveToPersistentStore()
-        deleteEntryFromServer(entry: entry)
-        
+        deleteEntryFromServer(entry: entry) { (error) in
+            DispatchQueue.main.async {
+                let moc = CoreDataStack.shared.mainContext
+                moc.delete(entry)
+                self.saveToPersistentStore()
+            }
+        }
     }
     
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
