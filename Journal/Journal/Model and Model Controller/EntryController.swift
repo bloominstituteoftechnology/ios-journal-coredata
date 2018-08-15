@@ -20,6 +20,10 @@ enum MoodType:String {
 private let baseURL = URL(string: "https://journal-day-3.firebaseio.com/")!
 
 class EntryController{
+    init(){
+        fetchEntriesFromServer()
+    }
+    
     //MARK: - CRUD Methods
     func create(withTitle title: String, bodyText text:String? = nil, mood:String){
         let newEntry = Entry(title: title, bodyText: text, mood:mood)
@@ -28,7 +32,7 @@ class EntryController{
                 NSLog("Error creating and putting entry: \(error)")
                 CoreDataStack.shared.mainContext.reset()
             }
-        self.saveToPersistentStore()
+            self.saveToPersistentStore()
         }
         
     }
@@ -93,6 +97,60 @@ class EntryController{
             }
             completion(nil)
             
+            }.resume()
+    }
+    
+    func update(entry:Entry, entryRepresentation: EntryRepresentation){
+        entry.title = entryRepresentation.title
+        entry.bodyText = entryRepresentation.bodyText
+        entry.mood = entryRepresentation.mood
+        entry.timeStamp = entryRepresentation.timeStamp
+        entry.identifier = entryRepresentation.identifier
+    }
+    
+    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry?{
+        let request: NSFetchRequest<Entry> = Entry.fetchRequest()
+        request.predicate = NSPredicate(format: "identfier == %@", identifier)
+        let moc = CoreDataStack.shared.mainContext
+        var entry: Entry? = nil
+        do {
+            entry = try moc.fetch(request).first
+        } catch {
+            NSLog("Error fetching from persistent store: \(error)")
+            return nil
+        }
+        return entry
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = {_ in}){
+        let url = baseURL.appendingPathExtension("json")
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching from server: \(error)")
+                return
+            }
+            guard let data = data else {return}
+            var entryRepresentations = [EntryRepresentation]()
+            do{
+                let decoded = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
+                entryRepresentations = Array(decoded.values)
+                for entryRepresentation in entryRepresentations{
+                    let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRepresentation.identifier)
+                    if let entry = entry {
+                        if entry != entryRepresentation{
+                            self.update(entry: entry, entryRepresentation: entryRepresentation)
+                        }
+                    } else {
+                        Entry(entryRepresentation: entryRepresentation)
+                    }
+                }
+                self.saveToPersistentStore()
+                completion(nil)
+            } catch {
+                NSLog("Error decoding from server: \(error)")
+                return
+            }
+            
         }.resume()
     }
     
@@ -109,8 +167,9 @@ class EntryController{
                 return
             }
             completion(nil)
-        }.resume()
+            }.resume()
         
     }
-
+    
+    
 }
