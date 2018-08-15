@@ -11,6 +11,10 @@ import CoreData
 
 class EntryController {
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     let baseURL = URL(string: "https://samanthasjournalcoredata.firebaseio.com/")!
     
     // MARK: - CRUD
@@ -29,6 +33,15 @@ class EntryController {
         saveToPersistentStore()
         put(entry: entry)
     }
+    // MARK: -
+    func updateFromRepresentation(entry: Entry, entryRep: EntryRepresentation) {
+        entry.title = entryRep.title
+        entry.body = entryRep.body
+        entry.mood = entryRep.mood
+        entry.timestamp = entryRep.timestamp
+        // Probably don't have to include this one since it should never be changed
+        entry.identifier = entryRep.identifier
+    }
     
     func delete(entry: Entry) {
         // Needs to delete from server first
@@ -46,6 +59,17 @@ class EntryController {
         }
         catch {
             NSLog("Error saving entry: \(error)")
+        }
+    }
+    // MARK: -
+    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier = %@", identifier)
+        do {
+            return try CoreDataStack.moc.fetch(fetchRequest).first
+        } catch {
+            NSLog("Error fetching entry with identifier \(identifier): \(error)")
+            return nil
         }
     }
     
@@ -87,6 +111,41 @@ class EntryController {
                 return
             }
             completion(nil)
+        }.resume()
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching entries: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                completion(error)
+                return
+            }
+            
+            do {
+                let entryRepDicts = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
+                for entryRep in entryRepDicts.values {
+                    let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier)
+                    if let entry = entry {
+                        if entry != entryRep {
+                            self.updateFromRepresentation(entry: entry, entryRep: entryRep)
+                        }
+                    } else {
+                        _ = Entry(entryRep: entryRep)
+                    }
+                }
+                self.saveToPersistentStore()
+                completion(nil)
+            } catch {
+                completion(error)
+                return
+            }
         }.resume()
     }
 }
