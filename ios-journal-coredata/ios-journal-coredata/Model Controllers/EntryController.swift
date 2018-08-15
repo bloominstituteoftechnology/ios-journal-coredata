@@ -13,6 +13,10 @@ let baseURL: URL = URL(string: "https://stefanojournal.firebaseio.com/")!
 
 class EntryController {
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     enum HTTPMethods: String {
         case get = "GET"
         case put = "PUT"
@@ -47,6 +51,51 @@ class EntryController {
             NSLog("Error deleting data from persistence store: \(error)")
         }
 
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let url = baseURL.appendingPathExtension("json")
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethods.get.rawValue
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error putting data to server: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned by data task")
+                completion(error)
+                return
+            }
+            
+            // var entryRepresentations: [EntryRepresentation] = []
+            
+            do {
+                let entryRepresentations = try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values
+                
+                for entryRep in entryRepresentations {
+                    guard let uuid = UUID(uuidString: entryRep.identifier) else { return }
+                    if let entry = self.fetchSingleEntryFromPersistentStore(forUUID: uuid) {
+                        if entry == entryRep {
+                            self.update(entry: entry, entryRepresentation: entryRep)
+                        }
+                    } else {
+                        let _ = Entry(entryRepresentation: entryRep)
+                    }
+                }
+                
+                self.saveToPersistenceStore()
+                completion(nil)
+                
+            } catch {
+                NSLog("Error decoding data: \(error)")
+                completion(error)
+                return
+            }
+        }.resume()
     }
     
     // We provide the function with a default value of an empty closure
@@ -108,5 +157,26 @@ class EntryController {
             NSLog("Error saving data from persistence store: \(error)")
         }
     }
-
+    
+    private func update(entry: Entry, entryRepresentation: EntryRepresentation) {
+        entry.title = entryRepresentation.title
+        entry.bodyText = entryRepresentation.bodyText
+        entry.mood = entryRepresentation.mood
+        entry.identifier = entryRepresentation.identifier
+        entry.timestamp = entryRepresentation.timestamp
+    }
+    
+    private func fetchSingleEntryFromPersistentStore(forUUID uuid: UUID) -> Entry? {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
+        
+        do {
+            let moc = CoreDataStack.shared.mainContext
+            return try moc.fetch(fetchRequest).first
+        } catch {
+            NSLog("Error saving data from persistence store: \(error)")
+            return nil
+        }
+    }
+    
 }

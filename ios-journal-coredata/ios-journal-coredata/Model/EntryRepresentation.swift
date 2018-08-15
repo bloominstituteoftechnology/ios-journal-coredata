@@ -14,7 +14,7 @@ struct EntryRepresentation: Decodable, Equatable {
     var bodyText: String
     var mood: String
     var timestamp: Date
-    var identifier: UUID
+    var identifier: String
     
 }
 
