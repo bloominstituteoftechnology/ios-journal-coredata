@@ -22,7 +22,6 @@ class EntryCell:UITableViewCell
 			let df = DateFormatter()
 			df.dateFormat = "dd/mm/yy HH:mm"
 			dateLabel.text = df.string(from: entry.timestamp!)
-			print(dateLabel.text ?? "nothing");
 		}
 	}
 }
@@ -36,6 +35,7 @@ class EntryListTVC:UITableViewController, NSFetchedResultsControllerDelegate
 	{
 		fetcher = controller.fetchController
 		fetcher.delegate = self
+		controller.fetchRemote()
 		tableView.reloadData()
 	}
 
@@ -43,6 +43,14 @@ class EntryListTVC:UITableViewController, NSFetchedResultsControllerDelegate
 	{
 	}
 
+	@IBAction func refresh(_ sender: Any)
+	{
+		controller.fetchRemote() { _ in
+			DispatchQueue.main.async {
+				self.refreshControl?.endRefreshing()
+			}
+		}
+	}
 	func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
 		tableView.beginUpdates()
 	}
