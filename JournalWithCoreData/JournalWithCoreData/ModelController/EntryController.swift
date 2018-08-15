@@ -16,6 +16,11 @@ class EntryController
     var entry: Entry?
     typealias CompletionHandler = (Error?) -> Void
     
+    init()
+    {
+        fetchEntriesFromServer()
+    }
+    
     func saveToPersistentStore()
     {
         do
@@ -109,6 +114,95 @@ class EntryController
         }
         .resume()
     }
+    
+    private func update(entry: Entry, with representation: EntryRepresentation)
+    {
+        entry.title = representation.title
+        entry.bodyText = representation.bodyText
+        entry.timestamp = representation.timestamp
+        entry.identifier = representation.identifier
+        entry.mood = representation.mood
+    }
+    
+    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry?
+    {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
+        
+        do
+        {
+            let moc = CoreDataStack.shared.mainContext
+            return try moc.fetch(fetchRequest).first
+        }
+        catch
+        {
+            NSLog("Error fetching task with identifier \(error)")
+            return nil
+        }
+
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in })
+    {
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "GET"
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error
+            {
+                NSLog("Error fetching tasks: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else
+            {
+                NSLog("No data returned by data task")
+                completion(error)
+                return
+            }
+            
+            do {
+                let entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
+                
+                for (_, entryRep) in entryRepresentations {
+                    
+                    guard let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier) else {
+                        
+                        return
+                        
+                    }
+                    
+                    if entry != entryRep
+                    {
+                       self.update(entry: entry, with: entryRep)
+                    }
+                    else
+                    {
+                        let _ = Entry(entryRespresentation: entryRep)
+                    }
+                    
+                }
+                
+                self.saveToPersistentStore()
+                completion(nil)
+                
+            } catch {
+                NSLog("Error decoding task representations: \(error)")
+                completion(error)
+                return
+            }
+        }.resume()
+    }
+    
+    
+    
+    
+    
+    
+    
     
     
     
