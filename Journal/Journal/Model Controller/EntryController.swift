@@ -53,10 +53,10 @@ class EntryController {
     
     // MARK: - Persistence
     
-    func saveToPersistentStore() {
-        CoreDataStack.moc.performAndWait {
+    func saveToPersistentStore(context: NSManagedObjectContext = CoreDataStack.moc) {
+        context.performAndWait {
             do {
-                try CoreDataStack.moc.save()
+                try context.save()
             }
             catch {
                 NSLog("Error saving entry: \(error)")
@@ -108,7 +108,7 @@ class EntryController {
         
         URLSession.shared.dataTask(with: request) { (_, _, error) in
             if let error = error {
-                NSLog("Error deleting task: \(error)")
+                NSLog("Error deleting entry: \(error)")
                 completion(error)
                 return
             }
@@ -134,7 +134,6 @@ class EntryController {
                 let entryRepDicts = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
                 let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
                 try self.updateEntries(for: entryRepDicts, context: backgroundContext)
-                self.saveToPersistentStore()
                 completion(nil)
             } catch {
                 completion(error)
@@ -147,8 +146,6 @@ class EntryController {
     // MARK: - Functions
     
     func updateEntries(for entryRepDicts: [String: EntryRepresentation], context: NSManagedObjectContext) throws {
-        
-        var error: Error?
         
         context.performAndWait {
             
@@ -163,13 +160,7 @@ class EntryController {
                 }
             }
             
-            do {
-                try context.save()
-            } catch let thisError {
-                error = thisError
-            }
+            saveToPersistentStore(context: context)
         }
-        
-        if let error = error { throw error }
     }
 }
