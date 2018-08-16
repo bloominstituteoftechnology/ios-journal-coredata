@@ -22,6 +22,8 @@ class EntryDetailViewController: UIViewController
     let moodSegmentedControl: UISegmentedControl =
     {
         let sc = UISegmentedControl(items: ["🙁", "😐", "😁"])
+        let titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+        sc.setTitleTextAttributes(titleTextAttributes, for: .selected)
         
         return sc
     }()
@@ -90,7 +92,6 @@ class EntryDetailViewController: UIViewController
         else
         {
             let entry = Entry(title: title, bodyText: noteTextView.text, mood: Mood.allMoods[moodSegmentedControl.selectedSegmentIndex].rawValue)
-            entryController?.saveToPersistence()
             entryController?.put(entry: entry)
         }
         

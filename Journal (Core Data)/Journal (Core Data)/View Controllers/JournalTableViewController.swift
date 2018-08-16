@@ -46,7 +46,7 @@ class JournalTableViewController: UITableViewController, NSFetchedResultsControl
 
     private func setupNavBar()
     {
-        title = "Journal (Day 3)"
+        title = "Journal (Day 4)"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleNewEntry))
     }
     

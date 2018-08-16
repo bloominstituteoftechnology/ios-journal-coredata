@@ -20,28 +20,37 @@ class EntryController
     
     func updateEntry(on entry: Entry, with title: String, bodyText: String, mood: String)
     {
-        entry.title = title
-        entry.bodyText = bodyText
-        entry.timestamp = Date()
-        entry.mood = mood
+        let backgroundMoc = CoreDataStack.shared.container.newBackgroundContext()
         
-        saveToPersistence()
-    }
-    
-    func saveToPersistence()
-    {
+        backgroundMoc.performAndWait {
+            entry.title = title
+            entry.bodyText = bodyText
+            entry.timestamp = Date()
+            entry.mood = mood
+        }
+        
         do {
-            try CoreDataStack.shared.mainContext.save()
-        } catch let error {
-            NSLog("Failed to save to persistence: \(error)")
+            try CoreDataStack.shared.saveContext()
+        } catch {
+            NSLog("Error saving update: \(error)")
         }
     }
     
     func deleteEntry(on entry: Entry)
     {
+        let backgroundMoc = CoreDataStack.shared.container.newBackgroundContext()
+        
         deleteEntryFromServer(entry: entry)
-        CoreDataStack.shared.mainContext.delete(entry)
-        saveToPersistence()
+        
+        backgroundMoc.performAndWait {
+            backgroundMoc.delete(entry)
+        }
+        
+        do {
+            try CoreDataStack.shared.saveContext()
+        } catch {
+            NSLog("Error saving update: \(error)")
+        }
     }
     
     func put(entry: Entry, completion: @escaping (Error?) -> () = {_ in })
@@ -67,10 +76,6 @@ class EntryController
                 completion(error)
                 return
             }
-            
-            guard let data = data else { return }
-            
-            let responseDataString = String(data: data, encoding: .utf8)
             
             completion(nil)
         }.resume()
@@ -103,7 +108,7 @@ class EntryController
         entry.identifier = entryRepresentation.identifier
     }
     
-    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry?
+    func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry?
     {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
@@ -138,26 +143,9 @@ class EntryController
             }
             
             do {
-                let entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
-                
-                for (_, entryRep) in entryRepresentations
-                {
-                    let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier)
-                    
-                    if let entry = entry
-                    {
-                        if entry != entryRep
-                        {
-                            self.update(entry: entry, entryRepresentation: entryRep)
-                        }
-                    }
-                    else
-                    {
-                        let _ = Entry(entryRepresentation: entryRep)
-                    }
-                }
-                
-                self.saveToPersistence()
+                let entryRepresentations = Array(try JSONDecoder().decode([String: EntryRepresentation].self, from: data).values)
+                let backgroundMoc = CoreDataStack.shared.container.newBackgroundContext()
+                try self.updateEntries(with: entryRepresentations, context: backgroundMoc)
                 completion(nil)
                 
             } catch {
@@ -166,6 +154,40 @@ class EntryController
                 return
             }
         }.resume()
+    }
+    
+    private func updateEntries(with representations: [EntryRepresentation], context: NSManagedObjectContext) throws
+    {
+        var error: Error?
+        
+        context.performAndWait {
+            
+            for entryRep in representations
+            {
+                let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier, context: context)
+                
+                if let entry = entry
+                {
+                    if entry != entryRep
+                    {
+                        self.update(entry: entry, entryRepresentation: entryRep)
+                    }
+                }
+                else
+                {
+                    let _ = Entry(entryRepresentation: entryRep)
+                }
+            }
+            
+            do {
+                try CoreDataStack.shared.saveContext()
+            } catch let saveError {
+                error = saveError
+            }
+        }
+        
+        if let error = error { throw error }
+        
     }
 }
 

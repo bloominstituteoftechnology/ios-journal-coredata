@@ -13,6 +13,21 @@ class CoreDataStack
 {
     static let shared = CoreDataStack()
     
+    func saveContext(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws
+    {
+        var error: Error?
+        
+        context.performAndWait {
+            do {
+                try context.save()
+            } catch let saveError {
+                error = saveError
+            }
+        }
+        
+        if let error = error { throw error }
+    }
+    
     lazy var container: NSPersistentContainer =
     {
         let container = NSPersistentContainer(name: "Entry")
@@ -23,6 +38,8 @@ class CoreDataStack
                 fatalError("Failed to load persistence store: \(error)")
             }
         })
+        
+        container.viewContext.automaticallyMergesChangesFromParent = true
         
         return container
     }()
