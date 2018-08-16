@@ -15,7 +15,7 @@ class EntryController {
     init() {
         fetchEntriesFromServer()
     }
-    
+
     typealias CompletionHandler = (Error?) -> Void
 
     func update(entry: Entry, entryRep: EntryRepresentation) {
@@ -59,7 +59,7 @@ class EntryController {
                 let decoder = JSONDecoder()
                 let jsonEntries = try decoder.decode([String: EntryRepresentation].self, from: data)
                 entryRepresentations = jsonEntries.values.map { $0 }
-                
+
                 let backgroundMOC = CoreDataManager.shared.container.newBackgroundContext()
                 try self.updateEntriesFromServer(with: entryRepresentations, context: backgroundMOC)
                 completion(nil)
@@ -70,10 +70,10 @@ class EntryController {
 
         }.resume()
     }
-    
+
     func updateEntriesFromServer(with entryRepresentations: [EntryRepresentation], context: NSManagedObjectContext) throws {
         var error: Error?
-        
+
         context.performAndWait {
             for entryRep in entryRepresentations {
                 if let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier, context: context) {
@@ -84,14 +84,14 @@ class EntryController {
                     let _ = Entry(entryRepresentation: entryRep, managedObjectContext: context)
                 }
             }
-            
+
             do {
                 try context.save()
             } catch let saveError {
                 error = saveError
             }
         }
-        
+
         if let error = error {
             throw error
         }
@@ -155,33 +155,46 @@ class EntryController {
         self.put(entry: entry)
     }
 
-    func updateEntry(entry: Entry, title: String, bodyText: String, mood: String) {
-        entry.title = title
-        entry.bodyText = bodyText
-        entry.timestamp = Date()
-        entry.mood = mood
+    func updateEntry(entry: Entry, title: String, bodyText: String, mood: String) throws {
+        let moc = CoreDataManager.shared.mainContext
 
-        self.put(entry: entry)
+        var error: Error?
 
-        saveToPersistentStore()
+        moc.perform {
+            entry.title = title
+            entry.bodyText = bodyText
+            entry.timestamp = Date()
+            entry.mood = mood
+
+            do {
+                self.put(entry: entry)
+                try moc.save()
+            } catch let saveError {
+                error = saveError
+            }
+        }
+
+        if let error = error {
+            throw error
+        }
     }
 
     func deleteEntry(entry: Entry) throws {
         let moc = CoreDataManager.shared.mainContext
-        
+
         var error: Error?
-        
+
         moc.performAndWait {
             moc.delete(entry)
             deleteEntryFromServer(entry: entry)
-            
+
             do {
                 try moc.save()
             } catch let saveError {
                 error = saveError
             }
         }
-        
+
         if let error = error {
             throw error
         }

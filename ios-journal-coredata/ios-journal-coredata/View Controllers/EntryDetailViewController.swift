@@ -34,7 +34,12 @@ class EntryDetailViewController: UIViewController {
         let currentMood = msc.titleForSegment(at: msc.selectedSegmentIndex) ?? "😐"
         
         if let entry = entry {
-            entryController?.updateEntry(entry: entry, title: textField, bodyText: textView, mood: currentMood)
+            do {
+                try entryController?.updateEntry(entry: entry, title: textField, bodyText: textView, mood: currentMood)
+            } catch {
+                NSLog("Error updating entry in Core Data!")
+            }
+            
         } else {
             entryController?.createEntry(title: textField,
                                          identifier: UUID().uuidString,
