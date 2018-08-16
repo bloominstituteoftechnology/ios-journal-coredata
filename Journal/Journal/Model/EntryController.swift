@@ -101,12 +101,11 @@ class EntryController {
         }.resume()
     }
     
-    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+    func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry? {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", UUID(uuidString: identifier)! as NSUUID)
         do {
-            let moc = CoreDataStack.shared.mainContext
-            return try moc.fetch(fetchRequest).first
+            return try context.fetch(fetchRequest).first
         } catch {
             NSLog("Error fetching task with uuid: \(identifier) \(error)")
             return nil
@@ -136,28 +135,31 @@ class EntryController {
                 for data in data.values {
                     entryRepresentations.append(data)
                 }
+                self.updateEntries(with: entryRepresentations, context: CoreDataStack.shared.mainContext)
                 
-                for entryRep in entryRepresentations {
-                    let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier)
-                    
-                    if let entry = entry {
-                        if entry == entryRep {
-                            // Do nothing here
-                        } else {
-                            self.update(entry: entry, entryRep: entryRep)
-                        }
-                        
-                    } else {
-                        let _ = Entry(entryRep: entryRep)
-                        
-                    }
-                }
-                self.saveToPersistentStore()
                 completion(nil)
             } catch {
                 NSLog("Error decoding data into json: \(error)")
             }
         }.resume()
         
+    }
+    
+    private func updateEntries(with representations: [EntryRepresentation], context: NSManagedObjectContext) {
+        for entryRep in representations {
+            let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier, context: CoreDataStack.shared.mainContext)
+            
+            if let entry = entry {
+                if entry == entryRep {
+                    // Do nothing here
+                } else {
+                    self.update(entry: entry, entryRep: entryRep)
+                }
+                
+            } else {
+                let _ = Entry(entryRep: entryRep, context: CoreDataStack.shared.mainContext)
+                
+            }
+        }
     }
 }
