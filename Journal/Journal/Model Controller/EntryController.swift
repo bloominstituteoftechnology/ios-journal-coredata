@@ -54,11 +54,13 @@ class EntryController {
     // MARK: - Persistence
     
     func saveToPersistentStore() {
-        do {
-            try CoreDataStack.moc.save()
-        }
-        catch {
-            NSLog("Error saving entry: \(error)")
+        CoreDataStack.moc.performAndWait {
+            do {
+                try CoreDataStack.moc.save()
+            }
+            catch {
+                NSLog("Error saving entry: \(error)")
+            }
         }
     }
 
@@ -66,7 +68,7 @@ class EntryController {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier = %@", identifier)
         do {
-            return try CoreDataStack.moc.fetch(fetchRequest).first
+            return try context.fetch(fetchRequest).first
         } catch {
             NSLog("Error fetching entry with identifier \(identifier): \(error)")
             return nil
@@ -130,7 +132,8 @@ class EntryController {
             
             do {
                 let entryRepDicts = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
-                
+                let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+                try self.updateEntries(for: entryRepDicts, context: backgroundContext)
                 self.saveToPersistentStore()
                 completion(nil)
             } catch {
@@ -145,15 +148,28 @@ class EntryController {
     
     func updateEntries(for entryRepDicts: [String: EntryRepresentation], context: NSManagedObjectContext) throws {
         
-        for entryRep in entryRepDicts.values {
-            let entry = fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier, context: context)
-            if let entry = entry {
-                if entry != entryRep {
-                    self.updateFromRepresentation(entry: entry, entryRep: entryRep)
+        var error: Error?
+        
+        context.performAndWait {
+            
+            for entryRep in entryRepDicts.values {
+                let entry = fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier, context: context)
+                if let entry = entry {
+                    if entry != entryRep {
+                        self.updateFromRepresentation(entry: entry, entryRep: entryRep)
+                    }
+                } else {
+                    _ = Entry(entryRep: entryRep, context: context)
                 }
-            } else {
-                _ = Entry(entryRep: entryRep, context: CoreDataStack.moc)
+            }
+            
+            do {
+                try context.save()
+            } catch let thisError {
+                error = thisError
             }
         }
+        
+        if let error = error { throw error }
     }
 }
