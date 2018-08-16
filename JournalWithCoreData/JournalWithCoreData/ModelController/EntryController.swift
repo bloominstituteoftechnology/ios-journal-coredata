@@ -21,25 +21,17 @@ class EntryController
         fetchEntriesFromServer()
     }
     
-    func saveToPersistentStore()
+    func saveToPersistentStore() throws
     {
-        do
-        {
-            let moc = CoreDataStack.shared.mainContext
-            try moc.save()
-            print("save")
-        }
-        catch
-        {
-            NSLog("Error saving managed object context: \(error)")
-        }
+        let moc = CoreDataStack.shared.mainContext
+        try moc.save()
     }
     
     func createEntry(title: String, bodyText: String, mood:EntryMood)
     {
         let entry = Entry(title: title, bodyText: bodyText, mood: mood)
         print(title, bodyText)
-        saveToPersistentStore()
+        //saveToPersistentStore()
         put(entry: entry)
     }
     
@@ -51,7 +43,7 @@ class EntryController
         entry.timestamp = timestamp as Date
         entry.mood = mood.rawValue
         print(title, bodyText)
-        saveToPersistentStore()
+        //saveToPersistentStore()
         put(entry: entry)
     }
     
@@ -124,30 +116,28 @@ class EntryController
         entry.mood = representation.mood
     }
     
-    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry?
+    func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry?
     {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
-        
+        var result: Entry? = nil
         do
         {
-            let moc = CoreDataStack.shared.mainContext
-            return try moc.fetch(fetchRequest).first
+            result = try context.fetch(fetchRequest).first
+            //let moc = CoreDataStack.shared.mainContext
+            //return try moc.fetch(fetchRequest).first
         }
         catch
         {
             NSLog("Error fetching task with identifier \(error)")
             return nil
         }
-
+        return result
     }
     
     func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in })
     {
         let requestURL = baseURL.appendingPathExtension("json")
-        
-//        var request = URLRequest(url: requestURL)
-//        request.httpMethod = "GET"
         
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
             if let error = error
@@ -166,36 +156,54 @@ class EntryController
             
             do
             {
-                var entryReps: [EntryRepresentation] = []
-                entryReps = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({ $0.value })
+                let entryReps = Array(try JSONDecoder().decode([String: EntryRepresentation].self, from: data).values)
+                let backgroundMoc = CoreDataStack.shared.container.newBackgroundContext()
                 
-                for entryRep in entryReps {
-                    
-                    guard let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier) else {
-                        let _ = Entry(entryRespresentation: entryRep)
-                        continue 
-                        
-                    }
-                    
-                    if entry != entryRep
-                    {
-                       self.update(entry: entry, with: entryRep)
-                    }
-                    
-                }
-                self.saveToPersistentStore()
+                try self.updateEntries(with: entryReps, context: backgroundMoc)
+                
                 completion(nil)
             }
             catch
             {
-                NSLog("Error decoding task representations: \(error)")
+                NSLog("Error decoding entry representations: \(error)")
                 completion(error)
                 return
             }
         }.resume()
     }
     
-    
+    private func updateEntries(with representations: [EntryRepresentation], context: NSManagedObjectContext) throws
+    {
+        var error: Error?
+        
+        context.performAndWait {
+            
+            for entryRep in representations {
+                
+                guard let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier, context: context) else {
+                    let _ = Entry(entryRespresentation: entryRep, context: context)
+                    continue
+                    
+                }
+                
+                if entry == entry
+                {
+                    self.update(entry: entry, with: entryRep)
+                }
+                
+            }
+            
+            do
+            {
+                try context.save()
+            }
+            catch let saveError
+            {
+                error = saveError
+            }
+        }
+        if let error = error {throw error}
+    }
     
     
     

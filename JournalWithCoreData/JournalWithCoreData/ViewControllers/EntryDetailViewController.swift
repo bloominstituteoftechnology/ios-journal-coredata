@@ -46,6 +46,16 @@ class EntryDetailViewController: UIViewController
             entryController?.createEntry(title: title, bodyText: bodyText, mood: mood)
             print(titleTextField.text!, bodyTextTextView.text, mood)
         }
+        
+        do
+        {
+            let moc = CoreDataStack.shared.mainContext
+            try moc.save()
+        }
+        catch
+        {
+            NSLog("Error saving managed object context: \(error)")
+        }
         navigationController?.popViewController(animated: true)
     }
     

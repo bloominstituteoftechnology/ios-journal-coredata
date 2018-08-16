@@ -43,4 +43,17 @@ extension Entry
                   mood: EntryMood(rawValue: entryRespresentation.mood)!,
                   managedObjectContext: context)
     }
+    
+    var entryRepresentation: EntryRepresentation?
+    {
+        guard let title = title,
+            let bodyText = bodyText,
+            let timestamp = timestamp,
+            let identifier = identifier,
+            let mood = mood else {
+                return nil
+        }
+        
+        return EntryRepresentation(title: title, bodyText:bodyText, timestamp: timestamp, identifier: identifier, mood: mood)
+    }
 }
