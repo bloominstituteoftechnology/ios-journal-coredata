@@ -51,16 +51,31 @@ class EntryController {
     typealias CompletionHandler = (Error?) -> Void
     
     func fetchSingleEntryFromPersistentStore(withUUID uuid: String, context: NSManagedObjectContext) -> Entry? {
+        
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid)
         
         do {
-            let moc = CoreDataStack.shared.mainContext
-            return try moc.fetch(fetchRequest).first
+//            let moc = CoreDataStack.shared.mainContext
+            return try context.fetch(fetchRequest).first
         } catch {
             NSLog("Error fetching entry with uuid \(uuid): \(error)")
             return nil
         }
+        
+//        context.performAndWait {
+//            do {
+//                entry = try context.fetch(fetchRequest).first
+//            } catch {
+//                NSLog("Error fetching entry with uuid \(uuid): \(error)")
+//            }
+//        }
+//
+//        if let entry = entry {
+//            return entry
+//        } else {
+//            return nil
+//        }
     }
     
     func update(entry: Entry, with representation: EntryRepresentation) {
@@ -213,11 +228,27 @@ class EntryController {
     
     func saveToCoreData() {
         let moc = CoreDataStack.shared.mainContext
-        
+
         do {
             try moc.save()
         } catch {
             NSLog("Error saving entry: \(error)")
         }
     }
+    
+//    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
+//        var error: Error?
+//
+//        context.performAndWait {
+//            do {
+//                try context.save()
+//            } catch let saveError {
+//                error = saveError
+//            }
+//        }
+//
+//        if let erro = error {
+//            throw error
+//        }
+//    }
 }

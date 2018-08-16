@@ -29,7 +29,8 @@ extension Entry {
         
         self.init(title: entryRepresentation.title,
                   bodyText: entryRepresentation.bodyText,
-                  mood: entryRepresentation.mood)
+                  mood: entryRepresentation.mood,
+                  managedObjectContext: context)
         
        self.timestamp = entryRepresentation.timestamp
        self.identifier = entryRepresentation.identifier
