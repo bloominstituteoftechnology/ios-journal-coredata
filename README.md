@@ -1,4 +1,4 @@
-# Journal (Core Data) Day 3
+# Journal (Core Data) Day 4
 
 ## Introduction
 
