@@ -30,7 +30,6 @@ class EntryController {
         let request: NSFetchRequest<Entry> = Entry.fetchRequest()
         request.predicate = NSPredicate(format: "identifier == %@", identifier)
         do {
-//            let moc = CoreDataManager.shared.mainContext
             return try context.fetch(request).first
         } catch {
             NSLog("Error fetching entry with identifier: \(identifier) - \(error)")
@@ -167,19 +166,24 @@ class EntryController {
         saveToPersistentStore()
     }
 
-    func deleteEntry(entry: Entry) {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+    func deleteEntry(entry: Entry) throws {
         let moc = CoreDataManager.shared.mainContext
-
-        do {
-            let entries = try moc.fetch(fetchRequest)
-            if let entryIndex = entries.index(of: entry) {
-                moc.delete(entries[entryIndex])
-                self.deleteEntryFromServer(entry: entry)
+        
+        var error: Error?
+        
+        moc.performAndWait {
+            moc.delete(entry)
+            deleteEntryFromServer(entry: entry)
+            
+            do {
                 try moc.save()
+            } catch let saveError {
+                error = saveError
             }
-        } catch {
-            NSLog("Error with deleting entry")
+        }
+        
+        if let error = error {
+            throw error
         }
     }
 

@@ -79,7 +79,11 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            entryController.deleteEntry(entry: fetchedResultsController.object(at: indexPath))
+            do {
+                try entryController.deleteEntry(entry: fetchedResultsController.object(at: indexPath))
+            } catch {
+                NSLog("Error deleting entry!")
+            }
         }
     }
 
