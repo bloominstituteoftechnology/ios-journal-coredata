@@ -71,14 +71,12 @@ class EntryController {
                 return
             }
             
-            // var entryRepresentations: [EntryRepresentation] = []
             
             do {
                 let entryRepresentations = try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values
                 
                 for entryRep in entryRepresentations {
-                    guard let uuid = UUID(uuidString: entryRep.identifier) else { return }
-                    if let entry = self.fetchSingleEntryFromPersistentStore(forUUID: uuid) {
+                    if let entry = self.fetchSingleEntryFromPersistentStore(forUUID: entryRep.identifier) {
                         if entry == entryRep {
                             self.update(entry: entry, entryRepresentation: entryRep)
                         }
@@ -166,9 +164,9 @@ class EntryController {
         entry.timestamp = entryRepresentation.timestamp
     }
     
-    private func fetchSingleEntryFromPersistentStore(forUUID uuid: UUID) -> Entry? {
+    private func fetchSingleEntryFromPersistentStore(forUUID uuid: String) -> Entry? {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid)
         
         do {
             let moc = CoreDataStack.shared.mainContext

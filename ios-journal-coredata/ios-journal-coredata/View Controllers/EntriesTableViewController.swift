@@ -122,7 +122,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        // Tcdhe first sortDescriptor must have the same key as the sectionNameKeyPath in the NSFetchedResultsController!
+        // The first sortDescriptor must have the same key as the sectionNameKeyPath in the NSFetchedResultsController!
         let sortDescriptor = [NSSortDescriptor(key: "mood", ascending: true), NSSortDescriptor(key: "timestamp", ascending: true)]
         fetchRequest.sortDescriptors = sortDescriptor
         let moc = CoreDataStack.shared.mainContext

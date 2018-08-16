@@ -35,7 +35,9 @@ extension Entry {
     convenience init?(entryRepresentation: EntryRepresentation) {
         self.init(title: entryRepresentation.title,
                   bodyText: entryRepresentation.bodyText,
-                  mood: entryRepresentation.mood)
+                  mood: entryRepresentation.mood,
+                  identifier: entryRepresentation.identifier,
+                  timestamp: entryRepresentation.timestamp)
     }
     
 }
