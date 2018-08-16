@@ -91,8 +91,8 @@ class EntryController {
             do {
                 let entryRepresentations = try Array(JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
                 
-                let moc = CoreDataStack.shared.container.newBackgroundContext()
-                try self.refreshPersistenceStore(with: entryRepresentations, context: moc)
+                let backgroundMoc = CoreDataStack.shared.container.newBackgroundContext()
+                try self.refreshPersistenceStore(with: entryRepresentations, context: backgroundMoc)
                 
                 completion(nil)
                 
@@ -110,7 +110,7 @@ class EntryController {
         context.performAndWait {
             for entryRep in entryRepresentations {
                 if let entry = self.fetchSingleEntryFromPersistentStore(forUUID: entryRep.identifier, context: context) {
-                    if entry == entryRep {
+                    if entry != entryRep {
                         self.update(entry: entry, entryRepresentation: entryRep, context: context)
                     }
                 } else {

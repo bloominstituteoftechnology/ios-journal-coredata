@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class EntryDetailViewController: UIViewController {
 
@@ -30,7 +31,8 @@ class EntryDetailViewController: UIViewController {
         guard let title = titleTextField.text,
             !title.isEmpty, let bodyText = bodyTextView.text else { return }
         let mood = MoodTypes.all[moodSelector.selectedSegmentIndex].rawValue
-        let moc = CoreDataStack.shared.container.newBackgroundContext()
+        let moc = NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType)
+        moc.parent = CoreDataStack.shared.mainContext
         
         moc.performAndWait {
             if let entry = entry, let entryController = entryController {
