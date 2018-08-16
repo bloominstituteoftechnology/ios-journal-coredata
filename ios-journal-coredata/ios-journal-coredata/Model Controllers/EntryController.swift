@@ -160,7 +160,7 @@ class EntryController {
 
         var error: Error?
 
-        moc.perform {
+        moc.performAndWait {
             entry.title = title
             entry.bodyText = bodyText
             entry.timestamp = Date()
