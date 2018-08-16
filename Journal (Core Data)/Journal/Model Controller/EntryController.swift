@@ -97,10 +97,17 @@ class EntryController {
                 let decodedEntries = try JSONDecoder().decode([String : EntryRepresentation].self, from: data)
                 entryRepresentations = decodedEntries.map { $0.value }
                 
+                // Create backgroundContext for CoreData work
+                let backgroundMOC = CoreDataStack.shared.container.newBackgroundContext()
                 
-                DispatchQueue.main.async {
-                    self.saveToCoreData()
-                }
+                try self.updateEntries(with: entryRepresentations, context: backgroundMOC)
+                
+                // DispatchQueue?
+                completion(nil)
+                
+//                DispatchQueue.main.async {
+//                    self.saveToCoreData()
+//                }
             } catch {
                 NSLog("Error decoding entry representations: \(error)")
                 DispatchQueue.main.async {
@@ -124,18 +131,29 @@ class EntryController {
                 // Compare the entry representation to see if there is an entry in the persistentStore alreayd with the same uuid
                 guard let uuid = UUID(uuidString: entryRep.identifier)?.uuidString else { return }
                 
-                DispatchQueue.main.async { // still need this?
-                    let entry = self.fetchSingleEntryFromPersistentStore(withUUID: uuid, context: context)
-                    
-                    if let entry = entry {
-                        if entry != entryRep {
-                            self.update(entry: entry, with: entryRep)
-                        }
-                    } else {
-                        Entry(entryRepresentation: entryRep)
+                //DispatchQueue.main.async { // still need this?
+                let entry = self.fetchSingleEntryFromPersistentStore(withUUID: uuid, context: context)
+                
+                if let entry = entry {
+                    if entry != entryRep {
+                        self.update(entry: entry, with: entryRep)
                     }
+                } else {
+                    Entry(entryRepresentation: entryRep)
                 }
+                //}
             }
+            
+            // Save() must be called on the context's private queue
+            do {
+                try context.save()
+            } catch let saveError {
+                error = saveError
+            }
+        }
+        
+        if let error = error {
+            throw error
         }
     }
     
