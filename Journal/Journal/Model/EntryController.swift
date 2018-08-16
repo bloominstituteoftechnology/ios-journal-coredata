@@ -18,20 +18,9 @@ class EntryController {
     typealias CompletionHandler = (Error?) -> Void
     let baseURL = URL(string: "https://journal-coredata.firebaseio.com/")!
     
-    func saveToPersistentStore() {
-        let moc = CoreDataStack.shared.mainContext
-        do {
-            try moc.save()
-        } catch {
-            NSLog("Error saving to core data: \(error)")
-        }
-    }
-    
     func create(title: String, bodyText: String, mood: String) {
-        let entry = Entry(title: title, bodyText: bodyText, mood: mood)
+        let entry = Entry(title: title, bodyText: bodyText, mood: mood, context: CoreDataStack.shared.mainContext)
         put(entry: entry)
-        saveToPersistentStore()
-        
     }
     
     func update(entry: Entry, title: String, bodyText: String, mood: String) {
@@ -41,7 +30,6 @@ class EntryController {
         entry.mood = mood
         
         put(entry: entry)
-        saveToPersistentStore()
     }
     
     func update(entry: Entry, entryRep: EntryRepresentation) {
@@ -55,12 +43,13 @@ class EntryController {
     
     func delete(entry: Entry) {
         deleteEntryFromServer(entry: entry) { (error) in
-            DispatchQueue.main.async {
+            
                 let moc = CoreDataStack.shared.mainContext
-                moc.delete(entry)
-                self.saveToPersistentStore()
+                moc.performAndWait {
+                    moc.delete(entry)
+                }
+            
             }
-        }
     }
     
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
@@ -102,18 +91,23 @@ class EntryController {
     }
     
     func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry? {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identifier == %@", UUID(uuidString: identifier)! as NSUUID)
-        do {
-            return try context.fetch(fetchRequest).first
-        } catch {
-            NSLog("Error fetching task with uuid: \(identifier) \(error)")
-            return nil
+        var entry: Entry?
+        context.performAndWait {
+            
+            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
+            do {
+                entry = try context.fetch(fetchRequest).first
+            } catch {
+                NSLog("Error fetching task with uuid: \(identifier) \(error)")
+            }
         }
+        return entry
     }
     
     func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
         let requestURL = baseURL.appendingPathExtension("json")
+        let backgroundMoc = CoreDataStack.shared.container.newBackgroundContext()
         
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
             if let error = error {
@@ -135,30 +129,35 @@ class EntryController {
                 for data in data.values {
                     entryRepresentations.append(data)
                 }
-                self.updateEntries(with: entryRepresentations, context: CoreDataStack.shared.mainContext)
+                
+                self.updateEntries(with: entryRepresentations, context: backgroundMoc)
                 
                 completion(nil)
+                try CoreDataStack.shared.save(context: backgroundMoc)
             } catch {
                 NSLog("Error decoding data into json: \(error)")
             }
+            
         }.resume()
         
     }
     
     private func updateEntries(with representations: [EntryRepresentation], context: NSManagedObjectContext) {
-        for entryRep in representations {
-            let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier, context: CoreDataStack.shared.mainContext)
-            
-            if let entry = entry {
-                if entry == entryRep {
-                    // Do nothing here
+        context.performAndWait {
+            for entryRep in representations {
+                let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier, context: context)
+                
+                if let entry = entry {
+                    if entry == entryRep {
+                        // Do nothing here
+                    } else {
+                        self.update(entry: entry, entryRep: entryRep)
+                    }
+                    
                 } else {
-                    self.update(entry: entry, entryRep: entryRep)
+                    let _ = Entry(entryRep: entryRep, context: context)
+                    
                 }
-                
-            } else {
-                let _ = Entry(entryRep: entryRep, context: CoreDataStack.shared.mainContext)
-                
             }
         }
     }

@@ -10,6 +10,16 @@ import CoreData
 
 class CoreDataStack {
     static let shared = CoreDataStack()
+    
+    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        context.performAndWait {
+            do {
+                try context.save()
+            } catch {
+                NSLog("Save error: \(error)")
+            }
+        }
+    }
     lazy var container: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Journal")
         container.loadPersistentStores { (_, error) in
@@ -17,6 +27,7 @@ class CoreDataStack {
                 fatalError("Error loading Core Data stores: \(error)")
             }
         }
+        container.viewContext.automaticallyMergesChangesFromParent = true
         return container
     }()
     
