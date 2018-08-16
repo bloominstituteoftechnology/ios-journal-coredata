@@ -162,6 +162,7 @@ class EntryDetailVC:UIViewController
 			entry.title = title
 			entry.text = text
 			entry.mood = mood.rawValue
+			entryList.controller.update(entry)
 		} else {
 			entryList.controller.create(title, text, mood)
 		}
