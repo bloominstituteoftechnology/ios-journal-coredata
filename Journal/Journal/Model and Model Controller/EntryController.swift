@@ -18,6 +18,7 @@ enum MoodType:String {
 }
 
 private let baseURL = URL(string: "https://journal-day-3.firebaseio.com/")!
+private let moc = CoreDataStack.shared.mainContext
 
 class EntryController{
     init(){
@@ -30,7 +31,10 @@ class EntryController{
         put(entry: newEntry) { (error) in
             if let error = error {
                 NSLog("Error creating and putting entry: \(error)")
-                CoreDataStack.shared.mainContext.reset()
+                moc.perform {
+                    moc.reset()
+                }
+                
             }
             self.saveToPersistentStore()
         }
@@ -45,7 +49,10 @@ class EntryController{
         put(entry: entry) { (error) in
             if let error = error {
                 NSLog("Error updating and putting entry: \(error)")
-                CoreDataStack.shared.mainContext.reset()
+                moc.perform {
+                    moc.reset()
+                }
+                
             }
             self.saveToPersistentStore()
         }
@@ -57,19 +64,22 @@ class EntryController{
         deleteEntryFromServer(entry: entry){ (error) in
             if let error = error {
                 NSLog("Error updating and putting entry: \(error)")
-                CoreDataStack.shared.mainContext.reset()
+                moc.perform {
+                    moc.reset()
+                }
             }
             self.saveToPersistentStore()
         }
     }
     //MARK: - Persistence
     func saveToPersistentStore(){
-        let moc = CoreDataStack.shared.mainContext
-        do{
-            try moc.save()
-        } catch {
-            NSLog("Trouble saving: \(error)")
-            moc.reset()
+        moc.perform {
+            do{
+                try moc.save()
+            } catch {
+                NSLog("Trouble saving: \(error)")
+                moc.reset()
+            }
         }
     }
     
@@ -109,10 +119,10 @@ class EntryController{
     }
     
     func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry? {
+        
         let request: NSFetchRequest<Entry> = Entry.fetchRequest()
         request.predicate = NSPredicate(format: "identifier == %@", identifier)
-        let moc = CoreDataStack.shared.mainContext
-
+        
         do {
             return try moc.fetch(request).first
         } catch {
@@ -123,59 +133,67 @@ class EntryController{
     }
     
     func fetchEntriesFromServer(completion: @escaping CompletionHandler = {_ in}){
-        let url = baseURL.appendingPathExtension("json")
-        URLSession.shared.dataTask(with: url) { (data, _, error) in
-            if let error = error {
-                NSLog("Error fetching from server: \(error)")
-                return
-            }
-            guard let data = data else {return}
-            var entryRepresentations = [EntryRepresentation]()
-            
-            self.updateEntry(entryRepresentations: entryRepresentations, context: CoreDataStack.shared.mainContext)
-            
-            do{
-                let decoded = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
-                entryRepresentations = Array(decoded.values)
-
-                self.saveToPersistentStore()
-                completion(nil)
-            } catch {
-                NSLog("Error decoding from server: \(error)")
-                return
-            }
-            
-        }.resume()
+        
+        moc.perform {
+            let url = baseURL.appendingPathExtension("json")
+            URLSession.shared.dataTask(with: url) { (data, _, error) in
+                if let error = error {
+                    NSLog("Error fetching from server: \(error)")
+                    return
+                }
+                guard let data = data else {return}
+                var entryRepresentations = [EntryRepresentation]()
+                
+                self.updateEntry(entryRepresentations: entryRepresentations, context: CoreDataStack.shared.mainContext)
+                
+                do{
+                    let decoded = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
+                    entryRepresentations = Array(decoded.values)
+                    
+                    self.saveToPersistentStore()
+                    completion(nil)
+                } catch {
+                    NSLog("Error decoding from server: \(error)")
+                    return
+                }
+                
+                }.resume()
+        }
+        
     }
     
     func updateEntry (entryRepresentations: [EntryRepresentation], context:NSManagedObjectContext){
-        for entryRepresentation in entryRepresentations{
-            let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRepresentation.identifier, context: context)
-            if let entry = entry {
-                if entry != entryRepresentation{
-                    self.update(entry: entry, entryRepresentation: entryRepresentation)
+        moc.perform {
+            for entryRepresentation in entryRepresentations{
+                let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRepresentation.identifier, context: context)
+                if let entry = entry {
+                    if entry != entryRepresentation{
+                        self.update(entry: entry, entryRepresentation: entryRepresentation)
+                    }
+                } else {
+                    _ = Entry(entryRepresentation: entryRepresentation, context: context)
                 }
-            } else {
-                _ = Entry(entryRepresentation: entryRepresentation, context: context)
             }
         }
     }
     
     func deleteEntryFromServer(entry:Entry, completion: @escaping CompletionHandler = {_ in}){
-        let url = baseURL
-            .appendingPathComponent(entry.identifier!)
-            .appendingPathExtension("json")
-        var request = URLRequest(url: url)
-        request.httpMethod = "DELETE"
-        
-        URLSession.shared.dataTask(with: request) { (data, _, error) in
-            if let error = error {
-                NSLog("Error deleting from server: \(error)")
-                return
-            }
-            completion(nil)
-            }.resume()
-        
+        moc.perform {
+            
+            let url = baseURL
+                .appendingPathComponent(entry.identifier!)
+                .appendingPathExtension("json")
+            var request = URLRequest(url: url)
+            request.httpMethod = "DELETE"
+            
+            URLSession.shared.dataTask(with: request) { (data, _, error) in
+                if let error = error {
+                    NSLog("Error deleting from server: \(error)")
+                    return
+                }
+                completion(nil)
+                }.resume()
+        }
     }
     
     
