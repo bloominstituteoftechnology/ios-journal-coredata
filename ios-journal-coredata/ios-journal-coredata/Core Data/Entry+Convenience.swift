@@ -40,7 +40,7 @@ extension Entry {
     }
 
     convenience init?(entryRepresentation: EntryRepresentation,
-        managedObjectContext: NSManagedObjectContext = CoreDataManager.shared.mainContext) {
+        managedObjectContext: NSManagedObjectContext) {
 
         guard let mood = Mood(rawValue: entryRepresentation.mood) else { return nil }
 
@@ -48,7 +48,8 @@ extension Entry {
             identifier: entryRepresentation.identifier,
             timestamp: entryRepresentation.timestamp,
             bodyText: entryRepresentation.bodyText,
-            mood: mood
+            mood: mood,
+            managedObjectContext: managedObjectContext
         )
     }
 

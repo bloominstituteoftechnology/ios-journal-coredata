@@ -26,12 +26,12 @@ class EntryController {
         entry.mood = entryRep.mood
     }
 
-    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+    func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry? {
         let request: NSFetchRequest<Entry> = Entry.fetchRequest()
         request.predicate = NSPredicate(format: "identifier == %@", identifier)
         do {
-            let moc = CoreDataManager.shared.mainContext
-            return try moc.fetch(request).first
+//            let moc = CoreDataManager.shared.mainContext
+            return try context.fetch(request).first
         } catch {
             NSLog("Error fetching entry with identifier: \(identifier) - \(error)")
             return nil
@@ -54,31 +54,48 @@ class EntryController {
                 return
             }
 
-            var entryReps: [EntryRepresentation] = []
+            var entryRepresentations: [EntryRepresentation] = []
 
             do {
                 let decoder = JSONDecoder()
                 let jsonEntries = try decoder.decode([String: EntryRepresentation].self, from: data)
-                entryReps = jsonEntries.values.map { $0 }
-
-                for entryRep in entryReps {
-                    if let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier) {
-                        if !(entry == entryRep) {
-                            self.update(entry: entry, entryRep: entryRep)
-                        }
-                    } else {
-                        let _ = Entry(entryRepresentation: entryRep)
-                    }
-                }
-
-                self.saveToPersistentStore()
-
+                entryRepresentations = jsonEntries.values.map { $0 }
+                
+                let backgroundMOC = CoreDataManager.shared.container.newBackgroundContext()
+                try self.updateEntriesFromServer(with: entryRepresentations, context: backgroundMOC)
+                completion(nil)
             } catch let error {
                 NSLog("Error decoding data: \(error)")
             }
 
-            completion(nil)
+
         }.resume()
+    }
+    
+    func updateEntriesFromServer(with entryRepresentations: [EntryRepresentation], context: NSManagedObjectContext) throws {
+        var error: Error?
+        
+        context.performAndWait {
+            for entryRep in entryRepresentations {
+                if let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier, context: context) {
+                    if !(entry == entryRep) {
+                        self.update(entry: entry, entryRep: entryRep)
+                    }
+                } else {
+                    let _ = Entry(entryRepresentation: entryRep, managedObjectContext: context)
+                }
+            }
+            
+            do {
+                try context.save()
+            } catch let saveError {
+                error = saveError
+            }
+        }
+        
+        if let error = error {
+            throw error
+        }
     }
 
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
