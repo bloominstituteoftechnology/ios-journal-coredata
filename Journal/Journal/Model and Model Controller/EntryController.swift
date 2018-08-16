@@ -134,31 +134,31 @@ class EntryController{
     
     func fetchEntriesFromServer(completion: @escaping CompletionHandler = {_ in}){
         
-        moc.perform {
-            let url = baseURL.appendingPathExtension("json")
-            URLSession.shared.dataTask(with: url) { (data, _, error) in
-                if let error = error {
-                    NSLog("Error fetching from server: \(error)")
-                    return
-                }
-                guard let data = data else {return}
-                var entryRepresentations = [EntryRepresentation]()
-                
-                self.updateEntry(entryRepresentations: entryRepresentations, context: CoreDataStack.shared.mainContext)
-                
-                do{
-                    let decoded = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
-                    entryRepresentations = Array(decoded.values)
-                    
+        let url = baseURL.appendingPathExtension("json")
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching from server: \(error)")
+                return
+            }
+            guard let data = data else {return}
+            var entryRepresentations = [EntryRepresentation]()
+            let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+            self.updateEntry(entryRepresentations: entryRepresentations, context: backgroundContext)
+            
+            do{
+                let decoded = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
+                entryRepresentations = Array(decoded.values)
+                moc.performAndWait {
                     self.saveToPersistentStore()
-                    completion(nil)
-                } catch {
-                    NSLog("Error decoding from server: \(error)")
-                    return
                 }
-                
-                }.resume()
-        }
+                completion(nil)
+            } catch {
+                NSLog("Error decoding from server: \(error)")
+                return
+            }
+            
+            }.resume()
+        
         
     }
     
