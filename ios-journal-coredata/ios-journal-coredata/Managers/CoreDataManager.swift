@@ -21,6 +21,8 @@ class CoreDataManager {
             }
         })
         
+        container.viewContext.automaticallyMergesChangesFromParent = true
+        
         return container
     }()
     
