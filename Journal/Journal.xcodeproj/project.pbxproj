@@ -12,8 +12,15 @@
 		BE4F240921222D8E0024091A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE4F240821222D8E0024091A /* Assets.xcassets */; };
 		BE4F240C21222D8E0024091A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE4F240A21222D8E0024091A /* LaunchScreen.storyboard */; };
 		BE4F241521222DC20024091A /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BE4F241321222DC20024091A /* Journal.xcdatamodeld */; };
-		BE4F241721222DF30024091A /* JournalModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4F241621222DF30024091A /* JournalModel.swift */; };
-		BE4F241921222F740024091A /* JournalViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4F241821222F740024091A /* JournalViews.swift */; };
+		BEE01D8C2126229C00761D01 /* JournalEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE01D862126229B00761D01 /* JournalEntry.swift */; };
+		BEE01D8D2126229C00761D01 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE01D872126229B00761D01 /* EntryController.swift */; };
+		BEE01D8E2126229C00761D01 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE01D882126229C00761D01 /* App.swift */; };
+		BEE01D8F2126229C00761D01 /* EntryMood.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE01D892126229C00761D01 /* EntryMood.swift */; };
+		BEE01D902126229C00761D01 /* EntryStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE01D8A2126229C00761D01 /* EntryStub.swift */; };
+		BEE01D912126229C00761D01 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE01D8B2126229C00761D01 /* CoreDataStack.swift */; };
+		BEE01D95212622AD00761D01 /* EntryListTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE01D92212622AC00761D01 /* EntryListTVC.swift */; };
+		BEE01D96212622AD00761D01 /* EntryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE01D93212622AD00761D01 /* EntryCell.swift */; };
+		BEE01D97212622AD00761D01 /* EntryDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE01D94212622AD00761D01 /* EntryDetailVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,8 +32,15 @@
 		BE4F240B21222D8E0024091A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BE4F240D21222D8E0024091A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BE4F241421222DC20024091A /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
-		BE4F241621222DF30024091A /* JournalModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalModel.swift; sourceTree = "<group>"; };
-		BE4F241821222F740024091A /* JournalViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalViews.swift; sourceTree = "<group>"; };
+		BEE01D862126229B00761D01 /* JournalEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JournalEntry.swift; path = JournalModel/JournalEntry.swift; sourceTree = "<group>"; };
+		BEE01D872126229B00761D01 /* EntryController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntryController.swift; path = JournalModel/EntryController.swift; sourceTree = "<group>"; };
+		BEE01D882126229C00761D01 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = App.swift; path = JournalModel/App.swift; sourceTree = "<group>"; };
+		BEE01D892126229C00761D01 /* EntryMood.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntryMood.swift; path = JournalModel/EntryMood.swift; sourceTree = "<group>"; };
+		BEE01D8A2126229C00761D01 /* EntryStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntryStub.swift; path = JournalModel/EntryStub.swift; sourceTree = "<group>"; };
+		BEE01D8B2126229C00761D01 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CoreDataStack.swift; path = JournalModel/CoreDataStack.swift; sourceTree = "<group>"; };
+		BEE01D92212622AC00761D01 /* EntryListTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntryListTVC.swift; path = JournalViews/EntryListTVC.swift; sourceTree = "<group>"; };
+		BEE01D93212622AD00761D01 /* EntryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntryCell.swift; path = JournalViews/EntryCell.swift; sourceTree = "<group>"; };
+		BEE01D94212622AD00761D01 /* EntryDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntryDetailVC.swift; path = JournalViews/EntryDetailVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,14 +73,21 @@
 		BE4F240021222D8D0024091A /* Journal */ = {
 			isa = PBXGroup;
 			children = (
+				BEE01D93212622AD00761D01 /* EntryCell.swift */,
+				BEE01D94212622AD00761D01 /* EntryDetailVC.swift */,
+				BEE01D92212622AC00761D01 /* EntryListTVC.swift */,
+				BEE01D882126229C00761D01 /* App.swift */,
+				BEE01D8B2126229C00761D01 /* CoreDataStack.swift */,
+				BEE01D872126229B00761D01 /* EntryController.swift */,
+				BEE01D892126229C00761D01 /* EntryMood.swift */,
+				BEE01D8A2126229C00761D01 /* EntryStub.swift */,
+				BEE01D862126229B00761D01 /* JournalEntry.swift */,
 				BE4F240121222D8D0024091A /* AppDelegate.swift */,
 				BE4F240521222D8D0024091A /* Main.storyboard */,
 				BE4F240821222D8E0024091A /* Assets.xcassets */,
 				BE4F240A21222D8E0024091A /* LaunchScreen.storyboard */,
 				BE4F240D21222D8E0024091A /* Info.plist */,
 				BE4F241321222DC20024091A /* Journal.xcdatamodeld */,
-				BE4F241621222DF30024091A /* JournalModel.swift */,
-				BE4F241821222F740024091A /* JournalViews.swift */,
 			);
 			path = Journal;
 			sourceTree = "<group>";
@@ -142,10 +163,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE4F241921222F740024091A /* JournalViews.swift in Sources */,
+				BEE01D8D2126229C00761D01 /* EntryController.swift in Sources */,
+				BEE01D97212622AD00761D01 /* EntryDetailVC.swift in Sources */,
 				BE4F241521222DC20024091A /* Journal.xcdatamodeld in Sources */,
-				BE4F241721222DF30024091A /* JournalModel.swift in Sources */,
+				BEE01D8F2126229C00761D01 /* EntryMood.swift in Sources */,
+				BEE01D96212622AD00761D01 /* EntryCell.swift in Sources */,
+				BEE01D8C2126229C00761D01 /* JournalEntry.swift in Sources */,
+				BEE01D95212622AD00761D01 /* EntryListTVC.swift in Sources */,
+				BEE01D912126229C00761D01 /* CoreDataStack.swift in Sources */,
+				BEE01D8E2126229C00761D01 /* App.swift in Sources */,
 				BE4F240221222D8D0024091A /* AppDelegate.swift in Sources */,
+				BEE01D902126229C00761D01 /* EntryStub.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
