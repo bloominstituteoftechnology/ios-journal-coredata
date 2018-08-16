@@ -105,19 +105,11 @@ class EntryController {
                     DispatchQueue.main.async {
                         let entry = self.fetchSingleEntryFromPersistentStore(withUUID: uuid)
                         
-                        // Check to see if entry from persistentStore exist
                         if let entry = entry {
-//                            if entry == entryRepresentation {
-//                                return
-//                            } else { //if entry != entryRepresentation {
-//                                self.update(entry: entry, with: entryRepresentation)
-//                            }
-                            
                             if entry != entryRepresentation {
                                 self.update(entry: entry, with: entryRepresentation)
                             }
                         } else {
-                            // No entry returned from persistentStore means that the server has an entry that the device doesn't. Initialize new Entry
                             Entry(entryRepresentation: entryRepresentation)
                         }
                     }
@@ -140,7 +132,6 @@ class EntryController {
     }
     
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
-        // Get the entry's identifier, or if it doesn't have one, create a new uuid
         let uuid = entry.identifier ?? UUID().uuidString
         
         let requestURL = EntryController.baseURL.appendingPathComponent(uuid).appendingPathExtension("json")

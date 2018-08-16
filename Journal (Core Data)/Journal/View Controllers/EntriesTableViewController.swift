@@ -17,7 +17,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         // Create fetchRequest from Entry object
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
-        // Sort the entries based on timestamp
+        // Sort the entries based on mood, then timestamp
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
                                         NSSortDescriptor(key: "timestamp", ascending: true)]
         
@@ -136,20 +136,6 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "ShowEntryDetail" {
-//            let detailVC = segue.destination as! EntryDetailViewController
-//            detailVC.entryController = entryController
-//
-//            // Get indexPath of selected cell
-//            if let indexPath = tableView.indexPathForSelectedRow?.row {
-//                // Setting the entry at that indexPath to the detailVC's entry property
-//                detailVC.entry = entryController.entries[indexPath]
-//            }
-//        } else if segue.identifier == "ShowAddEntry" {
-//            let detailVC = segue.destination as! EntryDetailViewController
-//            detailVC.entryController = entryController
-//        }
-
         if let detailVC = segue.destination as? EntryDetailViewController {
             detailVC.entryController = entryController
             
