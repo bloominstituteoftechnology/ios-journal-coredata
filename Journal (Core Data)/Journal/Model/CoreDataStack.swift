@@ -27,6 +27,7 @@ class CoreDataStack {
         return container
     }()
     
+    // Can only use this on the main queue
     var mainContext: NSManagedObjectContext {
         return container.viewContext
     }
