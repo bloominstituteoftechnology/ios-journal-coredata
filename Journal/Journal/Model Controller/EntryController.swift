@@ -33,7 +33,7 @@ class EntryController {
         saveToPersistentStore()
         put(entry: entry)
     }
-    // MARK: -
+
     func updateFromRepresentation(entry: Entry, entryRep: EntryRepresentation) {
         entry.title = entryRep.title
         entry.body = entryRep.body
@@ -61,8 +61,8 @@ class EntryController {
             NSLog("Error saving entry: \(error)")
         }
     }
-    // MARK: -
-    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+
+    func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry? {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier = %@", identifier)
         do {
@@ -130,16 +130,7 @@ class EntryController {
             
             do {
                 let entryRepDicts = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
-                for entryRep in entryRepDicts.values {
-                    let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier)
-                    if let entry = entry {
-                        if entry != entryRep {
-                            self.updateFromRepresentation(entry: entry, entryRep: entryRep)
-                        }
-                    } else {
-                        _ = Entry(entryRep: entryRep)
-                    }
-                }
+                
                 self.saveToPersistentStore()
                 completion(nil)
             } catch {
@@ -147,5 +138,22 @@ class EntryController {
                 return
             }
         }.resume()
+    }
+    
+    
+    // MARK: - Functions
+    
+    func updateEntries(for entryRepDicts: [String: EntryRepresentation], context: NSManagedObjectContext) throws {
+        
+        for entryRep in entryRepDicts.values {
+            let entry = fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier, context: context)
+            if let entry = entry {
+                if entry != entryRep {
+                    self.updateFromRepresentation(entry: entry, entryRep: entryRep)
+                }
+            } else {
+                _ = Entry(entryRep: entryRep, context: CoreDataStack.moc)
+            }
+        }
     }
 }
