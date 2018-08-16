@@ -108,18 +108,18 @@ class EntryController{
         entry.identifier = entryRepresentation.identifier
     }
     
-    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry?{
+    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
         let request: NSFetchRequest<Entry> = Entry.fetchRequest()
-        request.predicate = NSPredicate(format: "identfier == %@", identifier)
+        request.predicate = NSPredicate(format: "identifier == %@", identifier)
         let moc = CoreDataStack.shared.mainContext
-        var entry: Entry? = nil
+
         do {
-            entry = try moc.fetch(request).first
+            return try moc.fetch(request).first
         } catch {
             NSLog("Error fetching from persistent store: \(error)")
             return nil
         }
-        return entry
+        
     }
     
     func fetchEntriesFromServer(completion: @escaping CompletionHandler = {_ in}){
