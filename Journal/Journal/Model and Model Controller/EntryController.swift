@@ -108,7 +108,7 @@ class EntryController{
         entry.identifier = entryRepresentation.identifier
     }
     
-    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+    func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry? {
         let request: NSFetchRequest<Entry> = Entry.fetchRequest()
         request.predicate = NSPredicate(format: "identifier == %@", identifier)
         let moc = CoreDataStack.shared.mainContext
@@ -131,19 +131,13 @@ class EntryController{
             }
             guard let data = data else {return}
             var entryRepresentations = [EntryRepresentation]()
+            
+            self.updateEntry(entryRepresentations: entryRepresentations, context: CoreDataStack.shared.mainContext)
+            
             do{
                 let decoded = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
                 entryRepresentations = Array(decoded.values)
-                for entryRepresentation in entryRepresentations{
-                    let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRepresentation.identifier)
-                    if let entry = entry {
-                        if entry != entryRepresentation{
-                            self.update(entry: entry, entryRepresentation: entryRepresentation)
-                        }
-                    } else {
-                        Entry(entryRepresentation: entryRepresentation)
-                    }
-                }
+
                 self.saveToPersistentStore()
                 completion(nil)
             } catch {
@@ -152,6 +146,19 @@ class EntryController{
             }
             
         }.resume()
+    }
+    
+    func updateEntry (entryRepresentations: [EntryRepresentation], context:NSManagedObjectContext){
+        for entryRepresentation in entryRepresentations{
+            let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRepresentation.identifier, context: context)
+            if let entry = entry {
+                if entry != entryRepresentation{
+                    self.update(entry: entry, entryRepresentation: entryRepresentation)
+                }
+            } else {
+                _ = Entry(entryRepresentation: entryRepresentation, context: context)
+            }
+        }
     }
     
     func deleteEntryFromServer(entry:Entry, completion: @escaping CompletionHandler = {_ in}){

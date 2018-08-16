@@ -24,12 +24,13 @@ extension Entry {
         
     }
     
-    convenience init?(entryRepresentation: EntryRepresentation){
+    convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext){
         self.init(title: entryRepresentation.title,
                   bodyText: entryRepresentation.bodyText,
                   timeStamp: entryRepresentation.timeStamp,
                   mood: entryRepresentation.mood,
-                  identifier: entryRepresentation.identifier)
+                  identifier: entryRepresentation.identifier,context: context)
+        
     }
 }
 
