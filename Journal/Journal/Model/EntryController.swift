@@ -40,6 +40,7 @@ class EntryController {
         entry.timestamp = Date()
         entry.mood = mood
         
+        put(entry: entry)
         saveToPersistentStore()
     }
     
@@ -50,6 +51,7 @@ class EntryController {
         entry.mood = entryRep.mood
         
         put(entry: entry)
+        saveToPersistentStore()
     }
     
     func delete(entry: Entry) {
