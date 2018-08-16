@@ -51,7 +51,6 @@ class EntryController {
         entry.mood = entryRep.mood
         
         put(entry: entry)
-        saveToPersistentStore()
     }
     
     func delete(entry: Entry) {
