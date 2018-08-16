@@ -36,9 +36,10 @@ extension Entry {
         self.init(title: entryRepresentation.title,
                   bodyText: entryRepresentation.bodyText,
                   mood: entryRepresentation.mood,
-                  identifier: entryRepresentation.identifier,
-                  timestamp: entryRepresentation.timestamp,
                   context: context)
+        
+        self.identifier = entryRepresentation.identifier
+        self.timestamp = entryRepresentation.timestamp
     }
     
 }

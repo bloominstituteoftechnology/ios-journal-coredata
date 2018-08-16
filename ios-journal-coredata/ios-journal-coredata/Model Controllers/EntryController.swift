@@ -25,24 +25,28 @@ class EntryController {
     
     typealias CompletionHandler = (Error?) -> Void
     
-    func create(title: String, bodyText: String, mood: String) {
+    func create(title: String, bodyText: String, mood: String, context: NSManagedObjectContext) {
         let entry = Entry(title: title, bodyText: bodyText, mood: mood)
         put(entry: entry)
-        do {
-            try saveToPersistenceStore()
-        } catch {
-            NSLog("Error creating data in persistence store: \(error)")
+        context.performAndWait {
+            do {
+                try saveToPersistenceStore(context: context)
+            } catch {
+                NSLog("Error creating data in persistence store: \(error)")
+            }
         }
     }
     
-    func update(entry: Entry, title: String, bodyText: String, mood: String) {
-        entry.title = title
-        entry.bodyText = bodyText
-        entry.mood = mood
-        entry.timestamp = Date()
+    func update(entry: Entry, title: String, bodyText: String, mood: String, context: NSManagedObjectContext) {
+        context.performAndWait {
+            entry.title = title
+            entry.bodyText = bodyText
+            entry.mood = mood
+            entry.timestamp = Date()
+        }
         put(entry: entry)
         do {
-            try saveToPersistenceStore()
+            try saveToPersistenceStore(context: context)
         } catch {
             NSLog("Error updating data in persistence store: \(error)")
         }
@@ -107,7 +111,7 @@ class EntryController {
             for entryRep in entryRepresentations {
                 if let entry = self.fetchSingleEntryFromPersistentStore(forUUID: entryRep.identifier, context: context) {
                     if entry == entryRep {
-                        self.update(entry: entry, entryRepresentation: entryRep)
+                        self.update(entry: entry, entryRepresentation: entryRep, context: context)
                     }
                 } else {
                     let _ = Entry(entryRepresentation: entryRep, context: context)
@@ -178,7 +182,7 @@ class EntryController {
     
     func saveToPersistenceStore(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
         var error: Error?
-        let moc = CoreDataStack.shared.mainContext
+        
         context.performAndWait {
             do {
                 try context.save()
@@ -190,12 +194,14 @@ class EntryController {
         if let error = error { throw error }
     }
     
-    private func update(entry: Entry, entryRepresentation: EntryRepresentation) {
-        entry.title = entryRepresentation.title
-        entry.bodyText = entryRepresentation.bodyText
-        entry.mood = entryRepresentation.mood
-        entry.identifier = entryRepresentation.identifier
-        entry.timestamp = entryRepresentation.timestamp
+    private func update(entry: Entry, entryRepresentation: EntryRepresentation, context: NSManagedObjectContext) {
+        context.performAndWait {
+            entry.title = entryRepresentation.title
+            entry.bodyText = entryRepresentation.bodyText
+            entry.mood = entryRepresentation.mood
+            entry.identifier = entryRepresentation.identifier
+            entry.timestamp = entryRepresentation.timestamp
+        }
     }
     
     private func fetchSingleEntryFromPersistentStore(forUUID uuid: String, context: NSManagedObjectContext) -> Entry? {

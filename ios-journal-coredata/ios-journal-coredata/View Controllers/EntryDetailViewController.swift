@@ -30,11 +30,14 @@ class EntryDetailViewController: UIViewController {
         guard let title = titleTextField.text,
             !title.isEmpty, let bodyText = bodyTextView.text else { return }
         let mood = MoodTypes.all[moodSelector.selectedSegmentIndex].rawValue
+        let moc = CoreDataStack.shared.container.newBackgroundContext()
         
-        if let entry = entry, let entryController = entryController {
-            entryController.update(entry: entry, title: title, bodyText: bodyText, mood: mood)
-        } else {
-            entryController?.create(title: title, bodyText: bodyText, mood: mood)
+        moc.performAndWait {
+            if let entry = entry, let entryController = entryController {
+                entryController.update(entry: entry, title: title, bodyText: bodyText, mood: mood, context: moc)
+            } else {
+                entryController?.create(title: title, bodyText: bodyText, mood: mood, context: moc)
+            }
         }
         navigationController?.popViewController(animated: true)
     }
