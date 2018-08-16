@@ -199,14 +199,4 @@ class EntryController {
             throw error
         }
     }
-
-    func saveToPersistentStore() {
-        do {
-            let moc = CoreDataManager.shared.mainContext
-            try moc.save()
-        } catch {
-            NSLog("Error saving managed object context: \(error)")
-        }
-    }
-
 }
