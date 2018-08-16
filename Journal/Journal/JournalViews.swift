@@ -35,7 +35,7 @@ class EntryListTVC:UITableViewController, NSFetchedResultsControllerDelegate
 	{
 		fetcher = controller.fetchController
 		fetcher.delegate = self
-		controller.fetchRemote()
+		controller.fetchRemoteOnBackgroundContext()
 		tableView.reloadData()
 	}
 
@@ -45,7 +45,7 @@ class EntryListTVC:UITableViewController, NSFetchedResultsControllerDelegate
 
 	@IBAction func refresh(_ sender: Any)
 	{
-		controller.fetchRemote() { _ in
+		controller.fetchRemoteOnBackgroundContext() { _ in
 			DispatchQueue.main.async {
 				self.refreshControl?.endRefreshing()
 			}
@@ -159,10 +159,13 @@ class EntryDetailVC:UIViewController
 		let mood = EntryMood.all[moodSelector.selectedSegmentIndex]
 
 		if let entry = entry {
-			entry.title = title
-			entry.text = text
-			entry.mood = mood.rawValue
-			entryList.controller.update(entry)
+			let stub = EntryStub(
+				title:title, text:text,
+				timestamp:entry.timestamp ?? Date(),
+				identifier:entry.identifier ?? UUID().uuidString,
+				mood:mood.rawValue)
+
+			entryList.controller.updateEntryWithStub(entry, stub)
 		} else {
 			entryList.controller.create(title, text, mood)
 		}
