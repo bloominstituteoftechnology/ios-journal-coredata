@@ -9,33 +9,33 @@
 import Foundation
 
 struct EntryRepresentation: Decodable, Equatable {
-    var bodyText: String
-    var identifier: String
-    var mood: String
-    var timestamp: Date
-    var title: String
+  var bodyText: String
+  var identifier: String
+  var mood: String
+  var timestamp: Date
+  var title: String
 }
 
 func == (lhs: Entry, rhs: EntryRepresentation) -> Bool {
-    return (lhs.bodyText == rhs.bodyText) &&
-           (lhs.identifier == rhs.identifier) &&
-           (lhs.mood == rhs.mood) &&
-           (lhs.timestamp == rhs.timestamp) &&
-           (lhs.title == rhs.title)
+  return (lhs.bodyText == rhs.bodyText) &&
+    (lhs.identifier == rhs.identifier) &&
+    (lhs.mood == rhs.mood) &&
+    (lhs.timestamp == rhs.timestamp) &&
+    (lhs.title == rhs.title)
 }
 
 func == (lhs: EntryRepresentation, rhs: Entry) -> Bool {
-    return (lhs.bodyText == rhs.bodyText) &&
-        (lhs.identifier == rhs.identifier) &&
-        (lhs.mood == rhs.mood) &&
-        (lhs.timestamp == rhs.timestamp) &&
-        (lhs.title == rhs.title)
+  return (lhs.bodyText == rhs.bodyText) &&
+    (lhs.identifier == rhs.identifier) &&
+    (lhs.mood == rhs.mood) &&
+    (lhs.timestamp == rhs.timestamp) &&
+    (lhs.title == rhs.title)
 }
 
 func != (lhs: EntryRepresentation, rhs: Entry) -> Bool {
-    return !(rhs == lhs)
+  return !(rhs == lhs)
 }
 
 func != (lhs: Entry, rhs: EntryRepresentation) -> Bool {
-    return rhs != lhs
+  return rhs != lhs
 }
