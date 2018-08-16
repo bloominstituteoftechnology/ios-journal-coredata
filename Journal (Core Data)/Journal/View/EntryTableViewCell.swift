@@ -28,9 +28,11 @@ class EntryTableViewCell: UITableViewCell {
         
         // Get date formatter
         let dateFormatter = DateFormatter()
+        
         // Set the style
         dateFormatter.dateStyle = .short    // 8/13/18
         dateFormatter.timeStyle = .short    // 1:28 PM
+        
         // Convert the type Date to String
         let date = dateFormatter.string(from: timestamp)
         

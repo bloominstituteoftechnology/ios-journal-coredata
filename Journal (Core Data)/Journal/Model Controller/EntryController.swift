@@ -11,8 +11,6 @@ import CoreData
 
 class EntryController {
     
-    static let baseURL = URL(string: "https://journalday3.firebaseio.com/")!
-    
     init() {
         fetchEntriesFromServer()
     }
@@ -47,6 +45,8 @@ class EntryController {
     }
     
     // MARK: - DataBase
+    
+    static let baseURL = URL(string: "https://journalday3.firebaseio.com/")!
     
     typealias CompletionHandler = (Error?) -> Void
     
@@ -178,7 +178,7 @@ class EntryController {
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
         
-        URLSession.shared.dataTask(with: request) { (data, _, error) in
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
             if let error = error {
                 NSLog("Error DELETing entry from server: \(error)")
                 DispatchQueue.main.async {
