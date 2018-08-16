@@ -24,6 +24,7 @@ extension Entry {
     }
     
     // Failable
+    @discardableResult
     convenience init?(entryRepresentation: EntryRepresentation) {
         
         self.init(title: entryRepresentation.title,
