@@ -50,7 +50,7 @@ class EntryController {
     
     typealias CompletionHandler = (Error?) -> Void
     
-    func fetchSingleEntryFromPersistentStore(withUUID uuid: String) -> Entry? {
+    func fetchSingleEntryFromPersistentStore(withUUID uuid: String, context: NSManagedObjectContext) -> Entry? {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid)
         
@@ -97,23 +97,7 @@ class EntryController {
                 let decodedEntries = try JSONDecoder().decode([String : EntryRepresentation].self, from: data)
                 entryRepresentations = decodedEntries.map { $0.value }
                 
-                for entryRepresentation in entryRepresentations {
-                    
-                    // Compare the entry representation to see if there is an entry in the persistentStore alreayd with the same uuid
-                    guard let uuid = UUID(uuidString: entryRepresentation.identifier)?.uuidString else { return }
-                    
-                    DispatchQueue.main.async {
-                        let entry = self.fetchSingleEntryFromPersistentStore(withUUID: uuid)
-                        
-                        if let entry = entry {
-                            if entry != entryRepresentation {
-                                self.update(entry: entry, with: entryRepresentation)
-                            }
-                        } else {
-                            Entry(entryRepresentation: entryRepresentation)
-                        }
-                    }
-                }
+                
                 DispatchQueue.main.async {
                     self.saveToCoreData()
                 }
@@ -129,6 +113,30 @@ class EntryController {
                 completion(nil)
             }
         }.resume()
+    }
+    
+    func updateEntries(with representations: [EntryRepresentation], context: NSManagedObjectContext) throws {
+        var error: Error?
+        
+        context.performAndWait {
+            for entryRep in representations {
+                
+                // Compare the entry representation to see if there is an entry in the persistentStore alreayd with the same uuid
+                guard let uuid = UUID(uuidString: entryRep.identifier)?.uuidString else { return }
+                
+                DispatchQueue.main.async { // still need this?
+                    let entry = self.fetchSingleEntryFromPersistentStore(withUUID: uuid, context: context)
+                    
+                    if let entry = entry {
+                        if entry != entryRep {
+                            self.update(entry: entry, with: entryRep)
+                        }
+                    } else {
+                        Entry(entryRepresentation: entryRep)
+                    }
+                }
+            }
+        }
     }
     
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {

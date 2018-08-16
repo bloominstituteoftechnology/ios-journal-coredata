@@ -25,7 +25,7 @@ extension Entry {
     
     // Failable
     @discardableResult
-    convenience init?(entryRepresentation: EntryRepresentation) {
+    convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(title: entryRepresentation.title,
                   bodyText: entryRepresentation.bodyText,
