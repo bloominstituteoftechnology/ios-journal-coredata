@@ -47,7 +47,7 @@ class EntryController
         }
     }
     
-    func createEntry(entry: Entry, title: String, bodyText: String)
+    func createEntry(title: String, bodyText: String)
     {
         let _ = Entry(title: title, bodyText:bodyText)
         
