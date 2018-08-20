@@ -7,30 +7,53 @@
 //
 
 import Foundation
+import CoreData
 
 class EntryController {
     
+    let moc = CoreDataStack.shared.mainContext
+    
     func saveToPersistentStore() {
-        
+        do {
+            try moc.save()
+        }
+        catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
     }
     
-    func loadFromPersistentStore() {
+    func loadFromPersistentStore() -> [Entry] {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
+        do {
+            return try moc.fetch(fetchRequest)
+        }
+        catch {
+            NSLog("There was an error while trying to get your entry array.")
+            return []
+        }
     }
     
-    func create() {
-        
+    func create(title: String, bodyText: String) {
+        let _ = Entry(title: title, bodyText: bodyText)
+        saveToPersistentStore()
     }
     
-    func update() {
+    func update(entry: Entry, title: String, bodyText: String, timestamp: Date = Date()) {
+        entry.title = title
+        entry.bodyText = bodyText
+        entry.timestamp = timestamp
         
+        saveToPersistentStore()
     }
     
-    func delete() {
-        
+    func delete(entry: Entry) {
+        moc.delete(entry)
+        saveToPersistentStore()
     }
     
-//    var entries: [Entry] {
-//        loadFromPersistentStore()
-//    }
+    var entries: [Entry] {
+        return loadFromPersistentStore()
+    }
+    
 }
