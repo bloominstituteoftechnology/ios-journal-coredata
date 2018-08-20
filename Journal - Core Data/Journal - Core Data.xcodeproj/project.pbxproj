@@ -14,6 +14,10 @@
 		FF8B2003212B5F770076FD41 /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8B2002212B5F770076FD41 /* EntryDetailViewController.swift */; };
 		FF8B2005212B5F900076FD41 /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8B2004212B5F900076FD41 /* EntriesTableViewController.swift */; };
 		FF8B2007212B5FA30076FD41 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8B2006212B5FA30076FD41 /* EntryTableViewCell.swift */; };
+		FF8B2009212B643D0076FD41 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8B2008212B643D0076FD41 /* CoreDataStack.swift */; };
+		FF8B200F212B65650076FD41 /* Journal - Core Data.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FF8B200D212B65650076FD41 /* Journal - Core Data.xcdatamodeld */; };
+		FF8B2011212B666D0076FD41 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8B2010212B666D0076FD41 /* Entry+Convenience.swift */; };
+		FF8B2013212B678F0076FD41 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8B2012212B678F0076FD41 /* EntryController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +30,10 @@
 		FF8B2002212B5F770076FD41 /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
 		FF8B2004212B5F900076FD41 /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 		FF8B2006212B5FA30076FD41 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
+		FF8B2008212B643D0076FD41 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		FF8B200E212B65650076FD41 /* Journal - Core Data.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Journal - Core Data.xcdatamodel"; sourceTree = "<group>"; };
+		FF8B2010212B666D0076FD41 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
+		FF8B2012212B678F0076FD41 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +107,7 @@
 		FF8B2000212B5D400076FD41 /* Model Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				FF8B2012212B678F0076FD41 /* EntryController.swift */,
 			);
 			path = "Model Controllers";
 			sourceTree = "<group>";
@@ -106,6 +115,9 @@
 		FF8B2001212B5D4B0076FD41 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				FF8B2008212B643D0076FD41 /* CoreDataStack.swift */,
+				FF8B200D212B65650076FD41 /* Journal - Core Data.xcdatamodeld */,
+				FF8B2010212B666D0076FD41 /* Entry+Convenience.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -181,10 +193,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF8B2009212B643D0076FD41 /* CoreDataStack.swift in Sources */,
 				FF8B2007212B5FA30076FD41 /* EntryTableViewCell.swift in Sources */,
 				FF8B2005212B5F900076FD41 /* EntriesTableViewController.swift in Sources */,
 				FF8B2003212B5F770076FD41 /* EntryDetailViewController.swift in Sources */,
+				FF8B200F212B65650076FD41 /* Journal - Core Data.xcdatamodeld in Sources */,
 				FF8B1FEC212B5D080076FD41 /* AppDelegate.swift in Sources */,
+				FF8B2013212B678F0076FD41 /* EntryController.swift in Sources */,
+				FF8B2011212B666D0076FD41 /* Entry+Convenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,6 +396,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		FF8B200D212B65650076FD41 /* Journal - Core Data.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				FF8B200E212B65650076FD41 /* Journal - Core Data.xcdatamodel */,
+			);
+			currentVersion = FF8B200E212B65650076FD41 /* Journal - Core Data.xcdatamodel */;
+			path = "Journal - Core Data.xcdatamodeld";
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = FF8B1FE0212B5D080076FD41 /* Project object */;
 }
