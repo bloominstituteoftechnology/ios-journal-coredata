@@ -16,13 +16,16 @@ class EntryDetailViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
+    
     @IBAction func Save(_ sender: Any) {
     }
     
     
     @IBOutlet weak var nameTextField: UITextField!
-    
     @IBOutlet weak var bodytextView: UITextView!
+    
+    var entry: Entry?
+    var entryController: EntryController?
     
 
 }
