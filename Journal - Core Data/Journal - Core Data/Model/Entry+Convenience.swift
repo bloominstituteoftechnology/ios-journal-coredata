@@ -11,8 +11,8 @@ import CoreData
 
 enum EntryMood: String {
     case happy
-    case sad
     case neutral
+    case sad
     
     static var allMoods: [EntryMood] {
         return [.happy, .sad, .neutral]

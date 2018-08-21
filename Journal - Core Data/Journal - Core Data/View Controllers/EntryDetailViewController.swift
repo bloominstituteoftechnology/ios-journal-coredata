@@ -22,16 +22,23 @@ class EntryDetailViewController: UIViewController {
         title = entry?.title ?? "Create Entry"
         titleTextField.text = entry?.title
         bodyTextView.text = entry?.bodyText
+        
+        guard let moodString = entry?.mood,
+            let mood = EntryMood(rawValue: moodString) else { return }
+        
+        segmentedControl.selectedSegmentIndex = EntryMood.allMoods.index(of: mood)!
     }
 
     @IBAction func saveButtonWasTapped(_ sender: Any) {
         guard let title = titleTextField.text,
             let bodyText = bodyTextView.text else { return }
         
+        let selectedMood = EntryMood.allMoods[segmentedControl.selectedSegmentIndex]
+        
         if let entry = entry {
-            entryController?.update(entry: entry, title: title, bodyText: bodyText)
+            entryController?.update(entry: entry, title: title, bodyText: bodyText, mood: selectedMood)
         } else {
-            entryController?.create(title: title, bodyText: bodyText)
+            entryController?.create(title: title, bodyText: bodyText, mood: selectedMood)
         }
         
         navigationController?.popViewController(animated: true)
