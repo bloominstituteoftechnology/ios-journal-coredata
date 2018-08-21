@@ -22,17 +22,17 @@ class EntryController {
         }
     }
     
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
-        do {
-            return try moc.fetch(fetchRequest)
-        }
-        catch {
-            NSLog("There was an error while trying to get your entry array.")
-            return []
-        }
-    }
+//    func loadFromPersistentStore() -> [Entry] {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        
+//        do {
+//            return try moc.fetch(fetchRequest)
+//        }
+//        catch {
+//            NSLog("There was an error while trying to get your entry array.")
+//            return []
+//        }
+//    }
     
     func create(title: String, bodyText: String, mood: EntryMood) {
         let _ = Entry(title: title, bodyText: bodyText, mood: mood)
@@ -53,8 +53,8 @@ class EntryController {
         saveToPersistentStore()
     }
     
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
+//    var entries: [Entry] {
+//        return loadFromPersistentStore()
+//    }
     
 }
