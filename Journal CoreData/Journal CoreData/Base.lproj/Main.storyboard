@@ -15,7 +15,7 @@
         <!--Journal-->
         <scene sceneID="wZg-sd-AVm">
             <objects>
-                <tableViewController id="Hm3-Ec-Ukf" customClass="EntriesTableViewController" sceneMemberID="viewController">
+                <tableViewController id="Hm3-Ec-Ukf" customClass="EntriesTableViewController" customModule="Journal_CoreData" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="nt6-ha-klE">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -95,37 +95,41 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YOK-d2-tON">
-                                <rect key="frame" x="16" y="181" width="343" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="YDa-lk-CzQ">
-                                <rect key="frame" x="16" y="137" width="343" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="YDa-lk-CzQ">
+                                <rect key="frame" x="16" y="124" width="343" height="29"/>
                                 <segments>
                                     <segment title="😔"/>
                                     <segment title="😐"/>
                                     <segment title=" 😊"/>
                                 </segments>
                             </segmentedControl>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zpa-gF-QgB">
-                                <rect key="frame" x="16" y="244" width="343" height="376"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zpa-gF-QgB">
+                                <rect key="frame" x="16" y="271" width="343" height="376"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="376" id="rwX-V9-Ltp"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YOK-d2-tON">
+                                <rect key="frame" x="16" y="201" width="343" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="zpa-gF-QgB" firstAttribute="top" secondItem="YOK-d2-tON" secondAttribute="bottom" constant="8" symbolic="YES" id="JXl-r2-0FX"/>
-                            <constraint firstItem="YOK-d2-tON" firstAttribute="top" secondItem="udC-2v-bSV" secondAttribute="top" constant="16" id="QTx-Az-50P"/>
+                            <constraint firstItem="YOK-d2-tON" firstAttribute="trailing" secondItem="zpa-gF-QgB" secondAttribute="trailing" id="5R1-6p-bex"/>
+                            <constraint firstItem="zpa-gF-QgB" firstAttribute="top" secondItem="YOK-d2-tON" secondAttribute="bottom" constant="35" id="7Kv-CU-tas"/>
+                            <constraint firstItem="YOK-d2-tON" firstAttribute="top" secondItem="YDa-lk-CzQ" secondAttribute="bottom" constant="24" id="AK9-v9-cIG"/>
+                            <constraint firstItem="YOK-d2-tON" firstAttribute="leading" secondItem="YDa-lk-CzQ" secondAttribute="leading" id="Bk5-nJ-QES"/>
+                            <constraint firstItem="YOK-d2-tON" firstAttribute="leading" secondItem="zpa-gF-QgB" secondAttribute="leading" id="Erp-4M-jlw"/>
+                            <constraint firstItem="zpa-gF-QgB" firstAttribute="leading" secondItem="BA3-Kx-Hcl" secondAttribute="leadingMargin" id="PF7-7P-o6v"/>
                             <constraint firstAttribute="bottom" secondItem="zpa-gF-QgB" secondAttribute="bottom" constant="20" symbolic="YES" id="VrI-cZ-eyh"/>
-                            <constraint firstItem="YOK-d2-tON" firstAttribute="leading" secondItem="BA3-Kx-Hcl" secondAttribute="leadingMargin" id="fhe-KI-Lj9"/>
-                            <constraint firstItem="YOK-d2-tON" firstAttribute="trailing" secondItem="zpa-gF-QgB" secondAttribute="trailing" id="hsB-pd-C7C"/>
-                            <constraint firstItem="YOK-d2-tON" firstAttribute="trailing" secondItem="BA3-Kx-Hcl" secondAttribute="trailingMargin" id="hw7-10-hfY"/>
-                            <constraint firstItem="YOK-d2-tON" firstAttribute="leading" secondItem="zpa-gF-QgB" secondAttribute="leading" id="n8h-91-ZKx"/>
+                            <constraint firstItem="YOK-d2-tON" firstAttribute="trailing" secondItem="YDa-lk-CzQ" secondAttribute="trailing" id="aXI-Vv-ASD"/>
+                            <constraint firstItem="zpa-gF-QgB" firstAttribute="trailing" secondItem="BA3-Kx-Hcl" secondAttribute="trailingMargin" id="srm-qZ-K7w"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="udC-2v-bSV"/>
                     </view>

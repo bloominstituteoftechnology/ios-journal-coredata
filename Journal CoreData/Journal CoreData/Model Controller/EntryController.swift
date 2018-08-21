@@ -12,6 +12,7 @@ import CoreData
 class EntryController {
     let moc = CoreDataStack.shared.mainContext
     
+    /*
     func saveToPersistentStore() {
         do{
            try moc.save()
@@ -36,11 +37,11 @@ class EntryController {
         
         return loadFromPersistenceStore()
     }
-    
+ 
+   */
     
     func createEntry(name:String, bodyText: String, mood: String){
         let _ = Entry(name: name, bodyText: bodyText, mood: EntryMood(rawValue: mood)!)
-            saveToPersistentStore()
     
     }
     
@@ -49,15 +50,13 @@ class EntryController {
     entry.bodyText = bodyText
     entry.timestamp = Date()
     entry.mood = mood
-    
-    saveToPersistentStore()
+
         
     }
     
       func delete(entry: Entry) {
         moc.delete(entry)
         
-        saveToPersistentStore()
         
     }
     
