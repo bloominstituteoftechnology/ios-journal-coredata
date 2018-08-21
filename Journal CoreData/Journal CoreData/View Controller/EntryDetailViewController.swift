@@ -13,12 +13,14 @@ class EntryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        updateView()
     }
 
     
     @IBAction func Save(_ sender: Any) {
-        guard let name = nameTextField.text, let bodyText = bodytextView.text else { return }
+        guard let name = nameTextField.text,
+            !name.isEmpty,
+            let bodyText = bodytextView.text else { return }
         if let entry = entry {
             entryController?.updateEntry(entry: entry, name: name, bodyText: bodyText)
         } else {
@@ -28,10 +30,23 @@ class EntryDetailViewController: UIViewController {
     }
     
     
+    func updateView(){
+        if isViewLoaded{
+            
+            title = entry?.name ?? "Create Entry"
+            nameTextField.text = entry?.name
+            bodytextView.text = entry?.bodyText
+        }
+    }
+    
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var bodytextView: UITextView!
     
-    var entry: Entry?
+    var entry: Entry?{
+        didSet{
+            updateView()
+        }
+    }
     var entryController: EntryController?
     
 
