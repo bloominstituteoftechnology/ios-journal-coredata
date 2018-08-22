@@ -28,4 +28,16 @@ extension Entry {
         self.identifier = identifier
         self.mood = mood.rawValue
     }
+    
+    convenience init?(entryRepresentation: EntryRepresentation) {
+        
+        guard let title = entryRepresentation.title,
+            let bodyText = entryRepresentation.bodyText,
+            let timestamp = entryRepresentation.timestamp,
+            let identifier = entryRepresentation.identifier,
+            let moodString = entryRepresentation.mood,
+            let mood = EntryMood(rawValue: moodString) else { return nil }
+        
+        self.init(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier, mood: mood)
+    }
 }
