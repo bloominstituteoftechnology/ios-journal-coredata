@@ -107,7 +107,7 @@ let moc = CoreDataStack.shared.mainContext
         let entry = Entry(name: name, bodyText: bodyText, mood: mood)
         saveToPersistentStore()
         put(entry: entry)
-    
+        
     }
     
     func updateEntry(entry: Entry, name: String, bodyText: String, mood:String){
@@ -115,10 +115,10 @@ let moc = CoreDataStack.shared.mainContext
         entry.bodyText = bodyText
         entry.timestamp = Date()
         entry.mood = mood
-    
-       saveToPersistentStore()
+        
+        saveToPersistentStore()
         put(entry: entry)
-
+        
         
     }
     
