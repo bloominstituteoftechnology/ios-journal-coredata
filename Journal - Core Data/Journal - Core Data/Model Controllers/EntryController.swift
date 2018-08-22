@@ -24,18 +24,6 @@ class EntryController {
         }
     }
     
-//    func loadFromPersistentStore() -> [Entry] {
-//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//        
-//        do {
-//            return try moc.fetch(fetchRequest)
-//        }
-//        catch {
-//            NSLog("There was an error while trying to get your entry array.")
-//            return []
-//        }
-//    }
-    
     func create(title: String, bodyText: String, mood: EntryMood) {
         let entry = Entry(title: title, bodyText: bodyText, mood: mood)
         saveToPersistentStore()
@@ -136,15 +124,51 @@ class EntryController {
         }
     }
     
-    func fetchEntriesFromServer() {
+    func fetchEntriesFromServer(completion: @escaping ((Error?) -> Void) = { _ in }) {
         
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            
+            if let error = error {
+                NSLog("Error fetching entries from server: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned from data entry")
+                completion(NSError())
+                return
+            }
+            
+            var entryRepresentations: [EntryRepresentation] = []
+            
+            do {
+                entryRepresentations = try Array(JSONDecoder().decode([String: EntryRepresentation].self, from: data).values)
+            }
+            catch {
+                NSLog("Error decoding JSON: \(error)")
+                completion(error)
+                return
+            }
+            
+            for entryRepresentation in entryRepresentations {
+                
+                guard let identifier = entryRepresentation.identifier else { continue }
+                
+                if let entry = self.fetchSingleEntryFromPersistentStore(with: identifier) {
+                    self.updateFromRepresentation(entry: entry, entryRepresentation: entryRepresentation)
+                } else {
+                    let _ = Entry(entryRepresentation: entryRepresentation)
+                }
+            }
+            self.saveToPersistentStore()
+            completion(nil)
+        }.resume()
     }
     
     let moc = CoreDataStack.shared.mainContext
     let baseURL = URL(string: "https://journal-core-data.firebaseio.com/")!
-    
-//    var entries: [Entry] {
-//        return loadFromPersistentStore()
-//    }
     
 }
