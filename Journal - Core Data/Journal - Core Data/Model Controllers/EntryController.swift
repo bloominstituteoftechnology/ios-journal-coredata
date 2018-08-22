@@ -12,6 +12,59 @@ import CoreData
 class EntryController {
     
     let moc = CoreDataStack.shared.mainContext
+    let baseURL = URL(string: "https://journal-core-data.firebaseio.com/")!
+    
+    func put(entry: Entry, completion: @escaping ((Error?) -> Void) = { _ in }) {
+        
+        guard let identifier = entry.identifier else { completion(NSError()); return }
+        
+        let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(entry)
+        }
+        catch {
+            NSLog("Error encoding entry: \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            
+            if let error = error {
+                NSLog("Error PUTing entry to server: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }.resume()
+        
+    }
+    
+    func deleteEntryFromServer(entry: Entry, completion: @escaping ((Error?) -> Void) = { _ in }) {
+        
+        guard let identifier = entry.identifier else { completion(NSError()); return }
+        
+        let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            
+            if let error = error {
+                NSLog("Error DELETEing entry fromserver: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }.resume()
+    }
     
     func saveToPersistentStore() {
         do {
@@ -35,8 +88,9 @@ class EntryController {
 //    }
     
     func create(title: String, bodyText: String, mood: EntryMood) {
-        let _ = Entry(title: title, bodyText: bodyText, mood: mood)
+        let entry = Entry(title: title, bodyText: bodyText, mood: mood)
         saveToPersistentStore()
+        put(entry: entry)
     }
     
     func update(entry: Entry, title: String, bodyText: String, timestamp: Date = Date(), mood: EntryMood = .neutral) {
@@ -46,9 +100,11 @@ class EntryController {
         entry.mood = mood.rawValue
         
         saveToPersistentStore()
+        put(entry: entry)
     }
     
     func delete(entry: Entry) {
+        deleteEntryFromServer(entry: entry)
         moc.delete(entry)
         saveToPersistentStore()
     }
