@@ -29,7 +29,7 @@ extension Entry {
         self.mood = mood.rawValue
     }
     
-    convenience init?(entryRepresentation: EntryRepresentation) {
+    convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         guard let title = entryRepresentation.title,
             let bodyText = entryRepresentation.bodyText,
@@ -38,7 +38,7 @@ extension Entry {
             let moodString = entryRepresentation.mood,
             let mood = EntryMood(rawValue: moodString) else { return nil }
         
-        self.init(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier, mood: mood)
+        self.init(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier, mood: mood, context: context)
     }
 }
 
