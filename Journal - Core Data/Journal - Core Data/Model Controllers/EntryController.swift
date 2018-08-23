@@ -15,45 +15,45 @@ class EntryController {
         fetchEntriesFromServer()
     }
     
-    func saveToPersistentStore() {
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            try moc.save()
-        }
-        catch {
-            NSLog("Error saving managed object context: \(error)")
-        }
-    }
-    
     func create(title: String, bodyText: String, mood: EntryMood) {
-       // let moc = CoreDataStack.shared.container.newBackgroundContext()
-        let entry = Entry(title: title, bodyText: bodyText, mood: mood/*, context: moc*/)
-        saveToPersistentStore()
-//        do {
-//            try CoreDataStack.shared.save(context: moc)
-//        }
-//        catch {
-//            NSLog("Could not save context")
-//            return
-//        }
-        put(entry: entry)
+        let moc = CoreDataStack.shared.container.newBackgroundContext()
+        moc.performAndWait {
+            let entry = Entry(title: title, bodyText: bodyText, mood: mood, context: moc)
+            do {
+                try CoreDataStack.shared.save(context: moc)
+            }
+            catch {
+                NSLog("Could not save context")
+                return
+            }
+            self.put(entry: entry)
+        }
     }
     
     func update(entry: Entry, title: String, bodyText: String, timestamp: Date = Date(), mood: EntryMood = .neutral) {
-        entry.title = title
-        entry.bodyText = bodyText
-        entry.timestamp = timestamp
-        entry.mood = mood.rawValue
         
-        saveToPersistentStore()
-//        do {
-//            try CoreDataStack.shared.save(context: moc)
-//        }
-//        catch {
-//            NSLog("Could not save context")
-//            return
-//        }
-        put(entry: entry)
+        let moc = CoreDataStack.shared.container.newBackgroundContext()
+        
+        let objectID = entry.objectID
+        
+        moc.performAndWait {
+            
+            do {
+                guard let scratch = try moc.existingObject(with: objectID) as? Entry else { return }
+                
+                scratch.title = title
+                scratch.bodyText = bodyText
+                scratch.timestamp = timestamp
+                scratch.mood = mood.rawValue
+                
+                try CoreDataStack.shared.save(context: moc)
+                put(entry: scratch)
+            }
+            catch {
+                NSLog("Could not save context")
+                return
+            }
+        }
     }
     
     func updateFromRepresentation(entry: Entry, entryRepresentation: EntryRepresentation) {
@@ -84,16 +84,20 @@ class EntryController {
     
     func delete(entry: Entry) {
         deleteEntryFromServer(entry: entry)
-        CoreDataStack.shared.mainContext.delete(entry)
-        saveToPersistentStore()
-//        do {
-//            let moc = CoreDataStack.shared.mainContext
-//            try CoreDataStack.shared.save(context: moc)
-//        }
-//        catch {
-//            NSLog("Could not save context")
-//            return
-//        }
+        
+        let moc = CoreDataStack.shared.mainContext
+        
+        
+        moc.perform {
+            do {
+                moc.delete(entry)
+                try CoreDataStack.shared.save(context: moc)
+            }
+            catch {
+                NSLog("Could not save context")
+                return
+            }
+        }
     }
     
     func put(entry: Entry, completion: @escaping ((Error?) -> Void) = { _ in }) {
