@@ -15,18 +15,27 @@ class EntryController {
         fetchEntriesFromServer()
     }
     
-//    func saveToPersistentStore() {
-//        do {
-//            try moc.save()
-//        }
-//        catch {
-//            NSLog("Error saving managed object context: \(error)")
-//        }
-//    }
+    func saveToPersistentStore() {
+        do {
+            let moc = CoreDataStack.shared.mainContext
+            try moc.save()
+        }
+        catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
+    }
     
     func create(title: String, bodyText: String, mood: EntryMood) {
-        let entry = Entry(title: title, bodyText: bodyText, mood: mood)
-        //saveToPersistentStore()
+       // let moc = CoreDataStack.shared.container.newBackgroundContext()
+        let entry = Entry(title: title, bodyText: bodyText, mood: mood/*, context: moc*/)
+        saveToPersistentStore()
+//        do {
+//            try CoreDataStack.shared.save(context: moc)
+//        }
+//        catch {
+//            NSLog("Could not save context")
+//            return
+//        }
         put(entry: entry)
     }
     
@@ -36,7 +45,14 @@ class EntryController {
         entry.timestamp = timestamp
         entry.mood = mood.rawValue
         
-        //saveToPersistentStore()
+        saveToPersistentStore()
+//        do {
+//            try CoreDataStack.shared.save(context: moc)
+//        }
+//        catch {
+//            NSLog("Could not save context")
+//            return
+//        }
         put(entry: entry)
     }
     
@@ -69,7 +85,15 @@ class EntryController {
     func delete(entry: Entry) {
         deleteEntryFromServer(entry: entry)
         CoreDataStack.shared.mainContext.delete(entry)
-        //saveToPersistentStore()
+        saveToPersistentStore()
+//        do {
+//            let moc = CoreDataStack.shared.mainContext
+//            try CoreDataStack.shared.save(context: moc)
+//        }
+//        catch {
+//            NSLog("Could not save context")
+//            return
+//        }
     }
     
     func put(entry: Entry, completion: @escaping ((Error?) -> Void) = { _ in }) {
