@@ -51,6 +51,7 @@ class EntryController {
             return entries
         } catch {
             NSLog("Error fetching entries from persistent store: \(error)")
+            return []
         }
     }
 }

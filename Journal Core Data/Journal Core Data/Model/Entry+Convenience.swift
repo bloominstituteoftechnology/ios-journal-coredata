@@ -18,4 +18,12 @@ extension Entry {
         self.timestamp = timestamp
         self.identifier = identifier
     }
+    
+    var formattedTimestamp: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .medium
+        
+        return dateFormatter.string(from: timestamp ?? Date())
+    }
 }
