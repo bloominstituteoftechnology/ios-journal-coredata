@@ -11,6 +11,7 @@ import CoreData
 
 class EntryController {
     
+    // MARK: - Properties
     var entries: [Entry] {
         return loadFromPersistentStore()
     }
@@ -35,6 +36,7 @@ class EntryController {
         saveToPersistentStore()
     }
     
+    // MARK: - Persistence
     private func saveToPersistentStore() {
         do {
             try CoreDataStack.shared.mainContext.save()
@@ -44,7 +46,7 @@ class EntryController {
     }
     
     private func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = NSFetchRequest()
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
         do {
             let entries = try CoreDataStack.shared.mainContext.fetch(fetchRequest)

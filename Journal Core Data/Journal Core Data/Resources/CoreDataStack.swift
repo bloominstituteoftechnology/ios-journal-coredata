@@ -9,11 +9,12 @@
 import Foundation
 import CoreData
 
+/// Utility class for dealing with the CoreData stack
 class CoreDataStack {
     static let shared = CoreDataStack()
     
     lazy var container: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "")
+        let container = NSPersistentContainer(name: "Journal-Core-Data")
         container.loadPersistentStores { (_, error) in
             if let error = error {
                 fatalError("Failed to load persistent stores: \(error)")

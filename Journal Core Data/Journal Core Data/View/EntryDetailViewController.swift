@@ -21,12 +21,14 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
     
+    // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
 
         updateViews()
     }
     
+    // MARK: - UI Methods
     @IBAction func saveEntry(_ sender: Any) {
         guard let title = titleTextField.text, !title.isEmpty,
             let bodyText = bodyTextView.text, !bodyText.isEmpty else { return }
@@ -36,8 +38,11 @@ class EntryDetailViewController: UIViewController {
         } else {
             entryController?.createEntry(title: title, bodyText: bodyText)
         }
+        
+        navigationController?.popViewController(animated: true)
     }
     
+    // MARK: - Utility Methods
     private func updateViews() {
         guard let entry = entry, isViewLoaded else {
             title = "Add Entry"
