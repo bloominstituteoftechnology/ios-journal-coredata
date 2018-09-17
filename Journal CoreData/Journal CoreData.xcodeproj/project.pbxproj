@@ -15,6 +15,8 @@
 		A179B01321505A7C005B3166 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A179B01221505A7C005B3166 /* EntryTableViewCell.swift */; };
 		A179B01521505D47005B3166 /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A179B01421505D47005B3166 /* EntryDetailViewController.swift */; };
 		A179B01721506181005B3166 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A179B01621506181005B3166 /* CoreDataStack.swift */; };
+		A179B01A21506269005B3166 /* Entry.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A179B01821506269005B3166 /* Entry.xcdatamodeld */; };
+		A179B01C2150630A005B3166 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = A179B01B2150630A005B3166 /* Entry+Convenience.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		A179B01221505A7C005B3166 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
 		A179B01421505D47005B3166 /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
 		A179B01621506181005B3166 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		A179B01921506269005B3166 /* Entry.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Entry.xcdatamodel; sourceTree = "<group>"; };
+		A179B01B2150630A005B3166 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +69,8 @@
 				A179B01421505D47005B3166 /* EntryDetailViewController.swift */,
 				A179B01221505A7C005B3166 /* EntryTableViewCell.swift */,
 				A179B01621506181005B3166 /* CoreDataStack.swift */,
+				A179B01821506269005B3166 /* Entry.xcdatamodeld */,
+				A179B01B2150630A005B3166 /* Entry+Convenience.swift */,
 				A179B01021505A4D005B3166 /* EntriesTableViewController.swift */,
 				A179B005215052F0005B3166 /* Assets.xcassets */,
 				A179B007215052F0005B3166 /* LaunchScreen.storyboard */,
@@ -144,11 +150,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A179B01A21506269005B3166 /* Entry.xcdatamodeld in Sources */,
 				A179B01721506181005B3166 /* CoreDataStack.swift in Sources */,
 				A179B01321505A7C005B3166 /* EntryTableViewCell.swift in Sources */,
 				A179B01121505A4D005B3166 /* EntriesTableViewController.swift in Sources */,
 				A179B01521505D47005B3166 /* EntryDetailViewController.swift in Sources */,
 				A179AFFF215052EF005B3166 /* AppDelegate.swift in Sources */,
+				A179B01C2150630A005B3166 /* Entry+Convenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,6 +356,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		A179B01821506269005B3166 /* Entry.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A179B01921506269005B3166 /* Entry.xcdatamodel */,
+			);
+			currentVersion = A179B01921506269005B3166 /* Entry.xcdatamodel */;
+			path = Entry.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = A179AFF3215052EF005B3166 /* Project object */;
 }
