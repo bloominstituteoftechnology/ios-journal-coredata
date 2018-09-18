@@ -26,7 +26,9 @@ class EntryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupSegmentedControl()
         updateViews()
+
     }
     
     // MARK: - UI Methods
@@ -47,6 +49,11 @@ class EntryDetailViewController: UIViewController {
     // MARK: - Utility Methods
     private func updateViews() {
         guard isViewLoaded else { return }
+        view.backgroundColor = .darkerGray
+        titleTextField.textColor = .white
+        titleTextField.backgroundColor = .darkerGray
+        bodyTextView.textColor = .white
+        bodyTextView.backgroundColor = .darkerGray
         guard let entry = entry else {
             moodSegmentedControl.selectedSegmentIndex = 1
             title = "Add Entry"
@@ -57,15 +64,18 @@ class EntryDetailViewController: UIViewController {
         titleTextField.text = entry.title
         bodyTextView.text = entry.bodyText
         
-        moodSegmentedControl.selectedSegmentIndex = segmentIndexToSelect(entry)
+
+        
+        
+        let mood: Moods = Moods(rawValue: entry.mood ?? "😐") ?? .😐
+        
+        moodSegmentedControl.selectedSegmentIndex = Moods.allCases.index(of: mood) ?? 1
     }
     
-    /// Closure that takes an entry and returns the index that should be selected on the Segmented Control
-    let segmentIndexToSelect: (Entry) -> Int = { entry in
-        switch entry.mood {
-        case "😔": return 0
-        case "🙂": return 2
-        default: return 1
+    private func setupSegmentedControl() {
+        moodSegmentedControl.removeAllSegments()
+        for (index, mood) in Moods.allCases.enumerated() {
+            moodSegmentedControl.insertSegment(withTitle: mood.rawValue, at: index, animated: false)
         }
     }
 }

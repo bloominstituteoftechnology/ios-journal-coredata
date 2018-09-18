@@ -28,5 +28,19 @@ class EntryTableViewCell: UITableViewCell {
         titleLabel.text = entry.title
         detailLabel.text = entry.bodyText
         timestampLabel.text = entry.formattedTimestamp
+        
+        switch entry.mood {
+        case Moods.😐.rawValue: updateColors(.lightTan)
+        case Moods.🙂.rawValue: updateColors(.lightGreen)
+        case Moods.😔.rawValue: updateColors(.lightBlue)
+        default: updateColors(.white)
+        }
+        backgroundColor = .darkerGray
+    }
+    
+    private func updateColors(_ color: UIColor) {
+        titleLabel.textColor = color
+        detailLabel.textColor = color
+        timestampLabel.textColor = color
     }
 }

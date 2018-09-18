@@ -9,9 +9,15 @@
 import Foundation
 import CoreData
 
+enum Moods: String, CaseIterable {
+    case 😔
+    case 😐
+    case 🙂
+}
+
 extension Entry {
     /// Convenience initializer to assign the properties of an Entry, in addition to adding it to a NSManagedObjectContext.
-    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = UUID().uuidString, mood: String = "😐", context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = UUID().uuidString, mood: String = Moods.😐.rawValue, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         
         self.title = title

@@ -11,11 +11,6 @@ import CoreData
 
 class EntryController {
     
-    // MARK: - Properties
-//    var entries: [Entry] {
-//        return loadFromPersistentStore()
-//    }
-    
     // MARK: - CRUD Methods
     func createEntry(title: String, bodyText: String, mood: String) {
         _ = Entry(title: title, bodyText: bodyText, mood: mood)
@@ -44,17 +39,5 @@ class EntryController {
         } catch {
             NSLog("Error saving managed object context to persistent store: \(error)")
         }
-    }
-    
-//    private func loadFromPersistentStore() -> [Entry] {
-//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//        
-//        do {
-//            let entries = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
-//            return entries
-//        } catch {
-//            NSLog("Error fetching entries from persistent store: \(error)")
-//            return []
-//        }
-//    }
+    }    
 }

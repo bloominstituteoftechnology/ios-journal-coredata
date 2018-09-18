@@ -16,7 +16,8 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "timestamp", ascending: false)
+        let sortDescriptor = NSSortDescriptor(key: "mood", ascending: false)
+        let sortDescriptor2 = NSSortDescriptor(key: "timestamp", ascending: false)
         
         fetchRequest.sortDescriptors = [sortDescriptor]
         
@@ -32,6 +33,9 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         super.viewWillAppear(animated)
         
         tableView.reloadData()
+        
+        navigationController?.navigationBar.barStyle = .black
+        view.backgroundColor = .darkerGray
     }
 
     // MARK: - Table View Data Source
@@ -48,6 +52,8 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         let entry = fetchedResultsController.object(at: indexPath)
         
         cell.entry = entry
+        
+
 
         return cell
     }
@@ -60,9 +66,30 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         }
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let sectionInfo = fetchedResultsController.sections?[section]
-        return sectionInfo?.name
+//    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        let sectionInfo = fetchedResultsController.sections?[section]
+//        return sectionInfo?.name
+//    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        let label = UILabel()
+        label.text = "Test"
+        view.addSubview(label)
+        view.sizeToFit()
+        
+        switch section {
+        case 0:
+            view.backgroundColor = .lightGreen
+        case 1:
+            view.backgroundColor = .lightBlue
+        case 2:
+            view.backgroundColor = .lightTan
+        default:
+            view.backgroundColor = .white
+        }
+        
+        return view
     }
     
     // MARK: - NS Fetched Results Controller
