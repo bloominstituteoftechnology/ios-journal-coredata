@@ -20,6 +20,7 @@ class EntryDetailViewController: UIViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     
     // MARK: - Lifecycle Methods
     override func viewDidLoad() {
@@ -31,12 +32,13 @@ class EntryDetailViewController: UIViewController {
     // MARK: - UI Methods
     @IBAction func saveEntry(_ sender: Any) {
         guard let title = titleTextField.text, !title.isEmpty,
-            let bodyText = bodyTextView.text, !bodyText.isEmpty else { return }
+            let bodyText = bodyTextView.text, !bodyText.isEmpty,
+        let mood = moodSegmentedControl.titleForSegment(at: moodSegmentedControl.selectedSegmentIndex) else { return }
         
         if let entry = entry {
-            entryController?.update(entry: entry, title: title, bodyText: bodyText)
+            entryController?.update(entry: entry, title: title, bodyText: bodyText, mood: mood)
         } else {
-            entryController?.createEntry(title: title, bodyText: bodyText)
+            entryController?.createEntry(title: title, bodyText: bodyText, mood: mood)
         }
         
         navigationController?.popViewController(animated: true)
@@ -44,7 +46,9 @@ class EntryDetailViewController: UIViewController {
     
     // MARK: - Utility Methods
     private func updateViews() {
-        guard let entry = entry, isViewLoaded else {
+        guard isViewLoaded else { return }
+        guard let entry = entry else {
+            moodSegmentedControl.selectedSegmentIndex = 1
             title = "Add Entry"
             return
         }
@@ -52,5 +56,16 @@ class EntryDetailViewController: UIViewController {
         title = entry.title
         titleTextField.text = entry.title
         bodyTextView.text = entry.bodyText
+        
+        moodSegmentedControl.selectedSegmentIndex = segmentIndexToSelect(entry)
+    }
+    
+    /// Closure that takes an entry and returns the index that should be selected on the Segmented Control
+    let segmentIndexToSelect: (Entry) -> Int = { entry in
+        switch entry.mood {
+        case "😔": return 0
+        case "🙂": return 2
+        default: return 1
+        }
     }
 }

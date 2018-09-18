@@ -27,7 +27,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="I78-Qb-d8b">
-                                            <rect key="frame" x="16" y="7.9999999999999964" width="343" height="48.666666666666657"/>
+                                            <rect key="frame" x="16" y="8" width="343" height="48.666666666666657"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ntm-fw-kgy">
                                                     <rect key="frame" x="0.0" y="0.0" width="343" height="22.333333333333332"/>
@@ -98,14 +98,22 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Csq-Af-b0I">
                                 <rect key="frame" x="16" y="156" width="343" height="319"/>
                                 <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="qAV-uj-oRJ">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="29"/>
+                                        <segments>
+                                            <segment title="😔"/>
+                                            <segment title="😐"/>
+                                            <segment title="🙂"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="77a-Va-XxU">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="30"/>
+                                        <rect key="frame" x="0.0" y="36" width="343" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="MFe-Sp-ATJ">
-                                        <rect key="frame" x="0.0" y="38" width="343" height="281"/>
+                                        <rect key="frame" x="0.0" y="74" width="343" height="245"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -131,6 +139,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bodyTextView" destination="MFe-Sp-ATJ" id="Ftz-Ty-4Pv"/>
+                        <outlet property="moodSegmentedControl" destination="qAV-uj-oRJ" id="E74-gh-UZF"/>
                         <outlet property="titleTextField" destination="77a-Va-XxU" id="5Vl-c5-n0d"/>
                     </connections>
                 </viewController>
