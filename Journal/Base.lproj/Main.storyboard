@@ -98,7 +98,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="H86-z7-iZz">
-                                <rect key="frame" x="16" y="184" width="343" height="467"/>
+                                <rect key="frame" x="16" y="228" width="343" height="423"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -110,7 +110,7 @@
                                 </userDefinedRuntimeAttributes>
                             </textView>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xmb-Tr-ba0">
-                                <rect key="frame" x="16" y="132" width="343" height="32"/>
+                                <rect key="frame" x="16" y="176" width="343" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="XgN-VE-8Tc"/>
                                 </constraints>
@@ -123,14 +123,25 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </textField>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="cbh-n1-MbN">
+                                <rect key="frame" x="16" y="132" width="343" height="29"/>
+                                <segments>
+                                    <segment title="😟"/>
+                                    <segment title="🤓"/>
+                                    <segment title="🤠"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="cbh-n1-MbN" firstAttribute="leading" secondItem="sJo-uW-PCy" secondAttribute="leading" constant="16" id="0wU-vo-PIK"/>
+                            <constraint firstItem="sJo-uW-PCy" firstAttribute="trailing" secondItem="cbh-n1-MbN" secondAttribute="trailing" constant="16" id="AYn-lC-kLb"/>
+                            <constraint firstItem="cbh-n1-MbN" firstAttribute="top" secondItem="sJo-uW-PCy" secondAttribute="top" constant="16" id="DRK-Ky-V4f"/>
                             <constraint firstItem="sJo-uW-PCy" firstAttribute="trailing" secondItem="H86-z7-iZz" secondAttribute="trailing" constant="16" id="INC-KE-MqB"/>
                             <constraint firstItem="xmb-Tr-ba0" firstAttribute="leading" secondItem="sJo-uW-PCy" secondAttribute="leading" constant="16" id="J4a-Lo-lrj"/>
                             <constraint firstItem="H86-z7-iZz" firstAttribute="top" secondItem="xmb-Tr-ba0" secondAttribute="bottom" constant="20" id="U6n-CI-3iZ"/>
-                            <constraint firstItem="xmb-Tr-ba0" firstAttribute="top" secondItem="sJo-uW-PCy" secondAttribute="top" constant="16" id="VcF-O1-q8c"/>
                             <constraint firstItem="H86-z7-iZz" firstAttribute="leading" secondItem="sJo-uW-PCy" secondAttribute="leading" constant="16" id="a11-sx-vkq"/>
+                            <constraint firstItem="xmb-Tr-ba0" firstAttribute="top" secondItem="cbh-n1-MbN" secondAttribute="bottom" constant="16" id="nl6-YI-nll"/>
                             <constraint firstItem="sJo-uW-PCy" firstAttribute="trailing" secondItem="xmb-Tr-ba0" secondAttribute="trailing" constant="16" id="vSz-6U-KS9"/>
                             <constraint firstItem="sJo-uW-PCy" firstAttribute="bottom" secondItem="H86-z7-iZz" secondAttribute="bottom" constant="16" id="vv8-kJ-9sN"/>
                         </constraints>
@@ -146,11 +157,12 @@
                     <connections>
                         <outlet property="entryContentTextView" destination="H86-z7-iZz" id="CsX-F9-qi7"/>
                         <outlet property="entryTitleTextField" destination="xmb-Tr-ba0" id="Nt3-Ds-kM6"/>
+                        <outlet property="segmentedControl" destination="cbh-n1-MbN" id="Tez-Xh-Asp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LK4-wz-bQn" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1810" y="211"/>
+            <point key="canvasLocation" x="1808.8" y="210.94452773613196"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="nJA-il-0Pp">

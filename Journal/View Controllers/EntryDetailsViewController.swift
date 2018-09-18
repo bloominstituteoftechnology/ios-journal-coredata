@@ -52,5 +52,6 @@ class EntryDetailsViewController: UIViewController {
     // MARK:- IBOutlets
     @IBOutlet weak var entryTitleTextField: UITextField!
     @IBOutlet weak var entryContentTextView: UITextView!
-
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
 }
