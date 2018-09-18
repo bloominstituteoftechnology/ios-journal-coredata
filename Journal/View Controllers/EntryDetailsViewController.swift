@@ -28,6 +28,15 @@ class EntryDetailsViewController: UIViewController {
         
         entryTitleTextField.text = entry.title
         entryContentTextView.text = entry.bodyText
+        
+        var mood: Mood?
+        
+        if let moodValue = entry.mood {
+            mood = Mood(rawValue: moodValue)
+        } else { mood = .🤓 }
+        
+        guard let moodIndex = Mood.allMoods.index(of: mood ?? .🤓) else { return }
+        segmentedControl.selectedSegmentIndex = moodIndex
     }
     
     @IBAction func saveButtonPressed(_ sender: Any) {
@@ -35,13 +44,16 @@ class EntryDetailsViewController: UIViewController {
               let titleText = entryTitleTextField.text,
             let bodyText = entryContentTextView.text else { return }
         
+        let moodIndex = segmentedControl.selectedSegmentIndex
+        let mood = Mood.allMoods[moodIndex]
+        
         guard let entry = entry else {
-            entryController.createEntry(with: titleText, bodyText: bodyText)
+            entryController.createEntry(with: titleText, bodyText: bodyText, mood: mood)
             navigationController?.popViewController(animated: true)
             return
         }
         
-        entryController.update(entry: entry, with: titleText, bodyText: bodyText)
+        entryController.update(entry: entry, with: titleText, bodyText: bodyText, mood: mood)
         navigationController?.popViewController(animated: true)
     }
     

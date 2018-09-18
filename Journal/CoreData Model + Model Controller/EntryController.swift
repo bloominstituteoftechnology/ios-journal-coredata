@@ -12,15 +12,16 @@ import CoreData
 class EntryController {
     
     // Create a new entry in the managed object context and save it to persistent store
-    func createEntry(with title: String, bodyText: String?) {
-        _ = Entry(title: title, bodyText: bodyText)
+    func createEntry(with title: String, bodyText: String?, mood: Mood) {
+        _ = Entry(title: title, bodyText: bodyText, mood: mood)
         saveToPersistentStore()
     }
     
     // Update an existing entry in the managed object context, and save it to persistent store
-    func update(entry: Entry, with title: String, bodyText: String?) {
+    func update(entry: Entry, with title: String, bodyText: String?, mood: Mood) {
         entry.title = title
-        entry.bodyText = title
+        entry.bodyText = bodyText
+        entry.mood = mood.rawValue
         entry.timestamp = Date()
         
         saveToPersistentStore()
