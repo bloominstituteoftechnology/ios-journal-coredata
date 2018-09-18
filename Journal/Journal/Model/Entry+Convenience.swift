@@ -14,7 +14,7 @@ enum Mood: String {
     case good = "🙂"
     case great = "😍"
     
-    var allMoods: [Mood] {
+    static var allMoods: [Mood] {
         return [.bad, .good, .great]
     }
 }
