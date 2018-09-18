@@ -7,32 +7,101 @@
 //
 
 import UIKit
+import CoreData
 
-class JournalTableViewController: UITableViewController {
+class JournalTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     let journalController = JournalController()
-
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+    }
+    
+    // MARK: - FetchResultsController
+    
+    lazy var fetchResultsController: NSFetchedResultsController<Journal> = {
+        
+        let fetchReq: NSFetchRequest<Journal> = Journal.fetchRequest()
+        let sortDesc = NSSortDescriptor(key: "timestamp", ascending: false)
+        fetchReq.sortDescriptors = [sortDesc]
+        
+        let moc = CoreDataStack.shared.mainContext
+        let frc = NSFetchedResultsController(fetchRequest: fetchReq, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
+        frc.delegate = self
+        do {
+            try frc.performFetch()
+        }catch {
+            NSLog("Could Not FETCH: \(error)")
+        }
+        return frc
+    }()
+    
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert:
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
+        case .delete:
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
+        default:
+            break
+        }
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type{
+        case .insert:
+            guard let newIndexPath = newIndexPath else {return}
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .delete:
+            guard let indexPath = indexPath else {return}
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        case .move:
+            guard let newIndexPath = newIndexPath, let indexPath = indexPath else {return}
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .update:
+            guard let indexPath = indexPath else {return}
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let sectionInfo = fetchResultsController.sections?[section]
+        return sectionInfo?.name
     }
 
+
     // MARK: - Table view data source
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return fetchResultsController.sections?.count ?? 1
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return journalController.journal.count
+//        fetchedResultsController.sections?[section].numberOfObjects ?? 0
+        return fetchResultsController.sections?[section].numberOfObjects ?? 0
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? JournalTableViewCell else {return UITableViewCell()}
 
-        cell.entry = journalController.journal[indexPath.row]
+//        cell.entry = journalController.journal[indexPath.row]
+        cell.entry = fetchResultsController.object(at: indexPath)
         // Configure the cell...
 
         return cell
@@ -44,9 +113,9 @@ class JournalTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
         
-            let journal = journalController.journal[indexPath.row]
+            let journal = fetchResultsController.object(at: indexPath)
             journalController.deleteJournalEntry(entry: journal)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+//            tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
     
@@ -61,7 +130,7 @@ class JournalTableViewController: UITableViewController {
             guard let destVC = segue.destination as? JournalDetailViewController, let indexPath = tableView.indexPathForSelectedRow else {return}
             destVC.journalController = journalController
             
-            destVC.entry = journalController.journal[indexPath.row]
+            destVC.entry = fetchResultsController.object(at: indexPath)
             
         } else if segue.identifier == "AddEntry"{
             

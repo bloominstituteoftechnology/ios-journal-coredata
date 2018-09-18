@@ -11,20 +11,20 @@ import CoreData
 
 class JournalController {
     
-    var journal: [Journal]{
-        
-        let request: NSFetchRequest<Journal> = Journal.fetchRequest()
-        
-        let moc = CoreDataStack.shared.mainContext
-        
-        do {
-            return try moc.fetch(request)
-        } catch{
-            NSLog("Tasks FETCH failed: \(error)")
-            return []
-        }
-    
-    }
+//    var journal: [Journal]{
+//
+//        let request: NSFetchRequest<Journal> = Journal.fetchRequest()
+//
+//        let moc = CoreDataStack.shared.mainContext
+//
+//        do {
+//            return try moc.fetch(request)
+//        } catch{
+//            NSLog("Tasks FETCH failed: \(error)")
+//            return []
+//        }
+//
+//    }
     
     
     func createJournalEntry(with title: String, and notes: String?, mood: String){
