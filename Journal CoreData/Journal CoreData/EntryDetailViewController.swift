@@ -37,10 +37,14 @@ class EntryDetailViewController: UIViewController {
             let body = bodyTextView.text
             else { return }
         
+        let moodIndex = emojiSegmentControl.selectedSegmentIndex
+        
+        let mood = EntryEmoji.allEmojies[moodIndex].rawValue
+        
         if let entry = entry {
-            entryController?.updateEntry(entry: entry, title: title, bodyText: body)
+            entryController?.updateEntry(entry: entry, title: title, bodyText: body, mood: mood)
         } else {
-            entryController?.createEntry(title: title, bodyText: body)
+            entryController?.createEntry(title: title, bodyText: body, mood:mood)
         }
         navigationController?.popViewController(animated: true)
     }

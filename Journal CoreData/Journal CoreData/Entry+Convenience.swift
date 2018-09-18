@@ -9,13 +9,25 @@
 import Foundation
 import CoreData
 
+enum EntryEmoji: String {
+    case sad = "🙁"
+    case neutral = "😐"
+    case happy = "🙂"
+
+    
+    static var allEmojies: [EntryEmoji] {
+        return [.sad, .neutral, .happy]
+    }
+}
+
 extension Entry {
-    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = UUID().uuidString, context: NSManagedObjectContext = CoreDataStack.shared.mainContext ) {
+    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = UUID().uuidString, mood: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext ) {
         self.init(context: context)
         self.title = title
         self.bodyText = bodyText
         self.timestamp = timestamp
         self.identifier = identifier
+        self.mood = mood
     }
     
     var date: String {
