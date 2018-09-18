@@ -27,17 +27,18 @@ class JournalController {
     }
     
     
-    func createJournalEntry(with title: String, and notes: String?){
+    func createJournalEntry(with title: String, and notes: String?, mood: String){
         
-        _ = Journal(title: title, notes: notes)
+        _ = Journal(title: title, notes: notes, mood: mood)
         saveToPersistentStorage()
         
     }
     
-    func updateJournalEntry(entry: Journal, with title:String, and notes: String?){
+    func updateJournalEntry(entry: Journal, with title:String, and notes: String?, mood: String){
         
         entry.title = title
         entry.notes = notes
+        entry.mood = mood
         saveToPersistentStorage()
         
     }

@@ -12,7 +12,7 @@ import CoreData
 
 extension Journal {
     
-    convenience init(title: String, notes: String?, timestamp: Date = Date(),identifier:String = UUID().uuidString, context: NSManagedObjectContext = CoreDataStack.shared.mainContext)
+    convenience init(title: String, notes: String?, timestamp: Date = Date(),identifier:String = UUID().uuidString, mood: String = "😁", context: NSManagedObjectContext = CoreDataStack.shared.mainContext)
     {
         
         self.init(context: context)
@@ -20,6 +20,7 @@ extension Journal {
         self.title = title
         self.notes = notes
         self.timestamp = timestamp
+        self.mood = mood
         
     }
     
