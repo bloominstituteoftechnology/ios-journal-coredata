@@ -12,9 +12,9 @@ import CoreData
 class EntryController {
     
     // MARK: - Properties
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
+//    var entries: [Entry] {
+//        return loadFromPersistentStore()
+//    }
     
     // MARK: - CRUD Methods
     func createEntry(title: String, bodyText: String, mood: String) {
@@ -46,15 +46,15 @@ class EntryController {
         }
     }
     
-    private func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
-        do {
-            let entries = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
-            return entries
-        } catch {
-            NSLog("Error fetching entries from persistent store: \(error)")
-            return []
-        }
-    }
+//    private func loadFromPersistentStore() -> [Entry] {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        
+//        do {
+//            let entries = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
+//            return entries
+//        } catch {
+//            NSLog("Error fetching entries from persistent store: \(error)")
+//            return []
+//        }
+//    }
 }
