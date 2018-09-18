@@ -27,16 +27,20 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         super.viewDidAppear(animated)
         tableView.reloadData()
     }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return fetchedResultsController.sections?.count ?? 1
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return entryController.entries.count
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
  
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "Entry", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
-        let entry = entryController.entries[indexPath.row]
+        let entry = fetchedResultsController.object(at: indexPath)
         cell.entry = entry
 
         return cell
@@ -55,9 +59,9 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let entry = entryController.entries[indexPath.row]
-            //entryController.deleteEntry(entry: entry)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            let entry = fetchedResultsController.object(at: indexPath)
+            entryController.deleteEntry(entry: entry)
+            //tableView.deleteRows(at: [indexPath], with: .fade)
         } 
     }
     
@@ -103,6 +107,11 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
             break
         }
     }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let sectionInfo = fetchedResultsController.sections?[section]
+        return sectionInfo?.name.capitalized
+    }
 
 
 
@@ -117,7 +126,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         else if segue.identifier == "ViewEntry" {
             guard let destVC = segue.destination as? EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow else { return }
-            let entry = entryController.entries[indexPath.row]
+            let entry = fetchedResultsController.object(at: indexPath)
             destVC.entry = entry
             destVC.entryController = entryController
         }
