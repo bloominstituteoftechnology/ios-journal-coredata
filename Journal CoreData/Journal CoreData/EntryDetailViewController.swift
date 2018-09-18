@@ -18,12 +18,18 @@ class EntryDetailViewController: UIViewController {
     
     
     func updateViews() {
+
         if let entry = entry {
             titleTextField?.text = entry.title
             bodyTextView?.text = entry.bodyText
+            let mood: EntryEmoji
+            mood = EntryEmoji(rawValue: entry.mood!) ?? .neutral
+            guard let moodIndex = EntryEmoji.allEmojies.index(of: mood) else { return }
+            emojiSegmentControl?.selectedSegmentIndex = moodIndex
             title = entry.title
         } else {
             title = "New Entry"
+            emojiSegmentControl?.selectedSegmentIndex = 1
         }
     }
     
