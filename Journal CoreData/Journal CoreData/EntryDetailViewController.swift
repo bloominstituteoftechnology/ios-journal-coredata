@@ -27,6 +27,7 @@ class EntryDetailViewController: UIViewController {
         }
     }
     
+    @IBOutlet weak var emojiSegmentControl: UISegmentedControl!
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!

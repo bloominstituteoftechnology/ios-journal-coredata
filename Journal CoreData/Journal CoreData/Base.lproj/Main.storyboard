@@ -95,28 +95,39 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qSZ-2V-N5c">
-                                <rect key="frame" x="16" y="135" width="343" height="30"/>
+                                <rect key="frame" x="16" y="186" width="343" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="WT7-Zm-Rvr">
-                                <rect key="frame" x="16" y="182" width="343" height="218"/>
+                                <rect key="frame" x="16" y="256" width="343" height="217"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="orw-uw-Sqp">
+                                <rect key="frame" x="16" y="133" width="343" height="29"/>
+                                <segments>
+                                    <segment title="🙁"/>
+                                    <segment title="😐"/>
+                                    <segment title="🙂"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="qSZ-2V-N5c" firstAttribute="top" secondItem="fVH-Du-cGV" secondAttribute="top" constant="19" id="Jab-Ty-b0J"/>
-                            <constraint firstItem="fVH-Du-cGV" firstAttribute="bottom" secondItem="WT7-Zm-Rvr" secondAttribute="bottom" constant="267" id="LCD-Ve-QZQ"/>
+                            <constraint firstItem="orw-uw-Sqp" firstAttribute="top" secondItem="fVH-Du-cGV" secondAttribute="top" constant="17" id="E9f-rk-VKi"/>
+                            <constraint firstItem="orw-uw-Sqp" firstAttribute="leading" secondItem="fVH-Du-cGV" secondAttribute="leading" constant="16" id="EDd-Ki-OKw"/>
+                            <constraint firstItem="qSZ-2V-N5c" firstAttribute="top" secondItem="orw-uw-Sqp" secondAttribute="bottom" constant="25" id="JJr-5A-PGX"/>
+                            <constraint firstItem="fVH-Du-cGV" firstAttribute="bottom" secondItem="WT7-Zm-Rvr" secondAttribute="bottom" constant="194" id="LCD-Ve-QZQ"/>
                             <constraint firstItem="fVH-Du-cGV" firstAttribute="trailing" secondItem="WT7-Zm-Rvr" secondAttribute="trailing" constant="16" id="RTc-Df-7mC"/>
                             <constraint firstItem="qSZ-2V-N5c" firstAttribute="leading" secondItem="fVH-Du-cGV" secondAttribute="leading" constant="16" id="SMa-ZF-Dgq"/>
                             <constraint firstItem="WT7-Zm-Rvr" firstAttribute="leading" secondItem="fVH-Du-cGV" secondAttribute="leading" constant="16" id="UJZ-oD-TfC"/>
+                            <constraint firstItem="fVH-Du-cGV" firstAttribute="trailing" secondItem="orw-uw-Sqp" secondAttribute="trailing" constant="16" id="ZtR-yv-7gP"/>
                             <constraint firstItem="fVH-Du-cGV" firstAttribute="trailing" secondItem="qSZ-2V-N5c" secondAttribute="trailing" constant="16" id="spQ-cX-sZN"/>
-                            <constraint firstItem="WT7-Zm-Rvr" firstAttribute="top" secondItem="qSZ-2V-N5c" secondAttribute="bottom" constant="17" id="wFi-yu-yL5"/>
-                            <constraint firstItem="WT7-Zm-Rvr" firstAttribute="top" secondItem="qSZ-2V-N5c" secondAttribute="bottom" constant="17" id="x1k-pA-SNg"/>
+                            <constraint firstItem="WT7-Zm-Rvr" firstAttribute="top" secondItem="qSZ-2V-N5c" secondAttribute="bottom" constant="40" id="wFi-yu-yL5"/>
+                            <constraint firstItem="WT7-Zm-Rvr" firstAttribute="top" secondItem="qSZ-2V-N5c" secondAttribute="bottom" constant="40" id="x1k-pA-SNg"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="fVH-Du-cGV"/>
                     </view>
@@ -129,6 +140,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bodyTextView" destination="WT7-Zm-Rvr" id="uxY-ai-Ukv"/>
+                        <outlet property="emojiSegmentControl" destination="orw-uw-Sqp" id="8xJ-SZ-9ni"/>
                         <outlet property="titleTextField" destination="qSZ-2V-N5c" id="5hX-eS-qoo"/>
                     </connections>
                 </viewController>
