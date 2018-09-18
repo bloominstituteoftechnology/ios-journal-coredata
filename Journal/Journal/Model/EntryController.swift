@@ -11,18 +11,20 @@ import CoreData
 
 class EntryController {
     
-    // MARK: - CRUD functions
+    // MARK: - CRUD Methods
     
-    func createEntry(with title: String, bodyText: String) {
-        _ = Entry(title: title, bodyText: bodyText)
+    
+    func createEntry(with title: String, bodyText: String, mood: Mood) {
+        _ = Entry(title: title, bodyText: bodyText, mood: mood)
         
         saveToPersistentStore()
     }
     
-    func update(entry: Entry, title: String, bodyText: String) {
+    func update(entry: Entry, title: String, bodyText: String, mood: Mood) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = Date()
+        entry.mood = mood.rawValue
         
         saveToPersistentStore()
     }
@@ -57,6 +59,8 @@ class EntryController {
             return []
         }
     }
+    
+    // MARK: - Properties
     
     var entries: [Entry] {
         return loadFromPersistentStore()

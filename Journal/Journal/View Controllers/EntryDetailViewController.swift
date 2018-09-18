@@ -47,9 +47,13 @@ class EntryDetailViewController: UIViewController {
             updateViews()
         }
     }
+    
+    // MARK: - Properties
+    
     var entryController: EntryController?
     
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     
 }

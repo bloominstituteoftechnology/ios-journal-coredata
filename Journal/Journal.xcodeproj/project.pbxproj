@@ -59,6 +59,7 @@
 		7BBAAF252150257E0085944C /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 		7BBAAF27215025EE0085944C /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
 		7BBAAF29215026AE0085944C /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
+		7BD4A41F21506B850028D801 /* Journal 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Journal 2.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +90,7 @@
 		7B40215721503A3B0090152C /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				7BBAAEFB215024C10085944C /* Main.storyboard */,
 				7BBAAF252150257E0085944C /* EntriesTableViewController.swift */,
 				7BBAAF27215025EE0085944C /* EntryTableViewCell.swift */,
 				7BBAAF29215026AE0085944C /* EntryDetailViewController.swift */,
@@ -120,15 +122,8 @@
 			isa = PBXGroup;
 			children = (
 				7B40215721503A3B0090152C /* View Controllers */,
-				7BBAAEF7215024C10085944C /* AppDelegate.swift */,
-				7BBAAEFB215024C10085944C /* Main.storyboard */,
-				7BBAAEFE215024C20085944C /* Assets.xcassets */,
-				7BBAAF00215024C20085944C /* LaunchScreen.storyboard */,
-				7BBAAF03215024C20085944C /* Info.plist */,
-				7B40215D21503C850090152C /* CoreDataStack.swift */,
-				7B40215821503AB20090152C /* Journal.xcdatamodeld */,
-				7B40215B21503B1E0090152C /* Entry+Convenience.swift */,
-				7B40215F21503E4E0090152C /* EntryController.swift */,
+				7BD4A421215075500028D801 /* Resources */,
+				7BD4A4202150750A0028D801 /* Model */,
 			);
 			path = Journal;
 			sourceTree = "<group>";
@@ -149,6 +144,28 @@
 				7BBAAF19215024C20085944C /* Info.plist */,
 			);
 			path = JournalUITests;
+			sourceTree = "<group>";
+		};
+		7BD4A4202150750A0028D801 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7B40215821503AB20090152C /* Journal.xcdatamodeld */,
+				7B40215B21503B1E0090152C /* Entry+Convenience.swift */,
+				7B40215F21503E4E0090152C /* EntryController.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		7BD4A421215075500028D801 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7B40215D21503C850090152C /* CoreDataStack.swift */,
+				7BBAAEF7215024C10085944C /* AppDelegate.swift */,
+				7BBAAEFE215024C20085944C /* Assets.xcassets */,
+				7BBAAF00215024C20085944C /* LaunchScreen.storyboard */,
+				7BBAAF03215024C20085944C /* Info.plist */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -617,9 +634,10 @@
 		7B40215821503AB20090152C /* Journal.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				7BD4A41F21506B850028D801 /* Journal 2.xcdatamodel */,
 				7B40215921503AB20090152C /* Journal.xcdatamodel */,
 			);
-			currentVersion = 7B40215921503AB20090152C /* Journal.xcdatamodel */;
+			currentVersion = 7BD4A41F21506B850028D801 /* Journal 2.xcdatamodel */;
 			path = Journal.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

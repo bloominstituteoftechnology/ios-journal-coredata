@@ -10,24 +10,12 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
     private func updateViews() {
-        guard let entry = entry,
-            let timestamp = entry.timestamp else { return }
-        
-        //Format date
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "en_US")
-        dateFormatter.dateFormat = "MM/dd/yy h:mm a"
-        let date = dateFormatter.string(from: timestamp)
+        guard let entry = entry else { return }
         
         nameLabel.text = entry.title
         bodyLabel.text = entry.bodyText
-        timestampLabel.text = date
+        timestampLabel.text = entry.timestampString
         
     }
     
