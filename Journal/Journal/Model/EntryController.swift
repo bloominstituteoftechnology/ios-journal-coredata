@@ -59,11 +59,4 @@ class EntryController {
             return []
         }
     }
-    
-    // MARK: - Properties
-    
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
-    
 }
