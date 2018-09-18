@@ -17,4 +17,11 @@ extension Entry {
         self.timestamp = timestamp
         self.identifier = identifier
     }
+    
+    var date: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yy h:mm a"
+        let date = dateFormatter.string(from: (self.timestamp)!)
+        return date
+    }
 }

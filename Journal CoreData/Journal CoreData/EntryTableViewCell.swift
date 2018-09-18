@@ -9,6 +9,14 @@
 import UIKit
 
 class EntryTableViewCell: UITableViewCell {
+    
+    func updateViews() {
+        if let entry = entry {
+            titleLabel.text = entry.title
+            bodyLabel.text = entry.bodyText
+            timestampLabel.text = entry.date
+        }
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,6 +32,14 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var bodyLabel: UILabel!
+    
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    var entryController: EntryController?
     
     
 
