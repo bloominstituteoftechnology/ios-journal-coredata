@@ -48,23 +48,4 @@ class EntryController {
         }
     }
     
-    // Load entries that are in the persistent store, into the managed object context
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
-        let moc = CoreDataStack.shared.mainContext
-        
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            NSLog("Error fetching entries: \(error)")
-            return []
-        }
-    }
-    
-    // Entries computed property
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
-    
 }
