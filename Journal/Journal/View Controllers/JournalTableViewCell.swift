@@ -9,18 +9,27 @@
 import UIKit
 
 class JournalTableViewCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    
+    var entry: Journal?{
+        didSet{
+            updateViews()
+        }
+    }
+   
+    func updateViews(){
+        guard let entry = entry else {return}
+        titleLabel.text = entry.title
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d, h:mm a"
+        timeLabel.text = dateFormatter.string(from: entry.timestamp!)
+        
+        subtitleLabel.text = entry.notes
+        
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
+    
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!

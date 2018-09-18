@@ -9,27 +9,52 @@
 import UIKit
 
 class JournalDetailViewController: UIViewController {
-
+    
+    var entry: Journal?{
+        didSet{
+            updateViews()
+        }
+    }
+    var journalController: JournalController?
+    
+    @IBOutlet weak var titleField: UITextField!
+    @IBOutlet weak var notesField: UITextView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        updateViews()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    @IBAction func saveEntry(_ sender: Any) {
+        
+        guard let title = titleField.text, let notes = notesField.text else {return}
+        
+        if let entry = entry {
+            journalController?.updateJournalEntry(entry: entry, with: title, and: notes)
+        } else {
+            journalController?.createJournalEntry(with: title, and: notes)
+        }
+        
+        navigationController?.popViewController(animated: true)
     }
     
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func updateViews(){
+        
+        guard let entry = entry, isViewLoaded else {return}
+        
+        if entry.title != nil || entry.title != "" {
+            title = entry.title
+        } else {
+            title = "New Entry"
+        }
+        
+        titleField.text = entry.title
+        notesField.text = entry.notes
+        
     }
-    */
+    
 
 }
