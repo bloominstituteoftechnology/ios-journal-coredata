@@ -31,6 +31,13 @@ extension Entry {
         self.mood = mood.rawValue
     }
     
+    convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        
+        guard let mood = Mood(rawValue: entryRepresentation.mood) else { return nil }
+        
+        self.init(title: entryRepresentation.title, bodyText: entryRepresentation.bodyText, timestamp: entryRepresentation.timestamp, identifier: entryRepresentation.identifier, mood: mood, context: context)
+    }
+    
     var timestampString: String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US")
