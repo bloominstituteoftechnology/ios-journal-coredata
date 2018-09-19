@@ -77,7 +77,7 @@ class EntryController {
     }
     
     // MARK: - Networking
-    private func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
         let requestURL = baseURL.appendingPathExtension("json")
         
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in

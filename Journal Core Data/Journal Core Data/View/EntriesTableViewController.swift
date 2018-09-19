@@ -13,6 +13,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
 
     // MARK: - Properties
     let entryController = EntryController()
+    let entryRefreshControl = UIRefreshControl()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -29,13 +30,21 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     }()
     
     // MARK: - Lifecycle Methods
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        navigationController?.navigationBar.barStyle = .black
+        view.backgroundColor = .darkerGray
+        
+        entryRefreshControl.addTarget(self, action: #selector(fetchEntries), for: .valueChanged)
+        
+        tableView.refreshControl = entryRefreshControl
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         tableView.reloadData()
-        
-        navigationController?.navigationBar.barStyle = .black
-        view.backgroundColor = .darkerGray
     }
 
     // MARK: - Table View Data Source
@@ -156,6 +165,15 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
             let destinationVC = segue.destination as! EntryDetailViewController
             
             destinationVC.entryController = entryController
+        }
+    }
+    
+    // MARK: - Utility Methods
+    @objc private func fetchEntries() {
+        entryController.fetchEntriesFromServer { (_) in
+            DispatchQueue.main.async {
+                self.entryRefreshControl.endRefreshing()
+            }
         }
     }
 
