@@ -19,15 +19,13 @@ extension Entry: Encodable {
     }
     
     public func encode(to encoder: Encoder) throws {
-        var container = try encoder.container(keyedBy: CodingKeys.self)
+        var container = encoder.container(keyedBy: CodingKeys.self)
         
-        self.title = try container.encode(String.self, forKey: .title)
-        self.bodyText = try container.encode(String.self, forKey: .bodyText)
-        self.timestamp = try container.encode(Date.self, forKey: .timestamp)
-        self.identifier = try container.encode(String.self, forKey: .identifier)
-        self.mood = try container.encode(String.self, forKey: .mood)
+        try container.encode(self.title, forKey: .title)
+        try container.encode(self.bodyText, forKey: .bodyText)
+        try container.encode(self.timestamp, forKey: .timestamp)
+        try container.encode(self.identifier, forKey: .identifier)
+        try container.encode(self.mood, forKey: .mood)
         
     }
-    
-    
 }

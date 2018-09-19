@@ -28,11 +28,11 @@ class EntryController {
         entry.mood = mood.rawValue
         
         saveToPersistentStore()
-        put(entry: <#T##Entry#>)
+        put(entry: entry)
     }
     
     func delete(entry: Entry) {
-        delete(entry: entry)
+        deleteEntryFromServer(entry: entry)
         
         CoreDataStack.shared.mainContext.delete(entry)
         
