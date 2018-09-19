@@ -32,6 +32,7 @@ class EntryController {
     
     func deleteEntry(entry: Entry) {
         let moc = CoreDataStack.shared.mainContext
+        deleteFromServer(entry: entry)
         moc.delete(entry)
         saveToPersistentStore()
     }
@@ -59,7 +60,7 @@ class EntryController {
         
     }
     
-        typealias CompletionHandler = (Error?) -> Void
+    typealias CompletionHandler = (Error?) -> Void
     
     
     func put(entry: Entry, completion: @escaping CompletionHandler = {_ in } ) {
@@ -86,6 +87,23 @@ class EntryController {
             completion(nil)
         }.resume()
         
+    }
+    
+    func deleteFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        guard let identifier = entry.identifier else { return }
+        var requestURL = baseUrl.appendingPathComponent(identifier)
+        requestURL.appendPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+
+        URLSession.shared.dataTask(with: request) {data, _, error in
+            if let error = error {
+                NSLog("There was an error with the DELETE Request: \(error)")
+                completion(error)
+            }
+            
+            completion(nil)
+        }.resume()
     }
     
     let baseUrl = URL(string: "https://moinjournal.firebaseio.com/")!
