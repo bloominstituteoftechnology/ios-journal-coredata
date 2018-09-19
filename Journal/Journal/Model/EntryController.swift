@@ -11,6 +11,10 @@ import CoreData
 
 class EntryController {
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     // MARK: - CRUD Methods
     
     
@@ -62,6 +66,68 @@ class EntryController {
             NSLog("Error fetching entries: \(error)")
             return []
         }
+    }
+    
+    func update(entry: Entry, entryRepresentation: EntryRepresentation) {
+        
+        entry.title = entryRepresentation.title
+        entry.bodyText = entryRepresentation.bodyText
+        entry.timestamp = entryRepresentation.timestamp
+        entry.identifier = entryRepresentation.identifier
+        entry.mood = entryRepresentation.mood
+    }
+    
+    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
+        
+        do {
+            return try CoreDataStack.shared.mainContext.fetch(fetchRequest).first
+        } catch {
+            NSLog("Error fetching entry with given identifier: \(error)")
+            return nil
+        }
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
+        let url = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching data: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else { return }
+            
+            var entryRepresentations: [EntryRepresentation] = []
+            
+            do {
+                let resultsDictionary = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
+                entryRepresentations = resultsDictionary.map({  $0.value })
+                
+                for entryRep in entryRepresentations {
+                    let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier)
+                    
+                    if let entry = entry {
+                        if entry != entryRep {
+                            self.update(entry: entry, entryRepresentation: entryRep)
+                        }
+                    } else {
+                        _ = Entry(entryRepresentation: entryRep)
+                    }
+                }
+                self.saveToPersistentStore()
+                completion(nil)
+            } catch {
+                NSLog("Error decoding data: \(error)")
+                completion(error)
+                return
+            }
+        }.resume()
     }
     
     func put(entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
