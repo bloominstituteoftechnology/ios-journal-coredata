@@ -71,24 +71,38 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
 //        return sectionInfo?.name
 //    }
     
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 40
+    }
+    
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
-        let label = UILabel()
-        label.text = "Test"
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
+        label.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(label)
-        view.sizeToFit()
         
-        switch section {
-        case 0:
-            view.backgroundColor = .lightGreen
-        case 1:
-            view.backgroundColor = .lightBlue
-        case 2:
-            view.backgroundColor = .lightTan
-        default:
-            view.backgroundColor = .white
+        label.centerXAnchor.constraint(equalTo: view.layoutMarginsGuide.centerXAnchor).isActive = true
+        label.centerYAnchor.constraint(equalTo: view.layoutMarginsGuide.centerYAnchor).isActive = true
+        label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        
+        
+        
+        if let sectionInfo = fetchedResultsController.sections?[section], let mood = Moods(rawValue: sectionInfo.name), let index = Moods.allCases.index(of: mood) {
+            switch index {
+            case 0:
+                label.text = Moods.😔.rawValue
+                view.backgroundColor = .lightBlue
+            case 1:
+                label.text = Moods.😐.rawValue
+                view.backgroundColor = .lightTan
+            case 2:
+                label.text = Moods.🙂.rawValue
+                view.backgroundColor = .lightGreen
+            default:
+                view.backgroundColor = .white
+            }
         }
-        
+        view.sizeToFit()
         return view
     }
     
