@@ -11,7 +11,13 @@ import CoreData
 
 class EntryController {
     
+    // MARK: - Properties
     let baseURL = URL(string: "https://core-data-journal.firebaseio.com/")!
+    
+    // MARK - Initializers
+    init() {
+        fetchEntriesFromServer()
+    }
     
     // MARK: - CRUD Methods
     func createEntry(title: String, bodyText: String, mood: String) {
@@ -28,6 +34,14 @@ class EntryController {
         
         saveToPersistentStore()
         put(entry)
+    }
+    
+    func update(entry: Entry, entryRepresentation: EntryRepresentation) {
+        entry.title = entryRepresentation.title
+        entry.timestamp = entryRepresentation.timestamp
+        entry.bodyText = entryRepresentation.bodyText
+        entry.mood = entryRepresentation.mood
+        entry.identifier = entryRepresentation.identifier
     }
     
     func delete(entry: Entry) {
@@ -47,17 +61,80 @@ class EntryController {
         }
     }
     
+    private func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        
+        let predicate = NSPredicate(format: "identifier = %@", identifier)
+        
+        fetchRequest.predicate = predicate
+        
+        do {
+            return try CoreDataStack.shared.mainContext.fetch(fetchRequest).first
+        } catch {
+            NSLog("Error fetching single entry from persistent store.")
+            return nil
+        }
+    }
+    
     // MARK: - Networking
+    private func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching entries from server: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned from fetching entries from server.")
+                completion(NSError())
+                return
+            }
+            
+            var entryRepresentations: [EntryRepresentation] = []
+            
+            do {
+                entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map() { $0.value }
+                for entryRepresentation in entryRepresentations {
+                    if let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRepresentation.identifier) {
+                        if entry != entryRepresentation {
+                            self.update(entry: entry, entryRepresentation: entryRepresentation)
+                        }
+                    } else {
+                        _ = Entry(entryRepresentation: entryRepresentation)
+                        
+                    }
+                }
+                
+                self.saveToPersistentStore()
+                completion(nil)
+                return
+            } catch {
+                NSLog("Error decoding fetched entry representations: \(error)")
+                completion(error)
+                return
+            }
+            
+        }.resume()
+    }
     
     private func put(_ entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         
+        // Unwrap the identifier
         let identifier = entry.identifier ?? UUID().uuidString
         
-        entry.identifier = identifier
-        saveToPersistentStore()
+        // If there isn't one, set it and update the persistent store
+        if entry.identifier != identifier {
+            entry.identifier = identifier
+            saveToPersistentStore()
+        }
         
+        // Make the request URL
         let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
         
+        // Make the request and set its HTTP Method
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.put.rawValue
         

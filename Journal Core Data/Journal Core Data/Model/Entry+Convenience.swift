@@ -27,6 +27,16 @@ extension Entry {
         self.mood = mood
     }
     
+    /// Convenience initializer for initializing from an Entry Representation
+    convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        self.init(title: entryRepresentation.title,
+                  bodyText: entryRepresentation.bodyText,
+                  timestamp: entryRepresentation.timestamp,
+                  identifier: entryRepresentation.identifier,
+                  mood: entryRepresentation.mood,
+                  context: context)
+    }
+    
     /// Computed property that returns a formatted timestamp.
     var formattedTimestamp: String {
         let dateFormatter = DateFormatter()
