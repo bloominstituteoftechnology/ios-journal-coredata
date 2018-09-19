@@ -20,7 +20,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         let sortDescriptor = NSSortDescriptor(key: "mood", ascending: false)
         let sortDescriptor2 = NSSortDescriptor(key: "timestamp", ascending: false)
         
-        fetchRequest.sortDescriptors = [sortDescriptor]
+        fetchRequest.sortDescriptors = [sortDescriptor, sortDescriptor2]
         
         let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.shared.mainContext, sectionNameKeyPath: "mood", cacheName: nil)
         

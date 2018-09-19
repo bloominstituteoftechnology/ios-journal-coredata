@@ -29,6 +29,7 @@ class EntryDetailViewController: UIViewController {
         setupSegmentedControl()
         updateViews()
 
+        titleTextField.attributedPlaceholder = NSAttributedString(string: "Enter a title", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
     }
     
     // MARK: - UI Methods
@@ -63,9 +64,6 @@ class EntryDetailViewController: UIViewController {
         title = entry.title
         titleTextField.text = entry.title
         bodyTextView.text = entry.bodyText
-        
-
-        
         
         let mood: Moods = Moods(rawValue: entry.mood ?? "😐") ?? .😐
         
