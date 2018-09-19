@@ -85,33 +85,13 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
-        label.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(label)
-        
-        label.centerXAnchor.constraint(equalTo: view.layoutMarginsGuide.centerXAnchor).isActive = true
-        label.centerYAnchor.constraint(equalTo: view.layoutMarginsGuide.centerYAnchor).isActive = true
-        label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
-        
-        
-        
+        let view: UIView
         if let sectionInfo = fetchedResultsController.sections?[section], let mood = Moods(rawValue: sectionInfo.name), let index = Moods.allCases.index(of: mood) {
-            switch index {
-            case 0:
-                label.text = Moods.😔.rawValue
-                view.backgroundColor = .lightBlue
-            case 1:
-                label.text = Moods.😐.rawValue
-                view.backgroundColor = .lightTan
-            case 2:
-                label.text = Moods.🙂.rawValue
-                view.backgroundColor = .lightGreen
-            default:
-                view.backgroundColor = .white
-            }
+            view = createHeaderView(index: index)
+        } else {
+            view = UIView()
         }
-        view.sizeToFit()
+        
         return view
     }
     
@@ -169,6 +149,36 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     }
     
     // MARK: - Utility Methods
+    /// Utility method to set up and return a section header view for the table view
+    private func createHeaderView(index: Int) -> UIView {
+        let view = UIView()
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
+        label.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(label)
+        
+        label.centerXAnchor.constraint(equalTo: view.layoutMarginsGuide.centerXAnchor).isActive = true
+        label.centerYAnchor.constraint(equalTo: view.layoutMarginsGuide.centerYAnchor).isActive = true
+        label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        
+        switch index {
+        case 0:
+            label.text = Moods.😔.rawValue
+            view.backgroundColor = .lightBlue
+        case 1:
+            label.text = Moods.😐.rawValue
+            view.backgroundColor = .lightTan
+        case 2:
+            label.text = Moods.🙂.rawValue
+            view.backgroundColor = .lightGreen
+        default:
+            view.backgroundColor = .white
+        }
+        view.sizeToFit()
+        
+        return view
+    }
+    
+    /// Utility method to fetch the entries from the server and ends refreshing on the refresh control
     @objc private func fetchEntries() {
         entryController.fetchEntriesFromServer { (_) in
             DispatchQueue.main.async {

@@ -29,6 +29,7 @@ class EntryTableViewCell: UITableViewCell {
         detailLabel.text = entry.bodyText
         timestampLabel.text = entry.formattedTimestamp
         
+        // Set the color of the text based on the mood
         switch entry.mood {
         case Moods.😐.rawValue: updateColors(.lightTan)
         case Moods.🙂.rawValue: updateColors(.lightGreen)
@@ -38,6 +39,7 @@ class EntryTableViewCell: UITableViewCell {
         backgroundColor = .darkerGray
     }
     
+    /// Utility method to set all the text colors to the given color
     private func updateColors(_ color: UIColor) {
         titleLabel.textColor = color
         detailLabel.textColor = color

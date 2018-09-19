@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Represents an entry for decoding and comparison purposes
 struct EntryRepresentation: Decodable, Equatable {
     
     var title: String
