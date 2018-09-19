@@ -16,8 +16,9 @@ class EntryController {
     }
     
     func createEntry(title: String, bodyText: String, mood: String) {
-        _ = Entry(title: title, bodyText: bodyText, mood: mood)
+        let entry = Entry(title: title, bodyText: bodyText, mood: mood)
         saveToPersistentStore()
+        put(entry: entry)
     }
     
     func updateEntry(entry: Entry, title: String, bodyText: String, mood: String) {
@@ -26,6 +27,7 @@ class EntryController {
         entry.timestamp = Date()
         entry.mood = mood
         saveToPersistentStore()
+        put(entry: entry)
     }
     
     func deleteEntry(entry: Entry) {
@@ -56,4 +58,36 @@ class EntryController {
         }
         
     }
+    
+        typealias CompletionHandler = (Error?) -> Void
+    
+    
+    func put(entry: Entry, completion: @escaping CompletionHandler = {_ in } ) {
+        guard let identifier = entry.identifier else { return }
+        var requestURL = baseUrl.appendingPathComponent(identifier)
+        requestURL.appendPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(entry)
+        } catch {
+            NSLog("Error encoding Entry: \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) {data, _, error in
+            if let error = error {
+                NSLog("There was an error with the PUT Request: \(error)")
+                completion(error)
+            }
+            
+            completion(nil)
+        }.resume()
+        
+    }
+    
+    let baseUrl = URL(string: "https://moinjournal.firebaseio.com/")!
+
 }
