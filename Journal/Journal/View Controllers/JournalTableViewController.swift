@@ -15,10 +15,26 @@ class JournalTableViewController: UITableViewController, NSFetchedResultsControl
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
+        refreshData(self)
     }
+    
+    @objc func refreshData(_ sender: Any) {
+        
+        journalController.fetchEntriesFromServer()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+            self.tableView.refreshControl?.endRefreshing()
+        }
+        
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let refreshControl = UIRefreshControl()
+        tableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: UIControlEvents.valueChanged)
         
     }
     
@@ -82,49 +98,49 @@ class JournalTableViewController: UITableViewController, NSFetchedResultsControl
         let sectionInfo = fetchResultsController.sections?[section]
         return sectionInfo?.name
     }
-
-
+    
+    
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchResultsController.sections?.count ?? 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-//        fetchedResultsController.sections?[section].numberOfObjects ?? 0
+        //        fetchedResultsController.sections?[section].numberOfObjects ?? 0
         return fetchResultsController.sections?[section].numberOfObjects ?? 0
     }
-
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? JournalTableViewCell else {return UITableViewCell()}
-
-//        cell.entry = journalController.journal[indexPath.row]
+        
+        //        cell.entry = journalController.journal[indexPath.row]
         cell.entry = fetchResultsController.object(at: indexPath)
         // Configure the cell...
-
+        
         return cell
     }
- 
-
+    
+    
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-        
+            
             let journal = fetchResultsController.object(at: indexPath)
             journalController.deleteJournalEntry(entry: journal)
-//            tableView.deleteRows(at: [indexPath], with: .automatic)
+            //            tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
     
-
+    
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
+        
         if segue.identifier == "ViewEntry"{
             
             guard let destVC = segue.destination as? JournalDetailViewController, let indexPath = tableView.indexPathForSelectedRow else {return}
@@ -142,5 +158,5 @@ class JournalTableViewController: UITableViewController, NSFetchedResultsControl
         
     }
     
-
+    
 }
