@@ -22,11 +22,15 @@ class EntryController {
     
     // MARK: - CRUD Methods
     /// Creates a new entry with the given properties in the local persistent store and the server
-    func createEntry(title: String, bodyText: String, mood: String) {
+    func createEntry(title: String, bodyText: String, mood: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         let entry = Entry(title: title, bodyText: bodyText, mood: mood)
         
-        saveToPersistentStore()
-        put(entry)
+        do {
+            try CoreDataStack.shared.save(context: context)
+            put(entry)
+        } catch {
+            NSLog("Error creating new entry: \(error)")
+        }
     }
     
     /// Updates the given entry with the given properties in the local persistent store and the server
@@ -35,7 +39,6 @@ class EntryController {
         entry.bodyText = bodyText
         entry.mood = mood
         
-        saveToPersistentStore()
         put(entry)
     }
     
@@ -52,21 +55,19 @@ class EntryController {
     func delete(entry: Entry) {
         deleteEntryFromServer(entry)
         
-        CoreDataStack.shared.mainContext.delete(entry)
+        CoreDataStack.shared.mainContext.performAndWait {
+            CoreDataStack.shared.mainContext.delete(entry)
+        }
         
-        saveToPersistentStore()
-    }
-    
-    // MARK: - Persistence
-    /// Saves the main context to the persistent store
-    private func saveToPersistentStore() {
         do {
-            try CoreDataStack.shared.mainContext.save()
+            try CoreDataStack.shared.save()
         } catch {
-            NSLog("Error saving managed object context to persistent store: \(error)")
+            NSLog("Error deleting entry.")
+            CoreDataStack.shared.mainContext.reset()
         }
     }
     
+    // MARK: - Persistence
     /// Returns an optional Entry that matches the given identifier
     private func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry? {
         // Make a request
@@ -122,10 +123,20 @@ class EntryController {
                 // Try to decode the data into a dictionary and the map that dictionary to the array of representations
                 entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map() { $0.value }
                 
-                self.updateContextWithEntryRepresentations(entryRepresentations: entryRepresentations)
+                let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+                
+                backgroundContext.performAndWait {
+                    self.updateContextWithEntryRepresentations(context: backgroundContext, entryRepresentations: entryRepresentations)
+                }
                 
                 // Save everything to the persistent store
-                self.saveToPersistentStore()
+                do {
+                    try CoreDataStack.shared.save(context: backgroundContext)
+                } catch {
+                    NSLog("Error saving entries to background context: \(error)")
+                    completion(error)
+                    return
+                }
                 completion(nil)
                 return
             } catch {
@@ -144,10 +155,12 @@ class EntryController {
         // Unwrap the identifier
         let identifier = entry.identifier ?? UUID().uuidString
         
-        // If there isn't one, set it and update the persistent store
-        if entry.identifier != identifier {
-            entry.identifier = identifier
-            saveToPersistentStore()
+        entry.identifier = identifier
+        do {
+            let context = entry.managedObjectContext ?? CoreDataStack.shared.mainContext
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            NSLog("Error saving updated entry: \(error)")
         }
         
         // Make the request URL
@@ -223,7 +236,7 @@ class EntryController {
                 }
             } else {
                 // If not, create a new entry
-                _ = Entry(entryRepresentation: entryRepresentation)
+                _ = Entry(entryRepresentation: entryRepresentation, context: context)
             }
         }
     }
