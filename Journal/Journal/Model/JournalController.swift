@@ -11,20 +11,24 @@ import CoreData
 
 class JournalController {
     
-//    var journal: [Journal]{
-//
-//        let request: NSFetchRequest<Journal> = Journal.fetchRequest()
-//
-//        let moc = CoreDataStack.shared.mainContext
-//
-//        do {
-//            return try moc.fetch(request)
-//        } catch{
-//            NSLog("Tasks FETCH failed: \(error)")
-//            return []
-//        }
-//
-//    }
+    init(){
+        fetchEntriesFromServer()
+    }
+    
+    //    var journal: [Journal]{
+    //
+    //        let request: NSFetchRequest<Journal> = Journal.fetchRequest()
+    //
+    //        let moc = CoreDataStack.shared.mainContext
+    //
+    //        do {
+    //            return try moc.fetch(request)
+    //        } catch{
+    //            NSLog("Tasks FETCH failed: \(error)")
+    //            return []
+    //        }
+    //
+    //    }
     typealias CompletionHandler = (Error?) -> Void
     let baseURL = URL(string: "https://farhanf-journal.firebaseio.com/")
     
@@ -72,7 +76,7 @@ class JournalController {
     func deletefromServer(entry: Journal, completion: @escaping CompletionHandler = {_ in}){
         
         let requestURL = baseURL?.appendingPathComponent(entry.identifier ?? UUID().uuidString).appendingPathExtension("json")
-//        print(requestURL)
+        //        print(requestURL)
         var request = URLRequest(url: requestURL!)
         request.httpMethod = HTTPMethod.delete.rawValue
         
@@ -93,7 +97,7 @@ class JournalController {
     func put(entry: Journal, completion: @escaping CompletionHandler = {_ in}){
         
         let requestURL = baseURL?.appendingPathComponent(entry.identifier ?? UUID().uuidString).appendingPathExtension("json")
-//        print(requestURL)
+        //        print(requestURL)
         var request = URLRequest(url: requestURL!)
         request.httpMethod = HTTPMethod.put.rawValue
         
@@ -113,6 +117,87 @@ class JournalController {
             }
             print(response ?? "PUT successful")
             completion(nil)
+            
+            }.resume()
+        
+    }
+    
+    func update(entry: Journal, entryRepresentation: JournalRepresentation){
+        
+        entry.title = entryRepresentation.title
+        entry.notes = entryRepresentation.notes
+        entry.mood = entryRepresentation.mood
+        entry.timestamp = entryRepresentation.timestamp
+        entry.identifier = entryRepresentation.identifier
+        
+    }
+    
+    func fetchSingleEntryFromPersistentStore(identifier: String)-> Journal?{
+        
+        let requestURL = baseURL?.appendingPathComponent(identifier).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL!)
+        request.httpMethod = HTTPMethod.get.rawValue
+        
+        let fetchRequest: NSFetchRequest<Journal> = Journal.fetchRequest()
+        let predicate = NSPredicate(format: "identifier == %@", identifier) //Obj C method
+        fetchRequest.predicate = predicate
+        
+        do {
+            let moc = CoreDataStack.shared.mainContext
+            return try moc.fetch(fetchRequest).first
+        } catch {
+            NSLog("Error fetching entry with UUID")
+            return nil
+        }
+        
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = {_ in}){
+        
+        let requestURL = baseURL?.appendingPathExtension("json")
+        let request = URLRequest(url: requestURL!)
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            
+            if let error = error {
+                NSLog("Error fetching entries: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("Data Not availible")
+                completion(NSError())
+                return
+            }
+            
+            do{
+                let entryRepresentations: [JournalRepresentation] = Array(try JSONDecoder().decode([String: JournalRepresentation].self, from: data).values)
+                
+                for entryRep in entryRepresentations {
+                    
+                    let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier)
+                    
+                    if let entry = entry {
+                        
+                        if entryRep != entry {
+                            self.update(entry: entry, entryRepresentation: entryRep)
+                        }
+                    } else{
+                        let _ = Journal(journalRepresentation: entryRep)
+                    }
+                    
+                }
+                
+                self.saveToPersistentStorage()
+                completion(nil)
+                
+                
+            }catch {
+                NSLog("Error fetching entries: \(error)")
+                completion(error)
+                return
+            }
             
             }.resume()
         

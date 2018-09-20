@@ -25,4 +25,11 @@ extension Journal {
         
     }
     
+    convenience init?(journalRepresentation: JournalRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext){
+        
+        
+        self.init(title: journalRepresentation.title, notes: journalRepresentation.notes, timestamp: journalRepresentation.timestamp, identifier: journalRepresentation.identifier, mood: journalRepresentation.mood, context: CoreDataStack.shared.mainContext)
+        
+    }
+    
 }
