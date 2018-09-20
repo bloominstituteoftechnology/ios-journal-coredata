@@ -152,7 +152,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     /// Utility method to set up and return a section header view for the table view
     private func createHeaderView(index: Int) -> UIView {
         let view = UIView()
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
+        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 40, height: 30))
         label.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(label)
         

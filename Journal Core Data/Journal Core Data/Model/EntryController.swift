@@ -40,7 +40,7 @@ class EntryController {
     }
     
     /// Updates the given entry with the properties of the given entry representation
-    func update(entry: Entry, entryRepresentation: EntryRepresentation) {
+    private func update(entry: Entry, entryRepresentation: EntryRepresentation) {
         entry.title = entryRepresentation.title
         entry.timestamp = entryRepresentation.timestamp
         entry.bodyText = entryRepresentation.bodyText

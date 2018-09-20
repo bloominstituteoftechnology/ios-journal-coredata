@@ -20,10 +20,10 @@ extension Entry: Encodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
-        try container.encodeIfPresent(self.title, forKey: .title)
-        try container.encodeIfPresent(self.bodyText, forKey: .bodyText)
-        try container.encodeIfPresent(self.mood, forKey: .mood)
-        try container.encodeIfPresent(self.timestamp, forKey: .timestamp)
-        try container.encodeIfPresent(self.identifier, forKey: .identifier)
+        try container.encode(self.title, forKey: .title)
+        try container.encode(self.bodyText, forKey: .bodyText)
+        try container.encode(self.mood, forKey: .mood)
+        try container.encode(self.timestamp, forKey: .timestamp)
+        try container.encode(self.identifier, forKey: .identifier)
     }
 }

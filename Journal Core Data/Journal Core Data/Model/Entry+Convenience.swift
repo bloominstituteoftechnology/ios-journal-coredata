@@ -39,10 +39,14 @@ extension Entry {
     
     /// Computed property that returns a formatted timestamp.
     var formattedTimestamp: String {
+        return Entry.dateFormatter.string(from: timestamp ?? Date())
+    }
+    
+    /// Static property that holds the date formatter.
+    static let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .short
         dateFormatter.timeStyle = .short
-        
-        return dateFormatter.string(from: timestamp ?? Date())
-    }
+        return dateFormatter
+    }()
 }
