@@ -44,7 +44,11 @@ Remember that **any** use of managed objects or a managed object context must be
 
 Thoroughly test your app to be sure that all features continue to function correctly. From an end user perspective, the app should behave **exactly** as it did yesterday. While you're testing the app, be sure the `-com.apple.CoreData.ConcurrencyDebug 1` launch argument is set. Verify that no Core Data multithreading assertions are triggered.
 
+<<<<<<< HEAD
+>>>>>>> fa7898a7eaf56efa75b3dac661463d99fc8b8761
+=======
 If the app behaves correctly and doesn't trigger any assertions, you're done! Submit your pull request. If you have time left, try the suggestions in the Go Further section below.
+>>>>>>> 03c936fd661b365ba7ee6bc35ea702500607c4bb
 
 ## Go Further
 
