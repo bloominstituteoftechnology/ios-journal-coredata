@@ -15,6 +15,10 @@ class EntryController {
         return loadFromPersistentStore()
     }
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     func createEntry(title: String, bodyText: String, mood: String) {
         let entry = Entry(title: title, bodyText: bodyText, mood: mood)
         saveToPersistentStore()
@@ -28,6 +32,14 @@ class EntryController {
         entry.mood = mood
         saveToPersistentStore()
         put(entry: entry)
+    }
+    
+    func update(entry: Entry, entryRepresentation: EntryRepresentation) {
+        entry.bodyText = entryRepresentation.bodyText
+        entry.title = entryRepresentation.title
+        entry.identifier = entryRepresentation.identifier
+        entry.mood = entryRepresentation.mood
+        entry.timestamp = entryRepresentation.timestamp
     }
     
     func deleteEntry(entry: Entry) {
@@ -60,6 +72,20 @@ class EntryController {
         
     }
     
+    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        let predicate = NSPredicate(format: "identifier == %@", identifier)
+        fetchRequest.predicate = predicate
+        
+        do {
+            let moc = CoreDataStack.shared.mainContext
+            return try moc.fetch(fetchRequest).first
+        } catch {
+            NSLog("Error fetching entry with UUID \(identifier): \(error)")
+            return nil
+        }
+    }
+    
     typealias CompletionHandler = (Error?) -> Void
     
     
@@ -88,6 +114,49 @@ class EntryController {
         }.resume()
         
     }
+    
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = baseUrl.appendingPathExtension("json")
+        //let request = URLRequest(url: requestURL)
+        
+        URLSession.shared.dataTask(with: requestURL) {data, _, error in
+            if let error = error {
+                NSLog("There was an error with the GET REQUEST: \(error)")
+                completion(error)
+            }
+            
+            guard let data = data else {
+                NSLog("There was error unwrapping the data: \(error)")
+                completion(error)
+                return
+            }
+            
+            var entryRepresentations: [EntryRepresentation] = []
+            
+            do {
+                entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({ $0.value })
+                
+                for entryRep in entryRepresentations {
+                    if let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier) {
+                        if entry != entryRep {
+                            print("goes to update")
+                           self.update(entry: entry, entryRepresentation: entryRep)
+                        }
+                    } else {
+                        print("goes to create")
+                        _ = Entry(entryRepresentation: entryRep)
+                    }
+                }
+                self.saveToPersistentStore()
+                completion(nil)
+            } catch {
+                NSLog("There was an error decoding entries: \(error)")
+                completion(error)
+                return
+            }
+        }.resume()
+    }
+    
     
     func deleteFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         guard let identifier = entry.identifier else { return }

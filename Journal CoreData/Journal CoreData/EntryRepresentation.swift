@@ -9,7 +9,9 @@
 import Foundation
 
 func == (lhs: EntryRepresentation, rhs: Entry) -> Bool {
-    return lhs.identifier == rhs.identifier
+    //print(rhs)
+    //print(lhs)
+    return lhs.identifier == rhs.identifier && lhs.title == rhs.title && lhs.bodyText == rhs.bodyText && rhs.timestamp == lhs.timestamp && rhs.mood == lhs.mood
 }
 
 func == (lhs: Entry, rhs: EntryRepresentation) -> Bool {
