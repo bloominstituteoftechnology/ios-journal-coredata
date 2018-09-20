@@ -18,6 +18,8 @@
 		D8130CF32150990600F6AF3E /* Journal+Convinience.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8130CF22150990500F6AF3E /* Journal+Convinience.swift */; };
 		D8130CF52150992C00F6AF3E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8130CF42150992C00F6AF3E /* CoreDataStack.swift */; };
 		D8130CF921509C8A00F6AF3E /* JournalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8130CF821509C8A00F6AF3E /* JournalController.swift */; };
+		D8550BAB21530CEB00B7B0A7 /* Journal+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8550BAA21530CEB00B7B0A7 /* Journal+Encodable.swift */; };
+		D8550BAD2153132500B7B0A7 /* HTTPMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8550BAC2153132500B7B0A7 /* HTTPMethods.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +37,8 @@
 		D8130CF42150992C00F6AF3E /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		D8130CF821509C8A00F6AF3E /* JournalController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalController.swift; sourceTree = "<group>"; };
 		D8130CFC21515B5700F6AF3E /* Journal 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Journal 2.xcdatamodel"; sourceTree = "<group>"; };
+		D8550BAA21530CEB00B7B0A7 /* Journal+Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Journal+Encodable.swift"; sourceTree = "<group>"; };
+		D8550BAC2153132500B7B0A7 /* HTTPMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HTTPMethods.swift; path = Journal/Helpers/HTTPMethods.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				D8130CE82150635900F6AF3E /* Journal.xcdatamodeld */,
+				D8550BAA21530CEB00B7B0A7 /* Journal+Encodable.swift */,
 				D8130CF821509C8A00F6AF3E /* JournalController.swift */,
 				D8130CF22150990500F6AF3E /* Journal+Convinience.swift */,
 			);
@@ -102,6 +107,7 @@
 		D8130CFB21509F6700F6AF3E /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				D8550BAC2153132500B7B0A7 /* HTTPMethods.swift */,
 				D8130CF42150992C00F6AF3E /* CoreDataStack.swift */,
 			);
 			path = Helpers;
@@ -178,11 +184,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D8550BAD2153132500B7B0A7 /* HTTPMethods.swift in Sources */,
 				D8130CEA2150635900F6AF3E /* Journal.xcdatamodeld in Sources */,
 				D8130CF921509C8A00F6AF3E /* JournalController.swift in Sources */,
 				D8130CF32150990600F6AF3E /* Journal+Convinience.swift in Sources */,
 				D8130CF02150660F00F6AF3E /* JournalTableViewCell.swift in Sources */,
 				D8130CEE2150649200F6AF3E /* JournalDetailViewController.swift in Sources */,
+				D8550BAB21530CEB00B7B0A7 /* Journal+Encodable.swift in Sources */,
 				D8130CEC2150645200F6AF3E /* JournalTableViewController.swift in Sources */,
 				D8130CD7215061B800F6AF3E /* AppDelegate.swift in Sources */,
 				D8130CF52150992C00F6AF3E /* CoreDataStack.swift in Sources */,

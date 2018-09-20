@@ -21,6 +21,7 @@ extension Journal {
         self.notes = notes
         self.timestamp = timestamp
         self.mood = mood
+        self.identifier = identifier
         
     }
     
