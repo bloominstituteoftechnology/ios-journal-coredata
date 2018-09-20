@@ -104,6 +104,7 @@ Back in the `EntryController`, you will make a couple methods that will help whe
 
 The app should be working at this point. Test it by going to the Firebase Database in a browser and changing some values in the entries saved there. The easiest thing to change is the mood. This will allow you to easily see if the table view will update according to the new changes. It may take a few seconds after the app launches, but you should see the cell(s) move to different sections if you changed the mood of some entries in Firebase.
 
+>>>>>>> fa7898a7eaf56efa75b3dac661463d99fc8b8761
 
 ## Go Further
 
