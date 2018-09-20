@@ -45,50 +45,51 @@ class EntryController {
     
     // MARK: - Core Data
     
-    func saveToPersistentStore() {
-        let moc = CoreDataStack.shared.mainContext
-        
-        do {
-            try moc.save()
-        } catch {
-            NSLog("Error saving managed object context: \(error)")
+    func saveToPersistentStore(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+       
+        context.perform {
+            do {
+                try context.save()
+            } catch {
+                NSLog("Error saving managed object context: \(error)")
+            }
         }
     }
     
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
-        let moc = CoreDataStack.shared.mainContext
-        
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            NSLog("Error fetching entries: \(error)")
-            return []
-        }
-    }
+//    func loadFromPersistentStore() -> [Entry] {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//
+//        let moc = CoreDataStack.shared.mainContext
+//
+//        var entries: [Entry] = []
+//
+//        moc.performAndWait {
+//            do {
+//                entries = try moc.fetch(fetchRequest)
+//            } catch {
+//                NSLog("Error fetching entries: \(error)")
+//            }
+//        }
+//        return entries
+//    }
     
-    func update(entry: Entry, entryRepresentation: EntryRepresentation) {
-        
-        entry.title = entryRepresentation.title
-        entry.bodyText = entryRepresentation.bodyText
-        entry.timestamp = entryRepresentation.timestamp
-        entry.identifier = entryRepresentation.identifier
-        entry.mood = entryRepresentation.mood
-    }
+    // MARK: - Networking
     
-    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+    func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry? {
         
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
         
-        do {
-            return try CoreDataStack.shared.mainContext.fetch(fetchRequest).first
-        } catch {
-            NSLog("Error fetching entry with given identifier: \(error)")
-            return nil
+        var entry: Entry? = nil
+        context.performAndWait {
+            do {
+                entry = try context.fetch(fetchRequest).first
+            } catch {
+                NSLog("Error fetching entry with given identifier: \(error)")
+            }
         }
+        return entry
     }
     
     func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
@@ -109,24 +110,17 @@ class EntryController {
                 let resultsDictionary = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
                 entryRepresentations = resultsDictionary.map({  $0.value })
                 
-                for entryRep in entryRepresentations {
-                    let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier)
-                    
-                    if let entry = entry {
-                        if entry != entryRep {
-                            self.update(entry: entry, entryRepresentation: entryRep)
-                        }
-                    } else {
-                        _ = Entry(entryRepresentation: entryRep)
-                    }
-                }
-                self.saveToPersistentStore()
+                let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+                
+                self.checkEntryRepresentation(entryRepresentations: entryRepresentations, context: backgroundContext)
+                self.saveToPersistentStore(context: backgroundContext)
                 completion(nil)
             } catch {
                 NSLog("Error decoding data: \(error)")
                 completion(error)
                 return
             }
+            
         }.resume()
     }
     
@@ -180,7 +174,34 @@ class EntryController {
             
             print(response!)
             completion(nil)
-        }.resume()
+            }.resume()
+    }
+    
+    // MARK: - Private methods
+    
+    private func update(entry: Entry, entryRepresentation: EntryRepresentation) {
+        
+        entry.title = entryRepresentation.title
+        entry.bodyText = entryRepresentation.bodyText
+        entry.timestamp = entryRepresentation.timestamp
+        entry.identifier = entryRepresentation.identifier
+        entry.mood = entryRepresentation.mood
+    }
+    
+    private func checkEntryRepresentation(entryRepresentations: [EntryRepresentation], context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        context.performAndWait {
+            for entryRep in entryRepresentations {
+                let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier, context: context)
+                
+                if let entry = entry {
+                    if entry != entryRep {
+                        self.update(entry: entry, entryRepresentation: entryRep)
+                    }
+                } else {
+                    _ = Entry(entryRepresentation: entryRep)
+                }
+            }
+        }
     }
 
     let baseURL = URL(string: "https://daniela-core-data-journal.firebaseio.com/")!
