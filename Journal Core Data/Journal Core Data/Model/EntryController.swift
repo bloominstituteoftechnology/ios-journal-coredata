@@ -68,7 +68,7 @@ class EntryController {
     }
     
     /// Returns an optional Entry that matches the given identifier
-    private func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+    private func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry? {
         // Make a request
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
@@ -78,14 +78,19 @@ class EntryController {
         // Set the request's predicate
         fetchRequest.predicate = predicate
         
-        do {
-            // Try to fetch an Entry and return the first one if it exists
-            return try CoreDataStack.shared.mainContext.fetch(fetchRequest).first
-        } catch {
-            // Handle any errors with the fetch and return nil
-            NSLog("Error fetching single entry from persistent store: \(error)")
-            return nil
+        var entry: Entry? = nil
+        
+        context.performAndWait {
+            do {
+                // Try to fetch an Entry and return the first one if it exists
+                entry = try context.fetch(fetchRequest).first
+            } catch {
+                // Handle any errors with the fetch and return nil
+                NSLog("Error fetching single entry from persistent store: \(error)")
+            }
         }
+        
+        return entry
     }
     
     // MARK: - Networking
@@ -117,20 +122,7 @@ class EntryController {
                 // Try to decode the data into a dictionary and the map that dictionary to the array of representations
                 entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map() { $0.value }
                 
-                // Loop through each representation to see if a corresponding entry already exists
-                for entryRepresentation in entryRepresentations {
-                    if let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRepresentation.identifier) {
-                        // If it does, check to see if the properties are all the same.
-                        if entry != entryRepresentation {
-                            // If not, update the entry in our context
-                            self.update(entry: entry, entryRepresentation: entryRepresentation)
-                        }
-                    } else {
-                        // If not, create a new entry
-                        _ = Entry(entryRepresentation: entryRepresentation)
-                        
-                    }
-                }
+                self.updateContextWithEntryRepresentations(entryRepresentations: entryRepresentations)
                 
                 // Save everything to the persistent store
                 self.saveToPersistentStore()
@@ -217,5 +209,22 @@ class EntryController {
             return
         }.resume()
         
+    }
+    
+    // MARK: - Utility Methods
+    private func updateContextWithEntryRepresentations(context: NSManagedObjectContext = CoreDataStack.shared.mainContext, entryRepresentations: [EntryRepresentation]) {
+        // Loop through each representation to see if a corresponding entry already exists
+        for entryRepresentation in entryRepresentations {
+            if let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRepresentation.identifier, context: context) {
+                // If it does, check to see if the properties are all the same.
+                if entry != entryRepresentation {
+                    // If not, update the entry in our context
+                    self.update(entry: entry, entryRepresentation: entryRepresentation)
+                }
+            } else {
+                // If not, create a new entry
+                _ = Entry(entryRepresentation: entryRepresentation)
+            }
+        }
     }
 }
