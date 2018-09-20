@@ -45,6 +45,13 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         super.viewWillAppear(animated)
         
         tableView.reloadData()
+        CoreDataStack.shared.mainContext.perform {
+            do {
+                try CoreDataStack.shared.mainContext.save()
+            } catch {
+                NSLog("Error saving main context: \(error)")
+            }
+        }
     }
 
     // MARK: - Table View Data Source
@@ -140,7 +147,8 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
             let entry = fetchedResultsController.object(at: indexPath)
             
             destinationVC.entryController = entryController
-            destinationVC.entry = entry
+            //destinationVC.entry = entry
+            destinationVC.objectID = entry.objectID
         } else if segue.identifier == "AddEntrySegue" {
             let destinationVC = segue.destination as! EntryDetailViewController
             

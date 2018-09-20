@@ -42,6 +42,10 @@ class EntryController {
         put(entry)
     }
     
+    func update(entry: Entry) {
+        put(entry)
+    }
+    
     /// Updates the given entry with the properties of the given entry representation
     private func update(entry: Entry, entryRepresentation: EntryRepresentation) {
         entry.title = entryRepresentation.title
