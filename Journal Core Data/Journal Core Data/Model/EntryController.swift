@@ -79,6 +79,7 @@ class EntryController {
         // Set the request's predicate
         fetchRequest.predicate = predicate
         
+        // Make a variable to hold the entry to return
         var entry: Entry? = nil
         
         context.performAndWait {
@@ -86,7 +87,7 @@ class EntryController {
                 // Try to fetch an Entry and return the first one if it exists
                 entry = try context.fetch(fetchRequest).first
             } catch {
-                // Handle any errors with the fetch and return nil
+                // Handle any errors with the fetch
                 NSLog("Error fetching single entry from persistent store: \(error)")
             }
         }
@@ -123,9 +124,11 @@ class EntryController {
                 // Try to decode the data into a dictionary and the map that dictionary to the array of representations
                 entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map() { $0.value }
                 
+                // Create a new background context sense we are on a background queue
                 let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
                 
                 backgroundContext.performAndWait {
+                    // Load the background context with the entries fetched from the server
                     self.updateContextWithEntryRepresentations(context: backgroundContext, entryRepresentations: entryRepresentations)
                 }
                 
@@ -133,6 +136,7 @@ class EntryController {
                 do {
                     try CoreDataStack.shared.save(context: backgroundContext)
                 } catch {
+                    // Handle any errors with saving
                     NSLog("Error saving entries to background context: \(error)")
                     completion(error)
                     return
@@ -225,6 +229,7 @@ class EntryController {
     }
     
     // MARK: - Utility Methods
+    /// Updates the given context with the given entry representations, creating them where they don't exist and updating them where necessary.
     private func updateContextWithEntryRepresentations(context: NSManagedObjectContext = CoreDataStack.shared.mainContext, entryRepresentations: [EntryRepresentation]) {
         // Loop through each representation to see if a corresponding entry already exists
         for entryRepresentation in entryRepresentations {
