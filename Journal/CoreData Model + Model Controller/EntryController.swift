@@ -12,10 +12,14 @@ import CoreData
 class EntryController {
     
     // Create a new entry in the managed object context and save it to persistent store
-    func createEntry(with title: String, bodyText: String?, mood: Mood) {
-        let entry = Entry(title: title, bodyText: bodyText, mood: mood)
+    func createEntry(with title: String, bodyText: String?, mood: Mood, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        let entry = Entry(title: title, bodyText: bodyText, mood: mood, context: context)
         
-        saveToPersistentStore()
+        do {
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            NSLog("Error saving entry: \(error)")
+        }
         put(entry: entry)
     }
     
@@ -26,7 +30,6 @@ class EntryController {
         entry.mood = mood.rawValue
         entry.timestamp = Date()
         
-        saveToPersistentStore()
         put(entry: entry)
     }
     
@@ -39,21 +42,15 @@ class EntryController {
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
         
-        saveToPersistentStore()
-    }
-    
-    // Save entries that are in the managed object context to persistent store
-    func saveToPersistentStore() {
-        let moc = CoreDataStack.shared.mainContext
-        
         do {
-            try moc.save()
+            try CoreDataStack.shared.save(context: moc)
         } catch {
-            NSLog("Error saving managed object context: \(error)")
+            moc.reset()
+            NSLog("Error saving moc after deleting entry: \(error)")
         }
     }
     
-    func entry(for identifier: String) -> Entry? {
+    func entry(for identifier: String, in context: NSManagedObjectContext) -> Entry? {
         guard let identifier = UUID(uuidString: identifier) else { return nil }
         
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -61,14 +58,17 @@ class EntryController {
         let predicate = NSPredicate(format: "identifier == %@", identifier as NSUUID)
         fetchRequest.predicate = predicate
         
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            return try moc.fetch(fetchRequest).first
-        } catch {
-            NSLog("Error fetching entry with UUID: \(identifier): \(error)")
-            return nil
+        var result: Entry? = nil
+        
+        context.performAndWait {
+            do {
+                result = try context.fetch(fetchRequest).first
+            } catch {
+                NSLog("Error fetching entry with UUID: \(identifier): \(error)")
+            }
         }
         
+        return result
     }
     
 }
@@ -98,18 +98,29 @@ extension EntryController {
             do {
                 let entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({ $0.value })
                 
-                for entryRep in entryRepresentations {
-                    
-                    if let entry = self.entry(for: entryRep.identifier) {
-                        guard let mood = Mood(rawValue: entryRep.mood) else { return }
-                        self.update(entry: entry, with: entryRep.title, bodyText: entryRep.bodyText, mood: mood)
-                    } else {
+                let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+                
+                backgroundContext.performAndWait {
+                
+                    for entryRep in entryRepresentations {
+                        
+                        if let entry = self.entry(for: entryRep.identifier, in: backgroundContext) {
+                            guard let mood = Mood(rawValue: entryRep.mood) else { return }
+                            self.update(entry: entry, with: entryRep.title, bodyText: entryRep.bodyText, mood: mood)
+                        } else {
+                            let _ = Entry(entryRepresentation: entryRep, context: backgroundContext)
+                        }
                         
                     }
                     
+                    do {
+                        try CoreDataStack.shared.save(context: backgroundContext)
+                    } catch {
+                        NSLog("Error saving background context: \(error)")
+                    }
+                
                 }
                 
-                self.saveToPersistentStore()
                 completion(nil)
                 
             } catch {
@@ -139,7 +150,7 @@ extension EntryController {
             entryRepresentation.identifier = identifer.uuidString
             entry.identifier = identifer
             
-            saveToPersistentStore()
+            try CoreDataStack.shared.save()
             
             request.httpBody = try JSONEncoder().encode(entryRepresentation)
             
