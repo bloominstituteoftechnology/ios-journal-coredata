@@ -10,23 +10,32 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
     
+    // MARK: - Properties
+    
+    var entry: Entry? {
+        didSet { updateViews() }
+    }
+    
     // MARK: - Outlets
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var bodyLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     
-    // MARK: Lifecycle functions
+    // MARK: Update views
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    private func updateViews() {
+        guard let title = entry?.title,
+            let bodyText = entry?.bodyText,
+            let timestamp = entry?.timestamp else { return }
+        
+        // Format Date
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        
+        titleLabel.text = title
+        bodyLabel.text = bodyText
+        timestampLabel.text = formatter.string(from: timestamp)
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
 }
