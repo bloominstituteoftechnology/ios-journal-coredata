@@ -9,22 +9,37 @@
 import UIKit
 
 class EntriesTableViewController: UITableViewController {
+    
+    // MARK: - Properties
+    
+    let entryController = EntryController()
 
     // MARK: Lifecycle functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.leftBarButtonItem = editButtonItem
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
 
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return entryController.entries.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
+        let entry = entryController.entries[indexPath.row]
+        
+        cell.entry = entry
+        cell.updateViews()
         
         return cell
     }
@@ -34,17 +49,27 @@ class EntriesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
+            let entry = entryController.entries[indexPath.row]
+            entryController.deleteEntry(entry: entry)
             tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
 
 
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+        if segue.identifier == "AddBarButtonSegue" {
+            guard let destVC = segue.destination as? EntryDetailViewController else { return }
+            destVC.entryController = entryController
+        } else if segue.identifier == "EntryCellSegue" {
+            guard let destVC = segue.destination as? EntryDetailViewController else { return }
+            destVC.entryController = entryController
+            
+            guard let indexPath = tableView.indexPathForSelectedRow else { return }
+            let entry = entryController.entries[indexPath.row]
+            
+            destVC.entry = entry
+        }
     }
 }

@@ -24,7 +24,7 @@ class EntryTableViewCell: UITableViewCell {
     
     // MARK: Update views
     
-    private func updateViews() {
+    func updateViews() {
         guard let title = entry?.title,
             let bodyText = entry?.bodyText,
             let timestamp = entry?.timestamp else { return }
