@@ -45,6 +45,18 @@ class EntryController {
     // MARK: - CRUD functions
     
     func createEntry(title: String, bodyText: String) {
-        let newEntry = Entry(title: title, bodyText: bodyText)
+        _ = Entry(title: title, bodyText: bodyText)
+        savetoPersistentStore()
+    }
+    
+    func updateEntry(entry: Entry, title: String, bodyText: String) {
+        guard let index = entries.index(of: entry) else { return }
+        
+        entries[index].title = title
+        entries[index].bodyText = bodyText
+        entries[index].timestamp = Date()
+        
+        savetoPersistentStore()
+        
     }
 }
