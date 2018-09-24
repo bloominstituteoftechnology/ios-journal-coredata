@@ -57,6 +57,23 @@ class EntryController {
         entries[index].timestamp = Date()
         
         savetoPersistentStore()
+    }
+    
+    func deleteEntry(entry: Entry) {
         
+        let moc = CoreDataStack.shared.mainContext
+        let fetchEntries: NSFetchRequest<Entry> = Entry.fetchRequest()
+        
+        do {
+            let entries = try moc.fetch(fetchEntries)
+            guard let index = entries.index(of: entry) else {return}
+            let deletedEntry = entries[index]
+            
+            moc.delete(deletedEntry)
+            try moc.save()
+            
+        } catch {
+            NSLog("Error deleting entry: \(error)")
+        }
     }
 }
