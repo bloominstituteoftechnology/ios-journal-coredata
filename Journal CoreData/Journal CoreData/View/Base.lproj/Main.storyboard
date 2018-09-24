@@ -87,20 +87,60 @@
             </objects>
             <point key="canvasLocation" x="922.39999999999998" y="158.77061469265368"/>
         </scene>
-        <!--View Controller-->
+        <!--Title-->
         <scene sceneID="Ml4-49-Auh">
             <objects>
-                <viewController id="OTH-Uz-A6G" sceneMemberID="viewController">
+                <viewController id="OTH-Uz-A6G" customClass="EntryDetailViewController" customModule="Journal_CoreData" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4rm-nC-t3m">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Lmx-Ge-iwz">
+                                <rect key="frame" x="16" y="124" width="343" height="293"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="u4A-5l-t2e">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="40"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                        <connections>
+                                            <action selector="titleTextField:" destination="gxz-OG-q8w" eventType="editingDidEnd" id="K44-SR-B1h"/>
+                                        </connections>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nTa-hL-xhK">
+                                        <rect key="frame" x="0.0" y="48" width="343" height="245"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.91636262690000003" green="0.91636262690000003" blue="0.91636262690000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="Lmx-Ge-iwz" firstAttribute="top" secondItem="LE8-Y9-npH" secondAttribute="top" constant="8" id="c6i-Yv-fqB"/>
+                            <constraint firstItem="Lmx-Ge-iwz" firstAttribute="leading" secondItem="LE8-Y9-npH" secondAttribute="leading" constant="16" id="csy-QS-709"/>
+                            <constraint firstItem="LE8-Y9-npH" firstAttribute="bottom" secondItem="Lmx-Ge-iwz" secondAttribute="bottom" constant="250" id="gJU-73-T1w"/>
+                            <constraint firstItem="LE8-Y9-npH" firstAttribute="trailing" secondItem="Lmx-Ge-iwz" secondAttribute="trailing" constant="16" id="x1h-tl-ZTj"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="LE8-Y9-npH"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" id="Vjs-Pp-OkA">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="dRc-or-1w4">
+                            <connections>
+                                <action selector="saveBarButtonTapped:" destination="OTH-Uz-A6G" id="DzR-Oz-mAC"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="bodyTextView" destination="nTa-hL-xhK" id="Yd7-O1-M1y"/>
+                        <outlet property="titleTextField" destination="u4A-5l-t2e" id="iM2-km-UjZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Me2-7K-mqx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="gxz-OG-q8w" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1670" y="159"/>
+            <point key="canvasLocation" x="1669.5999999999999" y="158.77061469265368"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="YwC-Hc-d3X">
