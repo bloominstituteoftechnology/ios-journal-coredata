@@ -32,30 +32,41 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     
     // MARK: - Table view data source
 
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return fetchedResultsController.sections?.count ?? 1
+    }
 
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return entryController.entries.count
+        //return entryController.entries.count
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
-        let entry = entryController.entries[indexPath.row]
-        
+        //let entry = entryController.entries[indexPath.row]
+        let entry = fetchedResultsController.object(at: indexPath)
+
         cell.entry = entry
         cell.updateViews()
         
         return cell
     }
-
     
-    // MARK: - Edit row
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let entry = entryController.entries[indexPath.row]
+            //let entry = entryController.entries[indexPath.row]
+            let entry = fetchedResultsController.object(at: indexPath)
             entryController.deleteEntry(entry: entry)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let info = fetchedResultsController.sections?[section] else { return nil }
+        return info.name
     }
 
 
@@ -71,7 +82,8 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
             destVC.entryController = entryController
             
             guard let indexPath = tableView.indexPathForSelectedRow else { return }
-            let entry = entryController.entries[indexPath.row]
+            //let entry = entryController.entries[indexPath.row]
+            let entry = fetchedResultsController.object(at: indexPath)
             
             destVC.entry = entry
         }
@@ -103,9 +115,11 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         tableView.beginUpdates()
     }
     
+    
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
+    
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
         switch type {
@@ -117,6 +131,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
             break
         }
     }
+    
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
