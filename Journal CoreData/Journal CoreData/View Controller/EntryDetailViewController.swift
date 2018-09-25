@@ -12,14 +12,14 @@ class EntryDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
     }
+    
+    var entry: Entry?
     
     @IBAction func save(_ sender: Any) {
     }
     @IBOutlet weak var titleTextField: UITextField!
-    
     @IBOutlet weak var textView: UITextView!
     
 

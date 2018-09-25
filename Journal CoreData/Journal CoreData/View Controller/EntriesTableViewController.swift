@@ -37,7 +37,7 @@ class EntriesTableViewController: UITableViewController {
             }
             catch{
                 moc.reset()
-                NSLog("Error savig managed object context\(error)")
+                NSLog("Error saving managed object context\(error)")
             }
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
@@ -45,8 +45,13 @@ class EntriesTableViewController: UITableViewController {
 
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "addEntry"{
+            guard let _ = segue.destination as? EntryDetailViewController else {return}
+        }else if segue.identifier == "showEntry"{
+            guard let detailVc = segue.destination as? EntryDetailViewController,
+                let index = tableView.indexPathForSelectedRow else {return}
+            detailVc.entry = entries[index.row]
+        }
     }
     
     var entries: [Entry]{
