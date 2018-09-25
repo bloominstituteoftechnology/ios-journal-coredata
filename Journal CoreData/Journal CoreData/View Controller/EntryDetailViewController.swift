@@ -38,10 +38,15 @@ class EntryDetailViewController: UIViewController {
         guard let title = titleTextField.text,
             let bodyText = bodyTextView.text else { return }
         
+        // Get the index of selected mood
+        let index = moodControl.selectedSegmentIndex
+        let mood = Mood.allMoods[index]
+        
+        
         if let entry = entry {
-            entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText)
+            entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText, mood: mood)
         } else {
-            entryController?.createEntry(title: title, bodyText: bodyText)
+            entryController?.createEntry(title: title, bodyText: bodyText, mood: mood)
         }
         
         navigationController?.popViewController(animated: true)
@@ -54,6 +59,17 @@ class EntryDetailViewController: UIViewController {
         if isViewLoaded == true {
             titleTextField.text = entry?.title
             bodyTextView.text = entry?.bodyText
+            
+            switch entry?.mood {
+            case "😔":
+                return moodControl.selectedSegmentIndex = 0
+            case "😐":
+                return moodControl.selectedSegmentIndex = 1
+            case "😁":
+                return moodControl.selectedSegmentIndex = 2
+            default:
+                return moodControl.selectedSegmentIndex = 1
+            }
         }
         
         title = entry?.title ?? "Create Entry"
