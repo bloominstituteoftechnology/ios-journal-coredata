@@ -33,8 +33,8 @@ class EntryController{
     }
     
     
-    func createEntry(title: String, bodyText: String){
-        let _ = Entry(title: title, bodyText: bodyText)
+    func createEntry(title: String, bodyText: String, mood: moodType){
+        let _ = Entry(title: title, bodyText: bodyText, mood: mood)
         saveToPesistence()
     }
     

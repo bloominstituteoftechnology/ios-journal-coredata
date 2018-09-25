@@ -26,7 +26,8 @@ extension Entry{
         self.init(context: context)
         self.title = title
         self.bodyText = bodyText
-        self.date = date 
+        self.date = date
+        self.mood = mood.rawValue
         
     }
 }
