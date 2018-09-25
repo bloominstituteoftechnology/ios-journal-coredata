@@ -13,9 +13,9 @@ class EntryController {
     
     // MARK: - Properties
     
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
+//    var entries: [Entry] {
+//        return loadFromPersistentStore()
+//    }
     
     // MARK: - Persistent functions
     
@@ -29,18 +29,18 @@ class EntryController {
         }
     }
     
-    func loadFromPersistentStore() -> [Entry] {
-        
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
-        
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            NSLog("Error fetching data: \(error)")
-            return []
-        }
-    }
+//    func loadFromPersistentStore() -> [Entry] {
+//        
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let moc = CoreDataStack.shared.mainContext
+//        
+//        do {
+//            return try moc.fetch(fetchRequest)
+//        } catch {
+//            NSLog("Error fetching data: \(error)")
+//            return []
+//        }
+//    }
     
     // MARK: - CRUD functions
     
