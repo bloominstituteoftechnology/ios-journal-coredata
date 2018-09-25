@@ -11,7 +11,17 @@ import CoreData
 
 extension Entry{
     
-    convenience init(title: String, bodyText: String, date: Date = Date(), context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    enum moodType: String {
+        case sad = "😟"
+        case normal = "😐"
+        case happy = "😊"
+        
+        static var allMoods: [moodType] {
+            return [.sad, .normal, .happy]
+        }
+    }
+    
+    convenience init(title: String, bodyText: String, date: Date = Date(), mood: moodType = .normal,  context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.title = title
         self.bodyText = bodyText
