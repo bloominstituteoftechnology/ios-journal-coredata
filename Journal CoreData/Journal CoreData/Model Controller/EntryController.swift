@@ -50,11 +50,15 @@ class EntryController {
     }
     
     func updateEntry(entry: Entry, title: String, bodyText: String) {
-        guard let index = entries.index(of: entry) else { return }
+//        guard let index = entries.index(of: entry) else { return }
+//
+//        entries[index].title = title
+//        entries[index].bodyText = bodyText
+//        entries[index].timestamp = Date()
         
-        entries[index].title = title
-        entries[index].bodyText = bodyText
-        entries[index].timestamp = Date()
+        entry.title = title
+        entry.bodyText = bodyText
+        entry.timestamp = Date()
         
         savetoPersistentStore()
     }
@@ -62,17 +66,17 @@ class EntryController {
     func deleteEntry(entry: Entry) {
         
         let moc = CoreDataStack.shared.mainContext
-        let fetchEntries: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let fetchEntries: NSFetchRequest<Entry> = Entry.fetchRequest()
         
         do {
-            let entries = try moc.fetch(fetchEntries)
-            guard let index = entries.index(of: entry) else {return}
-            let deletedEntry = entries[index]
+//            let entries = try moc.fetch(fetchEntries)
+//            guard let index = entries.index(of: entry) else {return}
+//            let deletedEntry = entries[index]
             
-            moc.delete(deletedEntry)
+            moc.delete(entry)
             try moc.save()
-            
         } catch {
+            moc.reset()
             NSLog("Error deleting entry: \(error)")
         }
     }

@@ -62,6 +62,7 @@ class EntriesTableViewController: UITableViewController {
         if segue.identifier == "AddBarButtonSegue" {
             guard let destVC = segue.destination as? EntryDetailViewController else { return }
             destVC.entryController = entryController
+            
         } else if segue.identifier == "EntryCellSegue" {
             guard let destVC = segue.destination as? EntryDetailViewController else { return }
             destVC.entryController = entryController
