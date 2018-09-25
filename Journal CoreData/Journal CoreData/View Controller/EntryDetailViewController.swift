@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreData
+
 
 class EntryDetailViewController: UIViewController {
 
@@ -15,9 +17,36 @@ class EntryDetailViewController: UIViewController {
         
     }
     
-    var entry: Entry?
+    func updateViews(){
+        if isViewLoaded {
+            titleTextField.text = entry?.title
+            textView.text = entry?.bodyText
+        }
+        
+    }
+    
+    var entry: Entry?{
+        didSet{
+            updateViews()
+        }
+    }
     
     @IBAction func save(_ sender: Any) {
+        guard let title = titleTextField.text,
+        let bodyText = textView.text else {return}
+        if let entry = entry{
+            entry.title = title
+            entry.bodyText = bodyText
+        }else{
+            let _ = Entry(title: title, bodyText: bodyText)
+        }
+        
+        do{
+            try moc.save()
+        }catch{
+            NSLog("Error saving Entry: \(error)")
+        }
+       navigationController?.popViewController(animated: true)
     }
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var textView: UITextView!
