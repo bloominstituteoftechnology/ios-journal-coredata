@@ -14,15 +14,15 @@ class EntryDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        updateViews()
     }
     
     func updateViews(){
         if isViewLoaded {
+            title =  entry?.title
             titleTextField.text = entry?.title
             textView.text = entry?.bodyText
         }
-        
     }
     
     var entry: Entry?{

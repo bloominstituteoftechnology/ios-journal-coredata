@@ -20,6 +20,7 @@ class EntryTableViewCell: UITableViewCell {
             titleLabel.text = entry.title
             bodyTextLabel.text = entry.bodyText
         }
+        
     
     }
     

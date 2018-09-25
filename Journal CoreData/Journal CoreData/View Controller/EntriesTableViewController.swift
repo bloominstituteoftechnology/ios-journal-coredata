@@ -12,6 +12,10 @@ import CoreData
 let moc = CoreDataStack.shared.mainContext
 
 class EntriesTableViewController: UITableViewController {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        tableView.reloadData()
+    }
 
     // MARK: - Table view data source
 
@@ -21,7 +25,7 @@ class EntriesTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cellEnty", for: indexPath) as? EntryTableViewCell else {return UITableViewCell()}
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "entryCell", for: indexPath) as? EntryTableViewCell else {return UITableViewCell()}
         let entry = entries[indexPath.row]
         cell.entry = entry
         return cell
@@ -33,7 +37,7 @@ class EntriesTableViewController: UITableViewController {
             moc.delete(entry)
             do{
                 try moc.save()
-                tableView.reloadData()
+                //tableView.reloadData()
             }
             catch{
                 moc.reset()
