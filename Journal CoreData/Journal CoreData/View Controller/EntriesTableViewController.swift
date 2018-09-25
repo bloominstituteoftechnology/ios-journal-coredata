@@ -57,16 +57,7 @@ class EntriesTableViewController: UITableViewController {
             detailVc.entry = entries[index.row]
         }
     }
-    
-    var entries: [Entry]{
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        do{
-            return try moc.fetch(fetchRequest)
-        }catch{
-            NSLog( "Error occured while trying to fetch data from Persistence Store: \(error)")
-            return []
-        }
-    }
+
 
 
 }
