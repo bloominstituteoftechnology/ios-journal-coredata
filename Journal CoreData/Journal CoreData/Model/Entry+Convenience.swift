@@ -9,17 +9,18 @@
 import Foundation
 import CoreData
 
-extension Entry{
+
+enum moodType: String {
+    case sad = "😟"
+    case normal = "😐"
+    case happy = "😊"
     
-    enum moodType: String {
-        case sad = "😟"
-        case normal = "😐"
-        case happy = "😊"
-        
-        static var allMoods: [moodType] {
-            return [.sad, .normal, .happy]
-        }
+    static var allMoods: [moodType] {
+        return [.sad, .normal, .happy]
     }
+}
+
+extension Entry{
     
     convenience init(title: String, bodyText: String, date: Date = Date(), mood: moodType = .normal,  context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)

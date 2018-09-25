@@ -21,19 +21,19 @@ class EntriesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return entries.count
+        return entryController.entries.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "entryCell", for: indexPath) as? EntryTableViewCell else {return UITableViewCell()}
-        let entry = entries[indexPath.row]
+        let entry = entryController.entries[indexPath.row]
         cell.entry = entry
         return cell
     }
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-             let entry = entries[indexPath.row]
+             let entry = entryController.entries[indexPath.row]
             moc.delete(entry)
             do{
                 try moc.save()
@@ -54,10 +54,10 @@ class EntriesTableViewController: UITableViewController {
         }else if segue.identifier == "showEntry"{
             guard let detailVc = segue.destination as? EntryDetailViewController,
                 let index = tableView.indexPathForSelectedRow else {return}
-            detailVc.entry = entries[index.row]
+            detailVc.entry = entryController.entries[index.row]
         }
     }
 
 
-
+    let entryController = EntryController()
 }
