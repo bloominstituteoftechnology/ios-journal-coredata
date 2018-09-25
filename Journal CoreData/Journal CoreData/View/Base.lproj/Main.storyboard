@@ -98,8 +98,16 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Lmx-Ge-iwz">
                                 <rect key="frame" x="16" y="124" width="343" height="293"/>
                                 <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ffZ-3v-ZLa">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="29"/>
+                                        <segments>
+                                            <segment title="😔"/>
+                                            <segment title="🙂"/>
+                                            <segment title="😔"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="u4A-5l-t2e">
-                                        <rect key="frame" x="0.0" y="0.0" width="343" height="40"/>
+                                        <rect key="frame" x="0.0" y="36" width="343" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -108,7 +116,7 @@
                                         </connections>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nTa-hL-xhK">
-                                        <rect key="frame" x="0.0" y="48" width="343" height="245"/>
+                                        <rect key="frame" x="0.0" y="74" width="343" height="219"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -134,6 +142,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bodyTextView" destination="nTa-hL-xhK" id="Yd7-O1-M1y"/>
+                        <outlet property="moodControl" destination="ffZ-3v-ZLa" id="xSc-2x-U8U"/>
                         <outlet property="titleTextField" destination="u4A-5l-t2e" id="iM2-km-UjZ"/>
                     </connections>
                 </viewController>

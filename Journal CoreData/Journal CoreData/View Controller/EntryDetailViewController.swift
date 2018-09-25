@@ -21,6 +21,8 @@ class EntryDetailViewController: UIViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var moodControl: UISegmentedControl!
+    
     
     // MARK: - Lifecycle functions
     
