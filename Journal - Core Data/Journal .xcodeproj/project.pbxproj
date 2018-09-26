@@ -17,7 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C3C0760F215A8B9200894787 /* Journal - Core Data.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Journal - Core Data.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3C0760F215A8B9200894787 /* Journal .app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Journal .app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3C07612215A8B9200894787 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3C07617215A8B9200894787 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C3C07619215A8B9600894787 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -42,7 +42,7 @@
 		C3C07606215A8B9100894787 = {
 			isa = PBXGroup;
 			children = (
-				C3C07611215A8B9200894787 /* Journal - Core Data */,
+				C3C07611215A8B9200894787 /* Journal  */,
 				C3C07610215A8B9200894787 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -50,20 +50,21 @@
 		C3C07610215A8B9200894787 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C3C0760F215A8B9200894787 /* Journal - Core Data.app */,
+				C3C0760F215A8B9200894787 /* Journal .app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C3C07611215A8B9200894787 /* Journal - Core Data */ = {
+		C3C07611215A8B9200894787 /* Journal  */ = {
 			isa = PBXGroup;
 			children = (
+				C3E23E0C215B417300F3D6D7 /* Model */,
 				C3C0762F215AF9C600894787 /* StoryBoard */,
 				C3C0762E215AF9AC00894787 /* Custom Cell */,
 				C3C07627215AE9A800894787 /* ViewControllers */,
 				C3C07628215AE9B800894787 /* Resources */,
 			);
-			path = "Journal - Core Data";
+			path = "Journal ";
 			sourceTree = "<group>";
 		};
 		C3C07627215AE9A800894787 /* ViewControllers */ = {
@@ -102,12 +103,19 @@
 			path = StoryBoard;
 			sourceTree = "<group>";
 		};
+		C3E23E0C215B417300F3D6D7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C3C0760E215A8B9200894787 /* Journal - Core Data */ = {
+		C3C0760E215A8B9200894787 /* Journal  */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C3C07621215A8B9600894787 /* Build configuration list for PBXNativeTarget "Journal - Core Data" */;
+			buildConfigurationList = C3C07621215A8B9600894787 /* Build configuration list for PBXNativeTarget "Journal " */;
 			buildPhases = (
 				C3C0760B215A8B9200894787 /* Sources */,
 				C3C0760C215A8B9200894787 /* Frameworks */,
@@ -117,9 +125,9 @@
 			);
 			dependencies = (
 			);
-			name = "Journal - Core Data";
+			name = "Journal ";
 			productName = "Journal - Core Data";
-			productReference = C3C0760F215A8B9200894787 /* Journal - Core Data.app */;
+			productReference = C3C0760F215A8B9200894787 /* Journal .app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -137,7 +145,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C3C0760A215A8B9200894787 /* Build configuration list for PBXProject "Journal - Core Data" */;
+			buildConfigurationList = C3C0760A215A8B9200894787 /* Build configuration list for PBXProject "Journal " */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -150,7 +158,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C3C0760E215A8B9200894787 /* Journal - Core Data */,
+				C3C0760E215A8B9200894787 /* Journal  */,
 			);
 		};
 /* End PBXProject section */
@@ -324,12 +332,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7JG93VFG2G;
-				INFOPLIST_FILE = "Journal - Core Data/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Journal /Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.JerrickWarren.Journal---Core-Data";
+				PRODUCT_BUNDLE_IDENTIFIER = com.JerrickWarren.Journal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -342,12 +350,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 7JG93VFG2G;
-				INFOPLIST_FILE = "Journal - Core Data/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Journal /Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.JerrickWarren.Journal---Core-Data";
+				PRODUCT_BUNDLE_IDENTIFIER = com.JerrickWarren.Journal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -357,7 +365,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C3C0760A215A8B9200894787 /* Build configuration list for PBXProject "Journal - Core Data" */ = {
+		C3C0760A215A8B9200894787 /* Build configuration list for PBXProject "Journal " */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C3C0761F215A8B9600894787 /* Debug */,
@@ -366,7 +374,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C3C07621215A8B9600894787 /* Build configuration list for PBXNativeTarget "Journal - Core Data" */ = {
+		C3C07621215A8B9600894787 /* Build configuration list for PBXNativeTarget "Journal " */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C3C07622215A8B9600894787 /* Debug */,

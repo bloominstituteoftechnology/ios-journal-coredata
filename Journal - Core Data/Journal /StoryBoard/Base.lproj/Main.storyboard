@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="icp-hB-Zj6">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -104,22 +104,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Create Title Here " textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JfG-67-WDh">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Create Title Here " textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JfG-67-WDh">
                                 <rect key="frame" x="24" y="107" width="335" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="E2t-XR-ct7">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="E2t-XR-ct7">
                                 <rect key="frame" x="24" y="158" width="335" height="298"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="JfG-67-WDh" firstAttribute="top" secondItem="93S-et-SGq" secondAttribute="top" constant="43" id="2XG-f5-tCi"/>
+                            <constraint firstItem="JfG-67-WDh" firstAttribute="leading" secondItem="93S-et-SGq" secondAttribute="leading" constant="24" id="5eU-nr-259"/>
+                            <constraint firstItem="93S-et-SGq" firstAttribute="bottom" secondItem="E2t-XR-ct7" secondAttribute="bottom" constant="211" id="PAo-qJ-z90"/>
+                            <constraint firstItem="JfG-67-WDh" firstAttribute="trailing" secondItem="Fxq-6Z-EPN" secondAttribute="trailingMargin" id="QTx-4D-scx"/>
+                            <constraint firstItem="E2t-XR-ct7" firstAttribute="top" secondItem="JfG-67-WDh" secondAttribute="bottom" constant="21" id="Yha-SE-0nF"/>
+                            <constraint firstItem="JfG-67-WDh" firstAttribute="trailing" secondItem="E2t-XR-ct7" secondAttribute="trailing" id="fgI-e1-MHZ"/>
+                            <constraint firstItem="JfG-67-WDh" firstAttribute="leading" secondItem="E2t-XR-ct7" secondAttribute="leading" id="mV7-qF-DtC"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="93S-et-SGq"/>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="Sfg-Qf-wGA">
