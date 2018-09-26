@@ -14,6 +14,8 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var bodyTextLabel: UILabel!
     
+    // MARK: Properties
+    
     var entry: Entry?{
         didSet {
             updateViews()

@@ -12,15 +12,19 @@ class EntryDetailViewController: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var moodButton: UISegmentedControl!
+    
+    // MARK: Properties
     
     weak var delegate: EntryTableViewCell?
     
+    var entryController: EntryController?
     var entry: Entry? {
         didSet {
             updateViews()
         }
     }
-    var entryController: EntryController?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,32 +32,43 @@ class EntryDetailViewController: UIViewController {
     }
     
     func updateViews() {
-        guard isViewLoaded else { return }
+        guard let entry = entry, isViewLoaded else {
+            title = "Create Entry"
+            return
+        }
         
-        title = entry?.title ?? "Create Entry"
-        titleTextField.text = entry?.title
-        bodyTextView.text = entry?.bodyText
+        titleTextField.text = entry.title
+        bodyTextView.text = entry.bodyText
+        
+        let mood: EntryMood
+        if let entryMood = entry.mood {
+            mood = EntryMood(rawValue: entryMood) ?? .neutral
+        } else {
+            mood = .neutral
+        }
+        
+        guard let entryMood = EntryMood.allMoods.index(of: mood) else { return }
+        moodButton.selectedSegmentIndex = entryMood
         
     }
 
     
     @IBAction func saveButton(_ sender: Any) {
+
         guard let title = titleTextField.text,
             let bodyText = bodyTextView.text else { return }
         
+        let moodIndex = moodButton.selectedSegmentIndex
+        let mood = EntryMood.allMoods[moodIndex]
+        
         guard let entry = entry else {
-            entryController?.create(title: title, bodyText: bodyText)
-                DispatchQueue.main.async {
-                    self.navigationController?.popViewController(animated: true)
-                }
+            entryController?.create(title: title, bodyText: bodyText, mood: mood)
+            navigationController?.popViewController(animated: true)
         return
         }
         
-        entryController?.update(entry: entry, title: title, bodyText: bodyText)
-        DispatchQueue.main.async {
-            self.navigationController?.popViewController(animated: true)
-        }
-    
+        entryController?.update(entry: entry, title: title, bodyText: bodyText, mood: mood)
+        self.navigationController?.popViewController(animated: true)
     }
 
 }

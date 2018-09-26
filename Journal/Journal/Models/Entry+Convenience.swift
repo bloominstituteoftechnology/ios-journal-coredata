@@ -9,8 +9,18 @@
 import Foundation
 import CoreData
 
+enum EntryMood: String {
+    case sad = "☹️"
+    case neutral = "😐"
+    case happy = "🙂"
+    
+    static var allMoods: [EntryMood] {
+        return[.sad, .neutral, .happy]
+    }
+}
+
 extension Entry {
-    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = UUID().uuidString, managedObjectContext: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = UUID().uuidString, mood: EntryMood = .neutral , managedObjectContext: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(context: managedObjectContext)
         
@@ -18,6 +28,7 @@ extension Entry {
         self.bodyText = bodyText
         self.timestamp = timestamp
         self.identifier = identifier
+        self.mood = mood.rawValue
     }
 }
 
