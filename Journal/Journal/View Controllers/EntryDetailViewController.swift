@@ -15,9 +15,7 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var moodButton: UISegmentedControl!
     
     // MARK: Properties
-    
-    weak var delegate: EntryTableViewCell?
-    
+        
     var entryController: EntryController?
     var entry: Entry? {
         didSet {

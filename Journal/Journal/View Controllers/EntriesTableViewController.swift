@@ -48,7 +48,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         let entry = fetchResultsController.object(at: indexPath)
         
         cell.entry = entry
-//        cell.updateViews()
+        cell.updateViews()
     
         return cell
     }
@@ -56,7 +56,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         let sectionInfo = fetchResultsController.sections?[section]
-        return sectionInfo?.name.capitalized
+        return sectionInfo?.name
     }
 
 
