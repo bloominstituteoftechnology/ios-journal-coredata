@@ -145,7 +145,7 @@ extension EntryController {
     
     // MARK: Fetch single entry from Persistent Store
     
-    func fetchSingleEntryFromPersistentStore(identifier id: String) -> Entry? {
+    func fetchSingleEntryFromPersistentStore(identifier id: String, context: NSManagedObjectContext) -> Entry? {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         let predicate = NSPredicate(format: "identifier == %@", id)
         fetchRequest.predicate = predicate
@@ -186,17 +186,19 @@ extension EntryController {
                 return
             }
             
-            // Get every single Entry from server and compare them to EntryRepresentations array
-            for entryRepresentation in entryRepresentations {
+            func compareEntryToEntryRepresentation(context: NSManagedObjectContext) {
+                // Get every single Entry from server and compare them to EntryRepresentations array
+                    for entryRepresentation in entryRepresentations {
                 
-                // Fetch Entry from server that has same identifier
-                let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRepresentation.identifier)
-                
-                // If Entry is not nil and not equal to the EntryRespresentation
-                if let entry = entry, entry != entryRepresentation {
-                    self.update(entry: entry, entryRepresentation: entryRepresentation)
-                } else if entry == nil {
-                    _ = Entry(entryRepresentation: entryRepresentation)
+                    // Fetch Entry from server that has same identifier
+                    let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRepresentation.identifier, context: context)
+                    
+                    // If Entry is not nil and not equal to the EntryRespresentation
+                    if let entry = entry, entry != entryRepresentation {
+                        self.update(entry: entry, entryRepresentation: entryRepresentation)
+                    } else if entry == nil {
+                        _ = Entry(entryRepresentation: entryRepresentation, context: context)
+                    }
                 }
             }
             self.saveToPersistentStore()
