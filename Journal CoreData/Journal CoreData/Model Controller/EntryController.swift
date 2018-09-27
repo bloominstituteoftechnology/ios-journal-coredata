@@ -28,21 +28,32 @@ class EntryController {
     
     // MARK: Create model instance
     
-    func createEntry(title: String, bodyText: String, mood: Mood) {
+    func createEntry(title: String, bodyText: String, mood: Mood, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         let entry = Entry(title: title, bodyText: bodyText, mood: mood)
-        saveToPersistentStore()
+        
+        do {
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            NSLog("Error saving entry: \(error)")
+        }
+        
         put(entry: entry)
     }
     
     //MARK: Update model instance
     
-    func updateEntry(entry: Entry, title: String, bodyText: String, mood: Mood) {
+    func updateEntry(entry: Entry, title: String, bodyText: String, mood: Mood, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         entry.title = title
         entry.bodyText = bodyText
         entry.mood = mood.rawValue
         entry.timestamp = Date()
         
-        saveToPersistentStore()
+        do {
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            NSLog("Error updating entry: \(error)")
+        }
+        
         put(entry: entry)
     }
     
@@ -64,22 +75,7 @@ class EntryController {
 
 
 extension EntryController {
-    
-    // MARK: - CoreDataStack
-    
-    // MARK: Save to Persistent Store
-    
-    func saveToPersistentStore() {
-        
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            try moc.save()
-        } catch {
-            NSLog("Error saving to Persistent Store: \(error)")
-        }
-    }
-    
-    
+
     // MARK: - Server
 
     // MARK: Put to server
@@ -200,8 +196,12 @@ extension EntryController {
                         _ = Entry(entryRepresentation: entryRepresentation, context: context)
                     }
                 }
+                do {
+                    try CoreDataStack.shared.save(context: context)
+                } catch {
+                    NSLog("Error comparing entry to entryRepresentation: \(error)")
+                }
             }
-            self.saveToPersistentStore()
             completion(nil)
         }.resume()
     }

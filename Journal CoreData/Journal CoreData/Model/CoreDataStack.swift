@@ -14,6 +14,22 @@ class CoreDataStack {
     // First create an instance of CoreDataStack
     static let shared = CoreDataStack()
     
+    // Will use this instead of saveToPersistence()
+    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
+        
+        var error: Error? // For thows function will need an optional Error
+        
+        // This performs given code inside the context's queue
+        context.performAndWait {
+            do {
+                try context.save()
+            } catch let saveError {
+                error = saveError
+            }
+        }
+        if let error = error { throw error }
+    }
+    
     // Then create a lazy NSPersistentContainer instance.
     // We wil modify it so make it variable
     lazy var container: NSPersistentContainer = {
@@ -25,6 +41,7 @@ class CoreDataStack {
                 fatalError("Error loading Persistent Stores: \(error)")
             }
         })
+        container.viewContext.automaticallyMergesChangesFromParent = true // Parent - Child
         return container
     }()
     
