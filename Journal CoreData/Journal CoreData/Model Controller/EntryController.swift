@@ -133,7 +133,7 @@ extension EntryController {
 
 extension EntryController {
     
-    // MARK: Update
+    // MARK: Update entry values from EntryRepresentation
     
     func update(entry: Entry, entryRepresentation er: EntryRespresentation) {
         entry.title = er.title
@@ -143,7 +143,7 @@ extension EntryController {
         entry.identifier = er.identifier
     }
     
-    // MARK: Fetch from persistentstore
+    // MARK: Fetch single entry from Persistent Store
     
     func fetchSingleEntryFromPersistentStore(identifier id: String) -> Entry? {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -158,7 +158,7 @@ extension EntryController {
         }
     }
     
-    // MARK: Fetch from server
+    // MARK: Fetch from Server
     
     func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
         let url = baseURL.appendingPathExtension("json")
@@ -176,6 +176,7 @@ extension EntryController {
                 return
             }
             
+            // Get all Entry datas from server and turn them into EntryRepresentations array
             var entryRepresentations = [EntryRespresentation]()
             do {
                 entryRepresentations = try JSONDecoder().decode([String:EntryRespresentation].self, from: data).map { $0.value }
@@ -185,12 +186,17 @@ extension EntryController {
                 return
             }
             
-            for entryRep in entryRepresentations {
-                let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier)
-                if let entry = entry, entry != entryRep {
-                    self.update(entry: entry, entryRepresentation: entryRep)
-                } else {
-                    _ = Entry(entryRepresentation: entryRep)
+            // Get every single Entry from server and compare them to EntryRepresentations array
+            for entryRepresentation in entryRepresentations {
+                
+                // Fetch Entry from server that has same identifier
+                let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRepresentation.identifier)
+                
+                // If Entry is not nil and not equal to the EntryRespresentation
+                if let entry = entry, entry != entryRepresentation {
+                    self.update(entry: entry, entryRepresentation: entryRepresentation)
+                } else if entry == nil {
+                    _ = Entry(entryRepresentation: entryRepresentation)
                 }
             }
             self.saveToPersistentStore()
