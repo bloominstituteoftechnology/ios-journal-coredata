@@ -13,6 +13,8 @@ class EntryController {
     
     // MARK: - Properties
     
+    let baseURL = URL(string: "https://journal-coredata-b5a96.firebaseio.com/")
+    
 //    var entries: [Entry] {
 //        return loadFromPersistentStore()
 //    }
@@ -27,6 +29,10 @@ class EntryController {
         } catch {
             NSLog("Error saving to Persistent Store: \(error)")
         }
+    }
+    
+    func put(entry: Entry, completion: @escaping ) {
+        
     }
     
 //    func loadFromPersistentStore() -> [Entry] {
