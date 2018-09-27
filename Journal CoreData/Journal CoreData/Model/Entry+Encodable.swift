@@ -20,7 +20,7 @@ extension Entry: Encodable {
         try container.encode(identifier, forKey: .identifier)
     }
     
-    enum CodingKeys: CodingKey {
+    enum CodingKeys: String, CodingKey {
         case title
         case bodyText
         case mood

@@ -26,7 +26,6 @@ func ==(lhs: EntryRespresentation, rhs: Entry) -> Bool {
         rhs.mood == lhs.mood &&
         rhs.timestamp == lhs.timestamp &&
         rhs.identifier == lhs.identifier
-    
 }
 
 func ==(lhs: Entry, rhs: EntryRespresentation) -> Bool {
@@ -34,7 +33,7 @@ func ==(lhs: Entry, rhs: EntryRespresentation) -> Bool {
 }
 
 func !=(lhs: EntryRespresentation, rhs: Entry) -> Bool {
-    return !(lhs == rhs)
+    return !(rhs == lhs)
 }
 
 func !=(lhs: Entry, rhs: EntryRespresentation) -> Bool {
