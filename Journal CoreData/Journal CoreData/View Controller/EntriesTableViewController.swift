@@ -16,7 +16,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     let entryController = EntryController()
     
 
-    // MARK: Lifecycle functions
+    // MARK: - Lifecycle functions
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +32,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     
     // MARK: - Table view data source
 
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
     }
@@ -41,6 +42,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         //return entryController.entries.count
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
+    
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
