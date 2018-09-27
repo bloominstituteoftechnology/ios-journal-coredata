@@ -19,6 +19,7 @@
 		827E361C2159918D00BE17DE /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827E361B2159918D00BE17DE /* Entry+Convenience.swift */; };
 		827F6B742159932F006C6BFB /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 827F6B732159932F006C6BFB /* EntryController.swift */; };
 		828D7648215C472C003064F2 /* Entry+Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828D7647215C472C003064F2 /* Entry+Encodable.swift */; };
+		828D764A215C57D6003064F2 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 828D7649215C57D6003064F2 /* HTTPMethod.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		827E361B2159918D00BE17DE /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
 		827F6B732159932F006C6BFB /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
 		828D7647215C472C003064F2 /* Entry+Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Encodable.swift"; sourceTree = "<group>"; };
+		828D7649215C57D6003064F2 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 		827E35F92159893000BE17DE /* Journal CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				828D764B215C57DA003064F2 /* Utility */,
 				827E361721598EB400BE17DE /* Model */,
 				827F6B7521599333006C6BFB /* Model Controller */,
 				827E360D2159894800BE17DE /* View */,
@@ -124,6 +127,14 @@
 				827F6B732159932F006C6BFB /* EntryController.swift */,
 			);
 			path = "Model Controller";
+			sourceTree = "<group>";
+		};
+		828D764B215C57DA003064F2 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				828D7649215C57D6003064F2 /* HTTPMethod.swift */,
+			);
+			path = Utility;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -205,6 +216,7 @@
 				827E35FB2159893000BE17DE /* AppDelegate.swift in Sources */,
 				827E361A2159911400BE17DE /* Journal CoreData.xcdatamodeld in Sources */,
 				827F6B742159932F006C6BFB /* EntryController.swift in Sources */,
+				828D764A215C57D6003064F2 /* HTTPMethod.swift in Sources */,
 				827E361C2159918D00BE17DE /* Entry+Convenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
