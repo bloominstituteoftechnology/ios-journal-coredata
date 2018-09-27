@@ -57,6 +57,7 @@ class EntryDetailViewController: UIViewController {
     private func updateViews() {
         
         if isViewLoaded == true {
+            title = entry?.title ?? "Create Entry"
             titleTextField.text = entry?.title
             bodyTextView.text = entry?.bodyText
             
@@ -71,7 +72,5 @@ class EntryDetailViewController: UIViewController {
                 return moodControl.selectedSegmentIndex = 1
             }
         }
-        
-        title = entry?.title ?? "Create Entry"
     }
 }
