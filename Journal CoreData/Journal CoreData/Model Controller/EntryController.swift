@@ -146,12 +146,16 @@ extension EntryController {
         let predicate = NSPredicate(format: "identifier == %@", id)
         fetchRequest.predicate = predicate
         
-        do {
-            return try CoreDataStack.shared.mainContext.fetch(fetchRequest).first
-        } catch {
-            NSLog("Error fetching single entry: \(error)")
-            return nil
+        var entry: Entry?
+        
+        context.performAndWait {
+            do {
+               entry = try context.fetch(fetchRequest).first
+            } catch {
+                NSLog("Error fetching single entry: \(error)")
+            }
         }
+        return entry
     }
     
     // MARK: Fetch from Server
@@ -182,22 +186,24 @@ extension EntryController {
                 return
             }
             
-            func compareEntryToEntryRepresentation(context: NSManagedObjectContext) {
+            let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+            
+            backgroundContext.performAndWait {
                 // Get every single Entry from server and compare them to EntryRepresentations array
                     for entryRepresentation in entryRepresentations {
                 
                     // Fetch Entry from server that has same identifier
-                    let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRepresentation.identifier, context: context)
+                    let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRepresentation.identifier, context: backgroundContext)
                     
                     // If Entry is not nil and not equal to the EntryRespresentation
                     if let entry = entry, entry != entryRepresentation {
                         self.update(entry: entry, entryRepresentation: entryRepresentation)
                     } else if entry == nil {
-                        _ = Entry(entryRepresentation: entryRepresentation, context: context)
+                        _ = Entry(entryRepresentation: entryRepresentation, context: backgroundContext)
                     }
                 }
                 do {
-                    try CoreDataStack.shared.save(context: context)
+                    try CoreDataStack.shared.save(context: backgroundContext)
                 } catch {
                     NSLog("Error comparing entry to entryRepresentation: \(error)")
                 }
