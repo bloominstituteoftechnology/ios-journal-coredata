@@ -30,24 +30,26 @@ class EntryDetailViewController: UIViewController {
     }
     
     func updateViews() {
-        guard let entry = entry, isViewLoaded else {
-            title = "Create Entry"
-            return
+        if isViewLoaded {
+            guard let entry = entry else {
+                title = "Create Entry"
+                return
+            }
+        
+            title = entry.title
+            titleTextField.text = entry.title
+            bodyTextView.text = entry.bodyText
+            
+            let mood: EntryMood
+            if let entryMood = entry.mood {
+                mood = EntryMood(rawValue: entryMood) ?? .neutral
+            } else {
+                mood = .neutral
+            }
+            
+            guard let entryMood = EntryMood.allMoods.index(of: mood) else { return }
+            moodButton.selectedSegmentIndex = entryMood
         }
-        
-        titleTextField.text = entry.title
-        bodyTextView.text = entry.bodyText
-        
-        let mood: EntryMood
-        if let entryMood = entry.mood {
-            mood = EntryMood(rawValue: entryMood) ?? .neutral
-        } else {
-            mood = .neutral
-        }
-        
-        guard let entryMood = EntryMood.allMoods.index(of: mood) else { return }
-        moodButton.selectedSegmentIndex = entryMood
-        
     }
 
     
@@ -70,3 +72,5 @@ class EntryDetailViewController: UIViewController {
     }
 
 }
+
+

@@ -12,7 +12,7 @@ import CoreData
 enum EntryMood: String {
     case sad = "☹️"
     case neutral = "😐"
-    case happy = "🙂"
+    case happy = "😀"
     
     static var allMoods: [EntryMood] {
         return[.sad, .neutral, .happy]
@@ -20,16 +20,45 @@ enum EntryMood: String {
 }
 
 extension Entry {
-    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = UUID().uuidString, mood: EntryMood = .neutral , managedObjectContext: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init(title: String,
+                     bodyText: String? = nil,
+                     timestamp: Date = Date(),
+                     identifier: UUID = UUID(),
+                     mood: EntryMood = .neutral,
+                     context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
-        self.init(context: managedObjectContext)
+        self.init(context: context)
         
         self.title = title
         self.bodyText = bodyText
-        self.timestamp = timestamp
-        self.identifier = identifier
         self.mood = mood.rawValue
+        self.timestamp = timestamp
+        self.identifier = identifier.uuidString
     }
+    
+    convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        
+        guard let identifier = UUID(uuidString: entryRepresentation.identifier),
+            let mood = EntryMood(rawValue: entryRepresentation.mood) else { return nil}
+        
+        self.init(title: entryRepresentation.title,
+                  bodyText: entryRepresentation.bodyText,
+                  timestamp: entryRepresentation.timestamp,
+                  identifier: identifier,
+                  mood: mood,
+                  context: context)
+    }
+    
+    var entryRepresentation: EntryRepresentation? {
+        guard let title = title,
+            let bodyText = bodyText,
+            let timestamp = timestamp,
+            let mood = mood,
+            let identifier = identifier else { return nil }
+        
+        return EntryRepresentation(title: title, bodyText: bodyText, mood: mood, timestamp: timestamp, identifier: identifier)
+    }
+    
 }
 
 
