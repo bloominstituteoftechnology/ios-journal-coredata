@@ -21,11 +21,16 @@ class EntryController {
     // MARK: - Core Data Methods
 
     // CREATE
-    func create(title: String, bodyText: String, mood: EntryMood) {
+    func create(title: String, bodyText: String, mood: EntryMood, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
-        let entry = Entry(title: title, bodyText: bodyText, mood: mood)
+        let entry = Entry(title: title, bodyText: bodyText, mood: mood, context: context)
         
-        saveToPersistentStore()
+        do {
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            NSLog("Error saving entry: \(error)")
+        }
+        
         put(entry: entry)
     }
     
@@ -37,7 +42,6 @@ class EntryController {
         entry.timestamp = Date()
         entry.mood = mood.rawValue
         
-        saveToPersistentStore()
         put(entry: entry)
     }
     
@@ -50,46 +54,37 @@ class EntryController {
         
         moc.delete(entry)
         
-        saveToPersistentStore()
+        do {
+            try CoreDataStack.shared.save(context: moc)
+        } catch {
+            moc.reset()
+            NSLog("Error saving moc aster deleting task: \(error)")
+        }
 
     }
-    
-    // SAVE TO PERSISTENT STORE
-    func saveToPersistentStore() {
-        
-        let moc = CoreDataStack.shared.mainContext
-        
-        do {
-            try moc.save()
-        } catch {
-            NSLog("Error saving managed object context: \(error)")
-        }
-    }
-    
-    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+
+    // FETCH SINGLE ENTRY FROM PERSISTENT STORE
+    func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry? {
         
         guard let identifier = UUID(uuidString: identifier) else { return nil }
-        
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
         let predicate = NSPredicate(format: "identifier == %@", identifier as NSUUID)
-        
         fetchRequest.predicate = predicate
         
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            return try moc.fetch(fetchRequest).first
-        } catch {
-            NSLog("Error fetching task with UUID \(identifier): \(error)")
-            return nil
+        var result: Entry? = nil
+        context.performAndWait {
+            do {
+                result = try context.fetch(fetchRequest).first
+            } catch {
+                NSLog("Error fetching task with UUID \(identifier): \(error)")
+            }
         }
-    
+        return result
     }
 
 
     static let baseURL = URL(string: "https://journalcoredata.firebaseio.com/")!
-    
-    
+        
     
     // MARK: - Server Methods
     
@@ -109,40 +104,56 @@ class EntryController {
         let requestURL = EntryController.baseURL.appendingPathExtension("json")
         
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            
             if let error = error {
                 NSLog("Error fetching data: \(error)")
                 completion(error)
                 return
             }
             guard let data = data else {
-                
-                return }
+                NSLog("No data returned from data task")
+                completion(NSError())
+                return
+            }
             
             var entryRepresentations: [EntryRepresentation] = []
             
             do {
                 entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({ $0.value })
+                let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+                
+                backgroundContext.performAndWait {
+                    
+                    for entryRep in entryRepresentations {
+                        
+                        let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier, context: backgroundContext)
+                        
+                        if let entry = entry,  entry != entryRep {
+                            self.update(entry: entry, entryRepresentation: entryRep)
+                        } else if entry == nil {
+                            let _ = Entry(entryRepresentation: entryRep, context: backgroundContext)
+                        }
+                    }
+                    
+                    do {
+                        try CoreDataStack.shared.save(context: backgroundContext)
+                    } catch {
+                        NSLog("Error saving background context: \(error)")
+                    }
+                }
+                
+                completion(nil)
+                
             } catch {
                 NSLog("Error decoding data: \(error)")
                 completion(error)
                 return
             }
             
-            for entryRep in entryRepresentations {
-                let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier)
-                
-                if let entry = entry,  entry != entryRep {
-                        self.update(entry: entry, entryRepresentation: entryRep)
-                    } else if entry == nil {
-                        _ = Entry(entryRepresentation: entryRep)
-                    }
-                }
-            }.resume()
-        }
+        }.resume()
+    }
 
     
-
-
     // PUT ENTRY ON SERVER
     func put(entry: Entry, completion: @escaping Completionhandler = { _ in }) {
         

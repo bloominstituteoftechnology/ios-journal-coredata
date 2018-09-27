@@ -33,6 +33,7 @@ class EntryDetailViewController: UIViewController {
         if isViewLoaded {
             guard let entry = entry else {
                 title = "Create Entry"
+                moodButton.selectedSegmentIndex = 1
                 return
             }
         
