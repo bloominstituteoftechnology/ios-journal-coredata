@@ -17,37 +17,28 @@ struct EntryRespresentation: Decodable, Equatable {
     var identifier: String
 }
 
+
+// MARK: - Equatable stubs
+
 func ==(lhs: EntryRespresentation, rhs: Entry) -> Bool {
-    return lhs.title == rhs.title &&
-        lhs.bodyText == rhs.bodyText &&
-        lhs.mood == rhs.mood &&
-        lhs.timestamp == rhs.timestamp &&
-        lhs.identifier == rhs.identifier
+    return rhs.title == lhs.title &&
+        rhs.bodyText == lhs.bodyText &&
+        rhs.mood == lhs.mood &&
+        rhs.timestamp == lhs.timestamp &&
+        rhs.identifier == lhs.identifier
     
 }
 
 func ==(lhs: Entry, rhs: EntryRespresentation) -> Bool {
-    return lhs.title == rhs.title &&
-        lhs.bodyText == rhs.bodyText &&
-        lhs.mood == rhs.mood &&
-        lhs.timestamp == rhs.timestamp &&
-        lhs.identifier == rhs.identifier
+    return rhs == lhs
 }
 
 func !=(lhs: EntryRespresentation, rhs: Entry) -> Bool {
-    return lhs.title != rhs.title &&
-        lhs.bodyText != rhs.bodyText &&
-        lhs.mood != rhs.mood &&
-        lhs.timestamp != rhs.timestamp &&
-        lhs.identifier != rhs.identifier
+    return !(lhs == rhs)
 }
 
 func !=(lhs: Entry, rhs: EntryRespresentation) -> Bool {
-    return lhs.title != rhs.title &&
-        lhs.bodyText != rhs.bodyText &&
-        lhs.mood != rhs.mood &&
-        lhs.timestamp != rhs.timestamp &&
-        lhs.identifier != rhs.identifier
+    return rhs != lhs
 }
 
 

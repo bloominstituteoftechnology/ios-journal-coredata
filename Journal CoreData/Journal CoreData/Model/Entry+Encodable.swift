@@ -14,7 +14,7 @@ extension Entry: Encodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
         try container.encode(title, forKey: .title)
-        try container.encodeIfPresent(bodyText, forKey: .bodyText)
+        try container.encodeIfPresent(bodyText, forKey: .bodyText) // For optinal values
         try container.encode(mood, forKey: .mood)
         try container.encode(timestamp, forKey: .timestamp)
         try container.encode(identifier, forKey: .identifier)

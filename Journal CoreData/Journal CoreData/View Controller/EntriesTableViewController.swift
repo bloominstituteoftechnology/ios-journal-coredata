@@ -93,7 +93,6 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     }
     
     
-    
     // MARK: - NSFethcedResultsController
     
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {

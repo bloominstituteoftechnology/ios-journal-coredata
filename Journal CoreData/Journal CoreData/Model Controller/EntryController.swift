@@ -130,6 +130,7 @@ extension EntryController {
     }
 }
 
+
 extension EntryController {
     
     // MARK: Update
