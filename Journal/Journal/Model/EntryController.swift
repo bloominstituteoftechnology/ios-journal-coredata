@@ -32,8 +32,8 @@ class EntryController {
     func createEntry(title: String, bodyText: String, timestamp: Date = Date(), identifier: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         _ = Entry(title: title, bodyText: bodyText, identifier: identifier)
-        saveToPersistentStore()
         
+        saveToPersistentStore()
     }
     
     func updateEntry(entry: Entry, title: String, bodyText: String, timestamp: Date = Date()) {
@@ -52,5 +52,4 @@ class EntryController {
         
         saveToPersistentStore()
     }
-    
 }
