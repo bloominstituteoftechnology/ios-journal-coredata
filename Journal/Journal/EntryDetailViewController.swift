@@ -6,6 +6,8 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var entryTextView: UITextView!
     
     @IBAction func saveEntry(_ sender: Any) {
+        
+        
     }
     
     
