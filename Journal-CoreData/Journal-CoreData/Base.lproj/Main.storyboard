@@ -6,6 +6,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -26,27 +27,27 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="srP-GJ-LBY">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="73.5"/>
+                                            <rect key="frame" x="8" y="0.0" width="359" height="73.5"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="184" translatesAutoresizingMaskIntoConstraints="NO" id="yJG-TU-lRP">
-                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="24"/>
+                                                <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="yJG-TU-lRP">
+                                                    <rect key="frame" x="0.0" y="0.0" width="359" height="24"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WGR-8z-dAy">
-                                                            <rect key="frame" x="0.0" y="0.0" width="110" height="24"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WGR-8z-dAy">
+                                                            <rect key="frame" x="0.0" y="0.0" width="287" height="24"/>
                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="timestamp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qNe-9f-fr2">
-                                                            <rect key="frame" x="294" y="0.0" width="81" height="24"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="timestamp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qNe-9f-fr2">
+                                                            <rect key="frame" x="295" y="0.0" width="64" height="24"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="body Text" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X2l-9a-9SQ">
-                                                    <rect key="frame" x="0.0" y="32" width="375" height="41.5"/>
+                                                    <rect key="frame" x="0.0" y="32" width="359" height="41.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -56,9 +57,9 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="srP-GJ-LBY" secondAttribute="bottom" id="3Z7-ag-hsG"/>
-                                        <constraint firstAttribute="trailing" secondItem="srP-GJ-LBY" secondAttribute="trailing" id="Lmc-aY-ts6"/>
+                                        <constraint firstAttribute="trailing" secondItem="srP-GJ-LBY" secondAttribute="trailing" constant="8" id="Lmc-aY-ts6"/>
                                         <constraint firstItem="srP-GJ-LBY" firstAttribute="top" secondItem="Gnk-Ih-Nfb" secondAttribute="top" id="bRp-ZW-gjd"/>
-                                        <constraint firstItem="srP-GJ-LBY" firstAttribute="leading" secondItem="Gnk-Ih-Nfb" secondAttribute="leading" id="lVW-XU-L0j"/>
+                                        <constraint firstItem="srP-GJ-LBY" firstAttribute="leading" secondItem="Gnk-Ih-Nfb" secondAttribute="leading" constant="8" id="lVW-XU-L0j"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -94,11 +95,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="51" translatesAutoresizingMaskIntoConstraints="NO" id="MfY-fn-CMG">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="MfY-fn-CMG">
                                 <rect key="frame" x="20" y="84" width="335" height="563"/>
                                 <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="88A-5B-uwF">
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="31"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="ZTg-Fm-ozH"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="🤩"/>
+                                            <segment title="😁"/>
+                                            <segment title="😊"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iwc-CM-q8X">
-                                        <rect key="frame" x="0.0" y="0.0" width="335" height="50"/>
+                                        <rect key="frame" x="0.0" y="38" width="335" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="OSF-9a-NvK"/>
                                         </constraints>
@@ -107,7 +119,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="70V-96-8SA">
-                                        <rect key="frame" x="0.0" y="101" width="335" height="462"/>
+                                        <rect key="frame" x="0.0" y="96" width="335" height="467"/>
                                         <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -132,6 +144,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="segmentedControl" destination="88A-5B-uwF" id="cAm-cL-Sxw"/>
                         <outlet property="textView" destination="70V-96-8SA" id="JF6-V9-MdI"/>
                         <outlet property="titleTextField" destination="iwc-CM-q8X" id="SG8-l9-eHa"/>
                     </connections>
