@@ -17,11 +17,11 @@ class EntryDetailViewController: UIViewController {
     
     func updateViews() {
         guard isViewLoaded else { return }
-            
+        
         title = entry?.title ?? "Create New Entry"
         entryTextField.text = entry?.title
         entryTextView.text = entry?.bodyText
-
+        
     }
     
     @IBOutlet weak var entryTextField: UITextField!

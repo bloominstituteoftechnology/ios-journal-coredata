@@ -13,7 +13,7 @@ class EntryController {
         do {
             try moc.save()
         } catch {
-           
+            moc.reset()
             NSLog("Error saving managed object context: \(error)")
         }
     }
