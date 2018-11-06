@@ -40,16 +40,17 @@ class EntryController {
     }
     
     
-    func newEntry(title: String, bodyText: String) {
-        _ = Entry(title: title, bodyText: bodyText)
+    func newEntry(title: String, bodyText: String, mood: String) {
+        _ = Entry(title: title, bodyText: bodyText, mood: mood)
         saveToPersistenceStore()
     }
     
     
-    func updateEntry(entry: Entry, title: String, bodyText: String) {
+    func updateEntry(entry: Entry, title: String, bodyText: String, mood: String) {
         entry.setValue(title, forKey: "title")
         entry.setValue(bodyText, forKey: "bodyText")
         entry.setValue(Date(), forKey: "timeStamp")
+        entry.setValue(mood, forKey: "mood")
         
         saveToPersistenceStore()
     }
