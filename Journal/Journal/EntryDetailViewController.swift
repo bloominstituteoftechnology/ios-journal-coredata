@@ -31,9 +31,6 @@ class EntryDetailViewController: UIViewController {
         
     }
     
-    
-    
-    
     var entryController: EntryController?
     
     func updateViews() {
@@ -43,7 +40,18 @@ class EntryDetailViewController: UIViewController {
         titleTextField.text = entry?.title
         textView.text = entry?.bodytext
         
+        let mood: Mood
+        if let entryMood = entry?.mood {
+            mood = Mood(rawValue: entryMood)!
+        } else{
+            mood = .neutral
+        }
+    segController.selectedSegmentIndex = Mood.allCases.index(of: mood)!
+
+        
+        
     }
+
     
     
     
@@ -59,10 +67,13 @@ class EntryDetailViewController: UIViewController {
         guard let title = titleTextField.text else {return}
         guard let body = textView.text else {return}
         
+        let moodIndex = segController.selectedSegmentIndex
+        let mood = Mood.Moods[moodIndex]
+        
         if let entry = entry  {
-            entryController?.Update(entry: entry, title: title, bodytext: body)
+            entryController?.Update(entry: entry, title: title, bodytext: body, mood:mood)
         } else {
-            entryController?.Create(title: title, bodytext: body)
+            entryController?.Create(title: title, bodytext: body, mood: mood)
         }
         self.navigationController?.popViewController(animated: true)
     }
@@ -77,5 +88,9 @@ class EntryDetailViewController: UIViewController {
      // Pass the selected object to the new view controller.
      }
      */
+
+    
+    @IBOutlet weak var segController: UISegmentedControl!
+    
     
 }

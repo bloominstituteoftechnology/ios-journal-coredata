@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="v6x-7x-mya">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="v6x-7x-mya">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -92,22 +92,31 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1OH-xW-P2E">
-                                <rect key="frame" x="20" y="84" width="335" height="30"/>
+                                <rect key="frame" x="20" y="124" width="335" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="8ML-na-cO0">
-                                <rect key="frame" x="8" y="122" width="359" height="537"/>
+                                <rect key="frame" x="8" y="162" width="359" height="497"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xuG-v9-1YM">
+                                <rect key="frame" x="78" y="82" width="244" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="😀"/>
+                                    <segment title="😐"/>
+                                    <segment title="☹️"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="8ML-na-cO0" firstAttribute="leading" secondItem="08W-6i-dqp" secondAttribute="leading" constant="8" id="EYk-jD-nWV"/>
-                            <constraint firstItem="1OH-xW-P2E" firstAttribute="top" secondItem="08W-6i-dqp" secondAttribute="top" constant="20" id="Ecf-n6-0Yc"/>
+                            <constraint firstItem="1OH-xW-P2E" firstAttribute="top" secondItem="08W-6i-dqp" secondAttribute="top" constant="60" id="Ecf-n6-0Yc"/>
                             <constraint firstItem="8ML-na-cO0" firstAttribute="top" secondItem="1OH-xW-P2E" secondAttribute="bottom" constant="8" id="HuC-xV-K3r"/>
                             <constraint firstItem="08W-6i-dqp" firstAttribute="trailing" secondItem="1OH-xW-P2E" secondAttribute="trailing" constant="20" id="PzR-Ei-wXs"/>
                             <constraint firstItem="1OH-xW-P2E" firstAttribute="leading" secondItem="08W-6i-dqp" secondAttribute="leading" constant="20" id="WQP-uv-P4e"/>
@@ -124,6 +133,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="segController" destination="xuG-v9-1YM" id="sDX-pZ-KjE"/>
                         <outlet property="textView" destination="8ML-na-cO0" id="vNU-Bo-my6"/>
                         <outlet property="titleTextField" destination="1OH-xW-P2E" id="mne-oG-rO4"/>
                     </connections>

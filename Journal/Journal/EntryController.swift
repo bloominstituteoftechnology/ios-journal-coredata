@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 
+
 class EntryController {
     func saveToPersistentStore(){
         let moc = CoreDataStack.shared.mainContext
@@ -20,35 +21,38 @@ class EntryController {
         }
     }
     
-    func loadFromPersistentStore() -> [Entry] {
-        //let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
-        do {
-            return try moc.fetch(fetchRequest)
-            
-            
-        } catch {
-            NSLog("Error fetching \(error)")
-            return []
-            
-        }
-        
-    }
+//    func loadFromPersistentStore() -> [Entry] {
+//        //let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let moc = CoreDataStack.shared.mainContext
+//        do {
+//            return try moc.fetch(fetchRequest)
+//
+//
+//        } catch {
+//            NSLog("Error fetching \(error)")
+//            return []
+//
+//        }
+//
+//    }
+    
+
     
     
-    func Create(title: String, bodytext: String ){
+    func Create(title: String, bodytext: String, mood: Mood ){
         
-        let _ = Entry(title: title, bodytext: bodytext)
+        let _ = Entry(title: title, bodytext: bodytext, mood: mood)
         saveToPersistentStore()
         
     }
     
-    func Update(entry: Entry, title: String, bodytext: String ) {
+    func Update(entry: Entry, title: String, bodytext: String, mood: Mood ) {
         entry.title = title
         entry.bodytext = bodytext
         entry.timestamp = Date()
+        entry.mood = mood.rawValue
         saveToPersistentStore()
         
     }
@@ -62,7 +66,9 @@ class EntryController {
     
     
     
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
+    var entries: [Entry] = []
+//    {
+//
+//        return loadFromPersistentStore()
+//    }
 }
