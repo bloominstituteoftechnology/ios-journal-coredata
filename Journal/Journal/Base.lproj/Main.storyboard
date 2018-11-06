@@ -96,14 +96,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Bwc-5k-XIk">
+                                <rect key="frame" x="20" y="136" width="335" height="29"/>
+                                <segments>
+                                    <segment title="😔"/>
+                                    <segment title="😐"/>
+                                    <segment title="😃"/>
+                                </segments>
+                            </segmentedControl>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oEk-xJ-w1b">
-                                <rect key="frame" x="20" y="136" width="335" height="30"/>
+                                <rect key="frame" x="20" y="184" width="335" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="hkc-bC-BbU">
-                                <rect key="frame" x="20" y="174" width="335" height="473"/>
+                                <rect key="frame" x="20" y="234" width="335" height="413"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -112,11 +120,14 @@
                         <color key="backgroundColor" red="0.81903038350000001" green="0.89943224899999996" blue="1" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
                             <constraint firstItem="oEk-xJ-w1b" firstAttribute="leading" secondItem="n3w-nT-0MY" secondAttribute="leading" constant="20" id="1Rl-fh-BX8"/>
+                            <constraint firstItem="oEk-xJ-w1b" firstAttribute="top" secondItem="Bwc-5k-XIk" secondAttribute="bottom" constant="20" id="1Tl-f0-so2"/>
+                            <constraint firstItem="n3w-nT-0MY" firstAttribute="trailing" secondItem="Bwc-5k-XIk" secondAttribute="trailing" constant="20" id="7Ob-3I-62J"/>
                             <constraint firstItem="hkc-bC-BbU" firstAttribute="leading" secondItem="n3w-nT-0MY" secondAttribute="leading" constant="20" id="AoA-bf-QFS"/>
+                            <constraint firstItem="Bwc-5k-XIk" firstAttribute="leading" secondItem="n3w-nT-0MY" secondAttribute="leading" constant="20" id="IoX-6F-HnU"/>
                             <constraint firstItem="n3w-nT-0MY" firstAttribute="bottom" secondItem="hkc-bC-BbU" secondAttribute="bottom" constant="20" id="J0K-Eh-d6U"/>
-                            <constraint firstItem="oEk-xJ-w1b" firstAttribute="top" secondItem="n3w-nT-0MY" secondAttribute="top" constant="20" id="M3p-cX-ztl"/>
                             <constraint firstItem="n3w-nT-0MY" firstAttribute="trailing" secondItem="hkc-bC-BbU" secondAttribute="trailing" constant="20" id="YFA-LQ-cZF"/>
-                            <constraint firstItem="hkc-bC-BbU" firstAttribute="top" secondItem="oEk-xJ-w1b" secondAttribute="bottom" constant="8" id="i2Q-fb-6RM"/>
+                            <constraint firstItem="Bwc-5k-XIk" firstAttribute="top" secondItem="n3w-nT-0MY" secondAttribute="top" constant="20" id="e70-YE-jJy"/>
+                            <constraint firstItem="hkc-bC-BbU" firstAttribute="top" secondItem="oEk-xJ-w1b" secondAttribute="bottom" constant="20" id="i2Q-fb-6RM"/>
                             <constraint firstItem="n3w-nT-0MY" firstAttribute="trailing" secondItem="oEk-xJ-w1b" secondAttribute="trailing" constant="20" id="iUJ-SD-qLL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="n3w-nT-0MY"/>
@@ -131,6 +142,7 @@
                     <connections>
                         <outlet property="entryTextField" destination="oEk-xJ-w1b" id="tze-5K-IOl"/>
                         <outlet property="entryTextView" destination="hkc-bC-BbU" id="fxt-64-dmc"/>
+                        <outlet property="segmentedControl" destination="Bwc-5k-XIk" id="BnY-0h-973"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PqZ-QO-iYM" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -155,6 +167,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="CrK-Ec-u3G"/>
+        <segue reference="JAz-Pc-r7J"/>
     </inferredMetricsTieBreakers>
 </document>

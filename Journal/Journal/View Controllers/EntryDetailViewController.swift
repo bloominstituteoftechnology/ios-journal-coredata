@@ -26,6 +26,7 @@ class EntryDetailViewController: UIViewController {
     
     @IBOutlet weak var entryTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     @IBAction func saveEntry(_ sender: Any) {
         
