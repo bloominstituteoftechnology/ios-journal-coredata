@@ -25,7 +25,10 @@ class EntryTableViewCell: UITableViewCell {
         titleLabel.text = title
         bodyTextLabel.text = entry?.bodyText
         if let date = entry?.timeStamp {
-            timeStampLabel.text = DateFormatter().string(from: date)
+            let formatter = DateFormatter()
+            formatter.dateStyle = .short
+            formatter.timeStyle = .short
+            timeStampLabel.text = formatter.string(from: date)
         }
     }
     
