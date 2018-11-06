@@ -33,14 +33,24 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="359" height="24"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WGR-8z-dAy">
+<<<<<<< HEAD
                                                             <rect key="frame" x="0.0" y="0.0" width="40" height="24"/>
+=======
+                                                            <rect key="frame" x="0.0" y="0.0" width="287" height="24"/>
+>>>>>>> 0d80fabd3dd6a2883ce1633caa7205663f876589
                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+<<<<<<< HEAD
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="timestamp" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qNe-9f-fr2">
                                                             <rect key="frame" x="48" y="0.0" width="311" height="24"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
+=======
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="timestamp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qNe-9f-fr2">
+                                                            <rect key="frame" x="295" y="0.0" width="64" height="24"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+>>>>>>> 0d80fabd3dd6a2883ce1633caa7205663f876589
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -95,11 +105,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="51" translatesAutoresizingMaskIntoConstraints="NO" id="MfY-fn-CMG">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="MfY-fn-CMG">
                                 <rect key="frame" x="20" y="84" width="335" height="563"/>
                                 <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="88A-5B-uwF">
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="31"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="ZTg-Fm-ozH"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="🤩"/>
+                                            <segment title="😁"/>
+                                            <segment title="😊"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iwc-CM-q8X">
-                                        <rect key="frame" x="0.0" y="0.0" width="335" height="50"/>
+                                        <rect key="frame" x="0.0" y="38" width="335" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="OSF-9a-NvK"/>
                                         </constraints>
@@ -108,7 +129,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="70V-96-8SA">
-                                        <rect key="frame" x="0.0" y="101" width="335" height="462"/>
+                                        <rect key="frame" x="0.0" y="96" width="335" height="467"/>
                                         <color key="backgroundColor" red="0.92143100499999997" green="0.92145264149999995" blue="0.92144101860000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -133,6 +154,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="segmentedControl" destination="88A-5B-uwF" id="cAm-cL-Sxw"/>
                         <outlet property="textView" destination="70V-96-8SA" id="JF6-V9-MdI"/>
                         <outlet property="titleTextField" destination="iwc-CM-q8X" id="SG8-l9-eHa"/>
                     </connections>
