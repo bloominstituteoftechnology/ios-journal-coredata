@@ -79,16 +79,20 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     
     
     // MARK: - Table view data source
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return fetchedResultsController.sections?.count ?? 0
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return entryController.entries.count
+        return fetchedResultsController.fetchedObjects?.count ?? 0
     }
 
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "entryCell", for: indexPath) as! EntryTableViewCell
-        let entry = entryController.entries[indexPath.row]
+        let entry = fetchedResultsController.object(at: indexPath)
         cell.entry = entry
         
         return cell
@@ -98,7 +102,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let entry = entryController.entries[indexPath.row]
+            let entry = fetchedResultsController.object(at: indexPath)
             let moc = CoreDataStack.shared.mainContext
             moc.delete(entry)
             
@@ -136,7 +140,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         let detailVC = segue.destination as! EntryDetailViewController
         if segue.identifier == "toExistingEntry" {
             if let indexPath = tableView.indexPathForSelectedRow {
-                detailVC.entry = entryController.entries[indexPath.row]
+                detailVC.entry = fetchedResultsController.object(at: indexPath)
                 detailVC.entryController = entryController
             }
         } else if segue.identifier == "toNewEntry" {
