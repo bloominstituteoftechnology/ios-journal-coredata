@@ -1,5 +1,6 @@
 import UIKit
 
+
 class EntryDetailViewController: UIViewController {
     
     var entry: Entry? {
@@ -16,13 +17,12 @@ class EntryDetailViewController: UIViewController {
     }
     
     func updateViews() {
-        if isViewLoaded {
-            guard let entry = entry else { return }
+        guard isViewLoaded else { return }
             
-            title = entry.title ?? "Create Task"
-            entryTextField.text = entry.title
-            entryTextView.text = entry.bodyText
-        }
+        title = entry?.title ?? "Create New Entry"
+        entryTextField.text = entry?.title
+        entryTextView.text = entry?.bodyText
+
     }
     
     @IBOutlet weak var entryTextField: UITextField!
@@ -30,8 +30,15 @@ class EntryDetailViewController: UIViewController {
     
     @IBAction func saveEntry(_ sender: Any) {
         
+        guard let title = entryTextField.text, !title.isEmpty else { return }
+        guard let body = entryTextView.text, !body.isEmpty else { return }
         
+        if let entry = entry {
+            entryController?.updateEntry(entry: entry, title: title, bodyText: body)
+        } else {
+            entryController?.createEntry(title: title, bodyText: body)
+        }
+        
+        navigationController?.popViewController(animated: true)
     }
-    
-    
 }

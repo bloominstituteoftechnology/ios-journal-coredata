@@ -1,5 +1,6 @@
 import UIKit
 
+
 class EntryTableViewCell: UITableViewCell {
     
     var entry: Entry? {

@@ -13,7 +13,7 @@ class EntryController {
         do {
             try moc.save()
         } catch {
-            moc.reset()
+           
             NSLog("Error saving managed object context: \(error)")
         }
     }
@@ -29,9 +29,9 @@ class EntryController {
         }
     }
     
-    func createEntry(title: String, bodyText: String, timestamp: Date = Date(), identifier: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    func createEntry(title: String, bodyText: String) {
         
-        _ = Entry(title: title, bodyText: bodyText, identifier: identifier)
+        let _ = Entry(title: title, bodyText: bodyText)
         
         saveToPersistentStore()
     }
