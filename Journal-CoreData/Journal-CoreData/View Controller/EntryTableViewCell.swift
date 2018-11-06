@@ -30,13 +30,8 @@ class EntryTableViewCell: UITableViewCell {
             formatter.timeStyle = .short
             timeStampLabel.text = formatter.string(from: date)
         }
-        
+
     }
-    
-    
-    
-    
-    
     
     
     override func awakeFromNib() {

@@ -13,6 +13,7 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var textView: UITextView!
+   
     @IBAction func saveButton(_ sender: Any) {
         guard let title = titleTextField.text, !title.isEmpty else {return}
         guard let text = textView.text, !text.isEmpty else {return}
@@ -37,14 +38,6 @@ class EntryDetailViewController: UIViewController {
         
         navigationController?.popViewController(animated: true)
     }
-    
-    enum Emoji: String {
-        case happiest = "🤩"
-        case happier = "😁"
-        case happy = "😊"
-    }
-    
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,15 +69,12 @@ class EntryDetailViewController: UIViewController {
             NSLog("No emoji in entry.mood")
         }
     }
-    
-    /*
-    // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+}
 
+
+enum Emoji: String {
+    case happiest = "🤩"
+    case happier = "😁"
+    case happy = "😊"
 }

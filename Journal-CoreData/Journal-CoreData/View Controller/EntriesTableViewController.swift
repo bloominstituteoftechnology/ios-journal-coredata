@@ -47,7 +47,14 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
                     didChange sectionInfo: NSFetchedResultsSectionInfo,
                     atSectionIndex sectionIndex: Int,
                     for type: NSFetchedResultsChangeType) {
-        // idk what to put here ?
+        switch type {
+        case .insert:
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
+        case .delete:
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
+        default:
+            return
+        }
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
@@ -80,13 +87,26 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     
     // MARK: - Table view data source
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0:
+            return "🤩"
+        case 1:
+            return "😁"
+        case 2:
+            return "😊"
+        default:
+            return "😁"
+        }
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return fetchedResultsController.fetchedObjects?.count ?? 0
+        let sectionInfo = fetchedResultsController.sections![section]
+        return sectionInfo.numberOfObjects
     }
 
 
