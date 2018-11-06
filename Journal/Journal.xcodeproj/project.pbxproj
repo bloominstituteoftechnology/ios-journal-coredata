@@ -15,6 +15,10 @@
 		4455C0FA2190E14000A4C274 /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4455C0F92190E14000A4C274 /* EntriesTableViewController.swift */; };
 		4455C0FC2190E2EF00A4C274 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4455C0FB2190E2EF00A4C274 /* EntryTableViewCell.swift */; };
 		4455C0FE2190E49F00A4C274 /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4455C0FD2190E49E00A4C274 /* EntryDetailViewController.swift */; };
+		4455C1002190E6BD00A4C274 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4455C0FF2190E6BD00A4C274 /* CoreDataStack.swift */; };
+		4455C1032190E72500A4C274 /* Entry.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4455C1012190E72500A4C274 /* Entry.xcdatamodeld */; };
+		4455C1052190E7CD00A4C274 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4455C1042190E7CD00A4C274 /* Entry+Convenience.swift */; };
+		4455C1072190EBC400A4C274 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4455C1062190EBC400A4C274 /* EntryController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +32,10 @@
 		4455C0F92190E14000A4C274 /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 		4455C0FB2190E2EF00A4C274 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
 		4455C0FD2190E49E00A4C274 /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
+		4455C0FF2190E6BD00A4C274 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		4455C1022190E72500A4C274 /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
+		4455C1042190E7CD00A4C274 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
+		4455C1062190EBC400A4C274 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +73,10 @@
 				4455C0EB2190E00E00A4C274 /* Main.storyboard */,
 				4455C0FB2190E2EF00A4C274 /* EntryTableViewCell.swift */,
 				4455C0FD2190E49E00A4C274 /* EntryDetailViewController.swift */,
+				4455C0FF2190E6BD00A4C274 /* CoreDataStack.swift */,
+				4455C1012190E72500A4C274 /* Entry.xcdatamodeld */,
+				4455C1042190E7CD00A4C274 /* Entry+Convenience.swift */,
+				4455C1062190EBC400A4C274 /* EntryController.swift */,
 				4455C0F92190E14000A4C274 /* EntriesTableViewController.swift */,
 				4455C0EE2190E00F00A4C274 /* Assets.xcassets */,
 				4455C0F02190E00F00A4C274 /* LaunchScreen.storyboard */,
@@ -144,9 +156,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4455C1032190E72500A4C274 /* Entry.xcdatamodeld in Sources */,
 				4455C0FC2190E2EF00A4C274 /* EntryTableViewCell.swift in Sources */,
 				4455C0FA2190E14000A4C274 /* EntriesTableViewController.swift in Sources */,
+				4455C1072190EBC400A4C274 /* EntryController.swift in Sources */,
 				4455C0EA2190E00E00A4C274 /* ViewController.swift in Sources */,
+				4455C1052190E7CD00A4C274 /* Entry+Convenience.swift in Sources */,
+				4455C1002190E6BD00A4C274 /* CoreDataStack.swift in Sources */,
 				4455C0FE2190E49F00A4C274 /* EntryDetailViewController.swift in Sources */,
 				4455C0E82190E00E00A4C274 /* AppDelegate.swift in Sources */,
 			);
@@ -348,6 +364,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4455C1012190E72500A4C274 /* Entry.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4455C1022190E72500A4C274 /* Journal.xcdatamodel */,
+			);
+			currentVersion = 4455C1022190E72500A4C274 /* Journal.xcdatamodel */;
+			path = Entry.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 4455C0DC2190E00E00A4C274 /* Project object */;
 }

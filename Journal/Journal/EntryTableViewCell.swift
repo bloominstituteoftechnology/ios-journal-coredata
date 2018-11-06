@@ -15,6 +15,32 @@ class EntryTableViewCell: UITableViewCell {
         // Initialization code
     }
     
+ 
+    
+    
+    
+        func updateViews(){
+        guard let title = entry?.title, !title.isEmpty else {return}
+        titleLabel.text = title
+           // guard let body = entry?.bodytext else {return}
+            bodyLabel.text = entry?.bodytext
+            if let timestamp = entry?.timestamp {
+           let df = DateFormatter()
+                df.dateStyle = .short
+                df.timeStyle = .short
+                
+                timeStamp.text = df.string(from: timestamp)
+            }
+            
+        
+        
+    }
+    
+
+    
+    
+    
+    
     
     @IBOutlet weak var titleLabel: UILabel!
     
@@ -27,6 +53,19 @@ class EntryTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+
+
+
+
+
+
+    var entry: Entry?{
+        didSet {
+            updateViews()
+            
+        }
+        
     }
 
 }
