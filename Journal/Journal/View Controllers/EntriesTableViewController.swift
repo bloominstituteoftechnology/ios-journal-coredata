@@ -1,13 +1,12 @@
 import UIKit
 
-
 class EntriesTableViewController: UITableViewController {
     
     let entryController = EntryController()
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
         tableView.reloadData()
     }
     
@@ -35,9 +34,9 @@ class EntriesTableViewController: UITableViewController {
         if editingStyle == .delete {
             
             let entry = entryController.entries[indexPath.row]
+            entryController.deleteEntry(entry: entry)
             
-            let moc = CoreDataStack.shared.mainContext
-            moc.delete(entry)
+            tableView.reloadData()
             
         }
     }
@@ -45,14 +44,13 @@ class EntriesTableViewController: UITableViewController {
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destination = segue.destination as! EntryDetailViewController
+        destination.entryController = entryController
         
         if segue.identifier == "showDetail" {
-            
-            let destination = segue.destination as! EntryDetailViewController
-            if let indexPath = tableView.indexPathForSelectedRow {
-                
-                destination.entry = entryController.entries[indexPath.row]
-            }
+            guard let indexPath = tableView.indexPathForSelectedRow else {return}
+            destination.entry = entryController.entries[indexPath.row]
         }
     }
+    
 }

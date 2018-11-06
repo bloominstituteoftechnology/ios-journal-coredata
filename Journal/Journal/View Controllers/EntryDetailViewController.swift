@@ -1,6 +1,5 @@
 import UIKit
 
-
 class EntryDetailViewController: UIViewController {
     
     var entry: Entry? {
