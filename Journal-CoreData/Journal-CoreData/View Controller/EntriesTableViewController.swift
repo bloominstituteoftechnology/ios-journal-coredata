@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
@@ -19,6 +20,10 @@ class EntriesTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     let entryController = EntryController()
+    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+        let fetchRequest = NSFetchRequest<Entry>(entityName: "Entry")
+        
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
