@@ -28,9 +28,6 @@ class EntryController {
         let moc = CoreDataStack.shared.mainContext
         let fetchRequest = NSFetchRequest<Entry>(entityName: "Entry")
         
-        // Same way of doing it I think
-        // let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
         do {
             return try moc.fetch(fetchRequest)
         } catch {
