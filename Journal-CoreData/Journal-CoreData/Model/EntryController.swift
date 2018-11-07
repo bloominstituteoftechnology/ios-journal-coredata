@@ -61,6 +61,7 @@ class EntryController {
         moc.delete(entry)
         
         saveToPersistenceStore()
+        deleteEntryFromServer(entry: entry)
     }
     
     var baseURL: URL = URL(string: "https://iojournal-9ad15.firebaseio.com/")!
@@ -91,7 +92,24 @@ class EntryController {
         dataTask.resume()
     }
     
-    
+    func deleteEntryFromServer(entry: Entry, completion: @escaping (_ error: Error?) -> Void = { _ in }) {
+        let url = baseURL.appendingPathComponent(entry.identifier!)
+        baseURL.appendPathExtension("json")
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        
+        let dataTask = URLSession.shared.dataTask(with: request) { data, _, error in
+            if let error = error {
+                NSLog("Error creating datatask: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+            return
+        }
+        dataTask.resume()
+    }
     
     
     
