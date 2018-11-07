@@ -49,9 +49,9 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
                     for type: NSFetchedResultsChangeType) {
         switch type {
         case .insert:
-            tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
+            tableView.insertSections([sectionIndex], with: .fade)
         case .delete:
-            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
+            tableView.deleteSections([sectionIndex], with: .fade)
         default:
             return
         }
@@ -79,25 +79,13 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
             guard let indexPath = indexPath else {return}
             tableView.reloadRows(at: [indexPath], with: .automatic)
         }
-        
-        
-        
     }
     
     
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0:
-            return "🤩"
-        case 1:
-            return "😁"
-        case 2:
-            return "😊"
-        default:
-            return "😁"
-        }
+        return fetchedResultsController.sections![section].name
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

@@ -23,5 +23,21 @@ extension Entry {
         self.identifier = identifier
         self.mood = mood
     }
-                     
+}
+
+extension Entry: Encodable {
+    
+    enum CodingKeys: String, CodingKey {
+        case title, timeStamp, mood, identifier, bodyText
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(title, forKey: CodingKeys.title)
+        try container.encode(timeStamp, forKey: CodingKeys.timeStamp)
+        try container.encode(mood, forKey: CodingKeys.mood)
+        try container.encode(identifier, forKey: CodingKeys.identifier)
+        try container.encode(bodyText, forKey: CodingKeys.bodyText)
+        
+    }
 }
