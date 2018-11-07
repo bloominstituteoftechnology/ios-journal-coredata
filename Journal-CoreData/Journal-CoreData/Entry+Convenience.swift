@@ -12,8 +12,8 @@ import CoreData
 extension Entry {
     convenience init(title: String,
                      bodyText: String,
-                     timeStamp: Date,
-                     identifier: String,
+                     timeStamp: Date = Date(),
+                     identifier: String = UUID().uuidString,
                      context: NSManagedObjectContext = CoreDataStack.shared.mainContext){
         self.init(context: context)
         self.title = title

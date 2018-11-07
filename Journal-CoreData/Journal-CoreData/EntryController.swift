@@ -11,8 +11,21 @@ import CoreData
 
 class EntryController {
 
-    // CRUD Methods here
+    //MARK: - CRUD
     
+    func createEntry(title:String, bodyText:String){
+        _ = Entry(title: title, bodyText: bodyText)
+        saveToPersistentStore()
+    }
+    
+    
+    func updateEntry(){
+        
+    }
+    
+    func deleteEntry(){
+        
+    }
     
 func saveToPersistentStore() {
     let moc = CoreDataStack.shared.mainContext
@@ -38,10 +51,11 @@ func loadFromPersistentStore() -> [Entry] {
 
 }
 
-
-
 // MARK: - Properties
 
-    var entries: [Entry] = []
+    var entries: [Entry] {
+        return loadFromPersistentStore()
+    }
+    
 
 }
