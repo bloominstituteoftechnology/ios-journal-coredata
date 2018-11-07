@@ -14,17 +14,15 @@ enum Mood: String, CaseIterable {
     case neutral = "😐"
     case sad = "☹️"
     
-
-
- static var Moods:[Mood]{
-    return [.happy, .neutral, .sad]
-}
+    static var Moods:[Mood]{
+        return [.happy, .neutral, .sad]
+    }
 }
 
 
 extension Entry{
     
-    convenience init(title: String, bodytext: String, timestamp:Date = Date(), identifier: String = UUID().uuidString, mood: Mood = .neutral,  context:NSManagedObjectContext = CoreDataStack.shared.mainContext){
+    convenience init(title: String, bodytext: String? = nil, timestamp:Date = Date(), identifier: String = UUID().uuidString, mood: Mood = .neutral,  context:NSManagedObjectContext = CoreDataStack.shared.mainContext){
         
         self.init(context:context)
         self.title = title
@@ -34,5 +32,19 @@ extension Entry{
         self.mood = mood.rawValue
         
         
+    }
+    
+    convenience init?(entryRepresentation:EntryRepresentation, context:NSManagedObjectContext=CoreDataStack.shared.mainContext) {
+        
+        guard let identifier = UUID(uuidString: entryRepresentation.identifier) else {return nil}
+        guard let mood = Mood(rawValue: entryRepresentation.mood) else {return nil}
+        
+        self.init(title: entryRepresentation.title,
+                  bodytext: entryRepresentation.bodytext,
+                  timestamp: entryRepresentation.timestamp,
+                  identifier: identifier,
+            mood: mood
+            context:context)
+       
     }
 }

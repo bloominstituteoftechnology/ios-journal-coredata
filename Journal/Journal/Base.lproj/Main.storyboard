@@ -31,7 +31,7 @@
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WuA-Sg-0SP">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -92,20 +92,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1OH-xW-P2E">
-                                <rect key="frame" x="20" y="124" width="335" height="30"/>
+                                <rect key="frame" x="20" y="134" width="315" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="8ML-na-cO0">
-                                <rect key="frame" x="8" y="162" width="359" height="497"/>
+                                <rect key="frame" x="8" y="172" width="359" height="487"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xuG-v9-1YM">
-                                <rect key="frame" x="78" y="82" width="244" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xuG-v9-1YM">
+                                <rect key="frame" x="75" y="90" width="244" height="29"/>
                                 <segments>
                                     <segment title="😀"/>
                                     <segment title="😐"/>
@@ -116,11 +115,14 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="8ML-na-cO0" firstAttribute="leading" secondItem="08W-6i-dqp" secondAttribute="leading" constant="8" id="EYk-jD-nWV"/>
-                            <constraint firstItem="1OH-xW-P2E" firstAttribute="top" secondItem="08W-6i-dqp" secondAttribute="top" constant="60" id="Ecf-n6-0Yc"/>
+                            <constraint firstItem="1OH-xW-P2E" firstAttribute="top" secondItem="08W-6i-dqp" secondAttribute="top" constant="70" id="Ecf-n6-0Yc"/>
                             <constraint firstItem="8ML-na-cO0" firstAttribute="top" secondItem="1OH-xW-P2E" secondAttribute="bottom" constant="8" id="HuC-xV-K3r"/>
-                            <constraint firstItem="08W-6i-dqp" firstAttribute="trailing" secondItem="1OH-xW-P2E" secondAttribute="trailing" constant="20" id="PzR-Ei-wXs"/>
+                            <constraint firstItem="08W-6i-dqp" firstAttribute="trailing" secondItem="1OH-xW-P2E" secondAttribute="trailing" constant="40" id="PzR-Ei-wXs"/>
                             <constraint firstItem="1OH-xW-P2E" firstAttribute="leading" secondItem="08W-6i-dqp" secondAttribute="leading" constant="20" id="WQP-uv-P4e"/>
+                            <constraint firstItem="08W-6i-dqp" firstAttribute="trailing" secondItem="xuG-v9-1YM" secondAttribute="trailing" constant="56" id="b1I-fQ-mKB"/>
                             <constraint firstItem="08W-6i-dqp" firstAttribute="bottom" secondItem="8ML-na-cO0" secondAttribute="bottom" constant="8" id="eXI-FH-EWN"/>
+                            <constraint firstItem="xuG-v9-1YM" firstAttribute="leading" secondItem="08W-6i-dqp" secondAttribute="leading" constant="75" id="fPp-UH-ztA"/>
+                            <constraint firstItem="xuG-v9-1YM" firstAttribute="top" secondItem="08W-6i-dqp" secondAttribute="top" constant="26" id="gFF-8O-IEy"/>
                             <constraint firstItem="08W-6i-dqp" firstAttribute="trailing" secondItem="8ML-na-cO0" secondAttribute="trailing" constant="8" id="jhD-DV-8c3"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="08W-6i-dqp"/>

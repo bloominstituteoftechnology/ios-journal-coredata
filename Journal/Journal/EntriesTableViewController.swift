@@ -11,12 +11,12 @@ import CoreData
 
 
 class EntriesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.reloadData()
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        tableView.reloadData()
+//    }
+//
     
-  
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
@@ -29,12 +29,12 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
                     didChange sectionInfo: NSFetchedResultsSectionInfo,
                     atSectionIndex sectionIndex: Int,
                     for type: NSFetchedResultsChangeType) {
-    
+        
         switch type {
         case .insert:
-            tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
         case .delete:
-            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
         default:
             break
         }
@@ -66,7 +66,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         default:
             break
         }
-       
+        
     }
     
     
@@ -90,11 +90,16 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     
     
     let entryController = EntryController()
-  
     
+    
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let sectionInfo = fetchedResultsController.sections?[section]
+        return sectionInfo?.name.capitalized
+    }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return fetchedResultsController.sections?.count ?? 1
+        return fetchedResultsController.sections?.count ?? 2
     }
     
     
@@ -105,6 +110,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     }
     
     
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! EntryTableViewCell
         
@@ -113,25 +119,25 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         
         return cell
     }
-
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
-           // let moc = CoreDataStack.shared.mainContext
+            // let moc = CoreDataStack.shared.mainContext
             entryController.Delete(entry: entry)
- 
+            
         }
     }
- 
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let DetailVC = segue.destination as? EntryDetailViewController else {return}
         DetailVC.entryController = entryController
-
+        
         if segue.identifier == "existingEntries" {
             if let indexPath = tableView.indexPathForSelectedRow {
-                DetailVC.entry = entryController.entries[indexPath.row]
+                DetailVC.entry = fetchedResultsController.object(at: indexPath)
             }
         }
     }

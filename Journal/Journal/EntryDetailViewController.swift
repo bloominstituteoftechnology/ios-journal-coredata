@@ -18,10 +18,7 @@ class EntryDetailViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    
-    
-    
-    
+
     var entry: Entry? {
         didSet{
             
@@ -51,11 +48,7 @@ class EntryDetailViewController: UIViewController {
         
         
     }
-
-    
-    
-    
-    
+ 
     @IBOutlet weak var titleTextField: UITextField!
     
     
