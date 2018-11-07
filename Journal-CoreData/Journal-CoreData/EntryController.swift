@@ -19,12 +19,18 @@ class EntryController {
     }
     
     
-    func updateEntry(){
+    func updateEntry(entry: Entry, title: String, bodyText: String) {
+        entry.setValue(title, forKey: "title")
+        entry.setValue(bodyText, forKey:"bodyText")
+        entry.setValue(Date(), forKey: "timeStamp")
         
+        saveToPersistentStore()
     }
     
-    func deleteEntry(){
-        
+    func deleteEntry(entry: Entry){
+        let moc = CoreDataStack.shared.mainContext
+        moc.delete(entry)
+        saveToPersistentStore()
     }
     
 func saveToPersistentStore() {
@@ -40,6 +46,9 @@ func saveToPersistentStore() {
     // this will return an array
 func loadFromPersistentStore() -> [Entry] {
    let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+    
+    
+    // what is the difference of doing -> let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
     
     let moc = CoreDataStack.shared.mainContext
     do {
