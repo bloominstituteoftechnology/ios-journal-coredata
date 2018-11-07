@@ -9,28 +9,20 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     @IBAction func saveButton(_ sender: Any) {
-        guard let title = textField.text, !title.isEmpty else {return}
-        guard let text = textView.text, !text.isEmpty else {return}
-        let priorityIndex = segmentedControl.selectedSegmentIndex
-        let priority = Moods.allCases[priorityIndex]
+        guard let entryController = entryController,
+            let titleText = textField.text,
+            let bodyText = textView.text else { return }
         
-        if let entry = entry {
-            entry.title = title
-            entry.bodyText = text
-            entry.mood = priority.rawValue
-            //entryController?.updateEntry(entry: entry, title: title, bodyText: text, mood: priority)
-        } else {
-            //entryController?.newEntry(title: title, bodyText: text, mood: priority.rawValue)
-            _ = Entry(title: title, bodyText: text, mood: priority.rawValue)
+        let moodIndex = segmentedControl.selectedSegmentIndex
+        let mood = Moods.allMoods[moodIndex]
+        
+        guard let entry = entry else {
+            entryController.createEntry(with: titleText, bodyText: bodyText, mood: mood)
+            navigationController?.popViewController(animated: true)
+            return
         }
         
-        let moc = CoreDataStack.shared.mainContext
-        do {
-            try moc.save()
-        } catch {
-            NSLog("Error saving managed object context: \(error)")
-        }
-        
+        entryController.update(entry: entry, with: titleText, bodyText: bodyText, mood: mood)
         navigationController?.popViewController(animated: true)
     }
     
