@@ -114,5 +114,92 @@ class EntryController {
     }
     
     
+    //MARK: - Syncing database
+    
+    func update(entry: Entry, stub: EntryStub) {
+        entry.title = stub.title
+        entry.bodyText = stub.bodyText
+        entry.timeStamp = stub.timeStamp
+        entry.mood = stub.mood
+        entry.identifier = stub.identifier
+    }
+    
+    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+        let moc = CoreDataStack.shared.mainContext
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
+        
+        do {
+            return try moc.fetch(fetchRequest)[0]
+        } catch {
+            NSLog("Error fetching tasks: \(error)")
+            return nil
+        }
+    }
+    
+    func fetchEntriesFromServer( completion: @escaping (_ error: Error?) -> Void = { _ in }) {
+        let url = baseURL.appendingPathExtension("json")
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        let dataTask = URLSession.shared.dataTask(with: request) {data, _, error in
+            if let error = error {
+                NSLog("Error creating dataTask: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data: \(String(describing: error))")
+                completion(error)
+                return
+            }
+            
+            var stubs: [EntryStub] = []
+            
+            let decoder = JSONDecoder()
+            do {
+                let json = try decoder.decode([String: EntryStub].self, from: data)
+                for (_, entry) in json {
+                    stubs.append(entry)
+                }
+                
+            } catch {
+                NSLog("Couldnt decode json into stubs:\(error)")
+                completion(error)
+                return
+            }
+            
+            for stub in stubs {
+                let entry = self.fetchSingleEntryFromPersistentStore(identifier: stub.identifier)
+                if entry != nil {
+                    // Have an entry matching identifier on server + persistence
+                    if entry! != stub {
+                     // Data mistmach. Need to update persistence store
+                        self.update(entry: entry!, stub: stub)
+                    }
+                } else {
+                    _ = Entry(stub: stub)
+                }
+            }
+            self.saveToPersistenceStore()
+            completion(nil)
+        }
+        dataTask.resume()
+    }
+    
+    
+    
+    init() {
+        fetchEntriesFromServer { (error) in
+            if let error = error {
+                NSLog("error fetching from server: \(error)")
+                return
+            }
+        }
+    }
+    
     
 }
