@@ -23,6 +23,11 @@ extension Entry {
         self.identifier = identifier
         self.mood = mood
     }
+    
+    
+    convenience init?(stub: EntryStub) {
+        self.init(title: stub.title, bodyText: stub.bodyText, timeStamp: stub.timeStamp, identifier: stub.identifier, mood: stub.mood)
+    }
 }
 
 extension Entry: Encodable {
@@ -41,3 +46,6 @@ extension Entry: Encodable {
         
     }
 }
+
+
+
