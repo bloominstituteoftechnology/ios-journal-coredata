@@ -113,6 +113,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
             let entry = fetchedResultsController.object(at: indexPath)
             let moc = CoreDataStack.shared.mainContext
             moc.delete(entry)
+            entryController.deleteEntryFromServer(entry: entry)
             
             do {
                 try moc.save()

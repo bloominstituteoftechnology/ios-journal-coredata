@@ -40,6 +40,7 @@ class EntryController {
 //    }
     func newEntry(title: String, bodyText: String, mood: String) {
         let entry = Entry(title: title, bodyText: bodyText, mood: mood)
+        
         saveToPersistenceStore()
         put(entry: entry)
     }
@@ -59,18 +60,17 @@ class EntryController {
     func deleteEntry(entry: Entry) {
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
-        
         saveToPersistenceStore()
-        deleteEntryFromServer(entry: entry)
     }
     
-    var baseURL: URL = URL(string: "https://iojournal-9ad15.firebaseio.com/")!
+    let baseURL: URL = URL(string: "https://iojournal-9ad15.firebaseio.com/")!
     
     func put(entry: Entry, completion: @escaping (_ error: Error?) -> Void = { _ in }) {
-        baseURL.appendPathComponent(entry.identifier!)
-        baseURL.appendPathExtension("json")
+        guard let identifier = entry.identifier else {fatalError("entry doesn't have identifier")}
         
-        var request = URLRequest(url: baseURL)
+        var request = URLRequest(url: baseURL.appendingPathComponent(identifier).appendingPathExtension("json"))
+        request.httpMethod = "PUT"
+
         do {
             let data = try JSONEncoder().encode(entry)
             request.httpBody = data
@@ -93,11 +93,13 @@ class EntryController {
     }
     
     func deleteEntryFromServer(entry: Entry, completion: @escaping (_ error: Error?) -> Void = { _ in }) {
-        let url = baseURL.appendingPathComponent(entry.identifier!)
-        baseURL.appendPathExtension("json")
+        guard let identifier = entry.identifier else {fatalError("entry doesn't have identifier")}
         
-        var request = URLRequest(url: url)
+        
+        var request = URLRequest(url: baseURL.appendingPathComponent(identifier).appendingPathExtension("json"))
         request.httpMethod = "DELETE"
+        
+        print(request)
         
         let dataTask = URLSession.shared.dataTask(with: request) { data, _, error in
             if let error = error {
