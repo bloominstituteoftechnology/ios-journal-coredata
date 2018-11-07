@@ -38,11 +38,10 @@ class EntryController {
 //            return []
 //        }
 //    }
-    
-    
     func newEntry(title: String, bodyText: String, mood: String) {
-        _ = Entry(title: title, bodyText: bodyText, mood: mood)
+        let entry = Entry(title: title, bodyText: bodyText, mood: mood)
         saveToPersistenceStore()
+        put(entry: entry)
     }
     
     
@@ -53,6 +52,7 @@ class EntryController {
         entry.setValue(mood, forKey: "mood")
         
         saveToPersistenceStore()
+        put(entry: entry)
     }
     
     
@@ -62,6 +62,37 @@ class EntryController {
         
         saveToPersistenceStore()
     }
+    
+    var baseURL: URL = URL(string: "https://iojournal-9ad15.firebaseio.com/")!
+    
+    func put(entry: Entry, completion: @escaping (_ error: Error?) -> Void = { _ in }) {
+        baseURL.appendPathComponent(entry.identifier!)
+        baseURL.appendPathExtension("json")
+        
+        var request = URLRequest(url: baseURL)
+        do {
+            let data = try JSONEncoder().encode(entry)
+            request.httpBody = data
+        } catch {
+            NSLog("Error enconding data: \(error)")
+            completion(error)
+            return
+        }
+        
+        let dataTask = URLSession.shared.dataTask(with: request) { data, _, error in
+            if let error = error {
+                NSLog("Error creating database: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }
+        dataTask.resume()
+    }
+    
+    
+    
     
     
 }
