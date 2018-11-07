@@ -87,11 +87,18 @@
                                 <rect key="frame" x="83" y="572" width="208" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Save Entry"/>
+                                <connections>
+                                    <action selector="saveEntry:" destination="hqu-2O-nSb" eventType="touchUpInside" id="Jau-0e-xPm"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="u2f-RO-27J"/>
                     </view>
+                    <connections>
+                        <outlet property="notesInput" destination="M2q-LJ-xxV" id="yYd-pK-Zrn"/>
+                        <outlet property="titleInput" destination="CBF-0t-65s" id="dIa-zO-813"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FZ5-C6-3BK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
