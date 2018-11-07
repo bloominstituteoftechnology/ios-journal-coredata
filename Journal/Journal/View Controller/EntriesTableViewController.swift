@@ -61,28 +61,28 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     
     //fix this....
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0:
-            return "😃"
-        case 1:
-            return "😢"
-        case 2:
-            return "😐"
-        default:
-            return "😐"
-        }
+//        switch section {
+//        case 0:
+//            return "😃"
+//        case 1:
+//            return "😢"
+//        case 2:
+//            return "😐"
+//        default:
+//            return "😐"
+//        }
+        let sectionInfo = fetchedResultsController.sections?[section]
+        return sectionInfo?.name
     }
     
-    let entryController = EntryController()
+    var entryController = EntryController()
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        let sectionInfo = fetchedResultsController.sections![section]
-        return sectionInfo.numberOfObjects
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     
@@ -99,15 +99,16 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
-            let moc = CoreDataStack.shared.mainContext
-            moc.delete(entry)
-            
-            do {
-                try moc.save()
-                tableView.reloadData()
-            } catch {
-                moc.reset()
-            }
+            entryController.delete(entry: entry)
+//            let moc = CoreDataStack.shared.mainContext
+//            moc.delete(entry)
+//
+//            do {
+//                try moc.save()
+//                tableView.reloadData()
+//            } catch {
+//                moc.reset()
+//            }
         }
     }
     
