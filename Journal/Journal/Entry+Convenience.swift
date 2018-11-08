@@ -42,8 +42,8 @@ extension Entry{
         self.init(title: entryRepresentation.title,
                   bodytext: entryRepresentation.bodytext,
                   timestamp: entryRepresentation.timestamp,
-                  identifier: identifier,
-            mood: mood
+                  identifier: identifier.uuidString,
+            mood: mood,
             context:context)
        
     }

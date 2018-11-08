@@ -99,7 +99,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return fetchedResultsController.sections?.count ?? 2
+        return fetchedResultsController.sections?.count ?? 1
     }
     
     

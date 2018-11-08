@@ -14,6 +14,10 @@ import CoreData
 
 class EntryController {
     
+    init(){
+        fetchEntriesFromServer()
+    }
+    
     
     typealias CompletionHandler = (Error?) -> Void
     
@@ -49,8 +53,8 @@ class EntryController {
             completion(nil)
             }.resume()
     }
-    func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = {_ in}){
-        guard let identifier = entry.identifier else {
+    func deleteEntryFromServer(identifier: String?, completion: @escaping CompletionHandler = {_ in}){
+        guard let identifier = identifier else {
             
             NSLog("no identifieer found")
             completion(NSError())
@@ -61,16 +65,14 @@ class EntryController {
         var request = URLRequest(url:requestURL)
         
         request.httpMethod = "DELETE"
-        
-        
         URLSession.shared.dataTask(with: request) {(data, _, error) in
-            
             if let error = error {
                 NSLog("Error deleting entry:\(error)")
                 completion(error)
                 return
             }
-            
+            completion(nil)
+            return
             }.resume()
     }
     
@@ -101,11 +103,12 @@ class EntryController {
         put(entry: entry)
     }
     func Delete(entry: Entry){
+        let id = entry.identifier
         CoreDataStack.shared.mainContext.delete(entry)
         saveToPersistentStore()
         
-        deleteEntryFromServer(entry: entry)
-        
+        //deleteEntryFromServer(entry: entry)
+        deleteEntryFromServer(identifier: id)
     }
     
     
@@ -115,6 +118,7 @@ class EntryController {
         entry.mood = entryRepresentation.mood
         entry.timestamp = entryRepresentation.timestamp
         entry.identifier = entryRepresentation.identifier
+        
         
     }
     
@@ -136,7 +140,7 @@ class EntryController {
         
         let requestURL = EntryController.baseURL.appendingPathExtension("json")
         URLSession.shared.dataTask(with: requestURL) {(data, _, error) in
-         if let error = error {
+            if let error = error {
                 NSLog("error fetching error:\(data)")
                 completion(error)
                 return
@@ -145,7 +149,7 @@ class EntryController {
                 NSLog("No data returned by data ")
                 completion(NSError())
                 return
-                }
+            }
             var entryRepresentations: [EntryRepresentation] = []
             DispatchQueue.main.async {
                 
@@ -159,8 +163,8 @@ class EntryController {
                     return
                 }
                 for entriesRep in entryRepresentations {
-                let entry = self.fetchSingleEntryFromPersistentStore(identifier: entriesRep.identifier )
-                    if let entry = entry, entry != entriesRep {
+                    let entry = self.fetchSingleEntryFromPersistentStore(identifier: entriesRep.identifier )
+                    if let entry = entry, !isSameAs(lhs: entriesRep, rhs: entry) {
                         self.update(entry: entry, entryRepresentation: entriesRep )
                     } else if entry == nil {
                         //We neeed to create a new task in Core Data
@@ -168,8 +172,8 @@ class EntryController {
                         
                     }
                 }
-                }
-        }.resume()
+            }
+            }.resume()
     }
     
     //                        let moc = CoreDataStack.shared.mainContext

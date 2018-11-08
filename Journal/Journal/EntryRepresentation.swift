@@ -8,8 +8,16 @@
 
 import Foundation
 
+func isSameAs(lhs: EntryRepresentation, rhs: Entry) -> Bool {
+    return lhs.title == rhs.title &&
+        lhs.bodytext == rhs.bodytext &&
+        lhs.mood == rhs.mood &&
+        lhs.timestamp == rhs.timestamp &&
+        lhs.identifier == rhs.identifier
+    
+}
 
-func == (lhs: EntryRepresentation, rhs: Entry) -> Bool {
+/*func == (lhs: EntryRepresentation, rhs: Entry) -> Bool {
  return lhs.title == rhs.title &&
     lhs.bodytext == rhs.bodytext &&
     lhs.mood == rhs.mood &&
@@ -32,7 +40,7 @@ func != (lhs:EntryRepresentation, rhs:Entry)-> Bool {
 func != (lhs:Entry, rhs:EntryRepresentation)-> Bool {
     return rhs != lhs
     
-}
+}*/
 
 struct EntryRepresentation: Decodable, Equatable {
     

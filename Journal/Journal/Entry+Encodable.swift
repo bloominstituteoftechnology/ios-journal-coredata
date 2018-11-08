@@ -21,10 +21,7 @@ extension Entry: Encodable {
         try container.encode(timestamp, forKey: .timestamp)
         try container.encode(identifier, forKey: .identifier)
         
-        
-        
-        
-        
+    
     }
     
     
