@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Root View Controller-->
+        <!--Journal Table-->
         <scene sceneID="jb6-Bt-1WB">
             <objects>
-                <tableViewController id="EUl-kB-VYQ" customClass="EntriesTable" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Journal Table" id="EUl-kB-VYQ" customClass="EntriesTable" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="SF6-K3-9pR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -26,7 +26,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="hqu-2O-nSb" kind="show" identifier="viewEntries" id="W0X-Kw-6Io"/>
+                                    <segue destination="hqu-2O-nSb" kind="show" identifier="viewEntries" id="7yR-pW-aQz"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -35,7 +35,7 @@
                             <outlet property="delegate" destination="EUl-kB-VYQ" id="X18-cJ-5fF"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="6ZN-km-BfE">
+                    <navigationItem key="navigationItem" title="Journal" id="6ZN-km-BfE">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="l5O-tu-HKa">
                             <connections>
                                 <segue destination="hqu-2O-nSb" kind="show" identifier="addEntries" id="3S5-R9-teF"/>
@@ -123,6 +123,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="W0X-Kw-6Io"/>
+        <segue reference="7yR-pW-aQz"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -53,6 +53,10 @@ class EntriesTable: UITableViewController {
     
     //Prepare for Segue
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "viewEntries", sender:self)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "viewEntries" {
             let detailVC = segue.destination as! AddEditEntryView
