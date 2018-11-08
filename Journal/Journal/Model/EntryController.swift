@@ -45,10 +45,10 @@ class EntryController {
     }
     
     
-//    func newEntry(title: String, bodyText: String, mood: String) {
-//        _ = Entry(title: title, bodyText: bodyText, mood: mood)
-//        saveToPersistenceStore()
-//    }
+    //    func newEntry(title: String, bodyText: String, mood: String) {
+    //        _ = Entry(title: title, bodyText: bodyText, mood: mood)
+    //        saveToPersistenceStore()
+    //    }
     
     
     func updateEntry(entry: Entry, title: String, bodyText: String, mood: String) {
@@ -84,31 +84,31 @@ class EntryController {
                 completion(NSError())
                 return
             }
-            
+            let moc = CoreDataStack.shared.container.newBackgroundContext()
             do {
                 let entryRepresentationsDict = try JSONDecoder().decode([String : EntryRepresentation].self, from: data)
                 let entryRepresentations = Array(entryRepresentationsDict.values)
                 
                 for entryRep in entryRepresentations {
+                    let uuid = entryRep.identifier
                     
-                    if let entry = self.entry(for: entryRep.identifier) {
+                    if let entry = self.entry(for: uuid, in: moc) {
                         guard let mood = Moods(rawValue: entryRep.mood) else { return }
                         self.update(entry: entry, with: entryRep.title, bodyText: entryRep.bodyText, mood: mood)
                     } else {
-                        
+                        moc.perform {
+                            let _ = Entry(entryRepresentation: entryRep, context: moc)
+                        }
                     }
-                    
                 }
-                
-                self.saveToPersistenceStore()
-                completion(nil)
+                try CoreDataStack.shared.save(context: moc)
                 
             } catch {
                 NSLog("Error decoding Entry representations: \(error)")
                 completion(error)
                 return
             }
-            
+            completion(nil)
             }.resume()
     }
     
@@ -131,7 +131,7 @@ class EntryController {
             entryRepresentation.identifier = identifer.uuidString
             entry.identifier = identifer
             
-            saveToPersistenceStore()
+            try CoreDataStack.shared.save()
             
             request.httpBody = try JSONEncoder().encode(entryRepresentation)
             
@@ -155,44 +155,30 @@ class EntryController {
         
     }
     
-    func delete(entry: Entry) {
+    func deleteEntryFromServer(_ entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         
-        deleteEntryFromServer(entry: entry)
-        
-        let moc = CoreDataStack.shared.mainContext
-        moc.delete(entry)
-        
-        do {
-            try CoreDataStack.shared.save(context: moc)
-        } catch {
-            moc.reset()
-            NSLog("Error saving moc after deleting task: \(error)")
-        }
-        
-    }
-    
-    func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
-        guard let identifier = entry.identifier else {
-            NSLog("No identifier for Entry to delete")
+        guard let uuid = entry.identifier else {
             completion(NSError())
             return
         }
         
-        let requestURL = baseURL!.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
-        
+        let requestURL = baseURL!.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
         
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            print(response!)
+        URLSession.shared.dataTask(with: request) { ( _, _, error) in
             completion(error)
             }.resume()
     }
     
-    func createEntry(with title: String, bodyText: String?, mood: Moods) {
-        let entry = Entry(title: title, bodyText: bodyText, mood: mood)
+    func createEntry(with title: String, bodyText: String?, mood: Moods, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        let entry = Entry(title: title, bodyText: bodyText, mood: mood, context: context)
         
-        saveToPersistenceStore()
+        do {
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            NSLog("Error saving entry: \(error)")
+        }
         put(entry: entry)
     }
     
@@ -202,11 +188,10 @@ class EntryController {
         entry.mood = mood.rawValue
         entry.timestamp = Date()
         
-        saveToPersistenceStore()
         put(entry: entry)
     }
     
-    func entry(for identifier: String) -> Entry? {
+    func entry(for identifier: String, in context: NSManagedObjectContext) -> Entry? {
         guard let identifier = UUID(uuidString: identifier) else { return nil }
         
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -214,30 +199,19 @@ class EntryController {
         let predicate = NSPredicate(format: "identifier == %@", identifier as NSUUID)
         fetchRequest.predicate = predicate
         
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            return try moc.fetch(fetchRequest).first
-        } catch {
-            NSLog("Error fetching entry with UUID: \(identifier): \(error)")
-            return nil
+        var result: Entry? = nil
+        
+        context.performAndWait {
+            do {
+                result = try context.fetch(fetchRequest).first
+            } catch {
+                NSLog("Error fetching entry with UUID: \(identifier): \(error)")
+            }
         }
         
+        return result
     }
     
-    
-//    private func update(entry: Entry, with representation: EntryRepresentation) {
-//        task.name = representation.name
-//        task.notes = representation.notes
-//        task.priority = representation.priority.rawValue
-//
-//    }
-//
-//
-//    private func entry(forUUID uuid: UUID) -> Entry? {
-//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//        fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
-//        let moc = CoreDataStack.shared.mainContext
-//        return (try? moc.fetch(fetchRequest))?.first
-//    }
+
     
 }
