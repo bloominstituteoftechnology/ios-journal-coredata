@@ -94,8 +94,7 @@ class EntryController {
     
     func deleteEntryFromServer(entry: Entry, completion: @escaping (_ error: Error?) -> Void = { _ in }) {
         guard let identifier = entry.identifier else {fatalError("entry doesn't have identifier")}
-        
-        
+ 
         var request = URLRequest(url: baseURL.appendingPathComponent(identifier).appendingPathExtension("json"))
         request.httpMethod = "DELETE"
         

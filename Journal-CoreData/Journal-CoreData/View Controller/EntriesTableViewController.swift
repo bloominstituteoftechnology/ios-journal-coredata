@@ -15,6 +15,14 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
+    
+    @IBAction func refresh(_ sender: UIRefreshControl) {
+        entryController.fetchEntriesFromServer { (_) in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
+    }
 
 
     // MARK: - FetchedResultsController
