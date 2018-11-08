@@ -11,57 +11,41 @@ import CoreData
 
 class EntryController {
     
-//    var entries: [Entry] {
-//        return loadFromPersistentStore()
-//    }
-    
-    func saveToPersistenceStore() {
-        let moc = CoreDataStack.shared.mainContext
-        do {
-          try moc.save()
-        } catch {
-            NSLog("Could not save to disk: \(error)")
-        }
-    }
-    
-//    func loadFromPersistentStore() -> [Entry] {
-//        let moc = CoreDataStack.shared.mainContext
-//        let fetchRequest = NSFetchRequest<Entry>(entityName: "Entry")
-//
-//        // Same way of doing it I think
-//        // let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//
+//    func saveToPersistenceStore() {
+//        let moc = CoreDataStack.shared.container.newBackgroundContext()
 //        do {
-//            return try moc.fetch(fetchRequest)
+//          try CoreDataStack.shared.save(context: moc)
 //        } catch {
-//            NSLog("Error fetching tasks: \(error)")
-//            return []
+//            NSLog("Could not save to disk: \(error)")
 //        }
 //    }
-    func newEntry(title: String, bodyText: String, mood: String) {
-        let entry = Entry(title: title, bodyText: bodyText, mood: mood)
-        
-        saveToPersistenceStore()
-        put(entry: entry)
-    }
+    
+//    func newEntry(title: String, bodyText: String, mood: String) {
+//        let entry = Entry(title: title, bodyText: bodyText, mood: mood)
+//
+//        saveToPersistenceStore()
+//        put(entry: entry)
+//    }
     
     
-    func updateEntry(entry: Entry, title: String, bodyText: String, mood: String) {
-        entry.setValue(title, forKey: "title")
-        entry.setValue(bodyText, forKey: "bodyText")
-        entry.setValue(Date(), forKey: "timeStamp")
-        entry.setValue(mood, forKey: "mood")
-        
-        saveToPersistenceStore()
-        put(entry: entry)
-    }
+//    func updateEntry(entry: Entry, title: String, bodyText: String, mood: String) {
+//        entry.setValue(title, forKey: "title")
+//        entry.setValue(bodyText, forKey: "bodyText")
+//        entry.setValue(Date(), forKey: "timeStamp")
+//        entry.setValue(mood, forKey: "mood")
+//
+//        saveToPersistenceStore()
+//        put(entry: entry)
+//    }
     
     
-    func deleteEntry(entry: Entry) {
-        let moc = CoreDataStack.shared.mainContext
-        moc.delete(entry)
-        saveToPersistenceStore()
-    }
+//    func deleteEntry(entry: Entry) {
+//        let moc = CoreDataStack.shared.mainContext
+//        moc.performAndWait {
+//            moc.delete(entry)
+//        }
+//        saveToPersistenceStore()
+//    }
     
     let baseURL: URL = URL(string: "https://iojournal-9ad15.firebaseio.com/")!
     
@@ -98,8 +82,6 @@ class EntryController {
         var request = URLRequest(url: baseURL.appendingPathComponent(identifier).appendingPathExtension("json"))
         request.httpMethod = "DELETE"
         
-        print(request)
-        
         let dataTask = URLSession.shared.dataTask(with: request) { data, _, error in
             if let error = error {
                 NSLog("Error creating datatask: \(error)")
@@ -116,29 +98,32 @@ class EntryController {
     //MARK: - Syncing database
     
     func update(entry: Entry, stub: EntryStub) {
-        entry.title = stub.title
-        entry.bodyText = stub.bodyText
-        entry.timeStamp = stub.timeStamp
-        entry.mood = stub.mood
-        entry.identifier = stub.identifier
+        guard let moc = entry.managedObjectContext else {return}
+        
+        moc.performAndWait {
+            entry.title = stub.title
+            entry.bodyText = stub.bodyText
+            entry.timeStamp = stub.timeStamp
+            entry.mood = stub.mood
+            entry.identifier = stub.identifier
+        }
+        
     }
     
-    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
-        let moc = CoreDataStack.shared.mainContext
-        
+    func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry? {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
         
-        do {
-            return try moc.fetch(fetchRequest)[0]
-        } catch {
-            NSLog("Error fetching tasks: \(error)")
-            return nil
+        var result: Entry?
+        context.performAndWait {
+            result = (try? context.fetch(fetchRequest))?.first
         }
+        return result
     }
     
     func fetchEntriesFromServer( completion: @escaping (_ error: Error?) -> Void = { _ in }) {
         let url = baseURL.appendingPathExtension("json")
+        let moc = CoreDataStack.shared.container.newBackgroundContext()
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -156,34 +141,28 @@ class EntryController {
                 return
             }
             
-            var stubs: [EntryStub] = []
-            
-            let decoder = JSONDecoder()
             do {
-                let json = try decoder.decode([String: EntryStub].self, from: data)
-                for (_, entry) in json {
-                    stubs.append(entry)
+                let json = try JSONDecoder().decode([String: EntryStub].self, from: data)
+                let stubs = Array(json.values)
+                
+                for stub in stubs {
+                    let identifier = stub.identifier
+                    
+                    if let entry = self.fetchSingleEntryFromPersistentStore(identifier: identifier, context: moc) {
+                        self.update(entry: entry, stub: stub)
+                    } else {
+                        moc.perform {
+                            let _ = Entry(stub: stub, context: moc)
+                        }
+                    }
                 }
                 
+                try CoreDataStack.shared.save(context: moc)
             } catch {
                 NSLog("Couldnt decode json into stubs:\(error)")
                 completion(error)
                 return
             }
-            
-            for stub in stubs {
-                let entry = self.fetchSingleEntryFromPersistentStore(identifier: stub.identifier)
-                if entry != nil {
-                    // Have an entry matching identifier on server + persistence
-                    if entry! != stub {
-                     // Data mistmach. Need to update persistence store
-                        self.update(entry: entry!, stub: stub)
-                    }
-                } else {
-                    _ = Entry(stub: stub)
-                }
-            }
-            self.saveToPersistenceStore()
             completion(nil)
         }
         dataTask.resume()

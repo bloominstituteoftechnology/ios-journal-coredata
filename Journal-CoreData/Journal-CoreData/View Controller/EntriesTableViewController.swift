@@ -119,15 +119,17 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
-            let moc = CoreDataStack.shared.mainContext
-            moc.delete(entry)
             entryController.deleteEntryFromServer(entry: entry)
             
+            guard let moc = entry.managedObjectContext else {return}
+            moc.perform {
+                moc.delete(entry)
+            }
+            
             do {
-                try moc.save()
-                tableView.reloadData()
+                try CoreDataStack.shared.save(context: moc)
             } catch {
-                moc.reset()
+                NSLog("Error saving managed object context: \(error)")
             }
         }
     }

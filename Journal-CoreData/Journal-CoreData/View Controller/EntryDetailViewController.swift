@@ -31,9 +31,12 @@ class EntryDetailViewController: UIViewController {
         }
         
         if let entry = entry {
-            entryController?.updateEntry(entry: entry, title: title, bodyText: text, mood: moodEmoji)
+            entry.title = title
+            entry.bodyText = text
+            entry.mood = moodEmoji
         } else {
-            entryController?.newEntry(title: title, bodyText: text, mood: moodEmoji)
+            let newEntry = Entry(title: title, bodyText: text, mood: moodEmoji)
+            entryController?.put(entry: newEntry)
         }
         
         navigationController?.popViewController(animated: true)
