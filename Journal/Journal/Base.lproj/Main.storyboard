@@ -78,8 +78,15 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="NOq-fZ-56B">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="refresh:" destination="FtW-2T-VK9" eventType="valueChanged" id="mdJ-Rk-oDQ"/>
+                        </connections>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eGm-Hg-XPM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="FtW-2T-VK9" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1032.8" y="21.139430284857571"/>
         </scene>

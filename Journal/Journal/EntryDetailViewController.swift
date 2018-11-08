@@ -82,6 +82,15 @@ class EntryDetailViewController: UIViewController {
      }
      */
 
+//    @IBAction func refresh(_ sender: UIRefreshControl) {
+//
+//            EntryController.fetchEntriesFromServer() { _ in
+//                DispatchQueue.main.async {
+//                    self.refreshControl?.endRefreshing()
+//                }
+//
+//            }
+//    }
     
     @IBOutlet weak var segController: UISegmentedControl!
     

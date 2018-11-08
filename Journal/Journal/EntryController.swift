@@ -76,21 +76,28 @@ class EntryController {
             }.resume()
     }
     
-    func saveToPersistentStore(){
-        let moc = CoreDataStack.shared.mainContext
-        do {
-            try moc.save()
-        }
-        catch {
-            NSLog("Error saving \(error)")
-        }
-    }
+    //    func saveToPersistentStore(){
+    //        let moc = CoreDataStack.shared.mainContext
+    //        do {
+    //            try moc.save()
+    //        }
+    //        catch {
+    //            NSLog("Error saving \(error)")
+    //        }
+    //    }
+    //
     
-    
-    func Create(title: String, bodytext: String, mood: Mood ){
+    func Create(title: String, bodytext: String, mood: Mood, context: NSManagedObjectContext = CoreDataStack.shared.mainContext ){
         
-        let entry = Entry(title: title, bodytext: bodytext, mood: mood)
-        saveToPersistentStore()
+        let entry = Entry(title: title, bodytext: bodytext, mood: mood, context:context)
+        //saveToPersistentStore()
+        
+        do {
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            NSLog("Error saving entry:\(error)")
+        }
+        
         put(entry: entry)
     }
     
@@ -99,16 +106,24 @@ class EntryController {
         entry.bodytext = bodytext
         entry.timestamp = Date()
         entry.mood = mood.rawValue
-        saveToPersistentStore()
+        //saveToPersistentStore()
         put(entry: entry)
     }
     func Delete(entry: Entry){
         let id = entry.identifier
         CoreDataStack.shared.mainContext.delete(entry)
-        saveToPersistentStore()
+        // saveToPersistentStore()
         
         //deleteEntryFromServer(entry: entry)
         deleteEntryFromServer(identifier: id)
+        do {
+            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+        } catch {
+            CoreDataStack.shared.mainContext.reset()
+            NSLog("Error saving after deleting task: \(error)")
+        }
+        
+        
     }
     
     
@@ -124,17 +139,26 @@ class EntryController {
     
     
     
-    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+    func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry? {
         guard let identifier = UUID(uuidString: identifier) else {return nil}
         
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier as NSUUID)
-        let moc = CoreDataStack.shared.mainContext
-        return (try? moc.fetch(fetchRequest))?.first
         
+        
+        //let moc = CoreDataStack.shared.mainContext
+        var entries: Entry? = nil
+        context.performAndWait {
+            do {
+                
+                entries = try context.fetch(fetchRequest).first
+            } catch {
+                
+                NSLog("error fetching:\(error)")
+            }
+        }
+        return entries
     }
-    
-    
     
     func fetchEntriesFromServer(completion: @escaping CompletionHandler = {_ in }) {
         
@@ -151,27 +175,42 @@ class EntryController {
                 return
             }
             var entryRepresentations: [EntryRepresentation] = []
-            DispatchQueue.main.async {
-                
-                do {
-                    let journalRepresentationDict = try JSONDecoder().decode([String:EntryRepresentation].self, from: data)
+            //DispatchQueue.main.async {
+            
+            do {
+                let journalRepresentationDict = try JSONDecoder().decode([String:EntryRepresentation].self, from: data)
+                let moc = CoreDataStack.shared.container.newBackgroundContext()
+                moc.performAndWait {
                     
-                } catch {
+                    for entriesRep in entryRepresentations {
+                        let entry = self.fetchSingleEntryFromPersistentStore(identifier: entriesRep.identifier, context: moc )
+                        if let entry = entry, !isSameAs(lhs: entriesRep, rhs: entry) {
+                            self.update(entry: entry, entryRepresentation: entriesRep )
+                        } else if entry == nil {
+                            //We neeed to create a new task in Core Data
+                            let _ = Entry(entryRepresentation: entriesRep)
+                        }
+                    }
                     
-                    NSLog("Error decoding:\(error)")
-                    completion(error)
-                    return
-                }
-                for entriesRep in entryRepresentations {
-                    let entry = self.fetchSingleEntryFromPersistentStore(identifier: entriesRep.identifier )
-                    if let entry = entry, !isSameAs(lhs: entriesRep, rhs: entry) {
-                        self.update(entry: entry, entryRepresentation: entriesRep )
-                    } else if entry == nil {
-                        //We neeed to create a new task in Core Data
-                        let _ = Entry(entryRepresentation: entriesRep)
+                    do {
+                        try CoreDataStack.shared.save(context: moc)
+                    } catch {
+                        NSLog("error saving background context:\(error)")
                         
                     }
+                    
                 }
+                completion(nil)
+                
+                
+            } catch {
+                
+                NSLog("Error decoding:\(error)")
+                completion(error)
+                return
+                
+                //self.saveToPersistentStore()
+                
             }
             }.resume()
     }

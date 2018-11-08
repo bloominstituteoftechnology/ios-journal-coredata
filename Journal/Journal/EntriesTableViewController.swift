@@ -125,9 +125,29 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
             // let moc = CoreDataStack.shared.mainContext
-            entryController.Delete(entry: entry)
+            //entryController.Delete(entry: entry)
+            entryController.deleteEntryFromServer(identifier: entry.identifier) {(error) in
+                if let error = error {
+                    NSLog("Error deleting:\(error)")
+                return
+                }
+            }
+        guard let moc = entry.managedObjectContext else {return}
+            moc.perform {
+                moc.delete(entry)
+            }
+            do {
+                try CoreDataStack.shared.save(context: moc)
+            } catch {
+                moc.reset()
+                NSLog("Error saving managed object context: \(error)")
+            }
             
+            tableView.reloadData()
+        
         }
+        
+        
     }
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation

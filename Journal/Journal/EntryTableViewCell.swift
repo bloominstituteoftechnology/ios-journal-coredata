@@ -16,6 +16,7 @@ class EntryTableViewCell: UITableViewCell {
     }
     
     func updateViews(){
+
         guard let title = entry?.title, !title.isEmpty else {return}
         titleLabel.text = title
         // guard let body = entry?.bodytext else {return}
@@ -24,11 +25,22 @@ class EntryTableViewCell: UITableViewCell {
             let df = DateFormatter()
             df.dateStyle = .short
             df.timeStyle = .short
-            
+
             timeStamp.text = df.string(from: timestamp)
         }
 
     }
+    
+
+//    static var dateFormatter:DateFormatter = {
+//    let df = DateFormatter()
+//    df.timeStyle = .medium
+//    df.dateStyle = .short
+//
+//    return df
+//    }
+//
+    
  
     @IBOutlet weak var titleLabel: UILabel!
     
@@ -47,10 +59,18 @@ class EntryTableViewCell: UITableViewCell {
     
     
     
-    
-    var entry: Entry?{
+    var entry: Entry! {
         didSet {
             updateViews()
+            
+//            entry.managedObjectContext?.performAndWait {
+//            let title = entry.title
+//            let bodytext = entry.bodytext
+//            let timeStamp = entry.timestamp
+//            }
+//            titleLabel.text = title
+//            bodyLabel.text = bodytext
+//            timeStamp.text = UITableViewCell.dateFormatter.string(from: timeStamp)
             
         }
         
