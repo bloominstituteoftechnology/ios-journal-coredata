@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		47A0BECC2192474100991EFA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A0BECB2192474100991EFA /* AppDelegate.swift */; };
-		47A0BECE2192474100991EFA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A0BECD2192474100991EFA /* ViewController.swift */; };
 		47A0BED12192474100991EFA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47A0BECF2192474100991EFA /* Main.storyboard */; };
 		47A0BED32192474300991EFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47A0BED22192474300991EFA /* Assets.xcassets */; };
 		47A0BED62192474300991EFA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47A0BED42192474300991EFA /* LaunchScreen.storyboard */; };
@@ -24,7 +23,6 @@
 /* Begin PBXFileReference section */
 		47A0BEC82192474100991EFA /* Journal-CoreData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Journal-CoreData.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		47A0BECB2192474100991EFA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		47A0BECD2192474100991EFA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		47A0BED02192474100991EFA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		47A0BED22192474300991EFA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		47A0BED52192474300991EFA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -69,13 +67,9 @@
 			isa = PBXGroup;
 			children = (
 				47A0BECB2192474100991EFA /* AppDelegate.swift */,
-				47A0BECD2192474100991EFA /* ViewController.swift */,
 				47A0BECF2192474100991EFA /* Main.storyboard */,
-				47A0BEE121925A1D00991EFA /* EntryDetailViewController.swift */,
-				47A0BEE321932EA500991EFA /* CoreDataStack.swift */,
-				47A0BEE521932EF500991EFA /* Journal.xcdatamodeld */,
-				47A0BEEA2193327300991EFA /* EntryController.swift */,
-				47A0BEDD2192513400991EFA /* EntriesTableViewController.swift */,
+				47B35C852193A4210000416D /* View Controllers */,
+				47B35C862193A4350000416D /* Model + Controller */,
 				47A0BEDF2192514900991EFA /* EntryTableViewCell.swift */,
 				47A0BED22192474300991EFA /* Assets.xcassets */,
 				47A0BED42192474300991EFA /* LaunchScreen.storyboard */,
@@ -83,6 +77,25 @@
 				47A0BEE821932F6200991EFA /* Entry+Convenience.swift */,
 			);
 			path = "Journal-CoreData";
+			sourceTree = "<group>";
+		};
+		47B35C852193A4210000416D /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				47A0BEE121925A1D00991EFA /* EntryDetailViewController.swift */,
+				47A0BEDD2192513400991EFA /* EntriesTableViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		47B35C862193A4350000416D /* Model + Controller */ = {
+			isa = PBXGroup;
+			children = (
+				47A0BEE321932EA500991EFA /* CoreDataStack.swift */,
+				47A0BEE521932EF500991EFA /* Journal.xcdatamodeld */,
+				47A0BEEA2193327300991EFA /* EntryController.swift */,
+			);
+			path = "Model + Controller";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -160,7 +173,6 @@
 				47A0BEE02192514900991EFA /* EntryTableViewCell.swift in Sources */,
 				47A0BEDE2192513400991EFA /* EntriesTableViewController.swift in Sources */,
 				47A0BEEB2193327300991EFA /* EntryController.swift in Sources */,
-				47A0BECE2192474100991EFA /* ViewController.swift in Sources */,
 				47A0BEE921932F6200991EFA /* Entry+Convenience.swift in Sources */,
 				47A0BEE421932EA500991EFA /* CoreDataStack.swift in Sources */,
 				47A0BEE221925A1D00991EFA /* EntryDetailViewController.swift in Sources */,

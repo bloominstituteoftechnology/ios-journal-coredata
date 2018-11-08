@@ -20,6 +20,29 @@ class EntryTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    var entry: Entry? {
+        didSet{
+            updateViews()
+        }
+    }
+    
+    func updateViews() {
+        //guard let title = entry?.title, !title.isEmpty else {return}
+        guard let entry = entry else { return }
+        titleLabel.text = entry.title
+        bodyLabel.text = entry.bodyText
+        if let date = entry.timeStamp {
+            timeLabel.text = DateFormatter().string(from: date)
+            let formatter = DateFormatter()
+            formatter.dateStyle = .short
+            formatter.timeStyle = .medium
+            timeLabel.text = formatter.string(from: date)
+            
+        }
+        
+        
+    }
 
     // MARK: - Properties
     @IBOutlet weak var titleLabel: UILabel!

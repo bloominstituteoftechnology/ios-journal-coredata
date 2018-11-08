@@ -14,13 +14,13 @@
         <!--Journal-->
         <scene sceneID="LBt-iV-wfy">
             <objects>
-                <tableViewController id="x6q-Ub-5TD" sceneMemberID="viewController">
+                <tableViewController id="x6q-Ub-5TD" customClass="EntriesTableViewController" customModule="Journal_CoreData" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="BBt-Dq-iYZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="JournalCell" rowHeight="66" id="Ibz-5b-WNN" customClass="EntryTableViewCell" customModule="Journal_CoreData" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="66" id="Ibz-5b-WNN" customClass="EntryTableViewCell" customModule="Journal_CoreData" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="66"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ibz-5b-WNN" id="ZG5-RU-RKC">
@@ -33,13 +33,13 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="S63-31-j9N">
                                                     <rect key="frame" x="0.0" y="0.0" width="333" height="20.5"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yTA-Lg-FEH">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yTA-Lg-FEH">
                                                             <rect key="frame" x="0.0" y="0.0" width="287" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cVO-lw-74A">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cVO-lw-74A">
                                                             <rect key="frame" x="295" y="0.0" width="38" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
@@ -80,9 +80,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Journal" id="Z4E-gs-pH8">
-                        <barButtonItem key="rightBarButtonItem" title="Item" systemItem="add" id="ZxE-c3-e1Q">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ZxE-c3-e1Q">
                             <connections>
-                                <segue destination="mb3-QT-UI3" kind="show" identifier="addSegue" id="Ua1-sq-qDx"/>
+                                <segue destination="mb3-QT-UI3" kind="show" identifier="addSegue" id="zlZ-b7-6tI"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -113,7 +113,7 @@
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Write your entry here" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Bak-LR-gDg">
                                         <rect key="frame" x="0.0" y="38" width="341" height="404"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" red="0.6340520757" green="1" blue="0.1871364056" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
@@ -132,13 +132,13 @@
                     <navigationItem key="navigationItem" title="Title" id="vXk-1M-QP1">
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="kN9-Es-aTI">
                             <connections>
-                                <action selector="saveEntry:" destination="mb3-QT-UI3" id="bEx-c1-45F"/>
+                                <action selector="saveEntry:" destination="mb3-QT-UI3" id="9He-px-vUH"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="entryTextField" destination="3Br-iI-UVo" id="b5Q-3w-Yt7"/>
-                        <outlet property="entryTextView" destination="Bak-LR-gDg" id="OL9-4T-BOO"/>
+                        <outlet property="entryTextField" destination="3Br-iI-UVo" id="OFO-0Q-4Os"/>
+                        <outlet property="entryTextView" destination="Bak-LR-gDg" id="SEP-9c-3h1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1jp-49-P4X" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -164,6 +164,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Ua1-sq-qDx"/>
+        <segue reference="2o6-bl-RnP"/>
     </inferredMetricsTieBreakers>
 </document>
