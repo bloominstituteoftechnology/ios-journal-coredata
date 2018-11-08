@@ -45,10 +45,10 @@ func saveToPersistentStore() {
 
     // this will return an array
 func loadFromPersistentStore() -> [Entry] {
-   let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+    //let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+    // what is the difference of doing ->
     
-    
-    // what is the difference of doing -> let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+    let fetchRequest = NSFetchRequest<Entry>(entityName: "Entry")
     
     let moc = CoreDataStack.shared.mainContext
     do {

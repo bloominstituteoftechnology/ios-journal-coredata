@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreData
+
 
 class EntryDetailViewController: UIViewController {
 
@@ -43,9 +45,9 @@ class EntryDetailViewController: UIViewController {
         print(text)
         
         if let entry = entry {
-            entryController?.updateEntry(entry: entry, title: text, bodyText: text)
+            entryController.updateEntry(entry: entry, title: title, bodyText: text)
         } else {
-            entryController?.createEntry(title: title, bodyText: text)
+            entryController.createEntry(title: title, bodyText: text)
         }
         navigationController?.popViewController(animated: true)
 //
@@ -55,7 +57,9 @@ class EntryDetailViewController: UIViewController {
     }
     
     
-    
-    var entryController: EntryController?
+    // ? means "I don't need this to exist for my program to be correct"
+    // ! means "This needs to exist for my program to be correct but
+    //          I can't initialize my class with it"
+    var entryController: EntryController!
 }
 
