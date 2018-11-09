@@ -11,14 +11,14 @@ import CoreData
 
 class EntryController {
     
-//    func saveToPersistenceStore() {
-//        let moc = CoreDataStack.shared.container.newBackgroundContext()
-//        do {
-//          try CoreDataStack.shared.save(context: moc)
-//        } catch {
-//            NSLog("Could not save to disk: \(error)")
-//        }
-//    }
+    func saveToPersistenceStore() {
+        let moc = CoreDataStack.shared.container.newBackgroundContext()
+        do {
+          try CoreDataStack.shared.save(context: moc)
+        } catch {
+            NSLog("Could not save to disk: \(error)")
+        }
+    }
     
 //    func newEntry(title: String, bodyText: String, mood: String) {
 //        let entry = Entry(title: title, bodyText: bodyText, mood: mood)

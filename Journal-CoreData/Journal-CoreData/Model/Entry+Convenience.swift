@@ -24,7 +24,6 @@ extension Entry {
         self.mood = mood
     }
     
-    
     convenience init?(stub: EntryStub, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(title: stub.title, bodyText: stub.bodyText, timeStamp: stub.timeStamp, identifier: stub.identifier, mood: stub.mood, context: context)
     }
