@@ -14,6 +14,10 @@
 		AB205BA221ED359400317BD3 /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB205BA121ED359400317BD3 /* EntriesTableViewController.swift */; };
 		AB205BA421ED35C600317BD3 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB205BA321ED35C600317BD3 /* EntryTableViewCell.swift */; };
 		AB205BA621ED39F900317BD3 /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB205BA521ED39F900317BD3 /* EntryDetailViewController.swift */; };
+		AB205BA821ED405C00317BD3 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB205BA721ED405C00317BD3 /* CoreDataStack.swift */; };
+		AB205BAB21ED413800317BD3 /* JournalEntries.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB205BA921ED413800317BD3 /* JournalEntries.xcdatamodeld */; };
+		AB205BAD21ED421900317BD3 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB205BAC21ED421900317BD3 /* Entry+Convenience.swift */; };
+		AB205BAF21ED442600317BD3 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB205BAE21ED442600317BD3 /* DateExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +30,10 @@
 		AB205BA121ED359400317BD3 /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 		AB205BA321ED35C600317BD3 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
 		AB205BA521ED39F900317BD3 /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
+		AB205BA721ED405C00317BD3 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		AB205BAA21ED413800317BD3 /* JournalEntries.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = JournalEntries.xcdatamodel; sourceTree = "<group>"; };
+		AB205BAC21ED421900317BD3 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
+		AB205BAE21ED442600317BD3 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +71,10 @@
 				AB205BA321ED35C600317BD3 /* EntryTableViewCell.swift */,
 				AB205BA521ED39F900317BD3 /* EntryDetailViewController.swift */,
 				AB205B9621ED2D4100317BD3 /* Assets.xcassets */,
+				AB205BA721ED405C00317BD3 /* CoreDataStack.swift */,
+				AB205BA921ED413800317BD3 /* JournalEntries.xcdatamodeld */,
+				AB205BAC21ED421900317BD3 /* Entry+Convenience.swift */,
+				AB205BAE21ED442600317BD3 /* DateExtension.swift */,
 				AB205B9321ED2D4000317BD3 /* Main.storyboard */,
 				AB205B9821ED2D4100317BD3 /* LaunchScreen.storyboard */,
 				AB205B9B21ED2D4100317BD3 /* Info.plist */,
@@ -141,10 +153,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AB205BAB21ED413800317BD3 /* JournalEntries.xcdatamodeld in Sources */,
+				AB205BAF21ED442600317BD3 /* DateExtension.swift in Sources */,
+				AB205BA821ED405C00317BD3 /* CoreDataStack.swift in Sources */,
 				AB205BA421ED35C600317BD3 /* EntryTableViewCell.swift in Sources */,
 				AB205BA221ED359400317BD3 /* EntriesTableViewController.swift in Sources */,
 				AB205BA621ED39F900317BD3 /* EntryDetailViewController.swift in Sources */,
 				AB205B9021ED2D4000317BD3 /* AppDelegate.swift in Sources */,
+				AB205BAD21ED421900317BD3 /* Entry+Convenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,6 +360,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		AB205BA921ED413800317BD3 /* JournalEntries.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				AB205BAA21ED413800317BD3 /* JournalEntries.xcdatamodel */,
+			);
+			currentVersion = AB205BAA21ED413800317BD3 /* JournalEntries.xcdatamodel */;
+			path = JournalEntries.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = AB205B8421ED2D4000317BD3 /* Project object */;
 }
