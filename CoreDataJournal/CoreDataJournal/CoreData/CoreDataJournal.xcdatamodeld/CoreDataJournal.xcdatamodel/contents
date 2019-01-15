@@ -5,10 +5,16 @@
         <attribute name="identifier" attributeType="UUID" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="title" attributeType="String" minValueString="1" syncable="YES"/>
+        <attribute name="topic" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="topics" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Topic" inverseName="entries" inverseEntity="Topic" syncable="YES"/>
     </entity>
-    <entity name="Topic" representedClassName="Topic" syncable="YES" codeGenerationType="class"/>
+    <entity name="Topic" representedClassName="Topic" syncable="YES" codeGenerationType="class">
+        <attribute name="identifier" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="topic" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="entries" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Entry" inverseName="topics" inverseEntity="Entry" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="Topic" positionX="-54" positionY="-9" width="128" height="45"/>
-        <element name="Entry" positionX="-36" positionY="9" width="128" height="105"/>
+        <element name="Topic" positionX="-54" positionY="-9" width="128" height="88"/>
+        <element name="Entry" positionX="168.4296875" positionY="26.5078125" width="128" height="133"/>
     </elements>
 </model>

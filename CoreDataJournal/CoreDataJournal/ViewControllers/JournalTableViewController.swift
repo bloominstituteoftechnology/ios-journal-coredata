@@ -34,7 +34,7 @@ class JournalTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "entryCell", for: indexPath) as? EntryTableViewCell else {fatalError("Unable to dequeue cell as EntryTableViewCell")}
-
+        
         cell.titleLabel.text = entryController.entries[indexPath.row].title
         cell.subtitleLabel.text = entryController.entries[indexPath.row].bodyText
         
@@ -60,12 +60,9 @@ class JournalTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         let destVC = segue.destination as! DetailViewController
         
-        print(segue.identifier)
-        
         if segue.identifier == "viewEntryDetailSegue" {
-            print("here")
+            
             if let tappedRow = tableView.indexPathForSelectedRow {
-                print("here")
                 destVC.entry = entryController.entries[tappedRow.row]
             }
         }

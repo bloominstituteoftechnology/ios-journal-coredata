@@ -25,9 +25,10 @@ class EntryTableViewCell: UITableViewCell {
     }
     
     func updateViews(){
-        titleLabel.text = entry?.title
-        subtitleLabel.text = entry?.bodyText
-        idLabel.text = "\(entry?.timestamp)"
+//        titleLabel.text = entry?.title
+//        subtitleLabel.text = entry?.bodyText
+//        guard let date = entry?.timestamp else { fatalError("cannot get date") }
+//        idLabel.text = "\(String.dateToString(date: date))"
     }
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var subtitleLabel: UILabel!
