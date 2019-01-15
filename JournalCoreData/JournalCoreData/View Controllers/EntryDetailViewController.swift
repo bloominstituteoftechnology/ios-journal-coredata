@@ -23,11 +23,13 @@ class EntryDetailViewController: UIViewController, UITextViewDelegate {
     @IBAction func saveEntry(_ sender: Any) {
         print("saving")
         let entryTitle = titleEntryTextField.text
+        let entryBody = entryBodyTextView.text
+        let currentMood = moodSegmentedControl.titleForSegment(at: moodSegmentedControl.selectedSegmentIndex)
         guard let title = entryTitle, title.isEmpty == false else {return}
 
-        let entryBody = entryBodyTextView.text
+        
         if let existingEntry = entry {
-            entryController?.updateEntry(entryTitle: existingEntry.title!, entryBodyText: entryBody!, entry: existingEntry)
+            entryController?.updateEntry(entryTitle: existingEntry.title!, entryBodyText: entryBody!, mood: currentMood!, entry: existingEntry)
             navigationController?.popViewController(animated: true)
 
 
@@ -35,7 +37,7 @@ class EntryDetailViewController: UIViewController, UITextViewDelegate {
 //            print("this should be creating a new entry for \(entryTitle)")
 //            entryController?.createEntry(title: title, entryBody: entryBody)
 //
-            _ = Entry(title: title, bodyText: entryBody!, context: CoreDataStack.shared.mainContext)
+            _ = Entry(title: title, bodyText: entryBody!, mood: currentMood!, context: CoreDataStack.shared.mainContext)
         }
 
         do {
@@ -51,6 +53,16 @@ class EntryDetailViewController: UIViewController, UITextViewDelegate {
         self.navigationItem.title = entry?.title ?? "Create Entry"
         titleEntryTextField.text = entry?.title
         entryBodyTextView.text = entry?.bodyText
+        switch entry?.mood {
+        case "🧬":
+            moodSegmentedControl.selectedSegmentIndex = 0
+            
+        case "🧠":
+            moodSegmentedControl.selectedSegmentIndex = 2
+            
+        default:
+            moodSegmentedControl.selectedSegmentIndex = 1
+        }
         
         
     }

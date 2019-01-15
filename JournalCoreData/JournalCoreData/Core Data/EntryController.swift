@@ -24,19 +24,20 @@ class EntryController {
         
     }
     
-    func createEntry(title: String, entryBody: String?){
+    func createEntry(title: String, entryBody: String?, mood: String){
         print("did we make it to the create func?") // FIXME: never even getting here
-        _ = Entry(title: title, bodyText: entryBody ?? "", context: CoreDataStack.shared.mainContext)
+        _ = Entry(title: title, bodyText: entryBody ?? "", mood: mood, context: CoreDataStack.shared.mainContext)
         
         print("this should be creating a new entry.")
         saveToPersistentStore()
         
     }
     
-    func updateEntry(entryTitle: String, entryBodyText: String, entry: Entry){
+    func updateEntry(entryTitle: String, entryBodyText: String, mood: String, entry: Entry){
         entry.title = entryTitle
         entry.bodyText = entryBodyText
         entry.timeStamp = Date()
+        entry.mood = mood
         saveToPersistentStore()
     }
     
