@@ -6,12 +6,6 @@
 //  Copyright © 2019 Austin Cole. All rights reserved.
 //
 
-extension Date {
-    func convertDateToString(date: Date) -> String {
-        return "\(date)"
-    }
-}
-
 import UIKit
 
 class EntriesTableViewController: UITableViewController {
@@ -43,7 +37,7 @@ class EntriesTableViewController: UITableViewController {
 //        cell.entry = entryController.entries[indexPath.row]
         cell.titleLabel.text = entryController.entries[indexPath.row].title
         cell.detailLabel.text = entryController.entries[indexPath.row].bodyText
-        cell.timestampLabel.text = Date().convertDateToString(date: (entryController.entries[indexPath.row].timestamp)!)
+        cell.timestampLabel.text = DateFormatter.localizedString(from: entryController.entries[indexPath.row].timestamp!, dateStyle: .short, timeStyle: .short)
 
         return cell
     }
