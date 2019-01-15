@@ -31,8 +31,8 @@ class EntryDetailViewController: UIViewController, UITextViewDelegate {
 
         } else {
 //            print("this should be creating a new entry for \(entryTitle)")
-//            entryController!.createEntry(title: entryTitle!, entryBody: entryBody)
-            
+//            entryController?.createEntry(title: title, entryBody: entryBody)
+//
             _ = Entry(title: title, bodyText: entryBody!, context: CoreDataStack.shared.mainContext)
         }
 
