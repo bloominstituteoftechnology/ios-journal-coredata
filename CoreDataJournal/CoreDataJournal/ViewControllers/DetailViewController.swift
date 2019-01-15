@@ -18,6 +18,7 @@ class DetailViewController: UIViewController {
     
     @IBOutlet weak var entryTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
+    @IBOutlet weak var smileySegmentedControl: UISegmentedControl!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
