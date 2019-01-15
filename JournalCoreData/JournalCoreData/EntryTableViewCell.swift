@@ -13,6 +13,21 @@ class EntryTableViewCell: UITableViewCell {
 //        // Configure the view for the selected state
 //    }
 
+    var entry: Entry? {
+        didSet {
+            updateViews(entry: entry!)
+        }
+    }
+    
+    func updateViews(entry: Entry) {
+        
+        entryTitleLabel.text = entry.title
+        entryTimestampLabel.text = entry.timeStamp?.formatter?.string(from: entry.timeStamp!)
+        entryBodySummaryLabel.text = entry.bodyText
+        
+        
+    }
+    
     
     @IBOutlet weak var entryTitleLabel: UILabel!
     @IBOutlet weak var entryTimestampLabel: UILabel!

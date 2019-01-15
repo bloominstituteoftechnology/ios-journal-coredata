@@ -19,14 +19,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="86" id="jA9-Ro-eoe" customClass="EntryTableViewCell" customModule="JournalCoreData" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="86"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="100" id="jA9-Ro-eoe" customClass="EntryTableViewCell" customModule="JournalCoreData" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="375" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jA9-Ro-eoe" id="jhk-ST-859">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="85.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="htH-Wt-CyS">
+                                        <stackView opaque="NO" contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="htH-Wt-CyS">
                                             <rect key="frame" x="8" y="8" width="359" height="20.5"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" text="Creative Title Here" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ae8-DM-SXM">
@@ -44,7 +44,7 @@
                                             </subviews>
                                         </stackView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This version of Journal will allow you to implement each part of CRUD when working with Core Data." textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Ip-aI-qqd">
-                                            <rect key="frame" x="8" y="36.5" width="359" height="41"/>
+                                            <rect key="frame" x="8" y="50.5" width="359" height="41"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -52,11 +52,13 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="4Ip-aI-qqd" secondAttribute="trailing" constant="8" id="6WN-OU-RoC"/>
+                                        <constraint firstItem="4Ip-aI-qqd" firstAttribute="top" secondItem="htH-Wt-CyS" secondAttribute="bottom" constant="22" id="AoF-6P-X0D"/>
                                         <constraint firstItem="4Ip-aI-qqd" firstAttribute="leading" secondItem="jhk-ST-859" secondAttribute="leading" constant="8" id="G0f-AF-YDW"/>
                                         <constraint firstItem="htH-Wt-CyS" firstAttribute="leading" secondItem="jhk-ST-859" secondAttribute="leading" constant="8" id="HGM-13-vrR"/>
                                         <constraint firstAttribute="bottom" secondItem="4Ip-aI-qqd" secondAttribute="bottom" constant="8" id="UoO-vo-67g"/>
                                         <constraint firstAttribute="trailing" secondItem="htH-Wt-CyS" secondAttribute="trailing" constant="8" id="VtX-Q6-bdQ"/>
-                                        <constraint firstItem="htH-Wt-CyS" firstAttribute="top" secondItem="jhk-ST-859" secondAttribute="top" constant="8" id="cSo-0Q-LBm"/>
+                                        <constraint firstItem="htH-Wt-CyS" firstAttribute="centerX" secondItem="jhk-ST-859" secondAttribute="centerX" id="gjY-mj-UHH"/>
+                                        <constraint firstItem="htH-Wt-CyS" firstAttribute="top" secondItem="jhk-ST-859" secondAttribute="top" constant="8" id="uNB-VZ-jbb"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
