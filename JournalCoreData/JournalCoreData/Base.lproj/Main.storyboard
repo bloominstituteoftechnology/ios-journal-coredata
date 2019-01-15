@@ -97,14 +97,22 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="AW4-sx-Cx1">
                                 <rect key="frame" x="8" y="72" width="359" height="324"/>
                                 <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Lq1-39-ybM">
+                                        <rect key="frame" x="0.0" y="0.0" width="359" height="29"/>
+                                        <segments>
+                                            <segment title="🧬"/>
+                                            <segment title="🦠"/>
+                                            <segment title="🧠"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a Title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="meo-q6-pY1">
-                                        <rect key="frame" x="0.0" y="0.0" width="359" height="45"/>
+                                        <rect key="frame" x="0.0" y="36" width="359" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bRx-yL-Sjm">
-                                        <rect key="frame" x="0.0" y="53" width="359" height="271"/>
+                                        <rect key="frame" x="0.0" y="74" width="359" height="250"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -114,10 +122,12 @@
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="bRx-yL-Sjm" secondAttribute="trailing" id="4uY-hC-lGe"/>
                                     <constraint firstItem="meo-q6-pY1" firstAttribute="leading" secondItem="AW4-sx-Cx1" secondAttribute="leading" id="5vi-Pk-Fay"/>
+                                    <constraint firstAttribute="trailing" secondItem="Lq1-39-ybM" secondAttribute="trailing" id="7Rm-28-4F1"/>
                                     <constraint firstAttribute="bottom" secondItem="bRx-yL-Sjm" secondAttribute="bottom" id="A1L-Su-Gyr"/>
+                                    <constraint firstItem="Lq1-39-ybM" firstAttribute="leading" secondItem="AW4-sx-Cx1" secondAttribute="leading" id="EIF-3x-Oic"/>
+                                    <constraint firstItem="meo-q6-pY1" firstAttribute="top" secondItem="Lq1-39-ybM" secondAttribute="bottom" constant="8" id="Gj5-Q1-LZs"/>
                                     <constraint firstItem="bRx-yL-Sjm" firstAttribute="leading" secondItem="AW4-sx-Cx1" secondAttribute="leading" id="Pft-JQ-zVx"/>
                                     <constraint firstAttribute="trailing" secondItem="meo-q6-pY1" secondAttribute="trailing" id="giw-du-0gz"/>
-                                    <constraint firstItem="meo-q6-pY1" firstAttribute="top" secondItem="AW4-sx-Cx1" secondAttribute="top" id="t0V-My-6Y9"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -140,6 +150,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="entryBodyTextView" destination="bRx-yL-Sjm" id="GVb-Nd-vas"/>
+                        <outlet property="moodSegmentedControl" destination="Lq1-39-ybM" id="Yd7-mM-Ylq"/>
                         <outlet property="titleEntryTextField" destination="meo-q6-pY1" id="THb-md-uS4"/>
                     </connections>
                 </viewController>
