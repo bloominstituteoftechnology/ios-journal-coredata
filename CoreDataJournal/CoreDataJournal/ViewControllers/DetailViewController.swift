@@ -17,6 +17,8 @@ class DetailViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         view.backgroundColor = .darkColor
+        
+        print(entryController)
     }
 
     /*
@@ -41,6 +43,8 @@ class DetailViewController: UIViewController {
             // editing existing entry
             entry.title = title
             entry.bodyText = bodyText
+            
+            
         } else {
             // create a new entry - after the MOC knows about the new entry
             entryController?.createEntry(title: title, bodyText: bodyText)

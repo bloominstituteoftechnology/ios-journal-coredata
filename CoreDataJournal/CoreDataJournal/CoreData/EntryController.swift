@@ -43,17 +43,18 @@ class EntryController {
         saveToPersistentStore()
     }
     
-    func updateEntry(uuid: UUID){
+    func updateEntry(entry: Entry, title: String, bodyText: String?){
        
-        
-        _ = Entry(title: title, bodyText: bodyText)
+        entry.bodyText = bodyText
+        entry.title = title
+
         saveToPersistentStore()
     }
     
-    func deleteEntry(title: String, bodyText: String?){
+    func deleteEntry(entry: Entry){
         
         let moc = CoreDataStack.shared.mainContext
-        moc.delete(<#T##object: NSManagedObject##NSManagedObject#>)
+        moc.delete(entry)
         
         saveToPersistentStore()
     }
