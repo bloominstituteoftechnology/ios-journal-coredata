@@ -34,6 +34,7 @@ class EntryController {
         let newEntry = Entry(context: CoreDataStack.shared.mainContext)
         newEntry.title = title
         newEntry.bodyText = bodyText
+        newEntry.timestamp = Date()
         saveToPersistentStore()
     }
     func updateEntry(entry: Entry, title: String, bodyText: String) {

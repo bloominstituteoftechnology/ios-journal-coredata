@@ -35,6 +35,7 @@ class EntryDetailViewController: UIViewController {
         navigationItem.title = entry.title
         titleTextField.text = entry.title
         bodyTextTextView.text = entry.bodyText
+        
     }
     @IBAction func saveEntry(_ sender: Any) {
         guard let titleText = titleTextField.text, let bodyText = bodyTextTextView.text else {return}

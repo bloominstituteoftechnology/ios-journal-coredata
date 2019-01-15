@@ -6,6 +6,12 @@
 //  Copyright © 2019 Austin Cole. All rights reserved.
 //
 
+extension Date {
+    func convertDateToString(date: Date) -> String {
+        return "\(date)"
+    }
+}
+
 import UIKit
 
 class EntriesTableViewController: UITableViewController {
@@ -34,11 +40,10 @@ class EntriesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else {fatalError("Could not DQ cell.")}
-
-        print(entryController.entries[indexPath.row])
 //        cell.entry = entryController.entries[indexPath.row]
         cell.titleLabel.text = entryController.entries[indexPath.row].title
         cell.detailLabel.text = entryController.entries[indexPath.row].bodyText
+        cell.timestampLabel.text = Date().convertDateToString(date: (entryController.entries[indexPath.row].timestamp)!)
 
         return cell
     }
@@ -53,10 +58,12 @@ class EntriesTableViewController: UITableViewController {
 
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        }
+        guard editingStyle == .delete else { return }
+        
+        let entry = entryController.entries[indexPath.row]
+        entryController.deleteEntry(entry: entry)
+        entryController.saveToPersistentStore()
+        tableView.deleteRows(at: [indexPath], with: .automatic)
     }
 
     /*
