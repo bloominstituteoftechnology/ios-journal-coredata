@@ -95,27 +95,38 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="xsx-v6-SRi">
-                                <rect key="frame" x="20" y="102" width="335" height="545"/>
+                                <rect key="frame" x="8" y="150" width="359" height="497"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2Zh-nN-1Wd">
-                                <rect key="frame" x="20" y="64" width="335" height="30"/>
+                                <rect key="frame" x="8" y="112" width="359" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="mXl-U4-n6s">
+                                <rect key="frame" x="20" y="64" width="335" height="29"/>
+                                <segments>
+                                    <segment title="😁"/>
+                                    <segment title="😴"/>
+                                    <segment title="😵"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="2Zh-nN-1Wd" firstAttribute="top" secondItem="25L-5H-xby" secondAttribute="top" id="Ofy-0L-qR2"/>
-                            <constraint firstAttribute="bottom" secondItem="xsx-v6-SRi" secondAttribute="bottom" constant="20" symbolic="YES" id="WNK-Sc-pZS"/>
-                            <constraint firstItem="2Zh-nN-1Wd" firstAttribute="leading" secondItem="xsx-v6-SRi" secondAttribute="leading" id="gd7-NL-vmi"/>
-                            <constraint firstItem="xsx-v6-SRi" firstAttribute="top" secondItem="2Zh-nN-1Wd" secondAttribute="bottom" constant="8" symbolic="YES" id="ixD-4A-Bqz"/>
-                            <constraint firstItem="2Zh-nN-1Wd" firstAttribute="trailing" secondItem="xsx-v6-SRi" secondAttribute="trailing" id="mNf-7v-aNL"/>
-                            <constraint firstItem="2Zh-nN-1Wd" firstAttribute="leading" secondItem="25L-5H-xby" secondAttribute="leading" constant="20" id="mUH-4e-MVc"/>
-                            <constraint firstItem="2Zh-nN-1Wd" firstAttribute="centerX" secondItem="qiY-ad-AHM" secondAttribute="centerX" id="zyV-xt-VOJ"/>
+                            <constraint firstItem="25L-5H-xby" firstAttribute="trailing" secondItem="xsx-v6-SRi" secondAttribute="trailing" constant="8" id="M1E-8S-tfs"/>
+                            <constraint firstItem="mXl-U4-n6s" firstAttribute="top" secondItem="25L-5H-xby" secondAttribute="top" id="OWm-xn-SKG"/>
+                            <constraint firstItem="xsx-v6-SRi" firstAttribute="top" secondItem="2Zh-nN-1Wd" secondAttribute="bottom" constant="8" id="OcT-Rx-ewR"/>
+                            <constraint firstItem="25L-5H-xby" firstAttribute="trailing" secondItem="2Zh-nN-1Wd" secondAttribute="trailing" constant="8" id="fyv-sU-1VS"/>
+                            <constraint firstItem="25L-5H-xby" firstAttribute="trailing" secondItem="mXl-U4-n6s" secondAttribute="trailing" constant="20" id="hyz-Sn-f8e"/>
+                            <constraint firstAttribute="bottom" secondItem="xsx-v6-SRi" secondAttribute="bottom" constant="20" symbolic="YES" id="r8c-Hr-bBx"/>
+                            <constraint firstItem="mXl-U4-n6s" firstAttribute="leading" secondItem="25L-5H-xby" secondAttribute="leading" constant="20" id="rqV-1V-VTG"/>
+                            <constraint firstItem="xsx-v6-SRi" firstAttribute="leading" secondItem="25L-5H-xby" secondAttribute="leading" constant="8" id="t5f-kM-W6i"/>
+                            <constraint firstItem="2Zh-nN-1Wd" firstAttribute="top" secondItem="mXl-U4-n6s" secondAttribute="bottom" constant="20" id="v75-Fn-Ri5"/>
+                            <constraint firstItem="2Zh-nN-1Wd" firstAttribute="leading" secondItem="25L-5H-xby" secondAttribute="leading" constant="8" id="xLT-g1-0hk"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="25L-5H-xby"/>
                     </view>
@@ -128,6 +139,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bodyTextTextView" destination="xsx-v6-SRi" id="NKl-IR-sj5"/>
+                        <outlet property="moodSegmentedControl" destination="mXl-U4-n6s" id="Plt-Ra-VSw"/>
                         <outlet property="titleTextField" destination="2Zh-nN-1Wd" id="9o1-EC-am2"/>
                     </connections>
                 </viewController>
