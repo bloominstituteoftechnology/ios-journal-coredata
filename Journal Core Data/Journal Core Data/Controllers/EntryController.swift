@@ -28,6 +28,7 @@ class EntryController {
             results = try! fetchRequest.execute()
         }
         return results
+        
     }
     func createEntry(title: String, bodyText: String) {
         let newEntry = Entry(context: CoreDataStack.shared.mainContext)

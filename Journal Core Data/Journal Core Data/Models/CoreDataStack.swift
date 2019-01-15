@@ -16,7 +16,7 @@ class CoreDataStack {
     let mainContext: NSManagedObjectContext
     
     init() {
-        container = NSPersistentContainer(name: "Entry")
+        container = NSPersistentContainer(name: "JournalCoreData")
         container.loadPersistentStores { (description, error) in
             if let error = error {
                 fatalError("could not load the data store: \(error)")

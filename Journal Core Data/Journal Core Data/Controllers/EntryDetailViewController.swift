@@ -18,11 +18,7 @@ class EntryDetailViewController: UIViewController {
             updateViews()
         }
     }
-    var entryController: EntryController? {
-        didSet {
-            print("didUPdate")
-        }
-    }
+    var entryController: EntryController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +42,6 @@ class EntryDetailViewController: UIViewController {
         if let entry = entry {
             entryController?.updateEntry(entry: entry, title: titleText, bodyText: bodyText)
         } else {
-            print("Creating entry")
             entryController?.createEntry(title: titleText, bodyText: bodyText)
         }
         navigationController?.popViewController(animated: false)

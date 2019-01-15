@@ -13,6 +13,7 @@ class EntriesTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.reloadData()
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -27,20 +28,17 @@ class EntriesTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(entryController.entries)
         return entryController.entries.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as? EntryTableViewCell else {fatalError("Could not DQ cell.")}
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else {fatalError("Could not DQ cell.")}
 
-        cell.entry = entryController.entries[indexPath.row]
+        print(entryController.entries[indexPath.row])
+//        cell.entry = entryController.entries[indexPath.row]
+        cell.titleLabel.text = entryController.entries[indexPath.row].title
+        cell.detailLabel.text = entryController.entries[indexPath.row].bodyText
 
         return cell
     }
