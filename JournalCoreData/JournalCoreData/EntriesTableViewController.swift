@@ -1,10 +1,11 @@
 import UIKit
 
 class EntriesTableViewController: UITableViewController {
-
+    
     let entryController = EntryController()
     
     override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.prefersLargeTitles = true
         tableView.reloadData()
     }
     
