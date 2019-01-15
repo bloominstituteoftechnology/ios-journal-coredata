@@ -10,9 +10,9 @@ import Foundation
 import CoreData
 
 class EntryController {
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
+//    var entries: [Entry] {
+//        return loadFromPersistentStore()
+//    }
 
     func saveToPersistentStore() {
         do {
@@ -21,15 +21,15 @@ class EntryController {
             print("Failed to save: \(error)")
         }
     }
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        var results = [Entry]()
-        CoreDataStack.shared.mainContext.performAndWait {
-            results = try! fetchRequest.execute()
-        }
-        return results
-        
-    }
+//    func loadFromPersistentStore() -> [Entry] {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        var results = [Entry]()
+//        CoreDataStack.shared.mainContext.performAndWait {
+//            results = try! fetchRequest.execute()
+//        }
+//        return results
+//        
+//    }
     func createEntry(title: String, bodyText: String, mood: String) {
         let newEntry = Entry(context: CoreDataStack.shared.mainContext)
         newEntry.title = title
