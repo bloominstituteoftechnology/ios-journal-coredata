@@ -36,16 +36,22 @@ class EntryDetailViewController: UIViewController {
         navigationItem.title = entry.title
         titleTextField.text = entry.title
         bodyTextTextView.text = entry.bodyText
+    
+        guard let mood = entry.mood else {return}
+        let correctMood = Moods.allCases.filter({ $0.rawValue == mood })
+            moodSegmentedControl.selectedSegmentIndex = Moods.allCases.firstIndex(of: correctMood.first!)!
         
     }
     @IBAction func saveEntry(_ sender: Any) {
         guard let titleText = titleTextField.text, let bodyText = bodyTextTextView.text else {return}
         
         if let entry = entry {
-            entryController?.updateEntry(entry: entry, title: titleText, bodyText: bodyText)
+            entryController?.updateEntry(entry: entry, title: titleText, bodyText: bodyText, mood: moodSegmentedControl.titleForSegment(at: moodSegmentedControl.selectedSegmentIndex)!)
+            
         } else {
-            entryController?.createEntry(title: titleText, bodyText: bodyText)
+            entryController?.createEntry(title: titleText, bodyText: bodyText, mood: moodSegmentedControl.titleForSegment(at: moodSegmentedControl.selectedSegmentIndex)!)
         }
+        print(entry)
         navigationController?.popViewController(animated: false)
     }
     
