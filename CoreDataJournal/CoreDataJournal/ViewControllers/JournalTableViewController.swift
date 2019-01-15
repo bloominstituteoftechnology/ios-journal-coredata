@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class JournalTableViewController: UITableViewController {
+class JournalTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,26 +23,58 @@ class JournalTableViewController: UITableViewController {
         
         tableView.reloadData()
     }
+    
+    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        
+        fetchRequest.sortDescriptors = [
+            NSSortDescriptor(key: "timestamp", ascending: true)
+        ]
+        
+        let moc = CoreDataStack.shared.mainContext
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
+        
+        frc.delegate = self
+        try? frc.performFetch()
+        
+        return frc
+        
+    }()
 
     // MARK: - Table view data source
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return fetchedResultsController.sections?.count ?? 0
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-
-        return entryController.entries.count
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "entryCell", for: indexPath) as? EntryTableViewCell else {fatalError("Unable to dequeue cell as EntryTableViewCell")}
         
-        cell.titleLabel.text = entryController.entries[indexPath.row].title
-        cell.subtitleLabel.text = entryController.entries[indexPath.row].bodyText
         
-        guard let date = entryController.entries[indexPath.row].timestamp else { fatalError("cannot get date") }
+        cell.titleLabel.text = fetchedResultsController.object(at: indexPath).title
+        cell.subtitleLabel.text = fetchedResultsController.object(at: indexPath).bodyText
+        
+        guard let date = fetchedResultsController.object(at: indexPath).timestamp else { fatalError("cannot get date") }
         cell.idLabel.text = String.dateToString(date: date)
         // Configure the cell...
 
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete {
+            let entry = fetchedResultsController.object(at: indexPath)
+            entryController.deleteEntry(entry: entry)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -50,6 +82,10 @@ class JournalTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "entryCell", for: indexPath) as? EntryTableViewCell else {fatalError("failed to dequeueReusableCell")}
         
         performSegue(withIdentifier: "viewEntryDetailSegue", sender: cell)
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return fetchedResultsController.sections?[section].name
     }
 
     // MARK: - Navigation
@@ -63,7 +99,7 @@ class JournalTableViewController: UITableViewController {
         if segue.identifier == "viewEntryDetailSegue" {
             
             if let tappedRow = tableView.indexPathForSelectedRow {
-                destVC.entry = entryController.entries[tappedRow.row]
+                destVC.entry = fetchedResultsController.fetchedObjects?[tappedRow.row]
             }
         }
         
@@ -71,14 +107,55 @@ class JournalTableViewController: UITableViewController {
         
         
     }
+
+    // MARK: - NSFetchedResultsControllerDelegate Methods
     
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            let entry = entryController.entries[indexPath.row]
-            entryController.deleteEntry(entry: entry)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange sectionInfo: NSFetchedResultsSectionInfo,
+                    atSectionIndex sectionIndex: Int,
+                    for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert:
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
+        case .delete:
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
+        default:
+            break
         }
     }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            guard let newIndexPath = newIndexPath else { return }
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .update:
+            guard let indexPath = indexPath else { return }
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        case .move:
+            guard let oldIndexPath = indexPath,
+                let newIndexPath = newIndexPath else { return }
+            tableView.deleteRows(at: [oldIndexPath], with: .automatic)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .delete:
+            guard let indexPath = indexPath else { return }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+    }
+    
+    // MARK: - Properties
 
     let entryController = EntryController()
 

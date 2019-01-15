@@ -43,16 +43,18 @@ class DetailViewController: UIViewController {
         }
         
         let bodyText = entryTextView.text
+        let moodIndex = smileySegmentedControl.selectedSegmentIndex
+        let mood = EntryMood.allCases[moodIndex].rawValue
         
         if let entry = entry {
             // editing existing entry
             entry.title = title
             entry.bodyText = bodyText
-            
+            entry.mood = mood
             
         } else {
             // create a new entry - after the MOC knows about the new entry
-            entryController?.createEntry(title: title, bodyText: bodyText)
+            entryController?.createEntry(title: title, mood: mood, bodyText: bodyText)
         }
         
         // we think this is a good opportunity to save the
@@ -73,6 +75,11 @@ class DetailViewController: UIViewController {
         title = entry?.title ?? "Create Entry"
         entryTextField.text = entry?.title
         entryTextView.text = entry?.bodyText
+        
+        let mood = entry?.entryMood ?? .😐
+        let moodIndex = EntryMood.allCases.index(of: mood)!
+        smileySegmentedControl.selectedSegmentIndex = moodIndex
+        
     }
 
     var entry: Entry? {

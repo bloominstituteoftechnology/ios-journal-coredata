@@ -23,7 +23,6 @@ enum Appearance {
         
         UISegmentedControl.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.accentColor], for: .normal)
         
-        
     }
     
 }

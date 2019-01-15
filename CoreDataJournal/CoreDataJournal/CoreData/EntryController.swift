@@ -21,31 +21,32 @@ class EntryController {
         
     }
     
-    func loadFromPersistentStore()-> [Entry]{
-       
-        // this code will run every time you access the entries property
-        // would be must better if we fetched once and then only fetched again
-        // when there were changes
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
-        
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            NSLog("Error fetching entries: \(error)")
-            return []
-        }
-    }
+//    func loadFromPersistentStore()-> [Entry]{
+//
+//        // this code will run every time you access the entries property
+//        // would be must better if we fetched once and then only fetched again
+//        // when there were changes
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let moc = CoreDataStack.shared.mainContext
+//
+//        do {
+//            return try moc.fetch(fetchRequest)
+//        } catch {
+//            NSLog("Error fetching entries: \(error)")
+//            return []
+//        }
+//    }
     
-    func createEntry(title: String, bodyText: String?){
+    func createEntry(title: String, mood: String, bodyText: String?){
         
-        _ = Entry(title: title, bodyText: bodyText)
+        _ = Entry(title: title, bodyText: bodyText, mood: mood)
         saveToPersistentStore()
     }
     
-    func updateEntry(entry: Entry, title: String, bodyText: String?){
+    func updateEntry(entry: Entry, title: String, mood: String, bodyText: String?){
        
         entry.bodyText = bodyText
+        entry.mood = mood
         entry.title = title
 
         saveToPersistentStore()
@@ -59,8 +60,8 @@ class EntryController {
         saveToPersistentStore()
     }
     
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
+//    var entries: [Entry] {
+//        return loadFromPersistentStore()
+//    }
     
 }
