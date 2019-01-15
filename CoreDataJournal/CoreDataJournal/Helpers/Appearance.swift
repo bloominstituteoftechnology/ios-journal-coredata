@@ -17,6 +17,15 @@ enum Appearance {
         UINavigationBar.appearance().isTranslucent = false
     }
     
+    static func setupSegmentedControlAppearance() {
+        UISegmentedControl.appearance().tintColor = .accentColor
+    UISegmentedControl.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.darkColor], for: .selected)
+        
+        UISegmentedControl.appearance().setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.accentColor], for: .normal)
+        
+        
+    }
+    
 }
 
 extension UIColor {

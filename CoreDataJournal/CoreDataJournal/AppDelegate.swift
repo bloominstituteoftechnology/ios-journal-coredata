@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         Appearance.setupNavAppearance()
+        Appearance.setupSegmentedControlAppearance()
         return true
     }
 
