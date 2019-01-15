@@ -10,6 +10,11 @@ import UIKit
 
 class DetailViewController: UIViewController {
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        updateViews()
+    }
     
     @IBOutlet weak var entryTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
@@ -18,7 +23,6 @@ class DetailViewController: UIViewController {
         super.viewWillAppear(animated)
         view.backgroundColor = .darkColor
         
-        print(entryController)
     }
 
     /*
@@ -37,7 +41,7 @@ class DetailViewController: UIViewController {
             return
         }
         
-        let bodyText = entryTextField.text
+        let bodyText = entryTextView.text
         
         if let entry = entry {
             // editing existing entry

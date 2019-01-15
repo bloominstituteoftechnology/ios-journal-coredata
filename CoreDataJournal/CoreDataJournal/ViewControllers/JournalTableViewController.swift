@@ -28,7 +28,7 @@ class JournalTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        print(entryController.entries.count)
+
         return entryController.entries.count
     }
 
@@ -36,10 +36,20 @@ class JournalTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "entryCell", for: indexPath) as? EntryTableViewCell else {fatalError("Unable to dequeue cell as EntryTableViewCell")}
 
         cell.titleLabel.text = entryController.entries[indexPath.row].title
-        print(cell.titleLabel.text)
+        cell.subtitleLabel.text = entryController.entries[indexPath.row].bodyText
+        
+        guard let date = entryController.entries[indexPath.row].timestamp else { fatalError("cannot get date") }
+        cell.idLabel.text = String.dateToString(date: date)
         // Configure the cell...
 
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "entryCell", for: indexPath) as? EntryTableViewCell else {fatalError("failed to dequeueReusableCell")}
+        
+        performSegue(withIdentifier: "viewEntryDetailSegue", sender: cell)
     }
 
     // MARK: - Navigation
@@ -50,8 +60,12 @@ class JournalTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         let destVC = segue.destination as! DetailViewController
         
-        if segue.identifier == "viewEntryDetailSegue"{
+        print(segue.identifier)
+        
+        if segue.identifier == "viewEntryDetailSegue" {
+            print("here")
             if let tappedRow = tableView.indexPathForSelectedRow {
+                print("here")
                 destVC.entry = entryController.entries[tappedRow.row]
             }
         }
