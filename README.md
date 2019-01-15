@@ -19,7 +19,7 @@ This application will implement the Master-Detail pattern that you're surely fam
 #### EntriesTableViewController and EntryTableViewCell
 
 1. Delete the view controller scene that comes with the Main.storyboard
-2. Add a `UITableViewController` scene, then embed it in a navigation controller. Set the navigation controller as the initial view controller. 
+2. Add a `UITableViewController` scene, then embed it in a navigation controller. Set the navigation controller as the initial view controller.
 3. Add a `UIViewController` scene as well. Leave it blank for now.
 4. On the table view controller scene, change its navigation item's title to "Journal".
 5. Add a bar button item on the right side of the navigation bar. Change its "System Item" to "Add". 
