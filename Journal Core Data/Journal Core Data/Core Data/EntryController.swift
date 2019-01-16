@@ -33,6 +33,8 @@ class EntryController {
 //        return results
 //        
 //    }
+    
+    
     func createEntry(title: String, bodyText: String, mood: String, identifier: String = UUID().uuidString) {
         let newEntry = Entry(context: CoreDataStack.shared.mainContext)
         newEntry.title = title
@@ -52,7 +54,10 @@ class EntryController {
         put(entry: entry) { (_) in}
         saveToPersistentStore()
     }
+    
+        //In this application we are checking for identifiers when getting data from the server, so it is necessary to call the server method before the Core Data method in the deleteEntryFromServer method. Else there will be no timestamp because the entry has already been deleted.
     func deleteEntry(entry: Entry) {
+        deleteEntryFromServer(entry: entry) { (_) in}
         CoreDataStack.shared.mainContext.delete(entry)
         saveToPersistentStore()
     }
@@ -72,8 +77,20 @@ class EntryController {
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
                 print("error initiaing dataTask")
-                completionHandler(error)
             }
+            completionHandler(error)
+        }.resume()
+    }
+
+    func deleteEntryFromServer(entry: Entry, completionHandler: @escaping CompletionHandler) {
+        let requestURL = baseURL?.appendingPathComponent(entry.identifier!).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL!)
+        request.httpMethod = "DELETE"
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                print("error initiaing dataTask")
+            }
+            completionHandler(error)
         }.resume()
     }
 }
