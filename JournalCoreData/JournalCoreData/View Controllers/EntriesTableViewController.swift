@@ -23,7 +23,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
+        
         return (fetchedResultsController.sections?.count) ?? 1
     }
 
