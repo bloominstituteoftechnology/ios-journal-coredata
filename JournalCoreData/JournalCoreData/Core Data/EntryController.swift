@@ -12,17 +12,17 @@ class EntryController {
         }
     }
     
-    func loadFromPersistentStore() -> [Entry]{
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let results = (try? CoreDataStack.shared.mainContext.fetch(fetchRequest)) ?? []
-        print(results)
-        return results
-    }
-    
-    var entries: [Entry]? {
-        return loadFromPersistentStore()
-        
-    }
+//    func loadFromPersistentStore() -> [Entry]{
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let results = (try? CoreDataStack.shared.mainContext.fetch(fetchRequest)) ?? []
+//        print(results)
+//        return results
+//    }
+//    
+//    var entries: [Entry]? {
+//        return loadFromPersistentStore()
+//        
+//    }
     
     func createEntry(title: String, entryBody: String?, mood: String){
         print("did we make it to the create func?") // FIXME: never even getting here

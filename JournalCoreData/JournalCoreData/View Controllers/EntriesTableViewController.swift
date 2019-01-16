@@ -1,6 +1,7 @@
 import UIKit
+import CoreData
 
-class EntriesTableViewController: UITableViewController {
+class EntriesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     let entryController = EntryController()
     
@@ -21,14 +22,14 @@ class EntriesTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        // #warning Incomplete implementation, return the number of sections
-//        return 0
-//    }
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return (fetchedResultsController.sections?.count) ?? 1
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return entryController.entries?.count ?? 0
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
     
@@ -36,7 +37,7 @@ class EntriesTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: EntryTableViewCell.reuseIdentifier, for: indexPath) as! EntryTableViewCell
 
         // Configure the cell...
-        cell.updateViews(entry: (entryController.entries?[indexPath.row])!)
+        cell.updateViews(entry: (fetchedResultsController.object(at: indexPath)))
         
 
         return cell
@@ -56,8 +57,8 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            let entry = entryController.entries?[indexPath.row]
-            CoreDataStack.shared.mainContext.delete(entry!)
+            let entry = fetchedResultsController.object(at: indexPath)
+            CoreDataStack.shared.mainContext.delete(entry)
             try! CoreDataStack.shared.mainContext.save()
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
@@ -78,7 +79,64 @@ class EntriesTableViewController: UITableViewController {
         return true
     }
     
-
+    // MARK: - FetchedResultsController
+    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.sortDescriptors = [
+            NSSortDescriptor(key: "timeStamp", ascending: false)
+        ]
+        
+        let moc = CoreDataStack.shared.mainContext
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
+        
+        frc.delegate = self
+        try? frc.performFetch()
+        return frc
+    
+    }()
+    
+    // Delegate Methods
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert:
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
+        case .delete:
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
+        default:
+            break
+        }
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
+        switch type {
+            
+        case .insert:
+            guard let indexPath = newIndexPath else {return}
+            tableView.insertRows(at: [indexPath], with: .automatic)
+            
+        case .delete:
+            guard let indexPath = indexPath else {return}
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+        case .move:
+            guard let oldIndexPath = indexPath else {return}
+            guard let newIndexPath = newIndexPath else {return}
+            tableView.moveRow(at: oldIndexPath, to: newIndexPath)
+            
+        case .update:
+            guard let indexPath = indexPath else {return}
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
+    }
     
     // MARK: - Navigation
 
@@ -89,7 +147,7 @@ class EntriesTableViewController: UITableViewController {
         if segue.identifier == "EntryDetails" {
             let detailViewController = segue.destination as! EntryDetailViewController
             if let tappedRow = tableView.indexPathForSelectedRow {
-                detailViewController.entry = entryController.entries?[tappedRow.row]
+                detailViewController.entry = fetchedResultsController.object(at: tappedRow)
                 detailViewController.entryController = entryController
             } else {
                 detailViewController.entryController = entryController
