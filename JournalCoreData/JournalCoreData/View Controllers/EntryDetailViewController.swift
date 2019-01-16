@@ -35,9 +35,10 @@ class EntryDetailViewController: UIViewController, UITextViewDelegate, UITextFie
 
         } else {
 //            print("this should be creating a new entry for \(entryTitle)")
-//            entryController?.createEntry(title: entryTitle, entryBody: entryBody)
+//            entryController?.createEntry(title: entryTitle!, entryBody: entryBody, mood: currentMood!)
 //
-            _ = Entry(title: title, bodyText: entryBody!, mood: currentMood!, context: CoreDataStack.shared.mainContext)
+            let newEntry = Entry(title: title, bodyText: entryBody!, identifier: UUID().uuidString, mood: currentMood!, context: CoreDataStack.shared.mainContext)
+            entryController?.put(entry: newEntry)
         }
         navigationController?.popViewController(animated: true)
 //

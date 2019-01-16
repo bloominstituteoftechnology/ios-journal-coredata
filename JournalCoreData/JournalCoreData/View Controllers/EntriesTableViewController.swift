@@ -58,6 +58,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         if editingStyle == .delete {
             // Delete the row from the data source
             let entry = fetchedResultsController.object(at: indexPath)
+            entryController.deleteEntryFromServer(entry: entry)
             CoreDataStack.shared.mainContext.delete(entry)
             try! CoreDataStack.shared.mainContext.save()
             tableView.deleteRows(at: [indexPath], with: .fade)
