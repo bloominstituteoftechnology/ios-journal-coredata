@@ -50,9 +50,10 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else {fatalError("Could not DQ cell.")}
 //        cell.entry = entryController.entries[indexPath.row]
-        cell.titleLabel.text = fetchedControllerProperty.object(at: indexPath).title
-        cell.detailLabel.text = fetchedControllerProperty.object(at: indexPath).bodyText
-        cell.timestampLabel.text = DateFormatter.localizedString(from: fetchedControllerProperty.object(at: indexPath).timestamp!, dateStyle: .short, timeStyle: .short)
+        let entry = fetchedControllerProperty.object(at: indexPath)
+        cell.titleLabel.text = entry.title
+        cell.detailLabel.text = entry.bodyText
+        cell.timestampLabel.text = DateFormatter.localizedString(from: entry.timestamp!, dateStyle: .short, timeStyle: .short)
 
         return cell
     }
@@ -76,7 +77,6 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         
         let entry = fetchedControllerProperty.object(at: indexPath)
         entryController.deleteEntry(entry: entry)
-        entryController.saveToPersistentStore()
         tableView.deleteRows(at: [indexPath], with: .automatic)
     }
 
@@ -112,7 +112,19 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         tableView.beginUpdates()
         
     }
-    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange sectionInfo: NSFetchedResultsSectionInfo,
+                    atSectionIndex sectionIndex: Int,
+                    for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert:
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
+        case .delete:
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
+        default:
+            break
+        }
+    }
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         
         switch type {
