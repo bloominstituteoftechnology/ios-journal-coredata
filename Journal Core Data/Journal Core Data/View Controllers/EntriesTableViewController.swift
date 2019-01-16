@@ -21,16 +21,16 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         return frc
     }()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        tableView.reloadData()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        tableView.reloadData()
+//
+//        // Uncomment the following line to preserve selection between presentations
+//        // self.clearsSelectionOnViewWillAppear = false
+//
+//        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+//        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+//    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
@@ -65,6 +65,11 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     }
     */
 
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return fetchedControllerProperty.sections?[section].name
+    }
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
