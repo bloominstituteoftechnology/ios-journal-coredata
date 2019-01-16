@@ -77,7 +77,6 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         
         let entry = fetchedControllerProperty.object(at: indexPath)
         entryController.deleteEntry(entry: entry)
-        tableView.deleteRows(at: [indexPath], with: .automatic)
     }
 
     /*
