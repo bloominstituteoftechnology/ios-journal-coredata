@@ -35,12 +35,12 @@ class EntryDetailViewController: UIViewController, UITextViewDelegate, UITextFie
 
         } else {
 //            print("this should be creating a new entry for \(entryTitle)")
-//            entryController?.createEntry(title: title, entryBody: entryBody)
+//            entryController?.createEntry(title: entryTitle, entryBody: entryBody)
 //
             _ = Entry(title: title, bodyText: entryBody!, mood: currentMood!, context: CoreDataStack.shared.mainContext)
         }
         navigationController?.popViewController(animated: true)
-//        
+//
     }
     
     func updateViews(){
