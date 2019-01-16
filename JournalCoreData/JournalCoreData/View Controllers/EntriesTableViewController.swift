@@ -10,15 +10,15 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         tableView.reloadData()
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//
+//        // Uncomment the following line to preserve selection between presentations
+//        // self.clearsSelectionOnViewWillAppear = false
+//
+//        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+//        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+//    }
 
     // MARK: - Table view data source
 
@@ -71,7 +71,9 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
 
     }
     */
-
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return fetchedResultsController.sections?[section].name
+    }
     
     // Override to support conditional rearranging of the table view.
     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {

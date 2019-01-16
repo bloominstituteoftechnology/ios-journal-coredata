@@ -1,6 +1,6 @@
 import UIKit
 
-class EntryDetailViewController: UIViewController, UITextViewDelegate {
+class EntryDetailViewController: UIViewController, UITextViewDelegate, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,8 +29,8 @@ class EntryDetailViewController: UIViewController, UITextViewDelegate {
 
         
         if let existingEntry = entry {
-            entryController?.updateEntry(entryTitle: existingEntry.title!, entryBodyText: entryBody!, mood: currentMood!, entry: existingEntry)
-            navigationController?.popViewController(animated: true)
+            entryController?.updateEntry(title: entryTitle!, entryBodyText: entryBody!, mood: currentMood!, entry: existingEntry)
+            //navigationController?.popViewController(animated: true)
 
 
         } else {
@@ -39,13 +39,8 @@ class EntryDetailViewController: UIViewController, UITextViewDelegate {
 //
             _ = Entry(title: title, bodyText: entryBody!, mood: currentMood!, context: CoreDataStack.shared.mainContext)
         }
-
-        do {
-            try CoreDataStack.shared.mainContext.save()
-            navigationController?.popViewController(animated: true)
-        }catch {
-            print("Failed to save: \(error)")
-        }
+        navigationController?.popViewController(animated: true)
+//        
     }
     
     func updateViews(){

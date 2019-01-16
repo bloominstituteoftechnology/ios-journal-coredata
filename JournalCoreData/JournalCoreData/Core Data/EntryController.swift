@@ -33,8 +33,8 @@ class EntryController {
         
     }
     
-    func updateEntry(entryTitle: String, entryBodyText: String, mood: String, entry: Entry){
-        entry.title = entryTitle
+    func updateEntry(title: String, entryBodyText: String, mood: String, entry: Entry){
+        entry.title = title
         entry.bodyText = entryBodyText
         entry.timeStamp = Date()
         entry.mood = mood
