@@ -18,4 +18,12 @@ extension Entry {
         self.identifier = identifier
         self.mood = mood
     }
+    convenience init?(entryRepresentation: EntryRepresentation) {
+        self.init()
+        title = entryRepresentation.title
+        bodyText = entryRepresentation.bodyText
+        timestamp = entryRepresentation.timestamp
+        identifier = entryRepresentation.identifier
+        mood = entryRepresentation.mood
+    }
 }

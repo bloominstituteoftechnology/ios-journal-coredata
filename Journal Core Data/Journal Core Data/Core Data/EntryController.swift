@@ -10,6 +10,9 @@ import Foundation
 import CoreData
 
 class EntryController {
+    init() {
+        fetchEntriesFromServer { (_) in }
+    }
 //    var entries: [Entry] {
 //        return loadFromPersistentStore()
 //    }
@@ -93,4 +96,61 @@ class EntryController {
             completionHandler(error)
         }.resume()
     }
+    func update(entry: Entry, entryRepresentation: EntryRepresentation) {
+        if let timesetamp = entry.timestamp, timesetamp > entryRepresentation.timestamp {
+            return
+        } else {
+            entry.title = entryRepresentation.title
+            entry.bodyText = entryRepresentation.bodyText
+            entry.mood = entryRepresentation.mood
+            entry.timestamp = entryRepresentation.timestamp
+        }
+    }
+    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+        let predicate = NSPredicate(format: "identifier == %@", identifier)
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = predicate
+        
+        let moc = CoreDataStack.shared.mainContext
+        let matchingEntries = try? moc.fetch(fetchRequest)
+        
+        //The trailing '?' here says "if matchingTasks is not nil, return first, if it is nil then return nil
+        return matchingEntries?.first
+    }
+    func fetchEntriesFromServer(completionHandler: @escaping CompletionHandler) {
+        let requestURL = baseURL?.appendingPathExtension("json")
+        var request = URLRequest(url: requestURL!)
+        request.httpMethod = "GET"
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                print("error initiaing dataTask")
+                completionHandler(error)
+                return
+            }
+            guard let data = data else {fatalError("Could not get data in 'GET' request.")}
+            DispatchQueue.main.async {
+                do {
+                    var entryRepresentations: [EntryRepresentation] = []
+                    let results = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
+                    entryRepresentations = Array(results.values)
+                    for entryRepresentation in entryRepresentations {
+                        let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRepresentation.identifier)
+                        if entry != nil {
+                            self.update(entry: entry!, entryRepresentation: entryRepresentation)
+                        } else {
+                            _ = Entry(entryRepresentation: entryRepresentation)
+                        }
+                    }
+                    self.saveToPersistentStore()
+                    completionHandler(nil)
+                    
+                } catch {
+                print("error performing dataTask in fetchEntriesFromServer")
+                }
+            }
+            }.resume()
+    }
+    
+    
 }
