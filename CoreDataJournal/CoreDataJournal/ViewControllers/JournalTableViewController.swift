@@ -82,7 +82,6 @@ class JournalTableViewController: UITableViewController, NSFetchedResultsControl
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
             entryController.deleteEntry(entry: entry)
-            tableView.deleteRows(at: [indexPath], with: .fade)
         }
         
     }
@@ -95,6 +94,7 @@ class JournalTableViewController: UITableViewController, NSFetchedResultsControl
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
         return fetchedResultsController.sections?[section].name
     }
 
@@ -109,7 +109,10 @@ class JournalTableViewController: UITableViewController, NSFetchedResultsControl
         if segue.identifier == "viewEntryDetailSegue" {
             
             if let tappedRow = tableView.indexPathForSelectedRow {
-                destVC.entry = fetchedResultsController.fetchedObjects?[tappedRow.row]
+                print(tappedRow)
+                let sectionObjects = fetchedResultsController.sections?[tappedRow.section]
+                let entryToSend = sectionObjects?.objects?[tappedRow.row] as? Entry
+                destVC.entry = entryToSend
             }
         }
         
