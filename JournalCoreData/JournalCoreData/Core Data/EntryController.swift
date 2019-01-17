@@ -2,6 +2,10 @@ import Foundation
 import CoreData
 
 class EntryController {
+    
+    init() {
+        fetchEntriesFromServer()
+    }
     //MARK: Firebase
     typealias CompletionHandler = (Error?) -> Void
     
@@ -33,7 +37,7 @@ class EntryController {
     func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }){
         
         do {
-            // guard let representation = entry.entryRepresentation else { throw NSError() }
+            //guard let representation = entry.entryRepresentation else { throw NSError() }
             
             let id = entry.identifier
             let requestURL = baseURL.appendingPathComponent(id!).appendingPathExtension("json")
@@ -42,7 +46,7 @@ class EntryController {
             request.httpBody = try JSONEncoder().encode(entry)
             URLSession.shared.dataTask(with: request) { (_, _, error) in
                 if let error = error {
-                    print("error putting task: \(error)")
+                    print("error deleting task: \(error)")
                 }
                 completion(error)
                 }.resume()
@@ -107,7 +111,7 @@ class EntryController {
     }
     
     func importEntryRepresentations(_ entryRepresentations: [EntryRepresentation]) throws {
-        
+        //FIXME: add logic for sync.
         for entryRepresentation in entryRepresentations {
             if let existingEntry = fetchSingleEntryFromPersistentStore(with: entryRepresentation.identifier!){
                 existingEntry.bodyText = entryRepresentation.bodyText
@@ -116,19 +120,14 @@ class EntryController {
                 existingEntry.title = entryRepresentation.title
             }else{
                _ = Entry(entryRepresentation: entryRepresentation, moc: moc)
+                
             }
         }
-        try moc.save()
+        saveToPersistentStore()
+        //try moc.save()
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
+
     func saveToPersistentStore(){
         // save data to mainContext
         do {

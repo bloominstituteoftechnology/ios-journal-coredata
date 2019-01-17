@@ -20,27 +20,43 @@ class EntryDetailViewController: UIViewController, UITextViewDelegate, UITextFie
     @IBOutlet weak var entryBodyTextView: UITextView!
     
     
-    @IBAction func saveEntry(_ sender: Any) {
-        print("saving")
+    @IBAction func saveEntry(_ sender: UIBarButtonItem) {
+        print("save button tapped")
         let entryTitle = titleEntryTextField.text
         let entryBody = entryBodyTextView.text
         let currentMood = moodSegmentedControl.titleForSegment(at: moodSegmentedControl.selectedSegmentIndex)
-        guard let title = entryTitle, title.isEmpty == false else {return}
+        print("assigned the values")
+        guard let title = entryTitle, title.isEmpty == false else {
+            print("something is wrong here. either titles mismatch or field is empty")
+            return}
 
-        
+        print("title isnt empty")
+    
         if let existingEntry = entry {
-            entryController?.updateEntry(title: entryTitle!, entryBodyText: entryBody!, mood: currentMood!, entry: existingEntry)
-            //navigationController?.popViewController(animated: true)
+            print("this is an existing entry")
+            if existingEntry.identifier == entry?.identifier {
+                print("identifiers match: \(existingEntry.identifier, entry?.identifier). updateEntry called")
+                entryController?.updateEntry(title: entryTitle!, entryBodyText: entryBody!, mood: currentMood!, entry: existingEntry)
+            }
 
 
+            //FIXME: STUPID createEntry func won't fire here, entryController seems to be nil in the else clause. Doesnt seem like any functions are firing here, only prints and declarations.
         } else {
-//            print("this should be creating a new entry for \(entryTitle)")
+            print("this is a new entry. this should be creating a new entry for \(entryTitle!)")
 //            entryController?.createEntry(title: entryTitle!, entryBody: entryBody, mood: currentMood!)
 //
-            let newEntry = Entry(title: title, bodyText: entryBody!, identifier: UUID().uuidString, mood: currentMood!, context: CoreDataStack.shared.mainContext)
-            entryController?.put(entry: newEntry)
+//            entryController?.put(entry: entry!)
+//
+            let newEntry = Entry(title: title, bodyText: entryBody!, identifier: UUID().uuidString, mood: currentMood!, context: CoreDataStack.shared.mainContext) //yep
+            print(newEntry) //yep
+            entryController?.saveToPersistentStore() // nope
+            entryController?.put(entry: newEntry) //nope
+            print("putted")//yep
+            entryController?.updateEntry(title: title, entryBodyText: entryBody!, mood: currentMood!, entry: entry!)//nope
+            print("updated")//yep
         }
-        navigationController?.popViewController(animated: true)
+    
+        //navigationController?.popViewController(animated: true)
 //
     }
     
