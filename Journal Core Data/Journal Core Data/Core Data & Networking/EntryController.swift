@@ -11,7 +11,8 @@ import CoreData
 
 class EntryController {
     init() {
-        fetchEntriesFromServer { (_) in }
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        fetchEntriesFromServer(context: context) { (_) in }
     }
 //    var entries: [Entry] {
 //        return loadFromPersistentStore()
@@ -101,7 +102,7 @@ class EntryController {
             entry.mood = entryRepresentation.mood
             entry.timestamp = entryRepresentation.timestamp
     }
-    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+    func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry? {
         let predicate = NSPredicate(format: "identifier == %@", identifier)
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = predicate
@@ -112,7 +113,7 @@ class EntryController {
         //The trailing '?' here says "if matchingTasks is not nil, return first, if it is nil then return nil
         return matchingEntries?.first
     }
-    func fetchEntriesFromServer(completionHandler: @escaping CompletionHandler) {
+    func fetchEntriesFromServer(context: NSManagedObjectContext, completionHandler: @escaping CompletionHandler) {
         let requestURL = baseURL?.appendingPathExtension("json")
         var request = URLRequest(url: requestURL!)
         request.httpMethod = "GET"
@@ -127,16 +128,10 @@ class EntryController {
             DispatchQueue.main.async {
                 do {
                     var entryRepresentations: [EntryRepresentation] = []
+                    self.iterateThroughEntryRepresentations(entryRepresentations: entryRepresentations, context: context)
                     let results = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
                     entryRepresentations = Array(results.values)
-                    for entryRepresentation in entryRepresentations {
-                        let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRepresentation.identifier)
-                        if entry != nil {
-                            self.update(entry: entry!, entryRepresentation: entryRepresentation)
-                        } else {
-                            _ = Entry(entryRepresentation: entryRepresentation)
-                        }
-                    }
+                    
                     self.saveToPersistentStore()
                     completionHandler(nil)
                     
@@ -146,6 +141,15 @@ class EntryController {
             }
             }.resume()
     }
-    
+    func iterateThroughEntryRepresentations(entryRepresentations: [EntryRepresentation], context: NSManagedObjectContext) {
+        for entryRepresentation in entryRepresentations {
+            let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRepresentation.identifier, context: context)
+            if entry != nil {
+                self.update(entry: entry!, entryRepresentation: entryRepresentation)
+            } else {
+                _ = Entry(entryRepresentation: entryRepresentation)
+            }
+        }
+    }
     
 }
