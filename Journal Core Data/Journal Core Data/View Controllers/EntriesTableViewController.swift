@@ -13,7 +13,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     let entryController = EntryController()
     lazy var fetchedControllerProperty: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true), NSSortDescriptor(key: "timestamp", ascending: false)]
         let moc = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
         frc.delegate = self

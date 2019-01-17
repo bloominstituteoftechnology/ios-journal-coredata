@@ -11,8 +11,7 @@ import CoreData
 
 class EntryController {
     init() {
-        let context = CoreDataStack.shared.container.newBackgroundContext()
-        fetchEntriesFromServer(context: context) { (_) in }
+        fetchEntriesFromServer() { (_) in }
     }
 //    var entries: [Entry] {
 //        return loadFromPersistentStore()
@@ -21,9 +20,10 @@ class EntryController {
     typealias CompletionHandler = (Error?) -> Void
     
     //MARK: CoreData Methods
-    func saveToPersistentStore() {
+    func saveToPersistentStore(context: NSManagedObjectContext) {
+        
         do {
-            try CoreDataStack.shared.mainContext.save()
+            try context.save()
         } catch {
             print("Failed to save: \(error)")
         }
@@ -47,22 +47,26 @@ class EntryController {
         newEntry.timestamp = Date()
         newEntry.identifier = identifier
         put(entry: newEntry, method: "POST") { (_) in}
-        saveToPersistentStore()
+        saveToPersistentStore(context: CoreDataStack.shared.mainContext)
     }
     func updateEntry(entry: Entry, title: String, bodyText: String, mood: String, identifier: String = UUID().uuidString) {
+        entry.managedObjectContext?.performAndWait {
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = Date.init()
         entry.mood = mood
         put(entry: entry, method: "PUT") { (_) in}
-        saveToPersistentStore()
+            saveToPersistentStore(context: CoreDataStack.shared.mainContext)
+        }
     }
     
         //In this application we are checking for identifiers when getting data from the server, so it is necessary to call the server method before the Core Data method in the deleteEntryFromServer method. Else there will be no timestamp because the entry has already been deleted.
     func deleteEntry(entry: Entry) {
+        entry.managedObjectContext?.performAndWait {
         deleteEntryFromServer(entry: entry) { (_) in}
         CoreDataStack.shared.mainContext.delete(entry)
-        saveToPersistentStore()
+            saveToPersistentStore(context: entry.managedObjectContext!)
+        }
     }
     
     //MARK: Networking Methods
@@ -103,17 +107,19 @@ class EntryController {
             entry.timestamp = entryRepresentation.timestamp
     }
     func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry? {
-        let predicate = NSPredicate(format: "identifier == %@", identifier)
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.predicate = predicate
+        let request: NSFetchRequest<Entry> = Entry.fetchRequest()
+        request.predicate = NSPredicate(format: "identifier == %@", identifier)
         
-        let moc = CoreDataStack.shared.mainContext
-        let matchingEntries = try? moc.fetch(fetchRequest)
+        var entry: Entry?
         
-        //The trailing '?' here says "if matchingTasks is not nil, return first, if it is nil then return nil
-        return matchingEntries?.first
+        context.performAndWait {
+            entry = (try? context.fetch(request))?.first
+        }
+        
+        return entry
     }
-    func fetchEntriesFromServer(context: NSManagedObjectContext, completionHandler: @escaping CompletionHandler) {
+    func fetchEntriesFromServer(completionHandler: @escaping CompletionHandler) {
+        let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
         let requestURL = baseURL?.appendingPathExtension("json")
         var request = URLRequest(url: requestURL!)
         request.httpMethod = "GET"
@@ -124,20 +130,19 @@ class EntryController {
                 completionHandler(error)
                 return
             }
+            backgroundContext.performAndWait {
             guard let data = data else {fatalError("Could not get data in 'GET' request.")}
-            DispatchQueue.main.async {
                 do {
                     var entryRepresentations: [EntryRepresentation] = []
-                    self.iterateThroughEntryRepresentations(entryRepresentations: entryRepresentations, context: context)
                     let results = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
                     entryRepresentations = Array(results.values)
-                    
-                    self.saveToPersistentStore()
+                    self.iterateThroughEntryRepresentations(entryRepresentations: entryRepresentations, context: backgroundContext)
+                    self.saveToPersistentStore(context: backgroundContext)
+                    try! backgroundContext.save()
                     completionHandler(nil)
-                    
                 } catch {
                 print("error performing dataTask in fetchEntriesFromServer")
-                }
+                    }
             }
             }.resume()
     }
