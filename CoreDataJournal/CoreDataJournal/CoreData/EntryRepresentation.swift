@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct EntryRepresentation: Codable, Equatable {
+struct EntryRepresentation: Decodable, Equatable {
     
     let bodyText: String?
     let identifier: UUID

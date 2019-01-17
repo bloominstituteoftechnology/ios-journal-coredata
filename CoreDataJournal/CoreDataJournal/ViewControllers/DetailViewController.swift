@@ -51,7 +51,7 @@ class DetailViewController: UIViewController {
             entry.title = title
             entry.bodyText = bodyText
             entry.mood = mood.rawValue
-            
+            entryController?.put(entry: entry)
         } else {
             // create a new entry - after the MOC knows about the new entry
             entryController?.createEntry(title: title, mood: mood, bodyText: bodyText)

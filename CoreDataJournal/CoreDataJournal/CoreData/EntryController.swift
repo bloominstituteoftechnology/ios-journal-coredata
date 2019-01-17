@@ -18,6 +18,55 @@ class EntryController {
     
     init() {
         // TODO: Implement init
+        fetchEntriesFromServer()
+    }
+    
+    func fetchEntriesFromServer(completionHandler: @escaping CompletionHandler = {_ in }){
+        
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching entries: \(error)")
+                completionHandler(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned by data entry")
+                completionHandler(NSError())
+                return
+            }
+            DispatchQueue.main.async {
+            do {
+                let entryRepresentationsDict = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
+                let entryRepresentations = Array(entryRepresentationsDict.values)
+                
+                
+                    for entryRep in entryRepresentations {
+                        let uuid = entryRep.identifier
+                        
+                        if let entry = self.entry(forUUID: uuid){
+                            // we already have a local task for this
+                            self.update(entry: entry, with: entryRep)
+                            
+                        } else {
+                            // need to create a new task in Core Data
+                            let _ = Entry(entryRepresentation: entryRep)
+                        }
+                    
+                    }
+                let moc = CoreDataStack.shared.mainContext
+                try moc.save()
+                
+            } catch {
+                NSLog("Error decoding tasks: \(error)")
+                completionHandler(error)
+                return
+            }
+            }
+            
+        }.resume()
     }
     
     func put(entry: Entry, completionHandler: @escaping CompletionHandler = { _ in }) {
@@ -113,6 +162,22 @@ class EntryController {
         moc.delete(entry)
         deleteEntryFromServer(entry: entry)
         saveToPersistentStore()
+    }
+    
+    private func update(entry: Entry, with representation: EntryRepresentation){
+        entry.title = representation.title
+        entry.bodyText = representation.bodyText
+        entry.mood = representation.mood.rawValue
+        entry.identifier = representation.identifier
+        entry.timestamp = representation.timestamp
+    }
+    
+    private func entry(forUUID uuid: UUID) -> Entry? {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
+        let moc = CoreDataStack.shared.mainContext
+        
+        return (try? moc.fetch(fetchRequest))?.first
     }
     
 }
