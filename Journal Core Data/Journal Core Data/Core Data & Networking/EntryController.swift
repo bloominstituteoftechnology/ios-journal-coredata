@@ -46,7 +46,7 @@ class EntryController {
         newEntry.mood = mood
         newEntry.timestamp = Date()
         newEntry.identifier = identifier
-        put(entry: newEntry, method: "POST") { (_) in}
+        putOrPost(entry: newEntry, method: "POST") { (_) in}
         saveToPersistentStore(context: CoreDataStack.shared.mainContext)
     }
     func updateEntry(entry: Entry, title: String, bodyText: String, mood: String, identifier: String = UUID().uuidString) {
@@ -55,7 +55,7 @@ class EntryController {
         entry.bodyText = bodyText
         entry.timestamp = Date.init()
         entry.mood = mood
-        put(entry: entry, method: "PUT") { (_) in}
+        putOrPost(entry: entry, method: "PUT") { (_) in}
             saveToPersistentStore(context: CoreDataStack.shared.mainContext)
         }
     }
@@ -70,7 +70,7 @@ class EntryController {
     }
     
     //MARK: Networking Methods
-    func put(entry: Entry, method: String, completionHandler: @ escaping CompletionHandler) {
+    func putOrPost(entry: Entry, method: String, completionHandler: @ escaping CompletionHandler) {
         let requestURL = baseURL?.appendingPathComponent(entry.identifier!).appendingPathExtension("json")
         var request = URLRequest(url: requestURL!)
         request.httpMethod = method
