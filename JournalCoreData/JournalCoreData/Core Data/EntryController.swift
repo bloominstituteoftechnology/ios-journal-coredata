@@ -6,7 +6,7 @@ class EntryController {
     typealias CompletionHandler = (Error?) -> Void
     
     private let baseURL = URL(string: "https://journal-coredata-f20ba.firebaseio.com/")!
-    
+    let moc = CoreDataStack.shared.mainContext
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }){
         
         do {
@@ -51,10 +51,75 @@ class EntryController {
             print("error saving task: \(error)")
             completion(error)
         }
-        
-        
     }
     
+    func update(entry: Entry, entryRepresentation: EntryRepresentation){
+        entry.bodyText = entryRepresentation.bodyText
+        entry.title = entryRepresentation.title
+        entry.timeStamp = entryRepresentation.timeStamp
+        entry.identifier = entryRepresentation.identifier
+        entry.mood = entryRepresentation.mood
+    }
+    
+    func fetchSingleEntryFromPersistentStore(with identifier: String) -> Entry? {
+        
+        let predicate = NSPredicate(format: "identifier == %@", identifier as String)
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = predicate
+        let matchingEntries = try? moc.fetch(fetchRequest)
+        
+        return matchingEntries?.first
+    }
+    
+    func fetchEntriesFromServer(completionHandler: @escaping CompletionHandler = { _ in }) {
+        
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) {(data, _, error) in
+            
+            if let error = error {
+                print("error fetching entry: \(error)")
+                completionHandler(error)
+                return
+            }
+            
+            guard let data = data else {
+                print("no data returned")
+                completionHandler(NSError())
+                return
+            }
+            
+            DispatchQueue.main.async {
+                
+                do {
+                    let decoder = JSONDecoder()
+                    let decodedResponse = try decoder.decode([String: EntryRepresentation].self, from: data)
+                    let entryRepresentations = Array(decodedResponse.values)
+                    try self.importEntryRepresentations(entryRepresentations)
+                    completionHandler(nil)
+                    
+                }catch {
+                    print("error importing entries: \(error)")
+                    completionHandler(error)
+                }
+            }
+        }.resume()
+    }
+    
+    func importEntryRepresentations(_ entryRepresentations: [EntryRepresentation]) throws {
+        
+        for entryRepresentation in entryRepresentations {
+            if let existingEntry = fetchSingleEntryFromPersistentStore(with: entryRepresentation.identifier!){
+                existingEntry.bodyText = entryRepresentation.bodyText
+                existingEntry.mood = entryRepresentation.mood
+                existingEntry.timeStamp = entryRepresentation.timeStamp
+                existingEntry.title = entryRepresentation.title
+            }else{
+               _ = Entry(entryRepresentation: entryRepresentation, moc: moc)
+            }
+        }
+        try moc.save()
+    }
     
     
     
