@@ -45,7 +45,7 @@ class EntryController {
         newEntry.mood = mood
         newEntry.timestamp = Date()
         newEntry.identifier = identifier
-        put(entry: newEntry) { (_) in}
+        put(entry: newEntry, method: "POST") { (_) in}
         saveToPersistentStore()
     }
     func updateEntry(entry: Entry, title: String, bodyText: String, mood: String, identifier: String = UUID().uuidString) {
@@ -53,8 +53,7 @@ class EntryController {
         entry.bodyText = bodyText
         entry.timestamp = Date.init()
         entry.mood = mood
-        entry.identifier = identifier
-        put(entry: entry) { (_) in}
+        put(entry: entry, method: "PUT") { (_) in}
         saveToPersistentStore()
     }
     
@@ -66,10 +65,10 @@ class EntryController {
     }
     
     //MARK: Networking Methods
-    func put(entry: Entry, completionHandler: @ escaping CompletionHandler) {
+    func put(entry: Entry, method: String, completionHandler: @ escaping CompletionHandler) {
         let requestURL = baseURL?.appendingPathComponent(entry.identifier!).appendingPathExtension("json")
         var request = URLRequest(url: requestURL!)
-        request.httpMethod = "PUT"
+        request.httpMethod = method
         do {
         request.httpBody = try JSONEncoder().encode(entry)
         } catch {
@@ -97,14 +96,10 @@ class EntryController {
         }.resume()
     }
     func update(entry: Entry, entryRepresentation: EntryRepresentation) {
-        if let timesetamp = entry.timestamp, timesetamp > entryRepresentation.timestamp {
-            return
-        } else {
             entry.title = entryRepresentation.title
             entry.bodyText = entryRepresentation.bodyText
             entry.mood = entryRepresentation.mood
             entry.timestamp = entryRepresentation.timestamp
-        }
     }
     func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
         let predicate = NSPredicate(format: "identifier == %@", identifier)
