@@ -110,8 +110,8 @@ class JournalTableViewController: UITableViewController, NSFetchedResultsControl
             
             if let tappedRow = tableView.indexPathForSelectedRow {
                 print(tappedRow)
-                let sectionObjects = fetchedResultsController.sections?[tappedRow.section]
-                let entryToSend = sectionObjects?.objects?[tappedRow.row] as? Entry
+                let entryToSend = fetchedResultsController.sections?[tappedRow.section].objects?[tappedRow.row] as? Entry
+//                let entryToSend = sectionObjects?.objects?[tappedRow.row] as? Entry
                 destVC.entry = entryToSend
             }
         }
