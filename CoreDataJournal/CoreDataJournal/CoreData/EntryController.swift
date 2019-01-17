@@ -37,35 +37,39 @@ class EntryController {
                 completionHandler(NSError())
                 return
             }
-            DispatchQueue.main.async {
+            
+            let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+            
             do {
                 let entryRepresentationsDict = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
                 let entryRepresentations = Array(entryRepresentationsDict.values)
                 
-                
                     for entryRep in entryRepresentations {
                         let uuid = entryRep.identifier
                         
-                        if let entry = self.entry(forUUID: uuid){
+                        // TODO: Make sure that this is the correct context/queue
+                        if let entry = self.entry(forUUID: uuid, in: backgroundContext){
                             // we already have a local task for this
                             self.update(entry: entry, with: entryRep)
                             
                         } else {
                             // need to create a new task in Core Data
-                            let _ = Entry(entryRepresentation: entryRep)
+                            backgroundContext.perform {
+                                let _ = Entry(entryRepresentation: entryRep, context: backgroundContext)
+                            }
                         }
                     
                     }
-                let moc = CoreDataStack.shared.mainContext
-                try moc.save()
+                
+                try CoreDataStack.shared.save(context: backgroundContext)
                 
             } catch {
                 NSLog("Error decoding tasks: \(error)")
                 completionHandler(error)
                 return
             }
-            }
             
+            completionHandler(nil)
         }.resume()
     }
     
@@ -156,6 +160,13 @@ class EntryController {
         saveToPersistentStore()
     }
     
+    /**
+     'deleteEntry' is a function with the purpose of removing an entry from .
+     
+     - Parameter entry: The entry that we would like to delete.
+     
+     - Returns: Void.
+     */
     func deleteEntry(entry: Entry){
         
         let moc = CoreDataStack.shared.mainContext
@@ -164,20 +175,47 @@ class EntryController {
         saveToPersistentStore()
     }
     
+    /**
+     'update' is a private function with the purpose translating an EntityRepresentation object to an Entity object.
+     
+     - Parameter entry: The entry that we would like to update.
+     - Parameter (with) reprepresentation: a representation we would like to use for the basis of updating the Entry object.
+     
+     - Returns: Void.
+     */
     private func update(entry: Entry, with representation: EntryRepresentation){
-        entry.title = representation.title
-        entry.bodyText = representation.bodyText
-        entry.mood = representation.mood.rawValue
-        entry.identifier = representation.identifier
-        entry.timestamp = representation.timestamp
+        
+        guard let moc = entry.managedObjectContext else { return }
+    
+        moc.performAndWait {
+            entry.title = representation.title
+            entry.bodyText = representation.bodyText
+            entry.mood = representation.mood.rawValue
+            entry.identifier = representation.identifier
+            entry.timestamp = representation.timestamp
+        }
+        
     }
     
-    private func entry(forUUID uuid: UUID) -> Entry? {
+    /**
+     'entry' is a private function with the purpose of looking up an entry by UUID in the persistent store and returning the entry related to that UUID if it exists.
+     - Parameter uuid: The UUID that is being looked up.
+     - Parameter managedObjectContext: a given NSManagedObjectContext.
+     
+     - Returns: the entry for the given UUID and the given NSManagedObjectContext.
+    */
+    private func entry(forUUID uuid: UUID, in managedObjectContext: NSManagedObjectContext) -> Entry? {
+        
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
-        let moc = CoreDataStack.shared.mainContext
         
-        return (try? moc.fetch(fetchRequest))?.first
+        var entry: Entry?
+        
+        managedObjectContext.performAndWait {
+            entry = (try? managedObjectContext.fetch(fetchRequest))?.first
+        }
+        
+        return entry
     }
     
 }
