@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum EntryMood: String, CaseIterable {
+enum EntryMood: String, CaseIterable, Codable {
     case 😁
     case 😐
     case 😫

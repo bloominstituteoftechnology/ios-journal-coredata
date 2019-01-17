@@ -31,14 +31,17 @@
                                             <color key="textColor" red="0.71372549019607845" green="0.23529411764705882" blue="0.22745098039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="iXL-1r-oaY">
+                                        <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="3" translatesAutoresizingMaskIntoConstraints="NO" id="iXL-1r-oaY">
                                             <rect key="frame" x="56.5" y="0.0" width="314.5" height="41"/>
                                             <segments>
-                                                <segment title="All"/>
                                                 <segment title="😁"/>
                                                 <segment title="😐"/>
                                                 <segment title="😫"/>
+                                                <segment title="All"/>
                                             </segments>
+                                            <connections>
+                                                <action selector="filterByMood:" destination="NcD-Bv-Aid" eventType="valueChanged" id="X7b-8K-5Yc"/>
+                                            </connections>
                                         </segmentedControl>
                                     </subviews>
                                     <constraints>

@@ -41,6 +41,16 @@ class JournalTableViewController: UITableViewController, NSFetchedResultsControl
         return frc
         
     }()
+    
+    @IBAction func filterByMood(_ sender: UISegmentedControl) {
+        // the user tapped a segment to change the current mood
+        let moodIndex = sender.selectedSegmentIndex
+        if moodIndex < EntryMood.allCases.count {
+            currentMood = EntryMood.allCases[moodIndex]
+        } else {
+            currentMood = nil
+        }
+    }
 
     // MARK: - Table view data source
     
@@ -158,5 +168,18 @@ class JournalTableViewController: UITableViewController, NSFetchedResultsControl
     // MARK: - Properties
 
     let entryController = EntryController()
+    
+    var currentMood: EntryMood? {
+        didSet {
+            if let mood = currentMood {
+                let predicate = NSPredicate(format: "mood == %@", mood.rawValue)
+                fetchedResultsController.fetchRequest.predicate = predicate
+            } else {
+                fetchedResultsController.fetchRequest.predicate = nil
+            }
+            try! fetchedResultsController.performFetch()
+            tableView.reloadData()
+        }
+    }
 
 }

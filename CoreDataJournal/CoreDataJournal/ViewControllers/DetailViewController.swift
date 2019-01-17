@@ -44,13 +44,13 @@ class DetailViewController: UIViewController {
         
         let bodyText = entryTextView.text
         let moodIndex = smileySegmentedControl.selectedSegmentIndex
-        let mood = EntryMood.allCases[moodIndex].rawValue
+        let mood = EntryMood.allCases[moodIndex]
         
         if let entry = entry {
             // editing existing entry
             entry.title = title
             entry.bodyText = bodyText
-            entry.mood = mood
+            entry.mood = mood.rawValue
             
         } else {
             // create a new entry - after the MOC knows about the new entry
