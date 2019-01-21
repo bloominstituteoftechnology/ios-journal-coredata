@@ -88,16 +88,52 @@
             </objects>
             <point key="canvasLocation" x="40.799999999999997" y="144.3778110944528"/>
         </scene>
-        <!--View Controller-->
+        <!--Title-->
         <scene sceneID="1aq-wn-cOZ">
             <objects>
-                <viewController id="euj-N4-BC1" sceneMemberID="viewController">
+                <viewController id="euj-N4-BC1" customClass="EntryDetailViewController" customModule="Journal_App___Core_Data" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="CKv-Lq-VZU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="I2S-FE-dT7">
+                                <rect key="frame" x="12" y="128" width="351" height="439"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="c1R-pM-fCD">
+                                        <rect key="frame" x="0.0" y="0.0" width="351" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalCompressionResistancePriority="751" verticalCompressionResistancePriority="751" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ttp-W2-pSv">
+                                        <rect key="frame" x="0.0" y="38" width="351" height="401"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="dDo-Ox-4dP" firstAttribute="bottom" secondItem="I2S-FE-dT7" secondAttribute="bottom" constant="100" id="4iO-w0-EEn"/>
+                            <constraint firstItem="I2S-FE-dT7" firstAttribute="top" secondItem="dDo-Ox-4dP" secondAttribute="top" constant="12" id="Zoj-zb-3xr"/>
+                            <constraint firstItem="I2S-FE-dT7" firstAttribute="leading" secondItem="dDo-Ox-4dP" secondAttribute="leading" constant="12" id="tkb-lu-Yp2"/>
+                            <constraint firstItem="dDo-Ox-4dP" firstAttribute="trailing" secondItem="I2S-FE-dT7" secondAttribute="trailing" constant="12" id="veU-Ce-VWd"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="dDo-Ox-4dP"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" id="wei-V8-IFF">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="r7x-lX-saE">
+                            <connections>
+                                <action selector="save:" destination="euj-N4-BC1" id="3yu-9w-1f4"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="bodyOutlet" destination="ttp-W2-pSv" id="jYJ-IH-LvM"/>
+                        <outlet property="titleOutlet" destination="c1R-pM-fCD" id="ukr-J5-PHR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ba5-gj-SZX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -107,8 +143,8 @@
         <scene sceneID="7Wf-VH-KYM">
             <objects>
                 <navigationController id="c3e-eX-T8M" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="OHC-Bc-5Tx">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="OHC-Bc-5Tx">
+                        <rect key="frame" x="0.0" y="20" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
