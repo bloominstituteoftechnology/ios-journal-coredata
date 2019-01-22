@@ -48,9 +48,11 @@ class EntryDetailViewController: UIViewController {
             return
         }
         
-        if let curentEntry = entry {
+        if let entry = entry {
             
-            entryController?.update(entry: curentEntry, title: title, bodyText: body)
+            
+           entryController?.update(entry: entry, title: title, bodyText: body)
+            
             
         } else  {
             

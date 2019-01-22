@@ -10,22 +10,17 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-    
     var entry: Entry? {
         didSet {
             updateViews()
         }
     }
     
-    
     func updateViews() {
-        title.text = entry?.title
-        timestamp.text = "\(String(describing: entry?.timestamp))"
-        bodyText.text = entry?.bodyText
+        guard let entry = entry else { return }
+        title.text = entry.title
+        timestamp.text = "\(String(describing: entry.timestamp))"
+        bodyText.text = entry.bodyText
     }
 
     @IBOutlet weak var title: UILabel!

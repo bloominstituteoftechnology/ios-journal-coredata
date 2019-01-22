@@ -56,9 +56,7 @@ class EntriesTableViewController: UITableViewController {
         if segue.identifier == "create" {
             
             guard let destination = segue.destination as? EntryDetailViewController else { return }
-           
             destination.entryController = entryController
-            
         } else if segue.identifier == "detail" {
             guard let destination = segue.destination as? EntryDetailViewController else { return }
             guard let tappedRow = tableView.indexPathForSelectedRow else { return }
@@ -66,6 +64,4 @@ class EntriesTableViewController: UITableViewController {
             
         }
     }
-    
-
 }
