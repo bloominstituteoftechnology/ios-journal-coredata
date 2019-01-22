@@ -45,10 +45,10 @@ class EntryDetailViewController: UIViewController {
         if let entry = entry {
             entryController?.updateEntry(entry: entry, title: titleText, bodyText: bodyText)
         } else {
-            print("Creating Entry")
+            //print("Creating Entry")
             entryController?.createEntry(title: titleText, bodyText: bodyText)
         }
-        navigationController?.popViewController(animated: false)
+        navigationController?.popViewController(animated: true)
         
 //        let maybeTitle = titleOutlet.text
 //

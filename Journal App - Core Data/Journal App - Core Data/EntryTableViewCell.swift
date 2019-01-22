@@ -19,16 +19,12 @@ class EntryTableViewCell: UITableViewCell {
     
     func updateViews() {
         
+        // guard entry and date here
+        
         titleOutlet.text = entry?.title
         bodyOutlet.text = entry?.bodyText
         timestampOutlet.text = "\(entry?.timestamp)"
         
     }
     
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-    }
-
 }

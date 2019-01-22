@@ -41,8 +41,14 @@ class EntriesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            
+            let entry = entryController.entries[indexPath.row]
+            
             // Delete the row from the data source
+            entryController.deleteEntry(entry: entry)
             tableView.deleteRows(at: [indexPath], with: .fade)
+        
+            
         }
     }
 
@@ -54,14 +60,19 @@ class EntriesTableViewController: UITableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
+        // Create entry - pass empty detail view controller
+        guard let destination = segue.destination as? EntryDetailViewController else { return }
+        
+        destination.entryController = entryController
+        
         // Get the new view controller using segue.destination.
         if segue.identifier == "ViewEntry" {
             // the user tapped on a cell
-            let detailViewController = segue.destination as! EntryDetailViewController
+            let destination = segue.destination as! EntryDetailViewController
             // get the tapped row (it's optional)
             if let tappedRow = tableView.indexPathForSelectedRow {
                 // Pass the entryController and the Entry that correspond to the tapped row
-                detailViewController.entry = entryController.entries[tappedRow.row]
+                destination.entry = entryController.entries[tappedRow.row]
             }
         }
         

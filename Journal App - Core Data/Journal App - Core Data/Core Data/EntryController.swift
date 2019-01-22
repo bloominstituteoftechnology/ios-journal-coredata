@@ -5,11 +5,7 @@ import CoreData
 
 class EntryController {
     
-    var entries: [Entry] {
-        
-        // This allows any changes to the persistent store to become imediately visible when accessing the array (i.e. in the table view showing a list of entries)
-        return loadFromPersistentStore()
-    }
+
     
     
     // Saves core data stack's mainContext
@@ -21,28 +17,52 @@ class EntryController {
         do {
             try moc.save()
         } catch {
-            print("Error saving to core data: \(error)")
+            fatalError("Error saving to core data: \(error)")
         }
     }
     
     func loadFromPersistentStore() -> [Entry] {
-        
-        // Create NSFetchReqeust for Entry objects
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-
-
-        // Perform fetch request on the core data stack's mainContext
-        let moc = CoreDataStack.shared.mainContext
-
-
-        // Return the results of the fetch request & handle errors
-        do {
-            let entries = try moc.fetch(fetchRequest)
-            return entries
-        } catch {
-            print("error fetching: \(error)")
-            return []
+        var entry: [Entry] {
+            do {
+                let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+                let resualt = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
+                return resualt
+            }catch {
+                fatalError("Cant fetch Data \(error)")
+            }
         }
+        return entry
+    }
+    
+//    func loadFromPersistentStore() -> [Entry]
+//
+//
+//        var entries: [Entry] {
+//
+//            // Create NSFetchReqeust for Entry objects
+//            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//
+//            // Perform fetch request on the core data stack's mainContext
+//            let moc = CoreDataStack.shared.mainContext
+//
+//
+//            // Return the results of the fetch request & handle errors
+//            do {
+//                let result = try moc.fetch(fetchRequest)
+//                return result
+//
+//            } catch {
+//                print("error fetching: \(error)")
+//                //return []
+//            }
+//        }
+//        return entries
+//    }
+
+    var entries: [Entry] {
+    
+    // This allows any changes to the persistent store to become imediately visible when accessing the array (i.e. in the table view showing a list of entries)
+        return loadFromPersistentStore()
     }
     
     
