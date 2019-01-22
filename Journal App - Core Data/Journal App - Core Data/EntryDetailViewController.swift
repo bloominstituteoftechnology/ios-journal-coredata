@@ -5,6 +5,7 @@ class EntryDetailViewController: UIViewController {
 
     @IBOutlet weak var titleOutlet: UITextField!
     @IBOutlet weak var bodyOutlet: UITextView!
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     
     var entry: Entry? {
         didSet {
@@ -19,7 +20,10 @@ class EntryDetailViewController: UIViewController {
         
         updateViews()
         
-        view.backgroundColor = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 0.5617739458, green: 0.783548178, blue: 0.8114779287, alpha: 1)
+        moodSegmentedControl.backgroundColor = #colorLiteral(red: 0.8547534134, green: 0.9634845294, blue: 1, alpha: 1)
+        moodSegmentedControl.tintColor = #colorLiteral(red: 0.6328204675, green: 0.8546559514, blue: 0.9921568627, alpha: 1)
+
         
     }
     
