@@ -46,7 +46,7 @@ class EntryController {
         newEntry.bodyText = bodyText
         newEntry.title = title
         newEntry.timestamp = Date()
-        //newEntry.identifier = ""
+       newEntry.identifier = "\(UUID.self)"
         saveToPersistentStore()
     }
     
