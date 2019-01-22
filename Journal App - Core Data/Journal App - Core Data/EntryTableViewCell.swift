@@ -17,13 +17,24 @@ class EntryTableViewCell: UITableViewCell {
         }
     }
     
+    func convertDateFormatter(_ date: String) -> String {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss +zzzz"
+        let date = dateFormatter.date(from: date)
+        dateFormatter.dateFormat = "MM-dd-yyyy hh:mm"
+        return dateFormatter.string(from: date!)
+        
+    }
+    
     func updateViews() {
         
-        // guard entry and date here
+        guard let entry = entry else { return }
+        guard let date = entry.timestamp else { return }
         
-        titleOutlet.text = entry?.title
-        bodyOutlet.text = entry?.bodyText
-        timestampOutlet.text = "\(entry?.timestamp)"
+        titleOutlet.text = entry.title
+        bodyOutlet.text = entry.bodyText
+        timestampOutlet.text = convertDateFormatter("\(date)")
         
     }
     
