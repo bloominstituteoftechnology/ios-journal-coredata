@@ -5,7 +5,6 @@ import CoreData
 
 class EntryController {
     
-    
     var entries: [Entry] {
         
         // This allows any changes to the persistent store to become imediately visible when accessing the array (i.e. in the table view showing a list of entries)
@@ -30,12 +29,12 @@ class EntryController {
         
         // Create NSFetchReqeust for Entry objects
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
-        
+
+
         // Perform fetch request on the core data stack's mainContext
         let moc = CoreDataStack.shared.mainContext
-        
-        
+
+
         // Return the results of the fetch request & handle errors
         do {
             let entries = try moc.fetch(fetchRequest)

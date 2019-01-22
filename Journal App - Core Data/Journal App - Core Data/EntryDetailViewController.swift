@@ -40,41 +40,47 @@ class EntryDetailViewController: UIViewController {
     
     @IBAction func save(_ sender: Any) {
         
-        let maybeTitle = titleOutlet.text
-        
-        guard let title = maybeTitle, title.isEmpty == false else {
-            return
-        }
-        
-        let maybeBody = bodyOutlet.text
-        
-        guard let bodyText = maybeBody, bodyText.isEmpty == false else {
-            return
-        }
+        guard let titleText = titleOutlet.text, let bodyText = bodyOutlet.text else { return }
         
         if let entry = entry {
-            
-            // editing an entry
-            entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText)
-            
-            // Save the entry
-            entryController?.saveToPersistentStore()
-            
-            // If saved successfully, pop back to the table view
-            navigationController?.popViewController(animated: true)
-            
+            entryController?.updateEntry(entry: entry, title: titleText, bodyText: bodyText)
         } else {
-            print("Creating entry")
-            // creating a new entry
-            entryController?.createEntry(title: title, bodyText: bodyText)
-            
-            // Save the entry
-            entryController?.saveToPersistentStore()
-            
-            // If saved successfully, pop back to the table view
-            navigationController?.popViewController(animated: true)
-            
+            print("Creating Entry")
+            entryController?.createEntry(title: titleText, bodyText: bodyText)
         }
+        navigationController?.popViewController(animated: false)
+        
+//        let maybeTitle = titleOutlet.text
+//
+//        guard let title = maybeTitle, title.isEmpty == false else { return }
+//
+//        let maybeBody = bodyOutlet.text
+//
+//        guard let bodyText = maybeBody, bodyText.isEmpty == false else { return }
+//
+//        if let entry = entry {
+//
+//            // editing an entry
+//            entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText)
+//
+//            // Save the entry
+//            entryController?.saveToPersistentStore()
+//
+//            // If saved successfully, pop back to the table view
+//            navigationController?.popViewController(animated: true)
+//
+//        } else {
+//            print("Creating entry")
+//            // creating a new entry
+//            entryController?.createEntry(title: title, bodyText: bodyText)
+//
+//            // Save the entry
+//            entryController?.saveToPersistentStore()
+//
+//            // If saved successfully, pop back to the table view
+//            navigationController?.popViewController(animated: true)
+//
+//        }
         
 
 
