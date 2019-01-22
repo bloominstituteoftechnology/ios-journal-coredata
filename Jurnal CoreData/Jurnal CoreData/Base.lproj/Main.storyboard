@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Journal-->
+        <!--Journal - Day 2-->
         <scene sceneID="u3W-yT-UnI">
             <objects>
                 <tableViewController id="mSg-nb-YuV" customClass="EntriesTableViewController" customModule="Jurnal_CoreData" customModuleProvider="target" sceneMemberID="viewController">
@@ -75,7 +75,7 @@
                             <outlet property="delegate" destination="mSg-nb-YuV" id="rYM-4G-NAA"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Journal" id="Jv1-tc-GrI">
+                    <navigationItem key="navigationItem" title="Journal - Day 2" id="Jv1-tc-GrI">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="g5a-kC-Txv">
                             <connections>
                                 <segue destination="DoN-6g-omo" kind="show" identifier="create" id="NMz-YG-Csy"/>
@@ -96,13 +96,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Entry a title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nwj-Gq-PVv">
-                                <rect key="frame" x="0.0" y="72" width="375" height="30"/>
+                                <rect key="frame" x="8" y="124" width="359" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gOK-o1-E0R">
-                                <rect key="frame" x="0.0" y="110" width="375" height="257"/>
+                                <rect key="frame" x="8" y="162" width="359" height="205"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -110,13 +110,13 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="nwj-Gq-PVv" firstAttribute="leading" secondItem="z2B-Mg-Q0S" secondAttribute="leading" id="QfC-Jh-HyU"/>
+                            <constraint firstItem="nwj-Gq-PVv" firstAttribute="leading" secondItem="z2B-Mg-Q0S" secondAttribute="leading" constant="8" id="QfC-Jh-HyU"/>
                             <constraint firstItem="z2B-Mg-Q0S" firstAttribute="bottom" secondItem="gOK-o1-E0R" secondAttribute="bottom" constant="300" id="RGZ-y4-QBe"/>
                             <constraint firstItem="gOK-o1-E0R" firstAttribute="top" secondItem="nwj-Gq-PVv" secondAttribute="bottom" constant="8" id="aF7-K6-TBE"/>
-                            <constraint firstItem="gOK-o1-E0R" firstAttribute="leading" secondItem="z2B-Mg-Q0S" secondAttribute="leading" id="eNA-7o-8IB"/>
+                            <constraint firstItem="gOK-o1-E0R" firstAttribute="leading" secondItem="z2B-Mg-Q0S" secondAttribute="leading" constant="8" id="eNA-7o-8IB"/>
                             <constraint firstItem="nwj-Gq-PVv" firstAttribute="top" secondItem="z2B-Mg-Q0S" secondAttribute="top" constant="8" id="lO1-9j-wPm"/>
-                            <constraint firstItem="z2B-Mg-Q0S" firstAttribute="trailing" secondItem="nwj-Gq-PVv" secondAttribute="trailing" id="mXw-0U-2G3"/>
-                            <constraint firstItem="z2B-Mg-Q0S" firstAttribute="trailing" secondItem="gOK-o1-E0R" secondAttribute="trailing" id="nR5-de-5rL"/>
+                            <constraint firstItem="z2B-Mg-Q0S" firstAttribute="trailing" secondItem="nwj-Gq-PVv" secondAttribute="trailing" constant="8" id="mXw-0U-2G3"/>
+                            <constraint firstItem="z2B-Mg-Q0S" firstAttribute="trailing" secondItem="gOK-o1-E0R" secondAttribute="trailing" constant="8" id="nR5-de-5rL"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="z2B-Mg-Q0S"/>
                     </view>
@@ -140,8 +140,8 @@
         <scene sceneID="lKY-GJ-ewt">
             <objects>
                 <navigationController id="tgE-Cq-KxP" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Y7f-NB-evV">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="Y7f-NB-evV">
+                        <rect key="frame" x="0.0" y="20" width="375" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -154,6 +154,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="c3K-9w-VXK"/>
+        <segue reference="NMz-YG-Csy"/>
     </inferredMetricsTieBreakers>
 </document>
