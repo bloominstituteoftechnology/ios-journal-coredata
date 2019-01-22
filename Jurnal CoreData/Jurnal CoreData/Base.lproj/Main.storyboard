@@ -95,28 +95,41 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Entry a title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nwj-Gq-PVv">
-                                <rect key="frame" x="8" y="124" width="359" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gOK-o1-E0R">
-                                <rect key="frame" x="8" y="162" width="359" height="205"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="GkO-fh-PnW">
+                                <rect key="frame" x="8" y="124" width="359" height="293"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="Iwf-Zo-jED">
+                                        <rect key="frame" x="0.0" y="0.0" width="359" height="29"/>
+                                        <segments>
+                                            <segment title="😀"/>
+                                            <segment title="😐"/>
+                                            <segment title="😔"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="segmentedControl:" destination="DoN-6g-omo" eventType="valueChanged" id="x4O-vn-dA2"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="253" verticalHuggingPriority="253" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Entry a title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nwj-Gq-PVv">
+                                        <rect key="frame" x="0.0" y="36" width="359" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="gOK-o1-E0R">
+                                        <rect key="frame" x="0.0" y="74" width="359" height="219"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="displayP3"/>
                         <constraints>
-                            <constraint firstItem="nwj-Gq-PVv" firstAttribute="leading" secondItem="z2B-Mg-Q0S" secondAttribute="leading" constant="8" id="QfC-Jh-HyU"/>
-                            <constraint firstItem="z2B-Mg-Q0S" firstAttribute="bottom" secondItem="gOK-o1-E0R" secondAttribute="bottom" constant="300" id="RGZ-y4-QBe"/>
-                            <constraint firstItem="gOK-o1-E0R" firstAttribute="top" secondItem="nwj-Gq-PVv" secondAttribute="bottom" constant="8" id="aF7-K6-TBE"/>
-                            <constraint firstItem="gOK-o1-E0R" firstAttribute="leading" secondItem="z2B-Mg-Q0S" secondAttribute="leading" constant="8" id="eNA-7o-8IB"/>
-                            <constraint firstItem="nwj-Gq-PVv" firstAttribute="top" secondItem="z2B-Mg-Q0S" secondAttribute="top" constant="8" id="lO1-9j-wPm"/>
-                            <constraint firstItem="z2B-Mg-Q0S" firstAttribute="trailing" secondItem="nwj-Gq-PVv" secondAttribute="trailing" constant="8" id="mXw-0U-2G3"/>
-                            <constraint firstItem="z2B-Mg-Q0S" firstAttribute="trailing" secondItem="gOK-o1-E0R" secondAttribute="trailing" constant="8" id="nR5-de-5rL"/>
+                            <constraint firstItem="GkO-fh-PnW" firstAttribute="top" secondItem="z2B-Mg-Q0S" secondAttribute="top" constant="8" id="82r-kn-0CV"/>
+                            <constraint firstItem="z2B-Mg-Q0S" firstAttribute="bottom" secondItem="GkO-fh-PnW" secondAttribute="bottom" constant="250" id="Chc-qd-L7A"/>
+                            <constraint firstItem="z2B-Mg-Q0S" firstAttribute="trailing" secondItem="GkO-fh-PnW" secondAttribute="trailing" constant="8" id="V5A-Zw-NfD"/>
+                            <constraint firstItem="GkO-fh-PnW" firstAttribute="leading" secondItem="nZ1-60-c15" secondAttribute="leading" constant="8" id="Vw1-Ka-y59"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="z2B-Mg-Q0S"/>
                     </view>
@@ -128,6 +141,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="segmentedOutlet" destination="Iwf-Zo-jED" id="5E7-89-Nt1"/>
                         <outlet property="textField" destination="nwj-Gq-PVv" id="jkS-cp-QFt"/>
                         <outlet property="textView" destination="gOK-o1-E0R" id="z4E-Lt-E1H"/>
                     </connections>

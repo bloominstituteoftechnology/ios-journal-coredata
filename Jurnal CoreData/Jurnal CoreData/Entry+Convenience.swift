@@ -12,7 +12,7 @@ import CoreData
 extension Entry {
     
     
-    convenience init(title: String, bodyText: String, identifier: String = "\(UUID.self)", timestamp: Date = Date(), context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init(title: String, bodyText: String, mood: String, identifier: String = "\(UUID.self)", timestamp: Date = Date(), context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(context: context)
         
@@ -20,6 +20,7 @@ extension Entry {
         self.bodyText = bodyText
         self.identifier = identifier
         self.timestamp = timestamp
+        self.mood = mood
         
     }
     

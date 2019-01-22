@@ -23,36 +23,51 @@ class EntryDetailViewController: UIViewController {
         updateViews()
     }
     
+    
+    
     func updateViews() {
         guard isViewLoaded == true else { return }
-            
+        
+        let mood = entry?.moodFace ?? .😐
+        let moodIndex = MoodFace.allCases.index(of: mood)!
+        segmentedOutlet.selectedSegmentIndex = moodIndex
+
         if let data = entry {
         textField.text = data.title
         textView.text = data.bodyText
+        //segmentedOutlet.selectedSegmentIndex = data.mood
         title = data.title
         } else {
             title = "Create Entry"
         }
     }
     
+   
+    @IBAction func segmentedControl(_ sender: Any) {
+        
+    }
+     @IBOutlet weak var segmentedOutlet: UISegmentedControl!
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var textView: UITextView!
+    
     @IBAction func saveButton(_ sender: Any) {
         
-      
         guard let title = textField.text, let body = textView.text else {
             return
         }
+        let moodIndex = segmentedOutlet.selectedSegmentIndex
+        let mood = segmentedOutlet.titleForSegment(at: moodIndex)!
         
         if let entry = entry {
             
+
             
-           entryController?.update(entry: entry, title: title, bodyText: body)
+           entryController?.update(entry: entry, title: title, bodyText: body, mood: mood)
             print(entry)
             
         } else  {
             
-            entryController?.create(title: title, bodyText: body)
+            entryController?.create(title: title, bodyText: body, mood: mood)
         }
             navigationController?.popViewController(animated: true)
     }
