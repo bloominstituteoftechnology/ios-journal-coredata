@@ -18,8 +18,9 @@ class EntryTableViewCell: UITableViewCell {
     
     func updateViews() {
         guard let entry = entry else { return }
+        guard let date = entry.timestamp else { return }
         title.text = entry.title
-        timestamp.text = "\(String(describing: entry.timestamp))"
+        timestamp.text = "\(date)"
         bodyText.text = entry.bodyText
     }
 

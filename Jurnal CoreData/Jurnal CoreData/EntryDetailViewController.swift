@@ -24,7 +24,7 @@ class EntryDetailViewController: UIViewController {
     }
     
     func updateViews() {
-        if isViewLoaded {
+        guard isViewLoaded == true else { return }
             
         if let data = entry {
         textField.text = data.title
@@ -33,7 +33,6 @@ class EntryDetailViewController: UIViewController {
         } else {
             title = "Create Entry"
         }
-        }
     }
     
     @IBOutlet weak var textField: UITextField!
@@ -41,10 +40,7 @@ class EntryDetailViewController: UIViewController {
     @IBAction func saveButton(_ sender: Any) {
         
       //  let title = textField.text
-        guard let title = textField.text, title.isEmpty == false else {
-            return
-        }
-        guard let body = textView.text, body.isEmpty == false else {
+        guard let title = textField.text, let body = textView.text else {
             return
         }
         
@@ -52,17 +48,12 @@ class EntryDetailViewController: UIViewController {
             
             
            entryController?.update(entry: entry, title: title, bodyText: body)
-            
+            print(entry)
             
         } else  {
             
             entryController?.create(title: title, bodyText: body)
         }
-        do {
-            try CoreDataStack.shared.mainContext.save()
             navigationController?.popViewController(animated: true)
-        } catch {
-            print("Failed to save \(error)")
-        }
     }
-    }
+}

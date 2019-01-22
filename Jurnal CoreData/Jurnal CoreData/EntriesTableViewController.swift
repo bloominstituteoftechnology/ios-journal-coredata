@@ -14,7 +14,7 @@ class EntriesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        tableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,8 +44,9 @@ class EntriesTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
            let entryInRow = entryController.entries[indexPath.row]
-            tableView.deleteRows(at: [indexPath], with: .fade)
             entryController.delete(entry: entryInRow)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            
     }
     }
  
@@ -53,15 +54,17 @@ class EntriesTableViewController: UITableViewController {
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "create" {
-            
+        
             guard let destination = segue.destination as? EntryDetailViewController else { return }
             destination.entryController = entryController
-        } else if segue.identifier == "detail" {
+       
+        
+         if segue.identifier == "detail" {
             guard let destination = segue.destination as? EntryDetailViewController else { return }
             guard let tappedRow = tableView.indexPathForSelectedRow else { return }
             destination.entry = entryController.entries[tappedRow.row]
-            
+         }
+        
         }
     }
-}
+
