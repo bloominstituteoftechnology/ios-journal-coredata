@@ -28,7 +28,7 @@ class EntryController {
             let resualt = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
              return resualt
         }catch {
-             fatalError("Can't fetch Data \(error)")
+             fatalError("Can;t fetch Data \(error)")
         }
     }
         return entry

@@ -61,9 +61,9 @@ class EntriesTableViewController: UITableViewController {
             
         } else if segue.identifier == "detail" {
             guard let destination = segue.destination as? EntryDetailViewController else { return }
-            if let tappedRow = tableView.indexPathForSelectedRow {
-                destination.entry = entryController.entries[tappedRow.row]
-            }
+            guard let tappedRow = tableView.indexPathForSelectedRow else { return }
+            destination.entry = entryController.entries[tappedRow.row]
+            
         }
     }
     
