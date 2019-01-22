@@ -14,6 +14,19 @@ class EntryTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
+    
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    
+    func updateViews() {
+        title.text = entry?.title
+        timestamp.text = "\(String(describing: entry?.timestamp))"
+        bodyText.text = entry?.bodyText
+    }
 
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var timestamp: UILabel!

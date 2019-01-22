@@ -10,6 +10,9 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
 
+    var entry: Entry?
+    var entryController: EntryController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

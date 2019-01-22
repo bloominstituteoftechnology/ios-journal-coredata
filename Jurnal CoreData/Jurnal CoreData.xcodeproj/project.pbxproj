@@ -14,6 +14,10 @@
 		A582291421F660F00005F067 /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A582291321F660F00005F067 /* EntriesTableViewController.swift */; };
 		A582291621F6612C0005F067 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A582291521F6612C0005F067 /* EntryTableViewCell.swift */; };
 		A582291821F663570005F067 /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A582291721F663570005F067 /* EntryDetailViewController.swift */; };
+		A582291A21F664D20005F067 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A582291921F664D20005F067 /* CoreDataStack.swift */; };
+		A582291D21F665300005F067 /* Jurnal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A582291B21F665300005F067 /* Jurnal.xcdatamodeld */; };
+		A582291F21F665D00005F067 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = A582291E21F665D00005F067 /* Entry+Convenience.swift */; };
+		A582292121F66E360005F067 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A582292021F66E360005F067 /* EntryController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +30,10 @@
 		A582291321F660F00005F067 /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 		A582291521F6612C0005F067 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
 		A582291721F663570005F067 /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
+		A582291921F664D20005F067 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		A582291C21F665300005F067 /* Jurnal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Jurnal.xcdatamodel; sourceTree = "<group>"; };
+		A582291E21F665D00005F067 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
+		A582292021F66E360005F067 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +67,10 @@
 			isa = PBXGroup;
 			children = (
 				A582290121F65F560005F067 /* AppDelegate.swift */,
+				A582291921F664D20005F067 /* CoreDataStack.swift */,
+				A582291B21F665300005F067 /* Jurnal.xcdatamodeld */,
+				A582291E21F665D00005F067 /* Entry+Convenience.swift */,
+				A582292021F66E360005F067 /* EntryController.swift */,
 				A582291321F660F00005F067 /* EntriesTableViewController.swift */,
 				A582291521F6612C0005F067 /* EntryTableViewCell.swift */,
 				A582291721F663570005F067 /* EntryDetailViewController.swift */,
@@ -141,10 +153,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A582291A21F664D20005F067 /* CoreDataStack.swift in Sources */,
 				A582291621F6612C0005F067 /* EntryTableViewCell.swift in Sources */,
 				A582291421F660F00005F067 /* EntriesTableViewController.swift in Sources */,
 				A582291821F663570005F067 /* EntryDetailViewController.swift in Sources */,
 				A582290221F65F560005F067 /* AppDelegate.swift in Sources */,
+				A582291D21F665300005F067 /* Jurnal.xcdatamodeld in Sources */,
+				A582292121F66E360005F067 /* EntryController.swift in Sources */,
+				A582291F21F665D00005F067 /* Entry+Convenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,6 +360,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		A582291B21F665300005F067 /* Jurnal.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A582291C21F665300005F067 /* Jurnal.xcdatamodel */,
+			);
+			currentVersion = A582291C21F665300005F067 /* Jurnal.xcdatamodel */;
+			path = Jurnal.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = A58228F621F65F560005F067 /* Project object */;
 }
