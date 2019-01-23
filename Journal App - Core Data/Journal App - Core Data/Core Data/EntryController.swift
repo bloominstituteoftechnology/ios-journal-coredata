@@ -18,34 +18,34 @@ class EntryController {
         }
     }
     
-    func loadFromPersistentStore() -> [Entry] {
-        
-        var entry: [Entry] {
-            
-            do {
-                // Create NSFetchRequest for Entry objects
-                let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-                
-                // Fetch request happens on the core data stack's mainContext
-                let result = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
-                
-                // Return results
-                return result
-                
-            } catch {
-                fatalError("Cant fetch Data \(error)")
-            }
-        }
-        return entry
-    }
+//    func loadFromPersistentStore() -> [Entry] {
+//
+//        var entry: [Entry] {
+//
+//            do {
+//                // Create NSFetchRequest for Entry objects
+//                let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//
+//                // Fetch request happens on the core data stack's mainContext
+//                let result = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
+//
+//                // Return results
+//                return result
+//
+//            } catch {
+//                fatalError("Cant fetch Data \(error)")
+//            }
+//        }
+//        return entry
+//    }
     
 
 
-    var entries: [Entry] {
-    
-    // This allows any changes to the persistent store to become imediately visible when accessing the array (i.e. in the table view showing a list of entries)
-        return loadFromPersistentStore()
-    }
+//    var entries: [Entry] {
+//
+//    // This allows any changes to the persistent store to become imediately visible when accessing the array (i.e. in the table view showing a list of entries)
+//        return loadFromPersistentStore()
+//    }
     
     
     func createEntry(title: String, bodyText: String, mood: String) {
