@@ -18,23 +18,25 @@ class EntryController {
             print("Unable to save.\n EntryController Line: \(error)")
         }
     }
-    
-    func loadFromPersistentStore() -> [Entry] {
-        do {
-            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-            let entries = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
-            return entries
-        } catch {
-            fatalError("EntryController: Could not fetch entries. \n\(error)")
-        }
-    }
-    
-    var entries: [Entry] {
-        // This will allow any changes to the persistent store become immediately
-        // visible to the user when accessing this array
-        let journalEntries = loadFromPersistentStore()
-        return journalEntries
-    }
+    /*
+     Delete or comment out the loadFromPersistentStore method, and the entries array in the EntryController
+     func loadFromPersistentStore() -> [Entry] {
+     do {
+     let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+     let entries = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
+     return entries
+     } catch {
+     fatalError("EntryController: Could not fetch entries. \n\(error)")
+     }
+     }
+     
+     var entries: [Entry] {
+     // This will allow any changes to the persistent store become immediately
+     // visible to the user when accessing this array
+     let journalEntries = loadFromPersistentStore()
+     return journalEntries
+     }
+     */
     
     func create(title: String, bodyText: String, mood: String) {
         let newEntry = Entry(context: CoreDataStack.shared.mainContext)

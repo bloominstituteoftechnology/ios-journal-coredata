@@ -10,6 +10,7 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
 
+    var entryController: EntryController? // Don't think this is needed...
     var entry: Entry?{
         didSet{
             updateViews()
@@ -25,7 +26,7 @@ class EntryDetailViewController: UIViewController {
         if let e = entry {
             titleTextField.text = e.title
             bodyTextView.text = e.bodyText
-            let mood = entry?.moodEmoji ?? .😐
+            let mood = e.moodEmoji
             let index = MoodEmoji.allCases.index(of: mood)!
             moodSegmentedControl.selectedSegmentIndex = index
             title = e.title
@@ -70,14 +71,4 @@ class EntryDetailViewController: UIViewController {
             print("EntryDetailViewController: Line 61\nFailed to save: \(error)")
         }
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
