@@ -12,8 +12,7 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var bodyTextLabel: UILabel!
-    
-    
+    @IBOutlet weak var moodLabel: UILabel!
     
     var entry: Entry? {
         didSet {
@@ -37,6 +36,7 @@ class EntryTableViewCell: UITableViewCell {
         titleLabel.text = entry.title
         timestampLabel.text = dateString
         bodyTextLabel.text = entry.bodyText
+        moodLabel.text = entry.mood
     }
   
     

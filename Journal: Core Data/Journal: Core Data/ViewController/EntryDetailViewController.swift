@@ -25,7 +25,9 @@ class EntryDetailViewController: UIViewController {
         if let e = entry {
             titleTextField.text = e.title
             bodyTextView.text = e.bodyText
-            
+            let mood = entry?.moodEmoji ?? .😐
+            let index = MoodEmoji.allCases.index(of: mood)!
+            moodSegmentedControl.selectedSegmentIndex = index
             title = e.title
         } else {
             // createa task
@@ -50,11 +52,15 @@ class EntryDetailViewController: UIViewController {
             // editing a entry
             existingEntry.title = title
             existingEntry.bodyText = bodyText
+            let index = moodSegmentedControl.selectedSegmentIndex
+            existingEntry.mood = moodSegmentedControl.titleForSegment(at: index)!
         } else {
             // creating a new entry
             let newEntry = Entry(context: CoreDataStack.shared.mainContext)
             newEntry.title = title
             newEntry.bodyText = bodyText
+            let index = moodSegmentedControl.selectedSegmentIndex
+            newEntry.mood = moodSegmentedControl.titleForSegment(at: index)!
         }
         
         do {

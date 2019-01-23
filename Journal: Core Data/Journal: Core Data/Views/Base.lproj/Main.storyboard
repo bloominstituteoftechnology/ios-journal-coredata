@@ -95,7 +95,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="HH7-tC-Aq6">
-                                            <rect key="frame" x="24" y="28" width="327" height="63.5"/>
+                                            <rect key="frame" x="24" y="17.5" width="327" height="85"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UEC-ZH-eUQ">
                                                     <rect key="frame" x="0.0" y="0.0" width="327" height="20.5"/>
@@ -103,7 +103,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Timestamp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aYM-zm-ILP">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mood" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NDg-DO-QCs">
                                                     <rect key="frame" x="0.0" y="21.5" width="327" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -115,10 +115,18 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Timestamp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aYM-zm-ILP">
+                                                    <rect key="frame" x="0.0" y="64.5" width="327" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="NDg-DO-QCs" firstAttribute="leading" secondItem="HH7-tC-Aq6" secondAttribute="leading" id="Agi-oh-L3A"/>
                                                 <constraint firstAttribute="trailing" secondItem="dfQ-sC-fF0" secondAttribute="trailing" id="GNC-Ao-xT6"/>
                                                 <constraint firstAttribute="trailing" secondItem="aYM-zm-ILP" secondAttribute="trailing" id="LEd-Os-7iH"/>
+                                                <constraint firstAttribute="trailing" secondItem="NDg-DO-QCs" secondAttribute="trailing" id="PVp-LF-2bu"/>
                                                 <constraint firstItem="UEC-ZH-eUQ" firstAttribute="leading" secondItem="HH7-tC-Aq6" secondAttribute="leading" id="Tr4-tz-FOV"/>
                                                 <constraint firstItem="dfQ-sC-fF0" firstAttribute="leading" secondItem="HH7-tC-Aq6" secondAttribute="leading" id="Txi-SH-Rsl"/>
                                                 <constraint firstAttribute="trailing" secondItem="UEC-ZH-eUQ" secondAttribute="trailing" id="oTz-hC-VSV"/>
@@ -135,6 +143,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="bodyTextLabel" destination="dfQ-sC-fF0" id="7QL-AE-0qS"/>
+                                    <outlet property="moodLabel" destination="NDg-DO-QCs" id="gWQ-uK-lo9"/>
                                     <outlet property="timestampLabel" destination="aYM-zm-ILP" id="de9-3I-Es0"/>
                                     <outlet property="titleLabel" destination="UEC-ZH-eUQ" id="iO4-Mf-sgl"/>
                                     <segue destination="VgA-Am-euX" kind="show" identifier="ShowEntry" id="cl0-Dh-7Lm"/>

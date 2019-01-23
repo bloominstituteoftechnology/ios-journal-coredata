@@ -21,22 +21,3 @@ extension Entry {
     }
 }
 
-//
-//enum Mood: String, CaseIterable {
-//    case 🙂
-//    case 😐
-//    case ☹️
-//    
-//    
-//}
-//
-//
-//extension Entry {
-//    var mood: Mood {
-//        get {
-//            return Mood(rawValue: priority!) ?? .normal
-//        } set {
-//            priority = newValue.rawValue
-//        }
-//    }
-//}
