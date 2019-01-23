@@ -17,6 +17,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         UIBarButtonItem.appearance().tintColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        UINavigationBar.appearance().tintColor = #colorLiteral(red: 0.9921568627, green: 0.9884961752, blue: 0.5945744201, alpha: 1)
+        UINavigationBar.appearance().backgroundColor = #colorLiteral(red: 0.8547534134, green: 0.9634845294, blue: 1, alpha: 1)
+        
+        let textAttributes = [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.1019607857, green: 0.2784313858, blue: 0.400000006, alpha: 1)]
+        UINavigationBar.appearance().largeTitleTextAttributes = textAttributes
+        
+        UITextField.appearance().tintColor = #colorLiteral(red: 0.8547534134, green: 0.9634845294, blue: 1, alpha: 1)
+        UITextView.appearance().tintColor = #colorLiteral(red: 0.8547534134, green: 0.9634845294, blue: 1, alpha: 1)
         
         return true
     }

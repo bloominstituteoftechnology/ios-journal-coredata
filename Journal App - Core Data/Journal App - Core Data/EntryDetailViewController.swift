@@ -20,11 +20,10 @@ class EntryDetailViewController: UIViewController {
         
         updateViews()
         
-        view.backgroundColor = #colorLiteral(red: 0.5617739458, green: 0.783548178, blue: 0.8114779287, alpha: 1)
+        view.backgroundColor = #colorLiteral(red: 0.9921568627, green: 0.9884961752, blue: 0.5945744201, alpha: 1)
         moodSegmentedControl.backgroundColor = #colorLiteral(red: 0.8547534134, green: 0.9634845294, blue: 1, alpha: 1)
         moodSegmentedControl.tintColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
 
-        
     }
     
 
