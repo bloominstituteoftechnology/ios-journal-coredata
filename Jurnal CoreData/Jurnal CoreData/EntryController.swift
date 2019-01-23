@@ -20,24 +20,24 @@ class EntryController {
         }
       
     }
-   
-    func loadFromPersistentStore() -> [Entry] {
-        var entry: [Entry] {
-        do {
-            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-            let resualt = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
-             return resualt
-        }catch {
-             fatalError("Can;t fetch Data \(error)")
-        }
-    }
-        return entry
-}
-    
-    var entries: [Entry] {
-        let resualt = loadFromPersistentStore()
-        return resualt
-    }
+//
+//    func loadFromPersistentStore() -> [Entry] {
+//        var entry: [Entry] {
+//        do {
+//            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//            let resualt = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
+//             return resualt
+//        }catch {
+//             fatalError("Can;t fetch Data \(error)")
+//        }
+//    }
+//        return entry
+//}
+//    
+//    var entries: [Entry] {
+//        let resualt = loadFromPersistentStore()
+//        return resualt
+//    }
     
     func create(title: String, bodyText: String, mood: String) {
         
