@@ -27,64 +27,67 @@ class EntryDetailViewController: UIViewController {
         
     }
     
+
+    
     func updateViews() {
         
         // Make sure the view is loaded
         guard isViewLoaded == true else { return }
         
         // Set view controller's title
-        if let e = entry {
-            title = e.title
-            titleOutlet.text = e.title
-            bodyOutlet.text = e.bodyText
+        if let data = entry {
+            title = data.title
+            titleOutlet.text = data.title
+            bodyOutlet.text = data.bodyText
+            moodSegmentedControl.selectedSegmentIndex = MoodState.allMoods.index(of: data.moodState)!
         } else {
             title = "Create Entry"
         }
+        
+//        var moodState: MoodState
+        
+        // put in save func
+//        if var moodState = entry?.moodState {
+//            moodState = MoodState(rawValue: moodState.rawValue)!
+//        } else {
+//            moodState = .😐
+//        }
+        
+        
+        
     }
     
     @IBAction func save(_ sender: Any) {
         
         guard let titleText = titleOutlet.text, let bodyText = bodyOutlet.text else { return }
         
-        if let entry = entry {
-            entryController?.updateEntry(entry: entry, title: titleText, bodyText: bodyText)
-        } else {
-            //print("Creating Entry")
-            entryController?.createEntry(title: titleText, bodyText: bodyText)
-        }
-        navigationController?.popViewController(animated: true)
+        let moc = CoreDataStack.shared.mainContext
         
-//        let maybeTitle = titleOutlet.text
-//
-//        guard let title = maybeTitle, title.isEmpty == false else { return }
-//
-//        let maybeBody = bodyOutlet.text
-//
-//        guard let bodyText = maybeBody, bodyText.isEmpty == false else { return }
-//
-//        if let entry = entry {
-//
-//            // editing an entry
-//            entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText)
-//
-//            // Save the entry
-//            entryController?.saveToPersistentStore()
-//
-//            // If saved successfully, pop back to the table view
-//            navigationController?.popViewController(animated: true)
-//
-//        } else {
-//            print("Creating entry")
-//            // creating a new entry
-//            entryController?.createEntry(title: title, bodyText: bodyText)
-//
-//            // Save the entry
-//            entryController?.saveToPersistentStore()
-//
-//            // If saved successfully, pop back to the table view
-//            navigationController?.popViewController(animated: true)
-//
-//        }
+        // Holds corresponding mood
+        let moodIndex = moodSegmentedControl.selectedSegmentIndex
+        let selectedMood = MoodState.allMoods[moodIndex]
+        
+        if let entry = entry {
+            // Editing existing journal
+            entryController?.updateEntry(entry: entry, title: titleText, bodyText: bodyText, mood: selectedMood.rawValue)
+
+        } else {
+            // Creating new journal
+            entryController?.createEntry(title: titleText, bodyText: bodyText, mood: selectedMood.rawValue)
+        }
+        
+        do {
+            try moc.save()
+            
+            navigationController?.popViewController(animated: true)
+            
+        } catch {
+            fatalError("Failed to save: \(error)")
+        }
+        
+
+        
+
         
 
 

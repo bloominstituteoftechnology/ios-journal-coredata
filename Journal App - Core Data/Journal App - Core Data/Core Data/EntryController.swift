@@ -48,13 +48,15 @@ class EntryController {
     }
     
     
-    func createEntry(title: String, bodyText: String) {
+    func createEntry(title: String, bodyText: String, mood: String) {
         
         // Initialize an Entry object
         let newEntry = Entry(context: CoreDataStack.shared.mainContext)
-        //let newEntry = Entry(context: CoreDataStack.shared.mainContext)
+
         newEntry.title = title
         newEntry.bodyText = bodyText
+        newEntry.mood = mood
+        newEntry.timestamp = Date()
         
         // Save to the persistent store
         saveToPersistentStore()
