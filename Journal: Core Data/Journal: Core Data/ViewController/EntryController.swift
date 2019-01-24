@@ -11,41 +11,17 @@ import CoreData
 
 class EntryController {
     typealias CompletionHandler = (Error?) -> Void
-    private let baseURL = URL(string: "https://core-data-journal-69f40.firebaseio.com/")
+    private let baseURL = URL(string: "https://core-data-journal-69f40.firebaseio.com/")!
     
-    /*init() {
-        fetchEntriesFromServer
+    init() {
+        fetchEntriesFromServer()
     }
     
-    func fetchEntriesFromServer(comption: @escaping CompletionHandler = { _ in }) {
-        let requestURL = baseURL?.appendingPathExtension("json")
-        
-        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
-            if let error = erro {
-                NSLog("Error fetching tasks: \(error)")
-                comption(error)
-                return
-            }
-            
-            guard let data = data else {
-                NSLog("No data returned from the data task")
-                completion(NSError())
-                return
-            }
-            
-            DispatchQueue.main.async {
-                do {
-                }
-            }
-            
-        }
-    }*/
-        
     
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         let uuid = entry.identifier
-        let requestURL = baseURL?.appendingPathComponent(uuid!).appendingPathExtension("json")
-        var request = URLRequest(url: requestURL!)
+        let requestURL = baseURL.appendingPathComponent(uuid!).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
         
         do {
@@ -66,8 +42,8 @@ class EntryController {
     }
     
     func deleteEntryFromServer(entry: Entry, completionHandler: @escaping CompletionHandler) {
-        let requestURL = baseURL?.appendingPathComponent(entry.identifier!).appendingPathExtension("json")
-        var request = URLRequest(url: requestURL!)
+        let requestURL = baseURL.appendingPathComponent(entry.identifier!).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
@@ -76,11 +52,65 @@ class EntryController {
             completionHandler(error)
             }.resume()
     }
-        
-        
-        
-        
     
+    func update(entry: Entry, entryRepresentation: EntryRepresentation) {
+        entry.title = entryRepresentation.title
+        entry.bodyText = entryRepresentation.bodyText
+        entry.timestamp = entryRepresentation.timestamp
+        entry.mood = entryRepresentation.mood
+    }
+    
+    
+    
+    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+        let predicate = NSPredicate(format: "identifier == %@", identifier)
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = predicate
+        let mainContext = CoreDataStack.shared.mainContext
+        let entry = try? mainContext.fetch(fetchRequest)
+       
+        // Could use a guard statement to check for nil? Maybe nahhhhhhh...
+        return entry?.first
+    }
+        
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching journal entries: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned from the data task.")
+                completion(NSError())
+                return
+            }
+            
+            DispatchQueue.main.async {
+                do {
+                    var entryRepresentations: [EntryRepresentation] = []
+                    entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({$0.value})
+                    
+                    for entryRepresentation in entryRepresentations {
+                        let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRepresentation.identifier)
+                        
+                        if entry != nil {
+                            self.update(entry: entry!, entryRepresentation: entryRepresentation)
+                        }
+                    }
+                    
+                    self.saveToPersistentStore()
+                    completion(nil)
+                    
+                } catch {
+                    print("\nEntryController:\nError performing dataTask in fetchEntriesFromServer")
+                }
+            }
+            }.resume()
+    }
         
         
     func saveToPersistentStore(){

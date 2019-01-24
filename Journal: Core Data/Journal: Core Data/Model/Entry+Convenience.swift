@@ -19,5 +19,16 @@ extension Entry {
         self.timestamp = timestamp
         self.mood = mood
     }
+    
+    // Does failable mean optional...?
+    // In the "Entry+Convenience.swift" file, add a new convenience initializer. This initializer should be failable
+    convenience init?(entryRepresentation: EntryRepresentation) {
+        self.init()
+        title = entryRepresentation.title
+        bodyText = entryRepresentation.bodyText
+        identifier = entryRepresentation.identifier
+        timestamp = entryRepresentation.timestamp
+        mood = entryRepresentation.mood
+    }
 }
 
