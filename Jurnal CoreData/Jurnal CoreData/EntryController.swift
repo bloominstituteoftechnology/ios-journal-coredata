@@ -39,7 +39,7 @@ class EntryController {
 //        return resualt
 //    }
     
-    func create(title: String, bodyText: String, mood: String) {
+    func create(title: String, bodyText: String, mood: String, identifier: String = UUID().uuidString) {
         
         let newEntry = Entry(context: CoreDataStack.shared.mainContext)
         
@@ -47,16 +47,17 @@ class EntryController {
         newEntry.title = title
         newEntry.mood = mood
         newEntry.timestamp = Date()
-        newEntry.identifier = "\(UUID.self)"
+        newEntry.identifier = identifier
         put(entry: newEntry)
         saveToPersistentStore()
     }
     
-    func update(entry: Entry, title: String, bodyText: String, mood: String) {
+    func update(entry: Entry, title: String, bodyText: String, mood: String, identifier: String = UUID().uuidString) {
         entry.title = title
         entry.bodyText = bodyText
         entry.mood = mood
         entry.timestamp = Date()
+        entry.identifier = identifier
         put(entry: entry)
         saveToPersistentStore()
     }
@@ -90,7 +91,7 @@ class EntryController {
             comletion(error)
             return
         }
-        URLSession.shared.dataTask(with: requestURL) { (_, _, error) in
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
             if let error = error {
                 NSLog("No fetching tasks \(error)")
                 comletion(error)
