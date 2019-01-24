@@ -20,7 +20,7 @@ class EntryController {
         }
       
     }
-//
+
 //    func loadFromPersistentStore() -> [Entry] {
 //        var entry: [Entry] {
 //        do {
@@ -71,7 +71,7 @@ class EntryController {
     typealias CompletionHandler = (Error?) -> Void
     
     private let baseURL = URL(string: "https://journal-b933b.firebaseio.com/")!
-    
+    var entryRepresentation: [EntryRepresentation] = []
     
     func put(entry: Entry, comletion: @escaping CompletionHandler = { _ in }){
         
@@ -113,39 +113,65 @@ class EntryController {
                 }.resume()
         }
     
+    func updateEntry(ToEntry: Entry, fromEntryRepresentation: EntryRepresentation) {
+       
+        ToEntry.title = fromEntryRepresentation.title
+        ToEntry.bodyText = fromEntryRepresentation.bodyText
+        ToEntry.identifier = fromEntryRepresentation.identifier
+        ToEntry.timestamp = fromEntryRepresentation.timestamp
+        ToEntry.mood = fromEntryRepresentation.mood
+        
+    }
     
+    func fetchSingleEntryFromPersistentStore(entryIdentifier: String) -> Entry? {
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        let predicate = NSPredicate(format: "identifier == %@", entryIdentifier)
+        fetchRequest.predicate = predicate
+        
+        let moc = CoreDataStack.shared.mainContext
+        let entry = try? moc.fetch(fetchRequest)
+       
+        guard let requestedEntry = entry else {
+            fatalError("Can't fetch Entry")
+        }
+            return requestedEntry.first
+    }
     
-//    private func importEntry(_ entryRepresentation: [EntryRepresentation]) {
-//        for representation in entryRepresentation {
-//            if let existing = entry(for: representation.identifier) {
-//                update(task: existing, with: representation)
-//
-//            } else {
-//
-//                _ = Entry(representation: representation)
-//            }
-//
-//
-//        }
-//    }
-//    private func entry(for uuid: UUID) -> Entry? {
-//        let request: NSFetchRequest<Entry> = Entry.fetchRequest()
-//        let predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
-//        request.predicate = predicate
-//
-//        let moc = CoreDataStack.shared.mainContext
-//        let entry = try? moc.fetch(request)
-//        return entry?.first
-//    }
-//    private func update(entry: Entry, with representation: EntryRepresentation) {
-//        guard entry.identifier == representation.identifier else {
-//            fatalError("Updating the wrong task")
-//        }
-//
-//        entry.name = representation.name
-//        entry.notes = representation.notes
-//        entry.entryPriority = representation.priority
-//    }
-
-
+    func fetchEntriesFromServer(complition: @escaping CompletionHandler = { _ in }) {
+        
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+//        var request = URLRequest(url: requestURL)
+//        request.httpMethod = "GET"
+        
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                NSLog("No fetching tasks \(error)")
+                complition(error)
+                return
+            }
+            guard let data = data else {
+                NSLog("No data")
+                complition(NSError())
+                return
+            }
+            
+                do {
+                    self.entryRepresentation = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({$0.value})
+                    
+                    
+                    
+                    self.saveToPersistentStore()
+                    complition(nil)
+                    
+                } catch {
+                    NSLog("Error")
+                    complition(error)
+                    
+                }
+            
+            }.resume()
+    }
 }

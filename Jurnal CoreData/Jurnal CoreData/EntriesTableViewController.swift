@@ -11,7 +11,13 @@ import CoreData
 class EntriesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
     let entryController = EntryController()
-    
+    @IBAction func beginRefresh(_ sender: UIRefreshControl) {
+        entryController.fetchEntriesFromServer { _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                sender.endRefreshing()
+            }
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.reloadData()
