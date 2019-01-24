@@ -48,6 +48,7 @@ class EntryController {
         newEntry.mood = mood
         newEntry.timestamp = Date()
         newEntry.identifier = "\(UUID.self)"
+        put(entry: newEntry)
         saveToPersistentStore()
     }
     
@@ -56,9 +57,11 @@ class EntryController {
         entry.bodyText = bodyText
         entry.mood = mood
         entry.timestamp = Date()
+        put(entry: entry)
         saveToPersistentStore()
     }
     func delete(entry: Entry) {
+        deleteEntryFromServer(entry: entry)
         CoreDataStack.shared.mainContext.delete(entry)
         saveToPersistentStore()
     }
@@ -68,138 +71,80 @@ class EntryController {
     
     private let baseURL = URL(string: "https://journal-b933b.firebaseio.com/")!
     
-    init() {
-        
-        fetchEntryFromServer()
-    }
     
-    func fetchEntryFromServer(comletion: @escaping CompletionHandler = { _ in }){
+    func put(entry: Entry, comletion: @escaping CompletionHandler = { _ in }){
         
-        let requestURL = baseURL.appendingPathExtension("json")
+      
+//        guard let uuid = entry.identifier else { return }
+//        print(uuid)
+        let requestURL = baseURL.appendingPathComponent(entry.identifier!).appendingPathExtension("json")
         
-        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+       print(requestURL)
+            var request = URLRequest(url: requestURL)
+            request.httpMethod = "PUT"
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(entry)
+        } catch {
+            NSLog("Unable to encode \(entry): \(error)")
+            comletion(error)
+            return
+        }
+        URLSession.shared.dataTask(with: requestURL) { (_, _, error) in
             if let error = error {
                 NSLog("No fetching tasks \(error)")
                 comletion(error)
-                return
             }
-            guard let data = data else {
-                NSLog("No data")
-                comletion(NSError())
-                return
-            }
-            
-            DispatchQueue.main.async {
-                do {
-                    let decodedRespose = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)   // .map({$0.value})
-                    let entryRepresentation = Array(decodedRespose.values)
-                    
-                    self.importEntry(EntryRepresentation)
-                    
-                    try CoreDataStack.shared.mainContext.save()
-                    comletion(nil)
-                    
-                } catch {
-                    NSLog("Error")
-                    comletion(error)
-                    
-                }
-            }
-            
             }.resume()
-        
     }
-    
-    func save(entry: Entry, complition : @escaping CompletionHandler = {  _ in}) {
-        do {
-            
-            guard let representation = entry.entryRepresentation else {
-                throw NSError() }
-            let  uuid = representation.identifier.uuidString
-            let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
-            var request = URLRequest(url: requestURL)
-            request.httpMethod = "PUT"
-            
-            let body = try JSONEncoder().encode(representation)
-            request.httpBody = body
-            
-            URLSession.shared.dataTask(with: request) { (_, _, error) in
-                if let error = error {
-                    NSLog("Errorsaving task \(error)")
-                }
-                complition(error)
-                }.resume()
-            
-        } catch {
-            
-            NSLog("Error encodng task \(error)")
-            complition(error)
-            return
-            
-        }
+        func deleteEntryFromServer(entry: Entry, complition : @escaping CompletionHandler = {  _ in}) {
         
-    }
-    
-    func delete(entry: Entry, complition : @escaping CompletionHandler = {  _ in}) {
-        do {
+            let URL = baseURL.appendingPathComponent(entry.identifier!).appendingPathExtension("json")
             
-            guard let representation = entry.entryRepresentation else {
-                throw NSError() }
-            let  uuid = representation.identifier.uuidString
-            let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
-            var request = URLRequest(url: requestURL)
+            var request = URLRequest(url: URL)
             request.httpMethod = "DELETE"
             
-            
             URLSession.shared.dataTask(with: request) { (_, _, error) in
                 if let error = error {
                     NSLog("Errorsaving task \(error)")
                 }
                 complition(error)
                 }.resume()
-            
-        } catch {
-            
-            NSLog("Error encodng task \(error)")
-            complition(error)
-            return
-            
         }
-        
-    }
     
     
-    private func importEntry(_ entryRepresentation: [EntryRepresentation]) {
-        for representation in entryRepresentation {
-            if let existing = entry(for: representation.identifier) {
-                update(task: existing, with: representation)
-                
-            } else {
-                
-                _ = Entry(representation: representation)
-            }
-            
-            
-        }
-    }
-    private func entry(for uuid: UUID) -> Entry? {
-        let request: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
-        request.predicate = predicate
-        
-        let moc = CoreDataStack.shared.mainContext
-        let entry = try? moc.fetch(request)
-        return entry?.first
-    }
-    private func update(entry: Entry, with representation: EntryRepresentation) {
-        guard entry.identifier == representation.identifier else {
-            fatalError("Updating the wrong task")
-        }
-        
-        entry.name = representation.name
-        entry.notes = representation.notes
-        entry.entryPriority = representation.priority
-    }
-}
+    
+//    private func importEntry(_ entryRepresentation: [EntryRepresentation]) {
+//        for representation in entryRepresentation {
+//            if let existing = entry(for: representation.identifier) {
+//                update(task: existing, with: representation)
+//
+//            } else {
+//
+//                _ = Entry(representation: representation)
+//            }
+//
+//
+//        }
+//    }
+//    private func entry(for uuid: UUID) -> Entry? {
+//        let request: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
+//        request.predicate = predicate
+//
+//        let moc = CoreDataStack.shared.mainContext
+//        let entry = try? moc.fetch(request)
+//        return entry?.first
+//    }
+//    private func update(entry: Entry, with representation: EntryRepresentation) {
+//        guard entry.identifier == representation.identifier else {
+//            fatalError("Updating the wrong task")
+//        }
+//
+//        entry.name = representation.name
+//        entry.notes = representation.notes
+//        entry.entryPriority = representation.priority
+//    }
+
 
 }
