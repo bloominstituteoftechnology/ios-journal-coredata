@@ -140,6 +140,7 @@ class EntryController {
     //update persistent store
     func updatePersistentStore(_ entryRepresentations: [EntryRepresentation], into managedObjectContext: NSManagedObjectContext) throws {
         
+        var importedEntryIdentifiers = Set<String>()
         for entryRepresentation in entryRepresentations {
             if let identifier = entryRepresentation.identifier, let entry = fetchSingleEntryFromPersistentStore(with: identifier, in: managedObjectContext) {
                 
@@ -152,10 +153,20 @@ class EntryController {
                     _ = Entry(entryRepresentation: entryRepresentation, moc: managedObjectContext)
 
                 }
-//                _ = Entry(entryRepresentation: entryRepresentation, moc: managedObjectContext)
             }
         }
-        saveToPersistentStore()
+        
+        let query: NSFetchRequest<NSFetchRequestResult> = Entry.fetchRequest()
+        
+        // find all the tasks with identifiers that were NOT updated
+        query.predicate = NSPredicate(format: "identifier != NULL AND NOT(identifier IN %@)", importedEntryIdentifiers)
+        
+        let batchDelete = NSBatchDeleteRequest(fetchRequest: query)
+        
+        managedObjectContext.perform {
+            _ = try? managedObjectContext.execute(batchDelete)
+        }
+        //saveToPersistentStore()
     }
     
     
