@@ -22,13 +22,14 @@ extension Entry {
     
     // Does failable mean optional...?
     // In the "Entry+Convenience.swift" file, add a new convenience initializer. This initializer should be failable
-    convenience init?(entryRepresentation: EntryRepresentation) {
-        self.init()
-        title = entryRepresentation.title
-        bodyText = entryRepresentation.bodyText
-        identifier = entryRepresentation.identifier
-        timestamp = entryRepresentation.timestamp
-        mood = entryRepresentation.mood
+    convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        guard let title = entryRepresentation.title,
+        let bodyText = entryRepresentation.bodyText,
+        let identifier = entryRepresentation.identifier,
+        let timestamp = entryRepresentation.timestamp,
+            let mood = entryRepresentation.mood else { return nil}
+        
+        self.init(title: title, bodyText: bodyText, identifier: identifier, timestamp: timestamp, mood: mood, context: context)
     }
 }
 

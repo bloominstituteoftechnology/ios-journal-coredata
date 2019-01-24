@@ -54,7 +54,8 @@ class EntryDetailViewController: UIViewController {
             existingEntry.title = title
             existingEntry.bodyText = bodyText
             let index = moodSegmentedControl.selectedSegmentIndex
-            existingEntry.mood = moodSegmentedControl.titleForSegment(at: index)!
+            let mood = moodSegmentedControl.titleForSegment(at: index)!
+            entryController?.update(entry: existingEntry, title: title, bodyText: bodyText, mood: mood)
         } else {
             // creating a new entry
             let newEntry = Entry(context: CoreDataStack.shared.mainContext)
@@ -65,7 +66,7 @@ class EntryDetailViewController: UIViewController {
         }
         
         do {
-            try CoreDataStack.shared.mainContext.save()
+           // try CoreDataStack.shared.mainContext.save()
             navigationController?.popViewController(animated: true)
         } catch {
             print("EntryDetailViewController: Line 61\nFailed to save: \(error)")

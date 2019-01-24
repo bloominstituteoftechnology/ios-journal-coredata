@@ -74,6 +74,10 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     // MARK: - Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destinationVC = segue.destination as? EntryDetailViewController {
+            destinationVC.entryController = entryController
+        }
+        
         if segue.identifier == "ShowEntry" {
             // the user tapped on a task cell
             let entryDetailViewController = segue.destination as! EntryDetailViewController
@@ -111,6 +115,17 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
             tableView.reloadRows(at: [indexPath], with: .automatic)
         }
         
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert:
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
+        case .delete:
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
+        default:
+            break
+        }
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {

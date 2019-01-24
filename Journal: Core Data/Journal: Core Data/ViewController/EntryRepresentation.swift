@@ -9,16 +9,16 @@
 import Foundation
 
 struct EntryRepresentation: Decodable, Equatable {
-    var title: String
-    var bodyText: String
-    var timestamp: Date
-    var mood: String
-    var identifier: String
+    var title: String?
+    var bodyText: String?
+    var timestamp: Date?
+    var mood: String?
+    var identifier: String?
     
 }
 
 func == (lhs: EntryRepresentation, rhs: Entry) -> Bool {
-    return lhs.identifier == rhs.identifier
+    return lhs.identifier == rhs.identifier && lhs.title == rhs.title && lhs.bodyText == rhs.bodyText && lhs.mood == rhs.mood
 }
 
 func == (lhs: Entry, rhs: EntryRepresentation) -> Bool {

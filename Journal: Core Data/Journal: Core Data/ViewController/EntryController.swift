@@ -19,7 +19,14 @@ class EntryController {
     
     
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
-        let uuid = entry.identifier
+        
+        var uuid = entry.identifier
+        if uuid == nil {
+            uuid = UUID().uuidString
+            entry.identifier = uuid
+            self.saveToPersistentStore()
+        }
+        
         let requestURL = baseURL.appendingPathComponent(uuid!).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
@@ -95,10 +102,13 @@ class EntryController {
                     entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({$0.value})
                     
                     for entryRepresentation in entryRepresentations {
-                        let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRepresentation.identifier)
+                        guard let identifier = entryRepresentation.identifier else { continue }
                         
-                        if entry != nil {
-                            self.update(entry: entry!, entryRepresentation: entryRepresentation)
+                        
+                        if let entry = self.fetchSingleEntryFromPersistentStore(identifier: identifier), entry != entryRepresentation {
+                            self.update(entry: entry, entryRepresentation: entryRepresentation)
+                        } else {
+                            _ = Entry(entryRepresentation: entryRepresentation)
                         }
                     }
                     
@@ -106,7 +116,7 @@ class EntryController {
                     completion(nil)
                     
                 } catch {
-                    print("\nEntryController:\nError performing dataTask in fetchEntriesFromServer")
+                    print("\nEntryController:\nError performing dataTask in fetchEntriesFromServer \(error)")
                 }
             }
             }.resume()
@@ -151,7 +161,7 @@ class EntryController {
         saveToPersistentStore()
     }
     
-    func update(entry: Entry, title: String, bodyText: String, mood: String) {
+    func update(entry: Entry, title: String, bodyText: String?, mood: String) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = Date()
