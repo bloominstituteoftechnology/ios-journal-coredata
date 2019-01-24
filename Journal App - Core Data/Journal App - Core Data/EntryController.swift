@@ -9,20 +9,8 @@ class EntryController {
     
     let baseURL = URL(string: "https://journal-76acd.firebaseio.com/")!
     
-    // Saves core data stack's mainContext
-    // This will bundle the changes in the context, pass them to the persistent store coordinator, who will then put those changes in the persistent store.
-    func saveToPersistentStore() {
-        
-        let moc = CoreDataStack.shared.mainContext
-        
-        do {
-            try moc.save()
-        } catch {
-            fatalError("Error saving to core data: \(error)")
-        }
-    }
+    // MARK: - Core Data Functions
     
-
     func createEntry(title: String, bodyText: String, mood: String) {
         
         // Initialize an Entry object
@@ -39,6 +27,19 @@ class EntryController {
         // Save to the server (PUT)
         put(entry: newEntry)
         
+    }
+    
+    // Saves core data stack's mainContext
+    // This will bundle the changes in the context, pass them to the persistent store coordinator, who will then put those changes in the persistent store.
+    func saveToPersistentStore() {
+        
+        let moc = CoreDataStack.shared.mainContext
+        
+        do {
+            try moc.save()
+        } catch {
+            fatalError("Error saving to core data: \(error)")
+        }
     }
     
     // Have title and bodyText parameters as well as the Entry you want to update
@@ -60,7 +61,6 @@ class EntryController {
         
     }
     
-    
     func deleteEntry(entry: Entry) {
         CoreDataStack.shared.mainContext.delete(entry)
         
@@ -69,11 +69,10 @@ class EntryController {
         
         // Save this deletion to the persistent store
         saveToPersistentStore()
-        
-
+    
     }
     
-    
+    // MARK: - Firebase Functions
     
     // Save to server
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
@@ -110,6 +109,8 @@ class EntryController {
         }
         
     }
+    
+    func update(entry: Entry, entryRepresentation: EntryRepresentation)
     
     
     // Delete from server
