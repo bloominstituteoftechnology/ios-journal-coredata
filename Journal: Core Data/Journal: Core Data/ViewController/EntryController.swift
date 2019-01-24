@@ -13,7 +13,7 @@ class EntryController {
     typealias CompletionHandler = (Error?) -> Void
     private let baseURL = URL(string: "https://core-data-journal-69f40.firebaseio.com/")
     
-    init() {
+    /*init() {
         fetchEntriesFromServer
     }
     
@@ -35,10 +35,54 @@ class EntryController {
             
             DispatchQueue.main.async {
                 do {
+                }
             }
             
         }
+    }*/
+        
+    
+    func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        let uuid = entry.identifier
+        let requestURL = baseURL?.appendingPathComponent(uuid!).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL!)
+        request.httpMethod = "PUT"
+        
+        do {
+            let body = try JSONEncoder().encode(entry)
+            request.httpBody = body
+        } catch {
+            NSLog("\nError encoding journal entry:\n \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("\nError saving journal entry:\n \(error)")
+            }
+            completion(error)
+        }.resume()
     }
+    
+    func deleteEntryFromServer(entry: Entry, completionHandler: @escaping CompletionHandler) {
+        let requestURL = baseURL?.appendingPathComponent(entry.identifier!).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL!)
+        request.httpMethod = "DELETE"
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                print("\nError deleting journal entry:\n \(error)")
+            }
+            completionHandler(error)
+            }.resume()
+    }
+        
+        
+        
+        
+    
+        
+        
     func saveToPersistentStore(){
         do {
             try CoreDataStack.shared.mainContext.save()
@@ -73,6 +117,7 @@ class EntryController {
         newEntry.timestamp = Date()
         newEntry.identifier = UUID().uuidString
         newEntry.mood = mood
+        put(entry: newEntry) { (_) in}
         saveToPersistentStore()
     }
     
@@ -81,10 +126,12 @@ class EntryController {
         entry.bodyText = bodyText
         entry.timestamp = Date()
         entry.mood = mood
+        put(entry: entry) { (_) in}
         saveToPersistentStore()
     }
     
     func delete(entry: Entry) {
+        deleteEntryFromServer(entry: entry) { (_) in}
         CoreDataStack.shared.mainContext.delete(entry)
         saveToPersistentStore()
     }
