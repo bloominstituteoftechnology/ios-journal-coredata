@@ -9,6 +9,8 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.navigationBar.barTintColor = #colorLiteral(red: 0.8450079077, green: 0.9921568627, blue: 0.9735982676, alpha: 1)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {

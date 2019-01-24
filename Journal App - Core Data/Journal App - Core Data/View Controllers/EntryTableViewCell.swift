@@ -11,21 +11,23 @@ class EntryTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = "entrycell"
     
+    let dateFormat = DateFormat()
+    
     var entry: Entry? {
         didSet {
             updateViews()
         }
     }
     
-    func convertDateFormatter(_ date: String) -> String {
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss +zzzz"
-        let date = dateFormatter.date(from: date)
-        dateFormatter.dateFormat = "MM-dd-yyyy hh:mm"
-        return dateFormatter.string(from: date!)
-        
-    }
+//    func convertDateFormatter(_ date: String) -> String {
+//
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss +zzzz"
+//        let date = dateFormatter.date(from: date)
+//        dateFormatter.dateFormat = "MM-dd-yyyy hh:mm"
+//        return dateFormatter.string(from: date!)
+//
+//    }
     
     func updateViews() {
         
@@ -34,7 +36,8 @@ class EntryTableViewCell: UITableViewCell {
         
         titleOutlet.text = entry.title
         bodyOutlet.text = entry.bodyText
-        timestampOutlet.text = convertDateFormatter("\(date)")
+        timestampOutlet.text = dateFormat.formattedTimeStamp
+        //timestampOutlet.text = convertDateFormatter("\(date)")
         
     }
     
