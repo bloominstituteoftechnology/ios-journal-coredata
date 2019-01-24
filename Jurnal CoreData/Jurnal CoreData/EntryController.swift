@@ -11,6 +11,10 @@ import CoreData
 
 class EntryController {
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     func saveToPersistentStore() {
         
         do {
@@ -71,7 +75,7 @@ class EntryController {
     typealias CompletionHandler = (Error?) -> Void
     
     private let baseURL = URL(string: "https://journal-b933b.firebaseio.com/")!
-    var entryRepresentation: [EntryRepresentation] = []
+    
     
     func put(entry: Entry, comletion: @escaping CompletionHandler = { _ in }){
         
@@ -133,7 +137,7 @@ class EntryController {
         let entry = try? moc.fetch(fetchRequest)
        
         guard let requestedEntry = entry else {
-            fatalError("Can't fetch Entry")
+            return nil
         }
             return requestedEntry.first
     }
@@ -158,9 +162,23 @@ class EntryController {
                 return
             }
             
+            DispatchQueue.main.async {
+                
                 do {
-                    self.entryRepresentation = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({$0.value})
+                    var entryRepresentation: [EntryRepresentation] = []
+                    entryRepresentation = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({$0.value})
                     
+                    for value in entryRepresentation {
+                        let entry = self.fetchSingleEntryFromPersistentStore(entryIdentifier: value.identifier)
+                        
+                        if entry != nil {
+                            self.updateEntry(ToEntry: entry!, fromEntryRepresentation: value)
+
+                        } else {
+                            entryRepresentation = [value] // ?
+                        }
+
+                    }
                     
                     
                     self.saveToPersistentStore()
@@ -169,7 +187,7 @@ class EntryController {
                 } catch {
                     NSLog("Error")
                     complition(error)
-                    
+                }
                 }
             
             }.resume()

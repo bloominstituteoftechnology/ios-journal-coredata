@@ -35,6 +35,7 @@ class EntryDetailViewController: UIViewController {
         if let data = entry {
         textField.text = data.title
         textView.text = data.bodyText
+        entryController?.update(entry: data, title: data.title!, bodyText: data.bodyText!, mood: data.mood!, identifier: data.identifier!)
         //segmentedOutlet.selectedSegmentIndex = data.mood
         title = data.title
         } else {
