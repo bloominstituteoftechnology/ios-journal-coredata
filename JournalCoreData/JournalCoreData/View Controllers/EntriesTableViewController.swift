@@ -20,6 +20,16 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     //        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     //    }
     
+    
+    // MARK: - Refresh Control
+    @IBAction func beginRefresh(_ sender: UIRefreshControl) {
+        entryController.fetchEntriesFromServer { _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                sender.endRefreshing()
+            }
+           
+        }
+    }
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {

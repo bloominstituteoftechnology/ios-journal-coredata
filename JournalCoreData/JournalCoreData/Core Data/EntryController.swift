@@ -11,7 +11,7 @@ class EntryController {
     var entryRepresentations: [EntryRepresentation] = []
     
     private let baseURL = URL(string: "https://journal-coredata-f20ba.firebaseio.com/")!
-    let moc = CoreDataStack.shared.mainContext
+    //let moc = CoreDataStack.shared.mainContext
     
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }){
         let id = entry.identifier
@@ -43,12 +43,12 @@ class EntryController {
     }
     
     func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }){
-        
         let id = entry.identifier
+        
         let requestURL = baseURL.appendingPathComponent(id!).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
-        URLSession.shared.dataTask(with: request) { (_, _, error) in
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
                 print("error deleting task: \(error)")
             }
@@ -57,32 +57,46 @@ class EntryController {
             }.resume()
         
         
-        do {
-            //guard let representation = entry.entryRepresentation else { throw NSError() }
-            request.httpBody = try JSONEncoder().encode(entry)
-        }catch {
-            print("error saving task: \(error)")
-            completion(error)
-            return
-        }
+        //        do {
+        //            //guard let representation = entry.entryRepresentation else { throw NSError() }
+        //            request.httpBody = try JSONEncoder().encode(entry)
+        //        }catch {
+        //            print("error saving task: \(error)")
+        //            completion(error)
+        //            return
+        //        }
     }
     
     func update(entry: Entry, entryRepresentation: EntryRepresentation){
-        entry.bodyText = entryRepresentation.bodyText
-        entry.title = entryRepresentation.title
-        entry.timeStamp = entryRepresentation.timeStamp
-        entry.identifier = entryRepresentation.identifier
-        entry.mood = entryRepresentation.mood
+        guard let context = entry.managedObjectContext else { return }
+        
+        context.perform {
+            guard entry.identifier == entryRepresentation.identifier else {
+                fatalError("update failed. updating wrong entry.")
+            }
+            
+            entry.bodyText = entryRepresentation.bodyText
+            entry.title = entryRepresentation.title
+            entry.timeStamp = entryRepresentation.timeStamp
+            entry.identifier = entryRepresentation.identifier
+            entry.mood = entryRepresentation.mood
+        }
+        
     }
     
-    func fetchSingleEntryFromPersistentStore(with identifier: String) -> Entry? {
+    func fetchSingleEntryFromPersistentStore(with identifier: String, in managedObjectContext: NSManagedObjectContext) -> Entry? {
         
         let predicate = NSPredicate(format: "identifier == %@", identifier as String)
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = predicate
-        let matchingEntries = try? moc.fetch(fetchRequest)
         
-        return matchingEntries?.first
+        var entry: Entry?
+        
+        managedObjectContext.performAndWait {
+            entry = (try? managedObjectContext.fetch(fetchRequest))?.first
+        }
+        
+        return entry
     }
     
     func fetchEntriesFromServer(completionHandler: @escaping CompletionHandler = { _ in }) {
@@ -103,35 +117,42 @@ class EntryController {
                 return
             }
             
-            DispatchQueue.main.async {
+            let moc = CoreDataStack.shared.container.newBackgroundContext()
+            
+            
+            do {
+                let decoder = JSONDecoder()
+                let decodedResponse = try decoder.decode([String: EntryRepresentation].self, from: data)
+                let entryRepresentations = Array(decodedResponse.values)
+                try self.updatePersistentStore(entryRepresentations, into: moc)
+                try CoreDataStack.shared.save(context: moc)
+                completionHandler(nil)
                 
-                do {
-                    let decoder = JSONDecoder()
-                    let decodedResponse = try decoder.decode([String: EntryRepresentation].self, from: data)
-                    let entryRepresentations = Array(decodedResponse.values)
-                    try self.updatePersistentStore(entryRepresentations)
-                    completionHandler(nil)
-                    
-                }catch {
-                    print("error importing entries: \(error)")
-                    completionHandler(error)
-                    return
-                }
+            }catch {
+                print("error importing entries: \(error)")
+                completionHandler(error)
+                return
             }
+            
             }.resume()
     }
     
     //update persistent store
-    func updatePersistentStore(_ entryRepresentations: [EntryRepresentation]) throws {
+    func updatePersistentStore(_ entryRepresentations: [EntryRepresentation], into managedObjectContext: NSManagedObjectContext) throws {
         
         for entryRepresentation in entryRepresentations {
-            if let identifier = entryRepresentation.identifier, let entry = fetchSingleEntryFromPersistentStore(with: identifier) {
+            if let identifier = entryRepresentation.identifier, let entry = fetchSingleEntryFromPersistentStore(with: identifier, in: managedObjectContext) {
                 
-                if entry != entryRepresentation {
+//                if entry != entryRepresentation {
                     update(entry: entry, entryRepresentation: entryRepresentation)
-                }
+//                }
             } else {
-                _ = Entry(entryRepresentation: entryRepresentation, moc: moc)
+                
+                managedObjectContext.perform {
+                    _ = Entry(entryRepresentation: entryRepresentation, moc: managedObjectContext)
+
+                }
+//                _ = Entry(entryRepresentation: entryRepresentation, moc: managedObjectContext)
             }
         }
         saveToPersistentStore()
@@ -141,7 +162,7 @@ class EntryController {
     func saveToPersistentStore(){
         // save data to mainContext
         do {
-            try CoreDataStack.shared.mainContext.save()
+            try CoreDataStack.shared.save(context: CoreDataStack.shared.container.newBackgroundContext())
         }catch {
             print("failed to save: \(error)")
         }
@@ -182,12 +203,14 @@ class EntryController {
         //save it to Firebase
         put(entry: entry)
     }
-    func createEntry(title: String, entryBody: String?, mood: String){
-        print("did we make it to the create func?") // FIXME: never even getting here
-        let newEntry = Entry(title: title, bodyText: entryBody ?? "", identifier: UUID().uuidString, mood: mood, context: CoreDataStack.shared.mainContext)
+    func createEntry(title: String, entryBody: String?, mood: String, in managedObjectContext: NSManagedObjectContext){
         
-        print("this should be creating a new entry.")
-        put(entry: newEntry)
+        managedObjectContext.perform {
+            let newEntry = Entry(title: title, bodyText: entryBody ?? "", identifier: UUID().uuidString, mood: mood, context: managedObjectContext)
+            self.put(entry: newEntry)
+        }
+        
+//        put(entry: newEntry)
         saveToPersistentStore()
         
         

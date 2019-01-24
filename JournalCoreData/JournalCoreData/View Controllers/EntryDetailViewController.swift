@@ -25,12 +25,13 @@ class EntryDetailViewController: UIViewController, UITextViewDelegate, UITextFie
         let entryBody = entryBodyTextView.text
         let currentMood = moodSegmentedControl.titleForSegment(at: moodSegmentedControl.selectedSegmentIndex)
         guard let title = entryTitle, title.isEmpty == false else { return }
-        
+        let moc = CoreDataStack.shared.mainContext
         
         if let existingEntry = entry {
-            entryController?.updateEntry(title: entryTitle!, entryBodyText: entryBody ?? "", mood: currentMood!, entry: existingEntry)
+            
+        entryController?.updateEntry(title: entryTitle!, entryBodyText: entryBody ?? "", mood: currentMood!, entry: existingEntry)
         } else {
-            entryController?.createEntry(title: entryTitle!, entryBody: entryBody ?? "", mood: currentMood!)
+            entryController?.createEntry(title: entryTitle!, entryBody: entryBody ?? "", mood: currentMood!, in: moc)
         }
         
         navigationController?.popViewController(animated: true)
