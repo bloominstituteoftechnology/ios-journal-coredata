@@ -110,7 +110,74 @@ class EntryController {
         
     }
     
-    func update(entry: Entry, entryRepresentation: EntryRepresentation)
+    // Takes an Entry whose values should be updated, and and Entry Representation to take the values from
+    func update(entry: Entry, with entryRepresentation: EntryRepresentation) {
+        guard entry.identifier == entryRepresentation.identifier else {
+            fatalError("Updating the wrong task!")
+        }
+        
+        entry.title = entryRepresentation.title
+        entry.bodyText = entryRepresentation.bodyText
+        entry.timestamp = entryRepresentation.timestamp
+        entry.identifier = entryRepresentation.identifier
+        entry.mood = entryRepresentation.mood
+        
+    }
+    
+    // Fetch from Core Data
+    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+        let request: NSFetchRequest<Entry> = Entry.fetchRequest()
+        let predicate = NSPredicate(format: "identifier == %@", identifier)
+        request.predicate = predicate
+        
+        let moc = CoreDataStack.shared.mainContext
+        
+        // Return first entry from the array  - in theory, there should only be one entry fetched anyway b/c the predicate uses the entry's identifier.
+        let entry = (try? moc.fetch(request))?.first
+        
+        return entry
+    }
+    
+    // Fetch from Server
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        // Perform a GET URLSessionDataTask with url just set up
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching entries: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned from the data task")
+                completion(NSError())
+                return
+            }
+            
+            var dataArray: [EntryRepresentation] = []
+            
+            DispatchQueue.main.async {
+                do {
+                    dataArray = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({$0.value})
+                    
+                    
+                } catch {
+                    
+                }
+            }
+            
+            
+            
+            
+            
+            
+        }
+        
+        
+    }
     
     
     // Delete from server
