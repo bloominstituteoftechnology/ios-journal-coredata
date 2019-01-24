@@ -12,11 +12,11 @@ import Foundation
 struct EntryRepresentation: Decodable, Equatable {
     
     
-    let bodyText: String
-    let identifier: String
-    let mood: String
-    let timestamp: Date
-    let title: String
+    let bodyText: String?
+    let identifier: String?
+    let mood: String?
+    let timestamp: Date?
+    let title: String?
 }
 
  func == (lhs: EntryRepresentation, rhs: Entry) -> Bool{

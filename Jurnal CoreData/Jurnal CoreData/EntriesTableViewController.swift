@@ -72,6 +72,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         if editingStyle == .delete {
             // Delete the row from the data source
            let entryInRow = fetchedResultsController.object(at: indexPath)
+            entryController.deleteEntryFromServer(entry: entryInRow)
             entryController.delete(entry: entryInRow)
            
     }
@@ -139,7 +140,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         }
     }
     
-    
+   
     // Those are all the changes I know about for now
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()

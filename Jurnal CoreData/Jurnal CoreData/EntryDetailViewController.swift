@@ -35,7 +35,7 @@ class EntryDetailViewController: UIViewController {
         if let data = entry {
         textField.text = data.title
         textView.text = data.bodyText
-        entryController?.update(entry: data, title: data.title!, bodyText: data.bodyText!, mood: data.mood!, identifier: data.identifier!)
+       // entryController?.update(entry: data, title: data.title!, bodyText: data.bodyText!, mood: data.mood!, identifier: data.identifier!)
         //segmentedOutlet.selectedSegmentIndex = data.mood
         title = data.title
         } else {
@@ -61,14 +61,13 @@ class EntryDetailViewController: UIViewController {
         
         if let entry = entry {
             
-
-            
+           
            entryController?.update(entry: entry, title: title, bodyText: body, mood: mood)
             print(entry)
             
         } else  {
             
-            entryController?.create(title: title, bodyText: body, mood: mood)
+            entryController?.create(title: title, bodyText: body, mood: mood, identifier: entry?.identifier)
         }
             navigationController?.popViewController(animated: true)
     }

@@ -43,7 +43,7 @@ class EntryController {
 //        return resualt
 //    }
     
-    func create(title: String, bodyText: String, mood: String, identifier: String = UUID().uuidString) {
+    func create(title: String, bodyText: String, mood: String, identifier: String?) {
         
         let newEntry = Entry(context: CoreDataStack.shared.mainContext)
         
@@ -51,17 +51,16 @@ class EntryController {
         newEntry.title = title
         newEntry.mood = mood
         newEntry.timestamp = Date()
-        newEntry.identifier = identifier
+        newEntry.identifier = identifier ?? UUID().uuidString
         put(entry: newEntry)
         saveToPersistentStore()
     }
     
-    func update(entry: Entry, title: String, bodyText: String, mood: String, identifier: String = UUID().uuidString) {
+    func update(entry: Entry, title: String, bodyText: String, mood: String) {
         entry.title = title
         entry.bodyText = bodyText
         entry.mood = mood
         entry.timestamp = Date()
-        entry.identifier = identifier
         put(entry: entry)
         saveToPersistentStore()
     }
@@ -72,17 +71,17 @@ class EntryController {
     }
     
     
-    typealias CompletionHandler = (Error?) -> Void
+    typealias ComplitionHandler = (Error?) -> Void
     
     private let baseURL = URL(string: "https://journal-b933b.firebaseio.com/")!
     
     
-    func put(entry: Entry, comletion: @escaping CompletionHandler = { _ in }){
+    func put(entry: Entry, comletion: @escaping ComplitionHandler = { _ in }){
         
       
-//        guard let uuid = entry.identifier else { return }
-//        print(uuid)
-        let requestURL = baseURL.appendingPathComponent(entry.identifier!).appendingPathExtension("json")
+        let uuid = entry.identifier
+       
+        let requestURL = baseURL.appendingPathComponent(uuid!).appendingPathExtension("json")
         
        print(requestURL)
             var request = URLRequest(url: requestURL)
@@ -102,7 +101,7 @@ class EntryController {
             }
             }.resume()
     }
-        func deleteEntryFromServer(entry: Entry, complition : @escaping CompletionHandler = {  _ in}) {
+        func deleteEntryFromServer(entry: Entry, complition : @escaping ComplitionHandler = {  _ in}) {
         
             let URL = baseURL.appendingPathComponent(entry.identifier!).appendingPathExtension("json")
             
@@ -117,37 +116,35 @@ class EntryController {
                 }.resume()
         }
     
-    func updateEntry(ToEntry: Entry, fromEntryRepresentation: EntryRepresentation) {
+    func updateEntry(toEntry: Entry, fromEntryRepresentation: EntryRepresentation) {
        
-        ToEntry.title = fromEntryRepresentation.title
-        ToEntry.bodyText = fromEntryRepresentation.bodyText
-        ToEntry.identifier = fromEntryRepresentation.identifier
-        ToEntry.timestamp = fromEntryRepresentation.timestamp
-        ToEntry.mood = fromEntryRepresentation.mood
+        toEntry.title = fromEntryRepresentation.title
+        toEntry.bodyText = fromEntryRepresentation.bodyText
+        //ToEntry.identifier = fromEntryRepresentation.identifier
+        toEntry.timestamp = fromEntryRepresentation.timestamp
+        toEntry.mood = fromEntryRepresentation.mood
         
     }
     
     func fetchSingleEntryFromPersistentStore(entryIdentifier: String) -> Entry? {
-        
+         let predicate = NSPredicate(format: "identifier == %@", entryIdentifier)
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let predicate = NSPredicate(format: "identifier == %@", entryIdentifier)
         fetchRequest.predicate = predicate
         
         let moc = CoreDataStack.shared.mainContext
         let entry = try? moc.fetch(fetchRequest)
        
-        guard let requestedEntry = entry else {
-            return nil
-        }
-            return requestedEntry.first
+//        guard let requestedEntry = entry else {
+//            return nil
+//        }
+            return entry?.first
     }
     
-    func fetchEntriesFromServer(complition: @escaping CompletionHandler = { _ in }) {
+    func fetchEntriesFromServer(complition: @escaping ComplitionHandler = { _ in }) {
         
         let requestURL = baseURL.appendingPathExtension("json")
         
-//        var request = URLRequest(url: requestURL)
-//        request.httpMethod = "GET"
+      
         
         
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
@@ -165,22 +162,20 @@ class EntryController {
             DispatchQueue.main.async {
                 
                 do {
-                    var entryRepresentation: [EntryRepresentation] = []
-                    entryRepresentation = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({$0.value})
+                    var entryRepresentations: [EntryRepresentation] = []
+                    entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({$0.value})
                     
-                    for value in entryRepresentation {
-                        let entry = self.fetchSingleEntryFromPersistentStore(entryIdentifier: value.identifier)
+                    for entryRepresentation in entryRepresentations {
+                        guard let identifier = entryRepresentation.identifier else { continue }
                         
-                        if entry != nil {
-                            self.updateEntry(ToEntry: entry!, fromEntryRepresentation: value)
 
+                        if let entry = self.fetchSingleEntryFromPersistentStore(entryIdentifier: identifier), entry != entryRepresentation {
+                            self.updateEntry(toEntry: entry, fromEntryRepresentation: entryRepresentation)
                         } else {
-                            entryRepresentation = [value] // ?
+                            _ = Entry(entryRepresentation: entryRepresentation)
                         }
-
                     }
-                    
-                    
+
                     self.saveToPersistentStore()
                     complition(nil)
                     

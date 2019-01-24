@@ -24,15 +24,15 @@ extension Entry {
         
         
     }
-    convenience init?(entryRepresentation: EntryRepresentation) {
+    convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
-        self.init()
-        title = entryRepresentation.title
-        bodyText = entryRepresentation.bodyText
-        identifier = entryRepresentation.identifier
-        timestamp = entryRepresentation.timestamp
-        mood = entryRepresentation.mood
+        guard let title = entryRepresentation.title,
+       let bodyText = entryRepresentation.bodyText,
+       let identifier = entryRepresentation.identifier,
+       let timestamp = entryRepresentation.timestamp,
+           let mood = entryRepresentation.mood else { return nil}
         
+        self.init(title: title, bodyText: bodyText, mood: mood, identifier: identifier, timestamp: timestamp, context: context)
     }
     
 }
