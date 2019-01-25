@@ -13,7 +13,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     let entryController = EntryController()
     
     @IBAction func beginRefresh(_ sender: UIRefreshControl) {
-        entryController.fetchEntriesFromServer { _ in
+        entryController.fetchEntriesFromServer(context: CoreDataStack.shared.mainContext) { _ in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 sender.endRefreshing()
             }

@@ -17,15 +17,16 @@ class EntryTableViewCell: UITableViewCell {
     }
    
     func updateViews() {
-        let dateFormatter = DateFormatter()
-        let date = Date()
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .short
-        let timeAndDate = dateFormatter.string(from: date)
+//        let dateFormatter = DateFormatter()
+//        let date = Date()
+//        dateFormatter.dateStyle = .short
+//        dateFormatter.timeStyle = .short
+//        let timeAndDate = dateFormatter.string(from: date)
         
         guard let entry = entry else { return }
-        title.text = entry.title
-        timestamp.text = timeAndDate
+        guard let entryTitle = entry.title, let mood = entry.mood else { return }
+        title.text = "\(entryTitle) \(mood)"
+        timestamp.text = entry.timeFormatted
         bodyText.text = entry.bodyText
     }
 

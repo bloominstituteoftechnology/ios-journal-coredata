@@ -12,7 +12,7 @@ import CoreData
 class EntryController {
     
     init() {
-        fetchEntriesFromServer()
+        fetchEntriesFromServer(context: CoreDataStack.shared.mainContext)
     }
     
     func saveToPersistentStore() {
@@ -101,7 +101,7 @@ class EntryController {
             }
             }.resume()
     }
-        func deleteEntryFromServer(entry: Entry, complition : @escaping ComplitionHandler = {  _ in}) {
+    func deleteEntryFromServer(entry: Entry, complition : @escaping ComplitionHandler = {  _ in}) {
         
             let URL = baseURL.appendingPathComponent(entry.identifier!).appendingPathExtension("json")
             
@@ -118,29 +118,38 @@ class EntryController {
     
     func updateEntry(toEntry: Entry, fromEntryRepresentation: EntryRepresentation) {
        
+        guard let context = toEntry.managedObjectContext else { return }
+        
+        context.perform {
+        
+            guard toEntry.identifier == fromEntryRepresentation.identifier else {
+                fatalError("Updating the wrong task")
+            }
+            
         toEntry.title = fromEntryRepresentation.title
         toEntry.bodyText = fromEntryRepresentation.bodyText
-        //ToEntry.identifier = fromEntryRepresentation.identifier
         toEntry.timestamp = fromEntryRepresentation.timestamp
         toEntry.mood = fromEntryRepresentation.mood
-        
+            
+        }
     }
     
-    func fetchSingleEntryFromPersistentStore(entryIdentifier: String) -> Entry? {
+    func fetchSingleEntryFromPersistentStore(entryIdentifier: String, context: NSManagedObjectContext) -> Entry? {
          let predicate = NSPredicate(format: "identifier == %@", entryIdentifier)
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = predicate
         
-        let moc = CoreDataStack.shared.mainContext
-        let entry = try? moc.fetch(fetchRequest)
-       
-//        guard let requestedEntry = entry else {
-//            return nil
-//        }
-            return entry?.first
+       // let moc = CoreDataStack.shared.mainContext
+        var entry: Entry?
+        
+        context.performAndWait {
+           entry = (try? context.fetch(fetchRequest))?.first
+        }
+      
+            return entry
     }
     
-    func fetchEntriesFromServer(complition: @escaping ComplitionHandler = { _ in }) {
+    func fetchEntriesFromServer(context: NSManagedObjectContext, complition: @escaping ComplitionHandler = { _ in }) {
         
         let requestURL = baseURL.appendingPathExtension("json")
         
@@ -164,15 +173,13 @@ class EntryController {
                 do {
                     var entryRepresentations: [EntryRepresentation] = []
                     entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({$0.value})
-                    
+                    print(entryRepresentations)
                     for entryRepresentation in entryRepresentations {
                         guard let identifier = entryRepresentation.identifier else { continue }
-                        
-
-                        if let entry = self.fetchSingleEntryFromPersistentStore(entryIdentifier: identifier), entry != entryRepresentation {
+                       if let entry = self.fetchSingleEntryFromPersistentStore(entryIdentifier: identifier, context: context) {
                             self.updateEntry(toEntry: entry, fromEntryRepresentation: entryRepresentation)
                         } else {
-                            _ = Entry(entryRepresentation: entryRepresentation)
+                        _ = Entry(entryRepresentation: entryRepresentation, context: context)
                         }
                     }
 

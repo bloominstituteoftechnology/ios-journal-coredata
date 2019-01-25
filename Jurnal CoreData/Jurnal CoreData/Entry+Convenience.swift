@@ -12,7 +12,7 @@ import CoreData
 extension Entry {
     
     
-    convenience init(title: String, bodyText: String, mood: String, identifier:  String, timestamp: Date = Date(), context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init(title: String, bodyText: String, mood: String, identifier:  String, timestamp: Date = Date(), context: NSManagedObjectContext) {
         
         self.init(context: context)
         
@@ -24,7 +24,7 @@ extension Entry {
         
         
     }
-    convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext) {
         
         guard let title = entryRepresentation.title,
        let bodyText = entryRepresentation.bodyText,
@@ -33,6 +33,18 @@ extension Entry {
            let mood = entryRepresentation.mood else { return nil}
         
         self.init(title: title, bodyText: bodyText, mood: mood, identifier: identifier, timestamp: timestamp, context: context)
+    }
+    
+    var timeFormatted: String? {
+        guard let timestamp = timestamp else {
+            return nil
+        }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .short
+        let timeAndDate = dateFormatter.string(from: timestamp)
+        return timeAndDate
+        
     }
     
 }
