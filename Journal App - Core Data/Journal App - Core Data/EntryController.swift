@@ -9,6 +9,10 @@ class EntryController {
     
     let baseURL = URL(string: "https://journal-76acd.firebaseio.com/")!
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     // MARK: - Core Data Functions
     
     func createEntry(title: String, bodyText: String, mood: String) {
@@ -43,7 +47,7 @@ class EntryController {
     }
     
     // Have title and bodyText parameters as well as the Entry you want to update
-    func updateEntry(entry: Entry, title: String, bodyText: String, mood: String) {
+    func updateEntry(entry: Entry, title: String, bodyText: String, mood: String?) {
         
         // Change the title and bodyText of the Entry to the new values passed in as parameters to the function
         entry.title = title
@@ -51,7 +55,7 @@ class EntryController {
         entry.mood = mood
 
         // Update the entry's timestamp to the current time
-        entry.timestamp = Date.init()
+        entry.timestamp = Date()
         
         // Save changes to the persistent store
         saveToPersistentStore()
@@ -163,18 +167,37 @@ class EntryController {
                 do {
                     dataArray = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({$0.value})
                     
+                    for eachEntry in dataArray {
+                        
+                        //guard let identifier = eachEntry.identifier else { continue }
+                        
+                        // Assign to result of fetchSingleEntry function in order to compare with the entry representation and see if there is already a corresponding entry in persistent store
+                        
+                        // If the entry is not equal to the entry representation decoded, call update() to synchronize the entry from the persistent store to the updated values from the server's version
+                        if let entry = self.fetchSingleEntryFromPersistentStore(identifier: eachEntry.identifier) {
+                            self.update(entry: entry, with: eachEntry)
+                            
+                        } else {
+                            
+                            // If they are the same, don't need to do anything
+                            // If there was no entry returned, that means the server has an entry that the device does not. So initialize a new Entry using the convenience initializer that takes in an Entry Representation
+                            _ = Entry(entryRepresentation: eachEntry)
+                        }
+                        
+                    }
+                    
+                    // Persist changes and synchronize the data in the device's persistent store with the data on the server.
+                    self.saveToPersistentStore()
+                    completion(nil)
                     
                 } catch {
+                    NSLog("Error decoding or importing tasks: \(error)")
+                    completion(error)
                     
                 }
             }
             
-            
-            
-            
-            
-            
-        }
+        }.resume()
         
         
     }

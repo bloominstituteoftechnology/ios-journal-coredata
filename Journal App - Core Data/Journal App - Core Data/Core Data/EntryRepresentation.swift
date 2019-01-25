@@ -13,8 +13,7 @@ struct EntryRepresentation: Decodable, Equatable {
 
 func == (lhs: EntryRepresentation, rhs: Entry) -> Bool {
     
-    // Check to see if same identifiers
-    return lhs.identifier == rhs.identifier
+    return lhs.identifier == rhs.identifier && lhs.title == rhs.title && lhs.bodyText == rhs.bodyText && lhs.timestamp == rhs.timestamp && lhs.mood == rhs.mood
 }
 
 func == (lhs: Entry, rhs: EntryRepresentation) -> Bool {

@@ -14,7 +14,5 @@ struct DateFormat {
     
     let timestamp: Date = Date()
     
-    var formattedTimeStamp: String {
-        return DateFormat.dateFormatter.string(from: timestamp)
-    }
+
 }

@@ -24,8 +24,6 @@ class EntryDetailViewController: UIViewController {
         moodSegmentedControl.backgroundColor = .white
         moodSegmentedControl.tintColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
         bodyOutlet.backgroundColor = .white
-        
-
     }
     
 
@@ -62,7 +60,7 @@ class EntryDetailViewController: UIViewController {
         
         guard let titleText = titleOutlet.text, let bodyText = bodyOutlet.text else { return }
         
-        let moc = CoreDataStack.shared.mainContext
+        //let moc = CoreDataStack.shared.mainContext
         
         // Holds corresponding mood
         let moodIndex = moodSegmentedControl.selectedSegmentIndex
@@ -78,7 +76,7 @@ class EntryDetailViewController: UIViewController {
         }
         
         do {
-            try moc.save()
+            //try moc.save()
             
             navigationController?.popViewController(animated: true)
             

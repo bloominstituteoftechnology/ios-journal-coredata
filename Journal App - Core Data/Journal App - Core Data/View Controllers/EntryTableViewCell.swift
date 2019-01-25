@@ -36,7 +36,7 @@ class EntryTableViewCell: UITableViewCell {
         
         titleOutlet.text = entry.title
         bodyOutlet.text = entry.bodyText
-        timestampOutlet.text = dateFormat.formattedTimeStamp
+        timestampOutlet.text = entry.formattedTimeStamp
         //timestampOutlet.text = convertDateFormatter("\(date)")
         
     }
