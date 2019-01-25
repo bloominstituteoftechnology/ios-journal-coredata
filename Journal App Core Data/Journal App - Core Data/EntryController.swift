@@ -129,7 +129,7 @@ class EntryController {
     }
     
     // Fetch from Core Data
-    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+    func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry? {
         let request: NSFetchRequest<Entry> = Entry.fetchRequest()
         let predicate = NSPredicate(format: "identifier == %@", identifier)
         request.predicate = predicate
@@ -161,6 +161,9 @@ class EntryController {
                 return
             }
             
+            
+            let moc = CoreDataStack.shared.mainContext
+            
             var dataArray: [EntryRepresentation] = []
             
             DispatchQueue.main.async {
@@ -174,7 +177,7 @@ class EntryController {
                         // Assign to result of fetchSingleEntry function in order to compare with the entry representation and see if there is already a corresponding entry in persistent store
                         
                         // If the entry is not equal to the entry representation decoded, call update() to synchronize the entry from the persistent store to the updated values from the server's version
-                        if let entry = self.fetchSingleEntryFromPersistentStore(identifier: eachEntry.identifier) {
+                        if let entry = self.fetchSingleEntryFromPersistentStore(identifier: eachEntry.identifier, context: moc) {
                             self.update(entry: entry, with: eachEntry)
                             
                         } else {
