@@ -116,16 +116,24 @@ class EntryController {
     
     // Takes an Entry whose values should be updated, and and Entry Representation to take the values from
     func update(entry: Entry, with entryRepresentation: EntryRepresentation) {
-        guard entry.identifier == entryRepresentation.identifier else {
-            fatalError("Updating the wrong task!")
+        
+        // Check to make sure there is a context
+        guard let context = entry.managedObjectContext else { return }
+        
+        // Now that we have one, put the stuff we need to do inside of the context
+        context.perform {
+            
+            guard entry.identifier == entryRepresentation.identifier else {
+                fatalError("Updating the wrong task!")
+            }
+            
+            entry.title = entryRepresentation.title
+            entry.bodyText = entryRepresentation.bodyText
+            entry.timestamp = entryRepresentation.timestamp
+            entry.identifier = entryRepresentation.identifier
+            entry.mood = entryRepresentation.mood
+            
         }
-        
-        entry.title = entryRepresentation.title
-        entry.bodyText = entryRepresentation.bodyText
-        entry.timestamp = entryRepresentation.timestamp
-        entry.identifier = entryRepresentation.identifier
-        entry.mood = entryRepresentation.mood
-        
     }
     
     // Fetch from Core Data
@@ -134,10 +142,16 @@ class EntryController {
         let predicate = NSPredicate(format: "identifier == %@", identifier)
         request.predicate = predicate
         
-        let moc = CoreDataStack.shared.mainContext
+        //let moc = CoreDataStack.shared.mainContext
         
         // Return first entry from the array  - in theory, there should only be one entry fetched anyway b/c the predicate uses the entry's identifier.
-        let entry = (try? moc.fetch(request))?.first
+        //let entry = (try? moc.fetch(request))?.first
+        
+        // Put fetch request in a performAndWait block
+        var entry: Entry?
+        context.performAndWait {
+            entry = (try? context.fetch(request))?.first
+        }
         
         return entry
     }

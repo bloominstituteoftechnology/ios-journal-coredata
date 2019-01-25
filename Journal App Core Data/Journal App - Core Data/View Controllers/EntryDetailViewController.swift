@@ -83,15 +83,6 @@ class EntryDetailViewController: UIViewController {
         } catch {
             fatalError("Failed to save: \(error)")
         }
-        
-
-        
-
-        
-
-
     }
-    
-
 
 }
