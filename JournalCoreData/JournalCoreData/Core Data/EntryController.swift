@@ -99,7 +99,7 @@ class EntryController {
         return entry
     }
     
-    func fetchEntriesFromServer(completionHandler: @escaping CompletionHandler = { _ in }) {
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
         
         let requestURL = baseURL.appendingPathExtension("json")
         
@@ -107,13 +107,13 @@ class EntryController {
             
             if let error = error {
                 print("error fetching entry: \(error)")
-                completionHandler(error)
+                completion(error)
                 return
             }
             
             guard let data = data else {
                 print("no data returned")
-                completionHandler(NSError())
+                completion(NSError())
                 return
             }
             
@@ -124,34 +124,37 @@ class EntryController {
                 let decoder = JSONDecoder()
                 let decodedResponse = try decoder.decode([String: EntryRepresentation].self, from: data)
                 let entryRepresentations = Array(decodedResponse.values)
-                try self.updatePersistentStore(entryRepresentations, into: moc)
+                self.updatePersistentStore(entryRepresentations, into: moc)
+            
                 try CoreDataStack.shared.save(context: moc)
-                completionHandler(nil)
+                completion(nil)
                 
             }catch {
                 print("error importing entries: \(error)")
-                completionHandler(error)
+                completion(error)
                 return
             }
-            
             }.resume()
+        saveToPersistentStore()
+
     }
     
     //update persistent store
-    func updatePersistentStore(_ entryRepresentations: [EntryRepresentation], into managedObjectContext: NSManagedObjectContext) throws {
+    func updatePersistentStore(_ entryRepresentations: [EntryRepresentation], into managedObjectContext: NSManagedObjectContext) {
         
         var importedEntryIdentifiers = Set<String>()
         for entryRepresentation in entryRepresentations {
             if let identifier = entryRepresentation.identifier, let entry = fetchSingleEntryFromPersistentStore(with: identifier, in: managedObjectContext) {
                 
-//                if entry != entryRepresentation {
-                    update(entry: entry, entryRepresentation: entryRepresentation)
-//                }
+                //                if entry != entryRepresentation {
+                update(entry: entry, entryRepresentation: entryRepresentation)
+                importedEntryIdentifiers.insert(entryRepresentation.identifier!)
+                //                }
             } else {
                 
                 managedObjectContext.perform {
-                    _ = Entry(entryRepresentation: entryRepresentation, moc: managedObjectContext)
-
+                    _ = Entry(entryRepresentation: entryRepresentation, managedObjectContext: managedObjectContext)
+                    
                 }
             }
         }
@@ -167,29 +170,31 @@ class EntryController {
             _ = try? managedObjectContext.execute(batchDelete)
         }
         //saveToPersistentStore()
+        
+        
     }
     
     
     func saveToPersistentStore(){
         // save data to mainContext
         do {
-            try CoreDataStack.shared.save(context: CoreDataStack.shared.container.newBackgroundContext())
+            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
         }catch {
             print("failed to save: \(error)")
         }
     }
     
-    func loadFromPersistentStore() -> [Entry]{
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let results = (try? CoreDataStack.shared.mainContext.fetch(fetchRequest)) ?? []
-        print(results)
-        return results
-    }
+//    func loadFromPersistentStore() -> [Entry]{
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let results = (try? CoreDataStack.shared.mainContext.fetch(fetchRequest)) ?? []
+//        print(results)
+//        return results
+//    }
     
-    var entries: [Entry]? {
-        return loadFromPersistentStore()
-        
-    }
+//    var entries: [Entry]? {
+//        return loadFromPersistentStore()
+//
+//    }
     
     //CREATE
     public func create(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
@@ -201,30 +206,27 @@ class EntryController {
         let mood = entryRepresentation.mood
         
         //create movie from representation
-        let entry = Entry(title: title!, bodyText: bodyText!, timeStamp: timeStamp ?? Date(), identifier: identifier ?? UUID().uuidString, mood: mood!)
-        
-        //save it to moc
-        do {
-            try CoreDataStack.shared.save(context: context)
-        } catch {
-            NSLog("Error saving created movie: \(error)")
-            return
+        context.perform {
+            let newEntry = Entry(title: title!, bodyText: bodyText!, timeStamp: timeStamp ?? Date(), identifier: identifier ?? UUID().uuidString, mood: mood!)
+            do {
+                try CoreDataStack.shared.save(context: context)
+            } catch {
+                NSLog("Error saving created movie: \(error)")
+                return
+            }
+            
+            //save it to Firebase
+            self.put(entry: newEntry)
         }
-        
-        //save it to Firebase
-        put(entry: entry)
     }
+    
     func createEntry(title: String, entryBody: String?, mood: String, in managedObjectContext: NSManagedObjectContext){
         
         managedObjectContext.perform {
             let newEntry = Entry(title: title, bodyText: entryBody ?? "", identifier: UUID().uuidString, mood: mood, context: managedObjectContext)
             self.put(entry: newEntry)
         }
-        
-//        put(entry: newEntry)
-        saveToPersistentStore()
-        
-        
+
     }
     
     func updateEntry(title: String, entryBodyText: String, mood: String, entry: Entry){

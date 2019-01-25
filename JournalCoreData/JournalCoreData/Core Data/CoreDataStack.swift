@@ -18,7 +18,9 @@ class CoreDataStack {
             }
         }
         container.viewContext.automaticallyMergesChangesFromParent = true
+        
         mainContext = container.viewContext
+        //mainContext.mergePolicy = NSRollbackMergePolicy
     }
     
     func save(context: NSManagedObjectContext) throws {

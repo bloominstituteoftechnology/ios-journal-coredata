@@ -13,9 +13,9 @@ extension Entry {
         
     }
     //Entry from representation
-    convenience init(entryRepresentation: EntryRepresentation, moc: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init(entryRepresentation: EntryRepresentation, managedObjectContext: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
        
-        self.init(title: entryRepresentation.title!, bodyText: entryRepresentation.bodyText!, timeStamp: entryRepresentation.timeStamp!, identifier: entryRepresentation.identifier!, mood: entryRepresentation.mood!, context: moc)
+        self.init(title: entryRepresentation.title!, bodyText: entryRepresentation.bodyText!, timeStamp: entryRepresentation.timeStamp!, identifier: entryRepresentation.identifier!, mood: entryRepresentation.mood!, context: managedObjectContext)
     }
     //Representation from Entry
     var entryRepresentation: EntryRepresentation? {
