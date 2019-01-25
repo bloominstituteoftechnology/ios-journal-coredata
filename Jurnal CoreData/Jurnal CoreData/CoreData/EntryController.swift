@@ -179,7 +179,10 @@ class EntryController {
                        if let entry = self.fetchSingleEntryFromPersistentStore(entryIdentifier: identifier, context: context) {
                             self.updateEntry(toEntry: entry, fromEntryRepresentation: entryRepresentation)
                         } else {
+                        context.perform {
+                          
                         _ = Entry(entryRepresentation: entryRepresentation, context: context)
+                        }
                         }
                     }
 

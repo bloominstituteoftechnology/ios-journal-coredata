@@ -44,6 +44,8 @@ extension Entry {
         dateFormatter.timeStyle = .short
         let timeAndDate = dateFormatter.string(from: timestamp)
         return timeAndDate
+
     }
+    
 }
 

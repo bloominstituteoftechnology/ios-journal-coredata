@@ -9,27 +9,74 @@
 import Foundation
 import CoreData
 
+
+// Manager for getting data
 class CoreDataStack {
     
+    // Singleton
     static let shared = CoreDataStack()
-
-    lazy var container: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "Jurnal")
+    
+    let container: NSPersistentContainer
+    
+    // How we interact with our data store
+    let mainContext: NSManagedObjectContext
+    
+    // Init method
+    init() {
+        
+        // Alternative: Use NSPersistentContainer
+        
+        // Create a container
+        // Give it the name of your data model file
+        container = NSPersistentContainer(name: "Jurnal")
+        
+        // Load the stores
         container.loadPersistentStores { (description, error) in
-            if let error = error {
-                fatalError("Couldn't load the data store: \(error)")
-            } else {
-                print("\(description.url!.path)")
+            if let e = error {
+                fatalError("Couldn't load the data store: \(e)")
             }
         }
-        return container
-    }()
-    
-    var mainContext: NSManagedObjectContext {
-        return container.viewContext
+        
+        mainContext = container.viewContext
+        mainContext.automaticallyMergesChangesFromParent = true
+    }
+    func save(context: NSManagedObjectContext) throws {
+        var saveError: Error?
+        context.performAndWait {
+            do {
+                try context.save()
+            } catch {
+                saveError = error
+            }
+        }
+        if let error = saveError { throw error }
     }
     
 }
+
+
+//
+//class CoreDataStack {
+//
+//    static let shared = CoreDataStack()
+//
+//    lazy var container: NSPersistentContainer = {
+//        let container = NSPersistentContainer(name: "Jurnal")
+//        container.loadPersistentStores { (description, error) in
+//            if let error = error {
+//                fatalError("Couldn't load the data store: \(error)")
+//            } else {
+//                print("\(description.url!.path)")
+//            }
+//        }
+//        return container
+//    }()
+//
+//    var mainContext: NSManagedObjectContext {
+//
+//        return container.viewContext
+//    }
+
 
 
     
