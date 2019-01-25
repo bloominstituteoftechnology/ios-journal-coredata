@@ -20,33 +20,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         
     }
     
-    // The value of this property will be the result of executing this closure:
-    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
-        // Fetch request from Entry object
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
-        // Sort descriptor sorts entries based on timestamp
-        // Give sort descriptor to fetch request's sortDescriptor's property (an array of sort descriptors)
-        fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "timestamp", ascending: true)
-        ]
-        
-        let moc = CoreDataStack.shared.mainContext
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                             managedObjectContext: moc,
-                                             sectionNameKeyPath: "mood",
-                                             cacheName: nil)
-        
-        // Adopt the NSFetchedResultsControllerDelegate protocol
-        frc.delegate = self
-        
-        // Perform the fetch request
-        try? frc.performFetch()
-        
-        return frc
-        
-        
-    }()
+ 
 
     // MARK: - Table view data source
 
@@ -168,7 +142,33 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     }
     
 
-    
+    // The value of this property will be the result of executing this closure:
+    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+        // Fetch request from Entry object
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        
+        // Sort descriptor sorts entries based on timestamp
+        // Give sort descriptor to fetch request's sortDescriptor's property (an array of sort descriptors)
+        fetchRequest.sortDescriptors = [
+            NSSortDescriptor(key: "timestamp", ascending: true)
+        ]
+        
+        let moc = CoreDataStack.shared.mainContext
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                             managedObjectContext: moc,
+                                             sectionNameKeyPath: "mood",
+                                             cacheName: nil)
+        
+        // Adopt the NSFetchedResultsControllerDelegate protocol
+        frc.delegate = self
+        
+        // Perform the fetch request
+        try? frc.performFetch()
+        
+        return frc
+        
+        
+    }()
 
 
 

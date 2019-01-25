@@ -161,8 +161,8 @@ class EntryController {
                 return
             }
             
-            
-            let moc = CoreDataStack.shared.mainContext
+            // Use container to get a new background context
+            let moc = CoreDataStack.shared.container.newBackgroundContext()
             
             var dataArray: [EntryRepresentation] = []
             
@@ -190,7 +190,10 @@ class EntryController {
                     }
                     
                     // Persist changes and synchronize the data in the device's persistent store with the data on the server.
-                    self.saveToPersistentStore()
+                    //self.saveToPersistentStore()
+                    
+                    // If this is a background context, save it to the context's queue, so use the helper method in CoreDataStack
+                    try CoreDataStack.shared.saveTo(context: moc)
                     completion(nil)
                     
                 } catch {
