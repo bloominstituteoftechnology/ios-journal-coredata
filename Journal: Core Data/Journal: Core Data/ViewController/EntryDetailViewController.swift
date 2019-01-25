@@ -9,17 +9,21 @@
 import UIKit
 
 class EntryDetailViewController: UIViewController {
-
-    var entryController: EntryController? // Don't think this is needed...
+    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
+    
+    var entryController: EntryController?
     var entry: Entry?{
         didSet{
             updateViews()
         }
     }
     
-    @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var bodyTextView: UITextView!
-    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        updateViews()
+    }
     
     func updateViews(){
         guard isViewLoaded == true else { return }
@@ -31,45 +35,27 @@ class EntryDetailViewController: UIViewController {
             moodSegmentedControl.selectedSegmentIndex = index
             title = e.title
         } else {
-            // createa task
+            // create a task
             title = "Create Entry"
         }
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        updateViews()
-    }
-    
-
     @IBAction func saveButtonTapped(_ sender: Any) {
-        let maybeName = titleTextField.text
-        guard let title = maybeName, title.isEmpty == false else {
+        guard let title = titleTextField.text, let bodyText = bodyTextView.text, title.isEmpty == false else {
             return
         }
-        let bodyText = bodyTextView.text
         
         if let existingEntry = entry {
             // editing a entry
-            existingEntry.title = title
-            existingEntry.bodyText = bodyText
             let index = moodSegmentedControl.selectedSegmentIndex
             let mood = moodSegmentedControl.titleForSegment(at: index)!
-            entryController?.update(entry: existingEntry, title: title, bodyText: bodyText, mood: mood)
+            entryController?.updateEntry(entry: existingEntry, title: title, bodyText: bodyText, mood: mood)
         } else {
             // creating a new entry
-            let newEntry = Entry(context: CoreDataStack.shared.mainContext)
-            newEntry.title = title
-            newEntry.bodyText = bodyText
             let index = moodSegmentedControl.selectedSegmentIndex
-            newEntry.mood = moodSegmentedControl.titleForSegment(at: index)!
+            let mood = moodSegmentedControl.titleForSegment(at: index)!
+            entryController?.createEntry(title: title, bodyText: bodyText, mood: mood)
         }
-        
-        do {
-           // try CoreDataStack.shared.mainContext.save()
-            navigationController?.popViewController(animated: true)
-        } catch {
-            print("EntryDetailViewController: Line 61\nFailed to save: \(error)")
-        }
+        navigationController?.popViewController(animated: true)
     }
 }

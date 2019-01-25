@@ -9,7 +9,6 @@
 import Foundation
 
 extension Entry: Encodable {
-    
     enum CodingKeys: String, CodingKey {
         case title
         case bodyText

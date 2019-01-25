@@ -11,7 +11,6 @@ import CoreData
 
 extension Entry {
     convenience init(title: String, bodyText: String, identifier: String = UUID().uuidString, timestamp: Date = Date(), mood: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        
         self.init(context: context)
         self.title = title
         self.bodyText = bodyText
@@ -20,16 +19,20 @@ extension Entry {
         self.mood = mood
     }
     
-    // Does failable mean optional...?
     // In the "Entry+Convenience.swift" file, add a new convenience initializer. This initializer should be failable
     convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         guard let title = entryRepresentation.title,
         let bodyText = entryRepresentation.bodyText,
         let identifier = entryRepresentation.identifier,
         let timestamp = entryRepresentation.timestamp,
-            let mood = entryRepresentation.mood else { return nil}
-        
+        let mood = entryRepresentation.mood else { return nil}
         self.init(title: title, bodyText: bodyText, identifier: identifier, timestamp: timestamp, mood: mood, context: context)
     }
+    
+    var formattedTimeStamp: String? {
+        guard let timestamp = timestamp else {
+            return nil
+        }
+        return DateFormat.dateFormatter.string(from: timestamp)
+    }
 }
-

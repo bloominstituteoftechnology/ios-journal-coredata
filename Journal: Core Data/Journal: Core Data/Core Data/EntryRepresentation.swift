@@ -14,7 +14,6 @@ struct EntryRepresentation: Decodable, Equatable {
     var timestamp: Date?
     var mood: String?
     var identifier: String?
-    
 }
 
 func == (lhs: EntryRepresentation, rhs: Entry) -> Bool {

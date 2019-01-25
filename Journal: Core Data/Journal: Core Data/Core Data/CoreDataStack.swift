@@ -15,11 +15,12 @@ class CoreDataStack{
     let container: NSPersistentContainer
     
     init() {
-        
         container = NSPersistentContainer(name: "Journal: Core Data")
         container.loadPersistentStores { (description, error) in
-            if let e = error {
-                fatalError("Hey for whatever reason I couldn't load the data store. \n\(e)")
+            if let error = error {
+                fatalError("Hey for whatever reason I couldn't load the data store. \n\(error)")
+            } else {
+                print (description)
             }
         }
         mainContext = container.viewContext
