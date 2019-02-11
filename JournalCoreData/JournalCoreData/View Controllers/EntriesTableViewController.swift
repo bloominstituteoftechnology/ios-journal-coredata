@@ -9,6 +9,8 @@
 import UIKit
 
 class EntriesTableViewController: UITableViewController {
+    
+    var entryController = EntryController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,7 +20,7 @@ class EntriesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 0
+        return entryController.entries.count
     }
 
    
