@@ -50,7 +50,7 @@ class EntryController {
     
     func update(title: String, body: String, entry: Entry){
         guard let index = entries.index(of: entry) else {return}
-        var entry = entries[index]
+        _ = entries[index]
         entry.title = title
         entry.bodyText = body
         entry.timestamp = Date()
