@@ -21,11 +21,26 @@ class EntryTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    var entry: Entry?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
     var entryController: EntryController?
     
+    let dateFormatter = DateFormatter()
     
-    
+    func updateViews() {
+        guard let entry = entry else { return }
+        
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
+        let timeText = dateFormatter.string(from: entry.timestamp!)
+        
+        titleTextField.text = entry.title
+        timestampLabel.text = timeText
+        bodyLabel.text = entry.bodyText
+    }
     
     @IBOutlet weak var titleTextField: UILabel!
     
