@@ -14,7 +14,7 @@ extension String {
         
         // formatter #1
         let formatter1 = DateFormatter()
-        formatter1.dateFormat = "yyyy-MM-dd"
+        formatter1.dateFormat = "MM-dd-yyyy"
         let dateString1 = formatter1.string(from: date)
         
         // formatter #2

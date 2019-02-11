@@ -28,10 +28,10 @@ class EntryDetailViewController: UIViewController {
     
     private func updateViews() {
         guard isViewLoaded else {return}
-        guard let entry = entry else { return }
-        title = entry.title ?? "Create Entry"
-        titleTextField.text = entry.title
-        descriptionTextView.text = entry.bodyText
+        
+        title = entry?.title ?? "Create Entry"
+        titleTextField.text = entry?.title
+        descriptionTextView.text = entry?.bodyText
     }
 
     @IBAction func saveBarButtonPressed(_ sender: UIBarButtonItem) {
