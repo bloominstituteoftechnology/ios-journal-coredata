@@ -12,7 +12,7 @@ class EntryDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        updateViews()
         // Do any additional setup after loading the view.
     }
     
@@ -25,7 +25,31 @@ class EntryDetailViewController: UIViewController {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
     }
+    
     */
+    
+    var entry: Entry? {
+        didSet{
+            updateViews()
+        }
+    }
+    
+    func updateViews() {
+        
+        if let entry = entry, isViewLoaded {
+            title = entry.title
+            
+            titleTextField.text = entry.title
+            bodyTextView.text = entry.bodyText
+            
+        } else {
+            title = "Create New Entry"
+        }
+        
+        
+    }
+    
+    
     @IBAction func saveTapped(_ sender: UIBarButtonItem) {
         
         
