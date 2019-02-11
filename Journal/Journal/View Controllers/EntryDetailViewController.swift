@@ -16,11 +16,28 @@ class EntryDetailViewController: UIViewController {
     }
     
     @IBAction func save(_ sender: Any) {
+        guard let title = titleTextField.text, !title.isEmpty,
+        let bodyText = bodyTextView.text, !bodyText.isEmpty else { return }
         
+        _ = Entry(title: title, bodyText: bodyText)
+        
+        do {
+            let moc = CoreDataStack.shared.mainContext
+            try moc.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
+        navigationController?.popViewController(animated: true)
     }
     
     private func updateViews() {
+        guard let entry = entry else {
+            title = "New Entry"
+            titleTextField.becomeFirstResponder()
+            return }
         
+        titleTextField.text = entry.title
+        bodyTextView.text = entry.bodyText
     }
     
     // MARK: - Properties

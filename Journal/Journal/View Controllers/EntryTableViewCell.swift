@@ -7,11 +7,21 @@
 //
 
 import UIKit
+import CoreData
 
 class EntryTableViewCell: UITableViewCell {
 
     private func updateViews() {
+        guard let entry = entry else { return }
         
+        titleLabel.text = entry.title
+        bodyTextLabel.text = entry.bodyText
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "M/d/yyyy, h:dd a"
+        let entryDate = dateFormatter.string(from: entry.timestamp!)
+        
+        timestampLabel.text = entryDate
     }
     
     // MARK: - Properties
