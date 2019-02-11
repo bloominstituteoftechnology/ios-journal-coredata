@@ -64,6 +64,9 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="bodyTextLabel" destination="SaD-OJ-VKB" id="noU-lm-dMQ"/>
+                                    <outlet property="timestampLabel" destination="rPQ-fh-0lp" id="xhc-Gy-dg2"/>
+                                    <outlet property="titleLabel" destination="JkC-DF-KW1" id="Vjf-jQ-0r6"/>
                                     <segue destination="oTo-9a-Bn8" kind="show" identifier="ShowEntryDetail" id="xDr-O0-mOH"/>
                                 </connections>
                             </tableViewCell>
@@ -121,8 +124,16 @@
                         <viewLayoutGuide key="safeArea" id="l8q-MC-LDb"/>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="fXM-ht-O7q">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="VNf-L8-nmy"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="VNf-L8-nmy">
+                            <connections>
+                                <action selector="save:" destination="oTo-9a-Bn8" id="R5M-kD-eYG"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="bodyTextView" destination="dqW-wO-zz3" id="mFB-4D-jJ9"/>
+                        <outlet property="titleTextField" destination="PTm-EF-nXu" id="Gn2-Y5-s8U"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gNP-uT-l2O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

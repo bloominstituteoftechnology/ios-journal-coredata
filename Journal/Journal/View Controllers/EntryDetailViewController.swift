@@ -12,9 +12,25 @@ class EntryDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateViews()
     }
     
-
+    @IBAction func save(_ sender: Any) {
+        
+    }
+    
+    private func updateViews() {
+        
+    }
+    
     // MARK: - Properties
     
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    @IBOutlet var titleTextField: UITextField!
+    @IBOutlet var bodyTextView: UITextView!
 }

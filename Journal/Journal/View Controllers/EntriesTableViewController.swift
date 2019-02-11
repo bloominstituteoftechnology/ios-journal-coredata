@@ -55,4 +55,7 @@ class EntriesTableViewController: UITableViewController {
   
     // MARK: - Properties
 
+    var Entries: [Entry] {
+        
+    }
 }

@@ -10,7 +10,19 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
 
-   
+    private func updateViews() {
+        
+    }
+    
     // MARK: - Properties
+    
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
 
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var bodyTextLabel: UILabel!
+    @IBOutlet var timestampLabel: UILabel!
 }
