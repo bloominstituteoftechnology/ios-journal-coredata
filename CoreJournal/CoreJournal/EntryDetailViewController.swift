@@ -28,6 +28,8 @@ class EntryDetailViewController: UIViewController {
     
     */
     
+    var entryController: EntryController?
+    
     var entry: Entry? {
         didSet{
             updateViews()
@@ -51,7 +53,21 @@ class EntryDetailViewController: UIViewController {
     
     
     @IBAction func saveTapped(_ sender: UIBarButtonItem) {
+        guard let title = titleTextField.text, let bodyText = bodyTextView.text else { return }
         
+        if let entry = entry {
+            entryController?.update(withEntry: entry, andTitle: title, andBody: bodyText)
+            DispatchQueue.main.async {
+                self.navigationController?.popViewController(animated: true)
+            }
+            
+        } else {
+            entryController?.create(withTitle: title, andBody: bodyText)
+            DispatchQueue.main.async {
+                self.navigationController?.popViewController(animated: true)
+            }
+          
+        }
         
     }
     
