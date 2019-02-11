@@ -9,7 +9,7 @@
 import UIKit
 
 class EntryDetailViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         updateViews()
@@ -17,7 +17,7 @@ class EntryDetailViewController: UIViewController {
     
     @IBAction func save(_ sender: Any) {
         guard let title = titleTextField.text, !title.isEmpty,
-        let bodyText = bodyTextView.text, !bodyText.isEmpty else { return }
+            let bodyText = bodyTextView.text, !bodyText.isEmpty else { return }
         
         _ = Entry(title: title, bodyText: bodyText)
         
@@ -31,13 +31,15 @@ class EntryDetailViewController: UIViewController {
     }
     
     private func updateViews() {
-        guard let entry = entry else {
-            title = "New Entry"
-            titleTextField.becomeFirstResponder()
-            return }
-        
-        titleTextField.text = entry.title
-        bodyTextView.text = entry.bodyText
+        if isViewLoaded {
+            guard let entry = entry else {
+                title = "New Entry"
+                titleTextField.becomeFirstResponder()
+                return }
+            
+            titleTextField.text = entry.title
+            bodyTextView.text = entry.bodyText
+        }
     }
     
     // MARK: - Properties
