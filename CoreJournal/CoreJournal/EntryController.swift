@@ -43,20 +43,17 @@ class EntryController {
         return loadFromPersistentStore()
     }
     
-   func create(withTitle title: String, andBody bodyText: String){
-    _ = Entry(title: title, bodyText: bodyText, timestamp: Date(), identifier: UUID().uuidString)
+    func create(withTitle title: String, andBody bodyText: String, andMood mood: String?){
+        _ = Entry(title: title, bodyText: bodyText, timestamp: Date(), identifier: UUID().uuidString, mood: EntryMood(rawValue: mood ?? "neutral")!)
         saveToPersistentStore()
     }
     
-    func update(withEntry entry: Entry, andTitle title: String, andBody bodyText: String) {
+    func update(withEntry entry: Entry, andTitle title: String, andBody bodyText: String, andMood mood: String?) {
         guard let index = entries.index(of: entry) else { return }
-        
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .short
-       // let timeText = dateFormatter.string(from: entry.timestamp)
         
         entries[index].title = title
         entries[index].bodyText = bodyText
+        entries[index].mood = mood
         entries[index].timestamp = Date()
         
         saveToPersistentStore()

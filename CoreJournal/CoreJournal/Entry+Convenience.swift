@@ -8,9 +8,19 @@
 
 import CoreData
 
+enum EntryMood: String {
+    case happy
+    case neutral
+    case sad
+    
+    static var allMoods: [EntryMood] {
+        return [.happy, .neutral, .sad]
+    }
+}
+
 extension Entry {
     
-    convenience init(title: String?, bodyText: String?, timestamp: Date?, identifier: String?, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init(title: String?, bodyText: String?, timestamp: Date?, identifier: String?, mood: EntryMood = .neutral, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         // Setting up the NSManagedObject (the cored data related) part of the Task object
         self.init(context: context)
@@ -19,6 +29,7 @@ extension Entry {
         self.bodyText = bodyText
         self.timestamp = timestamp
         self.identifier = identifier
+        self.mood = mood.rawValue
         
         
     }

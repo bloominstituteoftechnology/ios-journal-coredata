@@ -16,17 +16,6 @@ class EntryDetailViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    
-    */
     
     var entryController: EntryController?
     
@@ -40,6 +29,10 @@ class EntryDetailViewController: UIViewController {
         
         if let entry = entry, isViewLoaded {
             title = entry.title
+            
+            guard let moodString = entry.mood, let mood = EntryMood(rawValue: moodString), let index = EntryMood.allMoods.firstIndex(of: mood) else { return }
+            
+            emotionSegmentedControl.selectedSegmentIndex = index
             
             titleTextField.text = entry.title
             bodyTextView.text = entry.bodyText
@@ -55,14 +48,19 @@ class EntryDetailViewController: UIViewController {
     @IBAction func saveTapped(_ sender: UIBarButtonItem) {
         guard let title = titleTextField.text, let bodyText = bodyTextView.text else { return }
         
+        let moodIndex = emotionSegmentedControl.selectedSegmentIndex
+        let mood = EntryMood.allMoods[moodIndex]
+        
+        
         if let entry = entry {
-            entryController?.update(withEntry: entry, andTitle: title, andBody: bodyText)
+            
+            entryController?.update(withEntry: entry, andTitle: title, andBody: bodyText, andMood: mood.rawValue)
             DispatchQueue.main.async {
                 self.navigationController?.popViewController(animated: true)
             }
             
         } else {
-            entryController?.create(withTitle: title, andBody: bodyText)
+            entryController?.create(withTitle: title, andBody: bodyText, andMood: mood.rawValue)
             DispatchQueue.main.async {
                 self.navigationController?.popViewController(animated: true)
             }
@@ -75,6 +73,7 @@ class EntryDetailViewController: UIViewController {
     
     @IBOutlet weak var bodyTextView: UITextView!
     
+    @IBOutlet weak var emotionSegmentedControl: UISegmentedControl!
     
     
     
