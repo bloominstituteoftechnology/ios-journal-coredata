@@ -5,14 +5,26 @@ import UIKit
 class TableViewCell: UITableViewCell {
     
     //MARK: Properties
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var storyLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     
     
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    func updateViews() {
+        nameLabel.text = entry?.title
+        storyLabel.text = entry?.bodyText
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "M/d/yy, h:mm a"
+        let timestampFormatted = dateFormatter.string(from: (entry?.timestamp)!)
+        
+        timestampLabel.text = timestampFormatted
     }
 }
