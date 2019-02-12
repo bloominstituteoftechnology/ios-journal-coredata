@@ -4,18 +4,18 @@ import CoreData
 import UIKit
 
 enum JournalMood: String {
-    case 😫
-    case 😐
-    case 🤩
+    case sad = "😫"
+    case meh = "😐"
+    case happy = "🤩"
     
     static var allMoods: [JournalMood] {
-        return [.😫, .😐, .🤩]
+        return [.sad, .meh, .happy]
     }
 }
 
 extension Entry {
     
-    @discardableResult convenience init(title: String, bodyText: String, mood: JournalMood = .😐,
+    @discardableResult convenience init(title: String, bodyText: String, mood: JournalMood = .meh,
                                         timestamp: Date = Date(), identifier: String = UUID().uuidString,
                      context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
