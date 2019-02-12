@@ -10,7 +10,7 @@ import CoreData
 
 extension Entry {
     
-    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = "entry", context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = randomString(length: 10), context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(context: context)
         
@@ -19,4 +19,9 @@ extension Entry {
         self.timestamp = timestamp
         self.identifier = identifier
     }
+}
+
+func randomString(length: Int) -> String {
+    let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    return String((0...length-1).map{ _ in letters.randomElement()! })
 }
