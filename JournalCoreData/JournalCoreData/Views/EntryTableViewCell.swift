@@ -20,8 +20,34 @@ class EntryTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    func updateViews() {
+        guard let entry = entry else {
+            print("Entry not found in cell")
+            return
+        }
+        nameLabel.text = entry.title
+        bodyLabel.text = entry.bodyText
+        
+        let dateString = entry.timestamp?.asString(style: .short)
+        dateLabel.text = dateString
+    }
+    
+    
+    
+    // Mark: Properties
+    
+    var entry: Entry?
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var bodyLabel: UILabel!
+}
+
+extension Date {
+    func asString(style: DateFormatter.Style) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = style
+        return dateFormatter.string(from: self)
+    }
 }
