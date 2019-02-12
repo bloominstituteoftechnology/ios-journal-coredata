@@ -28,3 +28,18 @@ extension Entry {
         self.identifier = identifier
     }
 }
+
+extension Entry {
+    
+    var moodState: Mood {
+        
+        // in order to get the value
+        get {
+            return Mood(rawValue: mood!) ?? .😐
+        }
+        
+        set {
+            mood = newValue.rawValue
+        }
+    }
+}

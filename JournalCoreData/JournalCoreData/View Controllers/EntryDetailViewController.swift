@@ -36,6 +36,17 @@ class EntryDetailViewController: UIViewController {
         title = entry?.title ?? "Create Entry"
         titleTextField.text = entry?.title
         descriptionTextView.text = entry?.bodyText
+        
+        let mood: Mood
+        
+        if let moods = entry?.mood {
+            mood = Mood(rawValue: moods)!
+        } else {
+            mood = .😐
+        }
+        
+        moodSegmentedControl.selectedSegmentIndex = Mood.allMoods.index(of: mood)!
+        
     }
 
     @IBAction func saveBarButtonPressed(_ sender: UIBarButtonItem) {
