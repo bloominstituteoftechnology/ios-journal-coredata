@@ -48,7 +48,7 @@ class EntryController {
         saveToPersistentStore()
     }
     
-    func update(withEntry entry: Entry, andTitle title: String, andBody bodyText: String, andMood mood: String?) {
+    func update(withEntry entry: Entry, andTitle title: String, andBody bodyText: String, andMood mood: String) {
         guard let index = entries.index(of: entry) else { return }
         
         entries[index].title = title

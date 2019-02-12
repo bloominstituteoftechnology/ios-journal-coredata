@@ -26,8 +26,9 @@ class EntryDetailViewController: UIViewController {
     }
     
     func updateViews() {
+        guard isViewLoaded else { return }
         
-        if let entry = entry, isViewLoaded {
+        if let entry = entry {
             title = entry.title
             
             guard let moodString = entry.mood, let mood = EntryMood(rawValue: moodString), let index = EntryMood.allMoods.firstIndex(of: mood) else { return }
@@ -37,8 +38,10 @@ class EntryDetailViewController: UIViewController {
             titleTextField.text = entry.title
             bodyTextView.text = entry.bodyText
             
+            
         } else {
             title = "Create New Entry"
+            emotionSegmentedControl.selectedSegmentIndex = 1
         }
         
         
