@@ -58,8 +58,13 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
         
-        return sectionInfo.name
-        
+        if sectionInfo.name == "happy" {
+            return "😀"
+        } else if sectionInfo.name == "neutral" {
+            return "😐"
+        } else {
+            return "☹️"
+        }
     }
     
     // Tell the table view that we're going to update it, will add some animation
