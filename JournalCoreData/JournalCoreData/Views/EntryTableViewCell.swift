@@ -24,6 +24,10 @@ class EntryTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
+    
+    func fake() {
+        print("Break.")
+    }
 
     private func updateViews(){
         guard let entries = entry else {return}

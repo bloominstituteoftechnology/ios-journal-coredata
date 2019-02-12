@@ -15,17 +15,13 @@ extension String {
         // formatter #1
         let formatter1 = DateFormatter()
         formatter1.dateFormat = "MM-dd-yyyy"
+        formatter1.dateStyle = .short
+        formatter1.timeStyle = .short
         let dateString1 = formatter1.string(from: date)
         
-        // formatter #2
-        let formatter2 = DateFormatter()
-        formatter2.dateFormat = "HH:mm"
-        let dateString2 = formatter2.string(from: date)
-        
-        // combine
-        let returnString = "\(dateString1), \(dateString2)"
+        let returnString = "\(dateString1)"
         return returnString
         
     }
-  
 }
+
