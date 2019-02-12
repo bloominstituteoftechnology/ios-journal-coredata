@@ -9,11 +9,26 @@
 import UIKit
 import CoreData
 
-class EntriesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class EntriesTableViewController: UITableViewController {
     
     // MARK: - Properties
     
     let entryController = EntryController()
+    
+    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        let sortDescriptor = [NSSortDescriptor(key: "timestamp", ascending: true)]
+        fetchRequest.sortDescriptors = sortDescriptor
+        
+        let moc = CoreDataStack.shared.mainContext
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
+        
+        frc.delegate = self
+        try! frc.performFetch()
+        
+        return frc
+    }()
     
 
     // MARK: - Lifecycle functions
@@ -61,8 +76,8 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
             //let entry = entryController.entries[indexPath.row]
             let entry = fetchedResultsController.object(at: indexPath)
             entryController.deleteEntry(entry: entry)
-            //tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.reloadData()
+            //tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
     
@@ -83,35 +98,19 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         } else if segue.identifier == "EntryCellSegue" {
             guard let destVC = segue.destination as? EntryDetailViewController else { return }
             destVC.entryController = entryController
+            //let entry = entryController.entries[indexPath.row]
             
             guard let indexPath = tableView.indexPathForSelectedRow else { return }
-            //let entry = entryController.entries[indexPath.row]
             let entry = fetchedResultsController.object(at: indexPath)
             
             destVC.entry = entry
         }
     }
-    
-    
-    // MARK: - NSFethcedResultsController
-    
-    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
-        
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let sortDescriptor = [NSSortDescriptor(key: "timestamp", ascending: true)]
-        fetchRequest.sortDescriptors = sortDescriptor
-        
-        let moc = CoreDataStack.shared.mainContext
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
-        
-        frc.delegate = self
-        try! frc.performFetch()
-        
-        return frc
-    }()
-    
-    
-    // MARK: - NSFetchedResultsControllerDelegate
+}
+
+    // MARK: - NSFethcedResultsControllerDelegate
+
+extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()

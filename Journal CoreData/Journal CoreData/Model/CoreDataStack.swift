@@ -49,3 +49,20 @@ class CoreDataStack {
         return container.viewContext
     }
 }
+
+extension CoreDataStack {
+    
+    func autoSaveMainContext(interval: TimeInterval = 30) {
+        guard interval > 0 else {
+            NSLog("Cannot set negative autosave interval")
+            return
+        }
+        
+        if mainContext.hasChanges {
+            try? mainContext.save()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + interval) {
+            self.autoSaveMainContext(interval: interval)
+        }
+    }
+}

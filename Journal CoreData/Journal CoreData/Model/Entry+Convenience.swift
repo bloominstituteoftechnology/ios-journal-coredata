@@ -36,7 +36,7 @@ extension Entry {
         self.identifier = identifier
     }
     
-    @discardableResult convenience init?(entryRepresentation er: EntryRespresentation, context: NSManagedObjectContext) {
+    @discardableResult convenience init?(entryRepresentation er: EntryRepresentation, context: NSManagedObjectContext) {
         guard let mood = Mood(rawValue: er.mood) else {return nil}
         
         self.init(title: er.title,

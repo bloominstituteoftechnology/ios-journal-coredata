@@ -131,7 +131,7 @@ extension EntryController {
     
     // MARK: Update entry values from EntryRepresentation
     
-    func update(entry: Entry, entryRepresentation er: EntryRespresentation) {
+    func update(entry: Entry, entryRepresentation er: EntryRepresentation) {
         entry.title = er.title
         entry.bodyText = er.bodyText
         entry.mood = er.mood
@@ -177,9 +177,9 @@ extension EntryController {
             }
             
             // Get all Entry datas from server and turn them into EntryRepresentations array
-            var entryRepresentations = [EntryRespresentation]()
+            var entryRepresentations = [EntryRepresentation]()
             do {
-                entryRepresentations = try JSONDecoder().decode([String:EntryRespresentation].self, from: data).map { $0.value }
+                entryRepresentations = try JSONDecoder().decode([String:EntryRepresentation].self, from: data).map { $0.value }
             } catch {
                 NSLog("Error decoding data: \(error)")
                 completion(error)
@@ -202,6 +202,7 @@ extension EntryController {
                         _ = Entry(entryRepresentation: entryRepresentation, context: backgroundContext)
                     }
                 }
+                
                 do {
                     try CoreDataStack.shared.save(context: backgroundContext)
                 } catch {

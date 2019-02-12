@@ -74,3 +74,13 @@ class EntryDetailViewController: UIViewController {
         }
     }
 }
+
+extension EntryDetailViewController: UITextViewDelegate {
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        titleTextField.text = entry?.title
+        bodyTextView.text = entry?.bodyText
+        try? entry?.managedObjectContext?.save()
+    }
+    
+}
