@@ -22,19 +22,6 @@ class EntryController {
         }
     }
     
-    func loadFromPersistentStore() -> [Entry] {
-        
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
-        let moc = CoreDataStack.shared.mainContext
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            NSLog("Error fetching entries: \(error)")
-            return []
-        }
-    }
-    
     func create(title: String, bodyText: String, mood: EntryMood) {
         _ = Entry(title: title, bodyText: bodyText, mood: mood)
         
@@ -42,12 +29,11 @@ class EntryController {
     }
     
     func update(entry: Entry, title: String, bodyText: String, timestamp: Date = Date(), mood: String) {
-        guard let index = entries.index(of: entry) else { return }
-        
-        entries[index].title = title
-        entries[index].bodyText = bodyText
-        entries[index].timestamp = timestamp
-        entries[index].mood = mood
+         
+        entry.title = title
+        entry.bodyText = bodyText
+        entry.timestamp = timestamp
+        entry.mood = mood
         
         saveToPersistentStore()
     }
@@ -61,7 +47,6 @@ class EntryController {
     
     // MARK: - Properties
     
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
+    
+    
 }
