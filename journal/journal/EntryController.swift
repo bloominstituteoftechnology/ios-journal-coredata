@@ -34,7 +34,7 @@ class EntryController {
         }
     }
     
-    func create(title: String, bodyText: String, mood: String) {
+    func create(title: String, bodyText: String, mood: JournalMood) {
         Entry(title: title, bodyText: bodyText, mood: mood)
         
         saveToPersistentStore()
