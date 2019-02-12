@@ -30,16 +30,16 @@ class EntriesTableViewController: UITableViewController {
         
     }()
 
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//
-//    }
-//
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(true)
-//        tableView.reloadData()
-//    }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        tableView.reloadData()
+    }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1

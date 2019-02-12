@@ -22,6 +22,7 @@ extension Entry {
         self.bodyText = bodyText
         self.timestamp = date
         self.identifier = identifier
+        self.mood = mood.rawValue
     }
 }
 

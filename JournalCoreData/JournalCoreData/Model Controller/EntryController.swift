@@ -43,13 +43,15 @@ class EntryController {
 //    }
     
     func create(title: String, body: String, mood: Mood) {
+        
+        _ = Entry(title: title, bodyText: body, mood: mood)
       
-        let newEntry = Entry(context: CoreDataStack.shared.mainContext)
-        newEntry.title = title
-        newEntry.bodyText = body
-        newEntry.timestamp = Date()
-        newEntry.identifier = UUID().uuidString
-        newEntry.mood = mood.rawValue
+//        let newEntry = Entry(context: CoreDataStack.shared.mainContext)
+//        newEntry.title = title
+//        newEntry.bodyText = body
+//        newEntry.timestamp = Date()
+//        newEntry.identifier = UUID().uuidString
+//        newEntry.mood = mood.rawValue
         
         
         saveToPersistentStore()
