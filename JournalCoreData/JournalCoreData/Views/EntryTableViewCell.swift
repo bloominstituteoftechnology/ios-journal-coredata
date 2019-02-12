@@ -33,8 +33,6 @@ class EntryTableViewCell: UITableViewCell {
         dateLabel.text = dateString
     }
     
-    
-    
     // Mark: Properties
     
     var entry: Entry? {

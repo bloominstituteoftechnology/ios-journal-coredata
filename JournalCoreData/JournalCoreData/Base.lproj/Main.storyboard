@@ -104,14 +104,22 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="KnW-Ov-otP">
                                 <rect key="frame" x="20" y="160" width="374" height="361"/>
                                 <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="CzX-gW-3fL">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="29"/>
+                                        <segments>
+                                            <segment title="🤩"/>
+                                            <segment title="🥴"/>
+                                            <segment title="🤬"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eXR-DA-07s">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
+                                        <rect key="frame" x="0.0" y="46" width="374" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="OmR-S9-wXM">
-                                        <rect key="frame" x="0.0" y="48" width="374" height="313"/>
+                                        <rect key="frame" x="0.0" y="94" width="374" height="267"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -137,6 +145,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bodyText" destination="OmR-S9-wXM" id="DVI-f6-oxT"/>
+                        <outlet property="emojiSegmentedControl" destination="CzX-gW-3fL" id="A0a-2C-Rc3"/>
                         <outlet property="textField" destination="eXR-DA-07s" id="F3K-aC-Ytt"/>
                     </connections>
                 </viewController>

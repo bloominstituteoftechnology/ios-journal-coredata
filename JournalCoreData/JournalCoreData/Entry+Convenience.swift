@@ -10,10 +10,21 @@ import CoreData
 
 extension Entry {
     
-    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = randomString(length: 10), context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    enum Mood: String {
+        case 🤩
+        case 🥴
+        case 🤬
+    }
+    
+    static var allMoods: [String] {
+        return ["🤩", "🥴","🤬"]
+    }
+    
+    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = randomString(length: 10), mood: String,  context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(context: context)
         
+        self.mood = mood
         self.title = title
         self.bodyText = bodyText
         self.timestamp = timestamp

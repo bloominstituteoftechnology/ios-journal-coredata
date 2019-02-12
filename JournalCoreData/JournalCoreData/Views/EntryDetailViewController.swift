@@ -30,10 +30,12 @@ class EntryDetailViewController: UIViewController {
     func updateViews(){
         
         guard let entry = entry, isViewLoaded else {
-            self.navigationItem.title = "Create Entry"
+            navigationItem.title = "Create Entry"
             return
         }
-        self.navigationItem.title = entry.title
+        navigationItem.title = entry.title
+        emojiSegmentedControl.selectedSegmentIndex = Entry.allMoods.firstIndex(of: entry.mood!)!
+        textField.text = entry.title
         bodyText.text = entry.bodyText
     }
     
@@ -46,20 +48,22 @@ class EntryDetailViewController: UIViewController {
     }
     var entryController: EntryController?
 
+    @IBOutlet weak var emojiSegmentedControl: UISegmentedControl!
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var bodyText: UITextView!
     @IBAction func saveButtonTapped(_ sender: Any) {
         guard let text = textField.text,
-            let bodyText = bodyText.text else {
+            let bodyText = bodyText.text,
+            let mood = emojiSegmentedControl.titleForSegment(at: emojiSegmentedControl.selectedSegmentIndex)  else {
             print("Error with the texts")
             return
         }
         guard let entry = entry else {
-            entryController?.createEntry(title: text, bodyText: bodyText)
+            entryController?.createEntry(title: text, bodyText: bodyText, mood: mood)
             navigationController?.popViewController(animated: true)
             return
         }
-        entryController?.updateEntry(title: text, bodyText: bodyText, entry: entry)
+        entryController?.updateEntry(title: text, bodyText: bodyText, mood: mood, entry: entry)
         navigationController?.popViewController(animated: true)
     }
 }
