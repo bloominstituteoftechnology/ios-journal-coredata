@@ -30,10 +30,10 @@ class EntryDetailViewController: UIViewController {
     func updateViews(){
         
         guard let entry = entry, isViewLoaded else {
-            title = "Create Entry"
+            self.navigationItem.title = "Create Entry"
             return
         }
-        title = entry.title
+        self.navigationItem.title = entry.title
         bodyText.text = entry.bodyText
     }
     
