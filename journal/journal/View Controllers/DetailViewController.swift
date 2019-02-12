@@ -36,7 +36,7 @@ class DetailViewController: UIViewController {
     func updateViews() {
         if isViewLoaded {
             guard let entry = entry else {
-                title = "CreateEntry"
+                title = "Create Entry"
                 return
             }
             title = entry.title

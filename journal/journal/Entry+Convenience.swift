@@ -1,6 +1,7 @@
 //  Copyright © 2019 Frulwinn. All rights reserved.
 
 import CoreData
+import UIKit
 
 extension Entry {
     
