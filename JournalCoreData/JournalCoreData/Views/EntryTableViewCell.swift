@@ -37,7 +37,11 @@ class EntryTableViewCell: UITableViewCell {
     
     // Mark: Properties
     
-    var entry: Entry?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
 
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
