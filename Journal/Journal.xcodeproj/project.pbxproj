@@ -17,6 +17,7 @@
 		393E840722121EDC00B2F897 /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 393E840522121EDC00B2F897 /* Journal.xcdatamodeld */; };
 		393E840922121F5C00B2F897 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393E840822121F5C00B2F897 /* CoreDataStack.swift */; };
 		393E840B221220A400B2F897 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393E840A221220A400B2F897 /* Entry+Convenience.swift */; };
+		393E840D2212469E00B2F897 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393E840C2212469E00B2F897 /* EntryController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		393E840622121EDC00B2F897 /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
 		393E840822121F5C00B2F897 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		393E840A221220A400B2F897 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
+		393E840C2212469E00B2F897 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,9 +68,8 @@
 			children = (
 				393E83EC2212165000B2F897 /* AppDelegate.swift */,
 				393E83F02212165000B2F897 /* Main.storyboard */,
-				393E840522121EDC00B2F897 /* Journal.xcdatamodeld */,
-				393E840822121F5C00B2F897 /* CoreDataStack.swift */,
-				393E840A221220A400B2F897 /* Entry+Convenience.swift */,
+				393E840E22126DCD00B2F897 /* Model */,
+				393E840F22126DD700B2F897 /* Model Controller */,
 				393E840422121E3B00B2F897 /* View Controllers */,
 				393E83F32212165000B2F897 /* Assets.xcassets */,
 				393E83F52212165000B2F897 /* LaunchScreen.storyboard */,
@@ -85,6 +86,24 @@
 				393E840022121B7500B2F897 /* EntryDetailViewController.swift */,
 			);
 			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		393E840E22126DCD00B2F897 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				393E840522121EDC00B2F897 /* Journal.xcdatamodeld */,
+				393E840A221220A400B2F897 /* Entry+Convenience.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		393E840F22126DD700B2F897 /* Model Controller */ = {
+			isa = PBXGroup;
+			children = (
+				393E840822121F5C00B2F897 /* CoreDataStack.swift */,
+				393E840C2212469E00B2F897 /* EntryController.swift */,
+			);
+			path = "Model Controller";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -164,6 +183,7 @@
 				393E840922121F5C00B2F897 /* CoreDataStack.swift in Sources */,
 				393E83ED2212165000B2F897 /* AppDelegate.swift in Sources */,
 				393E840122121B7500B2F897 /* EntryDetailViewController.swift in Sources */,
+				393E840D2212469E00B2F897 /* EntryController.swift in Sources */,
 				393E840B221220A400B2F897 /* Entry+Convenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

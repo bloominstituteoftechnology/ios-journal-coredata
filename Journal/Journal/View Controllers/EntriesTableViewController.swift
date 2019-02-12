@@ -19,7 +19,7 @@ class EntriesTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return entries.count
+        return entryController.entries.count
     }
     
     let reuseIdentifier = "EntryCell"
@@ -27,7 +27,7 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! EntryTableViewCell
         
-        let entry = entries[indexPath.row]
+        let entry = entryController.entries[indexPath.row]
         cell.entry = entry
         
         return cell
@@ -36,17 +36,9 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
-            let entry = entries[indexPath.row]
-            let moc = CoreDataStack.shared.mainContext
+            let entry = entryController.entries[indexPath.row]
             
-            moc.delete(entry)
-            
-            do {
-                try moc.save()
-            } catch {
-                moc.reset()
-                NSLog("Error saving managed object context: \(error)")
-            }
+            entryController.delete(entry: entry)
             
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
@@ -55,27 +47,24 @@ class EntriesTableViewController: UITableViewController {
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
         if segue.identifier == "ShowEntryDetail" {
             guard let destination = segue.destination as? EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow else { return }
+            let entry = entryController.entries[indexPath.row]
             
-            let entry = entries[indexPath.row]
-            
+            destination.entryController = entryController
             destination.entry = entry
+            
+        } else if segue.identifier == "ShowCreateEntry" {
+            guard let destination = segue.destination as? EntryDetailViewController else { return }
+            
+            destination.entryController = entryController
         }
     }
     
     // MARK: - Properties
     
-    var entries: [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
-        let moc = CoreDataStack.shared.mainContext
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            NSLog("Error fetching entries: \(error)")
-            return []
-        }
-    }
+    var entryController = EntryController()
+    
 }

@@ -19,14 +19,12 @@ class EntryDetailViewController: UIViewController {
         guard let title = titleTextField.text, !title.isEmpty,
             let bodyText = bodyTextView.text, !bodyText.isEmpty else { return }
         
-        _ = Entry(title: title, bodyText: bodyText)
-        
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            try moc.save()
-        } catch {
-            NSLog("Error saving managed object context: \(error)")
+        if let entry = entry {
+            entryController?.update(entry: entry, title: title, bodyText: bodyText)
+        } else {
+            entryController?.create(title: title, bodyText: bodyText)
         }
+        
         navigationController?.popViewController(animated: true)
     }
     
@@ -37,12 +35,20 @@ class EntryDetailViewController: UIViewController {
                 titleTextField.becomeFirstResponder()
                 return }
             
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MM/dd/yyyy"
+            let entryDate = dateFormatter.string(from: entry.timestamp!)
+            
+            title = entryDate
+            
             titleTextField.text = entry.title
             bodyTextView.text = entry.bodyText
         }
     }
     
     // MARK: - Properties
+    
+    var entryController: EntryController?
     
     var entry: Entry? {
         didSet {
