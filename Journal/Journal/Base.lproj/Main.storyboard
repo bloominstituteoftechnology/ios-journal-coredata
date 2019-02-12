@@ -96,17 +96,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="BdS-lM-b7D">
-                                <rect key="frame" x="20" y="136" width="335" height="275.5"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="BdS-lM-b7D">
+                                <rect key="frame" x="15" y="131" width="345" height="275.5"/>
                                 <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="AZs-8O-16U">
+                                        <rect key="frame" x="0.0" y="0.0" width="345" height="29"/>
+                                        <segments>
+                                            <segment title="😨"/>
+                                            <segment title="😐"/>
+                                            <segment title="🥳"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Title:" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="PTm-EF-nXu">
-                                        <rect key="frame" x="0.0" y="0.0" width="335" height="30"/>
+                                        <rect key="frame" x="0.0" y="43" width="345" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dqW-wO-zz3">
-                                        <rect key="frame" x="0.0" y="50" width="335" height="225.5"/>
+                                        <rect key="frame" x="0.0" y="88" width="345" height="187.5"/>
                                         <color key="backgroundColor" red="0.46409996170000001" green="0.67634795979999995" blue="0.65338242570000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -116,9 +124,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="l8q-MC-LDb" firstAttribute="trailing" secondItem="BdS-lM-b7D" secondAttribute="trailing" constant="20" id="Fas-wp-b2w"/>
-                            <constraint firstItem="BdS-lM-b7D" firstAttribute="top" secondItem="l8q-MC-LDb" secondAttribute="top" constant="20" id="n58-1A-ykp"/>
-                            <constraint firstItem="BdS-lM-b7D" firstAttribute="leading" secondItem="l8q-MC-LDb" secondAttribute="leading" constant="20" id="s5J-yC-bZ3"/>
+                            <constraint firstItem="l8q-MC-LDb" firstAttribute="trailing" secondItem="BdS-lM-b7D" secondAttribute="trailing" constant="15" id="Fas-wp-b2w"/>
+                            <constraint firstItem="BdS-lM-b7D" firstAttribute="top" secondItem="l8q-MC-LDb" secondAttribute="top" constant="15" id="n58-1A-ykp"/>
+                            <constraint firstItem="BdS-lM-b7D" firstAttribute="leading" secondItem="l8q-MC-LDb" secondAttribute="leading" constant="15" id="s5J-yC-bZ3"/>
                             <constraint firstItem="BdS-lM-b7D" firstAttribute="height" secondItem="l8q-MC-LDb" secondAttribute="height" multiplier="1/2" id="zG3-EY-z1k"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="l8q-MC-LDb"/>
@@ -132,6 +140,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bodyTextView" destination="dqW-wO-zz3" id="mFB-4D-jJ9"/>
+                        <outlet property="moodSegmentedControl" destination="AZs-8O-16U" id="vu1-sc-jgx"/>
                         <outlet property="titleTextField" destination="PTm-EF-nXu" id="Gn2-Y5-s8U"/>
                     </connections>
                 </viewController>
