@@ -37,24 +37,25 @@ class EntryDetailViewController: UIViewController {
         titleTextField.text = entry?.title
         descriptionTextView.text = entry?.bodyText
         
-        let mood: Mood
-        
-        if let moods = entry?.mood {
-            mood = Mood(rawValue: moods)!
+        if let entry = entry {
+            guard let moodString = entry.mood,
+                let mood = Mood(rawValue: moodString),
+                let moodIndex = Mood.allCases.index(of: mood) else {return}
+            
+            moodSegmentedControl.selectedSegmentIndex = moodIndex
         } else {
-            mood = .😐
+            moodSegmentedControl.selectedSegmentIndex = 1
         }
-        
-        moodSegmentedControl.selectedSegmentIndex = Mood.allMoods.index(of: mood)!
+    
         
     }
 
     @IBAction func saveBarButtonPressed(_ sender: UIBarButtonItem) {
         guard let title = titleTextField.text, !title.isEmpty, let body = descriptionTextView.text, !body.isEmpty else {return}
         let selectedIndex = moodSegmentedControl.selectedSegmentIndex
-        let mood = Mood.allMoods[selectedIndex]
+        let mood = Mood.allCases[selectedIndex]
         if let entry = entry {
-            entryController?.update(title: title, body: body, entry: entry, mood: mood)
+            entryController?.update(title: title, body: body, entry: entry, mood: mood.rawValue)
         } else {
             entryController?.create(title: title, body: body, mood: mood)
         }
