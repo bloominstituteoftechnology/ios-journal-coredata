@@ -20,7 +20,7 @@ class EntryController {
         }
     }
     
-    func loadFromPersistentStore() -> [Entry] {
+  /*  func loadFromPersistentStore() -> [Entry] {
         
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
@@ -35,20 +35,18 @@ class EntryController {
             return []
         }
         
-    }
-    
-    let dateFormatter = DateFormatter()
-    
-    var entries: [Entry] {
+    }*/
+   
+  /*  var entries: [Entry] {
         return loadFromPersistentStore()
-    }
+    }*/
     
     func create(withTitle title: String, andBody bodyText: String, andMood mood: String?){
         _ = Entry(title: title, bodyText: bodyText, timestamp: Date(), identifier: UUID().uuidString, mood: EntryMood(rawValue: mood ?? "neutral")!)
         saveToPersistentStore()
     }
     
-    func update(withEntry entry: Entry, andTitle title: String, andBody bodyText: String, andMood mood: String) {
+   /* func update(withEntry entry: Entry, andTitle title: String, andBody bodyText: String, andMood mood: String) {
         guard let index = entries.index(of: entry) else { return }
         
         entries[index].title = title
@@ -57,12 +55,10 @@ class EntryController {
         entries[index].timestamp = Date()
         
         saveToPersistentStore()
-    }
+    }*/
     
     func delete(withEntry entry: Entry) {
-       /* guard let index = entries.index(of: entry) else {return}
-        entries.remove(at: index)*/
-        
+      
         let moc = CoreDataStack.shared.mainContext
         
         moc.delete(entry) // Remove from the MOC, but not the persistent store
