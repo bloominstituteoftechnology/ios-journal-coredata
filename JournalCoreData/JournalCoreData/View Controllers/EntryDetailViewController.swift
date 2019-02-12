@@ -14,6 +14,10 @@ class EntryDetailViewController: UIViewController {
     
     @IBOutlet weak var descriptionTextView: UITextView!
     
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
+    
+    
+    
     var entryController: EntryController?
     var  entry: Entry? {
         didSet {
