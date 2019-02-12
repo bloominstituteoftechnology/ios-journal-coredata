@@ -40,10 +40,12 @@ class EntryDetailViewController: UIViewController {
 
     @IBAction func saveBarButtonPressed(_ sender: UIBarButtonItem) {
         guard let title = titleTextField.text, !title.isEmpty, let body = descriptionTextView.text, !body.isEmpty else {return}
+        let selectedIndex = moodSegmentedControl.selectedSegmentIndex
+        let mood = Mood.allMoods[selectedIndex]
         if let entry = entry {
-            entryController?.update(title: title, body: body, entry: entry)
+            entryController?.update(title: title, body: body, entry: entry, mood: mood)
         } else {
-            entryController?.create(title: title, body: body)
+            entryController?.create(title: title, body: body, mood: mood)
         }
         navigationController?.popViewController(animated: true)
     }
