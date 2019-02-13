@@ -101,7 +101,15 @@ class EntriesTableViewController: UITableViewController {
         }
     }
     
-
+    
+    @IBAction func refreshControl(_ sender: UIRefreshControl) {
+        entryController.fetchEntriesFromServer { (_) in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
+    }
+    
 }
 
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
@@ -149,5 +157,6 @@ extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
             break
         }
     }
+    
     
 }

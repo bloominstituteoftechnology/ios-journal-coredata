@@ -11,12 +11,13 @@ import CoreData
 
 class EntryController {
     
-//   var entries: [Entry] {
-//      return  loadFromPersistentStore()
-//    }
     
    private let baseURL = URL(string: "https://nelson-ios-journal.firebaseio.com/")!
     
+    
+    init() {
+        fetchEntriesFromServer()
+    }
     
     func saveToPersistentStore(){
         //Save changes to disk
@@ -33,15 +34,7 @@ class EntryController {
     func create(title: String, body: String, mood: Mood) {
         
         let newEntry = Entry(title: title, bodyText: body, mood: mood)
-      
-//        let newEntry = Entry(context: CoreDataStack.shared.mainContext)
-//        newEntry.title = title
-//        newEntry.bodyText = body
-//        newEntry.timestamp = Date()
-//        newEntry.identifier = UUID().uuidString
-//        newEntry.mood = mood.rawValue
-        
-        
+
         saveToPersistentStore()
         
         self.put(entry: newEntry)
@@ -54,9 +47,10 @@ class EntryController {
         entry.timestamp = Date()
         entry.mood = mood
     
-       saveToPersistentStore()
         //entry from above
         self.put(entry: entry)
+       saveToPersistentStore()
+       
     }
     
     func delete(entry: Entry){
@@ -113,6 +107,67 @@ class EntryController {
                 return
             }
             completion(nil)
+        }.resume()
+    }
+    
+    func update(entry: Entry, entryRepresentation: EntryRepresentation){
+        guard entry.identifier == entryRepresentation.identifier else {
+            fatalError("Updating the wrong task!")
+        }
+        
+        entry.title = entryRepresentation.title
+        entry.bodyText = entryRepresentation.bodyText
+        entry.timestamp = entryRepresentation.timestamp
+        entry.identifier = entryRepresentation.identifier
+        entry.mood = entryRepresentation.mood
+        
+    }
+    
+    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+        let fetchedRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchedRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
+        let moc = CoreDataStack.shared.mainContext
+        return (try? moc.fetch(fetchedRequest))?.first
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping(Error?) -> Void = { _ in }) {
+        let url = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
+            if let error = error {
+                print("Error fetching data: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                print("Error getting data")
+                completion(NSError())
+                return
+            }
+            
+            var entryRepresentation: [EntryRepresentation] = []
+            
+          //  let decoder = JSONDecoder()
+             DispatchQueue.main.async {
+            do {
+             entryRepresentation = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({$0.value})
+               // entryRepresentation = decodedDict
+                for eachEntry in entryRepresentation {
+                    if let entry = self.fetchSingleEntryFromPersistentStore(identifier: eachEntry.identifier) {
+                        self.update(entry: entry, entryRepresentation: eachEntry)
+                    } else {
+                     _ = Entry(er: eachEntry)
+                    }
+                }
+                    self.saveToPersistentStore()
+                    completion(nil)
+            } catch {
+                print("Error decoding or importing tasks: \(error)")
+                completion(error)
+            }
+            
+            }
         }.resume()
     }
    
