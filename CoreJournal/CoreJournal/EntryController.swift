@@ -11,6 +11,8 @@ import CoreData
 
 class EntryController {
     
+    let baseURL = URL(string: "https://core-data-journal-9ea88.firebaseio.com/")!
+    
     func saveToPersistentStore() {
         do {
             let moc = CoreDataStack.shared.mainContext
@@ -42,22 +44,65 @@ class EntryController {
     }*/
     
     func create(withTitle title: String, andBody bodyText: String, andMood mood: String?){
-        _ = Entry(title: title, bodyText: bodyText, timestamp: Date(), identifier: UUID().uuidString, mood: EntryMood(rawValue: mood ?? "neutral")!)
+        let entry = Entry(title: title, bodyText: bodyText, timestamp: Date(), identifier: UUID(), mood: EntryMood(rawValue: mood ?? "neutral")!)
+        put(entry)
         saveToPersistentStore()
     }
     
-   /* func update(withEntry entry: Entry, andTitle title: String, andBody bodyText: String, andMood mood: String) {
-        guard let index = entries.index(of: entry) else { return }
+    func update(withEntry entry: Entry, andTitle title: String, andBody bodyText: String, andMood mood: String) {
+       
+        entry.title = title
+        entry.bodyText = bodyText
+        entry.mood = mood
+        entry.timestamp = Date()
         
-        entries[index].title = title
-        entries[index].bodyText = bodyText
-        entries[index].mood = mood
-        entries[index].timestamp = Date()
-        
+        put(entry)
         saveToPersistentStore()
-    }*/
+    }
+    
+    func put(_ entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
+        
+        // Create a URLRequest
+        let identifier = entry.identifier ?? UUID()
+        let url = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "PUT"
+        
+        // Task -> TaskRepresentation -> JSON Data
+        
+     /*   guard let entry = entry else {
+            NSLog("Unable to convert task to task representation")
+            completion(NSError())
+            return
+        }*/
+        
+        let encoder = JSONEncoder()
+        
+        do {
+            let entryJSON = try encoder.encode(entry)
+            request.httpBody = entryJSON
+        } catch {
+            NSLog("Unable to encode task representation: \(error)")
+            completion(error)
+        }
+        
+        // Create a URLSessionDataTask
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error putting task to server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+            }.resume()
+        
+    }
+    
     
     func delete(withEntry entry: Entry) {
+        deleteFromServer(entry: entry)
       
         let moc = CoreDataStack.shared.mainContext
         
@@ -69,6 +114,32 @@ class EntryController {
             moc.reset()
             NSLog("Error saving managed object context: \(error)")
         }
+    }
+    
+    func deleteFromServer(entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
+        let identifier = entry.identifier ?? UUID()
+        let url = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: url)
+       
+        request.httpMethod = "DELETE"
+        
+        do {
+            let encoder = JSONEncoder()
+            request.httpBody = try encoder.encode(entry)
+        } catch {
+            print(error)
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                print(error)
+                completion(error)
+                return
+            }
+            completion(nil)
+            }.resume()
     }
     
 }

@@ -57,16 +57,9 @@ class EntryDetailViewController: UIViewController {
         
         if let entry = entry {
             
-            entry.title = title
-            entry.bodyText = bodyText
-            entry.mood = mood.rawValue
-            entryController?.saveToPersistentStore()
+            entryController?.update(withEntry: entry, andTitle: title, andBody: bodyText, andMood: mood.rawValue)
             self.navigationController?.popViewController(animated: true)
-            
-           /* entryController?.update(withEntry: entry, andTitle: title, andBody: bodyText, andMood: mood.rawValue)
-             self.navigationController?.popViewController(animated: true)
-            */
-            
+         
         } else {
             entryController?.create(withTitle: title, andBody: bodyText, andMood: mood.rawValue)
             
