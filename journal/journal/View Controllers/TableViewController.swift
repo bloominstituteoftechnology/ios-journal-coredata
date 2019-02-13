@@ -12,10 +12,16 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
         fetchRequest.sortDescriptors = [
-            NSSortDescriptor
+            NSSortDescriptor(key: "timestamp", ascending: true)
         ]
         
-    }
+        let moc = CoreDataStack.shared.mainContext
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "timestamp", cacheName: nil)
+        
+        frc.delegate = self
+        try! frc.performFetch()
+        return frc
+    }()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
