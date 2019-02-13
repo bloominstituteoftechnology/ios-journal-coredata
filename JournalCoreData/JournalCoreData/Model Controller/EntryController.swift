@@ -64,7 +64,7 @@ class EntryController {
         
             moc.delete(entry)//Remore from moc but not persistent store.
             saveToPersistentStore()
-        self.delete(entry: entry)
+        self.deleteEntryFromServer(entry: entry)
 
     }
     
