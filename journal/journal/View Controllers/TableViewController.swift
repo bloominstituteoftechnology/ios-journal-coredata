@@ -29,14 +29,18 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
     }
     
     // MARK: - Table view data source
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return fetchedResultsController.sections?.count ?? 1
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return entryController.entries.count
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "journalCell", for: indexPath) as? TableViewCell else {fatalError("unable to dequeue tableview cell") }
         
-        let entry = entryController.entries[indexPath.row]
+        let entry = fetchedResultsController.fetchedObjects![indexPath.row]
         cell.entry = entry
         return cell
     }
@@ -44,7 +48,7 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let entry = entryController.entries[indexPath.row]
+            let entry = fetchedResultsController.fetchedObjects![indexPath.row]
             entryController.delete(entry: entry)
             
             tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -103,7 +107,7 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
             if let destinationVC = segue.destination as? DetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow {
                 
-                let entry = entryController.entries[indexPath.row]
+                let entry = fetchedResultsController.fetchedObjects![indexPath.row]
                 
                 destinationVC.entry = entry
                 destinationVC.entryController = entryController
