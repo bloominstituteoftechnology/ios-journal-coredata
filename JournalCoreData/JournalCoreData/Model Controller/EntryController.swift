@@ -63,9 +63,10 @@ class EntryController {
         let moc = CoreDataStack.shared.mainContext
         
             moc.delete(entry)//Remore from moc but not persistent store.
-            saveToPersistentStore()
+        
         self.deleteEntryFromServer(entry: entry)
 
+         saveToPersistentStore()
     }
     
     // Give this completion closure a default value of an empty closure. (e.g. { _ in } ). This will allow you to use the completion closure if you want to do something when completion is called or just not worry about doing anything after knowing the data task has completed.
@@ -105,12 +106,13 @@ class EntryController {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "DELETE"
         
-        URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+        URLSession.shared.dataTask(with: urlRequest) { (_, _, error) in
             if let error = error {
                 print("Error deleting entry: \(error)")
                 completion(error)
                 return
             }
+            completion(nil)
         }.resume()
     }
    
