@@ -14,7 +14,9 @@ class CoreDataStack {
     
     lazy var container: NSPersistentContainer = {
         
-        let container = NSPersistentContainer(name: "Journal")
+        let appName = Bundle.main.object(forInfoDictionaryKey: (kCFBundleNameKey as String)) as! String
+        let container = NSPersistentContainer(name: appName)
+        
         container.loadPersistentStores { (_, error) in
             
             if let error = error {
