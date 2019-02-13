@@ -40,7 +40,7 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "journalCell", for: indexPath) as? TableViewCell else {fatalError("unable to dequeue tableview cell") }
         
-        let entry = fetchedResultsController.fetchedObjects![indexPath.row]
+        let entry = fetchedResultsController.object(at: indexPath)
         cell.entry = entry
         return cell
     }
@@ -48,7 +48,7 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let entry = fetchedResultsController.fetchedObjects![indexPath.row]
+            let entry = fetchedResultsController.object(at: indexPath)
             entryController.delete(entry: entry)
             
             tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -107,7 +107,7 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
             if let destinationVC = segue.destination as? DetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow {
                 
-                let entry = fetchedResultsController.fetchedObjects![indexPath.row]
+                let entry = fetchedResultsController.object(at: indexPath)
                 
                 destinationVC.entry = entry
                 destinationVC.entryController = entryController
