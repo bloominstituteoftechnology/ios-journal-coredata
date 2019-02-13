@@ -28,25 +28,11 @@ class EntryController {
         }
     }
     
-//    func loadFromPersistentStore() -> [Entry] {
-//        //fetch request. What do we want to fetch from the persitent store?
-//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//
-//        //as MOC. We COULD say what kind of task we want to fetch
-//        let moc = CoreDataStack.shared.mainContext
-//
-//        do {
-//            return try moc.fetch(fetchRequest)
-//
-//        } catch {
-//            print("Error fetching the tasks: \(error)")
-//            return []
-//        }
-//    }
+
     
     func create(title: String, body: String, mood: Mood) {
         
-        _ = Entry(title: title, bodyText: body, mood: mood)
+        let newEntry = Entry(title: title, bodyText: body, mood: mood)
       
 //        let newEntry = Entry(context: CoreDataStack.shared.mainContext)
 //        newEntry.title = title
@@ -57,6 +43,8 @@ class EntryController {
         
         
         saveToPersistentStore()
+        
+        self.put(entry: newEntry)
     }
     
     func update(title: String, body: String, entry: Entry, mood: String){
@@ -65,8 +53,10 @@ class EntryController {
         entry.bodyText = body
         entry.timestamp = Date()
         entry.mood = mood
-        
+    
        saveToPersistentStore()
+        //entry from above
+        self.put(entry: entry)
     }
     
     func delete(entry: Entry){
@@ -75,6 +65,35 @@ class EntryController {
             moc.delete(entry)//Remore from moc but not persistent store.
             saveToPersistentStore()
 
+    }
+    
+    // Give this completion closure a default value of an empty closure. (e.g. { _ in } ). This will allow you to use the completion closure if you want to do something when completion is called or just not worry about doing anything after knowing the data task has completed.
+    func put(entry: Entry, completion: @escaping(Error?)-> Void = { _ in }) {
+        guard let identifier = entry.identifier else {return}
+        let url = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "PUT"
+        
+        let encoder = JSONEncoder()
+        
+        do {
+           let jsonData = try encoder.encode(entry)
+            urlRequest.httpBody = jsonData
+        } catch {
+            print("error encoding entry: \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+            if let error = error {
+                print("Error with request: \(error)")
+                completion(error)
+                return
+            }
+        }.resume()
+        
     }
     
    
