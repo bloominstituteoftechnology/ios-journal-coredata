@@ -41,4 +41,39 @@ class EntryController {
        
         saveToPersistentStore()
     }
+    
+    func put(_ entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
+        //let identifier = entry.identifier ?? UUID()
+        
+        let url = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        
+        //task ->task representation -> json data
+//        guard let taskRepresentation = task.taskRepresentation else {
+//            NSLog("Unable to convert task to ask representation")
+//            completion(NSError())
+//            return
+//        }
+        
+        let encoder = JSONEncoder()
+        
+        do {
+            let taskJSON = try encoder.encode(taskRepresentation)
+            
+            request.httpBody = taskJSON
+        } catch {
+            NSLog("unable to encode task representation: \(error)")
+            completion(error)
+        }
+                
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error putting task to server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+            }.resume()
+    }
 }
