@@ -12,6 +12,7 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
         fetchRequest.sortDescriptors = [
+            NSSortDescriptor(key: "mood", ascending: true),
             NSSortDescriptor(key: "timestamp", ascending: false)
         ]
         
