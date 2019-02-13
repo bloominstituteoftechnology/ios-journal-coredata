@@ -8,6 +8,15 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
     //MARK: - Properties
     let entryController = EntryController()
     
+    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        
+        fetchRequest.sortDescriptors = [
+            NSSortDescriptor
+        ]
+        
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()

@@ -6,9 +6,9 @@ import CoreData
 class EntryController {
     
     //MARK: - Properties
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
+//    var entries: [Entry] {
+//        return loadFromPersistentStore()
+//    }
     
     func saveToPersistentStore() {
         //save core data stack's mainContext, bundle the changes
@@ -21,18 +21,18 @@ class EntryController {
         
     }
     
-    func loadFromPersistentStore() -> [Entry] {
-        //create nsfetchrequest using do try catch block return fetch request return empty array
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
-        
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            NSLog("Error fetching entries: \(error)")
-            return []
-        }
-    }
+//    func loadFromPersistentStore() -> [Entry] {
+//        //create nsfetchrequest using do try catch block return fetch request return empty array
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let moc = CoreDataStack.shared.mainContext
+//
+//        do {
+//            return try moc.fetch(fetchRequest)
+//        } catch {
+//            NSLog("Error fetching entries: \(error)")
+//            return []
+//        }
+//    }
     
     func create(title: String, bodyText: String, mood: JournalMood) {
         Entry(title: title, bodyText: bodyText, mood: mood)
