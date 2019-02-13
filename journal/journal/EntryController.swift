@@ -24,6 +24,7 @@ class EntryController {
         Entry(title: title, bodyText: bodyText, mood: mood)
         
         saveToPersistentStore()
+        put(entry)
     }
     
     func update(entry: Entry, title: String, bodyText: String, mood: String) {
@@ -33,6 +34,7 @@ class EntryController {
         entry.timestamp = Date()
         
         saveToPersistentStore()
+        put(entry)
     }
     
     func delete(entry: Entry) {
@@ -43,23 +45,23 @@ class EntryController {
     }
     
     func put(_ entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
-        //let identifier = entry.identifier ?? UUID()
+        let identifier = entry.identifier ?? UUID()
         
         let url = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
         
-        //task ->task representation -> json data
-//        guard let taskRepresentation = task.taskRepresentation else {
-//            NSLog("Unable to convert task to ask representation")
-//            completion(NSError())
-//            return
-//        }
+        //entry ->entry representation -> json data
+        guard let entryRepresentation = entry.entryRepresentation else {
+            NSLog("Unable to convert task to ask representation")
+            completion(NSError())
+            return
+        }
         
         let encoder = JSONEncoder()
         
         do {
-            let taskJSON = try encoder.encode(taskRepresentation)
+            let taskJSON = try encoder.encode(entryRepresentation)
             
             request.httpBody = taskJSON
         } catch {
@@ -74,6 +76,6 @@ class EntryController {
                 return
             }
             completion(nil)
-            }.resume()
+        }.resume()
     }
 }
