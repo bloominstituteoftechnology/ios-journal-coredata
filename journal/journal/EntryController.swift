@@ -38,11 +38,49 @@ class EntryController {
         put(entry)
     }
     
+    func deleteEntryFromServer(_ entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
+        let identifier = entry.identifier ?? UUID()
+        
+        let url = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        
+        //entry ->entry representation -> json data
+        guard let entryRepresentation = entry.entryRepresentation else {
+            NSLog("Unable to convert task to ask representation")
+            completion(NSError())
+            return
+        }
+        
+        let encoder = JSONEncoder()
+        
+        do {
+            let taskJSON = try encoder.encode(entryRepresentation)
+            
+            request.httpBody = taskJSON
+        } catch {
+            NSLog("unable to encode task representation: \(error)")
+            completion(error)
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error putting task to server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+            }.resume()
+    }
+        
+    }
+    
     func delete(entry: Entry) {
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
        
         saveToPersistentStore()
+        deleteEntryFromServer(entry)
     }
     
     func put(_ entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
