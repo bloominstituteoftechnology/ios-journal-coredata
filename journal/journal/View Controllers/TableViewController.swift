@@ -12,11 +12,11 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
         fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "timestamp", ascending: true)
+            NSSortDescriptor(key: "timestamp", ascending: false)
         ]
         
         let moc = CoreDataStack.shared.mainContext
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "timestamp", cacheName: nil)
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
         
         frc.delegate = self
         try! frc.performFetch()
