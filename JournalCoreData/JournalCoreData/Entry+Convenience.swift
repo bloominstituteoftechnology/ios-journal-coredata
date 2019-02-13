@@ -30,7 +30,13 @@ extension Entry {
         self.timestamp = timestamp
         self.identifier = identifier
     }
+    
+    convenience init?(entryRepresenation: EntryRepresentation){
+        self.init(title: entryRepresenation.title, bodyText: entryRepresenation.bodyText, timestamp: entryRepresenation.timestamp, identifier: entryRepresenation.identifier, mood: entryRepresenation.mood)
+    }
 }
+
+
 
 func randomString(length: Int) -> String {
     let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
