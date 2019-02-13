@@ -55,6 +55,13 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
         }
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+        
+        return sectionInfo.name.capitalized
+        
+    }
+    
     // MARK: - NSFetchedResultsControllerDelegate
     //tell the table view that we're going to update it
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {

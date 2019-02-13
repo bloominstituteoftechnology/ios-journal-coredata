@@ -16,14 +16,14 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var storyView: UITextView!
     @IBAction func save(_ sender: Any) {
-        guard let title = nameTextField.text, !title.isEmpty else { return }
+        guard let title = nameTextField.text, !title.isEmpty,
+        let bodyText = storyView.text else { return }
         
-        let bodyText = storyView.text
         let moodIndex = segmentedControl.selectedSegmentIndex
         let mood = JournalMood.allMoods[moodIndex]
 
         if let entry = entry {
-            entryController?.update(entry: entry, title: title, bodyText: bodyText, mood: mood)
+            entryController?.update(entry: entry, title: title, bodyText: bodyText, mood: mood.rawValue)
     
         } else {
             entryController?.create(title: title, bodyText: bodyText, mood: mood)
@@ -54,11 +54,11 @@ class DetailViewController: UIViewController {
         
         var index: Int = 1
         switch entry.mood {
-        case "sad":
+        case JournalMood.sad.rawValue:
             index = 0
-        case "meh":
+        case JournalMood.meh.rawValue:
             index = 1
-        case "happy":
+        case JournalMood.happy.rawValue:
             index = 2
         default:
             index = 1
