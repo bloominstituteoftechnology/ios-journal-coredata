@@ -15,6 +15,8 @@ class EntryController {
 //      return  loadFromPersistentStore()
 //    }
     
+   private let baseURL = URL(string: "https://nelson-ios-journal.firebaseio.com/")!
+    
     
     func saveToPersistentStore(){
         //Save changes to disk
