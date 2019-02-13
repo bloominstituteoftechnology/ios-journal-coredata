@@ -20,11 +20,12 @@ class EntryController {
         }
     }
     
-    func create(title: String, bodyText: String, mood: JournalMood) {
-        Entry(title: title, bodyText: bodyText, mood: mood)
+    func create(title: String, bodyText: String, mood: JournalMood) -> Entry {
+        let entry = Entry(title: title, bodyText: bodyText, mood: mood)
         
         saveToPersistentStore()
         put(entry)
+        return entry
     }
     
     func update(entry: Entry, title: String, bodyText: String, mood: String) {
