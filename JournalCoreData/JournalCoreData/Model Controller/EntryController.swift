@@ -64,6 +64,7 @@ class EntryController {
         
             moc.delete(entry)//Remore from moc but not persistent store.
             saveToPersistentStore()
+        self.delete(entry: entry)
 
     }
     
@@ -96,5 +97,21 @@ class EntryController {
         
     }
     
+    
+    func deleteEntryFromServer(entry: Entry, completion: @escaping(Error?) -> Void = { _ in }) {
+        guard let identifier = entry.identifier else {return}
+        let url = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+            if let error = error {
+                print("Error deleting entry: \(error)")
+                completion(error)
+                return
+            }
+        }.resume()
+    }
    
 }
