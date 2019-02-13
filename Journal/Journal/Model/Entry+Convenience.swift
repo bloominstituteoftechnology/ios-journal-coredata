@@ -6,6 +6,7 @@
 //  Copyright © 2019 Moses Robinson. All rights reserved.
 //
 
+import Foundation
 import CoreData
 
 enum EntryMood: String {

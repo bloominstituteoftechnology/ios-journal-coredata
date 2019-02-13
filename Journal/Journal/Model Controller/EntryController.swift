@@ -9,7 +9,71 @@
 import Foundation
 import CoreData
 
+enum HTTPMethod: String {
+    case put = "PUT"
+    case delete = "DELETE"
+}
+
 class EntryController {
+    
+    func put(_ entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
+        
+        let identifier = entry.identifier ?? UUID().uuidString
+        
+        let url = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = HTTPMethod.put.rawValue
+        
+        let jsonEncoder = JSONEncoder()
+        
+        do {
+            
+            let entryData = try jsonEncoder.encode(entry)
+            urlRequest.httpBody = entryData
+        } catch {
+            NSLog("Error encoding entry: \(error)")
+            completion(error)
+        }
+        
+        let dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+            if let error = error {
+                NSLog("Error putting entry to server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }
+        dataTask.resume()
+    }
+    
+    func deleteEntryFromServer(_ entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
+        let identifier = entry.identifier ?? UUID().uuidString
+        
+        let url = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        var urlRequest = URLRequest(url: url)
+        urlRequest.httpMethod = HTTPMethod.delete.rawValue
+        
+        let jsonEncoder = JSONEncoder()
+        
+        do {
+            
+            let entryData = try jsonEncoder.encode(entry)
+            urlRequest.httpBody = entryData
+        } catch {
+            NSLog("Error encoding entry: \(error)")
+            completion(error)
+        }
+        
+        let dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+            if let error = error {
+                NSLog("Error putting entry to server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }
+        dataTask.resume()
+    }
     
     func saveToPersistentStore() {
         let moc = CoreDataStack.shared.mainContext
@@ -23,7 +87,9 @@ class EntryController {
     }
     
     func create(title: String, bodyText: String, mood: EntryMood) {
-        _ = Entry(title: title, bodyText: bodyText, mood: mood)
+        let entry = Entry(title: title, bodyText: bodyText, mood: mood)
+        
+        put(entry)
         
         saveToPersistentStore()
     }
@@ -35,6 +101,8 @@ class EntryController {
         entry.timestamp = timestamp
         entry.mood = mood
         
+        put(entry)
+        
         saveToPersistentStore()
     }
     
@@ -42,11 +110,13 @@ class EntryController {
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
         
+        deleteEntryFromServer(entry)
+        
         saveToPersistentStore()
     }
     
     // MARK: - Properties
     
-    
+    let baseURL = URL(string: "https://journal-core-data-sync.firebaseio.com/")!
     
 }
