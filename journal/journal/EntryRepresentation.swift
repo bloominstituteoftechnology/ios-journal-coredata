@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct EntryRepresentation: Codable, Equatable {
+struct EntryRepresentation: Decodable, Equatable {
     
     var title: String
     var bodyText: String
@@ -17,8 +17,16 @@ struct EntryRepresentation: Codable, Equatable {
     var identifier: String
     
 }
-
 func ==(lhs: EntryRepresentation, rhs: Entry) -> Bool {
+    return rhs.title == lhs.title &&
+    rhs.bodyText == lhs.bodyText &&
+    rhs.mood == lhs.mood &&
+    rhs.timestamp == lhs.timestamp &&
+    rhs.identifier == lhs.identifier
+    
+}
+
+func ==(lhs: Entry, rhs: EntryRepresentation) -> Bool {
     return rhs == lhs
 }
 
@@ -26,6 +34,6 @@ func !=(lhs: EntryRepresentation, rhs: Entry) -> Bool {
     return !(rhs == lhs)
 }
 
-func ==(lhs: Entry, rhs: EntryRepresentation) -> Bool {
+func !=(lhs: Entry, rhs: EntryRepresentation) -> Bool {
     return rhs != lhs
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Entry: Encodable {
+extension Entry: Encodable { 
     
     enum CodingKeys: String, CodingKey {
         case title

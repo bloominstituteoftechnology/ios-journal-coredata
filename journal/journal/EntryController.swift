@@ -5,6 +5,10 @@ import CoreData
 
 class EntryController {
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     let baseURL = URL(string: "https://test-82e39.firebaseio.com/")!
     
     func saveToPersistentStore() {
@@ -17,12 +21,21 @@ class EntryController {
         }
     }
     
-    func create(title: String, bodyText: String, mood: JournalMood) -> Entry {
+    @discardableResult func create(title: String, bodyText: String, mood: JournalMood) -> Entry {
         let entry = Entry(title: title, bodyText: bodyText, mood: mood)
         
         saveToPersistentStore()
         put(entry)
         return entry
+    }
+    
+    func updateWithEntryRepresentation(_ entry: Entry, entryRepresentation: EntryRepresentation) {
+        entry.title = entryRepresentation.title
+        entry.bodyText = entryRepresentation.bodyText
+        entry.mood = entryRepresentation.mood
+        entry.timestamp = entryRepresentation.timestamp
+        entry.identifier = entryRepresentation.identifier
+        
     }
     
     func update(entry: Entry, title: String, bodyText: String, mood: String) {
@@ -38,21 +51,21 @@ class EntryController {
     func deleteEntryFromServer(_ entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
         let identifier = entry.identifier ?? UUID().uuidString
         
-        let url = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        let url = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
         var request = URLRequest(url: url)
         request.httpMethod = "DELETE"
         
         //entry ->entry representation -> json data
-        guard let entryRepresentation = entry.entryRepresentation else {
-            NSLog("Unable to convert task to ask representation")
-            completion(NSError())
-            return
-        }
+//        guard let entryRepresentation = entry.entryRepresentation else {
+//            NSLog("Unable to convert task to ask representation")
+//            completion(NSError())
+//            return
+//        }
         
         let encoder = JSONEncoder()
         
         do {
-            let taskJSON = try encoder.encode(entryRepresentation)
+            let taskJSON = try encoder.encode(entry)
             
             request.httpBody = taskJSON
         } catch {
@@ -81,21 +94,21 @@ class EntryController {
     func put(_ entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
         let identifier = entry.identifier ?? UUID().uuidString
         
-        let url = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        let url = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
         
         //entry ->entry representation -> json data
-        guard let entryRepresentation = entry.entryRepresentation else {
-            NSLog("Unable to convert task to ask representation")
-            completion(NSError())
-            return
-        }
+//        guard let entryRepresentation = entry.entryRepresentation else {
+//            NSLog("Unable to convert task to ask representation")
+//            completion(NSError())
+//            return
+//        }
         
         let encoder = JSONEncoder()
         
         do {
-            let taskJSON = try encoder.encode(entryRepresentation)
+            let taskJSON = try encoder.encode(entry)
             
             request.httpBody = taskJSON
         } catch {
@@ -113,12 +126,61 @@ class EntryController {
         }.resume()
     }
     
-    func update(_ entry: Entry, title: String, bodyText: String, mood: JournalMood) {
-        entry.name = name
-        entry.bodyText = bodyText
-        entry.mood = mood.rawValue
+    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
-        saveToPersistentStore()
-        put(entry)
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
+        
+        do {
+            let moc = CoreDataStack.shared.mainContext
+            return try moc.fetch(fetchRequest).first
+        } catch {
+            NSLog("Error fetching task with \(identifier): \(error)")
+            return nil
+        }
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
+        
+        let url = baseURL.appendingPathExtension("json")
+        let urlRequest = URLRequest(url: url)
+        
+        URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching entries: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned from data task")
+                completion(NSError())
+                return
+            }
+            
+            do {
+                let jsonDecoder = JSONDecoder()
+                let entryRepresentations = try jsonDecoder.decode([String: EntryRepresentation].self, from: data)
+                
+                for (_, entryRep) in entryRepresentations {
+                    
+                    if let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier) {
+                        //let mood = JournalMood(rawValue: entryRep.mood) {
+                        self.updateWithEntryRepresentation(entry, entryRepresentation: entryRep)
+                        
+                    } else {
+                        Entry(entryRepresentation: entryRep)
+                    }
+                }
+                
+                self.saveToPersistentStore()
+                
+                completion(nil)
+                
+            } catch {
+                NSLog("error decoding TaskRepresentations: \(error)")
+                completion(error)
+            }
+        }.resume()
     }
 }
