@@ -13,7 +13,7 @@ struct EntryRepresentation: Codable, Equatable {
     var title: String
     var bodyText: String
     var mood: String
-    var timestamp: String
+    var timestamp: Date
     var identifier: String
     
 }

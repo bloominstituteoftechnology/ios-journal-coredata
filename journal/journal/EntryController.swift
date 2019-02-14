@@ -7,9 +7,6 @@ class EntryController {
     
     let baseURL = URL(string: "https://test-82e39.firebaseio.com/")!
     
-    //MARK: - Properties
-
-    
     func saveToPersistentStore() {
         //save core data stack's mainContext, bundle the changes
         do {
@@ -39,7 +36,7 @@ class EntryController {
     }
     
     func deleteEntryFromServer(_ entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
-        let identifier = entry.identifier ?? UUID()
+        let identifier = entry.identifier ?? UUID().uuidString
         
         let url = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: url)
@@ -70,21 +67,19 @@ class EntryController {
                 return
             }
             completion(nil)
-            }.resume()
-    }
-        
+        }.resume()
     }
     
     func delete(entry: Entry) {
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
-       
+        
         saveToPersistentStore()
         deleteEntryFromServer(entry)
     }
     
     func put(_ entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
-        let identifier = entry.identifier ?? UUID()
+        let identifier = entry.identifier ?? UUID().uuidString
         
         let url = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: url)
@@ -107,7 +102,7 @@ class EntryController {
             NSLog("unable to encode task representation: \(error)")
             completion(error)
         }
-                
+        
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
                 NSLog("Error putting task to server: \(error)")
@@ -116,5 +111,14 @@ class EntryController {
             }
             completion(nil)
         }.resume()
+    }
+    
+    func update(_ entry: Entry, title: String, bodyText: String, mood: JournalMood) {
+        entry.name = name
+        entry.bodyText = bodyText
+        entry.mood = mood.rawValue
+        
+        saveToPersistentStore()
+        put(entry)
     }
 }

@@ -15,9 +15,9 @@ enum JournalMood: String {
 extension Entry {
     
     @discardableResult convenience init(title: String, bodyText: String, mood: JournalMood = .meh,
-                                        timestamp: Date = Date(), identifier: UUID = UUID(),
+                                        timestamp: Date = Date(), identifier: String = UUID().uuidString,
                      context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        //identifier: String = UUID().uuidString
+
         self.init(context: context)
         
         self.title = title
@@ -33,7 +33,7 @@ extension Entry {
         guard let identifier = UUID(uuidString: entryRepresentation.identifier),
             let mood = JournalMood(rawValue: entryRepresentation.mood) else { return nil }
         
-        self.init(title: entryRepresentation.title, bodyText: entryRepresentation.bodyText, mood: mood, timestamp: Date(), identifier: identifier )
+        self.init(title: entryRepresentation.title, bodyText: entryRepresentation.bodyText, mood: mood, timestamp: Date(), identifier: identifier)
         
     }
     
@@ -45,7 +45,7 @@ extension Entry {
             let identifier = identifier?.uuidString else { return nil }
         
         let entryRepresentation = EntryRepresentation(title: title, bodyText: bodyText, mood: mood, timestamp: timestamp, identifier: identifier)
-        
+
         return entryRepresentation
     }
 }
