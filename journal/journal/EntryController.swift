@@ -107,17 +107,21 @@ class EntryController {
         }.resume()
     }
     
-    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+    func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry? {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
         
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            return try moc.fetch(fetchRequest).first
-        } catch {
-            NSLog("Error fetching task with \(identifier): \(error)")
-            return nil
+        var entry: Entry?
+        
+        context.performAndWait {
+            do {
+                entry = try context.fetch(fetchRequest).first
+            } catch {
+                NSLog("Error fetching task with \(identifier): \(error)")
+                }
+            }
+            return entry
         }
     }
     
@@ -143,18 +147,25 @@ class EntryController {
                 let jsonDecoder = JSONDecoder()
                 let entryRepresentations = try jsonDecoder.decode([String: EntryRepresentation].self, from: data)
                 
-                for (_, entryRep) in entryRepresentations {
-                    
-                    if let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier) {
-                        //let mood = JournalMood(rawValue: entryRep.mood) {
-                        self.updateWithEntryRepresentation(entry, entryRepresentation: entryRep)
+                let backgroundMoc = CoreDataStack.shared.container.newBackgroundContext()
+                
+                backgroundMoc.performAndWait {
+                    for (_, entryRep) in entryRepresentations {
                         
-                    } else {
-                        Entry(entryRepresentation: entryRep)
+                        if let entry = self.fetchSingleEntryFromPersistentStore(identifier: entryRep.identifier, context: backgroundMoc) {
+                            self.updateWithEntryRepresentation(entry, entryRepresentation: entryRep)
+                            
+                        } else {
+                            Entry(entryRepresentation: entryRep)
+                        }
+                    }
+                    
+                    do {
+                        try CoreDataStack.shared.save(context: backgroundMoc)
+                    } catch {
+                        NSLog("Error saving background context: \(error)")
                     }
                 }
-                
-                self.saveToPersistentStore()
                 
                 completion(nil)
                 
