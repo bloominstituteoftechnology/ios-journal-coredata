@@ -16,6 +16,10 @@ enum HTTPMethod: String {
 
 class EntryController {
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     func put(_ entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
         
         let identifier = entry.identifier ?? UUID().uuidString
@@ -75,8 +79,47 @@ class EntryController {
         dataTask.resume()
     }
     
-    func fecthEntriesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
+    func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
         
+        let url = baseURL.appendingPathExtension("json")
+        
+        let urlRequest = URLRequest(url: url)
+        
+        let dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching entry: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned from data task ")
+                completion(NSError())
+                return
+            }
+            
+            do {
+                let jsonDecoder = JSONDecoder()
+                
+                let entryRepresentations = try jsonDecoder.decode([String : EntryRepresentation].self, from: data).map( { $0.value } )
+                
+                for entryRep in entryRepresentations {
+                    
+                    if let entry = self.fetchSingleEntryFromPersistentStore(foruuid: entryRep.identifier) {
+                        self.updateFromEntryRep(entry: entry, entryRepresentation: entryRep)
+                    } else {
+                        _ = Entry(entryRepresentation: entryRep)
+                    }
+                }
+                
+                self.saveToPersistentStore()
+                completion(nil)
+            } catch {
+                NSLog("Error decoding Entry Representation: \(error)")
+                completion(error)
+            }
+        }
+        dataTask.resume()
     }
     
     func saveToPersistentStore() {
@@ -99,7 +142,7 @@ class EntryController {
     }
     
     func update(entry: Entry, title: String, bodyText: String, timestamp: Date = Date(), mood: String) {
-         
+        
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = timestamp
@@ -111,6 +154,7 @@ class EntryController {
     }
     
     func updateFromEntryRep(entry: Entry, entryRepresentation: EntryRepresentation) {
+        
         entry.title = entryRepresentation.title
         entry.bodyText = entryRepresentation.bodyText
         entry.timestamp = entryRepresentation.timestamp

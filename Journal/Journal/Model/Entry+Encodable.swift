@@ -28,5 +28,4 @@ extension Entry: Encodable {
         try container.encode(identifier, forKey: .identifier)
         try container.encode(mood, forKey: .mood)
     }
-    
 }
