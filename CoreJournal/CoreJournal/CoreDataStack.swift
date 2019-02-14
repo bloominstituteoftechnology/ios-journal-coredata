@@ -13,11 +13,29 @@ class CoreDataStack {
     
     static let shared = CoreDataStack()
     
+    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
+        var error: Error?
+        
+        // Could be the main or background, it does not matter
+        context.performAndWait {
+            do {
+                try context.save()
+            } catch let saveError {
+                error = saveError
+            }
+        }
+        
+        if let error = error { throw error }
+    }
+    
     // Does not initialize until called, stored property NOT computed property, so we can set up once not multiple times
     lazy var container: NSPersistentContainer = {
         
         // Give the container the name of your data model file
-        let container = NSPersistentContainer(name: "CoreJournal")
+        let appName = Bundle.main.object(forInfoDictionaryKey: (kCFBundleNameKey as String)) as! String
+        
+        let container = NSPersistentContainer(name: appName)
+       // let container = NSPersistentContainer(name: "CoreJournal")
         
         // Load the persistent store
         container.loadPersistentStores(completionHandler: { (_, error) in
@@ -26,7 +44,7 @@ class CoreDataStack {
             }
         })
         
-        
+        container.viewContext.automaticallyMergesChangesFromParent = true
         return container
     }()
     

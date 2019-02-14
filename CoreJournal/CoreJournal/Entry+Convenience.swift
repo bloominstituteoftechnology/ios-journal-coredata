@@ -34,7 +34,7 @@ extension Entry {
         
     }
     
-    @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext) {
         
         // The identifier could be in the wrong format
         // The priority could be something other than the 4 priorities
