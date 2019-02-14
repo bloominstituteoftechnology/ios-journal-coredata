@@ -9,6 +9,21 @@ class CoreDataStack {
     
     static let shared = CoreDataStack()
     
+    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
+        
+        var error: Error?
+        context.performAndWait {
+            
+            do {
+                try context.save()
+            } catch let saveError {
+                error = saveError
+            }
+        }
+        
+        if let error = error { throw error }
+    }
+    
     //lazy means upon initialization it is not going to create container until someone is trying to access it
     //stored property runs only 1 time
     lazy var container: NSPersistentContainer = {

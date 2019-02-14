@@ -62,7 +62,7 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
             let entry = fetchedResultsController.object(at: indexPath)
             entryController.delete(entry: entry)
             
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            //tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
     
