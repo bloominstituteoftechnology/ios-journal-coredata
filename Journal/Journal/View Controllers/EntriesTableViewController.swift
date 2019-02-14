@@ -87,10 +87,10 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         case .move:
             guard let indexPath = indexPath,
                 let newIndexPath = newIndexPath else { return }
-            //tableView.moveRow(at: indexPath, to: newIndexPath)
+            tableView.moveRow(at: indexPath, to: newIndexPath)
             
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            tableView.insertRows(at: [newIndexPath], with: .automatic)
+//            tableView.deleteRows(at: [indexPath], with: .automatic)
+//            tableView.insertRows(at: [newIndexPath], with: .automatic)
         }
     }
     
