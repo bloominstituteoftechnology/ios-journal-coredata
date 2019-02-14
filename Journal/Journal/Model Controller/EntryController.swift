@@ -75,6 +75,10 @@ class EntryController {
         dataTask.resume()
     }
     
+    func fecthEntriesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
+        
+    }
+    
     func saveToPersistentStore() {
         let moc = CoreDataStack.shared.mainContext
         
@@ -104,6 +108,28 @@ class EntryController {
         put(entry)
         
         saveToPersistentStore()
+    }
+    
+    func updateFromEntryRep(entry: Entry, entryRepresentation: EntryRepresentation) {
+        entry.title = entryRepresentation.title
+        entry.bodyText = entryRepresentation.bodyText
+        entry.timestamp = entryRepresentation.timestamp
+        entry.identifier = entryRepresentation.identifier
+        entry.mood = entryRepresentation.mood
+    }
+    
+    func fetchSingleEntryFromPersistentStore(foruuid uuid: String) -> Entry? {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid)
+        
+        do {
+            let moc = CoreDataStack.shared.mainContext
+            return try moc.fetch(fetchRequest).first
+        } catch {
+            NSLog("Error fetching entry with \(uuid): \(error)")
+            return nil
+        }
     }
     
     func delete(entry: Entry) {
