@@ -13,6 +13,10 @@ class EntryController {
     
     let baseURL = URL(string: "https://core-data-journal-9ea88.firebaseio.com/")!
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     func saveToPersistentStore() {
         do {
             let moc = CoreDataStack.shared.mainContext
@@ -62,20 +66,12 @@ class EntryController {
     
     func put(_ entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
         
-        // Create a URLRequest
+
         let identifier = entry.identifier ?? UUID()
         let url = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: url)
         
         request.httpMethod = "PUT"
-        
-        // Task -> TaskRepresentation -> JSON Data
-        
-     /*   guard let entry = entry else {
-            NSLog("Unable to convert task to task representation")
-            completion(NSError())
-            return
-        }*/
         
         let encoder = JSONEncoder()
         
@@ -87,7 +83,6 @@ class EntryController {
             completion(error)
         }
         
-        // Create a URLSessionDataTask
         
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
@@ -139,6 +134,80 @@ class EntryController {
                 return
             }
             completion(nil)
+            }.resume()
+    }
+    
+    func updateFetch(entry: Entry, entryRep: EntryRepresentation) {
+        
+        entry.title = entryRep.title
+        entry.bodyText = entryRep.bodyText
+        entry.identifier = UUID(uuidString: entryRep.identifier)
+        entry.mood = entryRep.mood
+        entry.timestamp = entryRep.timestamp
+    }
+    
+    func fetchSingleEntryFromPersistentStore( for uuid: String) -> Entry? {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid)
+        
+        do {
+            
+            let moc = CoreDataStack.shared.mainContext
+            return try moc.fetch(fetchRequest).first
+            
+        } catch {
+            NSLog("Error fetching task with \(uuid): \(error)")
+            return nil
+        }
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
+        let url = baseURL.appendingPathExtension("json")
+        
+        let urlRequest = URLRequest(url: url)
+        
+        URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching tasks: \(error)")
+                completion(error)
+                return
+            }
+            guard let data = data else {
+                NSLog("No data returned from data task")
+                completion(NSError())
+                return
+            }
+            
+            var entries: [EntryRepresentation] = []
+            
+            do {
+                
+                let jsonDecoder = JSONDecoder()
+                
+                let entryRepresentations = try jsonDecoder.decode([String: EntryRepresentation].self, from: data)
+                
+                entries = Array(entryRepresentations.values)
+                
+              /*  for (_, entryRep) in entryRepresentations {
+                    entries.append(entryRep)
+                }*/
+                
+                for entryRep in entries {
+                    
+                    if let entry = self.fetchSingleEntryFromPersistentStore(for: entryRep.identifier) {
+                        self.updateFetch(entry: entry, entryRep: entryRep)
+                    } else {
+                        Entry(entryRepresentation: entryRep)
+                    }
+                }
+                self.saveToPersistentStore()
+                completion(nil)
+            } catch {
+                NSLog("Error decoding TaskRepresentations: \(error)")
+                completion(error)
+            }
+            
             }.resume()
     }
     
