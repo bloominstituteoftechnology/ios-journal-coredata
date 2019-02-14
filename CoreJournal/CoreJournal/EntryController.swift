@@ -196,7 +196,12 @@ class EntryController {
                 for entryRep in entries {
                     
                     if let entry = self.fetchSingleEntryFromPersistentStore(for: entryRep.identifier) {
-                        self.updateFetch(entry: entry, entryRep: entryRep)
+                        if entry.identifier == UUID(uuidString: entryRep.identifier) && entry.bodyText == entryRep.bodyText && entry.mood == entryRep.mood && entry.timestamp == entryRep.timestamp && entry.title == entryRep.title {
+                            
+                        } else {
+                            self.updateFetch(entry: entry, entryRep: entryRep)
+                        }
+                        
                     } else {
                         Entry(entryRepresentation: entryRep)
                     }
