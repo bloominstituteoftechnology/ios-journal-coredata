@@ -8,6 +8,16 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
     //MARK: - Properties
     let entryController = EntryController()
     
+    
+    @IBAction func refresh(_ sender: UIRefreshControl) {
+        entryController.fetchEntriesFromServer { _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                sender.endRefreshing()
+            }
+        }
+    }
+    
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
