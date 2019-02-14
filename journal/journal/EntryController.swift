@@ -19,7 +19,7 @@ class EntryController {
             try CoreDataStack.shared.save()
             
         } catch {
-            NSLog ("Error creating task \(error)")
+            NSLog ("Error creating entry \(error)")
         }
         
         put(entry)
@@ -58,18 +58,18 @@ class EntryController {
             
             request.httpBody = taskJSON
         } catch {
-            NSLog("unable to encode task representation: \(error)")
+            NSLog("unable to encode entry representation: \(error)")
             completion(error)
         }
         
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
-                NSLog("Error putting task to server: \(error)")
+                NSLog("Error putting entry to server: \(error)")
                 completion(error)
                 return
             }
             completion(nil)
-        }.resume()
+            }.resume()
     }
     
     func delete(entry: Entry) {
@@ -93,18 +93,18 @@ class EntryController {
             
             request.httpBody = taskJSON
         } catch {
-            NSLog("unable to encode task representation: \(error)")
+            NSLog("unable to encode entry representation: \(error)")
             completion(error)
         }
         
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
-                NSLog("Error putting task to server: \(error)")
+                NSLog("Error putting entry to server: \(error)")
                 completion(error)
                 return
             }
             completion(nil)
-        }.resume()
+            }.resume()
     }
     
     func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry? {
@@ -118,11 +118,10 @@ class EntryController {
             do {
                 entry = try context.fetch(fetchRequest).first
             } catch {
-                NSLog("Error fetching task with \(identifier): \(error)")
-                }
+                NSLog("Error fetching entry with \(identifier): \(error)")
             }
-            return entry
         }
+        return entry
     }
     
     func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
@@ -170,7 +169,7 @@ class EntryController {
                 completion(nil)
                 
             } catch {
-                NSLog("error decoding TaskRepresentations: \(error)")
+                NSLog("error decoding EntryRepresentations: \(error)")
                 completion(error)
             }
         }.resume()

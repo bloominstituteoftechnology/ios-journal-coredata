@@ -58,10 +58,18 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
 
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
         if editingStyle == .delete {
+            
             let entry = fetchedResultsController.object(at: indexPath)
+                        
             entryController.delete(entry: entry)
             
+            do {
+                try CoreDataStack.shared.save()
+            } catch {
+                NSLog ("Error saving managed object context \(error)")
+            }
             //tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
