@@ -12,12 +12,10 @@ class EntryController {
     let baseURL = URL(string: "https://test-82e39.firebaseio.com/")!
     
     @discardableResult func create(title: String, bodyText: String, mood: JournalMood) -> Entry {
-        
         let entry = Entry(title: title, bodyText: bodyText, mood: mood)
         
         do {
             try CoreDataStack.shared.save()
-            
         } catch {
             NSLog ("Error creating entry \(error)")
         }
@@ -155,7 +153,7 @@ class EntryController {
                             self.updateWithEntryRepresentation(entry, entryRepresentation: entryRep)
                             
                         } else {
-                            Entry(entryRepresentation: entryRep)
+                            Entry(entryRepresentation: entryRep, context: backgroundMoc)
                         }
                     }
                     

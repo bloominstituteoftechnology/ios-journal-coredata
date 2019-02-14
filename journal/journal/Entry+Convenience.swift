@@ -25,26 +25,13 @@ extension Entry {
         self.mood = mood.rawValue
         self.timestamp = timestamp
         self.identifier = identifier
-        
     }
     
     @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         guard let mood = JournalMood(rawValue: entryRepresentation.mood) else { return nil }
         
-        self.init(title: entryRepresentation.title, bodyText: entryRepresentation.bodyText, mood: mood, timestamp: Date(), identifier: entryRepresentation.identifier)
+        self.init(title: entryRepresentation.title, bodyText: entryRepresentation.bodyText, mood: mood, timestamp: Date(), identifier: entryRepresentation.identifier, context: context)
         
     }
-    
-//    var entryRepresentation: EntryRepresentation? {
-//        guard let title = title,
-//        let bodyText = bodyText,
-//        let mood = mood,
-//        let timestamp = timestamp,
-//        let identifier = identifier else { return nil }
-//        
-//        let entryRepresentation = EntryRepresentation(title: title, bodyText: bodyText, mood: mood, timestamp: timestamp, identifier: identifier)
-//
-//        return entryRepresentation
-//    }
 }

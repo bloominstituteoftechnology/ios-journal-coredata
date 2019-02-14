@@ -2,9 +2,6 @@
 
 import CoreData
 
-import Foundation
-import CoreData
-
 class CoreDataStack {
     
     static let shared = CoreDataStack()
