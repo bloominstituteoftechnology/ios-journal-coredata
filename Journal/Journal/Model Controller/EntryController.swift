@@ -103,16 +103,10 @@ class EntryController {
                 
                 let entryRepresentations = try jsonDecoder.decode([String : EntryRepresentation].self, from: data).map( { $0.value } )
                 
-                for entryRep in entryRepresentations {
-                    
-                    if let entry = self.fetchSingleEntryFromPersistentStore(foruuid: entryRep.identifier) {
-                        self.updateFromEntryRep(entry: entry, entryRepresentation: entryRep)
-                    } else {
-                        _ = Entry(entryRepresentation: entryRep)
-                    }
-                }
+                let backgroundMoc = CoreDataStack.shared.container.newBackgroundContext()
                 
-                self.saveToPersistentStore()
+                self.checkEntryRepresentations(entryRepresentations: entryRepresentations, context: backgroundMoc)
+                
                 completion(nil)
             } catch {
                 NSLog("Error decoding Entry Representation: \(error)")
@@ -122,23 +116,16 @@ class EntryController {
         dataTask.resume()
     }
     
-    func saveToPersistentStore() {
-        let moc = CoreDataStack.shared.mainContext
-        
-        do {
-            try moc.save()
-        } catch {
-            moc.reset()
-            NSLog("Error saving managed object context: \(error)")
-        }
-    }
-    
     func create(title: String, bodyText: String, mood: EntryMood) {
         let entry = Entry(title: title, bodyText: bodyText, mood: mood)
         
         put(entry)
         
-        saveToPersistentStore()
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            NSLog("Error creating task: \(error)")
+        }
     }
     
     func update(entry: Entry, title: String, bodyText: String, timestamp: Date = Date(), mood: String) {
@@ -149,8 +136,6 @@ class EntryController {
         entry.mood = mood
         
         put(entry)
-        
-        saveToPersistentStore()
     }
     
     func updateFromEntryRep(entry: Entry, entryRepresentation: EntryRepresentation) {
@@ -162,18 +147,21 @@ class EntryController {
         entry.mood = entryRepresentation.mood
     }
     
-    func fetchSingleEntryFromPersistentStore(foruuid uuid: String) -> Entry? {
+    func fetchSingleEntryFromPersistentStore(foruuid uuid: String, context: NSManagedObjectContext) -> Entry? {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid)
         
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            return try moc.fetch(fetchRequest).first
-        } catch {
-            NSLog("Error fetching entry with \(uuid): \(error)")
-            return nil
+        var entry: Entry?
+        
+        context.performAndWait {
+            do {
+                entry = try context.fetch(fetchRequest).first
+            } catch {
+                NSLog("Error fetching entry with \(uuid): \(error)")
+            }
         }
+        return entry
     }
     
     func delete(entry: Entry) {
@@ -181,8 +169,26 @@ class EntryController {
         moc.delete(entry)
         
         deleteEntryFromServer(entry)
+    }
+    
+    func checkEntryRepresentations(entryRepresentations: [EntryRepresentation], context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
-        saveToPersistentStore()
+        context.performAndWait {
+            for entryRep in entryRepresentations {
+                
+                if let entry = self.fetchSingleEntryFromPersistentStore(foruuid: entryRep.identifier, context: context) {
+                    self.updateFromEntryRep(entry: entry, entryRepresentation: entryRep)
+                } else {
+                    _ = Entry(entryRepresentation: entryRep, context: context)
+                }
+            }
+            
+            do {
+                try CoreDataStack.shared.save(context: context)
+            } catch {
+                NSLog("Error saving context")
+            }
+        }
     }
     
     // MARK: - Properties

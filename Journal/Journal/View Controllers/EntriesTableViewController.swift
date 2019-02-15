@@ -21,6 +21,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         entryController.fetchEntriesFromServer { (_) in
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 sender.endRefreshing()
+                self.tableView.reloadData()
             }
         }
     }
