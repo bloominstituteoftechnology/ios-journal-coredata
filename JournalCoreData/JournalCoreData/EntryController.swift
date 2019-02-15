@@ -68,27 +68,36 @@ class EntryController {
         }.resume()
     }
     
-    func update(_ entry: Entry, _ entryRep: EntryRepresentation){
-        entry.bodyText = entryRep.bodyText
-        entry.identifier = entryRep.identifier
-        entry.title = entryRep.title
-        entry.timestamp = entryRep.timestamp
-        entry.mood = entryRep.mood
+    func update(_ entry: Entry, _ entryRep: EntryRepresentation, context: NSManagedObjectContext){
+        context.performAndWait {
+            
+            entry.bodyText = entryRep.bodyText
+            entry.identifier = entryRep.identifier
+            entry.title = entryRep.title
+            entry.timestamp = entryRep.timestamp
+            entry.mood = entryRep.mood
+            
+        }
     }
     
-    func fetchSingleEntryFromPersistentStore(_ identifier: String) -> Entry? {
+    func fetchSingleEntryFromPersistentStore(_ identifier: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) -> Entry? {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
         
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            return try moc.fetch(fetchRequest).first
-        } catch {
-            NSLog("Error fetching task with \(identifier): \(error)")
-            return nil
+        var entry: Entry?
+        
+        context.performAndWait {
+            
+            do {
+                entry = try context.fetch(fetchRequest).first
+            } catch {
+                NSLog("Error fetching entry with \(identifier): \(error)")
+            }
         }
+        return entry
     }
+    
     
     func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
         var url = baseURL
@@ -118,19 +127,35 @@ class EntryController {
                     entryArray.append(entryRep)
                 }
                 
-                for entryRep in entryArray {
-                    let entry = self.fetchSingleEntryFromPersistentStore(entryRep.identifier)
-                    
-                    guard let entryInStore = entry else {
-                        _ = Entry(entryRepresenation: entryRep)
-                        return
+                let backgroundMoc = CoreDataStack.shared.container.newBackgroundContext()
+                
+                backgroundMoc.performAndWait {
+                    for entryRep in entryArray {
+                        let entry = self.fetchSingleEntryFromPersistentStore(entryRep.identifier, context: backgroundMoc)
+                        guard let entryInStore = entry else {
+                            _ = Entry(entryRepresenation: entryRep, context: backgroundMoc)
+                            return
+                        }
+                        if entryInStore != entryRep {
+                            self.update(entryInStore, entryRep, context: backgroundMoc)
+                        }
                     }
-        
-                    if entryInStore != entryRep {
-                        self.update(entryInStore, entryRep)
-                    }
+
                 }
-                self.saveToPersistentStore()
+                //self.iterator(entryArray, context: backgroundMoc)
+//                for entryRep in entryArray {
+//                    let entry = self.fetchSingleEntryFromPersistentStore(entryRep.identifier)
+//
+//                    guard let entryInStore = entry else {
+//                        _ = Entry(entryRepresenation: entryRep)
+//                        return
+//                    }
+//
+//                    if entryInStore != entryRep {
+//                        self.update(entryInStore, entryRep)
+//                    }
+//                }
+                self.saveToPersistentStore(context: backgroundMoc)
                 completion(nil)
             } catch {
                 NSLog("Error with decoding entries: \(error)")
@@ -140,13 +165,34 @@ class EntryController {
         }.resume()
     }
     
-    func saveToPersistentStore(){
+    func iterator(_ entryArray: [EntryRepresentation], context: NSManagedObjectContext = CoreDataStack.shared.mainContext){
         
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            try moc.save()
-        } catch {
-            NSLog("Error saving managed object context: \(error)")
+        context.performAndWait {
+            for entryRep in entryArray {
+                let entry = self.fetchSingleEntryFromPersistentStore(entryRep.identifier)
+                
+                guard let entryInStore = entry else {
+                    _ = Entry(entryRepresenation: entryRep)
+                    return
+                }
+                
+                if entryInStore != entryRep {
+                    self.update(entryInStore, entryRep, context: context)
+                }
+            }
+        }
+    }
+    
+    
+    func saveToPersistentStore(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        
+        
+        context.performAndWait {
+            do {
+                try context.save()
+            } catch {
+                NSLog("Error saving managed object context: \(error)")
+            }
         }
 }
     

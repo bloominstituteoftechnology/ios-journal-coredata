@@ -10,6 +10,7 @@ import CoreData
 
 extension Entry {
     
+    
     enum Mood: String {
         case 🤩
         case 🥴
@@ -31,8 +32,8 @@ extension Entry {
         self.identifier = identifier
     }
     
-    convenience init?(entryRepresenation: EntryRepresentation){
-        self.init(title: entryRepresenation.title, bodyText: entryRepresenation.bodyText, timestamp: entryRepresenation.timestamp, identifier: entryRepresenation.identifier, mood: entryRepresenation.mood)
+    convenience init?(entryRepresenation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext){
+        self.init(title: entryRepresenation.title, bodyText: entryRepresenation.bodyText, timestamp: entryRepresenation.timestamp, identifier: entryRepresenation.identifier, mood: entryRepresenation.mood, context: context)
     }
 }
 

@@ -137,4 +137,11 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
             break
         }
     }
+    @IBAction func refresh(_ sender: Any) {
+        entryController.fetchEntriesFromServer { (_) in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
+    }
 }
