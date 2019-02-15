@@ -57,17 +57,6 @@ class EntryController {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = HTTPMethod.delete.rawValue
         
-        let jsonEncoder = JSONEncoder()
-        
-        do {
-            
-            let entryData = try jsonEncoder.encode(entry)
-            urlRequest.httpBody = entryData
-        } catch {
-            NSLog("Error encoding entry: \(error)")
-            completion(error)
-        }
-        
         let dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
             if let error = error {
                 NSLog("Error putting entry to server: \(error)")
