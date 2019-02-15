@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class EntryTableViewCell: UITableViewCell {
-
+    
     private func updateViews() {
         guard let entry = entry else { return }
         
@@ -31,7 +31,7 @@ class EntryTableViewCell: UITableViewCell {
             updateViews()
         }
     }
-
+    
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var bodyTextLabel: UILabel!
     @IBOutlet var timestampLabel: UILabel!

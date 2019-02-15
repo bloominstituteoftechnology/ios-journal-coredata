@@ -171,7 +171,7 @@ class EntryController {
         deleteEntryFromServer(entry)
     }
     
-    func checkEntryRepresentations(entryRepresentations: [EntryRepresentation], context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    func checkEntryRepresentations(entryRepresentations: [EntryRepresentation], context: NSManagedObjectContext) {
         
         context.performAndWait {
             for entryRep in entryRepresentations {
