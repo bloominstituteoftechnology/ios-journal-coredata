@@ -57,6 +57,17 @@ class EntryController {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = HTTPMethod.delete.rawValue
         
+        let jsonEncoder = JSONEncoder()
+        
+        do {
+            
+            let entryData = try jsonEncoder.encode(entry)
+            urlRequest.httpBody = entryData
+        } catch {
+            NSLog("Error encoding entry: \(error)")
+            completion(error)
+        }
+        
         let dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
             if let error = error {
                 NSLog("Error putting entry to server: \(error)")
@@ -105,16 +116,21 @@ class EntryController {
         dataTask.resume()
     }
     
+    func saveToPersistentStore() {
+            do {
+                try CoreDataStack.shared.save()
+            } catch {
+                CoreDataStack.shared.mainContext.reset()
+                NSLog("Error saving managed object context: \(error)")
+            }
+    }
+    
     func create(title: String, bodyText: String, mood: EntryMood) {
         let entry = Entry(title: title, bodyText: bodyText, mood: mood)
         
         put(entry)
         
-        do {
-            try CoreDataStack.shared.save()
-        } catch {
-            NSLog("Error creating task: \(error)")
-        }
+        saveToPersistentStore()
     }
     
     func update(entry: Entry, title: String, bodyText: String, timestamp: Date = Date(), mood: String) {
@@ -154,10 +170,9 @@ class EntryController {
     }
     
     func delete(entry: Entry) {
-        let moc = CoreDataStack.shared.mainContext
-        moc.delete(entry)
         
         deleteEntryFromServer(entry)
+        CoreDataStack.shared.mainContext.delete(entry)
     }
     
     func checkEntryRepresentations(entryRepresentations: [EntryRepresentation], context: NSManagedObjectContext) {
@@ -171,7 +186,6 @@ class EntryController {
                     _ = Entry(entryRepresentation: entryRep, context: context)
                 }
             }
-            
             do {
                 try CoreDataStack.shared.save(context: context)
             } catch {
