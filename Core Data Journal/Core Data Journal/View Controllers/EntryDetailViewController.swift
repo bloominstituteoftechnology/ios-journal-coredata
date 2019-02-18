@@ -12,6 +12,7 @@ class EntryDetailViewController: UIViewController {
 
     
     @IBAction func save(_ sender: Any) {
+        
     }
     
     @IBOutlet weak var titleTextField: UITextField!
