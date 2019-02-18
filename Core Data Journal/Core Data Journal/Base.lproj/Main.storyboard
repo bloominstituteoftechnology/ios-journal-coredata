@@ -27,28 +27,35 @@
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GLp-0f-ZNY">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GLp-0f-ZNY">
                                             <rect key="frame" x="32" y="0.0" width="42" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EZr-7l-GyQ">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EZr-7l-GyQ">
                                             <rect key="frame" x="317" y="0.0" width="42" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q7C-8C-2ET">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q7C-8C-2ET">
                                             <rect key="frame" x="32" y="22" width="42" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="q7C-8C-2ET" firstAttribute="top" secondItem="GLp-0f-ZNY" secondAttribute="bottom" constant="1" id="4YF-OZ-qcz"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="q7C-8C-2ET" secondAttribute="trailing" constant="20" symbolic="YES" id="4fh-bU-RVx"/>
+                                        <constraint firstAttribute="trailing" secondItem="EZr-7l-GyQ" secondAttribute="trailing" constant="16" id="Mw5-Pn-1mH"/>
+                                        <constraint firstItem="EZr-7l-GyQ" firstAttribute="baseline" secondItem="GLp-0f-ZNY" secondAttribute="baseline" id="Td9-Zg-KA8"/>
+                                        <constraint firstItem="GLp-0f-ZNY" firstAttribute="leading" secondItem="bkm-rJ-UnM" secondAttribute="leading" constant="32" id="cDp-ZK-K6h"/>
+                                        <constraint firstItem="EZr-7l-GyQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GLp-0f-ZNY" secondAttribute="trailing" constant="8" symbolic="YES" id="dho-Zp-yJa"/>
+                                        <constraint firstItem="q7C-8C-2ET" firstAttribute="leading" secondItem="bkm-rJ-UnM" secondAttribute="leading" constant="32" id="f6R-NQ-lLS"/>
+                                        <constraint firstItem="EZr-7l-GyQ" firstAttribute="top" secondItem="bkm-rJ-UnM" secondAttribute="top" id="oJ8-kr-mkl"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="bodyText" destination="q7C-8C-2ET" id="eUr-g2-ba3"/>
@@ -78,7 +85,7 @@
         <!--Create Entry-->
         <scene sceneID="OQS-bg-CEH">
             <objects>
-                <viewController id="zbd-Os-swg" sceneMemberID="viewController">
+                <viewController id="zbd-Os-swg" customClass="EntryDetailViewController" customModule="Core_Data_Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Wuc-AT-TZN">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -86,7 +93,7 @@
                             <stackView opaque="NO" contentMode="scaleAspectFit" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="V2k-Fa-cZF">
                                 <rect key="frame" x="20" y="136" width="335" height="511"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Qfk-wp-CPO">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Qfk-wp-CPO">
                                         <rect key="frame" x="0.0" y="0.0" width="335" height="31"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -94,7 +101,7 @@
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="GzX-Gx-Gj8">
                                         <rect key="frame" x="0.0" y="39" width="335" height="472"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
@@ -111,8 +118,16 @@
                         <viewLayoutGuide key="safeArea" id="IYS-bS-Pjg"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Entry" id="auE-n1-HiQ">
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="7VX-Ea-F6V"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="7VX-Ea-F6V">
+                            <connections>
+                                <action selector="save:" destination="zbd-Os-swg" id="u2Z-A4-UXm"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="entryTextField" destination="GzX-Gx-Gj8" id="omo-Up-db2"/>
+                        <outlet property="titleTextField" destination="Qfk-wp-CPO" id="szB-pK-7js"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kW2-dO-ykj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

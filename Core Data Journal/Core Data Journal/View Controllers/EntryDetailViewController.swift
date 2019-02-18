@@ -10,6 +10,15 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
 
+    
+    @IBAction func save(_ sender: Any) {
+    }
+    
+    @IBOutlet weak var titleTextField: UITextField!
+    
+    @IBOutlet weak var entryTextField: UITextView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
