@@ -12,6 +12,7 @@ class JournalDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateViews()
     }
     
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
@@ -33,8 +34,8 @@ class JournalDetailViewController: UIViewController {
             return
         }
         navigationItem.title = entry.name
-        titleTextField.text = entry.name
-        detailsTextView.text = entry.bodyText
+        titleTextField!.text = entry.name
+        detailsTextView!.text = entry.bodyText
     }
     
     @IBOutlet weak var titleTextField: UITextField!
@@ -45,5 +46,4 @@ class JournalDetailViewController: UIViewController {
         }
     }
     var entryController: EntryController?
-    
 }

@@ -41,6 +41,11 @@ class JournalTableViewController: UITableViewController {
             entryVC.entryController = entryController
             entryVC.entry = entryController.entries[index.row]
         }
+        
+        if segue.identifier == "AddJournalEntry" {
+            guard let entryVC = segue.destination as? JournalDetailViewController else { return }
+            entryVC.entryController = entryController
+        }
     }
     
     let entryController = EntryController()
