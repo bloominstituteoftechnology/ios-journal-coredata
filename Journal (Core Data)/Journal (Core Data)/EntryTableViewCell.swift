@@ -21,4 +21,9 @@ class EntryTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var bodyTextLabel: UILabel!
+    @IBOutlet weak var timestampLabel: UILabel!
+    
+    
 }

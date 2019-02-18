@@ -20,6 +20,10 @@ class EntriesTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
+    @IBAction func add(_ sender: Any) {
+    }
+    
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -32,15 +36,15 @@ class EntriesTableViewController: UITableViewController {
         return 0
     }
 
-    /*
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
-        // Configure the cell...
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as? EntryTableViewCell else { fatalError("Unable to dequeue cell") }
+        
+
 
         return cell
     }
-    */
+  
 
     /*
     // Override to support conditional editing of the table view.
@@ -86,5 +90,9 @@ class EntriesTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    
+    // MARK: - Properties
+    
+    @IBOutlet weak var addButton: UIBarButtonItem!
+    
 }

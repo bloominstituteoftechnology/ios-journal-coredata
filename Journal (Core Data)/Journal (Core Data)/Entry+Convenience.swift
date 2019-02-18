@@ -7,3 +7,26 @@
 //
 
 import Foundation
+import CoreData
+
+extension Entry {
+    
+    convenience init(bodyText: String, title: String, timeStamp: Date = Date(), identifier: String = UUID().uuidString, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        
+        self.init(context: context)
+
+        self.bodyText = bodyText
+        self.timeStamp = timeStamp
+        self.title = title
+        self.identifier = identifier
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+}

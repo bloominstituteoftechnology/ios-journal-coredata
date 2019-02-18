@@ -12,11 +12,22 @@ class EntryDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        designButton()
     }
     
-
+    @IBAction func saveEntry(_ sender: Any) {
+    }
+    
+    func designButton() {
+        saveButton.layer.cornerRadius = saveButton.frame.width / 2
+        saveButton.backgroundColor = UIColor.gray
+        
+        saveButton.layer.shadowOffset = CGSize.zero
+        saveButton.layer.shadowColor = UIColor.black.cgColor
+        saveButton.layer.shadowOpacity = 1
+        
+        saveButton.setTitleColor(.white, for: .normal)
+    }
     /*
     // MARK: - Navigation
 
@@ -27,4 +38,9 @@ class EntryDetailViewController: UIViewController {
     }
     */
 
+    // MARK: - Properties
+    
+    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var entryTextField: UITextView!
+    @IBOutlet weak var saveButton: UIButton!
 }
