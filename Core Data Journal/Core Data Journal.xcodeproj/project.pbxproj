@@ -8,20 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		F8856379221B639A00286B96 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8856378221B639A00286B96 /* AppDelegate.swift */; };
-		F885637B221B639A00286B96 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F885637A221B639A00286B96 /* ViewController.swift */; };
 		F885637E221B639A00286B96 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F885637C221B639A00286B96 /* Main.storyboard */; };
 		F8856380221B639B00286B96 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F885637F221B639B00286B96 /* Assets.xcassets */; };
 		F8856383221B639B00286B96 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F8856381221B639B00286B96 /* LaunchScreen.storyboard */; };
+		F885638C221B64F300286B96 /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F885638B221B64F300286B96 /* EntryDetailViewController.swift */; };
+		F885638E221B650500286B96 /* JournalTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F885638D221B650500286B96 /* JournalTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		F8856375221B639900286B96 /* Core Data Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Core Data Journal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8856378221B639A00286B96 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F885637A221B639A00286B96 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		F885637D221B639A00286B96 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F885637F221B639B00286B96 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F8856382221B639B00286B96 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F8856384221B639B00286B96 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F885638B221B64F300286B96 /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EntryDetailViewController.swift; path = "View Controllers/EntryDetailViewController.swift"; sourceTree = "<group>"; };
+		F885638D221B650500286B96 /* JournalTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = JournalTableViewController.swift; path = "View Controllers/JournalTableViewController.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +56,23 @@
 		F8856377221B639900286B96 /* Core Data Journal */ = {
 			isa = PBXGroup;
 			children = (
-				F8856378221B639A00286B96 /* AppDelegate.swift */,
-				F885637A221B639A00286B96 /* ViewController.swift */,
 				F885637C221B639A00286B96 /* Main.storyboard */,
+				F885638B221B64F300286B96 /* EntryDetailViewController.swift */,
+				F885638D221B650500286B96 /* JournalTableViewController.swift */,
+				F885638A221B64AC00286B96 /* Misc */,
+			);
+			path = "Core Data Journal";
+			sourceTree = "<group>";
+		};
+		F885638A221B64AC00286B96 /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				F8856378221B639A00286B96 /* AppDelegate.swift */,
 				F885637F221B639B00286B96 /* Assets.xcassets */,
 				F8856381221B639B00286B96 /* LaunchScreen.storyboard */,
 				F8856384221B639B00286B96 /* Info.plist */,
 			);
-			path = "Core Data Journal";
+			path = Misc;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,7 +146,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F885637B221B639A00286B96 /* ViewController.swift in Sources */,
+				F885638C221B64F300286B96 /* EntryDetailViewController.swift in Sources */,
+				F885638E221B650500286B96 /* JournalTableViewController.swift in Sources */,
 				F8856379221B639A00286B96 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -284,7 +296,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6Y6994DAGM;
-				INFOPLIST_FILE = "Core Data Journal/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Core Data Journal/Misc/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -302,7 +314,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6Y6994DAGM;
-				INFOPLIST_FILE = "Core Data Journal/Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/Core Data Journal/Misc/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
