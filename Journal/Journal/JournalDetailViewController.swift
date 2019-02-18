@@ -14,6 +14,10 @@ class JournalDetailViewController: UIViewController {
         super.viewDidLoad()
     }
     
+    @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
+        
+    }
+    
     func updateViews() {
 
     }

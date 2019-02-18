@@ -14,6 +14,9 @@
 		772C7932221B495200547110 /* JournalDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772C7931221B495200547110 /* JournalDetailViewController.swift */; };
 		772C7934221B496400547110 /* JournalTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772C7933221B496400547110 /* JournalTableViewController.swift */; };
 		772C7936221B497800547110 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772C7935221B497800547110 /* EntryTableViewCell.swift */; };
+		772C7939221B4C3500547110 /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 772C7937221B4C3500547110 /* Journal.xcdatamodeld */; };
+		772C793B221B4C8F00547110 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772C793A221B4C8F00547110 /* Entry+Convenience.swift */; };
+		772C793D221B4CF800547110 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 772C793C221B4CF800547110 /* CoreDataStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,9 @@
 		772C7931221B495200547110 /* JournalDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalDetailViewController.swift; sourceTree = "<group>"; };
 		772C7933221B496400547110 /* JournalTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalTableViewController.swift; sourceTree = "<group>"; };
 		772C7935221B497800547110 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
+		772C7938221B4C3500547110 /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
+		772C793A221B4C8F00547110 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
+		772C793C221B4CF800547110 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +72,9 @@
 				772C7931221B495200547110 /* JournalDetailViewController.swift */,
 				772C7933221B496400547110 /* JournalTableViewController.swift */,
 				772C7935221B497800547110 /* EntryTableViewCell.swift */,
+				772C7937221B4C3500547110 /* Journal.xcdatamodeld */,
+				772C793A221B4C8F00547110 /* Entry+Convenience.swift */,
+				772C793C221B4CF800547110 /* CoreDataStack.swift */,
 			);
 			path = Journal;
 			sourceTree = "<group>";
@@ -141,9 +150,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				772C793D221B4CF800547110 /* CoreDataStack.swift in Sources */,
 				772C7936221B497800547110 /* EntryTableViewCell.swift in Sources */,
+				772C7939221B4C3500547110 /* Journal.xcdatamodeld in Sources */,
 				772C7920221B481B00547110 /* AppDelegate.swift in Sources */,
 				772C7934221B496400547110 /* JournalTableViewController.swift in Sources */,
+				772C793B221B4C8F00547110 /* Entry+Convenience.swift in Sources */,
 				772C7932221B495200547110 /* JournalDetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -344,6 +356,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		772C7937221B4C3500547110 /* Journal.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				772C7938221B4C3500547110 /* Journal.xcdatamodel */,
+			);
+			currentVersion = 772C7938221B4C3500547110 /* Journal.xcdatamodel */;
+			path = Journal.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 772C7914221B481B00547110 /* Project object */;
 }

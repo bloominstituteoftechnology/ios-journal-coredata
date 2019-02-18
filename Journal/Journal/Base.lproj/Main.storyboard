@@ -76,7 +76,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Journal" id="Ahv-bR-VrM">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="FC5-Dd-EYN"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="FC5-Dd-EYN">
+                            <connections>
+                                <segue destination="86e-h7-Bcs" kind="show" identifier="AddJournalEntry" id="e2c-Lp-0gV"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ul7-6w-bd1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -94,7 +98,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="7FM-Pa-g2T">
                                 <rect key="frame" x="20" y="136" width="335" height="511"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SeY-WZ-C2S">
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SeY-WZ-C2S">
                                         <rect key="frame" x="0.0" y="0.0" width="335" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -119,7 +123,11 @@
                         <viewLayoutGuide key="safeArea" id="oWA-vc-6eH"/>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="3pC-sx-1eZ">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="kr4-ea-qN3"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="kr4-ea-qN3">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="86e-h7-Bcs" id="JVr-Ie-2Fc"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="detailsTextView" destination="JAW-HQ-7nI" id="nkD-pa-mFR"/>
@@ -147,4 +155,7 @@
             <point key="canvasLocation" x="-210" y="121"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="e2c-Lp-0gV"/>
+    </inferredMetricsTieBreakers>
 </document>
