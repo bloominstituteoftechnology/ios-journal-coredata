@@ -34,8 +34,13 @@ class JournalDetailViewController: UIViewController {
             return
         }
         navigationItem.title = entry.name
-        titleTextField!.text = entry.name
-        detailsTextView!.text = entry.bodyText
+        if let title = titleTextField {
+            title.text = entry.name
+        }
+        
+        if let details = detailsTextView {
+            details.text = entry.bodyText
+        }
     }
     
     @IBOutlet weak var titleTextField: UITextField!
