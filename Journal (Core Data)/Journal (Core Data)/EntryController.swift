@@ -25,7 +25,6 @@ class EntryController {
         }
     }
 
-
     func loadFromPersistentStore() -> [Entry] {
         
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -38,9 +37,22 @@ class EntryController {
         }
     }
 
+    func createEntry(title: String, bodyText: String) {
+        let _ = Entry(bodyText: bodyText, title: title)
+        saveToPersistentStore()
+    }
     
+    func updateEntry(entry: Entry, title: String, bodyText: String, timeStamp: Date = Date()) {
+        entry.title = title
+        entry.bodyText = bodyText
+        entry.timeStamp = timeStamp
+        saveToPersistentStore()
+    }
     
-    
-    
-    
+    func deleteEntry(entry: Entry) {
+        let moc = CoreDataStack.shared.mainContext
+        moc.delete(entry)
+        saveToPersistentStore()
+        
+    }
 }
