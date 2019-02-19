@@ -10,6 +10,9 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
     
+    var entry: Entry?
+    var entryController: EntryController?
+    
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var textView: UITextView!
     
