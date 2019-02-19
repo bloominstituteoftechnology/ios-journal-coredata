@@ -45,6 +45,9 @@ class JournalDetailViewController: UIViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var detailsTextView: UITextView!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
+    
     var entry: Entry? {
         didSet {
             updateViews()

@@ -98,14 +98,22 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="7FM-Pa-g2T">
                                 <rect key="frame" x="20" y="136" width="335" height="511"/>
                                 <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="OIo-gy-Pb8">
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="29"/>
+                                        <segments>
+                                            <segment title="😞"/>
+                                            <segment title="😐"/>
+                                            <segment title="😄"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SeY-WZ-C2S">
-                                        <rect key="frame" x="0.0" y="0.0" width="335" height="30"/>
+                                        <rect key="frame" x="0.0" y="36" width="335" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="JAW-HQ-7nI">
-                                        <rect key="frame" x="0.0" y="38" width="335" height="473"/>
+                                        <rect key="frame" x="0.0" y="74" width="335" height="437"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -131,6 +139,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="detailsTextView" destination="JAW-HQ-7nI" id="nkD-pa-mFR"/>
+                        <outlet property="segmentedControl" destination="OIo-gy-Pb8" id="UmA-Dy-UvG"/>
                         <outlet property="titleTextField" destination="SeY-WZ-C2S" id="ZX5-Cg-riD"/>
                     </connections>
                 </viewController>
