@@ -22,7 +22,6 @@ class EntryTableViewCell: UITableViewCell {
             let timestamp = entry.timeStamp else { return }
         
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "en_US")
         dateFormatter.dateFormat = "MM/dd/yy h:mm a"
         let date = dateFormatter.string(from: timestamp)
         

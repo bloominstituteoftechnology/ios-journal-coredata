@@ -37,7 +37,7 @@ class EntriesTableViewController: UITableViewController {
 
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as? EntryTableViewCell else { fatalError("Unable to dequeue cell") }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? EntryTableViewCell else { fatalError("Unable to dequeue cell") }
        
             cell.entry = entryController.entries[indexPath.row]
         
@@ -48,6 +48,8 @@ class EntriesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            let entry = entryController.entries[indexPath.row]
+            entryController.deleteEntry(entry: entry)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
@@ -62,7 +64,8 @@ class EntriesTableViewController: UITableViewController {
             let detailVC = segue.destination as! EntryDetailViewController
             if let tappedRow = tableView.indexPathForSelectedRow {
                 detailVC.entry = entryController.entries[tappedRow.row]
-            } 
+                detailVC.entryController = entryController
+            } else {return }
         }
     }
  
