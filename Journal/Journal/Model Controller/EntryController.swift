@@ -12,9 +12,9 @@ class EntryController {
     
     let moc = CoreDataStack.shared.mainContext
     
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
+//    var entries: [Entry] {
+//        return loadFromPersistentStore()
+//    }
     
     func create(name: String, body: String) {
         _ = Entry(name: name, bodyText: body)
@@ -48,13 +48,13 @@ class EntryController {
         }
     }
     
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            NSLog("There was an error loading from persistent store: \(error)")
-            return []
-        }
-    }
+//    func loadFromPersistentStore() -> [Entry] {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        do {
+//            return try moc.fetch(fetchRequest)
+//        } catch {
+//            NSLog("There was an error loading from persistent store: \(error)")
+//            return []
+//        }
+//    }
 }
