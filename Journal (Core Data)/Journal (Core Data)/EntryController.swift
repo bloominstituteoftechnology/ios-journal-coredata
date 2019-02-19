@@ -21,7 +21,7 @@ class EntryController {
         do {
             try moc.save()
         } catch {
-            print("Error saving: \(NSError())")
+            NSLog("Error saving: \(error)")
         }
     }
 
@@ -32,7 +32,7 @@ class EntryController {
         do {
             return try moc.fetch(fetchRequest)
         } catch {
-            print("Error fetching: \(NSError())")
+            NSLog("Error fetching: \(error)")
             return []
         }
     }
