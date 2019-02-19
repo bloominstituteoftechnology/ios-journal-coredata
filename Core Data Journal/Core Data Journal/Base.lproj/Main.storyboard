@@ -14,7 +14,7 @@
         <!--Journal-->
         <scene sceneID="M1z-JO-hdu">
             <objects>
-                <tableViewController id="zzi-A7-lVV" customClass="EntriesTableViewController" customModule="Core_Data_Journal" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="zzi-A7-lVV" customClass="EntryTableViewController" customModule="Core_Data_Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="jb8-FO-dvY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -40,7 +40,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q7C-8C-2ET">
-                                            <rect key="frame" x="32" y="22" width="42" height="21"/>
+                                            <rect key="frame" x="32" y="22" width="42" height="21.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -49,8 +49,10 @@
                                     <constraints>
                                         <constraint firstItem="q7C-8C-2ET" firstAttribute="top" secondItem="GLp-0f-ZNY" secondAttribute="bottom" constant="1" id="4YF-OZ-qcz"/>
                                         <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="q7C-8C-2ET" secondAttribute="trailing" constant="20" symbolic="YES" id="4fh-bU-RVx"/>
+                                        <constraint firstItem="GLp-0f-ZNY" firstAttribute="top" secondItem="bkm-rJ-UnM" secondAttribute="top" id="FQf-XG-9Yd"/>
                                         <constraint firstAttribute="trailing" secondItem="EZr-7l-GyQ" secondAttribute="trailing" constant="16" id="Mw5-Pn-1mH"/>
                                         <constraint firstItem="EZr-7l-GyQ" firstAttribute="baseline" secondItem="GLp-0f-ZNY" secondAttribute="baseline" id="Td9-Zg-KA8"/>
+                                        <constraint firstAttribute="bottom" secondItem="q7C-8C-2ET" secondAttribute="bottom" id="VEV-LC-Yf6"/>
                                         <constraint firstItem="GLp-0f-ZNY" firstAttribute="leading" secondItem="bkm-rJ-UnM" secondAttribute="leading" constant="32" id="cDp-ZK-K6h"/>
                                         <constraint firstItem="EZr-7l-GyQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="GLp-0f-ZNY" secondAttribute="trailing" constant="8" symbolic="YES" id="dho-Zp-yJa"/>
                                         <constraint firstItem="q7C-8C-2ET" firstAttribute="leading" secondItem="bkm-rJ-UnM" secondAttribute="leading" constant="32" id="f6R-NQ-lLS"/>
@@ -126,7 +128,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="entryTextField" destination="GzX-Gx-Gj8" id="omo-Up-db2"/>
+                        <outlet property="entryTextView" destination="GzX-Gx-Gj8" id="QlQ-3E-x9a"/>
                         <outlet property="titleTextField" destination="Qfk-wp-CPO" id="szB-pK-7js"/>
                     </connections>
                 </viewController>
@@ -152,6 +154,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ijf-JC-2ac"/>
+        <segue reference="rRT-2b-vd2"/>
     </inferredMetricsTieBreakers>
 </document>
