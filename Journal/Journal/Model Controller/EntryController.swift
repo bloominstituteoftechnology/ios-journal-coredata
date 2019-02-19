@@ -21,9 +21,10 @@ class EntryController {
         saveToPersistentStore()
     }
     
-    func update(name: String, body: String, entry: Entry) {
+    func update(name: String, body: String, mood: String, entry: Entry) {
         entry.name = name
         entry.bodyText = body
+        entry.mood = mood
         entry.timestamp = Date()
         saveToPersistentStore()
     }

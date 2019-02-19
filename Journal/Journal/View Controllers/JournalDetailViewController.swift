@@ -20,8 +20,12 @@ class JournalDetailViewController: UIViewController {
         let title = titleTextField.text,
         let body = detailsTextView.text else { return }
         
+        let moods = Mood.allCases
+        let moodIndex = segmentedControl.selectedSegmentIndex
+        let mood = moods[moodIndex]
+        
         if let entry = entry {
-            entryController.update(name: title, body: body, entry: entry)
+            entryController.update(name: title, body: body, mood: mood.rawValue, entry: entry)
         } else {
             entryController.create(name: title, body: body)
         }
@@ -40,6 +44,14 @@ class JournalDetailViewController: UIViewController {
         
         if let details = detailsTextView {
             details.text = entry.bodyText
+        }
+        
+        guard let moodString = entry.mood,
+        let mood = Mood(rawValue: moodString),
+        let index = Mood.allCases.firstIndex(of: mood) else { return }
+        
+        if let segmentedControl = segmentedControl {
+            segmentedControl.selectedSegmentIndex = index
         }
     }
     
