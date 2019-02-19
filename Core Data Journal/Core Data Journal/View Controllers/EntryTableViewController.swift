@@ -12,17 +12,6 @@ class EntryTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
-
-    
-    @IBAction func add(_ sender: Any) {
-        // Not used since we'll be handling things via the segues.
     }
     
     let entryController = EntryController()

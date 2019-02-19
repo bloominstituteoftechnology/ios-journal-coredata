@@ -12,7 +12,7 @@ import CoreData
 extension Entry {
     @discardableResult convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = UUID.init().uuidString, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
-        // Setting up the NSManagedObject (the Core Data related) part of the Task object
+        // Setting up the NSManagedObject (the Core Data related) part of the Entry object
         self.init(context: context)
         
         self.title = title
