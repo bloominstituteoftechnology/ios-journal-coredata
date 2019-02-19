@@ -90,4 +90,5 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     
    // lazy var 
     
+   //  sTestk aks 
 }
