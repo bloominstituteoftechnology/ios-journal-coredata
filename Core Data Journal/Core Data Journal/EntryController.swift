@@ -46,14 +46,14 @@ class EntryController {
         updatePersistentStore()
     }
     
-    func updateEntry(title: String, bodyText: String, timestamp: Date = Date(), entry: Entry) {
+    func update(title: String, bodyText: String, timestamp: Date = Date(), entry: Entry) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = timestamp
         updatePersistentStore()
     }
     
-    func deleteEntry(entry: Entry) {
+    func delete(entry: Entry) {
         moc.delete(entry)
         updatePersistentStore()
     }

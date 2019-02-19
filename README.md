@@ -100,7 +100,7 @@ In the `EntryDetailViewController`:
 1. Add an `entry: Entry?` variable.
 2. Add an `entryController: EntryController?` variable.
 
-In the `EntryTableViewController`:
+In the `EntriesTableViewController`:
 
 1. Add an `entryController` constant whose value is a new instance of `EntryController`.
 2. Implement the `numberOfRows` method. It should return the amount of entries in the `entryController`.
