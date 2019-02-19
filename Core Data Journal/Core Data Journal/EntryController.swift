@@ -13,11 +13,11 @@ class EntryController {
     
     let moc = CoreDataStack.shared.mainContext
     
-    func saveToPersistentStore() {
+    func updatePersistentStore() {
         do {
             try moc.save()
         } catch {
-            NSLog("Could not save to Persistent Store \(error)")
+            NSLog("Could not update Persistent Store \(error)")
         }
     }
     
@@ -38,6 +38,23 @@ class EntryController {
         return loadFromPersistentStore()
     }
     
+    // Implement CRUD
     
+    func create(title: String, bodyText: String) {
+        // Initialize Entry object and save it to Persistent Store
+        Entry(title: title, bodyText: bodyText)
+        updatePersistentStore()
+    }
     
+    func updateEntry(title: String, bodyText: String, timestamp: Date = Date(), entry: Entry) {
+        entry.title = title
+        entry.bodyText = bodyText
+        entry.timestamp = timestamp
+        updatePersistentStore()
+    }
+    
+    func deleteEntry(entry: Entry) {
+        moc.delete(entry)
+        updatePersistentStore()
+    }
 }
