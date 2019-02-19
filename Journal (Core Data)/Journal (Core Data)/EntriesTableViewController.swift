@@ -31,7 +31,7 @@ class EntriesTableViewController: UITableViewController {
 
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-     
+        print(entryController.entries.count)
         return entryController.entries.count
     }
 
@@ -60,12 +60,15 @@ class EntriesTableViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let detailVC = segue.destination as? EntryDetailViewController else { return }
+
         if segue.identifier == "cell" {
-            let detailVC = segue.destination as! EntryDetailViewController
-            if let tappedRow = tableView.indexPathForSelectedRow {
-                detailVC.entry = entryController.entries[tappedRow.row]
-                detailVC.entryController = entryController
-            } else {return }
+            guard let indexPath = tableView.indexPathForSelectedRow else { return }
+            let entry = entryController.entries[indexPath.row]
+            detailVC.entry = entry
+            detailVC.entryController = entryController
+        } else if segue.identifier == "add" {
+            detailVC.entryController = entryController
         }
     }
  
