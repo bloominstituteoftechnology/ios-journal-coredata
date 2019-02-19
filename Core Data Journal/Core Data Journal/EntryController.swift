@@ -34,4 +34,10 @@ class EntryController {
         
     }
     
+    var entries: [Entry] {
+        return loadFromPersistentStore()
+    }
+    
+    
+    
 }
