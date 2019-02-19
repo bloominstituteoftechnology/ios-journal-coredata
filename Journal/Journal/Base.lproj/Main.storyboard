@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Journal-->
+        <!--Journal📝-->
         <scene sceneID="9jK-YU-bcJ">
             <objects>
                 <tableViewController id="Fyb-U4-P7Y" customClass="EntriesTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
@@ -69,7 +69,7 @@
                             <outlet property="delegate" destination="Fyb-U4-P7Y" id="Na1-MA-e3h"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Journal" id="bnR-ln-Gzk">
+                    <navigationItem key="navigationItem" title="Journal📝" id="bnR-ln-Gzk">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="xpF-5g-2DR">
                             <connections>
                                 <segue destination="Arp-9d-IHN" kind="show" identifier="AddNewEntry" id="WwD-0n-meY"/>
@@ -90,27 +90,40 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ami-SJ-38f">
-                                <rect key="frame" x="16" y="132" width="343" height="30"/>
+                                <rect key="frame" x="16" y="176" width="343" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="COL-Tx-Ljq">
+                                <rect key="frame" x="16" y="132" width="343" height="29"/>
+                                <segments>
+                                    <segment title="☹️"/>
+                                    <segment title="😐"/>
+                                    <segment title="🙂"/>
+                                </segments>
+                            </segmentedControl>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="9sf-a9-2r8">
-                                <rect key="frame" x="16" y="178" width="343" height="215"/>
+                                <rect key="frame" x="16" y="222" width="343" height="215"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="215" id="B9L-gQ-rnU"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="9sf-a9-2r8" firstAttribute="leading" secondItem="RYj-cl-LEE" secondAttribute="leading" constant="16" id="BZk-Us-ufA"/>
-                            <constraint firstItem="RYj-cl-LEE" firstAttribute="bottom" secondItem="9sf-a9-2r8" secondAttribute="bottom" constant="274" id="GrV-xY-jG6"/>
-                            <constraint firstItem="Ami-SJ-38f" firstAttribute="leading" secondItem="RYj-cl-LEE" secondAttribute="leading" constant="16" id="PrY-DH-H0p"/>
-                            <constraint firstItem="RYj-cl-LEE" firstAttribute="trailing" secondItem="Ami-SJ-38f" secondAttribute="trailing" constant="16" id="QKr-xI-klL"/>
-                            <constraint firstItem="RYj-cl-LEE" firstAttribute="trailing" secondItem="9sf-a9-2r8" secondAttribute="trailing" constant="16" id="SyW-kS-qps"/>
-                            <constraint firstItem="Ami-SJ-38f" firstAttribute="top" secondItem="RYj-cl-LEE" secondAttribute="top" constant="16" id="oQ4-Xh-jSV"/>
-                            <constraint firstItem="9sf-a9-2r8" firstAttribute="top" secondItem="Ami-SJ-38f" secondAttribute="bottom" constant="16" id="rSm-a1-jGm"/>
+                            <constraint firstItem="Ami-SJ-38f" firstAttribute="top" secondItem="COL-Tx-Ljq" secondAttribute="bottom" constant="16" id="0bE-fT-i5e"/>
+                            <constraint firstItem="9sf-a9-2r8" firstAttribute="leading" secondItem="RYj-cl-LEE" secondAttribute="leading" constant="16" id="2P5-pk-mdv"/>
+                            <constraint firstItem="COL-Tx-Ljq" firstAttribute="leading" secondItem="RYj-cl-LEE" secondAttribute="leading" constant="16" id="4hg-ZQ-bbC"/>
+                            <constraint firstItem="RYj-cl-LEE" firstAttribute="trailing" secondItem="Ami-SJ-38f" secondAttribute="trailing" constant="16" id="RUJ-Mc-auI"/>
+                            <constraint firstItem="Ami-SJ-38f" firstAttribute="leading" secondItem="RYj-cl-LEE" secondAttribute="leading" constant="16" id="V8G-8h-lqC"/>
+                            <constraint firstItem="RYj-cl-LEE" firstAttribute="trailing" secondItem="9sf-a9-2r8" secondAttribute="trailing" constant="16" id="btO-VW-fft"/>
+                            <constraint firstItem="9sf-a9-2r8" firstAttribute="top" secondItem="Ami-SJ-38f" secondAttribute="bottom" constant="16" id="jbQ-SA-mXE"/>
+                            <constraint firstItem="RYj-cl-LEE" firstAttribute="trailing" secondItem="COL-Tx-Ljq" secondAttribute="trailing" constant="16" id="kqq-JB-rwJ"/>
+                            <constraint firstItem="COL-Tx-Ljq" firstAttribute="top" secondItem="RYj-cl-LEE" secondAttribute="top" constant="16" id="wgN-JT-dfj"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="RYj-cl-LEE"/>
                     </view>
@@ -122,6 +135,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="segmentedControl" destination="COL-Tx-Ljq" id="H6S-jY-WAq"/>
                         <outlet property="textField" destination="Ami-SJ-38f" id="qfA-CO-LzF"/>
                         <outlet property="textView" destination="9sf-a9-2r8" id="6ph-eQ-POQ"/>
                     </connections>

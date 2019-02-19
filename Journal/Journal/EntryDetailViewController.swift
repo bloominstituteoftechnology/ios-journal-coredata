@@ -19,6 +19,7 @@ class EntryDetailViewController: UIViewController {
     
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     @IBAction func save(_ sender: Any) {
         guard let title = textField.text,

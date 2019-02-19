@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4B1F024A221B605300EF3856 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1F0249221B605300EF3856 /* AppDelegate.swift */; };
-		4B1F024C221B605300EF3856 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B1F024B221B605300EF3856 /* ViewController.swift */; };
 		4B1F024F221B605300EF3856 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B1F024D221B605300EF3856 /* Main.storyboard */; };
 		4B1F0252221B605300EF3856 /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4B1F0250221B605300EF3856 /* Journal.xcdatamodeld */; };
 		4B1F0254221B605400EF3856 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4B1F0253221B605400EF3856 /* Assets.xcassets */; };
@@ -24,7 +23,6 @@
 /* Begin PBXFileReference section */
 		4B1F0246221B605300EF3856 /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B1F0249221B605300EF3856 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4B1F024B221B605300EF3856 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4B1F024E221B605300EF3856 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4B1F0251221B605300EF3856 /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
 		4B1F0253221B605400EF3856 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -69,7 +67,6 @@
 			isa = PBXGroup;
 			children = (
 				4B1F0249221B605300EF3856 /* AppDelegate.swift */,
-				4B1F024B221B605300EF3856 /* ViewController.swift */,
 				4B1F024D221B605300EF3856 /* Main.storyboard */,
 				4B1F0262221B648300EF3856 /* EntryDetailViewController.swift */,
 				4B1F0260221B621F00EF3856 /* EntryTableViewCell.swift */,
@@ -77,12 +74,36 @@
 				4B1F0253221B605400EF3856 /* Assets.xcassets */,
 				4B1F0255221B605400EF3856 /* LaunchScreen.storyboard */,
 				4B1F0258221B605400EF3856 /* Info.plist */,
-				4B1F0250221B605300EF3856 /* Journal.xcdatamodeld */,
-				4B1F0266221B6F3100EF3856 /* Entry+Convenience.swift */,
-				4B1F0268221B734C00EF3856 /* EntryController.swift */,
-				4B1F0264221B6C6500EF3856 /* CoreDataStack.swift */,
+				4B1F026A221C614F00EF3856 /* Core Data */,
+				4B1F026B221C616000EF3856 /* Model */,
+				4B1F026C221C616700EF3856 /* Controller */,
 			);
 			path = Journal;
+			sourceTree = "<group>";
+		};
+		4B1F026A221C614F00EF3856 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				4B1F0250221B605300EF3856 /* Journal.xcdatamodeld */,
+				4B1F0264221B6C6500EF3856 /* CoreDataStack.swift */,
+			);
+			path = "Core Data";
+			sourceTree = "<group>";
+		};
+		4B1F026B221C616000EF3856 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4B1F0266221B6F3100EF3856 /* Entry+Convenience.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4B1F026C221C616700EF3856 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4B1F0268221B734C00EF3856 /* EntryController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -162,7 +183,6 @@
 				4B1F0269221B734C00EF3856 /* EntryController.swift in Sources */,
 				4B1F0252221B605300EF3856 /* Journal.xcdatamodeld in Sources */,
 				4B1F0267221B6F3100EF3856 /* Entry+Convenience.swift in Sources */,
-				4B1F024C221B605300EF3856 /* ViewController.swift in Sources */,
 				4B1F0263221B648300EF3856 /* EntryDetailViewController.swift in Sources */,
 				4B1F024A221B605300EF3856 /* AppDelegate.swift in Sources */,
 			);
