@@ -17,7 +17,7 @@ class CoreDataStack {
     lazy var container: NSPersistentContainer = {
         
         // Give the container the name of your data model file
-        let container = NSPersistentContainer(name: "Entries" as String)
+        let container = NSPersistentContainer(name: "Entry" as String)
         
         // Load the persistent store
         container.loadPersistentStores(completionHandler: { (_, error) in

@@ -15,8 +15,8 @@
 		F8856398221B6F9A00286B96 /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8856395221B6F9900286B96 /* EntriesTableViewController.swift */; };
 		F8856399221B6F9A00286B96 /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8856396221B6F9900286B96 /* EntryDetailViewController.swift */; };
 		F885639C221B72D200286B96 /* CodeDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F885639B221B72D200286B96 /* CodeDataStack.swift */; };
-		F88563A0221B72FB00286B96 /* Entries.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F885639E221B72FB00286B96 /* Entries.xcdatamodeld */; };
 		F88563A2221B731000286B96 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88563A1221B731000286B96 /* Entry+Convenience.swift */; };
+		F88563A5221B855F00286B96 /* Core Data Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F88563A3221B855F00286B96 /* Core Data Journal.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,8 +30,8 @@
 		F8856395221B6F9900286B96 /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 		F8856396221B6F9900286B96 /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
 		F885639B221B72D200286B96 /* CodeDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeDataStack.swift; sourceTree = "<group>"; };
-		F885639F221B72FB00286B96 /* Entries.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Entries.xcdatamodel; sourceTree = "<group>"; };
 		F88563A1221B731000286B96 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
+		F88563A4221B855F00286B96 /* Core Data Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Core Data Journal.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,8 +96,8 @@
 		F885639D221B72DA00286B96 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
+				F88563A3221B855F00286B96 /* Core Data Journal.xcdatamodeld */,
 				F885639B221B72D200286B96 /* CodeDataStack.swift */,
-				F885639E221B72FB00286B96 /* Entries.xcdatamodeld */,
 				F88563A1221B731000286B96 /* Entry+Convenience.swift */,
 			);
 			path = "Core Data";
@@ -174,12 +174,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F88563A0221B72FB00286B96 /* Entries.xcdatamodeld in Sources */,
 				F8856398221B6F9A00286B96 /* EntriesTableViewController.swift in Sources */,
 				F8856397221B6F9A00286B96 /* EntryTableViewCell.swift in Sources */,
 				F8856399221B6F9A00286B96 /* EntryDetailViewController.swift in Sources */,
 				F885639C221B72D200286B96 /* CodeDataStack.swift in Sources */,
 				F8856379221B639A00286B96 /* AppDelegate.swift in Sources */,
+				F88563A5221B855F00286B96 /* Core Data Journal.xcdatamodeld in Sources */,
 				F88563A2221B731000286B96 /* Entry+Convenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -382,13 +382,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		F885639E221B72FB00286B96 /* Entries.xcdatamodeld */ = {
+		F88563A3221B855F00286B96 /* Core Data Journal.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				F885639F221B72FB00286B96 /* Entries.xcdatamodel */,
+				F88563A4221B855F00286B96 /* Core Data Journal.xcdatamodel */,
 			);
-			currentVersion = F885639F221B72FB00286B96 /* Entries.xcdatamodel */;
-			path = Entries.xcdatamodeld;
+			currentVersion = F88563A4221B855F00286B96 /* Core Data Journal.xcdatamodel */;
+			name = "Core Data Journal.xcdatamodeld";
+			path = "../../Core Data Journal.xcdatamodeld";
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
