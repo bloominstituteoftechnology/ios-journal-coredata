@@ -40,7 +40,6 @@ class JournalTableViewController: UITableViewController, NSFetchedResultsControl
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
             entryController.delete(entry: entry)
-            tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
     
@@ -56,9 +55,9 @@ class JournalTableViewController: UITableViewController, NSFetchedResultsControl
         
         switch type {
         case .delete:
-            tableView.deleteSections([sectionIndex], with: .automatic)
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
         case .insert:
-            tableView.insertSections([sectionIndex], with: .automatic)
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
         default:
             break
         }
@@ -105,7 +104,7 @@ class JournalTableViewController: UITableViewController, NSFetchedResultsControl
         
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "timestamp", ascending: true)
+            NSSortDescriptor(key: "timestamp", ascending: false)
         ]
         
         let moc = CoreDataStack.shared.mainContext
