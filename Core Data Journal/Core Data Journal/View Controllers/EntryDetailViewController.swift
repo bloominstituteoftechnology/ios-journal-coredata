@@ -26,6 +26,9 @@ class EntryDetailViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    var entry: Entry?
+    
+    var entryController: EntryController?
 
     // MARK: - Navigation
 
