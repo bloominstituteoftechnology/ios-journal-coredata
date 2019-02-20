@@ -27,7 +27,7 @@ class JournalDetailViewController: UIViewController {
         if let entry = entry {
             entryController.update(name: title, body: body, mood: mood.rawValue, entry: entry)
         } else {
-            entryController.create(name: title, body: body)
+            entryController.create(name: title, body: body, mood: mood.rawValue)
         }
         navigationController?.popViewController(animated: true)
     }
