@@ -31,5 +31,3 @@ func !=(lhs: EntryRepresentation, rhs: Entry) -> Bool {
 func !=(lhs: Entry, rhs: EntryRepresentation) -> Bool {
     return rhs != lhs
 }
-
-

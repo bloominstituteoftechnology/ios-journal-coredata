@@ -14,6 +14,10 @@ class EntryController {
     
     let baseURL = URL(string: "https://lambda-journal.firebaseio.com/")!
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     func create(name: String, body: String, mood: String?) {
         if let mood = mood {
             let entry = Entry(name: name, bodyText: body, mood: mood)
@@ -26,13 +30,19 @@ class EntryController {
         }
     }
     
-    func update(name: String, body: String, mood: String, entry: Entry) {
+    func updateToCoreDate(name: String, body: String, mood: String, entry: Entry) {
         entry.name = name
         entry.bodyText = body
         entry.mood = mood
-        entry.timestamp = Date()
         saveToPersistentStore()
         put(entry: entry)
+    }
+    
+    func update(entry: Entry, entryRepresentation: EntryRepresentation) {
+        entry.name = entryRepresentation.name
+        entry.bodyText = entryRepresentation.bodyText
+        entry.mood = entryRepresentation.mood
+        entry.timestamp = entryRepresentation.timestamp
     }
     
     func delete(entry: Entry) {
@@ -68,21 +78,6 @@ class EntryController {
                 completion(error)
                 return
             }
-            
-//            guard let data = data else {
-//                completion(nil)
-//                return
-//            }
-//
-//            let decoder = JSONDecoder()
-//            do {
-//                let decodedData = try decoder.decode([String: Entry].self, from: data)
-//                
-//            } catch {
-//                completion(error)
-//                return
-//            }
-            
             completion(nil)
         }.resume()
     }
@@ -106,6 +101,59 @@ class EntryController {
                 return
             }
             completion(nil)
+        }.resume()
+    }
+    
+    func fetchSingleEntryFromPersistenceStore(entryID: String) -> Entry? {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", entryID)
+        do {
+            return try moc.fetch(fetchRequest).first
+        } catch {
+            return nil
+        }
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = {_ in }) {
+        
+        let jsonURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: jsonURL) { (data, _, error) in
+            if let error = error {
+                NSLog("There was an error fetching data from the server: \(error)")
+                completion(error)
+            }
+            
+            guard let data = data else {
+                NSLog("There was an error unwrapping data from the server.")
+                completion(NSError())
+                return
+            }
+            
+            let decoder = JSONDecoder()
+            
+            do {
+                let decodedData = try decoder.decode([String: EntryRepresentation].self, from: data)
+                let entryReps = decodedData.map({ $0.value })
+                for rep in entryReps {
+                    let entry = self.fetchSingleEntryFromPersistenceStore(entryID: rep.identifier)
+                    
+                    if entry == nil {
+                        Entry(entryRepresentation: rep)
+                    } else {
+                        if rep == entry! {
+                            return
+                        } else {
+                            self.update(entry: entry!, entryRepresentation: rep)
+                        }
+                    }
+                }
+                self.saveToPersistentStore()
+                completion(nil)
+            } catch {
+                NSLog("There was an issue decoding data from the server.")
+                completion(NSError())
+            }
         }.resume()
     }
     

@@ -25,7 +25,7 @@ class JournalDetailViewController: UIViewController {
         let mood = moods[moodIndex]
         
         if let entry = entry {
-            entryController.update(name: title, body: body, mood: mood.rawValue, entry: entry)
+            entryController.updateToCoreDate(name: title, body: body, mood: mood.rawValue, entry: entry)
         } else {
             entryController.create(name: title, body: body, mood: mood.rawValue)
         }
