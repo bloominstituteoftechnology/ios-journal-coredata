@@ -34,6 +34,7 @@
 		4B1F0264221B6C6500EF3856 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		4B1F0266221B6F3100EF3856 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
 		4B1F0268221B734C00EF3856 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
+		4B1F026D221CC67900EF3856 /* Journal 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Journal 2.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,17 +67,12 @@
 		4B1F0248221B605300EF3856 /* Journal */ = {
 			isa = PBXGroup;
 			children = (
-				4B1F0249221B605300EF3856 /* AppDelegate.swift */,
-				4B1F024D221B605300EF3856 /* Main.storyboard */,
-				4B1F0262221B648300EF3856 /* EntryDetailViewController.swift */,
-				4B1F0260221B621F00EF3856 /* EntryTableViewCell.swift */,
-				4B1F025E221B615800EF3856 /* EntriesTableViewController.swift */,
-				4B1F0253221B605400EF3856 /* Assets.xcassets */,
-				4B1F0255221B605400EF3856 /* LaunchScreen.storyboard */,
-				4B1F0258221B605400EF3856 /* Info.plist */,
-				4B1F026A221C614F00EF3856 /* Core Data */,
 				4B1F026B221C616000EF3856 /* Model */,
+				4B1F026A221C614F00EF3856 /* Core Data */,
 				4B1F026C221C616700EF3856 /* Controller */,
+				4B1F026E221CE80D00EF3856 /* View Controllers */,
+				4B1F026F221CE81700EF3856 /* Views */,
+				4B1F0270221CE83700EF3856 /* Resources */,
 			);
 			path = Journal;
 			sourceTree = "<group>";
@@ -104,6 +100,35 @@
 				4B1F0268221B734C00EF3856 /* EntryController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		4B1F026E221CE80D00EF3856 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				4B1F0262221B648300EF3856 /* EntryDetailViewController.swift */,
+				4B1F025E221B615800EF3856 /* EntriesTableViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		4B1F026F221CE81700EF3856 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4B1F0255221B605400EF3856 /* LaunchScreen.storyboard */,
+				4B1F024D221B605300EF3856 /* Main.storyboard */,
+				4B1F0260221B621F00EF3856 /* EntryTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		4B1F0270221CE83700EF3856 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4B1F0249221B605300EF3856 /* AppDelegate.swift */,
+				4B1F0253221B605400EF3856 /* Assets.xcassets */,
+				4B1F0258221B605400EF3856 /* Info.plist */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -389,9 +414,10 @@
 		4B1F0250221B605300EF3856 /* Journal.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				4B1F026D221CC67900EF3856 /* Journal 2.xcdatamodel */,
 				4B1F0251221B605300EF3856 /* Journal.xcdatamodel */,
 			);
-			currentVersion = 4B1F0251221B605300EF3856 /* Journal.xcdatamodel */;
+			currentVersion = 4B1F026D221CC67900EF3856 /* Journal 2.xcdatamodel */;
 			path = Journal.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
