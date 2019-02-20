@@ -116,7 +116,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         
         if segue.identifier == "ViewExistingEntry" {
             guard let indexPath = tableView.indexPathForSelectedRow else { return }
-            let entry = entryController.entries[indexPath.row]
+            let entry = fetchedResultsController.object(at: indexPath)
             detailVC.entry = entry
         }
     }
