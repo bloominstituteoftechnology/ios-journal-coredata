@@ -12,28 +12,12 @@ import CoreData
 class EntryController {
     let moc = CoreDataStack.shared.mainContext
     
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
-    
     func saveToPersistentStore() {
         do {
             try moc.save()
         }
         catch {
             NSLog("Error saving managed object context: \(error)")
-        }
-    }
-    
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
-        do {
-            return try moc.fetch(fetchRequest)
-        }
-        catch {
-            NSLog("There was an error while trying to get your entry array.")
-            return []
         }
     }
     

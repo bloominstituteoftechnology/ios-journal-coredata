@@ -7,9 +7,28 @@
 //
 
 import UIKit
+import CoreData
 
 class EntriesTableViewController: UITableViewController {
+    
     let entryController = EntryController()
+    
+    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+        // Create a fetch request from the Entry object
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        // Create a sort descriptor that will sort entries based on their timestamp
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: true)]
+        // Create a constant that references your core data stack's mainContext
+        let moc = CoreDataStack.shared.mainContext
+        // Create an constant and initialize an NSFetchedResultsController using the fetch request and managed object context.
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
+        //  Set this view controller class as the delegate of the fetched results controller
+        frc.delegate = self
+        // Performt the fetch request using the fetched results controller
+        try! frc.performFetch()
+        // Return the fetched results controller
+        return frc
+    }()
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
