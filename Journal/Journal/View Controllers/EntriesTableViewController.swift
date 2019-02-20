@@ -35,23 +35,25 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         
         tableView.reloadData()
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-    }
-    
 
     // MARK: - Table view data source
 
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return fetchedResultsController.sections?[section].name.capitalized
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return fetchedResultsController.sections?.count ?? 1
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return entryController.entries.count
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as! EntryTableViewCell
 
-        let entry = entryController.entries[indexPath.row]
+        let entry = fetchedResultsController.object(at: indexPath)
         cell.entry = entry
 
         return cell
@@ -59,7 +61,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let entry = entryController.entries[indexPath.row]
+            let entry = fetchedResultsController.object(at: indexPath)
             entryController.delete(entry: entry)
             tableView.reloadData()
         }    
