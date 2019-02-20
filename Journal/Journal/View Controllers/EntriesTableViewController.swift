@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class EntriesTableViewController: UITableViewController {
+class EntriesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     let entryController = EntryController()
     
@@ -22,7 +22,7 @@ class EntriesTableViewController: UITableViewController {
         let moc = CoreDataStack.shared.mainContext
         // Create an constant and initialize an NSFetchedResultsController using the fetch request and managed object context.
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
-        //  Set this view controller class as the delegate of the fetched results controller
+        // Set this view controller class as the delegate of the fetched results controller
         frc.delegate = self
         // Performt the fetch request using the fetched results controller
         try! frc.performFetch()
