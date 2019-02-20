@@ -8,6 +8,12 @@
 
 import CoreData
 
+enum Mood: String, CaseIterable {
+    case 😞
+    case 😐
+    case 😄
+}
+
 extension Entry {
     
     convenience init(name: String, bodyText: String, timestamp: Date = Date(), identifier: String = UUID.init().uuidString, mood: String = "😐", context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
@@ -19,10 +25,10 @@ extension Entry {
         self.identifier = identifier
         self.mood = mood
     }
+    
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        self.init(name: entryRepresentation.name, bodyText: entryRepresentation.bodyText, timestamp: entryRepresentation.timestamp, identifier: entryRepresentation.identifier, mood: entryRepresentation.mood, context: context)
+    }
 }
 
-enum Mood: String, CaseIterable {
-    case 😞
-    case 😐
-    case 😄
-}
+
