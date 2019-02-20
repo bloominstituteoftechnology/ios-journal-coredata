@@ -11,6 +11,7 @@ import CoreData
 
 class EntryController {
     let moc = CoreDataStack.shared.mainContext
+    let baseURL = URL(string: "https://journal-a1cc9.firebaseio.com/")!
     
     func saveToPersistentStore() {
         do {
@@ -40,6 +41,36 @@ class EntryController {
     func delete(entry: Entry) {
         moc.delete(entry)
         saveToPersistentStore()
+    }
+    
+    func put(entry: Entry, completion: @escaping ((Error?) -> Void) = { _ in }) {
+        guard let identifer = entry.identifier else { completion(NSError()); return }
+        
+        let requestURL = baseURL.appendingPathComponent(identifer).appendingPathComponent("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(entry)
+        }
+        catch {
+            NSLog("Error encoding entry: \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            
+            if let error = error {
+                NSLog("Error updating entry: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }.resume()
+        
     }
     
 }
