@@ -12,9 +12,7 @@ class EntryController {
     
     let moc = CoreDataStack.shared.mainContext
     
-//    var entries: [Entry] {
-//        return loadFromPersistentStore()
-//    }
+    let baseURL = URL(string: "https://lambda-journal.firebaseio.com/")!
     
     func create(name: String, body: String) {
         _ = Entry(name: name, bodyText: body)
@@ -39,6 +37,33 @@ class EntryController {
         }
     }
     
+    func put(entry: Entry, completion: @escaping (Error?) -> Void = {_ in }) {
+        
+        let jsonURL = baseURL.appendingPathExtension("json")
+        
+        var request = URLRequest(url: jsonURL)
+        request.httpMethod = "PUT"
+        
+        let encoder = JSONEncoder()
+        
+        do {
+            request.httpBody = try encoder.encode(entry)
+        } catch {
+            NSLog("Problem encoding data: \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
+        
+    }
+    
     func saveToPersistentStore() {
         do {
             try moc.save()
@@ -48,13 +73,4 @@ class EntryController {
         }
     }
     
-//    func loadFromPersistentStore() -> [Entry] {
-//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//        do {
-//            return try moc.fetch(fetchRequest)
-//        } catch {
-//            NSLog("There was an error loading from persistent store: \(error)")
-//            return []
-//        }
-//    }
 }
