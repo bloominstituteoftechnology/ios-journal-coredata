@@ -104,6 +104,7 @@ class JournalTableViewController: UITableViewController, NSFetchedResultsControl
         
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [
+            NSSortDescriptor(key: "mood", ascending: false),
             NSSortDescriptor(key: "timestamp", ascending: false)
         ]
         
