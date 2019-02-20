@@ -25,10 +25,12 @@ class EntryDetailViewController: UIViewController {
         guard let title = textField.text,
             let bodyText = textView.text else { return }
         
+        let selectedMood = EntryMood.allMoods[segmentedControl.selectedSegmentIndex]
+        
         if let entry = entry {
-            entryController?.update(entry: entry, title: title, bodyText: bodyText)
+            entryController?.update(entry: entry, title: title, bodyText: bodyText, mood: selectedMood)
         } else {
-            entryController?.create(title: title, bodyText: bodyText)
+            entryController?.create(title: title, bodyText: bodyText, mood: selectedMood)
         }
         
         navigationController?.popViewController(animated: true)

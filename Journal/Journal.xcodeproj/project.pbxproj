@@ -68,10 +68,11 @@
 			isa = PBXGroup;
 			children = (
 				4B1F026B221C616000EF3856 /* Model */,
-				4B1F026A221C614F00EF3856 /* Core Data */,
+				4B1F026F221CE81700EF3856 /* Views */,
 				4B1F026C221C616700EF3856 /* Controller */,
 				4B1F026E221CE80D00EF3856 /* View Controllers */,
-				4B1F026F221CE81700EF3856 /* Views */,
+				4B1F0271221CF2EA00EF3856 /* Storyboards */,
+				4B1F026A221C614F00EF3856 /* Core Data */,
 				4B1F0270221CE83700EF3856 /* Resources */,
 			);
 			path = Journal;
@@ -114,8 +115,6 @@
 		4B1F026F221CE81700EF3856 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				4B1F0255221B605400EF3856 /* LaunchScreen.storyboard */,
-				4B1F024D221B605300EF3856 /* Main.storyboard */,
 				4B1F0260221B621F00EF3856 /* EntryTableViewCell.swift */,
 			);
 			path = Views;
@@ -129,6 +128,15 @@
 				4B1F0258221B605400EF3856 /* Info.plist */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		4B1F0271221CF2EA00EF3856 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				4B1F0255221B605400EF3856 /* LaunchScreen.storyboard */,
+				4B1F024D221B605300EF3856 /* Main.storyboard */,
+			);
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -357,7 +365,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6Z7SV6KDUH;
-				INFOPLIST_FILE = Journal/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Journal/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -375,7 +383,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6Z7SV6KDUH;
-				INFOPLIST_FILE = Journal/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/Journal/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
