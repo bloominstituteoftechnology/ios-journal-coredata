@@ -25,8 +25,9 @@ class EntryController {
     // MARK: - CRUD methods
     
     func create(title: String, bodyText: String, mood: EntryMood) {
-        let _ = Entry(title: title, bodyText: bodyText, mood: mood)
+        let entry = Entry(title: title, bodyText: bodyText, mood: mood)
         saveToPersistentStore()
+        put(entry: entry)
     }
     
     func update(entry: Entry, title: String, bodyText: String, timestamp: Date = Date(), mood: EntryMood = .neutral) {
@@ -36,6 +37,7 @@ class EntryController {
         entry.mood = mood.rawValue
         
         saveToPersistentStore()
+        put(entry: entry)
     }
     
     func delete(entry: Entry) {
@@ -63,7 +65,7 @@ class EntryController {
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             
             if let error = error {
-                NSLog("Error updating entry: \(error)")
+                NSLog("Error PUTting entry: \(error)")
                 completion(error)
                 return
             }
