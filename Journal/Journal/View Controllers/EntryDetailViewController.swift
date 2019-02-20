@@ -42,6 +42,11 @@ class EntryDetailViewController: UIViewController {
         title = entry?.title ?? "Create Entry"
         textField.text = entry?.title
         textView.text = entry?.bodyText
+        
+        guard let moodString = entry?.mood,
+            let mood = EntryMood(rawValue: moodString) else { return }
+        
+        segmentedControl.selectedSegmentIndex = EntryMood.allMoods.index(of: mood)!
     }
     
     override func viewDidLoad() {
