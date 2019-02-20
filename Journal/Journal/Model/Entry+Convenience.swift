@@ -9,12 +9,13 @@
 import CoreData
 
 enum EntryMood: String {
-    case happy = "🙂"
-    case neutral = "😐"
     case sad = "☹️"
+    case neutral = "😐"
+    case happy = "🙂"
+    
     
     static var allMoods: [EntryMood] {
-        return  [.happy, .sad, .neutral]
+        return  [.sad, .neutral, .happy]
     }
 }
 

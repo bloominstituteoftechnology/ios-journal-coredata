@@ -67,7 +67,6 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         }    
     }
     
-    
     // MARK: - NSFetchedResultsControllerDelegate methods
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
