@@ -104,7 +104,7 @@ class EntryController {
         }.resume()
     }
     
-    func fetchSingleEntryFromPersistenceStore(entryID: String) -> Entry? {
+    func fetchSingleEntryFromPersistenceStore(entryID: String, context: NSManagedObjectContext) -> Entry? {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", entryID)
         do {
@@ -135,19 +135,7 @@ class EntryController {
             do {
                 let decodedData = try decoder.decode([String: EntryRepresentation].self, from: data)
                 let entryReps = decodedData.map({ $0.value })
-                for rep in entryReps {
-                    let entry = self.fetchSingleEntryFromPersistenceStore(entryID: rep.identifier)
-                    
-                    if entry == nil {
-                        Entry(entryRepresentation: rep)
-                    } else {
-                        if rep == entry! {
-                            return
-                        } else {
-                            self.update(entry: entry!, entryRepresentation: rep)
-                        }
-                    }
-                }
+                self.iterate(entryRepresentations: entryReps, context: self.moc)
                 self.saveToPersistentStore()
                 completion(nil)
             } catch {
@@ -155,6 +143,22 @@ class EntryController {
                 completion(NSError())
             }
         }.resume()
+    }
+    
+    func iterate(entryRepresentations: [EntryRepresentation], context: NSManagedObjectContext) {
+        for rep in entryRepresentations {
+            let entry = self.fetchSingleEntryFromPersistenceStore(entryID: rep.identifier, context: context)
+            
+            if entry == nil {
+                Entry(entryRepresentation: rep)
+            } else {
+                if rep == entry! {
+                    return
+                } else {
+                    self.update(entry: entry!, entryRepresentation: rep)
+                }
+            }
+        }
     }
     
     func saveToPersistentStore() {
