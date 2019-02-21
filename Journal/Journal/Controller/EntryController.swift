@@ -122,4 +122,54 @@ class EntryController {
         }
     }
     
+    func fetchEntriesFromServer(completion: @escaping ((Error?) -> Void) = { _ in }) {
+        // Take the baseURL and add the "json" extension to it
+        let requestURL = baseURL.appendingPathExtension("json")
+        // Perform a GET URLSessionDataTask with the url you just set up
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            // In the copletion of the data task, check for errors
+            if let error = error {
+                NSLog("Error fetching entries from server: \(error)")
+                completion(error)
+                return
+            }
+            // Unwrap the data returned in the closure
+            guard let data = data else {
+                NSLog("No data was returned from data entry")
+                completion(NSError())
+                return
+            }
+            // Create a variable of type [EntryRepresentation]. Set its initial value to an empty array
+            var entryRepresentations: [EntryRepresentation] = []
+            // Decode the data into [String: EntryRepresentation].self
+            do {
+                // Set the value of the array you just made in the previous step to the entry representations in this decoded dictionary. HINT: loop through the dictionary to return an array of just the entry representations without the identifier keys
+                entryRepresentations = try Array(JSONDecoder().decode([String: EntryRepresentation].self, from: data).values)
+            }
+            catch {
+                NSLog("Error decoding JSON: \(error)")
+                completion(error)
+                return
+            }
+            // Loop through the array of entry representations. Inside the loop, create a constant called entry. For its value, give it the result of the fetchSingleEntryFromPersistentStore method. Pass in the entry representation's identifier. This will allow us to compare the entry representation and see if there is a corresponding entry in the persistent store already.
+            for entryRepresentation in entryRepresentations {
+                
+                guard let identifier = entryRepresentation.identifier else { continue }
+                
+                if let entry = self.fetchSingleEntryFromPersistentStore(with: identifier) {
+                    // If the entry exists, but the entry and the entry's representation's values are not the same, then call the new update(entry: ...) method that takes in an entry and an entry representation. This will then synchronize the entry from the persistent store to the updated values from the server's version of the entry.
+                    self.updateFromRepresentation(entry: entry, entryRepresentation: entryRepresentation)
+                } else {
+                    // If there was no entry returned from the persistent store, that means the server has an entry that the device does not. In that case, initialize a new Entry using the convenience initializer that takes in an Entry Representation
+                    let _ = Entry(entryRepresentation: entryRepresentation)
+                }
+            }
+            // Outside of the loop, call saveToPersistentStore() to persist the changes and effectively synchronize the data in the device's persistent store with the data on the server
+            self.saveToPersistentStore()
+            // call completion and pass in nil for the error
+            completion(nil)
+            // Resume the data task
+        }.resume()
+    }
+    
 }
