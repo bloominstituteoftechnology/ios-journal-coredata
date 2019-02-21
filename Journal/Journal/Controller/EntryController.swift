@@ -96,4 +96,13 @@ class EntryController {
         }.resume()
     }
     
+    func updateFromRepresentation(entry: Entry, entryRepresentation: EntryRepresentation) {
+        
+        entry.title = entryRepresentation.title
+        entry.bodyText = entryRepresentation.bodyText
+        entry.timestamp = entryRepresentation.timestamp
+        entry.identifier = entryRepresentation.identifier
+        entry.mood = entryRepresentation.mood
+    }
+    
 }
