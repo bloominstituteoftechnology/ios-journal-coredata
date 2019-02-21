@@ -43,6 +43,7 @@ class EntryController {
     func delete(entry: Entry) {
         moc.delete(entry)
         saveToPersistentStore()
+        deleteEntryFromServer(entry: entry)
     }
     
     func put(entry: Entry, completion: @escaping ((Error?) -> Void) = { _ in }) {
