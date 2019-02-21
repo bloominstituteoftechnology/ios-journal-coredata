@@ -98,6 +98,15 @@ class JournalTableViewController: UITableViewController, NSFetchedResultsControl
         }
     }
     
+    @IBAction func refreshDragged(_ sender: UIRefreshControl) {
+        entryController.fetchEntriesFromServer { (_) in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
+    }
+    
+    
     let entryController = EntryController()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
