@@ -13,6 +13,10 @@ class EntryController {
     let moc = CoreDataStack.shared.mainContext
     let baseURL = URL(string: "https://journal-a1cc9.firebaseio.com/")!
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     func saveToPersistentStore() {
         do {
             try moc.save()
@@ -45,6 +49,8 @@ class EntryController {
         saveToPersistentStore()
         deleteEntryFromServer(entry: entry)
     }
+    
+    // MARK: - HTTP Methods
     
     func put(entry: Entry, completion: @escaping ((Error?) -> Void) = { _ in }) {
         guard let identifer = entry.identifier else { completion(NSError()); return }
