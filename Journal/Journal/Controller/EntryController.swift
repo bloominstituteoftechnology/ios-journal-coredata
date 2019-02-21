@@ -105,4 +105,21 @@ class EntryController {
         entry.mood = entryRepresentation.mood
     }
     
+    func fetchSingleEntryFromPersistentStore(with identifier: String) -> Entry? {
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        
+        let predicate = NSPredicate(format: "identifier == %@", identifier)
+        
+        fetchRequest.predicate = predicate
+        
+        do {
+            return try CoreDataStack.shared.mainContext.fetch(fetchRequest).first
+        }
+        catch {
+            NSLog("Error fetching single entry: \(error)")
+            return nil
+        }
+    }
+    
 }
