@@ -47,12 +47,16 @@ class EntryController {
     
     func delete(entry: Entry) {
         moc.delete(entry)
-        do {
-            try moc.save()
-        } catch {
-            moc.reset()
-            NSLog("There was an error saving delete to persistent store: \(error)")
+        
+        moc.performAndWait {
+            do {
+                try moc.save()
+            } catch {
+                moc.reset()
+                NSLog("There was an error saving delete to persistent store: \(error)")
+            }
         }
+        
         deleteEntryFromServer(entry: entry)
     }
     
@@ -107,11 +111,16 @@ class EntryController {
     func fetchSingleEntryFromPersistenceStore(entryID: String, context: NSManagedObjectContext) -> Entry? {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", entryID)
-        do {
-            return try moc.fetch(fetchRequest).first
-        } catch {
-            return nil
+        
+        var entry: Entry?
+        moc.performAndWait {
+            do {
+                entry = try moc.fetch(fetchRequest).first
+            } catch {
+                entry = nil
+            }
         }
+        return entry
     }
     
     func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = {_ in }) {
@@ -147,26 +156,30 @@ class EntryController {
     
     func iterate(entryRepresentations: [EntryRepresentation], context: NSManagedObjectContext) {
         for rep in entryRepresentations {
-            let entry = self.fetchSingleEntryFromPersistenceStore(entryID: rep.identifier, context: context)
-            
-            if entry == nil {
-                Entry(entryRepresentation: rep)
-            } else {
-                if rep == entry! {
-                    return
+            moc.performAndWait {
+                let entry = self.fetchSingleEntryFromPersistenceStore(entryID: rep.identifier, context: context)
+                
+                if entry == nil {
+                    Entry(entryRepresentation: rep)
                 } else {
-                    self.update(entry: entry!, entryRepresentation: rep)
+                    if rep == entry! {
+                        return
+                    } else {
+                        self.update(entry: entry!, entryRepresentation: rep)
+                    }
                 }
             }
         }
     }
     
     func saveToPersistentStore() {
-        do {
-            try moc.save()
-        } catch {
-            moc.reset()
-            NSLog("There was an error saving to persistent store: \(error)")
+        moc.performAndWait {
+            do {
+                try moc.save()
+            } catch {
+                moc.reset()
+                NSLog("There was an error saving to persistent store: \(error)")
+            }
         }
     }
     
