@@ -144,8 +144,10 @@ class EntryController {
             do {
                 let decodedData = try decoder.decode([String: EntryRepresentation].self, from: data)
                 let entryReps = decodedData.map({ $0.value })
-                self.iterate(entryRepresentations: entryReps, context: self.moc)
-                self.saveToPersistentStore()
+                
+                let backgroundMOC = CoreDataStack.shared.container.newBackgroundContext()
+                
+                self.iterate(entryRepresentations: entryReps, context: backgroundMOC)
                 completion(nil)
             } catch {
                 NSLog("There was an issue decoding data from the server.")
@@ -168,6 +170,7 @@ class EntryController {
                         self.update(entry: entry!, entryRepresentation: rep)
                     }
                 }
+                self.saveToPersistentStore()
             }
         }
     }
