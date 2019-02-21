@@ -65,7 +65,7 @@ class EntryController {
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             
             if let error = error {
-                NSLog("Error PUTting entry: \(error)")
+                NSLog("Error updating entry to server: \(error)")
                 completion(error)
                 return
             }
@@ -73,6 +73,26 @@ class EntryController {
             completion(nil)
         }.resume()
         
+    }
+    
+    func deleteEntryFromServer(entry: Entry, completion: @escaping ((Error?) -> Void) = { _ in}) {
+        guard let identifier = entry.identifier else { completion(NSError()); return }
+        
+        let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            
+            if let error = error {
+                NSLog("Error deleting entry from server: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }.resume()
     }
     
 }
