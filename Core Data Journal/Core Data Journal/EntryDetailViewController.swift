@@ -9,6 +9,8 @@
 import UIKit
 
 class EntryDetailViewController: UIViewController {
+	var entryController: EntryController?
+	var entry: Entry?
 
 	@IBOutlet var titleTextField: UITextField!
 	@IBOutlet var entryTextView: UITextView!

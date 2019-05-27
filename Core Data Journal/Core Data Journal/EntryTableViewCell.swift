@@ -14,6 +14,12 @@ class EntryTableViewCell: UITableViewCell {
 	@IBOutlet var titleLabel: UILabel!
 	@IBOutlet var detailLabel: UILabel!
 	@IBOutlet var timestampLabel: UILabel!
+
+	var entry: Entry? {
+		didSet {
+			updateViews()
+		}
+	}
 	
 	required init?(coder aDecoder: NSCoder) {
 		super.init(coder: aDecoder)
@@ -34,5 +40,14 @@ class EntryTableViewCell: UITableViewCell {
 		myContentView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
 		myContentView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
 		myContentView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+	}
+
+	private func updateViews() {
+		titleLabel.text = entry?.title
+		detailLabel.text = entry?.bodyText
+		let formatter = DateFormatter()
+		guard let date = entry?.timestamp else { return }
+//		formatter.string(from: date)
+		timestampLabel.text = formatter.string(from: date)
 	}
 }
