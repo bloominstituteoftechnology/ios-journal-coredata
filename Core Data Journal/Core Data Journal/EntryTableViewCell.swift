@@ -28,7 +28,6 @@ class EntryTableViewCell: UITableViewCell {
 	private func commonInit() {
 		let nib = UINib(nibName: "EntryTableViewCell", bundle: nil)
 		nib.instantiate(withOwner: self, options: nil)
-//		myContentView.frame = self.bounds
 		myContentView.translatesAutoresizingMaskIntoConstraints = false
 		addSubview(myContentView)
 		myContentView.topAnchor.constraint(equalTo: topAnchor).isActive = true
