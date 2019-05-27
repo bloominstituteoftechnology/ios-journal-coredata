@@ -46,8 +46,8 @@ class EntryTableViewCell: UITableViewCell {
 		titleLabel.text = entry?.title
 		detailLabel.text = entry?.bodyText
 		let formatter = DateFormatter()
+		formatter.dateStyle = .medium
 		guard let date = entry?.timestamp else { return }
-//		formatter.string(from: date)
 		timestampLabel.text = formatter.string(from: date)
 	}
 }
