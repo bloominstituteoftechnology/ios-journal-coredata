@@ -19,6 +19,7 @@ class EntriesTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+        print("These are the entries: \(ec.entries)")
     }
 
     // MARK: - Table view data source
@@ -58,6 +59,11 @@ class EntriesTableViewController: UITableViewController {
             guard let detailVC = segue.destination as? EntryDetailViewController, let index = tableView.indexPathForSelectedRow else { return }
             let entryToPass = ec.entries[index.row]
             detailVC.entry = entryToPass
+            detailVC.ec = ec
+        }
+        
+        if segue.identifier == "AddSegue" {
+            guard let detailVC = segue.destination as? EntryDetailViewController else { return }
             detailVC.ec = ec
         }
     }
