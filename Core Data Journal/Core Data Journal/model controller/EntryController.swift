@@ -15,15 +15,16 @@ class EntryController {
 		return loadFromPersistentStore()
 	}
 
-	@discardableResult func create(entryWithTitle title: String, andBody bodyText: String) -> Entry {
-		let entry = Entry(title: title, bodyText: bodyText)
+	@discardableResult func create(entryWithTitle title: String, andBody bodyText: String, andMood mood: Mood) -> Entry {
+		let entry = Entry(title: title, bodyText: bodyText, mood: mood)
 		saveToPersistenStore()
 		return entry
 	}
 
-	func update(withTitle title: String, andBody bodyText: String, onEntry entry: Entry) {
+	func update(withTitle title: String, andBody bodyText: String, andMood mood: Mood, onEntry entry: Entry) {
 		entry.title = title
 		entry.bodyText = bodyText
+		entry.mood = mood.rawValue
 		entry.timestamp = Date()
 		saveToPersistenStore()
 	}

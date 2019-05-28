@@ -53,8 +53,20 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="BDZ-0C-Uuo">
+                                        <rect key="frame" x="0.0" y="38" width="374" height="41"/>
+                                        <segments>
+                                            <segment title="💩"/>
+                                            <segment title="💸"/>
+                                            <segment title="🍆"/>
+                                            <segment title="👋"/>
+                                            <segment title="🤙"/>
+                                            <segment title="🧜🏾‍♀️"/>
+                                            <segment title="🍒"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="EwC-1d-YgK">
-                                        <rect key="frame" x="0.0" y="38" width="374" height="644"/>
+                                        <rect key="frame" x="0.0" y="86" width="374" height="596"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -80,6 +92,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="entryTextView" destination="EwC-1d-YgK" id="0XW-L9-qYb"/>
+                        <outlet property="moodControl" destination="BDZ-0C-Uuo" id="2wf-vU-doT"/>
                         <outlet property="titleTextField" destination="Paj-pl-8OV" id="o5p-cF-IdN"/>
                     </connections>
                 </viewController>
