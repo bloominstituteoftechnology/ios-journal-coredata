@@ -10,6 +10,9 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
 
+    @IBOutlet weak var titleTF: UITextField!
+    @IBOutlet weak var bodyTV: UITextView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -17,6 +20,8 @@ class EntryDetailViewController: UIViewController {
     }
     
 
+    @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
+    }
     /*
     // MARK: - Navigation
 

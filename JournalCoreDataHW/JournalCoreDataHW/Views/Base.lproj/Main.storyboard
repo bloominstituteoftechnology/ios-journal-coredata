@@ -127,8 +127,16 @@
                         <viewLayoutGuide key="safeArea" id="Cl9-3z-MUd"/>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="E9M-3L-BDC">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="ev1-Is-dGi"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="ev1-Is-dGi">
+                            <connections>
+                                <action selector="saveButtonPressed:" destination="T2P-qT-yh4" id="mOS-yh-aXd"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="bodyTV" destination="t9X-Ew-WfW" id="Khr-bV-KzF"/>
+                        <outlet property="titleTF" destination="G6e-xW-zKM" id="b3G-sT-Xcf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xhz-wy-QaX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
