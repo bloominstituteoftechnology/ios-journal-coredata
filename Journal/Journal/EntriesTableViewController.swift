@@ -9,9 +9,14 @@
 import UIKit
 
 class EntriesTableViewController: UITableViewController {
-
-    override func viewDidLoad() {
+	
+	override func viewDidLoad() {
         super.viewDidLoad()
 
 	}
+	
+	
+	@IBOutlet var titleLabel: UILabel!
+	@IBOutlet var timestampLabel: UILabel!
+	@IBOutlet var bodyLabel: UILabel!
 }
