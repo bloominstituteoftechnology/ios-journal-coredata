@@ -75,9 +75,8 @@ extension EntriesTableViewController {
 
 	override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
-			guard let entryCell = tableView.cellForRow(at: indexPath) as? EntryTableViewCell, let entry = entryCell.entry else { return }
+			let entry = fetchedResultsController.object(at: indexPath)
 			entryController.delete(entry: entry)
-			tableView.deleteRows(at: [indexPath], with: .automatic)
 		}
 	}
 
