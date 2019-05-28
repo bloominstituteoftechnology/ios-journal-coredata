@@ -14,6 +14,14 @@ class EntryDetailViewController: UIViewController {
         super.viewDidLoad()
     }
 	
+	
+	private func updateViews() {
+		guard let entry = entry else { return }
+		titleTextField?.text = entry.title
+		bodyTextView?.text = entry.bodyText
+		
+	}
+	
 	@IBAction func saveButton(_ sender: Any) {
 		print("save")
 		navigationController?.popViewController(animated: true)
@@ -21,4 +29,5 @@ class EntryDetailViewController: UIViewController {
 	
 	@IBOutlet var titleTextField: UITextField!
 	@IBOutlet var bodyTextView: UITextView!
+	var entry: Entry? { didSet { updateViews() } }
 }

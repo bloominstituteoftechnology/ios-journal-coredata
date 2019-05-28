@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="75" id="QrH-dB-YwQ" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="75" id="QrH-dB-YwQ" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="75"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="QrH-dB-YwQ" id="we8-lg-PbM">
@@ -133,15 +133,10 @@
                         <viewLayoutGuide key="safeArea" id="cWP-ln-xMH"/>
                     </view>
                     <navigationItem key="navigationItem" id="4XL-ku-cTd">
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="U5t-MY-hWm">
-                            <connections>
-                                <action selector="saveButton:" destination="MQb-F5-t4K" id="zyg-4v-zi7"/>
-                            </connections>
-                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="U5t-MY-hWm"/>
                     </navigationItem>
                     <connections>
                         <outlet property="bodyTextView" destination="nkx-Kn-Lkk" id="rgZ-aX-Chi"/>
-                        <outlet property="titleTextField" destination="xn4-tW-yx0" id="Hhc-Cg-5r5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9mI-aQ-9Lq" userLabel="First Responder" sceneMemberID="firstResponder"/>
