@@ -20,7 +20,8 @@ class EnteryDetailViewController: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
-
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -34,6 +35,8 @@ class EnteryDetailViewController: UIViewController {
         title = entry?.title ?? "Create an Entry"
         titleTextField.text = entry?.title
         bodyTextView.text = entry?.bodyText
+
+        moodSegmentedControl.selectedSegmentIndex = entry?.mood == Mood.😊.rawValue ? 2 : entry?.mood == Mood.😐.rawValue ? 1 : 0
     }
 
     @IBAction func saveButtonTapped(_ sender: Any) {
@@ -46,10 +49,12 @@ class EnteryDetailViewController: UIViewController {
             return
         }
 
+        let mood = moodSegmentedControl.selectedSegmentIndex == 2 ? Mood.😊.rawValue : moodSegmentedControl.selectedSegmentIndex == 1 ? Mood.😐.rawValue : Mood.😭.rawValue
+
         if let entry = entry {
-            entryController?.update(entry: entry, title: title, bodyText: bodyText)
+            entryController?.update(entry: entry, title: title, bodyText: bodyText, mood: mood)
         } else {
-            entryController?.createEntry(title: title, bodyText: bodyText)
+            entryController?.createEntry(title: title, bodyText: bodyText, mood: mood)
         }
 
         navigationController?.popToRootViewController(animated: true)

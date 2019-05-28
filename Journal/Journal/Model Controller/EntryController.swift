@@ -9,6 +9,12 @@
 import Foundation
 import CoreData
 
+enum Mood: String {
+    case 😭
+    case 😐
+    case 😊
+}
+
 class EntryController {
 
     var entries: [Entry] {
@@ -38,20 +44,21 @@ class EntryController {
         }
     }
 
-    func createEntry(title: String, bodyText: String) {
+    func createEntry(title: String, bodyText: String, mood: String) {
 
-        _ = Entry(title: title, bodyText: bodyText)
+        _ = Entry(title: title, bodyText: bodyText, mood: mood)
 
         saveToPersistentStore()
     }
 
-    func update(entry: Entry, title: String, bodyText: String) {
+    func update(entry: Entry, title: String, bodyText: String, mood: String) {
 
         guard let index = entries.firstIndex(of: entry) else { return }
 
         entries[index].title = title
         entries[index].bodyText = bodyText
         entries[index].timestamp = Date()
+        entries[index].mood = mood
 
         saveToPersistentStore()
     }
