@@ -9,6 +9,11 @@
 import UIKit
 
 class EnteryTableViewCell: UITableViewCell {
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var timStampLabel: UILabel!
@@ -19,10 +24,22 @@ class EnteryTableViewCell: UITableViewCell {
         // Initialization code
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    func updateViews() {
 
-        // Configure the view for the selected state
+        guard let entry = entry else { return }
+
+        titleLabel.text = entry.title
+        bodyTextLabel.text = entry.bodyText
+
+        let calendar = Calendar.current
+
+        let month = calendar.component(.month, from: entry.timestamp ?? Date())
+        let day = calendar.component(.day, from: entry.timestamp ?? Date())
+        let year = calendar.component(.year, from: entry.timestamp ?? Date())
+        let hour = calendar.component(.hour, from: entry.timestamp ?? Date())
+        let minute = calendar.component(.minute, from: entry.timestamp ?? Date())
+
+        timStampLabel.text = "\(month)/\(day)/\(year) \(hour):\(minute)"
     }
 
 }

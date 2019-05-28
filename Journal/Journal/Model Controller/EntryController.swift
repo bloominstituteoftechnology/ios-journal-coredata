@@ -53,6 +53,8 @@ class EntryController {
         entries[index].title = title
         entries[index].bodyText = bodyText
         entries[index].timestamp = Date()
+
+        saveToPersistentStore()
     }
 
     func delete(entry: Entry) {

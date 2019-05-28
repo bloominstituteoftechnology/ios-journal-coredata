@@ -10,24 +10,48 @@ import UIKit
 
 class EnteryDetailViewController: UIViewController {
 
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+
+    var entryController: EntryController?
+
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        updateViews()
     }
-    
 
-    /*
-    // MARK: - Navigation
+    func updateViews() {
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        guard isViewLoaded else { return }
+
+        title = entry?.title ?? "Create an Entry"
+        titleTextField.text = entry?.title
+        bodyTextView.text = entry?.bodyText
     }
-    */
 
+    @IBAction func saveButtonTapped(_ sender: Any) {
+
+        guard let title = titleTextField.text,
+        let bodyText = bodyTextView.text,
+        !title.isEmpty,
+        !bodyText.isEmpty
+        else {
+            return
+        }
+
+        if let entry = entry {
+            entryController?.update(entry: entry, title: title, bodyText: bodyText)
+        } else {
+            entryController?.createEntry(title: title, bodyText: bodyText)
+        }
+
+        navigationController?.popToRootViewController(animated: true)
+    }
 }
