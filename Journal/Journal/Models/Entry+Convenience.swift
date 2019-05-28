@@ -21,22 +21,8 @@ extension Entry {
 
         self.title = title
         self.bodyText = bodyText
-        self.timestamp = getTimestampString(from: timestamp)
+        self.timestamp = timestamp
         self.identifier = identifier
 
-    }
-
-    private func getTimestampString(from date: Date) -> String {
-
-        let calandar = Calendar.current
-
-        let hour = calandar.component(.hour, from: date)
-        let minute = calandar.component(.minute, from: date)
-
-        let month = calandar.component(.month, from: date)
-        let day = calandar.component(.day, from: date)
-        let year = calandar.component(.year, from: date)
-
-        return "\(month)/\(day)/\(year) \(hour):\(minute)"
     }
 }

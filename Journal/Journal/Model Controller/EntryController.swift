@@ -11,6 +11,12 @@ import CoreData
 
 class EntryController {
 
+    var entries: [Entry] {
+        return loadFromPersistentStore()
+    }
+
+    var entryController = Entry()
+
     func saveToPersistentStore() {
 
         do{
@@ -32,4 +38,29 @@ class EntryController {
             return []
         }
     }
+
+    func createEntry(title: String, bodyText: String) {
+
+        _ = Entry(title: title, bodyText: bodyText)
+
+        saveToPersistentStore()
+    }
+
+    func update(entry: Entry, title: String, bodyText: String) {
+
+        guard let index = entries.firstIndex(of: entry) else { return }
+
+        entries[index].title = title
+        entries[index].bodyText = bodyText
+        entries[index].timestamp = Date()
+    }
+
+    func delete(entry: Entry) {
+
+        let moc = CoreDataStack.shared.mainContext
+
+        moc.delete(entry)
+        saveToPersistentStore()
+    }
+
 }
