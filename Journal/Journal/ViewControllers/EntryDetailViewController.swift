@@ -14,5 +14,11 @@ class EntryDetailViewController: UIViewController {
         super.viewDidLoad()
     }
 	
-
+	@IBAction func saveButton(_ sender: Any) {
+		print("save")
+		navigationController?.popViewController(animated: true)
+	}
+	
+	@IBOutlet var titleTextField: UITextField!
+	@IBOutlet var bodyTextView: UITextView!
 }
