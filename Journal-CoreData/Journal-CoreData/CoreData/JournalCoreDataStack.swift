@@ -32,4 +32,8 @@ class JournalCoreDataStack {
             
     }()
     
+    var mainContext: NSManagedObjectContext {
+        return container.viewContext
+    }
+    
 }
