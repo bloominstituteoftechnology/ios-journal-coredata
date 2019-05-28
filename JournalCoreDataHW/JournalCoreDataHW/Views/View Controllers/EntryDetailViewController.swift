@@ -9,6 +9,9 @@
 import UIKit
 
 class EntryDetailViewController: UIViewController {
+    
+    var entry: Entry?
+    var ec: EntryController?
 
     @IBOutlet weak var titleTF: UITextField!
     @IBOutlet weak var bodyTV: UITextView!
@@ -21,15 +24,6 @@ class EntryDetailViewController: UIViewController {
     
 
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
+        
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
