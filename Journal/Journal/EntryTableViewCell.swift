@@ -10,6 +10,8 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
 
-   
+	@IBOutlet var titleLabel: UILabel!
+	@IBOutlet var timestampLabel: UILabel!
+	@IBOutlet var bodyLabel: UILabel!
 
 }

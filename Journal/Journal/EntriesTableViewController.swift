@@ -16,7 +16,5 @@ class EntriesTableViewController: UITableViewController {
 	}
 	
 	
-	@IBOutlet var titleLabel: UILabel!
-	@IBOutlet var timestampLabel: UILabel!
-	@IBOutlet var bodyLabel: UILabel!
+
 }
