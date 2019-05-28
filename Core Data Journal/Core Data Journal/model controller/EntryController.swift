@@ -11,10 +11,6 @@ import CoreData
 
 class EntryController {
 
-	var entries: [Entry] {
-		return loadFromPersistentStore()
-	}
-
 	@discardableResult func create(entryWithTitle title: String, andBody bodyText: String, andMood mood: Mood) -> Entry {
 		let entry = Entry(title: title, bodyText: bodyText, mood: mood)
 		saveToPersistenStore()
@@ -42,17 +38,6 @@ class EntryController {
 			try moc.save()
 		} catch {
 			print("error saving persistent store: \(error)")
-		}
-	}
-
-	func loadFromPersistentStore() -> [Entry] {
-		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-		let moc = CoreDataStack.shared.mainContext
-		do {
-			return try moc.fetch(fetchRequest)
-		} catch {
-			print("error fetching: \(error)")
-			return []
 		}
 	}
 }

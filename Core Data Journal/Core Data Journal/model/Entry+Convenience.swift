@@ -17,6 +17,25 @@ enum Mood: Int16, CaseIterable  {
 	case eh
 	case mermaid
 	case cherries
+
+	var stringValue: String {
+		switch self {
+		case .poop:
+			return "💩"
+		case .moneyWithWings:
+			return "💸"
+		case .eggplant:
+			return "🍆"
+		case .wave:
+			return "👋"
+		case .eh:
+			return "🤙"
+		case .mermaid:
+			return "🧜🏾‍♀️"
+		case .cherries:
+			return "🍒"
+		}
+	}
 }
 
 extension Entry {
