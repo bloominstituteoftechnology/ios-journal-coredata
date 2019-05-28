@@ -17,30 +17,12 @@ enum Mood: String {
 
 class EntryController {
 
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
-
-
     func saveToPersistentStore() {
 
         do{
             try CoreDataStack.shared.mainContext.save()
         } catch {
             NSLog("Could Not save data to persistent Stores: \(error)")
-        }
-    }
-
-    func loadFromPersistentStore() -> [Entry] {
-
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-
-        let moc = CoreDataStack.shared.mainContext
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            NSLog("Could not load data from persistent store: \(error)")
-            return []
         }
     }
 
@@ -53,12 +35,10 @@ class EntryController {
 
     func update(entry: Entry, title: String, bodyText: String, mood: String) {
 
-        guard let index = entries.firstIndex(of: entry) else { return }
-
-        entries[index].title = title
-        entries[index].bodyText = bodyText
-        entries[index].timestamp = Date()
-        entries[index].mood = mood
+        entry.title = title
+        entry.bodyText = bodyText
+        entry.mood = mood
+        entry.timestamp = Date()
 
         saveToPersistentStore()
     }
