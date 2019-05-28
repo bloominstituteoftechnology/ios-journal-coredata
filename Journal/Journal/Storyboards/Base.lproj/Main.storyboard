@@ -14,13 +14,13 @@
         <!--Journal-->
         <scene sceneID="9rP-CY-lim">
             <objects>
-                <tableViewController id="xrl-az-Nmd" sceneMemberID="viewController">
+                <tableViewController id="xrl-az-Nmd" customClass="EnteriesTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="p6w-e2-iWL">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EnteryCell" rowHeight="82" id="qxm-Qy-tBB">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EnteryCell" rowHeight="82" id="qxm-Qy-tBB" customClass="EnteryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="82"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="qxm-Qy-tBB" id="Mqp-yo-ryN">
@@ -64,6 +64,9 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="bodyTextLabel" destination="8yH-VM-Viq" id="fgj-5C-XG5"/>
+                                    <outlet property="timStampLabel" destination="OfC-hC-v9i" id="hy3-68-Vhx"/>
+                                    <outlet property="titleLabel" destination="qeq-OL-dHf" id="lWy-Tp-nIR"/>
                                     <segue destination="SfJ-vE-JXN" kind="show" identifier="ShowEnteryDetail" id="4jB-Ni-RC8"/>
                                 </connections>
                             </tableViewCell>
@@ -88,7 +91,7 @@
         <!--Title-->
         <scene sceneID="fM7-dC-N2e">
             <objects>
-                <viewController id="SfJ-vE-JXN" sceneMemberID="viewController">
+                <viewController id="SfJ-vE-JXN" customClass="EnteryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qIc-wV-F3S">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -123,6 +126,10 @@
                     <navigationItem key="navigationItem" title="Title" id="A3V-fL-EsB">
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="qaD-lT-C1r"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="bodyTextView" destination="l2R-MZ-WRO" id="re3-Qz-5AQ"/>
+                        <outlet property="titleTextField" destination="Acn-XI-qbd" id="Hck-Af-bZK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="X2U-EO-HUH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -146,6 +153,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="4jB-Ni-RC8"/>
+        <segue reference="82Q-xU-6Sn"/>
     </inferredMetricsTieBreakers>
 </document>
