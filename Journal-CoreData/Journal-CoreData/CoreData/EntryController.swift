@@ -13,42 +13,87 @@ class EntryController {
     
     // MARK: - Properties
     
+    // Get the Model Object Context
+    let moc = JournalCoreDataStack.shared.mainContext
+    
     var entries: [Entry] {
         // Allows any changes to the persistent store to be seen immediately by the user in the TVC
-        loadFromPersistentStore()
+       return loadFromPersistentStore()
     }
     
-    // MARK: - Functions
+    // MARK: - CRUD Functions
+    
+    /* // CRUD functions to:
+        1. Create new entity objects
+        2. Perform the fetch request on the core data stack's mainContent (must be enclosed in a do try catch block)
+        3. Update an entity objects
+        4. Delete an entity objects
+    */
+    
     
     // Function to save the core data stack's mainContext
     // This will bundle the changes that are tracked and managed in the Managed Object Context, mainContext
     func saveToPersistentStore() {
         
+        do {
+            try moc.save()
+        } catch {
+            NSLog("Unable to save new entry: \(error)")
+        }
     }
     
-    /* Function to:
-        1. create an NSFetchRequest for Entry objects
-        2. Perform the fetch request on the core data stack's mainContent (must be enclosed in a do try catch block)
-        3. Return the results of the fetch
-        4. Catch and handle any errors and return an empty array
-    */
+    // Crud
+    func createEntry(title: String, bodyText: String) {
+        _ = Entry(title: title, bodyText: bodyText)
+        saveToPersistentStore()
+    }
+    
+    // cRud
     func loadFromPersistentStore() -> [Entry] {
         
-        // NSFetchRequest for Entry objects
+        // Create a fetch request to return all of the entries
+        let fetchRequest : NSFetchRequest<Entry> = Entry.fetchRequest()
         
-        // Fetch the Entry objects
-//        do {
-//            
-//        } catch {
-//            if let error = error {
-//              //  fatalError("Unable to fetch entries from persistent store: \(error)")
-//                return []
-//            }
-//        }
+         // Use the newly created NSFetchRequest to fetch the Entry objects
+        // Ask the Managed Object Context to fetch the entries
+        // Fetch returns an array of fetched objects
+        do {
+            return try moc.fetch(fetchRequest)
+        } catch {
+            print("Error fetching entries from persistent storee \(error)")
+            return[]
+        }
+    }
+ 
+    // crUd
+    func update(entry: Entry, title: String, bodyText: String) {
         
-        return []
+        // Make sure the entry has actually been made
+        guard let entryIndex = entries.firstIndex(of: entry) else { return }
+        
+        // Now get the entry
+        let currentEntry = entries[entryIndex]
+        print(currentEntry.title ?? "Dang!")
+        
+        // Got the index now update the entry.  Delete and capture it.
+        //let currentEntry = delete(delete: <#T##Entry#>)
+        print(entries[entryIndex])
+        entries[entryIndex].title = title
+        entries[entryIndex].bodyText = bodyText
+        entries[entryIndex].timestamp = Date()
+        print(entries[entryIndex])
+        saveToPersistentStore()
+    }
+    
+    // cruD
+    func delete(delete: Entry) {
+        moc.delete(delete)
+        saveToPersistentStore()
     }
     
     
+//    // MARK: - Private Functions
+//
+//    private Date()
     
 }

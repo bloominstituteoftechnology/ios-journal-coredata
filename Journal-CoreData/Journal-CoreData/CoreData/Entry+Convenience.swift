@@ -10,10 +10,10 @@ import Foundation
 import CoreData
 
 extension Entry {
-    convenience init(identifier: String,
-                     title: String,
-                     timestamp: Date,
+    convenience init(title: String,
                      bodyText: String,
+                     timestamp: Date = Date(),
+                     identifier: String = UUID().uuidString,
                      context: NSManagedObjectContext = JournalCoreDataStack.shared.mainContext) {
         
         // A managed context MUST be provided when a Core Data object is initialized.
@@ -21,6 +21,8 @@ extension Entry {
         // The main context in Core Data is viewContext
         
         // Call the Entry class' initializer that takes in an NSManagedObjectContext
+        // This is ONLY setting up the NSManagedObject part of the Entry class.
+        // It is setting up a generic MOC
         self.init(context: context)
         
         // Set the value of attributes defined in the data model
