@@ -15,7 +15,6 @@ class EntryController {
         return loadFromPersistentStore()
     }
 
-    var entryController = Entry()
 
     func saveToPersistentStore() {
 
