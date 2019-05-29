@@ -73,8 +73,8 @@ Back in the `EntryController`, you will make a couple methods that will help whe
 
 `NSPredicate(format: "identifier == %@", identifier)`
 
-</p>
-</details>
+	</p>
+	</details>
 - Perform the fetch request on your core data stack's `mainContext` and return the first `Entry` from the array you get back. In theory, there should only be one entry fetched anyway, because the predicate uses the entry's identifier. Handle the potential error from performing the fetch request.
 3. Create a function called `fetchEntriesFromServer`. It should have a completion closure that returns an optional error and its default value should be an empty closure. This method should:
 - Take the `baseURL` and add the "json" extension to it. 
