@@ -36,7 +36,6 @@ class EntryController {
         saveToPersistentStore()
     }
     
-    
     func saveToPersistentStore() {
         let moc = CoreDataStack.shared.mainContext
         
@@ -59,5 +58,4 @@ class EntryController {
         }
         return []
     }
-    
 }

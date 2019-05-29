@@ -19,6 +19,7 @@ class EntryDetailViewController: UIViewController {
 
     @IBOutlet weak var titleTF: UITextField!
     @IBOutlet weak var bodyTV: UITextView!
+    @IBOutlet weak var segmentedProperties: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
