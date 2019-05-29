@@ -18,31 +18,20 @@ First, you'll set up the ability to PUT entries to Firebase. Since the `Entry` e
 
 1. Create a new Firebase project for this application. Choose to use the "Realtime Database" and set it to testing mode so no authentication is required.
 
-#### Entry+Encodable
-
-1. Create a new Swift file called "Entry+Encodable.swift".
-2. Create an extension on `Entry`, and adopt the `Encodable` protocol. Since you're using "Class Definition" codegen in your data model, you don't have access to the `Entry` class directly. The effect this has is that when you adopt `Encodable`, its required method in can't be synthesized for you. 
-3. First create a `CodingKeys` enum. It should have string raw values, and adopt the `CodingKey` protocol. Add a case for the five attributes in the `Entry` entity.
-4. Now that you have the coding keys, you can implement the required `public func encode(to encoder: Encoder) throws` method yourself.
-    - In the `encode(to encoder: ...)` method, create a variable called `container`. Set use the `encoder` parameter's `container(keyedBy: ...)` method, and pass in `CodingKeys.self` to it.
-    - Use the container's `encode(value: ..., forKey: ...)` method to encode each of the five attributes of the `Entry` individually.
-
-You may be wondering why you're adopting `Encodable` and not `Codable`. `Codable` is just a combination of the `Encodable` and `Decocable` protocols. This will be explained later in the instructions.
-
 #### EntryController
 
-5. In the `EntryController`, add a `baseURL: URL` constant that is the URL from the new Firebase database you created for this app.
-6. Create a function called `put`, that takes in an entry and has an escaping completion closure. The closure should return an optional error. Give this completion closure a default value of an empty closure. (e.g. `{ _ in }` ). This will allow you to use the completion closure if you want to do something when `completion` is called or just not worry about doing anything after knowing the data task has completed. This method should:
+1. In the `EntryController`, add a `baseURL: URL` constant that is the URL from the new Firebase database you created for this app.
+2. Create a function called `put`, that takes in an entry and has an escaping completion closure. The closure should return an optional error. Give this completion closure a default value of an empty closure. (e.g. `{ _ in }` ). This will allow you to use the completion closure if you want to do something when `completion` is called or just not worry about doing anything after knowing the data task has completed. This method should:
     - Take the `baseURL` and append the identifier of the entry parameter to it. Add the `"json"` extension to the URL as well.
     - Create a `URLRequest` object. Set its HTTP method to PUT.
     - Using `JSONEncoder`, encode the entry into JSON data. Set the URL request's `httpBody` to this data.
     - Perform a `URLSessionDataTask` with the request, and handle any errors. Make sure to call completion and resume the data task.
-7. Call the `put` method in the `createEntry` and `update(entry: ...)` methods.
-8. Create a `deleteEntryFromServer` method. It should take in an entry, and a completion closure that returns an optional error. Again, give the closure a default value of an empty closure. This method should:
+3. Call the `put` method in the `createEntry` and `update(entry: ...)` methods.
+4. Create a `deleteEntryFromServer` method. It should take in an entry, and a completion closure that returns an optional error. Again, give the closure a default value of an empty closure. This method should:
     - Create a URL from the `baseURL` and append the entry parameter's identifier to it. Also append the "json" extension to the URL as well. This URL should be formatted the same as the URL you would use to PUT an entry to Firebase.
     - Create a `URLRequest` object, and set its HTTP method to DELETE.
     - Perform a `URLSessionDataTask` with the request and handle any errors. Call completion and don't forget to resume the data task.
-9. Call the `deleteEntryFromServer` method in your `delete(entry: ...)` method.
+5. Call the `deleteEntryFromServer` method in your `delete(entry: ...)` method.
 
 Test the app at this point. You should be able to both create and update entries and they will be sent to Firebase as well as to the `NSPersistentStore` on the device. You should also be able to delete entries from Firebase also.
 
@@ -55,7 +44,7 @@ The way to prevent this is to create an intermediate data type between the JSON 
 #### EntryRepresentation
 
 1. Create a new Swift file called "EntryRepresentation". In the file, create a struct called `EntryRepresentation`.
-2. Adopt the `Decodable` protocol.
+2. Adopt the `Codable` protocol.
 3. Add a property in this struct for each attribute in the `Entry` model. Their names should match exactly or else the JSON from Firebase will not decode into this struct properly.
 4. Adopt the Equatable protocol. 
 5. Outside of the `EntryRepresentation` struct, implement the `==` method. The left hand side (`lhs`) should be of type `EntryRepresentation` and the right hand side (`rhs`) should be an `Entry`.
@@ -63,6 +52,7 @@ The way to prevent this is to create an intermediate data type between the JSON 
 7. Implement the `!=` method with `EntryRepresentation` as the left hand side, and `Entry` as the right hand side. This should return `!(rhs == lhs)`
 8. Implement the `!=` again but swapping the left hand side's type to `Entry` and `EntryRepresentation` as the right hand side. Simply return `rhs != lhs`. 
 9. In the "Entry+Convenience.swift" file, add a new convenience initializer. This initializer should be failable. It should take in an `EntryRepresentation` parameter. This should simply pass the values from the entry representation to the convenience initializer you made earlier in the project. 
+10. In the Entry extension, create a `var entryRepresentation: EntryRepresentation` computed property. It should simply return an `EntryRepresentation` object that is initialized from the values of the `Entry`.
 
 #### EntryController
 
