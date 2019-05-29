@@ -24,7 +24,7 @@ First, you'll set up the ability to PUT entries to Firebase. Since the `Entry` e
 2. Create a function called `put`, that takes in an entry and has an escaping completion closure. The closure should return an optional error. Give this completion closure a default value of an empty closure. (e.g. `{ _ in }` ). This will allow you to use the completion closure if you want to do something when `completion` is called or just not worry about doing anything after knowing the data task has completed. This method should:
     - Take the `baseURL` and append the identifier of the entry parameter to it. Add the `"json"` extension to the URL as well.
     - Create a `URLRequest` object. Set its HTTP method to PUT.
-    - Using `JSONEncoder`, encode the entry into JSON data. Set the URL request's `httpBody` to this data.
+    - Using `JSONEncoder`, encode the entry's `entryRepresentation` into JSON data. Set the URL request's `httpBody` to this data.
     - Perform a `URLSessionDataTask` with the request, and handle any errors. Make sure to call completion and resume the data task.
 3. Call the `put` method in the `createEntry` and `update(entry: ...)` methods.
 4. Create a `deleteEntryFromServer` method. It should take in an entry, and a completion closure that returns an optional error. Again, give the closure a default value of an empty closure. This method should:
