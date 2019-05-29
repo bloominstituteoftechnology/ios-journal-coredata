@@ -41,9 +41,16 @@ class EntryController {
 
 	func delete(entry: Entry) {
 		let moc = CoreDataStack.shared.mainContext
+		remoteDelete(entry: entry) { (result: Result<Data?, NetworkError>) in
+			do {
+				_ = try result.get()
+				print("success")
+			} catch {
+				NSLog("error deleting from firebase: \(error)")
+			}
+		}
 		moc.delete(entry)
 		saveToPersistenStore()
-		remoteDelete(entry: entry)
 	}
 
 	// MARK: - Local Persistence
@@ -85,7 +92,7 @@ class EntryController {
 		networkHandler.transferMahCodableDatas(with: request, completion: completion)
 	}
 
-	func remoteDelete(entry: Entry, completion: @escaping (Result<EntryRepresentation, NetworkError>) -> Void = { _ in }) {
+	func remoteDelete(entry: Entry, completion: @escaping (Result<Data?, NetworkError>) -> Void = { _ in }) {
 		let identifier = entry.identifier ?? UUID().uuidString
 		let deleteURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
 		entry.identifier = identifier
@@ -93,6 +100,6 @@ class EntryController {
 		var request = URLRequest(url: deleteURL)
 		request.httpMethod = HTTPMethods.delete.rawValue
 
-		networkHandler.transferMahCodableDatas(with: request, completion: completion)
+		networkHandler.transferMahOptionalDatas(with: request, completion: completion)
 	}
 }

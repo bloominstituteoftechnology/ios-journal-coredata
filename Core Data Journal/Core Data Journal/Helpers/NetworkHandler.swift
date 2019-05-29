@@ -72,6 +72,22 @@ class NetworkHandler {
 	}()
 
 	func transferMahDatas(with request: URLRequest, session: URLSession = URLSession.shared, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+		transferMahOptionalDatas(with: request) { (result: Result<Data?, NetworkError>) in
+			do {
+				let optData = try result.get()
+				guard let data = optData else {
+					self.printToConsole("\(NetworkError.badData)")
+					completion(.failure(.badData))
+					return
+				}
+				completion(.success(data))
+			} catch {
+				completion(.failure(error as? NetworkError ?? NetworkError.otherError(error: error)))
+			}
+		}
+	}
+
+	func transferMahOptionalDatas(with request: URLRequest, session: URLSession = URLSession.shared, completion: @escaping (Result<Data?, NetworkError>) -> Void) {
 		if mockMode {
 			DispatchQueue.global().asyncAfter(deadline: .now() + mockDelay) { [weak self] in
 				guard let self = self else { return }
@@ -105,12 +121,6 @@ class NetworkHandler {
 				if let error = error {
 					self.printToConsole("An error was encountered: \(error)")
 					completion(.failure(.otherError(error: error)))
-					return
-				}
-
-				guard let data = data else {
-					self.printToConsole("\(NetworkError.badData)")
-					completion(.failure(.badData))
 					return
 				}
 
