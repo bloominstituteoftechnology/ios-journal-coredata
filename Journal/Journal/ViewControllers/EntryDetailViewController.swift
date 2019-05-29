@@ -44,6 +44,7 @@ class EntryDetailViewController: UIViewController, UITextFieldDelegate {
 		if let entry = entry {
 			entry.title = title
 			entry.bodyText = body
+			entry.timeStamp = Date()
 		} else {
 			let _ = Entry(title: title, bodyText: body)
 		}
