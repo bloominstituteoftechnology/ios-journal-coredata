@@ -66,11 +66,11 @@ class EntryController {
     //MARK: - API CALLS
     let baseURL = URL(string: "https:journalcd-f7246.firebaseio.com/")!
     
-    func put(entry: Entry, completion: @escaping (Error?) -> Void){
+    func put(entry: Entry, completion: @escaping (Error?) -> Void = {_  in}){
         //this method should append the identifier and add the json to the extension bc of firebase
         guard let identifier = entry.identifier else {
             print("Error unwrapping identifier")
-            completion(NSError())
+//            completion(NSError)
             return }
         let url = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
         var requestURL = URLRequest(url: url)
