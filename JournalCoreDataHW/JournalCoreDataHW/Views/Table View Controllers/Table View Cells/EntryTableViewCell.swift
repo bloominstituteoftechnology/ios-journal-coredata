@@ -24,8 +24,13 @@ class EntryTableViewCell: UITableViewCell {
     private func updateViews(){
         guard let passedInEntry = entry else { return }
         entryTitlelabel.text = passedInEntry.title
-        timestampLabel.text = passedInEntry.timestamp?.description
         bodyLabel.text = passedInEntry.bodyText
+        
+        if let date = passedInEntry.timestamp {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .short
+            formatter.timeStyle = .short
+            timestampLabel.text = formatter.string(from: date)
+        }
     }
-
 }

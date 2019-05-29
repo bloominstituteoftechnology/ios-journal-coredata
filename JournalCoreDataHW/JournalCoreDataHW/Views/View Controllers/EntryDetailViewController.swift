@@ -35,7 +35,7 @@ class EntryDetailViewController: UIViewController {
         //get the priority from the segmented control
         let moodIndex = segmentedProperties.selectedSegmentIndex
         //because the enum and the segmented control are in order we can use the segmented index and subscript the array
-        let mood = EntryMood.allMoods[moodIndex].rawValue
+        let mood = EntryMood.allMoods[moodIndex]
         
 //        var mood = ""
 //        let index = segmentedProperties.selectedSegmentIndex
