@@ -15,6 +15,11 @@ class EntriesTableViewController: UITableViewController {
         super.viewDidLoad()
 
 	}
+
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		tableView.reloadData()
+	}
 	
 	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return entries.count
@@ -28,12 +33,21 @@ class EntriesTableViewController: UITableViewController {
 		return entryCell
 	}
 	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		if segue.identifier == "ShowDetail" {
+			guard let vc = segue.destination as? EntryDetailViewController,
+				let indexpath = tableView.indexPathForSelectedRow else { return }
+			vc.entry = entries[indexpath.row]
+		}
+	}
+	
 	var entries: [Entry] {
 		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
 		let moc = CoreDataStack.shared.mainContext
 		
 		do {
-			return try moc.fetch(fetchRequest)
+			let result = try moc.fetch(fetchRequest)
+			return result
 		} catch {
 			NSLog("Error fetching tasks: \(error)")
 			return []
