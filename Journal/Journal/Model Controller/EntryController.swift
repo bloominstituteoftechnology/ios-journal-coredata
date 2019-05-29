@@ -62,13 +62,14 @@ class EntryController {
 
     func delete(entry: Entry) {
 
+        delete(entry: entry) { _ in
+
+        }
+
         let moc = CoreDataStack.shared.mainContext
 
         moc.delete(entry)
         saveToPersistentStore()
-        delete(entry: entry) { _ in
-
-        }
     }
 
     //MARK: - HTTP Methods
@@ -100,7 +101,7 @@ class EntryController {
     }
 
     func delete(entry: Entry, completion: @escaping (Error?) -> Void) {
-
+        print("Deleting \(entry.identifier) from server")
         let requestURL = baseURL
             .appendingPathComponent(entry.identifier ?? UUID().uuidString)
             .appendingPathExtension("json")
