@@ -29,7 +29,8 @@ class EntriesTableViewController: UITableViewController {
 		let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath)
 		
 		guard let entryCell = cell as? EntryTableViewCell else { return cell }
-		
+		let entry = entries[indexPath.row]
+		entryCell.entry = entry
 		return entryCell
 	}
 	

@@ -33,12 +33,11 @@ class EntryDetailViewController: UIViewController {
 	}
 	
 	@IBAction func saveButton(_ sender: Any) {
-		print("save")
 		
-		guard let title = titleTextField?.text,
-			title.isEmpty,
+		
+		guard let title = titleTextField.text,
 			let body = bodyTextView.text else { return }
-		
+		print("save")
 		if let entry = entry {
 			//editting a task
 			entry.title = title
@@ -47,17 +46,16 @@ class EntryDetailViewController: UIViewController {
 		} else {
 			//creating a new task
 			
-			let newEntry = Entry(context: CoreDataStack.shared.mainContext)
-			newEntry.title = title
-			newEntry.bodyText = body
-			newEntry.identifier = UUID().uuidString
-			newEntry.timeStamp = Date()
+			let _ = Entry(title: title, bodyText: body)
+		
 		}
 		
 		do {
 			try CoreDataStack.shared.mainContext.save()
+			print("here")
 			navigationController?.popViewController(animated: true)
 		} catch {
+			
 			NSLog("Failed To Save: \(error)")
 		}
 		
