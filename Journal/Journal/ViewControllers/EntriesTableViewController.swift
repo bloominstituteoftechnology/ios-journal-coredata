@@ -13,7 +13,7 @@ class EntriesTableViewController: UITableViewController {
 	
 	override func viewDidLoad() {
         super.viewDidLoad()
-
+		tableView.reloadData()
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -34,6 +34,15 @@ class EntriesTableViewController: UITableViewController {
 		return entryCell
 	}
 	
+	override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+		if editingStyle == .delete {
+			let entry = entries[indexPath.row]
+			CoreDataStack.shared.mainContext.delete(entry)
+			tableView.reloadData()
+		}
+	}
+	
+	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if segue.identifier == "ShowDetail" {
 			guard let vc = segue.destination as? EntryDetailViewController,
@@ -41,6 +50,7 @@ class EntriesTableViewController: UITableViewController {
 			vc.entry = entries[indexpath.row]
 		}
 	}
+	
 	
 	var entries: [Entry] {
 		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()

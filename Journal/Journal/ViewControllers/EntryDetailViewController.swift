@@ -8,16 +8,18 @@
 
 import UIKit
 
-class EntryDetailViewController: UIViewController {
+class EntryDetailViewController: UIViewController, UITextFieldDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+		updateViews()
+		titleTextField.delegate = self
     }
 	
-	
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-		updateViews()
+	func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+		
+		print("textField delegate")
+		return true
 	}
 	
 	private func updateViews() {
@@ -33,34 +35,34 @@ class EntryDetailViewController: UIViewController {
 	}
 	
 	@IBAction func saveButton(_ sender: Any) {
+		guard let title = titleTextField.text, let body = bodyTextView.text else { return }
 		
+		if title.isEmpty || body.isEmpty {
+			simpleAlert(title: "Error", message: "Your title/body is Empty.")
+		}
 		
-		guard let title = titleTextField.text,
-			let body = bodyTextView.text else { return }
-		print("save")
 		if let entry = entry {
-			//editting a task
 			entry.title = title
 			entry.bodyText = body
-			
 		} else {
-			//creating a new task
-			
 			let _ = Entry(title: title, bodyText: body)
-		
 		}
 		
 		do {
 			try CoreDataStack.shared.mainContext.save()
-			print("here")
-			navigationController?.popViewController(animated: true)
 		} catch {
-			
 			NSLog("Failed To Save: \(error)")
 		}
 		
-		
+		navigationController?.popViewController(animated: true)
 	}
+	
+	func simpleAlert(title: String, message: String) {
+		let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		ac.addAction(UIAlertAction(title: "Ok", style: .cancel))
+		present(ac, animated: true)
+	}
+	
 	
 	@IBOutlet var titleTextField: UITextField!
 	@IBOutlet var bodyTextView: UITextView!
