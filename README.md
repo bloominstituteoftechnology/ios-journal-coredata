@@ -39,15 +39,15 @@ The way to prevent this is to create an intermediate data type between the JSON 
 
 1. In the `EntryController`, add a `baseURL: URL` constant that is the URL from the new Firebase database you created for this app.
 2. Create a function called `put`, that takes in an entry and has an escaping completion closure. The closure should return an optional error. Give this completion closure a default value of an empty closure. (e.g. `{ _ in }` ). This will allow you to use the completion closure if you want to do something when `completion` is called or just not worry about doing anything after knowing the data task has completed. This method should:
-- Take the `baseURL` and append the identifier of the entry parameter to it. Add the `"json"` extension to the URL as well.
-- Create a `URLRequest` object. Set its HTTP method to PUT.
-- Using `JSONEncoder`, encode the entry's `entryRepresentation` into JSON data. Set the URL request's `httpBody` to this data.
-- Perform a `URLSessionDataTask` with the request, and handle any errors. Make sure to call completion and resume the data task.
+    - Take the `baseURL` and append the identifier of the entry parameter to it. Add the `"json"` extension to the URL as well.
+    - Create a `URLRequest` object. Set its HTTP method to PUT.
+    - Using `JSONEncoder`, encode the entry's `entryRepresentation` into JSON data. Set the URL request's `httpBody` to this data.
+    - Perform a `URLSessionDataTask` with the request, and handle any errors. Make sure to call completion and resume the data task.
 3. Call the `put` method in the `createEntry` and `update(entry: ...)` methods.
 4. Create a `deleteEntryFromServer` method. It should take in an entry, and a completion closure that returns an optional error. Again, give the closure a default value of an empty closure. This method should:
-- Create a URL from the `baseURL` and append the entry parameter's identifier to it. Also append the "json" extension to the URL as well. This URL should be formatted the same as the URL you would use to PUT an entry to Firebase.
-- Create a `URLRequest` object, and set its HTTP method to DELETE.
-- Perform a `URLSessionDataTask` with the request and handle any errors. Call completion and don't forget to resume the data task.
+    - Create a URL from the `baseURL` and append the entry parameter's identifier to it. Also append the "json" extension to the URL as well. This URL should be formatted the same as the URL you would use to PUT an entry to Firebase.
+    - Create a `URLRequest` object, and set its HTTP method to DELETE.
+    - Perform a `URLSessionDataTask` with the request and handle any errors. Call completion and don't forget to resume the data task.
 5. Call the `deleteEntryFromServer` method in your `delete(entry: ...)` method.
 
 Test the app at this point. You should be able to both create and update entries and they will be sent to Firebase as well as to the `NSPersistentStore` on the device. You should also be able to delete entries from Firebase also.
@@ -58,8 +58,8 @@ Test the app at this point. You should be able to both create and update entries
 
 The goal when fetching the entries from Firebase is to go through each fetched entry and check a couple things:
 - **Is there a corresponding entry in the device's persistent store?**
-- No, so create a new `Entry` object. (This would happen if someone else created an entry on their device and you don't have it on your device yet)
-- Yes. Are its values different from the entry fetched from Firebase? If so, then update the entry in the persistent store with the new values from the entry from Firebase.
+    - No, so create a new `Entry` object. (This would happen if someone else created an entry on their device and you don't have it on your device yet)
+    - Yes. Are its values different from the entry fetched from Firebase? If so, then update the entry in the persistent store with the new values from the entry from Firebase.
 
 You'll use the `EntryRepresentation` to do this. It will let you decode the JSON as `EntryRepresentation`s, perform these checks and either create an actual `Entry` if one doesn't exist on the device or update an existing one with its decoded values.
 
@@ -67,29 +67,29 @@ Back in the `EntryController`, you will make a couple methods that will help whe
 
 1. Create a new "Update" function called `update`. It should take in an `Entry` whose values should be updated, and an `EntryRepresentation` to take the values from. This should simply set each of the `Entry`'s values to the `EntryRepresentation`'s corresponding values. **DO NOT** call `saveToPersistentStore` in this method. It will be explained why later on.
 2. Create a method called `fetchSingleEntryFromPersistentStore`. This method should take in a string that represents an entry's identifier, and return an optional `Entry`. This method should:
-- Create a fetch request from `Entry` object. 
-- Give the fetch request an `NSPredicate`. This predicate should see if the `identifier` attribute in the `Entry` is equal to the identifier parameter of this function. Refer to the hint below if you need help with the predicate.
-- <details><summary>Predicate Hint:</summary><p>
+    - Create a fetch request from `Entry` object. 
+    - Give the fetch request an `NSPredicate`. This predicate should see if the `identifier` attribute in the `Entry` is equal to the identifier parameter of this function. Refer to the hint below if you need help with the predicate.
+    - <details><summary>Predicate Hint:</summary><p>
+  
+      `NSPredicate(format: "identifier == %@", identifier)`
 
-`NSPredicate(format: "identifier == %@", identifier)`
-
-	</p>
-	</details>
-- Perform the fetch request on your core data stack's `mainContext` and return the first `Entry` from the array you get back. In theory, there should only be one entry fetched anyway, because the predicate uses the entry's identifier. Handle the potential error from performing the fetch request.
+      </p>
+      </details>
+    - Perform the fetch request on your core data stack's `mainContext` and return the first `Entry` from the array you get back. In theory, there should only be one entry fetched anyway, because the predicate uses the entry's identifier. Handle the potential error from performing the fetch request.
 3. Create a function called `fetchEntriesFromServer`. It should have a completion closure that returns an optional error and its default value should be an empty closure. This method should:
-- Take the `baseURL` and add the "json" extension to it. 
-- Perform a GET `URLSessionDataTask` with the url you just set up.
-- In the completion of the data task, check for errors
-- Unwrap the data returned in the closure.
-- Create a variable of type `[EntryRepresentation]`. Set its initial value to an empty array.
-- Decode the data into `[String: EntryRepresentation].self`. Set the value of the array you just made in the previous step to the entry representations in this decoded dictionary. **HINT:** loop through the dictionary to return an array of just the entry representations without the identifier keys.
-- Loop through the array of entry representations. Inside the loop, create a constant called `entry`. For its value, give it the result of the `fetchSingleEntryFromPersistentStore` method. Pass in the entry representation's identifier. This will allow us to compare the entry representation and see if there is a corresponding entry in the persistent store already. 
-- Check to see if the entry returned from the persistent store exists. If it does, check whether the entry and the entry representation have the same values. If they do, then you don't need to do anything because the entry on the server and the entry in the persistent store are synchronized. 
-- If the entry exists, but the entry and the entry representation's values are not the same, then call the new `update(entry: ...)` method that takes in an entry and an entry representation. This will then synchronize the entry from the persistent store to the updated values from the server's version of the entry.
-- If there was no entry returned from the persistent store, that means the server has an entry that the device does not. In that case, initialize a new `Entry` using the convenience initializer that takes in an `EntryRepresentation`.
-- Outside of the loop, call `saveToPersistentStore()` to persist the changes and effectively synchronize the data in the device's persistent store with the data on the server.  Since you are using an `NSFetchedResultsController`, as soon as you save the managed object context, the fetched results controller will observe those changes and automatically update the table view with the updated entries.
-- Call completion and pass in `nil` for the error.
-- Don't forget to resume the data task.
+    - Take the `baseURL` and add the "json" extension to it. 
+    - Perform a GET `URLSessionDataTask` with the url you just set up.
+    - In the completion of the data task, check for errors
+    - Unwrap the data returned in the closure.
+    - Create a variable of type `[EntryRepresentation]`. Set its initial value to an empty array.
+    - Decode the data into `[String: EntryRepresentation].self`. Set the value of the array you just made in the previous step to the entry representations in this decoded dictionary. **HINT:** loop through the dictionary to return an array of just the entry representations without the identifier keys.
+    - Loop through the array of entry representations. Inside the loop, create a constant called `entry`. For its value, give it the result of the `fetchSingleEntryFromPersistentStore` method. Pass in the entry representation's identifier. This will allow us to compare the entry representation and see if there is a corresponding entry in the persistent store already. 
+    - Check to see if the entry returned from the persistent store exists. If it does, check whether the entry and the entry representation have the same values. If they do, then you don't need to do anything because the entry on the server and the entry in the persistent store are synchronized. 
+    - If the entry exists, but the entry and the entry representation's values are not the same, then call the new `update(entry: ...)` method that takes in an entry and an entry representation. This will then synchronize the entry from the persistent store to the updated values from the server's version of the entry.
+    - If there was no entry returned from the persistent store, that means the server has an entry that the device does not. In that case, initialize a new `Entry` using the convenience initializer that takes in an `EntryRepresentation`.
+    - Outside of the loop, call `saveToPersistentStore()` to persist the changes and effectively synchronize the data in the device's persistent store with the data on the server.  Since you are using an `NSFetchedResultsController`, as soon as you save the managed object context, the fetched results controller will observe those changes and automatically update the table view with the updated entries.
+    - Call completion and pass in `nil` for the error.
+    - Don't forget to resume the data task.
 4. Write an initializer for the `EntryController`. It shouldn't take in any values. Inside of the initializer, call the `fetchEntriesFromServer` method. As soon as the app runs and initializes this model controller, it should fetch the entries from Firebase and update the persistent store.
 
 The app should be working at this point. Test it by going to the Firebase Database in a browser and changing some values in the entries saved there. The easiest thing to change is the mood. This will allow you to easily see if the table view will update according to the new changes. It may take a few seconds after the app launches, but you should see the cell(s) move to different sections if you changed the mood of some entries in Firebase.
