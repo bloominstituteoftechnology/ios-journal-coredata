@@ -14,16 +14,16 @@
         <scene sceneID="1Kv-yN-42b">
             <objects>
                 <tableViewController storyboardIdentifier="EntryListController" id="xan-eT-2HE" customClass="EntriesTableViewController" customModule="Journal_CoreData" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" estimatedRowHeight="-1" sectionHeaderHeight="-1" sectionFooterHeight="-1" id="6oN-nW-6qh">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="102" estimatedRowHeight="-1" sectionHeaderHeight="-1" sectionFooterHeight="-1" id="6oN-nW-6qh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.0048598507420000003" green="0.096086271109999996" blue="0.57499289509999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntriesCell" rowHeight="70" id="HbV-LY-k5s" customClass="EntryTableViewCell" customModule="Journal_CoreData" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="70"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntriesCell" rowHeight="102" id="HbV-LY-k5s" customClass="EntryTableViewCell" customModule="Journal_CoreData" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="102"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="HbV-LY-k5s" id="qwJ-fi-imT">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="69.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="101.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleAspectFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="iMr-H1-TB1">
@@ -61,6 +61,7 @@
                                         <constraint firstAttribute="trailing" secondItem="iMr-H1-TB1" secondAttribute="trailing" constant="8" id="Vtx-Tm-ljt"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" red="0.46202266219999999" green="0.83828371759999998" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="bodyTextView" destination="NG7-kW-lvs" id="6Vz-sU-gUJ"/>
                                     <outlet property="timeLabel" destination="8k4-eq-E2B" id="sY5-oF-6j8"/>
@@ -85,7 +86,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cq4-Jn-mku" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="666" y="134"/>
+            <point key="canvasLocation" x="665.21739130434787" y="133.92857142857142"/>
         </scene>
         <!--Title-->
         <scene sceneID="eZu-iX-iB6">
@@ -95,30 +96,40 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="W4a-YH-hOf">
+                                <rect key="frame" x="16" y="156" width="382" height="29"/>
+                                <segments>
+                                    <segment title="😩"/>
+                                    <segment title="😐"/>
+                                    <segment title="🤪"/>
+                                </segments>
+                            </segmentedControl>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ago-zV-iTn">
-                                <rect key="frame" x="16" y="156" width="382" height="30"/>
+                                <rect key="frame" x="16" y="205" width="382" height="30"/>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Zvq-d2-Xb9">
-                                <rect key="frame" x="16" y="210" width="382" height="128"/>
-                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="Zvq-d2-Xb9" secondAttribute="height" multiplier="191:64" id="ltV-n3-sUD"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <rect key="frame" x="16" y="267" width="382" height="468"/>
+                                <color key="backgroundColor" red="1" green="0.83216666669999995" blue="0.46999999999999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.0048598507420000003" green="0.096086271109999996" blue="0.57499289509999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="Zvq-d2-Xb9" firstAttribute="top" secondItem="ago-zV-iTn" secondAttribute="bottom" constant="24" id="6aT-fo-ODs"/>
+                            <constraint firstItem="Zvq-d2-Xb9" firstAttribute="centerY" secondItem="MVp-fy-ghJ" secondAttribute="centerY" id="Fs1-Z0-Ffa"/>
                             <constraint firstItem="MVp-fy-ghJ" firstAttribute="trailing" secondItem="ago-zV-iTn" secondAttribute="trailing" constant="16" id="I6M-Z2-3iM"/>
-                            <constraint firstItem="Zvq-d2-Xb9" firstAttribute="leading" secondItem="MVp-fy-ghJ" secondAttribute="leading" constant="16" id="cfb-Gc-Ulf"/>
-                            <constraint firstItem="MVp-fy-ghJ" firstAttribute="trailing" secondItem="Zvq-d2-Xb9" secondAttribute="trailing" constant="16" id="dY3-S2-ejn"/>
-                            <constraint firstItem="ago-zV-iTn" firstAttribute="top" secondItem="MVp-fy-ghJ" secondAttribute="top" constant="16" id="shF-yv-5pa"/>
+                            <constraint firstItem="MVp-fy-ghJ" firstAttribute="trailing" secondItem="Zvq-d2-Xb9" secondAttribute="trailing" constant="16" id="Pfu-yV-4pC"/>
+                            <constraint firstItem="MVp-fy-ghJ" firstAttribute="trailing" secondItem="W4a-YH-hOf" secondAttribute="trailing" constant="16" id="QGS-Er-Xzv"/>
+                            <constraint firstItem="Zvq-d2-Xb9" firstAttribute="leading" secondItem="MVp-fy-ghJ" secondAttribute="leading" constant="16" id="Xmr-q8-QGM"/>
+                            <constraint firstItem="Zvq-d2-Xb9" firstAttribute="width" secondItem="GnG-xZ-Y9p" secondAttribute="height" multiplier="191:448" id="asZ-GW-GWp"/>
+                            <constraint firstItem="ago-zV-iTn" firstAttribute="top" secondItem="W4a-YH-hOf" secondAttribute="bottom" constant="21" id="dw2-kd-Y65"/>
+                            <constraint firstItem="W4a-YH-hOf" firstAttribute="top" secondItem="MVp-fy-ghJ" secondAttribute="top" constant="16" id="fUA-Nk-jVV"/>
+                            <constraint firstItem="Zvq-d2-Xb9" firstAttribute="top" secondItem="ago-zV-iTn" secondAttribute="bottom" constant="32" id="sMh-0F-hJQ"/>
                             <constraint firstItem="ago-zV-iTn" firstAttribute="leading" secondItem="MVp-fy-ghJ" secondAttribute="leading" constant="16" id="uKW-tc-h4I"/>
+                            <constraint firstItem="W4a-YH-hOf" firstAttribute="leading" secondItem="MVp-fy-ghJ" secondAttribute="leading" constant="16" id="y8W-cm-zU1"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="MVp-fy-ghJ"/>
                     </view>
@@ -131,12 +142,13 @@
                     </navigationItem>
                     <connections>
                         <outlet property="entryTextView" destination="Zvq-d2-Xb9" id="wag-Vh-HzB"/>
+                        <outlet property="moodSegmentControl" destination="W4a-YH-hOf" id="VpW-qr-86G"/>
                         <outlet property="titleTextField" destination="ago-zV-iTn" id="fKn-iI-uRE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ob4-MF-K28" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1348" y="134"/>
+            <point key="canvasLocation" x="1347.8260869565217" y="133.92857142857142"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="CYC-dE-m1g">

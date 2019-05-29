@@ -14,7 +14,7 @@ class EntryDetailViewController: UIViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
-    
+    @IBOutlet weak var moodSegmentControl: UISegmentedControl!
     
     // MARK: - Properties
     var entryController: EntryController?
@@ -72,8 +72,7 @@ class EntryDetailViewController: UIViewController {
         _ = navigationController?.popViewController(animated: true)
         
     }
-    
-    
+        
 
     /*
     // MARK: - Navigation

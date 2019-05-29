@@ -72,12 +72,9 @@ class EntryController {
         guard let entryIndex = entries.firstIndex(of: entry) else { return }
         
         // Now get the entry
-        let currentEntry = entries[entryIndex]
-        print(currentEntry.title ?? "Dang!")
+      //  let currentEntry = entries[entryIndex]
         
         // Got the index now update the entry.  Delete and capture it.
-        //let currentEntry = delete(delete: <#T##Entry#>)
-        print(entries[entryIndex])
         entries[entryIndex].title = title
         entries[entryIndex].bodyText = bodyText
         entries[entryIndex].timestamp = Date()
