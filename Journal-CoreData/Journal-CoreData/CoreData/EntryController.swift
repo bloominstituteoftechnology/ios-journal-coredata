@@ -43,8 +43,8 @@ class EntryController {
     }
     
     // Crud
-    func createEntry(title: String, bodyText: String) {
-        _ = Entry(title: title, bodyText: bodyText)
+    func createEntry(title: String, bodyText: String, mood: String) {
+        _ = Entry(title: title, bodyText: bodyText, mood: Moods(mood) ?? 1)
         saveToPersistentStore()
     }
     
@@ -53,7 +53,7 @@ class EntryController {
         
         // Create a fetch request to return all of the entries
         let fetchRequest : NSFetchRequest<Entry> = Entry.fetchRequest()
-        
+        1
          // Use the newly created NSFetchRequest to fetch the Entry objects
         // Ask the Managed Object Context to fetch the entries
         // Fetch returns an array of fetched objects
@@ -66,7 +66,7 @@ class EntryController {
     }
  
     // crUd
-    func update(entry: Entry, title: String, bodyText: String) {
+    func update(entry: Entry, title: String, bodyText: String, mood: String) {
         
         // Make sure the entry has actually been made
         guard let entryIndex = entries.firstIndex(of: entry) else { return }
@@ -77,6 +77,7 @@ class EntryController {
         // Got the index now update the entry.  Delete and capture it.
         entries[entryIndex].title = title
         entries[entryIndex].bodyText = bodyText
+        entries[entryIndex].mood = mood
         entries[entryIndex].timestamp = Date()
         print(entries[entryIndex])
         saveToPersistentStore()

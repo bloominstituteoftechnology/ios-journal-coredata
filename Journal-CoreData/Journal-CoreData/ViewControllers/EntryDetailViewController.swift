@@ -13,14 +13,12 @@ class EntryDetailViewController: UIViewController {
     // MARK: - Outlets
     
     @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var entryTextView: UITextView!
+    @IBOutlet weak var bodyTextView: UITextView!
     @IBOutlet weak var moodSegmentControl: UISegmentedControl!
     
     // MARK: - Properties
     var entryController: EntryController?
     var entry: Entry?
-    
-    
     
     // MARK: - View States
     
@@ -35,53 +33,46 @@ class EntryDetailViewController: UIViewController {
     // MARK: - View Functions
     
     func updateViews() {
-        if isViewLoaded  {
-    
-            // An entry was sent
-            if entry != nil {
-                title = entry?.title
-                titleTextField.text = entry?.title
-                entryTextView.text = entry?.bodyText
-                
-            // No entry was sent
-            } else {
-                title = "New Entry"
-                return
-            }
+        guard let entry = self.entry, // We are unwrapping the entry here
+            isViewLoaded else { return }
+        
+        title = entry.title ?? "New Entry"
+        titleTextField.text = entry.title
+        bodyTextView.text = entry.bodyText
+        
+        if let entryMood = entry.mood,
+            let mood = Moods(rawValue: entryMood) {
+            
+            moodSegmentControl.selectedSegmentIndex = Moods.allMoods.firstIndex(of: mood) ?? 1
         }
+            
     }
 
-    
-    
     // MARK: - Actions
     
     @IBAction func saveButtonTapped(_ sender: Any) {
-        guard let title = titleTextField.text else { return }
-        guard let bodyText = entryTextView.text else { return }
         
-        if self.entry != nil {
-            // We are updating an entry
-            guard let entry = entry else { return }
-            entryController?.update(entry: entry, title: title, bodyText: bodyText)
+        // Make sure there's a title to the entry
+        guard let title = titleTextField.text, !title.isEmpty,
+            let bodyText = bodyTextView.text, !bodyText.isEmpty else { return }
+        
+        let moodIndex = moodSegmentControl.selectedSegmentIndex
+        let mood = Moods.allMoods[moodIndex]
+        
+        if let entry = entry {
+            entry.title = title
+            entry.bodyText = bodyText
+            entry.mood = mood.rawValue
+            // Update an exsiting entry
+            entryController?.update(entry: entry, title: title, bodyText: bodyText, mood: mood.rawValue)
+            
         } else {
-            // We are adding a new entry
-            entryController?.createEntry(title: title, bodyText: bodyText)
+            let entry = Entry(title: title, bodyText: bodyText, mood: mood)
+            entryController?.createEntry(title: title, bodyText: bodyText, mood: mood.rawValue)
         }
         
-        // Go back to the view
+        // Go back to the tableview
         _ = navigationController?.popViewController(animated: true)
-        
     }
-        
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

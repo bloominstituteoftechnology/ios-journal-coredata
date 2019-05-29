@@ -9,11 +9,22 @@
 import Foundation
 import CoreData
 
+enum Moods: String {
+    case 😩
+    case 😐
+    case 🤪
+    
+    static var allMoods: [Moods] {
+        return [.😩, .😐, .🤪]
+    }
+}
+
 extension Entry {
-    convenience init(title: String,
+    convenience init(identifier: String = UUID().uuidString,
+                     title: String,
                      bodyText: String,
+                     mood: Moods,
                      timestamp: Date = Date(),
-                     identifier: String = UUID().uuidString,
                      context: NSManagedObjectContext = JournalCoreDataStack.shared.mainContext) {
         
         // A managed context MUST be provided when a Core Data object is initialized.
@@ -29,6 +40,7 @@ extension Entry {
         self.identifier = identifier
         self.title = title
         self.timestamp = timestamp
+        self.mood = mood.rawValue
         self.bodyText = bodyText
     }
     
