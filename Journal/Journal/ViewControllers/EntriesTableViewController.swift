@@ -36,8 +36,18 @@ class EntriesTableViewController: UITableViewController {
 	
 	override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
 		if editingStyle == .delete {
+			
 			let entry = entries[indexPath.row]
-			CoreDataStack.shared.mainContext.delete(entry)
+			let moc = CoreDataStack.shared.mainContext
+			
+			moc.delete(entry)
+			
+			do {
+				try moc.save()
+			} catch {
+				NSLog("Error deleting Entry: \(error)")
+			}
+			
 			tableView.reloadData()
 		}
 	}
