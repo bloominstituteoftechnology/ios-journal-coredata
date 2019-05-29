@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Journal (Core Data) Day 2
 
 ## Introduction
