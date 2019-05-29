@@ -37,7 +37,7 @@ class EntryDetailViewController: UIViewController, UITextFieldDelegate {
 	@IBAction func saveButton(_ sender: Any) {
 		guard let title = titleTextField.text, let body = bodyTextView.text else { return }
 		
-		if title.isEmpty || body.isEmpty {
+		if (title.isEmpty && title.count < 20) || body.isEmpty {
 			simpleAlert(title: "Error", message: "Your title/body is Empty.")
 		}
 		
@@ -53,6 +53,8 @@ class EntryDetailViewController: UIViewController, UITextFieldDelegate {
 			try CoreDataStack.shared.mainContext.save()
 		} catch {
 			NSLog("Failed To Save: \(error)")
+			simpleAlert(title: "Error", message: "Maybe your title is longer then 20 char.")
+			return
 		}
 		
 		navigationController?.popViewController(animated: true)
