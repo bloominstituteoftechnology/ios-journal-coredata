@@ -116,12 +116,11 @@ class EntryController {
 				let entryRep = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
 				let entryRepArr = Array(entryRep.values)
 				
-				try self.updateEntry(with: entryRepArr)
+				try self.updateEntries(with: entryRepArr)
+				completion(nil)
 			} catch {
 				print("Error decoding json from firebase")
 			}
-			
-			completion(nil)
 		}.resume()
 	}
 	
@@ -130,18 +129,23 @@ class EntryController {
 
 extension EntryController {
 	
-	func updateEntry(with entryReps: [EntryRepresentation]) throws {
+	
+	func updateEntry(entryRep: EntryRepresentation) {
+		let identifier = UUID(uuidString: entryRep.identifier)!
+		if let entry = getEntryFromCoreData(forUUID: identifier) {
+			entry.identifier = entryRep.identifier
+			entry.title = entryRep.title
+			entry.bodyText = entryRep.bodyText
+			entry.mood = entryRep.mood
+			entry.timeStamp = entryRep.timeStamp
+		} else {
+			let _ = Entry(entryRepresentation: entryRep)
+		}
+	}
+	
+	func updateEntries(with entryReps: [EntryRepresentation]) throws {
 		for rep in entryReps {
-			let identifier = UUID(uuidString: rep.identifier)!
-			if let entry = getEntryFromCoreData(forUUID: identifier) {
-				entry.identifier = rep.identifier
-				entry.title = rep.title
-				entry.bodyText = rep.bodyText
-				entry.mood = rep.mood
-				entry.timeStamp = rep.timeStamp
-			} else {
-				let _ = Entry(entryRepresentation: rep)
-			}
+			updateEntry(entryRep: rep)
 		}
 		try saveToPresistenStore()
 	}
