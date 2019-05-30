@@ -11,6 +11,17 @@ import CoreData
 
 class EntryController {
 
+	init() {
+		remoteGetEntriesFromServer { (result: Result<[EntryRepresentation], NetworkError>) in
+			do {
+				_ = try result.get()
+				print("success getting")
+			} catch {
+				print("error getting: \(error)")
+			}
+		}
+	}
+
 	@discardableResult func create(entryWithTitle title: String, andBody bodyText: String, andMood mood: Mood) -> Entry {
 		let entry = Entry(title: title, bodyText: bodyText, mood: mood)
 		saveToPersistenStore()
@@ -63,6 +74,18 @@ class EntryController {
 		}
 	}
 
+	func fetchFromPersistentStore(entryID: String) -> Entry? {
+		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+		fetchRequest.predicate = NSPredicate(format: "identifier == %@", entryID)
+		let moc = CoreDataStack.shared.mainContext
+		do {
+			return try moc.fetch(fetchRequest).first
+		} catch {
+			NSLog("error fetching single entry: \(error)")
+			return nil
+		}
+	}
+
 	// MARK: - Remote Persistence
 	let networkHandler = NetworkHandler()
 
@@ -101,5 +124,39 @@ class EntryController {
 		request.httpMethod = HTTPMethods.delete.rawValue
 
 		networkHandler.transferMahOptionalDatas(with: request, completion: completion)
+	}
+
+	func remoteGetEntriesFromServer(completion: @escaping (Result<[EntryRepresentation], NetworkError>) -> Void = { _ in }) {
+		let getURL = baseURL.appendingPathExtension("json")
+
+		let request = getURL.request
+
+		networkHandler.netDecoder.dateDecodingStrategy = .secondsSince1970
+		networkHandler.transferMahCodableDatas(with: request) { [weak self] (result: Result<[String: EntryRepresentation], NetworkError>) in
+			do {
+				let entryDict = try result.get()
+				let entryRepsArray = Array(entryDict.values)
+				for entryRep in entryRepsArray {
+					if let entry = self?.fetchFromPersistentStore(entryID: entryRep.identifier) {
+						if entry != entryRep {
+							self?.update(entry: entry, fromRep: entryRep)
+						}
+					} else {
+						_ = Entry(representation: entryRep)
+					}
+				}
+				self?.saveToPersistenStore()
+				completion(.success(entryRepsArray))
+			} catch {
+				completion(.failure(error as? NetworkError ?? NetworkError.otherError(error: error)))
+			}
+		}
+	}
+
+	private func update(entry: Entry, fromRep representation: EntryRepresentation) {
+		entry.title = representation.title
+		entry.bodyText = representation.bodyText
+		entry.mood = representation.mood
+		entry.timestamp = representation.timestamp
 	}
 }
