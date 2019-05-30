@@ -154,23 +154,23 @@ class EntryController {
                 completion(NSError())
                 return
             }
-            var entryRepArray = [EntryRepresentation]()
+            var entriesOnFirebase = [EntryRepresentation]()
             //JSON -> ENTRYREPRESENTATION -> ENTRY
             let jD = JSONDecoder()
             do {
                 //loop through the dictionary to return an array of just the entry representations without identifier keys
                 let entryRepDictionary = try jD.decode([ String : EntryRepresentation ].self, from: data)
                 let entryValues = Array(entryRepDictionary.values)
-                entryRepArray = entryValues
+                entriesOnFirebase = entryValues
                 //loop through the array of entry representations. Inside the loop, create a constant called entry. for its value, give it the result of fetchingSingleEntryFromPersistentStore. Pass in the entry representattion's identifier. This will allow us to compare the entry representation and see if thre is a corresponding entry in the persistent store already
-                for entryRep in entryRepArray {
-                    //check to see if the entry returned from the persistent store exists
-                    if let entryFromCoreData = self.fetchSingleEntryFromCoreData(entryIdentifier: entryRep.identifier) {
+                for entryRepOnFirebase in entriesOnFirebase {
+                    //check to see if there is an entry in core data matching an entry on firebase based on its identifier.
+                    if let entryOnBothCoreDataAndFirebase = self.fetchSingleEntryFromCoreData(entryIdentifier: entryRepOnFirebase.identifier) {
                         //THIS SHOULD RETURN AN ENTRY FROM CORE DATA BASED ON THE ENTRYREP IDENTIFER FROM FIREBASE SO WE NEED TO UPDATE
-                        self.updateTwo(entry: entryFromCoreData, entryRep: entryRep)
+                        self.updateTwo(entry: entryOnBothCoreDataAndFirebase, entryRep: entryRepOnFirebase)
                     } else {
                         //entry does not exist in core data, initialize a new entry
-                        let _ = Entry(entryRepresentation: entryRep)
+                        let _ = Entry(entryRepresentation: entryRepOnFirebase)
                     }
                 }
                 self.saveToPersistentStore()
