@@ -127,10 +127,10 @@ class EntryController {
 
 extension EntryController {
 	
-	func updateEntry(entryRep: EntryRepresentation) {
-//		let identifier = UUID(uuidString: entryRep.identifier)!
+	func updateEntry(entryRep: EntryRepresentation, context: NSManagedObjectContext) {
 		
-		if let entry = fetchSingleEntryFromPersistentStore(forUUID: entryRep.identifier) {
+		
+		if let entry = fetchSingleEntryFromPersistentStore(forUUID: entryRep.identifier, context: context) {
 			
 			entry.identifier = entryRep.identifier
 			entry.title = entryRep.title
@@ -144,24 +144,31 @@ extension EntryController {
 	}
 	
 	func updateEntries(with entryReps: [EntryRepresentation]) throws {
+		
+		let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+		
 		for rep in entryReps {
-			updateEntry(entryRep: rep)
+			updateEntry(entryRep: rep, context: backgroundContext)
 		}
 		
 		try saveToPresistenStore()
 	}
 	
-	func fetchSingleEntryFromPersistentStore(forUUID uuid: String) -> Entry? {
+	func fetchSingleEntryFromPersistentStore(forUUID uuid: String, context: NSManagedObjectContext) -> Entry? {
 		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
 		fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid )
 		
-		do {
-			let moc = CoreDataStack.shared.mainContext
-			return try moc.fetch(fetchRequest).first
-		} catch {
-			NSLog("Error fetching entry with uuid: \(error)")
-			return nil
+		var result: Entry? = nil
+		
+		context.performAndWait {
+			do {
+				result = try context.fetch(fetchRequest).first
+			} catch {
+				NSLog("Error fetching entry with uuid: \(error)")
+			}
 		}
+		
+		return result
 	}
 	
 	func saveToPresistenStore() throws {
