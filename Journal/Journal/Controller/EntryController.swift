@@ -81,6 +81,8 @@ class EntryController {
 				completion(nil)
 			}
 			
+			entry.identifier = identifier
+			
 			//try? self.save
 			
 			completion(nil)

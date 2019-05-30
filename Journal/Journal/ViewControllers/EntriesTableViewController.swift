@@ -42,6 +42,13 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
 			let entry = fetchedResultController.object(at: indexPath)
 			let moc = CoreDataStack.shared.mainContext
 			
+			entryController.deleteEntryFromServer(entry: entry) { error in
+				if let error = error {
+					print("Error deleteing enetry: ", error)
+					return
+				}
+			}
+			
 			moc.delete(entry)
 			
 			do {
@@ -50,8 +57,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
 				NSLog("Error deleting Entry: \(error)")
 			}
 			
-			entryController.deleteEntryFromServer(entry: entry) { _ in
-			}
+			
 			tableView.reloadData()
 		}
 	}
