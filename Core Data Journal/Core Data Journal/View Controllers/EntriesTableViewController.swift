@@ -37,6 +37,25 @@ class EntriesTableViewController: UITableViewController {
 		super.viewDidLoad()
 
 		tableView.register(EntryTableViewCell.self, forCellReuseIdentifier: "EntryCell")
+
+		tableView.refreshControl = UIRefreshControl()
+		tableView.refreshControl?.addTarget(self, action: #selector(fetchData), for: .valueChanged)
+	}
+
+	@objc func fetchData() {
+		tableView.refreshControl?.beginRefreshing()
+		entryController.remoteGetEntriesFromServer { [weak self] (result: Result<[EntryRepresentation], NetworkError>) in
+			DispatchQueue.main.async {
+				do {
+					_ = try result.get()
+//					self?.tableView.reloadData()
+				} catch {
+					let alert = UIAlertController(error: error)
+					self?.present(alert, animated: true)
+				}
+				self?.tableView.refreshControl?.endRefreshing()
+			}
+		}
 	}
 
 	override func viewDidAppear(_ animated: Bool) {
