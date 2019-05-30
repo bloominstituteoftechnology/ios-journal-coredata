@@ -89,6 +89,30 @@ class EntryController {
 			}.resume()
 	}
 	
+	func fetchEntriesFromServer(completion: @escaping (Error?) -> ()) {
+		let url = baseUrl.appendingPathExtension("json")
+		URLSession.shared.dataTask(with: url) { (data, response, error) in
+			if let response = response as? HTTPURLResponse {
+				print("FetchEntries ResponseCode: \(response.statusCode)")
+			}
+			
+			if let error = error {
+				print("Error FetchingEntries: \(error)")
+				completion(error)
+				return
+			}
+			
+			guard let data = data else {
+				print("Error FetchingEntries: geting data")
+				completion(NSError())
+				return
+			}
+			
+			print(data)
+			
+			completion(nil)
+		}.resume()
+	}
 	
 	private let baseUrl: URL = URL(string: "https://journal-hectorsvill.firebaseio.com/")!
 }
