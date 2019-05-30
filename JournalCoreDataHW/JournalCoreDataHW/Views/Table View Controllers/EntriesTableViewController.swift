@@ -49,12 +49,17 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         super.viewWillAppear(animated)
         tableView.reloadData()
 //        print("These are the entries: \(ec.entries)")
+        ec.fetchEntriesFromServer { (error) in
+            if let error = error {
+                print("Error right here: \(error.localizedDescription)")
+            }
+        }
     }
 
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return fetchedResultsController.sections?.count ?? 0
+        return fetchedResultsController.sections?.count ?? 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -81,7 +86,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
             let entryToDelete = fetchedResultsController.object(at: indexPath)
             ec.delete(entry: entryToDelete)
             // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+//            tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
     

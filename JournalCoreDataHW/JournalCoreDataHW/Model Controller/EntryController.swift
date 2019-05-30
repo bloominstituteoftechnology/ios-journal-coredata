@@ -103,8 +103,122 @@ class EntryController {
             }
             completion(nil)
         }.resume()
-        
     }
+    
+    
+    /*
+     The goal when fetching entries from Firebase is to go through each fetched entry and check if there is a corresponding entry in the device's persistent store
+     1.No, so create a new entry object. ( this would happen if someone else created an entry on their device and you don't have it on your device yet).
+     2. Yes, Are its values different from the entry fetched from Firebase? If so,  then update the entry in the persistent store with the new values from the entry from Firebase.
+     
+     You'll use the EntryRepresentation to do this. It will let you decode the JSON as EntryRepresentation, perform these checks and either create an actual Entry if one doesn't exist or update an existing one with its decoded values.
+     */
+    
+    func updateTwo(entry: Entry, entryRep: EntryRepresentation){
+        entry.title = entryRep.title
+        entry.bodyText = entryRep.bodyText
+        entry.mood = entryRep.mood
+        entry.timestamp = entryRep.timestamp
+    }
+    
+    func fetchSingleEntryFromCoreData(entryIdentifier: String) -> Entry? {
+        //create a fetch request from Entry objct.
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        //give the fetchRequest an predictae - this predicate should see if the identifier attriburte in the Entry is equal to the identifier parameter of this function.
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", entryIdentifier)
+        //perform the fetch request on your core data stack's maincontext
+        let moc = CoreDataStack.shared.mainContext
+        
+        do {
+            //return the first Entry from the array you get back. In theory, there should only be one entry fetched anyway.
+            let entryFromCoreData = try moc.fetch(fetchRequest).first
+            return entryFromCoreData
+        } catch  {
+            //Handle the potential error from performin the fetch request.
+            print("Error making fetch request on Entry in coreData:\(error.localizedDescription)")
+            return nil
+        }
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping(Error?)-> Void = {_ in }){
+        let url = baseURL.appendingPathExtension("json")
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
+            if let error = error {
+                print("Error making fetching entries from server: \(error.localizedDescription)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                print("Error unwrapping data while fetching entries from server.")
+                completion(NSError())
+                return
+            }
+            var entryRepArray = [EntryRepresentation]()
+            //JSON -> ENTRYREPRESENTATION -> ENTRY
+            let jD = JSONDecoder()
+            do {
+                //loop through the dictionary to return an array of just the entry representations without identifier keys
+                let entryRepDictionary = try jD.decode([ String : EntryRepresentation ].self, from: data)
+                let entryValues = Array(entryRepDictionary.values)
+                entryRepArray = entryValues
+                //loop through the array of entry representations. Inside the loop, create a constant called entry. for its value, give it the result of fetchingSingleEntryFromPersistentStore. Pass in the entry representattion's identifier. This will allow us to compare the entry representation and see if thre is a corresponding entry in the persistent store already
+                for entryRep in entryRepArray {
+                    //check to see if the entry returned from the persistent store exists
+                    if let entryFromCoreData = self.fetchSingleEntryFromCoreData(entryIdentifier: entryRep.identifier) {
+                        //THIS SHOULD RETURN AN ENTRY FROM CORE DATA BASED ON THE ENTRYREP IDENTIFER FROM FIREBASE SO WE NEED TO UPDATE
+                        self.updateTwo(entry: entryFromCoreData, entryRep: entryRep)
+                    } else {
+                        //entry does not exist in core data, initialize a new entry
+                        let _ = Entry(entryRepresentation: entryRep)
+                    }
+                }
+                self.saveToPersistentStore()
+            } catch {
+                print("Error decoding fetching entries from server: \(error.localizedDescription)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
 
