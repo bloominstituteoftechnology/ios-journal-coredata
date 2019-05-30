@@ -28,7 +28,7 @@ extension Entry {
 
     }
 
-    convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext) {
 
         self.init(title: entryRepresentation.title,
                   bodyText: entryRepresentation.bodyText,

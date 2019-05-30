@@ -137,7 +137,7 @@ class EntryController {
         entry.identifier = entryRepesentation.identifier
     }
 
-    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+    func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry? {
 
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
 
@@ -177,30 +177,32 @@ class EntryController {
             do {
                 let entries = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
                 entryRep = Array(entries.values)
-
-                for rep in entryRep {
-
-                    let entry = self.fetchSingleEntryFromPersistentStore(identifier: rep.identifier)
-
-                    if let returnedEntry = entry {
-                        if returnedEntry != rep {
-                            self.update(entry: returnedEntry, entryRepesentation: rep)
-                        }
-                    } else {
-                        _ = Entry(entryRepresentation: rep)
-                    }
-
-                    self.saveToPersistentStore()
-
-                    completion(nil)
-                }
-
+                self.entryRepresentationToEntry(entryRepresentaions: entryRep, context: CoreDataStack.shared.mainContext)
+                completion(nil)
             } catch {
                 NSLog("Error decoding TaskRepresentations and adding them to persistent store: \(error)")
                 completion(error)
                 return
             }
         }.resume()
+    }
+
+    func entryRepresentationToEntry(entryRepresentaions: [EntryRepresentation], context: NSManagedObjectContext) {
+
+        for representation in entryRepresentaions {
+
+            let entry = self.fetchSingleEntryFromPersistentStore(identifier: representation.identifier, context: CoreDataStack.shared.mainContext)
+
+            if let returnedEntry = entry {
+                if returnedEntry != representation {
+                    self.update(entry: returnedEntry, entryRepesentation: representation)
+                }
+            } else {
+                _ = Entry(entryRepresentation: representation, context: CoreDataStack.shared.mainContext)
+            }
+
+            self.saveToPersistentStore()
+        }
     }
 
 }
