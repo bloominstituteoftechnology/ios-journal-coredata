@@ -44,28 +44,28 @@ class EntryDetailViewController: UIViewController, UITextFieldDelegate {
 		
 		let mood = getMood(i: moodSegementControl.selectedSegmentIndex)
 		
-
-		if let entry = entry {
-			entry.title = title
-			entry.bodyText = body
-			entry.timeStamp = Date()
-			entry.mood = mood
-			entryController?.put(entry: entry, completion: { error in
-				if let error = error {
-					print("Error puting to firebase: ", error)
-				}
-				print("fere")
-			})
-		} else {
-			let entry = Entry(title: title, bodyText: body, mood: mood)
-			entryController?.put(entry: entry, completion: { error in
-				if let error = error {
-					print("Error puting to firebase: ", error)
-				}
-			})
+		CoreDataStack.shared.mainContext.performAndWait {
+			
+			if let entry = entry {
+				entry.title = title
+				entry.bodyText = body
+				entry.timeStamp = Date()
+				entry.mood = mood
+				entryController?.put(entry: entry, completion: { error in
+					if let error = error {
+						print("Error puting to firebase: ", error)
+					}
+					print("fere")
+				})
+			} else {
+				let entry = Entry(title: title, bodyText: body, mood: mood)
+				entryController?.put(entry: entry, completion: { error in
+					if let error = error {
+						print("Error puting to firebase: ", error)
+					}
+				})
+			}
 		}
-		
-		
 		
 		do {
 			let moc = CoreDataStack.shared.mainContext
@@ -76,7 +76,6 @@ class EntryDetailViewController: UIViewController, UITextFieldDelegate {
 			return
 		}
 
-		print(mood)
 		navigationController?.popViewController(animated: true)
 	}
 	

@@ -43,10 +43,11 @@ class EntryController {
 				completion(nil)
 			}
 			
-			entry.identifier = identifier
-		
-//			try? self.save
-			print(request)
+			CoreDataStack.shared.mainContext.performAndWait {
+				entry.identifier = identifier
+			}
+			
+			try? CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
 			completion(nil)
 		}.resume()
 		
@@ -83,11 +84,14 @@ class EntryController {
 				completion(nil)
 			}
 			
-			entry.identifier = identifier
+			CoreDataStack.shared.mainContext.performAndWait {
+				entry.identifier = identifier
+			}
 			
-			//try? self.save
+			try? CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
 			
 			completion(nil)
+			
 			}.resume()
 	}
 	
@@ -127,9 +131,21 @@ class EntryController {
 
 extension EntryController {
 	
+	func updateEntries(with entryReps: [EntryRepresentation]) throws {
+		
+		let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+		
+		backgroundContext.performAndWait {
+			
+			for rep in entryReps {
+				updateEntry(entryRep: rep, context: backgroundContext)
+			}
+		}
+		
+		try CoreDataStack.shared.save(context: backgroundContext)
+	}
+	
 	func updateEntry(entryRep: EntryRepresentation, context: NSManagedObjectContext) {
-		
-		
 		if let entry = fetchSingleEntryFromPersistentStore(forUUID: entryRep.identifier, context: context) {
 			
 			entry.identifier = entryRep.identifier
@@ -141,17 +157,6 @@ extension EntryController {
 		} else {
 			let _ = Entry(entryRepresentation: entryRep)
 		}
-	}
-	
-	func updateEntries(with entryReps: [EntryRepresentation]) throws {
-		
-		let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
-		
-		for rep in entryReps {
-			updateEntry(entryRep: rep, context: backgroundContext)
-		}
-		
-		try saveToPresistenStore()
 	}
 	
 	func fetchSingleEntryFromPersistentStore(forUUID uuid: String, context: NSManagedObjectContext) -> Entry? {

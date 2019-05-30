@@ -51,17 +51,18 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
 					print("Error deleteing enetry: ", error)
 					return
 				}
+				moc.performAndWait {
+					moc.delete(entry)					
+				}
+				
 			}
 			
-			moc.delete(entry)
-			
-			do {
-				try moc.save()
-			} catch {
-				NSLog("Error deleting Entry: \(error)")
-			}
-			
-			
+//			do {
+//				try moc.save()
+//			} catch {
+//				NSLog("Error deleting Entry: \(error)")
+//			}
+
 			tableView.reloadData()
 		}
 	}
