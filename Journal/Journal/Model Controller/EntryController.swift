@@ -26,6 +26,13 @@ class EntryController {
     //MARK: - Properties
     let baseURL = URL(string: "https://journal-e4be9.firebaseio.com/")!
 
+    init() {
+
+        fetchEntriesFromServer { _ in
+            
+        }
+    }
+
     // MARK: - CRUD Methods
     func saveToPersistentStore() {
 
@@ -101,7 +108,7 @@ class EntryController {
     }
 
     func delete(entry: Entry, completion: @escaping (Error?) -> Void) {
-        print("Deleting \(entry.identifier) from server")
+
         let requestURL = baseURL
             .appendingPathComponent(entry.identifier ?? UUID().uuidString)
             .appendingPathExtension("json")
@@ -118,6 +125,81 @@ class EntryController {
             }
 
             completion(nil)
+        }.resume()
+    }
+
+    func update(entry: Entry, entryRepesentation: EntryRepresentation) {
+
+        entry.title = entryRepesentation.title
+        entry.bodyText = entryRepesentation.bodyText
+        entry.mood = entryRepesentation.mood
+        entry.timestamp = entryRepesentation.timestamp
+        entry.identifier = entryRepesentation.identifier
+    }
+
+    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
+
+        do {
+            return try CoreDataStack.shared.mainContext.fetch(fetchRequest).first
+        } catch {
+            return nil
+        }
+    }
+
+    func fetchEntriesFromServer(completion: @escaping (Error?) -> Void){
+
+        let requestURL = baseURL
+            .appendingPathExtension("json")
+
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.GET.rawValue
+
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+
+            if let error = error {
+                NSLog("Could not complete fetch from server: \(error)")
+                completion(error)
+                return
+            }
+
+            guard let data = data else {
+                NSLog("Data not returned from server")
+                completion(NSError(domain: "Data", code: 0, userInfo: nil))
+                return
+            }
+
+            var entryRep: [EntryRepresentation] = []
+
+            do {
+                let entries = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
+                entryRep = Array(entries.values)
+
+                for rep in entryRep {
+
+                    let entry = self.fetchSingleEntryFromPersistentStore(identifier: rep.identifier)
+
+                    if let returnedEntry = entry {
+                        if returnedEntry != rep {
+                            self.update(entry: returnedEntry, entryRepesentation: rep)
+                        }
+                    } else {
+                        _ = Entry(entryRepresentation: rep)
+                    }
+
+                    self.saveToPersistentStore()
+
+                    completion(nil)
+                }
+
+            } catch {
+                NSLog("Error decoding TaskRepresentations and adding them to persistent store: \(error)")
+                completion(error)
+                return
+            }
         }.resume()
     }
 
