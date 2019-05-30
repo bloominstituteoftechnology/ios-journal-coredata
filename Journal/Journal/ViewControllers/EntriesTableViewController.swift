@@ -20,9 +20,13 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
 		super.viewWillAppear(animated)
 		
 		entryController.fetchEntriesFromServer {  _ in
+			
+			DispatchQueue.main.async {
+				
+				self.tableView.reloadData()
+			}
 		}
 		
-		tableView.reloadData()
 	}
 	
 	
@@ -52,17 +56,10 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
 					return
 				}
 				moc.performAndWait {
-					moc.delete(entry)					
+					moc.delete(entry)
 				}
-				
 			}
 			
-//			do {
-//				try moc.save()
-//			} catch {
-//				NSLog("Error deleting Entry: \(error)")
-//			}
-
 			tableView.reloadData()
 		}
 	}

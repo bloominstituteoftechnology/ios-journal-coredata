@@ -65,18 +65,22 @@ class EntryDetailViewController: UIViewController, UITextFieldDelegate {
 					}
 				})
 			}
+		
+			do {
+				let moc = CoreDataStack.shared.mainContext
+				try moc.save()
+			} catch {
+				NSLog("Failed To Save: \(error)")
+				simpleAlert(title: "Error", message: "Maybe your title is longer then 20 char.")
+				return
+			}
+			
+			DispatchQueue.main.async {
+				self.navigationController?.popViewController(animated: true)
+			}
 		}
 		
-		do {
-			let moc = CoreDataStack.shared.mainContext
-			try moc.save()
-		} catch {
-			NSLog("Failed To Save: \(error)")
-			simpleAlert(title: "Error", message: "Maybe your title is longer then 20 char.")
-			return
-		}
-
-		navigationController?.popViewController(animated: true)
+		
 	}
 	
 	func getMood(i: Int) -> String {
