@@ -50,8 +50,19 @@ class EntryDetailViewController: UIViewController, UITextFieldDelegate {
 			entry.bodyText = body
 			entry.timeStamp = Date()
 			entry.mood = mood
+			entryController?.put(entry: entry, completion: { error in
+				if let error = error {
+					print("Error puting to firebase: ", error)
+				}
+				print("fere")
+			})
 		} else {
-			let _ = Entry(title: title, bodyText: body, mood: mood)
+			let entry = Entry(title: title, bodyText: body, mood: mood)
+			entryController?.put(entry: entry, completion: { error in
+				if let error = error {
+					print("Error puting to firebase: ", error)
+				}
+			})
 		}
 		
 		
@@ -105,4 +116,5 @@ class EntryDetailViewController: UIViewController, UITextFieldDelegate {
 	@IBOutlet var titleTextField: UITextField!
 	@IBOutlet var bodyTextView: UITextView!
 	var entry: Entry? { didSet { updateViews() } }
+	var entryController: EntryController?
 }
