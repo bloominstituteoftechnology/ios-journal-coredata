@@ -74,12 +74,9 @@ class EntryDetailViewController: UIViewController, UITextFieldDelegate {
 				simpleAlert(title: "Error", message: "Maybe your title is longer then 20 char.")
 				return
 			}
-			
-			DispatchQueue.main.async {
-				self.navigationController?.popViewController(animated: true)
-			}
 		}
 		
+		self.navigationController?.popViewController(animated: true)
 		
 	}
 	
