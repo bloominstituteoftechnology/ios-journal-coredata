@@ -13,16 +13,20 @@ class EnteriesTableViewController: UITableViewController, NSFetchedResultsContro
 
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchedResult: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchedResult.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: true), NSSortDescriptor(key: "mood", ascending: false)]
+        fetchedResult.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true), NSSortDescriptor(key: "timestamp", ascending: false)]
 
-        let fetchedRequestController = NSFetchedResultsController(fetchRequest: fetchedResult, managedObjectContext: CoreDataStack.shared.mainContext, sectionNameKeyPath: "mood", cacheName: nil)
+        let context = CoreDataStack.shared.mainContext
+
+        let fetchedRequestController = NSFetchedResultsController(fetchRequest: fetchedResult, managedObjectContext: context, sectionNameKeyPath: "mood", cacheName: nil)
 
         fetchedRequestController.delegate = self
 
-        do {
-            try fetchedRequestController.performFetch()
-        } catch {
-            NSLog("Could not fetch data: \(error)")
+        context.performAndWait {
+            do {
+                try fetchedRequestController.performFetch()
+            } catch {
+                NSLog("Could not fetch data: \(error)")
+            }
         }
 
         return fetchedRequestController
@@ -64,8 +68,11 @@ class EnteriesTableViewController: UITableViewController, NSFetchedResultsContro
 
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+
         if editingStyle == .delete {
-            entryController.delete(entry: fetchedResultsController.object(at: indexPath))
+            CoreDataStack.shared.mainContext.performAndWait {
+                entryController.delete(entry: fetchedResultsController.object(at: indexPath))
+            }
 
             self.tableView.reloadData()
         }
@@ -87,58 +94,49 @@ class EnteriesTableViewController: UITableViewController, NSFetchedResultsContro
         }
     }
 
+    //MARK: - NSFetchedResultsControllerDelegate Functions
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        self.tableView.beginUpdates()
+        tableView.beginUpdates()
     }
 
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        self.tableView.endUpdates()
-    }
-
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-
-        switch type {
-        case .insert:
-            let sectionIndex = IndexSet(integer: sectionIndex)
-            self.tableView.insertSections(sectionIndex, with: .automatic)
-        case .delete:
-            let sectionIndex = IndexSet(integer: sectionIndex)
-            self.tableView.deleteSections(sectionIndex, with: .automatic)
-        default:
-            break
-        }
+        tableView.endUpdates()
     }
 
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
 
         switch type {
         case .insert:
-            if let newIndexPath = newIndexPath {
-                self.tableView.insertRows(at: [newIndexPath], with: .automatic)
-            }
+            guard let newIndexPath = newIndexPath else { return }
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
         case .delete:
-            if let indexPath = indexPath {
-                self.tableView.deleteRows(at: [indexPath], with: .automatic)
-            }
+            guard let indexPath = indexPath else { return }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
         case .move:
-            if let indexPath = indexPath {
-                self.tableView.deleteRows(at: [indexPath], with: .automatic)
-            }
-
-            if let newIndexPath = newIndexPath {
-                self.tableView.insertRows(at: [newIndexPath], with: .automatic)
-            }
+            guard let indexPath = indexPath,
+                let newIndexPath = newIndexPath else { return }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
         case .update:
-            if let indexPath = indexPath {
-                self.tableView.reloadRows(at: [indexPath], with: .automatic)
-            }
+            guard let indexPath = indexPath else { return }
+            tableView.reloadRows(at: [indexPath], with: .automatic)
         default:
             break
         }
     }
 
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, sectionIndexTitleForSectionName sectionName: String) -> String? {
-        return sectionName
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+
+        switch type {
+        case .insert:
+            let indexSet = IndexSet(integer: sectionIndex)
+            tableView.insertSections(indexSet, with: .automatic)
+        case .delete:
+            let indexSet = IndexSet(integer: sectionIndex)
+            tableView.deleteSections(indexSet, with: .automatic)
+        default:
+            break
+        }
     }
 
 }

@@ -51,10 +51,12 @@ class EnteryDetailViewController: UIViewController {
 
         let mood = moodSegmentedControl.selectedSegmentIndex == 2 ? Mood.😊.rawValue : moodSegmentedControl.selectedSegmentIndex == 1 ? Mood.😐.rawValue : Mood.😭.rawValue
 
-        if let entry = entry {
-            entryController?.update(entry: entry, title: title, bodyText: bodyText, mood: mood)
-        } else {
-            entryController?.createEntry(title: title, bodyText: bodyText, mood: mood)
+        CoreDataStack.shared.mainContext.performAndWait {
+            if let entry = entry {
+                entryController?.update(entry: entry, title: title, bodyText: bodyText, mood: mood)
+            } else {
+                entryController?.createEntry(title: title, bodyText: bodyText, mood: mood)
+            }
         }
 
         navigationController?.popToRootViewController(animated: true)

@@ -137,19 +137,6 @@ class EntryController {
         entry.identifier = entryRepesentation.identifier
     }
 
-    func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry? {
-
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-
-        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
-
-        do {
-            return try CoreDataStack.shared.mainContext.fetch(fetchRequest).first
-        } catch {
-            return nil
-        }
-    }
-
     func fetchEntriesFromServer(completion: @escaping (Error?) -> Void){
 
         let requestURL = baseURL
@@ -187,22 +174,44 @@ class EntryController {
         }.resume()
     }
 
+    //MARK: - Helper Functions
     func entryRepresentationToEntry(entryRepresentaions: [EntryRepresentation], context: NSManagedObjectContext) {
 
         for representation in entryRepresentaions {
 
-            let entry = self.fetchSingleEntryFromPersistentStore(identifier: representation.identifier, context: CoreDataStack.shared.mainContext)
+            let entry = self.fetchSingleEntryFromPersistentStore(identifier: representation.identifier, context: context)
 
-            if let returnedEntry = entry {
-                if returnedEntry != representation {
-                    self.update(entry: returnedEntry, entryRepesentation: representation)
+            context.performAndWait {
+                if let returnedEntry = entry {
+                    if returnedEntry != representation {
+                        self.update(entry: returnedEntry, entryRepesentation: representation)
+                    }
+                } else {
+                    _ = Entry(entryRepresentation: representation, context: CoreDataStack.shared.mainContext)
                 }
-            } else {
-                _ = Entry(entryRepresentation: representation, context: CoreDataStack.shared.mainContext)
-            }
 
-            self.saveToPersistentStore()
+                self.saveToPersistentStore()
+            }
         }
+    }
+
+    func fetchSingleEntryFromPersistentStore(identifier: String, context: NSManagedObjectContext) -> Entry? {
+
+        var result: Entry?
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
+
+        context.performAndWait {
+            do {
+                result = try CoreDataStack.shared.mainContext.fetch(fetchRequest).first
+            } catch {
+                result = nil
+            }
+        }
+
+        return result
+
     }
 
 }

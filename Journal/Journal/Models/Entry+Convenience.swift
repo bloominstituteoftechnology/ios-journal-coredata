@@ -34,6 +34,7 @@ extension Entry {
                   bodyText: entryRepresentation.bodyText,
                   timestamp: entryRepresentation.timestamp,
                   mood: entryRepresentation.mood,
-                  identifier: entryRepresentation.identifier)
+                  identifier: entryRepresentation.identifier,
+                  context: context)
     }
 }
