@@ -8,7 +8,11 @@
 
 import Foundation
 
-struct EntryRepresentation: Codable {
+struct EntryRepresentation: Codable, Equatable {
+	static func == (lhs: EntryRepresentation, rhs: EntryRepresentation) -> Bool{
+		return lhs.identifier == rhs.identifier
+	}
+	
 	var identifier: String
 	var title: String
 	var mood: String

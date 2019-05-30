@@ -24,4 +24,15 @@ extension Entry {
 		self.timeStamp = timeStamp
 		self.mood = mood
 	}
+	
+	convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+		
+		self.init(title: entryRepresentation.title,
+				  bodyText: entryRepresentation.bodyText,
+				  identifier: entryRepresentation.identifier,
+				  timeStamp: entryRepresentation.timeStamp,
+				  mood: entryRepresentation.mood,
+				  context: context)
+	}
+	
 }
