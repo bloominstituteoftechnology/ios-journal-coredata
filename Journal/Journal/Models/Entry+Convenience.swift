@@ -35,4 +35,14 @@ extension Entry {
 				  context: context)
 	}
 	
+	var entryRepresentation: EntryRepresentation? {
+		guard let identifier = identifier,
+			let title = title,
+			let mood = mood,
+			let timeStamp = timeStamp
+			else { return nil}
+
+		return EntryRepresentation(identifier: identifier, title: title, mood: mood, bodyText: bodyText, timeStamp: timeStamp)
+	}
+	
 }
