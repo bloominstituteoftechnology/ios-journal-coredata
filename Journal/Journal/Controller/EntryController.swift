@@ -42,6 +42,7 @@ class EntryController {
 				NSLog("Error puting entryRep to firebase: \(error)")
 				completion(nil)
 			}
+			
 			entry.identifier = identifier
 		
 //			try? self.save
@@ -109,9 +110,6 @@ class EntryController {
 				return
 			}
 			
-			print(data)
-			
-			
 			do {
 				let entryRep = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
 				let entryRepArr = Array(entryRep.values)
@@ -129,15 +127,17 @@ class EntryController {
 
 extension EntryController {
 	
-	
 	func updateEntry(entryRep: EntryRepresentation) {
-		let identifier = UUID(uuidString: entryRep.identifier)!
-		if let entry = fetchSingleEntryFromPersistentStore(forUUID: identifier) {
+//		let identifier = UUID(uuidString: entryRep.identifier)!
+		
+		if let entry = fetchSingleEntryFromPersistentStore(forUUID: entryRep.identifier) {
+			
 			entry.identifier = entryRep.identifier
 			entry.title = entryRep.title
 			entry.bodyText = entryRep.bodyText
 			entry.mood = entryRep.mood
 			entry.timeStamp = entryRep.timeStamp
+			
 		} else {
 			let _ = Entry(entryRepresentation: entryRep)
 		}
@@ -147,12 +147,13 @@ extension EntryController {
 		for rep in entryReps {
 			updateEntry(entryRep: rep)
 		}
+		
 		try saveToPresistenStore()
 	}
 	
-	func fetchSingleEntryFromPersistentStore(forUUID uuid: UUID) -> Entry? {
+	func fetchSingleEntryFromPersistentStore(forUUID uuid: String) -> Entry? {
 		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-		fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
+		fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid )
 		
 		do {
 			let moc = CoreDataStack.shared.mainContext
