@@ -132,7 +132,7 @@ extension EntryController {
 	
 	func updateEntry(entryRep: EntryRepresentation) {
 		let identifier = UUID(uuidString: entryRep.identifier)!
-		if let entry = getEntryFromCoreData(forUUID: identifier) {
+		if let entry = fetchSingleEntryFromPersistentStore(forUUID: identifier) {
 			entry.identifier = entryRep.identifier
 			entry.title = entryRep.title
 			entry.bodyText = entryRep.bodyText
@@ -150,7 +150,7 @@ extension EntryController {
 		try saveToPresistenStore()
 	}
 	
-	func getEntryFromCoreData(forUUID uuid: UUID) -> Entry? {
+	func fetchSingleEntryFromPersistentStore(forUUID uuid: UUID) -> Entry? {
 		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
 		fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
 		
