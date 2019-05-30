@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 
 class EntryController {
@@ -110,9 +111,56 @@ class EntryController {
 			
 			print(data)
 			
+			
+			do {
+				let entryRep = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
+				let entryRepArr = Array(entryRep.values)
+				
+				try self.updateEntry(with: entryRepArr)
+			} catch {
+				print("Error decoding json from firebase")
+			}
+			
 			completion(nil)
 		}.resume()
 	}
 	
 	private let baseUrl: URL = URL(string: "https://journal-hectorsvill.firebaseio.com/")!
+}
+
+extension EntryController {
+	
+	func updateEntry(with entryReps: [EntryRepresentation]) throws {
+		for rep in entryReps {
+			let identifier = UUID(uuidString: rep.identifier)!
+			if let entry = getEntryFromCoreData(forUUID: identifier) {
+				entry.identifier = rep.identifier
+				entry.title = rep.title
+				entry.bodyText = rep.bodyText
+				entry.mood = rep.mood
+				entry.timeStamp = rep.timeStamp
+			} else {
+				let _ = Entry(entryRepresentation: rep)
+			}
+		}
+		try saveToPresistenStore()
+	}
+	
+	func getEntryFromCoreData(forUUID uuid: UUID) -> Entry? {
+		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+		fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
+		
+		do {
+			let moc = CoreDataStack.shared.mainContext
+			return try moc.fetch(fetchRequest).first
+		} catch {
+			NSLog("Error fetching entry with uuid: \(error)")
+			return nil
+		}
+	}
+	
+	func saveToPresistenStore() throws {
+		let moc = CoreDataStack.shared.mainContext
+		try moc.save()
+	}
 }
