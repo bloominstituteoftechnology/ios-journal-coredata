@@ -32,15 +32,19 @@ class EntryController {
 			return
 		}
 		
-		URLSession.shared.dataTask(with: request) { (_ , _, error) in
+		URLSession.shared.dataTask(with: request) { (_ , response, error) in
+			if let response = response as? HTTPURLResponse{
+				print("Respnse Code: \(response.statusCode)")
+			}
+			
 			if let error = error {
 				NSLog("Error puting entryRep to firebase: \(error)")
 				completion(nil)
 			}
 			entry.identifier = identifier
-			
+		
 //			try? self.save
-			
+			print(request)
 			completion(nil)
 		}.resume()
 		
@@ -67,20 +71,22 @@ class EntryController {
 			return
 		}
 		
-		URLSession.shared.dataTask(with: request) { (_ , _, error) in
+		URLSession.shared.dataTask(with: request) { (_ , response, error) in
+			if let response = response as? HTTPURLResponse{
+				print("Respnse Code: \(response.statusCode)")
+			}
+			
 			if let error = error {
 				NSLog("Error puting entryRep to firebase: \(error)")
 				completion(nil)
 			}
-			entry.identifier = identifier
 			
-			//			try? self.save
+			//try? self.save
 			
 			completion(nil)
 			}.resume()
-		
 	}
 	
 	
-	private let baseUrl: URL = URL(string: "https://hectorsvill-journal.firebaseio.com/")!
+	private let baseUrl: URL = URL(string: "https://journal-hectorsvill.firebaseio.com/")!
 }
