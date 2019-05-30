@@ -34,10 +34,10 @@ class EntryController {
     }
 
     // MARK: - CRUD Methods
-    func saveToPersistentStore() {
+    func saveToPersistentStore(context: NSManagedObjectContext) {
 
         do{
-            try CoreDataStack.shared.mainContext.save()
+            try context.save()
         } catch {
             NSLog("Could Not save data to persistent Stores: \(error)")
         }
@@ -47,7 +47,7 @@ class EntryController {
 
         let entry = Entry(title: title, bodyText: bodyText, mood: mood)
 
-        saveToPersistentStore()
+//        saveToPersistentStore()
 
         put(entry: entry) {
 
@@ -61,7 +61,7 @@ class EntryController {
         entry.mood = mood
         entry.timestamp = Date()
 
-        saveToPersistentStore()
+//        saveToPersistentStore()
         put(entry: entry) {
 
         }
@@ -76,7 +76,7 @@ class EntryController {
         let moc = CoreDataStack.shared.mainContext
 
         moc.delete(entry)
-        saveToPersistentStore()
+//        saveToPersistentStore()
     }
 
     //MARK: - HTTP Methods
@@ -164,7 +164,7 @@ class EntryController {
             do {
                 let entries = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
                 entryRep = Array(entries.values)
-                self.entryRepresentationToEntry(entryRepresentaions: entryRep, context: CoreDataStack.shared.mainContext)
+                self.entryRepresentationToEntry(entryRepresentaions: entryRep, context: CoreDataStack.shared.container.newBackgroundContext())
                 completion(nil)
             } catch {
                 NSLog("Error decoding TaskRepresentations and adding them to persistent store: \(error)")
@@ -187,10 +187,10 @@ class EntryController {
                         self.update(entry: returnedEntry, entryRepesentation: representation)
                     }
                 } else {
-                    _ = Entry(entryRepresentation: representation, context: CoreDataStack.shared.mainContext)
+                    _ = Entry(entryRepresentation: representation, context: context)
                 }
 
-                self.saveToPersistentStore()
+                self.saveToPersistentStore(context: context)
             }
         }
     }
@@ -204,7 +204,7 @@ class EntryController {
 
         context.performAndWait {
             do {
-                result = try CoreDataStack.shared.mainContext.fetch(fetchRequest).first
+                result = try context.fetch(fetchRequest).first
             } catch {
                 result = nil
             }

@@ -15,13 +15,12 @@ class EnteriesTableViewController: UITableViewController, NSFetchedResultsContro
         let fetchedResult: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchedResult.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true), NSSortDescriptor(key: "timestamp", ascending: false)]
 
-        let context = CoreDataStack.shared.mainContext
 
-        let fetchedRequestController = NSFetchedResultsController(fetchRequest: fetchedResult, managedObjectContext: context, sectionNameKeyPath: "mood", cacheName: nil)
+        let fetchedRequestController = NSFetchedResultsController(fetchRequest: fetchedResult, managedObjectContext: CoreDataStack.shared.mainContext, sectionNameKeyPath: "mood", cacheName: nil)
 
         fetchedRequestController.delegate = self
 
-        context.performAndWait {
+        CoreDataStack.shared.mainContext.performAndWait {
             do {
                 try fetchedRequestController.performFetch()
             } catch {
@@ -72,6 +71,7 @@ class EnteriesTableViewController: UITableViewController, NSFetchedResultsContro
         if editingStyle == .delete {
             CoreDataStack.shared.mainContext.performAndWait {
                 entryController.delete(entry: fetchedResultsController.object(at: indexPath))
+                entryController.saveToPersistentStore(context: CoreDataStack.shared.mainContext)
             }
 
             self.tableView.reloadData()

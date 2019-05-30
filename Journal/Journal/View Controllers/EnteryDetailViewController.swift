@@ -54,8 +54,10 @@ class EnteryDetailViewController: UIViewController {
         CoreDataStack.shared.mainContext.performAndWait {
             if let entry = entry {
                 entryController?.update(entry: entry, title: title, bodyText: bodyText, mood: mood)
+                entryController?.saveToPersistentStore(context: CoreDataStack.shared.mainContext)
             } else {
                 entryController?.createEntry(title: title, bodyText: bodyText, mood: mood)
+                entryController?.saveToPersistentStore(context: CoreDataStack.shared.mainContext)
             }
         }
 
