@@ -10,17 +10,10 @@ import Foundation
 import CoreData
 
 class EntryController {
-    
-    
-    //commenting out so that we can use the nsfrc
-//    var entries: [Entry] {
-//        //This will allow any changes to the persistent store to become immediately visible to the user when accessing this array, like in the talbe view showing list of entries.
-//        return loadFromPersistentStore()
-//    }
-    
+
     func createEntry(title: String, bodyText: String, mood: EntryMood){
-        let _ = Entry(title: title, bodyText: bodyText, mood: mood)
-        
+        let entryToPut = Entry(title: title, bodyText: bodyText, mood: mood)
+        put(entry: entryToPut)
         saveToPersistentStore()
     }
     
@@ -29,13 +22,13 @@ class EntryController {
         entry.bodyText = newBodyText
         entry.timestamp = newTimestamp
         entry.mood = newMood.rawValue
-        
+        put(entry: entry)
         saveToPersistentStore()
     }
     
     func delete(entry: Entry){
         CoreDataStack.shared.mainContext.delete(entry)
-        
+        deleteFromServer(entry: entry)
         saveToPersistentStore()
     }
     
@@ -48,30 +41,17 @@ class EntryController {
             print("Error in the saving to persistent store function: \(error.localizedDescription)")
         }
     }
-    
-    //commenting out so that we can use the nsfrc
-//    func loadFromPersistentStore() -> [Entry] {
-//        let moc = CoreDataStack.shared.mainContext
-//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//
-//        do {
-//            let results = try moc.fetch(fetchRequest)
-//            return results
-//        } catch  {
-//            print("Error with in the load from persistent store function: \(error.localizedDescription)")
-//        }
-//        return []
-//    }
 
     //MARK: - API CALLS
-    let baseURL = URL(string: "https:journalcd-f7246.firebaseio.com/")!
+    let baseURL = URL(string: "https://journalcd-f7246.firebaseio.com/")!
     
     func put(entry: Entry, completion: @escaping (Error?) -> Void = {_  in}){
         //this method should append the identifier and add the json to the extension bc of firebase
         guard let identifier = entry.identifier else {
             print("Error unwrapping identifier")
-//            completion(NSError)
+            completion(NSError())
             return }
+        
         let url = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
         var requestURL = URLRequest(url: url)
         requestURL.httpMethod = "PUT"
@@ -79,12 +59,51 @@ class EntryController {
         //put the entry's representation into the body of the http
         //Entry -> EntryRepresentation -> JSON - encode
         do {
-//           requestURL.httpBody = try JSONEncoder().encode(entry)
+            guard let entryRep = entry.entryRepresentation else {
+                print("Error turning entry into entry representationfor the encoder")
+                completion(NSError())
+                return
+            }
+            let jsonData = try JSONEncoder().encode(entryRep)
+            requestURL.httpBody = jsonData
         } catch  {
             print("Error putting the entry into the httpbody: \(error.localizedDescription)")
             completion(error)
             return
         }
+        
+        //we can make our urlsession call
+        URLSession.shared.dataTask(with: requestURL) { (_, _, error) in
+            if let error = error {
+                print("Error PUTing the entry on firebase: \(error.localizedDescription)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
+    }
+    
+    func deleteFromServer(entry: Entry, completion: @escaping(Error?) -> Void = {_ in }){
+        //construct url, because -- we will have to use the identifier from the entry we pass in as an argument
+        guard let identifier = entry.identifier else {
+            print("Error unwrapping identifier in the delete from server function.")
+            completion(NSError())
+            return }
+        
+        let url = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        var requestURL = URLRequest(url: url)
+        requestURL.httpMethod = "DELETE"
+        
+        //we do not have to put anything in the httpBody
+        URLSession.shared.dataTask(with: requestURL) { (_, _, error) in
+            if let error = error {
+                print("Error deleting from the server: \(error.localizedDescription)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
+        
     }
 }
 
