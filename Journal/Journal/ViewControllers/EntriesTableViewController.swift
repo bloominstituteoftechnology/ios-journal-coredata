@@ -50,6 +50,11 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
 				NSLog("Error deleting Entry: \(error)")
 			}
 			
+			entryController.deleteEntryFromServer(entry: entry) { error in
+				if let error = error {
+					print("Error deleting entry: \(error)")
+				}
+			}
 			tableView.reloadData()
 		}
 	}
@@ -113,11 +118,15 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
 			guard let vc = segue.destination as? EntryDetailViewController,
 				let indexpath = tableView.indexPathForSelectedRow else { return }
 			vc.entry = fetchedResultController.object(at: indexpath)
+			vc.entryController = entryController
+		} else if segue.identifier == "AddJournalSegue" {
+			guard let vc = segue.destination  as? EntryDetailViewController else { return }
+			vc.entryController = entryController
 		}
 	}
 	
 	
-	
+	let entryController = EntryController()
 	lazy var fetchedResultController: NSFetchedResultsController<Entry> = {
 		
 		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
