@@ -105,7 +105,6 @@ class EntryController {
         }.resume()
     }
     
-    
     /*
      The goal when fetching entries from Firebase is to go through each fetched entry and check if there is a corresponding entry in the device's persistent store
      1.No, so create a new entry object. ( this would happen if someone else created an entry on their device and you don't have it on your device yet).
@@ -121,23 +120,25 @@ class EntryController {
         entry.timestamp = entryRep.timestamp
     }
     
-    func fetchSingleEntryFromCoreData(entryIdentifier: String) -> Entry? {
-        //create a fetch request from Entry objct.
+    func fetchSingleEntryFromCoreData(entryIdentifier: String, context: NSManagedObjectContext) -> Entry? {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        //give the fetchRequest an predictae - this predicate should see if the identifier attriburte in the Entry is equal to the identifier parameter of this function.
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", entryIdentifier)
-        //perform the fetch request on your core data stack's maincontext
-        let moc = CoreDataStack.shared.mainContext
+       
+        //because using the context.performAndWait is a void function we have to create a mailbox entry variable
+        var result: Entry? = nil
         
-        do {
-            //return the first Entry from the array you get back. In theory, there should only be one entry fetched anyway.
-            let entryFromCoreData = try moc.fetch(fetchRequest).first
-            return entryFromCoreData
-        } catch  {
-            //Handle the potential error from performin the fetch request.
-            print("Error making fetch request on Entry in coreData:\(error.localizedDescription)")
-            return nil
+        //core data #1 rule is: don't use core data objects outside of perform blocks.
+        context.performAndWait {
+            do {
+                //perform the fetch request on the context passed in
+                //return the first Entry from the array you get back. In theory, there should only be one entry fetched anyway.
+                result = try context.fetch(fetchRequest).first
+            } catch  {
+                //Handle the potential error from performin the fetch request.
+                print("Error making fetch request on Entry in coreData:\(error.localizedDescription)")
+            }
         }
+        return result
     }
     
     func fetchEntriesFromServer(completion: @escaping(Error?)-> Void = {_ in }){
@@ -155,29 +156,37 @@ class EntryController {
                 return
             }
             var entriesOnFirebase = [EntryRepresentation]()
-            //JSON -> ENTRYREPRESENTATION -> ENTRY
-            let jD = JSONDecoder()
-            do {
-                //loop through the dictionary to return an array of just the entry representations without identifier keys
-                let entryRepDictionary = try jD.decode([ String : EntryRepresentation ].self, from: data)
-                let entryValues = Array(entryRepDictionary.values)
-                entriesOnFirebase = entryValues
-                //loop through the array of entry representations. Inside the loop, create a constant called entry. for its value, give it the result of fetchingSingleEntryFromPersistentStore. Pass in the entry representattion's identifier. This will allow us to compare the entry representation and see if thre is a corresponding entry in the persistent store already
-                for entryRepOnFirebase in entriesOnFirebase {
-                    //check to see if there is an entry in core data matching an entry on firebase based on its identifier.
-                    if let entryOnBothCoreDataAndFirebase = self.fetchSingleEntryFromCoreData(entryIdentifier: entryRepOnFirebase.identifier) {
-                        //THIS SHOULD RETURN AN ENTRY FROM CORE DATA BASED ON THE ENTRYREP IDENTIFER FROM FIREBASE SO WE NEED TO UPDATE
-                        self.updateTwo(entry: entryOnBothCoreDataAndFirebase, entryRep: entryRepOnFirebase)
-                    } else {
-                        //entry does not exist in core data, initialize a new entry
-                        let _ = Entry(entryRepresentation: entryRepOnFirebase)
+            
+            //we want to fetch on the background queue because its fetching a bunch of data, so we have to create a new Context off of the container.
+            let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+            
+            backgroundContext.performAndWait { //because we are touching an nsmanagedobject inside of a network call.
+                //JSON -> ENTRYREPRESENTATION -> ENTRY
+                let jD = JSONDecoder()
+                do {
+                    //loop through the dictionary to return an array of just the entry representations without identifier keys
+                    let entryRepDictionary = try jD.decode([ String : EntryRepresentation ].self, from: data)
+                    let entryValues = Array(entryRepDictionary.values)
+                    entriesOnFirebase = entryValues
+                    
+                    for entryRepOnFirebase in entriesOnFirebase {
+                        //check to see if there is an entry in core data matching an entry on firebase based on its identifier.
+                        if let entryOnBothCoreDataAndFirebase = self.fetchSingleEntryFromCoreData(entryIdentifier: entryRepOnFirebase.identifier, context: backgroundContext) {
+                            //THIS SHOULD RETURN AN ENTRY FROM CORE DATA BASED ON THE ENTRYREP IDENTIFER FROM FIREBASE SO WE NEED TO UPDATE
+                            self.updateTwo(entry: entryOnBothCoreDataAndFirebase, entryRep: entryRepOnFirebase)
+                        } else {
+                            //entry does not exist in core data, initialize a new entry
+                            let _ = Entry(entryRepresentation: entryRepOnFirebase, context: backgroundContext)
+                        }
                     }
+//                    self.saveToPersistentStore()
+                    //save to the background context
+                    try CoreDataStack.shared.save(context: backgroundContext)
+                } catch {
+                    print("Error decoding fetching entries from server: \(error.localizedDescription)")
+                    completion(error)
+                    return
                 }
-                self.saveToPersistentStore()
-            } catch {
-                print("Error decoding fetching entries from server: \(error.localizedDescription)")
-                completion(error)
-                return
             }
             completion(nil)
         }.resume()

@@ -19,7 +19,7 @@ class CoreDataStack {
                 print("Failed to laod the persistent store: \(error)")
             }
         }
-        //merges changes between two contexts
+        //This is required for the viewContext ( ie. the main context ) to be updated with changes saved in a background context. In this case, the viewContext's parent is the persistent store coordinator, not another context.
         container.viewContext.automaticallyMergesChangesFromParent = true
         return container
     }()
