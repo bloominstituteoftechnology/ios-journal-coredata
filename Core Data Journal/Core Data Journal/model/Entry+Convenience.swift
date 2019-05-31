@@ -48,9 +48,9 @@ extension Entry {
 		self.mood = mood.rawValue
 	}
 
-	convenience init(representation: EntryRepresentation) {
+	convenience init(representation: EntryRepresentation, context: NSManagedObjectContext) {
 		let mood = Mood(rawValue: representation.mood) ?? Mood.eh
-		self.init(title: representation.title, bodyText: representation.bodyText, mood: mood, timestamp: representation.timestamp, identifier: representation.identifier)
+		self.init(title: representation.title, bodyText: representation.bodyText, mood: mood, timestamp: representation.timestamp, identifier: representation.identifier, context: context)
 	}
 
 	func getMood() -> Mood {
@@ -60,5 +60,23 @@ extension Entry {
 	var entryRepresentation: EntryRepresentation? {
 		guard let identifier = identifier, let timestamp = timestamp, let title = title else { return nil }
 		return EntryRepresentation(bodyText: bodyText, identifier: identifier, mood: mood, timestamp: timestamp, title: title)
+	}
+
+	var threadSafeID: String? {
+		get {
+			guard let context = self.managedObjectContext else { return nil }
+			var id: String?
+			context.performAndWait {
+				id = self.identifier
+			}
+			return id
+		}
+
+		set {
+			guard let context = self.managedObjectContext else { return }
+			context.performAndWait {
+				self.identifier = newValue
+			}
+		}
 	}
 }

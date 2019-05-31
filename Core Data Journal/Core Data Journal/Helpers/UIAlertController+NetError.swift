@@ -42,6 +42,8 @@ extension UIAlertController {
 					 info = "'\(unwrapped)'"
 				}
 				message = "An invalid request was attempted. \(info)"
+			case .coreDataFailure(let otherError):
+				message = "There was an error handling the local cache. Please screenshot and inform the developer: \(otherError)"
 			}
 		} else {
 			message = "There was an unexpected error. Please screenshot this and inform the developer: \(error)"

@@ -35,6 +35,7 @@ enum NetworkError: Error {
 	case urlInvalid(urlString: String?)
 	case noStatusCodeResponse
 	case httpNon200StatusCode(code: Int, data: Data?)
+	case coreDataFailure(specifically: Error)
 }
 
 class NetworkHandler {

@@ -24,7 +24,8 @@ class EntryController {
 
 	@discardableResult func create(entryWithTitle title: String, andBody bodyText: String, andMood mood: Mood) -> Entry {
 		let entry = Entry(title: title, bodyText: bodyText, mood: mood)
-		saveToPersistenStore()
+		// using this next line means this update function can only be called from the main thread
+		try? CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
 		remotePut(entry: entry) { (result: Result<EntryRepresentation, NetworkError>) in
 			do {
 				_ = try result.get()
@@ -40,7 +41,8 @@ class EntryController {
 		entry.bodyText = bodyText
 		entry.mood = mood.rawValue
 		entry.timestamp = Date()
-		saveToPersistenStore()
+		// using this next line means this update function can only be called from the main thread
+		try? CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
 		remotePut(entry: entry) { (result: Result<EntryRepresentation, NetworkError>) in
 			do {
 				_ = try result.get()
@@ -51,7 +53,7 @@ class EntryController {
 	}
 
 	func delete(entry: Entry) {
-		let moc = CoreDataStack.shared.mainContext
+//		let moc = CoreDataStack.shared.mainContext
 		remoteDelete(entry: entry) { (result: Result<Data?, NetworkError>) in
 			do {
 				_ = try result.get()
@@ -60,30 +62,26 @@ class EntryController {
 				NSLog("error deleting from firebase: \(error)")
 			}
 		}
-		moc.delete(entry)
-		saveToPersistenStore()
+		guard let context = entry.managedObjectContext else { return }
+		context.performAndWait {
+			context.delete(entry)
+		}
+		try? CoreDataStack.shared.save(context: context)
 	}
 
 	// MARK: - Local Persistence
-	func saveToPersistenStore() {
-		let moc = CoreDataStack.shared.mainContext
-		do {
-			try moc.save()
-		} catch {
-			print("error saving persistent store: \(error)")
-		}
-	}
-
-	func fetchFromPersistentStore(entryID: String) -> Entry? {
+	func fetchFromPersistentStore(entryID: String, onContext context: NSManagedObjectContext) -> Entry? {
 		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
 		fetchRequest.predicate = NSPredicate(format: "identifier == %@", entryID)
-		let moc = CoreDataStack.shared.mainContext
-		do {
-			return try moc.fetch(fetchRequest).first
-		} catch {
-			NSLog("error fetching single entry: \(error)")
-			return nil
+		var entry: Entry?
+		context.performAndWait {
+			do {
+				entry = try context.fetch(fetchRequest).first
+			} catch {
+				NSLog("error fetching single entry: \(error)")
+			}
 		}
+		return entry
 	}
 
 	// MARK: - Remote Persistence
@@ -92,9 +90,9 @@ class EntryController {
 	let baseURL = URL(string: "https://lambda-school-mredig.firebaseio.com/coreDataJournal")!
 
 	func remotePut(entry: Entry, completion: @escaping (Result<EntryRepresentation, NetworkError>) -> Void = { _ in }) {
-		let identifier = entry.identifier ?? UUID().uuidString
+		let identifier = entry.threadSafeID ?? UUID().uuidString
 		let putURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
-		entry.identifier = identifier
+		entry.threadSafeID = identifier
 
 		var request = URLRequest(url: putURL)
 		request.httpMethod = HTTPMethods.put.rawValue
@@ -116,9 +114,9 @@ class EntryController {
 	}
 
 	func remoteDelete(entry: Entry, completion: @escaping (Result<Data?, NetworkError>) -> Void = { _ in }) {
-		let identifier = entry.identifier ?? UUID().uuidString
+		let identifier = entry.threadSafeID ?? UUID().uuidString
 		let deleteURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
-		entry.identifier = identifier
+		entry.threadSafeID = identifier
 
 		var request = URLRequest(url: deleteURL)
 		request.httpMethod = HTTPMethods.delete.rawValue
@@ -134,18 +132,22 @@ class EntryController {
 		networkHandler.netDecoder.dateDecodingStrategy = .secondsSince1970
 		networkHandler.transferMahCodableDatas(with: request) { [weak self] (result: Result<[String: EntryRepresentation], NetworkError>) in
 			do {
+				let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
 				let entryDict = try result.get()
 				let entryRepsArray = Array(entryDict.values)
-				for entryRep in entryRepsArray {
-					if let entry = self?.fetchFromPersistentStore(entryID: entryRep.identifier) {
-						if entry != entryRep {
-							self?.update(entry: entry, fromRep: entryRep)
+
+				backgroundContext.performAndWait {
+					for entryRep in entryRepsArray {
+						if let entry = self?.fetchFromPersistentStore(entryID: entryRep.identifier, onContext: backgroundContext) {
+							if entry != entryRep {
+								self?.update(entry: entry, fromRep: entryRep)
+							}
+						} else {
+							_ = Entry(representation: entryRep, context: backgroundContext)
 						}
-					} else {
-						_ = Entry(representation: entryRep)
 					}
 				}
-				self?.saveToPersistenStore()
+				try CoreDataStack.shared.save(context: backgroundContext)
 				completion(.success(entryRepsArray))
 			} catch {
 				completion(.failure(error as? NetworkError ?? NetworkError.otherError(error: error)))
