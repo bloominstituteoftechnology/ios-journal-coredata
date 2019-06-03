@@ -39,20 +39,29 @@ class EntriesTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as! EntryTableViewCell
 
         let entry = entryController.entries[indexPath.row]
-        cell.titleLabel.text = entry.title
-        cell.bodyLabel.text = entry.bodyText
-
-        // Configure the cell...
-
+        cell.entry = entry
         return cell
+    }
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let entry = entryController.entries[indexPath.row]
+            entryController.deleteEntry(entry: entry)
+        }
     }
 
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "ShowEntry" {
+            let destinationVC = segue.destination as! EntryDetailViewController
+            destinationVC.entryController = entryController
+        } else if segue.identifier == "AddEntry" {
+            let destinationVC = segue.destination as! EntryDetailViewController
+            guard let indexPath = tableView.indexPathForSelectedRow else { return }
+            destinationVC.entry = entryController.entries[indexPath.row]
+            destinationVC.entryController = entryController
+        }
     }
 
     let entryController = EntryController()

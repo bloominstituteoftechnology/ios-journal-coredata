@@ -61,6 +61,7 @@ class EntryController {
         } catch {
             NSLog("Error saving managed object contex: \(error)")
         }
+        
     }
 
     var entries: [Entry] {
