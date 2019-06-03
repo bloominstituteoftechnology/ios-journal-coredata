@@ -39,17 +39,23 @@ class EntryController {
         saveToPersistentStore()
     }
     
-    func updateEntry() {
-        
+    func updateEntry(entry: Entry, title: String, bodyText: String, timestamp: Date, identifier: String) {
+        entry.title = title
+        entry.bodyText = bodyText
+        entry.timestamp = timestamp
+        entry.identifier = identifier
+        saveToPersistentStore()
     }
     
-    func delteEntry() {
-        
+    func deleteEntry(entry: Entry) {
+        let moc = CoreDataStack.shared.mainContext
+        moc.delete(entry)
+        saveToPersistentStore()
     }
     
     //MARK: - Properties
     var entries: [Entry] {
-        loadFromPersistentStore()
+        return loadFromPersistentStore()
     }
     
 }

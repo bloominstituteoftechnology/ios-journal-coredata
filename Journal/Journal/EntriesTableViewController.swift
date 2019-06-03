@@ -26,26 +26,32 @@ class EntriesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-        let entry = entryController.entries[indexPath.row]
-        cell.
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as! EntryTableViewCell
+        cell.entry = entryController.entries[indexPath.row]
         return cell
     }
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
+            let entry = entryController.entries[indexPath.row]
+            entryController.deleteEntry(entry: entry)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
     
     // MARK: - Navigation
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+        guard let detailVC = segue.destination as? EntryDetailViewController else { return }
+        if segue.identifier == "CellSegue" {
+            guard let indexPath = tableView.indexPathForSelectedRow else { return }
+            let entry = entryController.entries[indexPath.row]
+            detailVC.entry = entry
+            detailVC.entryController = entryController
+        } else if segue.identifier == "AddSegue" {
+            detailVC.entryController = entryController
+        }
     }
     
     // MARK: - Properties
