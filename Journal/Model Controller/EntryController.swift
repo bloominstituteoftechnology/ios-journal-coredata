@@ -39,8 +39,13 @@ class EntryController {
         saveToPersistantStore()
     }
     
-    func update(journalEntry: Entry) {
-//        journalEntry.title = !journalEntry.title
+    func update(entry: Entry, title: String, bodyText: String) {
+        let entry = entry
+        entry.title = title
+        entry.bodyText = bodyText
+        entry.timestamp = Date()
+        
+        saveToPersistantStore()
         
     }
     
