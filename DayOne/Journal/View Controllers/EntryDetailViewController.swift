@@ -33,8 +33,18 @@ class EntryDetailViewController: UIViewController {
     // MARK: - Save Button
     @IBAction func saveButtonTapped(_ sender: Any) {
         // Update a sent entry
+        guard let title = titleTextField.text, !title.isEmpty else { print("Journal entry must have a title"); return }
+                let bodyText = bodyTextView.text ?? ""
         
+        if let entry = entry {
+            // Update an existing entry
+            entryController?.update(entry: entry, title: title, bodyText: bodyText)
+        } else {
         // Save a new entry
+            entryController?.createEntry(title: title, bodyText: bodyText)
+        }
+        
+        navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Properties

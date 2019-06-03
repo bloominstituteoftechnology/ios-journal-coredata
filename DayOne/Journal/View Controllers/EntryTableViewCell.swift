@@ -10,10 +10,20 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
 
-    // MARK: - Update cell with Entry
+    // MARK: - Update cell with Entry fields
     private func updateView() {
+        // Don't have a journal entry- skip out.
         guard let entry = entry else { return }
         
+        // Got one!  Show it!
+        titleLabel.text = entry.title
+        bodyLabel.text = entry.bodyText
+        
+        // Format the date and put it in a string
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy h:mm a"
+        
+        timestampLabel.text = dateFormatter.string(from: entry.timestamp ?? Date())
         
     }
     

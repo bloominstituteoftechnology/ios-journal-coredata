@@ -25,7 +25,7 @@ class EntriesTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -37,12 +37,10 @@ class EntriesTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as! EntryTableViewCell
 
         cell.entry = entryController.entries[indexPath.row]
-        
-        
 
         return cell
     }
-
+    
     // MARK: - Delete function
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -54,14 +52,22 @@ class EntriesTableViewController: UITableViewController {
         } 
     }
 
-    /*
     // MARK: - Navigation
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "ViewEntrySegue" {
+            guard let detailVC = segue.destination as? EntryDetailViewController,
+            let indexPath = tableView.indexPathForSelectedRow else { return }
+                detailVC.entryController = entryController
+                detailVC.entry = entryController.entries[indexPath.row]
+        } else {
+            if segue.identifier == "AddEntrySegue" {
+                guard let detailVC = segue.destination as? EntryDetailViewController else { return }
+                detailVC.entryController = entryController
+            }
+        }
+        
+        
     }
-    */
     
     // MARK: - Properties
     let entryController = EntryController()
