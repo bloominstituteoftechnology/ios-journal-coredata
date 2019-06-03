@@ -10,8 +10,10 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
 
-    // MARK: - Update View
+    // MARK: - Update cell with Entry
     private func updateView() {
+        guard let entry = entry else { return }
+        
         
     }
     

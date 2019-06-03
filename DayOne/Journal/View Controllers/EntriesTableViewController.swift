@@ -18,7 +18,7 @@ class EntriesTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        updateView()
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -33,11 +33,12 @@ class EntriesTableViewController: UITableViewController {
         return entryController.entries.count
     }
 
-
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as! EntryTableViewCell
 
         cell.entry = entryController.entries[indexPath.row]
+        
+        
 
         return cell
     }
@@ -46,11 +47,11 @@ class EntriesTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            // Delete this object
+            entryController.delete(delete: entryController.entries[indexPath.row])
             // Delete the row from the data source
             tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        } 
     }
 
     /*
@@ -61,11 +62,6 @@ class EntriesTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
     }
     */
-    
-    // MARK: - Private functions
-    private func updateView() {
-        
-    }
     
     // MARK: - Properties
     let entryController = EntryController()

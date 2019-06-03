@@ -18,11 +18,23 @@ class EntryDetailViewController: UIViewController {
     
     // MARK: - Private Functions
     private func updateViews() {
-        
+        if isViewLoaded {
+            guard let entry = entry else {
+                title  = "New Entry"
+                titleTextField.becomeFirstResponder()
+                return
+            }
+            title = entry.title
+            titleTextField.text = entry.title
+            bodyTextView.text = entry.bodyText
+        }
     }
     
     // MARK: - Save Button
     @IBAction func saveButtonTapped(_ sender: Any) {
+        // Update a sent entry
+        
+        // Save a new entry
     }
     
     // MARK: - Properties
