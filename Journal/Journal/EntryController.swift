@@ -7,17 +7,31 @@
 //
 
 import Foundation
+import CoreData
 
 class EntryController {
     
     //MARK: - Methods
     
     func saveToPersistentStore() {
-        
+        let moc = CoreDataStack.shared.mainContext
+        do {
+            try moc.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
     }
     
-    func loadFromPersistentStore() {
+    func loadFromPersistentStore() -> [Entry] {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        let moc = CoreDataStack.shared.mainContext
         
+        do {
+            return try moc.fetch(fetchRequest)
+        } catch {
+            NSLog("Error fetching tasks: \(error)")
+            return []
+        }
     }
     
     func createEntry() {
