@@ -13,5 +13,18 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var entryTextLabel: UILabel!
     
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    private func updateViews() {
+        guard let entry = entry else { return }
+        titleLabel.text = entry.title
+        timestampLabel.text = "\(String(describing: entry.timestamp))"
+        entryTextLabel.text = entry.bodyText
+    }
+    
     
 }
