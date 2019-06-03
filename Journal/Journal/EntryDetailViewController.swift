@@ -12,15 +12,38 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var textView: UITextView!
     
-    var entry: Entry?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
     var entryController: EntryController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        updateViews()
     }
     
     @IBAction func save(_ sender: UIBarButtonItem) {
+        guard let entryTitle = titleTextField.text,
+            !entryTitle.isEmpty,
+        let entryText = textView.text,
+            !entryText.isEmpty else { return }
+        
+        if let entry = entry {
+            entryController?.update(entry: entry, title: entryTitle, bodyText: entryText)
+        } else {
+            entryController?.createEntry(title: entryTitle, bodyText: entryText)
+        }
+        navigationController?.popViewController(animated: true)
+    }
+    
+    private func updateViews() {
+        guard isViewLoaded else { return }
+        title = entry?.title ?? "Create Entry"
+        titleTextField.text = entry?.title
+        textView.text = entry?.bodyText
+        
     }
 }

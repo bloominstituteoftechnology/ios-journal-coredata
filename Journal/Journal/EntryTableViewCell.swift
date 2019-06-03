@@ -9,6 +9,7 @@
 import UIKit
 
 class EntryTableViewCell: UITableViewCell {
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var entryTextLabel: UILabel!
@@ -22,7 +23,10 @@ class EntryTableViewCell: UITableViewCell {
     private func updateViews() {
         guard let entry = entry else { return }
         titleLabel.text = entry.title
-        timestampLabel.text = "\(String(describing: entry.timestamp))"
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        timestampLabel.text = formatter.string(from: entry.timestamp!)
         entryTextLabel.text = entry.bodyText
     }
     
