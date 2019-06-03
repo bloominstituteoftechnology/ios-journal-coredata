@@ -20,10 +20,21 @@ class EntryTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    func updateViews() {
+        titleLabel.text = entry?.title
+        bodyLabel.text = entry?.bodyText
+        //timestampLabel.text = entry?.timestamp
+    }
 
     // MARK: - Properties
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var bodyLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
 }
