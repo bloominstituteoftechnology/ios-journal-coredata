@@ -12,19 +12,26 @@ class EntryDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        // Prepare to create or update a new journal entry
+        updateViews()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    // MARK: - Private Functions
+    private func updateViews() {
+        
     }
-    */
-
+    
+    // MARK: - Save Button
+    @IBAction func saveButtonTapped(_ sender: Any) {
+    }
+    
+    // MARK: - Properties
+    var entryController: EntryController?
+    var entry: Entry? { didSet {updateViews()} }
+    
+    // MARK: - Outlets
+    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var saveButton: UIBarButtonItem!
+    
 }

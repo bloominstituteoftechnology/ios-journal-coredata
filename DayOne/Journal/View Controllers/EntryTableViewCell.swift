@@ -20,5 +20,11 @@ class EntryTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
+    
+    // MARK: - Outlets
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var timestampLabel: UILabel!
+    @IBOutlet weak var bodyLabel: UILabel!
+    
 }
