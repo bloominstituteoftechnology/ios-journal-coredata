@@ -94,28 +94,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ogw-xs-kDS">
-                                <rect key="frame" x="0.0" y="98" width="424" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="VyM-3x-fGn">
-                                <rect key="frame" x="10" y="138" width="414" height="748"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="PW5-Hn-4ut">
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ogw-xs-kDS">
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="Hs7-VY-ehG">
+                                        <rect key="frame" x="0.0" y="40" width="414" height="29"/>
+                                        <segments>
+                                            <segment title="☹️"/>
+                                            <segment title="😐"/>
+                                            <segment title="😀"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="VyM-3x-fGn">
+                                        <rect key="frame" x="0.0" y="78" width="414" height="730"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="VyM-3x-fGn" firstAttribute="trailing" secondItem="wAJ-Yc-6g2" secondAttribute="trailing" constant="10" id="5kU-0t-Xi7"/>
-                            <constraint firstItem="VyM-3x-fGn" firstAttribute="top" secondItem="ogw-xs-kDS" secondAttribute="bottom" constant="10" id="TNh-cj-tLj"/>
-                            <constraint firstItem="ogw-xs-kDS" firstAttribute="trailing" secondItem="wAJ-Yc-6g2" secondAttribute="trailing" constant="10" id="Wm2-QJ-8ie"/>
-                            <constraint firstAttribute="bottom" secondItem="VyM-3x-fGn" secondAttribute="bottom" constant="10" id="YSR-iP-yk3"/>
-                            <constraint firstItem="VyM-3x-fGn" firstAttribute="leading" secondItem="wAJ-Yc-6g2" secondAttribute="leading" constant="10" id="gPH-fo-8CW"/>
-                            <constraint firstItem="ogw-xs-kDS" firstAttribute="leading" secondItem="wAJ-Yc-6g2" secondAttribute="leading" id="rH9-ud-0MK"/>
-                            <constraint firstItem="ogw-xs-kDS" firstAttribute="top" secondItem="wAJ-Yc-6g2" secondAttribute="top" constant="10" id="tXO-5f-6BH"/>
+                            <constraint firstItem="PW5-Hn-4ut" firstAttribute="trailing" secondItem="wAJ-Yc-6g2" secondAttribute="trailing" id="8xu-ky-pOw"/>
+                            <constraint firstItem="PW5-Hn-4ut" firstAttribute="top" secondItem="wAJ-Yc-6g2" secondAttribute="top" id="W2U-uR-pFv"/>
+                            <constraint firstAttribute="bottom" secondItem="PW5-Hn-4ut" secondAttribute="bottom" id="kPe-FR-4mQ"/>
+                            <constraint firstItem="PW5-Hn-4ut" firstAttribute="leading" secondItem="wAJ-Yc-6g2" secondAttribute="leading" id="wez-rB-LhA"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="wAJ-Yc-6g2"/>
                     </view>
@@ -127,6 +137,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="moodSegmentedControl" destination="Hs7-VY-ehG" id="keF-EQ-Imm"/>
                         <outlet property="textView" destination="VyM-3x-fGn" id="RO4-hy-TfO"/>
                         <outlet property="titleTextField" destination="ogw-xs-kDS" id="EAb-Km-ZIQ"/>
                     </connections>
