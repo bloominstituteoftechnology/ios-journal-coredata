@@ -21,7 +21,7 @@ class EntryController {
             let moc = CoreDataStack.shared.mainContext
             try moc.save()
         }catch {
-            NSLog("Error saving managed object context: \(error)")
+            print("Error saving managed object context: \(error)")
         }
     
     }

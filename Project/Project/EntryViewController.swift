@@ -22,7 +22,7 @@ class EntryViewController: UIViewController {
     @IBOutlet weak var titleTextField: UITextField!
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        updateViews()
         // Do any additional setup after loading the view.
     }
 
@@ -59,7 +59,7 @@ class EntryViewController: UIViewController {
         } else {
             entryController?.createEntry(title: title, bodyText: textInput)
         }
-       
+        
         navigationController?.popViewController(animated: true)
 
 
