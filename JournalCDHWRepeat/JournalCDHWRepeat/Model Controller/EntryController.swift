@@ -158,7 +158,7 @@ class EntryController {
                         self.updateCheck(entry: entry, entryRep: entryRep)
                     } else {
                         //there is not an entry in core data but there is on the server so we have to create an entry and save it to core data
-                        let entryToSaveToCoreData = Entry(entryRepresentation: entryRep)
+                        let _ = Entry(entryRepresentation: entryRep)
                         //if something happens then check the context in the initializer
                         //why don't we call create entry function right here?
                     }

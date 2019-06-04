@@ -61,9 +61,6 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         if editingStyle == .delete {
             let entryToDelete = fetchedResultsController.object(at: indexPath)
             ec.delete(entry: entryToDelete)
-            
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
    
