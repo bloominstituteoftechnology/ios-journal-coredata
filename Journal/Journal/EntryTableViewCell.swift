@@ -11,11 +11,14 @@ import UIKit
 class EntryTableViewCell: UITableViewCell {
 
 
+
     func updateViews() {
-        guard let timeStamp = entry?.timeStamp else { return }
         titleLabel.text = entry?.title
-        timestampLabel.text = "\(timeStamp)"
         bodyLabel.text = entry?.bodyText
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy"
+        timestampLabel.text = dateFormatter.string(from: entry?.timestamp ?? Date())
     }
 
     override func awakeFromNib() {

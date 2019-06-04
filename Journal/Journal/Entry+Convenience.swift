@@ -13,11 +13,11 @@ extension Entry {
 
 
 
-    convenience init(title: String, timeStamp: Date, identifier: String = UUID().uuidString, bodyText: String? = nil, context: NSManagedObjectContext = CoreDataStack.shared.mainContext ) {
+    convenience init(title: String, timestamp: Date = Date(), identifier: UUID = UUID(), bodyText: String? = nil, context: NSManagedObjectContext = CoreDataStack.shared.mainContext ) {
 
         self.init(context: context)
         self.title = title
-        self.timeStamp = timeStamp
+        self.timestamp = timestamp
         self.identifier = identifier
         self.bodyText = bodyText
 

@@ -12,7 +12,7 @@ import CoreData
 class EntryController {
 
     func createEntry(title: String, bodyText: String) {
-        _ = Entry(title: title, timeStamp: Date(), bodyText: bodyText)
+        let _ = Entry(title: title, bodyText: bodyText)
         saveToPersistentStore()
     }
 
@@ -20,7 +20,7 @@ class EntryController {
 
         entry.title = title
         entry.bodyText = bodyText
-        entry.timeStamp = Date()
+        entry.timestamp = Date()
 
         saveToPersistentStore()
     }
