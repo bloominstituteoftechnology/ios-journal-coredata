@@ -33,13 +33,15 @@ class EntryDetailViewController: UIViewController {
     
     @IBAction func saveEntry(_ sender: UIBarButtonItem) {
         guard let title = titleTF.text, !title.isEmpty, let body = bodyTV.text, !body.isEmpty, let ec = ec else { print("Something wrong"); return }
+        let segmentedIndex = segmentProperties.selectedSegmentIndex
+        let mood = EntryMood.allMoods[segmentedIndex]
         
         if let passedInEntry = entry {
             //update entry
-            ec.update(entry: passedInEntry, newTitle: title, newBody: body)
+            ec.update(entry: passedInEntry, newTitle: title, newBody: body, newMood: mood)
         } else {
             //create a new entry
-            ec.createEntry(title: title, bodyText: body)
+            ec.createEntry(title: title, bodyText: body, mood: mood)
         }
         navigationController?.popViewController(animated: true)
     }
@@ -49,5 +51,9 @@ class EntryDetailViewController: UIViewController {
         titleTF.text = passedInEntry.title
         bodyTV.text = passedInEntry.bodyText
         title = passedInEntry.title
+        
+        if let entryMood = passedInEntry.mood, let mood = EntryMood(rawValue: entryMood){
+            segmentProperties.selectedSegmentIndex = EntryMood.allMoods.firstIndex(of: mood) ?? 0
+        }
     }
 }
