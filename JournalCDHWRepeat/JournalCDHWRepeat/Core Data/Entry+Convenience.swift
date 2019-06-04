@@ -40,6 +40,7 @@ extension Entry {
     
     //this computed property should convert an entry to a entryRep
     //Entry -> EntryRepresentation -> JSON
+    //this should simply return an entryRepresentation object that is intialized from the values of the entry.
     var entryRep: EntryRepresentation? {
         guard let title = title, let bodyText = bodyText, let identifier = identifier, let mood = mood else { return nil }
         return EntryRepresentation(title: title, bodyText: bodyText, timestamp: timestamp ?? Date(), identifier: identifier, mood: mood)
