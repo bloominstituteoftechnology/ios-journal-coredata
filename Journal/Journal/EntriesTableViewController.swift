@@ -2,8 +2,8 @@
 //  EntriesTableViewController.swift
 //  Project
 //
-//  Created by Ryan Murphy on 6/3/19.
-//  Copyright © 2019 Ryan Murphy. All rights reserved.
+//  Created by Jonathan Ferrer on 6/3/19.
+//  Copyright © 2019 Jonathan Ferrer. All rights reserved.
 //
 
 import UIKit
