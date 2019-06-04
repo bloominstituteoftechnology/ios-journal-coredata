@@ -43,6 +43,7 @@ class EntryDetailViewController: UIViewController {
     
     // MARK: - Properties
    
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var textView: UITextView!
     
