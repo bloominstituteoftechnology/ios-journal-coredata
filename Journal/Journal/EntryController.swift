@@ -11,16 +11,17 @@ import CoreData
 
 class EntryController {
 
-    func createEntry(title: String, bodyText: String) {
-        let _ = Entry(title: title, bodyText: bodyText)
+    func createEntry(title: String, bodyText: String, mood: String) {
+        let _ = Entry(title: title, bodyText: bodyText, mood: mood)
         saveToPersistentStore()
     }
 
-    func updateEntry(entry: Entry, title: String, bodyText: String) {
+    func updateEntry(entry: Entry, title: String, bodyText: String, mood: String) {
 
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = Date()
+        entry.mood = mood
 
         saveToPersistentStore()
     }
@@ -40,19 +41,19 @@ class EntryController {
     }
 
 
-    func loadFromPersistentStore() -> [Entry] {
-
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
-
-        do {
-            return try moc.fetch(fetchRequest)
-
-        } catch  {
-            NSLog("Error fetching entry: \(error)")
-            return []
-        }
-    }
+//    func loadFromPersistentStore() -> [Entry] {
+//
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let moc = CoreDataStack.shared.mainContext
+//
+//        do {
+//            return try moc.fetch(fetchRequest)
+//
+//        } catch  {
+//            NSLog("Error fetching entry: \(error)")
+//            return []
+//        }
+//    }
 
     func saveToPersistentStore() {
 
@@ -66,10 +67,10 @@ class EntryController {
 
     }
 
-    var entries: [Entry] {
-        let loadedData = loadFromPersistentStore()
-        return loadedData
-    }
+//    var entries: [Entry] {
+//        let loadedData = loadFromPersistentStore()
+//        return loadedData
+//    }
 
 
 }

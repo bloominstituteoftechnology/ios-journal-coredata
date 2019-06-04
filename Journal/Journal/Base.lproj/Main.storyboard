@@ -29,13 +29,13 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="kMy-Bi-Fqh">
                                             <rect key="frame" x="40" y="11" width="334" height="91"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hB5-yj-1dF">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hB5-yj-1dF">
                                                     <rect key="frame" x="0.0" y="0.0" width="334" height="34"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yQZ-rh-Rag">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yQZ-rh-Rag">
                                                     <rect key="frame" x="0.0" y="42" width="334" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
@@ -93,11 +93,19 @@
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xcR-jb-MCv">
                                 <rect key="frame" x="20" y="123" width="374" height="30"/>
                                 <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="fQp-fG-vi5">
+                                <rect key="frame" x="20" y="161" width="374" height="29"/>
+                                <segments>
+                                    <segment title="🍕"/>
+                                    <segment title="🍔"/>
+                                    <segment title="🌮"/>
+                                </segments>
+                            </segmentedControl>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="uZd-Nv-6cd">
-                                <rect key="frame" x="20" y="190" width="374" height="304"/>
+                                <rect key="frame" x="20" y="197" width="374" height="297"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -105,9 +113,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="uZd-Nv-6cd" firstAttribute="top" secondItem="fQp-fG-vi5" secondAttribute="bottom" constant="8" id="3yQ-so-9OO"/>
                             <constraint firstItem="whr-QH-e3d" firstAttribute="bottom" secondItem="uZd-Nv-6cd" secondAttribute="bottom" constant="368" id="MN5-RZ-NdM"/>
                             <constraint firstItem="xcR-jb-MCv" firstAttribute="leading" secondItem="whr-QH-e3d" secondAttribute="leading" constant="20" id="WPN-kT-eW4"/>
-                            <constraint firstItem="uZd-Nv-6cd" firstAttribute="top" secondItem="xcR-jb-MCv" secondAttribute="bottom" constant="37" id="dqd-53-KbT"/>
+                            <constraint firstItem="fQp-fG-vi5" firstAttribute="leading" secondItem="whr-QH-e3d" secondAttribute="leading" constant="20" id="cvT-PA-Phr"/>
+                            <constraint firstItem="whr-QH-e3d" firstAttribute="trailing" secondItem="fQp-fG-vi5" secondAttribute="trailing" constant="20" id="fmK-xU-aKT"/>
+                            <constraint firstItem="fQp-fG-vi5" firstAttribute="top" secondItem="xcR-jb-MCv" secondAttribute="bottom" constant="8" id="hzh-z1-yE0"/>
                             <constraint firstItem="whr-QH-e3d" firstAttribute="trailing" secondItem="uZd-Nv-6cd" secondAttribute="trailing" constant="20" id="k1W-gl-SB2"/>
                             <constraint firstItem="uZd-Nv-6cd" firstAttribute="leading" secondItem="whr-QH-e3d" secondAttribute="leading" constant="20" id="lzI-DG-EY1"/>
                             <constraint firstItem="xcR-jb-MCv" firstAttribute="top" secondItem="whr-QH-e3d" secondAttribute="top" constant="35" id="mmf-jw-iGS"/>
@@ -124,6 +135,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bodyTextView" destination="uZd-Nv-6cd" id="nU0-mx-gVE"/>
+                        <outlet property="moodSegmentedControl" destination="fQp-fG-vi5" id="d2K-gQ-nwF"/>
                         <outlet property="titleTextField" destination="xcR-jb-MCv" id="oay-wk-IoC"/>
                     </connections>
                 </viewController>
