@@ -163,7 +163,7 @@ class EntryController {
                         //why don't we call create entry function right here?
                     }
                 }
-                try CoreDataStack.shared.mainContext.save()
+                self.saveToPersistentStore()
             } catch {
                 print("checking to see if entry is in core data and the server: \(error.localizedDescription)")
                 completion(error)
