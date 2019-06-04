@@ -1,6 +1,6 @@
 //
 //  Entry+Convenience.swift
-//  Journal
+//  Journal - Day 2
 //
 //  Created by Sameera Roussi on 6/3/19.
 //  Copyright © 2019 Sameera Roussi. All rights reserved.
