@@ -38,5 +38,18 @@ class EntryController {
         } catch  {
             print("Error saving to persistent stores:\(error.localizedDescription)")
         }
-    }    
+    }
+    
+    //MARK: FIREBASE Functionality - DAY 3...
+    let baseUrl = URL(string: "https://journalcd-f7246.firebaseio.com/")!
+    
+    func put(entry: Entry, completion: @escaping (Error?) -> Void = {_ in }){
+        guard let identifier = entry.identifier else { print("error with identifier"); return }
+        let url = baseUrl.appendingPathComponent(identifier).appendingPathExtension("json")
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        
+        
+    }
 }

@@ -30,4 +30,18 @@ extension Entry {
         self.identifier = identiifier
         self.mood = mood.rawValue
     }
+    
+    //this should take an EntryRepresentation parameter and initialize an Entry
+    //Json -> EntryRepresentation -> Entry
+    convenience init?(entryRepresentation: EntryRepresentation){
+        guard let mood = EntryMood(rawValue: entryRepresentation.mood) else { return nil }
+        self.init(title: entryRepresentation.title, bodyText: entryRepresentation.bodyText, timestamp: entryRepresentation.timestamp, identiifier: entryRepresentation.identifier, mood: mood) //leaving out context for now
+    }
+    
+    //this computed property should convert an entry to a entryRep
+    //Entry -> EntryRepresentation -> JSON
+    var entryRep: EntryRepresentation? {
+        guard let title = title, let bodyText = bodyText, let identifier = identifier, let mood = mood else { return nil }
+        return EntryRepresentation(title: title, bodyText: bodyText, timestamp: timestamp ?? Date(), identifier: identifier, mood: mood)
+    }
 }
