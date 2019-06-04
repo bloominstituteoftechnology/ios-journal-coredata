@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="72" id="Urc-t7-xyN">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="72" id="Urc-t7-xyN" customClass="EntryTableViewCell" customModule="Project" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="72"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Urc-t7-xyN" id="fIU-Zw-v6R">
@@ -67,6 +67,9 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="previewLabel" destination="naw-SL-7qZ" id="htl-xS-CQz"/>
+                                    <outlet property="timestampLabel" destination="VDa-Jh-2iM" id="mUr-nr-nqf"/>
+                                    <outlet property="titleLabel" destination="wWw-8z-Q22" id="w6l-WA-RKF"/>
                                     <segue destination="nUM-RV-aHY" kind="show" identifier="ViewSegue" id="ZUN-Fi-Gax"/>
                                 </connections>
                             </tableViewCell>
