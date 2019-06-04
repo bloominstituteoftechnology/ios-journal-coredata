@@ -13,16 +13,6 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     
-    enum Mood: String {
-        case sad = "☹️"
-        case neutral = "😐"
-        case happy = "😀"
-        
-        static var allMoods: [Mood] {
-            return [.sad, .neutral, .happy]
-        }
-    }
-    
     var entry: Entry? {
         didSet {
             updateViews()
@@ -30,23 +20,21 @@ class EntryDetailViewController: UIViewController {
     }
     var entryController: EntryController?
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         updateViews()
     }
     
-    @IBAction func save(_ sender: UIBarButtonItem) {
-        guard let entryTitle = titleTextField.text,
-            !entryTitle.isEmpty,
-        let entryText = textView.text,
-            !entryText.isEmpty else { return }
-        let mood = Mood.allMoods[moodSegmentedControl.selectedSegmentIndex]
+    @IBAction func save(_ sender: Any) {
+        guard let titleText = titleTextField.text, let bodyText = textView.text else { return }
         
+        let mood = Mood.allMoods[moodSegmentedControl.selectedSegmentIndex]
         if let entry = entry {
-            entryController?.update(entry: entry, title: entryTitle, bodyText: entryText, mood: mood.rawValue)
+            entryController?.update(entry: entry, title: titleText, bodyText: bodyText, mood: mood.rawValue)
         } else {
-            entryController?.createEntry(title: entryTitle, bodyText: entryText, mood: mood.rawValue)
+            entryController?.createEntry(title: titleText, bodyText: bodyText, mood: mood.rawValue)
         }
         navigationController?.popViewController(animated: true)
     }
@@ -62,6 +50,5 @@ class EntryDetailViewController: UIViewController {
         title = entry?.title ?? "Create Entry"
         titleTextField.text = entry?.title
         textView.text = entry?.bodyText
-        
     }
 }
