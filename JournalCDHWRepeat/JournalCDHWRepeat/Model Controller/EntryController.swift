@@ -13,7 +13,8 @@ class EntryController {
     
     
     func createEntry(title: String, bodyText: String, mood: EntryMood){
-        let _ = Entry(title: title, bodyText: bodyText, mood: mood)
+        let newEntry = Entry(title: title, bodyText: bodyText, mood: mood)
+        put(entry:newEntry )
         saveToPersistentStore()
     }
     
@@ -22,11 +23,13 @@ class EntryController {
         entry.bodyText = newBody
         entry.timestamp = newTimestamp
         entry.mood = newMood.rawValue
+        put(entry: entry) // does this go before the save func?
         saveToPersistentStore()
     }
     
     func delete(entry: Entry){
         CoreDataStack.shared.mainContext.delete(entry)
+        deleteEntryFromServer(entry: entry)
         saveToPersistentStore()
     }
     
@@ -74,4 +77,61 @@ class EntryController {
             completion(nil)
         }.resume()
     }
+    
+    func deleteEntryFromServer(entry: Entry, completion: @escaping (Error?) -> Void = {_ in }){
+        guard let identifier = entry.identifier else { print("error with identifier"); completion(NSError()); return }
+        let url = baseUrl.appendingPathComponent(identifier).appendingPathExtension("json")
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (_, response, error) in
+            if let response = response as? HTTPURLResponse {
+                print("This is the deletion response :\(response.statusCode)")
+            }
+            
+            if let error = error {
+                print("Error deleting the entry from server: \(error.localizedDescription)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
+    }
+    
+    //MARK: CHECKING CORE DATA AND SERVER
+    func updateCheck(entry: Entry, entryRep: EntryRepresentation){
+        //this should set each of the Entry's values to the ER/s corresponding values. Dont call save to persistent store inthis function
+        entry.title = entryRep.title
+        entry.bodyText = entryRep.bodyText
+        entry.mood = entryRep.mood
+        entry.timestamp = entryRep.timestamp
+        //do i need the identifier?
+        entry.identifier = entryRep.identifier
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
