@@ -99,8 +99,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="de0-Aq-VIb">
+                                <rect key="frame" x="20" y="210" width="374" height="652"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="de0-Aq-VIb" secondAttribute="height" multiplier="187:326" id="A0O-Li-2VW"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="8ZF-C0-EMT">
+                                <rect key="frame" x="20" y="110" width="374" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="8ZF-C0-EMT" secondAttribute="height" multiplier="187:14" id="UWa-qr-QIj"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="🤩"/>
+                                    <segment title="🧐"/>
+                                    <segment title="😖"/>
+                                </segments>
+                            </segmentedControl>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TnP-Lg-5fA">
-                                <rect key="frame" x="20" y="120" width="374" height="30"/>
+                                <rect key="frame" x="20" y="160" width="374" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="TnP-Lg-5fA" secondAttribute="height" multiplier="187:15" id="RHI-EX-C6n"/>
                                 </constraints>
@@ -108,23 +128,16 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="de0-Aq-VIb">
-                                <rect key="frame" x="20" y="171" width="374" height="691"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="de0-Aq-VIb" secondAttribute="height" multiplier="374:691" id="byt-1l-ERl"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="9Eh-NW-Nrg" firstAttribute="trailing" secondItem="de0-Aq-VIb" secondAttribute="trailing" constant="20" id="7OV-od-grN"/>
                             <constraint firstItem="de0-Aq-VIb" firstAttribute="leading" secondItem="9Eh-NW-Nrg" secondAttribute="leading" constant="20" id="FAP-Ox-9gi"/>
+                            <constraint firstItem="8ZF-C0-EMT" firstAttribute="leading" secondItem="9Eh-NW-Nrg" secondAttribute="leading" constant="20" id="HYp-IU-VdC"/>
                             <constraint firstItem="TnP-Lg-5fA" firstAttribute="leading" secondItem="9Eh-NW-Nrg" secondAttribute="leading" constant="20" id="KUM-tB-95i"/>
-                            <constraint firstItem="TnP-Lg-5fA" firstAttribute="top" secondItem="9Eh-NW-Nrg" secondAttribute="top" constant="32" id="Z9p-If-SFa"/>
+                            <constraint firstItem="8ZF-C0-EMT" firstAttribute="top" secondItem="9Eh-NW-Nrg" secondAttribute="top" constant="22" id="Xer-Ss-xXN"/>
                             <constraint firstItem="de0-Aq-VIb" firstAttribute="bottom" secondItem="9Eh-NW-Nrg" secondAttribute="bottom" id="dFt-Sd-I4J"/>
+                            <constraint firstItem="TnP-Lg-5fA" firstAttribute="top" secondItem="8ZF-C0-EMT" secondAttribute="bottom" constant="22" id="xUz-Da-GeJ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="9Eh-NW-Nrg"/>
                     </view>
@@ -137,6 +150,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="journalTextView" destination="de0-Aq-VIb" id="QlU-G7-Hi6"/>
+                        <outlet property="moodSegmentedControl" destination="8ZF-C0-EMT" id="FFb-4Q-lWr"/>
                         <outlet property="titleTextField" destination="TnP-Lg-5fA" id="yQf-8L-Zwi"/>
                     </connections>
                 </viewController>
@@ -164,6 +178,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="ZUN-Fi-Gax"/>
+        <segue reference="6wZ-ee-amg"/>
     </inferredMetricsTieBreakers>
 </document>

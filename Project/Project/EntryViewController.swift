@@ -11,6 +11,7 @@ import UIKit
 
 class EntryViewController: UIViewController {
     
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     var entryController: EntryController?
     var entry: Entry? {
         didSet {
@@ -28,14 +29,23 @@ class EntryViewController: UIViewController {
 
     private func updateViews() {
         if isViewLoaded {
+            
             guard let entry = entry else {
                 title  = "Create Entry"
                 titleTextField.becomeFirstResponder()
                 return
             }
+            
+            let mood: Mood
+            if let entryMood = entry.mood {
+                mood = Mood(rawValue: entryMood)!
+            } else {
+                mood = .🧐
+            }
             title = entry.title
             titleTextField.text = entry.title
             journalTextView.text = entry.bodyText
+            moodSegmentedControl.selectedSegmentIndex = Mood.allMoods.firstIndex(of: mood)!
         }
     }
     
@@ -53,11 +63,14 @@ class EntryViewController: UIViewController {
         }
         
         let textInput = journalTextView.text ?? ""
+        let moodIndex = moodSegmentedControl.selectedSegmentIndex
+        let mood = Mood.allMoods[moodIndex]
+        
         
         if let entry = entry {
-            entryController?.updateEntry(entry: entry, title: title, bodyText: textInput)
+            entryController?.updateEntry(entry: entry, title: title, bodyText: textInput, mood: mood )
         } else {
-            entryController?.createEntry(title: title, bodyText: textInput)
+            entryController?.createEntry(title: title, bodyText: textInput, mood: mood)
         }
         
         navigationController?.popViewController(animated: true)
