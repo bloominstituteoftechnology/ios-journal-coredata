@@ -22,6 +22,7 @@ class EntriesTableViewController: UITableViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+//        print(entryController.entries)
         tableView.reloadData()
     }
 

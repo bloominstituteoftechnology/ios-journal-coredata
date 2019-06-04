@@ -47,7 +47,7 @@ class EntryController {
         do {
             return try moc.fetch(fetchRequest)
         } catch  {
-            NSLog("Error fetching tasks: \(error)")
+            NSLog("Error fetching entries: \(error)")
             return []
         }
 
@@ -58,10 +58,11 @@ class EntryController {
         do {
             let moc = CoreDataStack.shared.mainContext
             try moc.save()
+            print("Saved Entry")
         } catch {
             NSLog("Error saving managed object contex: \(error)")
         }
-        
+
     }
 
     var entries: [Entry] {
