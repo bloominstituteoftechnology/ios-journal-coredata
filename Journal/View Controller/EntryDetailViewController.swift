@@ -13,7 +13,21 @@ class EntryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        updateViews()
+    }
+    
+    // MARK: - Methods
+    
+    func updateViews() {
+        guard isViewLoaded else { return }
+        
+        if let entry = entry {
+            titleTextField.text = entry.title
+            journalTextView.text = entry.bodyText
+            title = entry.title
+        } else {
+            title = "Create Entry"
+        }
     }
     
 
@@ -27,13 +41,25 @@ class EntryDetailViewController: UIViewController {
     }
     */
     @IBAction func saveButtonPressed(_ sender: Any) {
+        guard let title = titleTextField.text, !title.isEmpty,
+            let bodyText = journalTextView.text, !bodyText.isEmpty else { return }
         
+        if let entry = entry {
+            entryController?.update(entry: entry, title: title, bodyText: bodyText)
+        } else {
+            entryController?.create(journal: title, bodyText: bodyText, timestamp: Date(), identifier: UUID().uuidString)
+        }
+        navigationController?.popViewController(animated: true)
     }
     
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var journalTextView: UITextView!
     
-    var entry: Entry?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
     var entryController: EntryController?
 }

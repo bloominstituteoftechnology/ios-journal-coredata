@@ -58,9 +58,7 @@ class EntryController {
     
     // MARK: - Properties
     
-    var entries: [Entry] = [] {
-        didSet {
-             loadFromPersistantStore()
-        }
+    var entries: [Entry] {
+       return loadFromPersistantStore()
     }
 }
