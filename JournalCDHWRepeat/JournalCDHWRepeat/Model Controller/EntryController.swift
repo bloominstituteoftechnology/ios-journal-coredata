@@ -11,9 +11,6 @@ import CoreData
 
 class EntryController {
     
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
     
     func createEntry(title: String, bodyText: String, mood: EntryMood){
         let _ = Entry(title: title, bodyText: bodyText, mood: mood)
@@ -41,29 +38,5 @@ class EntryController {
         } catch  {
             print("Error saving to persistent stores:\(error.localizedDescription)")
         }
-    }
-    
-    func loadFromPersistentStore() -> [Entry] {
-        let moc = CoreDataStack.shared.mainContext
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        var results: [Entry]
-        do {
-            results = try moc.fetch(fetchRequest)
-            return results
-        } catch  {
-            print("Error loading from persistent store: \(error.localizedDescription)")
-            return []
-        }
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+    }    
 }
