@@ -44,13 +44,14 @@ class EntryController {
 
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         let moc = CoreDataStack.shared.mainContext
+
         do {
             return try moc.fetch(fetchRequest)
+
         } catch  {
-            NSLog("Error fetching entries: \(error)")
+            NSLog("Error fetching entry: \(error)")
             return []
         }
-
     }
 
     func saveToPersistentStore() {

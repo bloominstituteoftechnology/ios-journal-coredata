@@ -66,4 +66,5 @@ class EntriesTableViewController: UITableViewController {
     }
 
     let entryController = EntryController()
+    
 }
