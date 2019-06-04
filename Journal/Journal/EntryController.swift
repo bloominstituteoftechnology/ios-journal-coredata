@@ -27,7 +27,7 @@ class EntryController {
     func delete(entry: Entry) {
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
-        saveToPersistentStore()
+        
     }
     
     func saveToPersistentStore() {
