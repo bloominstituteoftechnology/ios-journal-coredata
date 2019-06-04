@@ -22,17 +22,17 @@ class EntryController {
         }
     }
     
-    func loadFromPersistantStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
-        
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            NSLog("Error fetching tasks: \(error)")
-            return []
-        }
-    }
+//    func loadFromPersistantStore() -> [Entry] {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let moc = CoreDataStack.shared.mainContext
+//
+//        do {
+//            return try moc.fetch(fetchRequest)
+//        } catch {
+//            NSLog("Error fetching tasks: \(error)")
+//            return []
+//        }
+//    }
     
     func create(journal title: String, bodyText: String, timestamp: Date, identifier: String, mood: String) {
         let _ = Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier, mood: mood)
@@ -58,8 +58,4 @@ class EntryController {
     }
     
     // MARK: - Properties
-    
-    var entries: [Entry] {
-       return loadFromPersistantStore()
-    }
 }
