@@ -44,10 +44,13 @@ class EntryDetailViewController: UIViewController {
         guard let title = titleTextField.text, !title.isEmpty,
             let bodyText = journalTextView.text, !bodyText.isEmpty else { return }
         
+        let moodIndex = moodControl.selectedSegmentIndex
+        let mood = Mood.allMoods[moodIndex]
+        
         if let entry = entry {
-            entryController?.update(entry: entry, title: title, bodyText: bodyText)
+            entryController?.update(entry: entry, title: title, bodyText: bodyText, mood: mood.rawValue)
         } else {
-            entryController?.create(journal: title, bodyText: bodyText, timestamp: Date(), identifier: UUID().uuidString)
+            entryController?.create(journal: title, bodyText: bodyText, timestamp: Date(), identifier: UUID().uuidString, mood: mood.rawValue)
         }
         navigationController?.popViewController(animated: true)
     }
@@ -55,6 +58,7 @@ class EntryDetailViewController: UIViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var journalTextView: UITextView!
+    @IBOutlet weak var moodControl: UISegmentedControl!
     
     var entry: Entry? {
         didSet {

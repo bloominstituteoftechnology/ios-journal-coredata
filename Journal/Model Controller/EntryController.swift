@@ -34,16 +34,17 @@ class EntryController {
         }
     }
     
-    func create(journal title: String, bodyText: String, timestamp: Date, identifier: String) {
-        let _ = Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier)
+    func create(journal title: String, bodyText: String, timestamp: Date, identifier: String, mood: String) {
+        let _ = Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier, mood: mood)
         saveToPersistantStore()
     }
     
-    func update(entry: Entry, title: String, bodyText: String) {
+    func update(entry: Entry, title: String, bodyText: String, mood: String) {
         let entry = entry
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = Date()
+        entry.mood = mood
         
         saveToPersistantStore()
         
