@@ -55,7 +55,67 @@ class EntryController {
         if let moc = entry.managedObjectContext {
             moc.delete(entry)
             saveToPersistantStore()
+            deleteEntryFromServer(entry: entry)
         }
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = {_ in}) {
+        
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "GET"
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            
+            if let error = error {
+                NSLog("Error fetching entries: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned by data task")
+                completion(NSError())
+                return
+            }
+            
+            
+            DispatchQueue.main.async {
+                
+                do {
+                    let entryRepresentationDict = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
+                    let entryReperesentations = Array(entryRepresentationDict.values)
+                    
+                    
+                    for entryRep in entryReperesentations {
+                        let identifier = entryRep.identifier
+                        if let entry = self.fetchSingleEntryFromPersistentStore(identifier: identifier) {
+                            self.update(entry: entry, with: entryRep)
+                        } else {
+                            let _ = Entry(entryRepresentation: entryRep)
+                        }
+                    }
+                    
+                    self.saveToPersistantStore()
+                } catch {
+                    NSLog("Error decoding task \(error)")
+                    completion(error)
+                    return
+                }
+                completion(nil)
+            }
+            }.resume()
+        
+    }
+    
+    func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
+        let moc = CoreDataStack.shared.mainContext
+        return (try? moc.fetch(fetchRequest))?.first
+        
     }
     
     func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = {_ in }) {
@@ -63,7 +123,7 @@ class EntryController {
         let uuid = entry.identifier ?? UUID().uuidString
         entry.identifier = uuid
         
-        guard let requestURL = baseURL?.appendingPathComponent(uuid).appendingPathExtension("json") else { return }
+        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
         
@@ -83,7 +143,7 @@ class EntryController {
         let uuid = entry.identifier ?? UUID().uuidString
         entry.identifier = uuid
         
-        guard let requestURL = baseURL?.appendingPathComponent(uuid).appendingPathExtension("json") else { return }
+        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
         
@@ -109,8 +169,15 @@ class EntryController {
         }.resume()
     }
     
+    func update(entry: Entry, with representation: EntryRepresentation) {
+        entry.title = representation.title
+        entry.bodyText = representation.bodyText
+        entry.timestamp = representation.timestamp
+        entry.mood =  representation.mood
+    }
+    
     // MARK: - Properties
     
     typealias CompletionHandler = (Error?) -> Void
-    let baseURL = URL(string: "https://journal-a251f.firebaseio.com/")
+    let baseURL = URL(string: "https://journal-a251f.firebaseio.com/")!
 }
