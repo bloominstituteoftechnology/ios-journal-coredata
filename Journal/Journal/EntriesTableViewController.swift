@@ -16,7 +16,6 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
     }
     @IBAction func refresh(_ sender: UIRefreshControl) {
 
