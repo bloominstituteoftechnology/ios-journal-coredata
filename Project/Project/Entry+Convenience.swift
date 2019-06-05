@@ -31,6 +31,24 @@ extension Entry {
         self.mood = mood.rawValue
         
     }
-    
+    convenience init(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        self.init(title: entryRepresentation.title, bodyText: entryRepresentation.bodyText, timestamp: entryRepresentation.timestamp, identifier: entryRepresentation.identifier, mood: Mood(rawValue: entryRepresentation.mood)!, context: context)
+        
+    }
 
+    
+    var entryRepresentation: EntryRepresentation? {
+        guard let title = title,
+            let moodString = mood,
+            let mood = Mood(rawValue: moodString),
+            let bodyText = bodyText,
+            let timestamp = timestamp else { return nil }
+        
+        // if the old data does not have an identifier, let's create one
+        if identifier == nil {
+            identifier =  UUID()
+        }
+        return EntryRepresentation(bodyText: bodyText, identifier: identifier!, mood: mood.rawValue, timestamp: timestamp, title: title)
+    }
 }
+

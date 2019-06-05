@@ -13,7 +13,7 @@ import CoreData
 class EntriesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
     var entryController = EntryController()
-    var entry: Entry?
+
     
     
     override func viewDidLoad() {
