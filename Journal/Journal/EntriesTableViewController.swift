@@ -15,14 +15,24 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.reloadData()
 
+
+    }
+    @IBAction func refresh(_ sender: UIRefreshControl) {
+
+        entryController.fetchEntriesFromServer() { (_) in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+                self.tableView.reloadData()
+            }
+        }
     }
 
     // MARK: - Table view data source
 
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
+        super.viewWillAppear(animated)
+
         tableView.reloadData()
     }
 
@@ -62,7 +72,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
             let entry = fetchedResultsdController.object(at: indexPath)
             let moc = CoreDataStack.shared.mainContext
             moc.delete(entry)
-
+            entryController.deleteEntry(entry: entry)
             do {
                 try moc.save()
                 tableView.reloadData()
@@ -151,5 +161,5 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     }()
 
     var entryController = EntryController()
-    var entry: Entry?
+   
 }
