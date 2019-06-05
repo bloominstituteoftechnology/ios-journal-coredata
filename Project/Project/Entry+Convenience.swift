@@ -35,8 +35,6 @@ extension Entry {
         self.init(title: entryRepresentation.title, bodyText: entryRepresentation.bodyText, timestamp: entryRepresentation.timestamp, identifier: entryRepresentation.identifier, mood: Mood(rawValue: entryRepresentation.mood)!, context: context)
         
     }
-
-    
     var entryRepresentation: EntryRepresentation? {
         guard let title = title,
             let moodString = mood,
