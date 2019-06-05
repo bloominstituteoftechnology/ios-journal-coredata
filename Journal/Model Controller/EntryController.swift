@@ -58,4 +58,5 @@ class EntryController {
     }
     
     // MARK: - Properties
+    // Hello
 }
