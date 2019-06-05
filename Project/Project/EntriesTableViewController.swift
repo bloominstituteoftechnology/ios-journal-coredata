@@ -117,13 +117,13 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
             let entry = fetchedResultsController.object(at: indexPath)
             let moc = CoreDataStack.shared.mainContext
             moc.delete(entry)
-            
+            entryController.delete(entry: entry)
             do {
                 try moc.save()
                 tableView.reloadData()
             } catch {
                 moc.reset()
-                NSLog("Error deleting context: \(error)")
+                NSLog("Error deleting contrext: \(error)")
             }
             
         }
