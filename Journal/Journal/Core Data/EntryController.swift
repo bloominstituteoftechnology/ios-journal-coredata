@@ -12,7 +12,7 @@ import CoreData
 class EntryController {
     
     init() {
-        //fetchEntriesFromServer()
+        fetchEntriesFromServer()
     }
     
     //MARK: - Methods
@@ -25,18 +25,6 @@ class EntryController {
             NSLog("Error saving managed object context: \(error)")
         }
     }
-    
-//    func loadFromPersistentStore() -> [Entry] {
-//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//        let moc = CoreDataStack.shared.mainContext
-//
-//        do {
-//            return try moc.fetch(fetchRequest)
-//        } catch {
-//            NSLog("Error fetching tasks: \(error)")
-//            return []
-//        }
-//    }
     
     func createEntry(title: String, bodyText: String, timestamp: Date, identifier: String, mood: Mood) {
         let entry = Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier, mood: mood)
@@ -58,64 +46,59 @@ class EntryController {
         deleteEntryFromServer(entry: entry)
         saveToPersistentStore()
     }
-    
-    // MARK: - Properties
-    
-//    var entries: [Entry] {
-//        return loadFromPersistentStore()
-//    }
-    
+
     // MARK: - Networking
     
     typealias CompletionHandler = (Error?) -> Void
     
     let baseURL = URL(string: "https://journal-72b8d.firebaseio.com/")!
     
-//    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in}) {
-//
-//        let requestURL = baseURL.appendingPathExtension("json")
-//
-//        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
-//            if let error = error {
-//                NSLog("Error fetching entries: \(error)")
-//                completion(error)
-//                return
-//            }
-//
-//            guard let data = data else {
-//                NSLog("No data returned by data task")
-//                completion(NSError())
-//                return
-//            }
-//
-//            DispatchQueue.main.async {
-//                do {
-//                    let entryRepresentationsDict = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
-//                    let entryRepresentations = Array(entryRepresentationsDict.values)
-//
-//                    for entryRep in entryRepresentations {
-//
-//                        let uuid = entryRep.identifier ?? UUID().uuidString
-//
-//                        if let entry = self.entry(forUUID: uuid) {
-//                            self.update(entry: entry, with: entryRep)
-//                        } else {
-//                            let _ = Entry(entryRepresentation: entryRep)
-//                        }
-//                    }
-//                    let moc = CoreDataStack.shared.mainContext
-//                    try moc.save()
-//                } catch {
-//                    NSLog("Error decoding entries: \(error)")
-//                    completion(error)
-//                    return
-//                }
-//
-//                completion(nil)
-//            }
-//            }.resume()
-//
-//    }
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in}) {
+
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "GET"
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching entries: \(error)")
+                completion(error)
+                return
+            }
+
+            guard let data = data else {
+                NSLog("No data returned by data task")
+                completion(NSError())
+                return
+            }
+
+            DispatchQueue.main.async {
+                do {
+                    let entryRepresentationsDict = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
+                    let entryRepresentations = Array(entryRepresentationsDict.values)
+
+                    for entryRep in entryRepresentations {
+
+                        let identifier = entryRep.identifier
+                        if let entry = self.fetchSingleEntryFromPersistentStore(identifier: identifier!) {
+                            self.update(entry: entry, with: entryRep)
+                        } else {
+                            let _ = Entry(entryRepresentation: entryRep)
+                        }
+                    }
+                    self.saveToPersistentStore()
+                } catch {
+                    NSLog("Error decoding entries: \(error)")
+                    completion(error)
+                    return
+                }
+
+                completion(nil)
+            }
+            }.resume()
+
+    }
     
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in}) {
         
@@ -165,6 +148,20 @@ class EntryController {
             completion(nil)
             }.resume()
         
+    }
+    
+    private func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
+        let moc = CoreDataStack.shared.mainContext
+        return (try? moc.fetch(fetchRequest))?.first
+    }
+    
+    func update(entry: Entry, with representation: EntryRepresentation) {
+        entry.title = representation.title
+        entry.bodyText = representation.bodyText
+        entry.timestamp = representation.timestamp
+        entry.mood = representation.mood
     }
     
 }
