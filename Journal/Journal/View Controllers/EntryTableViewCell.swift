@@ -1,6 +1,6 @@
 //
 //  EntryTableViewCell.swift
-//  Journal - Day One
+//  Journal - Day 2
 //
 //  Created by Sameera Roussi on 6/2/19.
 //  Copyright © 2019 Sameera Roussi. All rights reserved.
@@ -16,7 +16,7 @@ class EntryTableViewCell: UITableViewCell {
         guard let entry = entry else { return }
         
         // Got one!  Show it!
-        titleLabel.text = entry.title
+        titleLabel.text = entry.title ?? ""
         bodyLabel.text = entry.bodyText
         
         // Format the date and put it in a string
