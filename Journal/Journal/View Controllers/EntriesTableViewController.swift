@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CoreData
 
-class EntriesTableViewController: UITableViewController {
+class EntriesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
     // MARK: -View states
     override func viewDidLoad() {
@@ -60,6 +61,25 @@ class EntriesTableViewController: UITableViewController {
     }
         
 
+    // MARK: - NSFetchedResultsController
+    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending :true),
+                                              NSSortDescriptor(key: "title", ascending: true)]
+        let moc = CoreDataStack.shared.mainContext
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
+        frc.delegate = self
+        try!frc.performFetch()
+        return frc
+    }()
+    
+    
+    
+    
+    
+    
+    
+    
     // MARK: - Properties
     let entryController = EntryController()
 

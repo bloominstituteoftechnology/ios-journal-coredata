@@ -12,9 +12,9 @@ import CoreData
 class EntryController {
     
     // MARK: - Create local dataset
-    var entries: [Entry]  {
-        return loadFromPersistentStore()
-    }
+//    var entries: [Entry]  {
+//        return loadFromPersistentStore()
+//    }
     
     // MARK: - Persistent save
     func saveToPersistentStore() {
@@ -35,16 +35,16 @@ class EntryController {
     }
     
     // cRud
-    func loadFromPersistentStore() -> [Entry] {
-        let moc = CoreDataStack.shared.mainContext
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            print("Error fetching entries from persistent shares: \(error)")
-            return[]
-        }
-    }
+//    func loadFromPersistentStore() -> [Entry] {
+//        let moc = CoreDataStack.shared.mainContext
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        do {
+//            return try moc.fetch(fetchRequest)
+//        } catch {
+//            print("Error fetching entries from persistent shares: \(error)")
+//            return[]
+//        }
+//    }
     
     // crUd
     func update(entry: Entry, title: String, bodyText: String, mood: Mood) {
