@@ -96,31 +96,44 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KxR-tV-mCk">
-                                <rect key="frame" x="16" y="172" width="382" height="40"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="whP-0X-KU1"/>
-                                </constraints>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="eyi-Hp-sx4">
-                                <rect key="frame" x="16" y="244" width="382" height="408"/>
-                                <color key="backgroundColor" red="1" green="0.83216666669999995" blue="0.46999999999999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="JM7-bb-z3C">
+                                <rect key="frame" x="32" y="156" width="350" height="494"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="zjn-k1-sn0">
+                                        <rect key="frame" x="0.0" y="0.0" width="350" height="36"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="35" id="fhP-JP-DEu"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="😥"/>
+                                            <segment title="😐"/>
+                                            <segment title="🤗"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KxR-tV-mCk">
+                                        <rect key="frame" x="0.0" y="51" width="350" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="40" id="whP-0X-KU1"/>
+                                        </constraints>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="eyi-Hp-sx4">
+                                        <rect key="frame" x="0.0" y="107" width="350" height="387"/>
+                                        <color key="backgroundColor" red="1" green="0.83216666669999995" blue="0.46999999999999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="0.0048598507420000003" green="0.096086271109999996" blue="0.57499289509999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="BPp-wD-VFE" firstAttribute="trailing" secondItem="eyi-Hp-sx4" secondAttribute="trailing" constant="16" id="Cem-0C-hxN"/>
-                            <constraint firstItem="KxR-tV-mCk" firstAttribute="top" secondItem="BPp-wD-VFE" secondAttribute="top" constant="32" id="TjP-uw-apy"/>
-                            <constraint firstItem="BPp-wD-VFE" firstAttribute="trailing" secondItem="KxR-tV-mCk" secondAttribute="trailing" constant="16" id="YnA-lp-6A7"/>
-                            <constraint firstItem="eyi-Hp-sx4" firstAttribute="centerY" secondItem="MyP-VS-nPb" secondAttribute="centerY" id="aKk-rf-m7D"/>
-                            <constraint firstItem="eyi-Hp-sx4" firstAttribute="leading" secondItem="BPp-wD-VFE" secondAttribute="leading" constant="16" id="j2d-4c-suI"/>
-                            <constraint firstItem="KxR-tV-mCk" firstAttribute="leading" secondItem="BPp-wD-VFE" secondAttribute="leading" constant="16" id="nmp-uV-yzX"/>
-                            <constraint firstItem="eyi-Hp-sx4" firstAttribute="top" secondItem="KxR-tV-mCk" secondAttribute="bottom" constant="32" id="tjc-kq-h55"/>
+                            <constraint firstItem="BPp-wD-VFE" firstAttribute="bottom" secondItem="JM7-bb-z3C" secondAttribute="bottom" constant="212" id="KIo-bQ-gdB"/>
+                            <constraint firstItem="JM7-bb-z3C" firstAttribute="top" secondItem="BPp-wD-VFE" secondAttribute="top" constant="16" id="S14-ZF-5D8"/>
+                            <constraint firstItem="JM7-bb-z3C" firstAttribute="leading" secondItem="BPp-wD-VFE" secondAttribute="leading" constant="32" id="bvu-94-ZyT"/>
+                            <constraint firstAttribute="trailing" secondItem="JM7-bb-z3C" secondAttribute="trailing" constant="32" id="w7K-XG-bOw"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="BPp-wD-VFE"/>
                     </view>
@@ -133,6 +146,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bodyTextView" destination="eyi-Hp-sx4" id="htW-WA-6yV"/>
+                        <outlet property="moodOutlet" destination="zjn-k1-sn0" id="bcy-Xm-Wxx"/>
                         <outlet property="saveButton" destination="oJP-2a-Qy9" id="7MY-Vh-Drb"/>
                         <outlet property="titleTextField" destination="KxR-tV-mCk" id="gyR-iZ-nwq"/>
                     </connections>

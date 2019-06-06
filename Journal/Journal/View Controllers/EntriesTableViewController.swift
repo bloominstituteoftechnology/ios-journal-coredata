@@ -54,21 +54,12 @@ class EntriesTableViewController: UITableViewController {
 
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ViewEntrySegue" {
             guard let detailVC = segue.destination as? EntryDetailViewController,
             let indexPath = tableView.indexPathForSelectedRow else { return }
-                detailVC.entryController = entryController
                 detailVC.entry = entryController.entries[indexPath.row]
-        } else {
-            if segue.identifier == "AddEntrySegue" {
-                guard let detailVC = segue.destination as? EntryDetailViewController else { return }
-                detailVC.entryController = entryController
-            }
-        }
-        
-        
     }
-    
+        
+
     // MARK: - Properties
     let entryController = EntryController()
 
