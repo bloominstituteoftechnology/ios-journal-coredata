@@ -39,7 +39,6 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             entryController.delete(entry: fetchedResultsController.object(at: indexPath))
-            tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
     
