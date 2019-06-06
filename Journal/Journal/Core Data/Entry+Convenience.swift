@@ -40,7 +40,7 @@ extension Entry {
             let timestamp = entryRepresentation.timestamp,
             let identifier = entryRepresentation.identifier else { return nil }
         
-        self.init(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier, mood: mood)
+        self.init(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier, mood: mood, context: context)
     }
     
     var entryRepresentation: EntryRepresentation {
