@@ -109,18 +109,15 @@ class EntryController {
         entry.bodyText = entryRep.bodyText
         entry.mood = entryRep.mood
         entry.timestamp = entryRep.timestamp
-        //do i need the identifier?
-//        entry.identifier = entryRep.identifier
     }
     
-    func fetchSingleEntryFromCoreData(identifier: String) -> Entry? {
+    func fetchSingleEntryFromCoreData(identifier: String, context: NSManagedObjectContext) -> Entry? {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
-        let moc = CoreDataStack.shared.mainContext
         
         var entry: Entry? = nil
         do {
-            entry = try moc.fetch(fetchRequest).first
+            entry = try context.fetch(fetchRequest).first
         } catch  {
             print("Error fetching entry from core data: \(error.localizedDescription)")
         }
@@ -143,9 +140,14 @@ class EntryController {
             
             guard let data = data else { print("Error unwrapping data in the fetch all"); completion(NSError()); return }
             
-            var entryRepsFromServer: [EntryRepresentation]
+            var entryRepsFromServer = [EntryRepresentation]()
             
             let jD = JSONDecoder()
+            
+            let backgroundContext = CoreDataStack.shared.container.newBackgroundContext()
+            
+            backgroundContext.performAndWait {
+                
             do {
                 let entryRepDictionary = try jD.decode([ String : EntryRepresentation ].self, from: data)
                 let entryArray = Array(entryRepDictionary.values)
@@ -153,21 +155,23 @@ class EntryController {
                 
                 //should this be outside of the do-try-catch block?
                 for entryRep in entryRepsFromServer {
-                    if let entry = self.fetchSingleEntryFromCoreData(identifier: entryRep.identifier){
+                    if let entry = self.fetchSingleEntryFromCoreData(identifier: entryRep.identifier, context: backgroundContext){
                         //there is an entry in core data that matches an entry on the server, so we just need to update it
                         self.updateCheck(entry: entry, entryRep: entryRep)
                     } else {
                         //there is not an entry in core data but there is on the server so we have to create an entry and save it to core data
-                        let _ = Entry(entryRepresentation: entryRep)
+                         _ = Entry(entryRepresentation: entryRep, context: backgroundContext)
                         //if something happens then check the context in the initializer
                         //why don't we call create entry function right here?
                     }
                 }
-                self.saveToPersistentStore()
+                try? CoreDataStack.shared.save(context: backgroundContext)
             } catch {
                 print("checking to see if entry is in core data and the server: \(error.localizedDescription)")
                 completion(error)
                 return
+            }
+            
             }
             completion(nil)
         }.resume()

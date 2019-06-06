@@ -33,9 +33,9 @@ extension Entry {
     
     //this should take an EntryRepresentation parameter and initialize an Entry
     //Json -> EntryRepresentation -> Entry
-    convenience init?(entryRepresentation: EntryRepresentation){
+    convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext){
         guard let mood = EntryMood(rawValue: entryRepresentation.mood) else { return nil }
-        self.init(title: entryRepresentation.title, bodyText: entryRepresentation.bodyText, timestamp: entryRepresentation.timestamp, identiifier: entryRepresentation.identifier, mood: mood) //leaving out context for now
+        self.init(title: entryRepresentation.title, bodyText: entryRepresentation.bodyText, timestamp: entryRepresentation.timestamp, identiifier: entryRepresentation.identifier, mood: mood, context: context) //leaving out context for now
     }
     
     //this computed property should convert an entry to a entryRep
