@@ -11,6 +11,10 @@ import CoreData
 
 class EntryController {
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     // MARK: - Methods
     
     func saveToPersistantStore() {
