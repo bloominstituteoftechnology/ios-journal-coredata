@@ -95,6 +95,7 @@ class EntryController {
         
         do {
             let representation = entry.entryRepresentation
+            try CoreDataStack.shared.save()
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
             NSLog("Error encoding task: \(error)")
