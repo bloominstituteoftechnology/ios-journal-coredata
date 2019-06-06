@@ -69,16 +69,8 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         if editingStyle == .delete {
 
             let entry = fetchedResultsdController.object(at: indexPath)
-            let moc = CoreDataStack.shared.mainContext
-            moc.delete(entry)
             entryController.deleteEntry(entry: entry)
-            do {
-                try moc.save()
-                tableView.reloadData()
-            } catch {
-                moc.reset()
-                NSLog("Error deleting contrext: \(error)")
-            }
+
 
         }
     }
