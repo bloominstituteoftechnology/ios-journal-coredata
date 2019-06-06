@@ -25,15 +25,25 @@ class EntryDetailViewController: UIViewController {
         let entryIndex = moodSegmentedControl.selectedSegmentIndex
         let mood = EntryMood.allMoods[entryIndex]
 
-        guard let entry = entry else {
-            entryController?.createEntry(title: title, bodyText: bodyText, mood: mood.rawValue)
-            navigationController?.popViewController(animated: true)
-            return
-
+        if let entry = entry {
+            // Editing existing task
+            entry.title = title
+            entry.mood = mood.rawValue
+            entry.bodyText = bodyText
+            entryController?.put(entry: entry)
+        } else {
+            let entry = Entry(title: title, bodyText: bodyText, mood: mood.rawValue)
+            entryController?.put(entry:entry)
         }
-        entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText, mood: mood.rawValue)
-        navigationController?.popViewController(animated: true)
 
+        do {
+            let moc = CoreDataStack.shared.mainContext
+            try moc.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
+
+        navigationController?.popViewController(animated: true)
     }
 
     func updateViews() {

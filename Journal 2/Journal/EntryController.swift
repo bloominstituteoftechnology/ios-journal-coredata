@@ -17,47 +17,9 @@ class EntryController {
 
     typealias CompletionHandler = (Error?) -> Void
 
-    func createEntry(title: String, bodyText: String, mood: String) {
-        let entry = Entry(title: title, bodyText: bodyText, mood: mood)
-        saveToPersistentStore()
-        put(entry: entry)
-    }
+    
 
-    func updateEntry(entry: Entry, title: String, bodyText: String, mood: String) {
-
-        entry.title = title
-        entry.bodyText = bodyText
-        entry.timestamp = Date()
-        entry.mood = mood
-
-        saveToPersistentStore()
-        put(entry: entry)
-    }
-
-    func deleteEntry(entry: Entry) {
-        let moc = CoreDataStack.shared.mainContext
-        moc.delete(entry)
-        deleteEntryFromServer(entry: entry)
-        saveToPersistentStore()
-    }
-
-
-//    func loadFromPersistentStore() -> [Entry] {
-//
-//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//        let moc = CoreDataStack.shared.mainContext
-//
-//        do {
-//            return try moc.fetch(fetchRequest)
-//
-//        } catch  {
-//            NSLog("Error fetching entry: \(error)")
-//            return []
-//        }
-//    }
-
-
-        func put(entry: Entry, completion: @escaping CompletionHandler = { _ in}) {
+    func put(entry: Entry, completion: @escaping CompletionHandler = { _ in}) {
 
             let uuid = entry.identifier ?? UUID()
             entry.identifier = uuid
@@ -68,6 +30,9 @@ class EntryController {
 
             do {
                 guard let representation = entry.entryRepresentation else { throw NSError() }
+
+                try CoreDataStack.shared.save()
+
                 request.httpBody = try JSONEncoder().encode(representation)
             } catch {
                 NSLog("Error encoding entry: \(error)")
@@ -99,17 +64,12 @@ class EntryController {
         request.httpMethod = "Delete"
 
         URLSession.shared.dataTask(with: request) { (_, _, error) in
-            if let error = error {
-                NSLog("Error PUTting entry to server: \(error)")
-                completion(error)
-                return
-            }
-            completion(nil)
+            completion(error)
             }.resume()
 
     }
 
-    func update(entry: Entry, representation: EntryRepresentation) {
+    func update(entry: Entry, representation: EntryRepresentation, context: NSManagedObjectContext) {
         entry.title = representation.title
         entry.bodyText = representation.bodyText
         entry.mood = representation.mood.rawValue
@@ -117,11 +77,19 @@ class EntryController {
         entry.timestamp = representation.timestamp
     }
 
-    func fetchSingleEntryFromPersistentStore(forUUID uuid: UUID) -> Entry? {
+    func fetchSingleEntryFromPersistentStore(forUUID uuid: UUID, context: NSManagedObjectContext) -> Entry? {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
-        let moc = CoreDataStack.shared.mainContext
-        return (try? moc.fetch(fetchRequest))?.first
+
+        var result: Entry? = nil
+        context.performAndWait {
+            do {
+                result = try context.fetch(fetchRequest).first
+            } catch {
+                NSLog("Error fetching entry with uuid \(uuid): \(error)")
+            }
+        }
+        return result
     }
 
     func fetchEntriesFromServer(completion: @escaping CompletionHandler = {_ in}) {
@@ -140,54 +108,45 @@ class EntryController {
                 completion(NSError())
                 return
             }
-
-            DispatchQueue.main.async {
                 do {
                     let entryReqresentationDict = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
                     let entryRepresentations = Array(entryReqresentationDict.values)
 
-                    for entryRep in entryRepresentations {
-                        let uuid = entryRep.identifier
-
-                        if let entry = self.fetchSingleEntryFromPersistentStore(forUUID: uuid){
-                           
-                            self.update(entry: entry, representation: entryRep)
-                        }else {
-                            let _ = Entry(entryRepresentation: entryRep)
-                        }
-
-
-                    }
-                    // save changes to disk
-                    let moc = CoreDataStack.shared.mainContext
-                    try moc.save()
+                    let backGroundThread = CoreDataStack.shared.container.newBackgroundContext()
+                    try self.updateTasks(with: entryRepresentations, context: backGroundThread)
+                    
+                    completion(nil)
                 }catch{
                     NSLog("Error decoding entries: \(error)")
                     completion(error)
                     return
+            }
+            }.resume()
+    }
+
+    private func updateTasks(with representations: [EntryRepresentation], context: NSManagedObjectContext) throws {
+
+        var error: Error? = nil
+        context.performAndWait {
+            for entryRep in representations {
+                guard let uuid = UUID(uuidString: "\(entryRep.identifier)") else { continue }
+
+                if let entry = self.fetchSingleEntryFromPersistentStore(forUUID: uuid, context: context) {
+                    self.update(entry: entry, representation: entryRep, context: context)
+                } else {
+                    let _ = Entry(entryRepresentation: entryRep, context: context)
                 }
             }
-            completion(nil)
-
-
-
-            }.resume()
-
-
-    }
-
-
-    func saveToPersistentStore() {
-
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            try moc.save()
-            print("Saved Entry")
-        } catch {
-            NSLog("Error saving managed object contex: \(error)")
+            do {
+                try context.save()
+            } catch let saveError {
+                error = saveError
+            }
         }
-
+        if let error = error { throw error }
     }
+
+
     let baseURL = URL(string: "https://journal-f3899.firebaseio.com/")!
 
 //    var entries: [Entry] {

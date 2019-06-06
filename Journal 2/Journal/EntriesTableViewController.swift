@@ -69,16 +69,29 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         if editingStyle == .delete {
 
             let entry = fetchedResultsdController.object(at: indexPath)
-            let moc = CoreDataStack.shared.mainContext
-            moc.delete(entry)
-            entryController.deleteEntry(entry: entry)
-            do {
-                try moc.save()
-                tableView.reloadData()
-            } catch {
-                moc.reset()
-                NSLog("Error deleting contrext: \(error)")
+
+
+            entryController.deleteEntryFromServer(entry: entry) { (error) in
+                if let error = error {
+                    NSLog("Error deleting entry from server: \(error)")
+                    return
+                }
+
+
+                DispatchQueue.main.async {
+                    let moc = CoreDataStack.shared.mainContext
+                    moc.delete(entry)
+                    do {
+                        try moc.save()
+                        tableView.reloadData()
+                        print("deleted entry from persistent store")
+                    } catch {
+                    moc.reset()
+                    NSLog("Error deleting context: \(error)")
+                }
             }
+            }
+
 
         }
     }
@@ -147,7 +160,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
 
 
 
-    lazy var fetchedResultsdController: NSFetchedResultsController<Entry> = {
+     lazy var fetchedResultsdController: NSFetchedResultsController<Entry> = {
 
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true), NSSortDescriptor(key: "timestamp", ascending: true)]
