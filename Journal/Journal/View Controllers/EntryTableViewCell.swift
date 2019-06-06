@@ -16,7 +16,7 @@ class EntryTableViewCell: UITableViewCell {
         guard let entry = entry else { return }
         
         // Got one!  Show it!
-        titleLabel.text = entry.title
+        titleLabel.text = entry.title ?? ""
         bodyLabel.text = entry.bodyText
         
         // Format the date and put it in a string
