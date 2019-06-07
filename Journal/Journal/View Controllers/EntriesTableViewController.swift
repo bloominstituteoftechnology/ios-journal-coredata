@@ -14,8 +14,17 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     // MARK: - Properties
     let entryController = EntryController()   // <- This will trigger the init method in the EntryController
     
+    // MARK: - Refresh
+    @IBAction func refresh(_ sender: UIRefreshControl) {
+        entryController.fetchEntriesFromServer(completion: { _ in
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                sender.endRefreshing()
+            }
+        })
+    }
+    
     // When the init runs it is going to trigger the FetchedResultsController because there will be activity with the context
-    // That will cause the delegate methods to run that will automatically display 
+    // That will cause the delegate methods to run that will automatically display
 
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -83,26 +92,50 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         tableView.endUpdates()
     }
     
-    
     // MARK: - Delete function
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            
             // Delete this object
-           //
             let entry = fetchedResultsController.object(at: indexPath)
-            // Delete the row from the data source
-            entryController.delete(delete: entry)
-        } 
+            
+            entryController.deleteFromServer(entry) { (error) in
+                if let error = error {
+                    NSLog("Error deleting entry from server: \(error)")
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    let moc = CoreDataStack.shared.mainContext
+                    moc.delete(entry)
+                    do {
+                        try moc.save()
+                    } catch {
+                        moc.reset()
+                        NSLog("Error saving managed object context: \(error)")
+                    }
+                }
+            }
+        }
     }
+//            // Delete the row from the data source
+//            entryController.delete(delete: entry)
+//        }
+//    }
 
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let detailVC = segue.destination as? EntryDetailViewController,
                 let tappedRow = tableView.indexPathForSelectedRow else { return }
         detailVC.entry = fetchedResultsController.object(at: tappedRow)
-    }
+        // If we are going to the DetailViewController we are going to give it the EntryController
+        if let entryDetailViewController = segue.destination as? EntryDetailViewController {
+            entryDetailViewController.entryController = entryController
+        }
         
+    }
+    
 
     // MARK: - NSFetchedResultsController
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
@@ -117,7 +150,6 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     }()
     
 
-    // MARK: - Properties
-   // let entryController = EntryController()
+    // let entryController = EntryController()
 
 }

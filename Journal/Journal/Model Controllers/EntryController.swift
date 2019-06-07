@@ -6,10 +6,13 @@
 //  Copyright © 2019 Sameera Roussi. All rights reserved.
 //
 
+// Steps 1-6 are pulling from the server
+// Step 7 is saving to the server
+// Step 8 is deleting from the server.  Be sure to change the delete in the EntriesTableViewController to call it!
+
 import Foundation
 import CoreData
 
- // Need to know the location of the server we will be talking to
 // let baseURL = URL(string: "https://myjournal-9a0a7.firebaseio.com/")!
 
 class EntryController {
@@ -18,6 +21,7 @@ class EntryController {
         // Need a method to save information to the server
         // Need a method to get information from the server
     
+    // Need to know the location of the server we will be talking to
      private let baseURL = URL(string: "https://myjournal-1080b.firebaseio.com/")!   // Step 2
     
     // The first time we create a task controllers we want it to
@@ -115,6 +119,80 @@ class EntryController {
         // fetch requ
         return matchingEntry?.first
     }
+    
+    
+    // Step 7
+    // This functioin saves my entries to Firebase (@1:30 in video)
+    // We must save whenever we create or modify an entry
+    func put(entry: Entry, completion: @escaping CompletionHandler = {  _ in }) {
+        // 1. Turn the CoreData Task into a TaskRepresentation
+        // 2. Send the entry representation to the server
+        
+        do {
+            // Make sure we can get an entry representation from the entry
+            guard let representation = entry.entryRepresentation else { throw NSError() }  // In the real world we actually would provide more information in the error message
+
+            // Make sure we have a UUID
+            let uuid = entry.identifier ?? UUID()
+           
+            let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+            var request = URLRequest(url: requestURL)
+            
+            // Since we are saving data we need to use the HTTP PUT method
+            request.httpMethod = "PUT"
+            
+            // Now we need to create the data to be saved.  It goes into the HTTP body of the request.
+            //  We get it when we encode the data as JSON
+            request.httpBody = try JSONEncoder().encode(representation)
+            
+            //Create the URLSession to execute the request
+            URLSession.shared.dataTask(with: request) { (_, _, error) in
+                if let error = error {
+                    print("Error PUTting journal entry to server: \(error)")
+                }
+                completion(error)
+            } .resume()
+            
+        } catch {
+            print("Error attempting to PUT entry: \(error)")
+            completion(error)
+        }
+        
+    }
+    
+    // Step 8
+    func deleteFromServer(_ entry: Entry, completion: @escaping ((Error?) -> Void) = { _ in }) {
+        guard let uuid = entry.identifier else {
+            completion(NSError())
+            return
+        }
+    
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            print(response!)
+            completion(error)
+        }.resume()
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
