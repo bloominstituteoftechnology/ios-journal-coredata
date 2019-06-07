@@ -10,6 +10,12 @@ import UIKit
 import CoreData
 
 class EntriesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+    
+    // MARK: - Properties
+    let entryController = EntryController()   // <- This will trigger the init method in the EntryController
+    
+    // When the init runs it is going to trigger the FetchedResultsController because there will be activity with the context
+    // That will cause the delegate methods to run that will automatically display 
 
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -101,7 +107,8 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     // MARK: - NSFetchedResultsController
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending :true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending :true),
+                                        NSSortDescriptor(key: "timestamp", ascending: false)]
         let moc = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
         frc.delegate = self
@@ -111,6 +118,6 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     
 
     // MARK: - Properties
-    let entryController = EntryController()
+   // let entryController = EntryController()
 
 }
