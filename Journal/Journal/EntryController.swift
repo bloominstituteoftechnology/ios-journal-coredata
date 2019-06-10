@@ -62,12 +62,7 @@ class EntryController {
     
     
     
-    
-    
-    
-    var entries: [Entry] = [] {
-        didSet {
-            loadFromPersistenStore()
-        }
+    var entries: [Entry] {
+           return loadFromPersistenStore()
     }
 }
