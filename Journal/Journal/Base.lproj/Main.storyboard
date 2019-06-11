@@ -27,16 +27,16 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Wys-sJ-MXx">
-                                            <rect key="frame" x="28" y="19" width="358" height="20.5"/>
+                                            <rect key="frame" x="28" y="19" width="358" height="24"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oFc-cH-UaZ">
-                                                    <rect key="frame" x="0.0" y="0.0" width="169" height="20.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="169" height="24"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TimeStamp" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7hH-wz-suw">
-                                                    <rect key="frame" x="189" y="0.0" width="169" height="20.5"/>
+                                                    <rect key="frame" x="189" y="0.0" width="169" height="24"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -44,7 +44,7 @@
                                             </subviews>
                                         </stackView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Body" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g46-XO-Rs7">
-                                            <rect key="frame" x="28" y="47.5" width="358" height="33.5"/>
+                                            <rect key="frame" x="28" y="51" width="358" height="30"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -100,21 +100,33 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="VbY-jN-NnI">
-                                <rect key="frame" x="8" y="186" width="398" height="668"/>
+                                <rect key="frame" x="8" y="222" width="398" height="632"/>
                                 <color key="backgroundColor" red="0.93741150222715997" green="0.93715452139349353" blue="0.94515387055837563" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="AQ5-DG-owy">
+                                <rect key="frame" x="8" y="186" width="398" height="29"/>
+                                <segments>
+                                    <segment title="🙁"/>
+                                    <segment title="😐"/>
+                                    <segment title="😀"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="CyA-zt-IpY" firstAttribute="leading" secondItem="6Cx-8B-GX0" secondAttribute="leading" constant="8" id="1V7-LW-Wdr"/>
                             <constraint firstItem="6Cx-8B-GX0" firstAttribute="trailing" secondItem="CyA-zt-IpY" secondAttribute="trailing" constant="8" id="4AS-dc-O8W"/>
                             <constraint firstItem="CyA-zt-IpY" firstAttribute="top" secondItem="6Cx-8B-GX0" secondAttribute="top" constant="8" id="4h9-xg-byO"/>
-                            <constraint firstItem="6Cx-8B-GX0" firstAttribute="bottom" secondItem="VbY-jN-NnI" secondAttribute="bottom" constant="8" id="LxK-HB-5d4"/>
-                            <constraint firstItem="6Cx-8B-GX0" firstAttribute="trailing" secondItem="VbY-jN-NnI" secondAttribute="trailing" constant="8" id="R6z-hX-igu"/>
-                            <constraint firstItem="VbY-jN-NnI" firstAttribute="top" secondItem="CyA-zt-IpY" secondAttribute="bottom" constant="8" id="XOL-SA-AUq"/>
-                            <constraint firstItem="VbY-jN-NnI" firstAttribute="leading" secondItem="6Cx-8B-GX0" secondAttribute="leading" constant="8" id="vLU-ax-hn6"/>
+                            <constraint firstItem="VbY-jN-NnI" firstAttribute="top" secondItem="AQ5-DG-owy" secondAttribute="bottom" constant="8" id="O4I-xV-uX3"/>
+                            <constraint firstItem="6Cx-8B-GX0" firstAttribute="bottom" secondItem="VbY-jN-NnI" secondAttribute="bottom" constant="8" id="PhW-c8-0GS"/>
+                            <constraint firstItem="6Cx-8B-GX0" firstAttribute="trailing" secondItem="AQ5-DG-owy" secondAttribute="trailing" constant="8" id="RGg-z1-FRd"/>
+                            <constraint firstItem="AQ5-DG-owy" firstAttribute="leading" secondItem="6Cx-8B-GX0" secondAttribute="leading" constant="8" id="hwa-rY-0ic"/>
+                            <constraint firstItem="AQ5-DG-owy" firstAttribute="top" secondItem="CyA-zt-IpY" secondAttribute="bottom" constant="8" id="ihz-PW-kOL"/>
+                            <constraint firstItem="VbY-jN-NnI" firstAttribute="top" secondItem="AQ5-DG-owy" secondAttribute="bottom" constant="8" id="jMh-k7-a2a"/>
+                            <constraint firstItem="VbY-jN-NnI" firstAttribute="leading" secondItem="6Cx-8B-GX0" secondAttribute="leading" constant="8" id="pea-xp-kyW"/>
+                            <constraint firstItem="6Cx-8B-GX0" firstAttribute="trailing" secondItem="VbY-jN-NnI" secondAttribute="trailing" constant="8" id="q59-Qf-FYi"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Cx-8B-GX0"/>
                     </view>
@@ -127,12 +139,13 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bodyTextView" destination="VbY-jN-NnI" id="yka-m8-YTh"/>
+                        <outlet property="moodControl" destination="AQ5-DG-owy" id="DRU-iP-0FE"/>
                         <outlet property="titleTextField" destination="CyA-zt-IpY" id="el5-YG-MQJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DYl-jC-gyj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2067" y="167"/>
+            <point key="canvasLocation" x="2066.666666666667" y="166.74107142857142"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="swo-W9-lnd">

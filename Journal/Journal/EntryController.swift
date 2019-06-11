@@ -13,26 +13,28 @@ class EntryController {
     
     // CRUD
     
-    func createEntry(title: String, bodyText: String) {
-        let _ = Entry(title: title, bodyText: bodyText)
+    func createEntry(title: String, bodyText: String, mood: Moods) {
+        let _ = Entry(title: title, bodyText: bodyText, mood: mood)
         
         saveToPersistentStore()
     }
     
-    func updateEntry(entry: Entry, title: String, bodyText: String) {
-        guard let index = entries.firstIndex(of: entry) else { return }
-        entries[index].title = title
-        entries[index].bodyText = bodyText
-        entries[index].timeStamp = Date()
+    func updateEntry(entry: Entry, title: String, bodyText: String, mood: Moods) {
+        let modifiedEntry = entry
+        modifiedEntry.title = title
+        modifiedEntry.bodyText = bodyText
+        modifiedEntry.timeStamp = Date()
+        modifiedEntry.mood = mood.rawValue
+        
         
         saveToPersistentStore()
+        
     }
     
     func deleteEntry(entry: Entry) {
-        guard let index = entries.firstIndex(of: entry) else { return }
-        let entry = entries[index]
+        let selectedEntry = entry
         let moc = CoreDataStack.shared.mainContext
-        moc.delete(entry)
+        moc.delete(selectedEntry)
         
         saveToPersistentStore()
     }
@@ -46,23 +48,26 @@ class EntryController {
             NSLog("Error saving managed object context: \(error)")
         }
     }
+
     
-    func loadFromPersistenStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
-        
-        do {
-            let entries = try moc.fetch(fetchRequest)
-            return entries
-        } catch {
-            NSLog("Error fetching Entries: \(error)")
-            return []
-        }
-    }
+//    func loadFromPersistenStore() -> [Entry] {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let moc = CoreDataStack.shared.mainContext
+//
+//        do {
+//            let entries = try moc.fetch(fetchRequest)
+//            return entries
+//        } catch {
+//            NSLog("Error fetching Entries: \(error)")
+//            return []
+//        }
+//    }
+//
+//
+//
+//    var entries: [Entry] {
+//           return loadFromPersistenStore()
+//    }
     
     
-    
-    var entries: [Entry] {
-           return loadFromPersistenStore()
-    }
 }

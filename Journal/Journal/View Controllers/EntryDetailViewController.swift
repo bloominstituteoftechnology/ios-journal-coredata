@@ -17,21 +17,29 @@ class EntryDetailViewController: UIViewController {
     
     private func updateViews() {
         guard isViewLoaded else { return }
-            title = entry?.title ?? "Create Entry"
-            titleTextField.text = entry?.title
-            bodyTextView.text = entry?.bodyText
-        
+        title = entry?.title ?? "Create Entry"
+        let mood: Moods
+        if let entryMood = entry?.mood {
+            mood = Moods(rawValue: entryMood)!
+        } else {
+            mood = .😐
+        }
+        moodControl.selectedSegmentIndex = Moods.allMoods.firstIndex(of: mood)!
+        titleTextField.text = entry?.title
+        bodyTextView.text = entry?.bodyText
     }
     
     
     @IBAction func saveButtonTapped(_ sender: Any) {
         guard let title = titleTextField.text, !title.isEmpty else { return }
         guard let body = bodyTextView.text, !body.isEmpty else { return }
+        let moodIndex = moodControl.selectedSegmentIndex
+        let mood = Moods.allMoods[moodIndex]
         
         if let entry = entry {
-            entryController?.updateEntry(entry: entry, title: title, bodyText: body)
+            entryController?.updateEntry(entry: entry, title: title, bodyText: body, mood: mood)
         } else {
-            entryController?.createEntry(title: title, bodyText: body)
+            entryController?.createEntry(title: title, bodyText: body, mood: mood)
         }
         
         navigationController?.popViewController(animated: true)
@@ -51,4 +59,7 @@ class EntryDetailViewController: UIViewController {
    
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
+    
+    @IBOutlet weak var moodControl: UISegmentedControl!
+    
 }
