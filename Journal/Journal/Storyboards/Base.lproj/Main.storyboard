@@ -87,10 +87,10 @@
             </objects>
             <point key="canvasLocation" x="398.55072463768118" y="114.50892857142857"/>
         </scene>
-        <!--Create Entry-->
+        <!--Entry Detail View Controller-->
         <scene sceneID="5Zq-Hp-Quz">
             <objects>
-                <viewController id="eeR-JF-HDw" sceneMemberID="viewController">
+                <viewController id="eeR-JF-HDw" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="SEv-vf-jyS">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -98,7 +98,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="bqn-h7-ajS">
                                 <rect key="frame" x="16" y="160" width="382" height="341"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="30E-6R-yWk">
+                                    <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="30E-6R-yWk">
                                         <rect key="frame" x="0.0" y="0.0" width="382" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -122,9 +122,18 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="MGC-ma-eiz"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Create Entry" id="NLB-K7-OkS">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="4ac-g2-wTY"/>
+                    <navigationItem key="navigationItem" id="NLB-K7-OkS">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="4ac-g2-wTY">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="eeR-JF-HDw" id="ywN-rY-Cyc"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="bodyTextView" destination="WtW-kP-C0m" id="Auo-bA-OWy"/>
+                        <outlet property="saveButton" destination="4ac-g2-wTY" id="tRj-DV-N2c"/>
+                        <outlet property="titleTextField" destination="30E-6R-yWk" id="IKJ-TN-rtr"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YdX-eW-1oZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
