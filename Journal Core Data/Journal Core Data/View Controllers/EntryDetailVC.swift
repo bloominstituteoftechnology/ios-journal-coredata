@@ -15,10 +15,19 @@ class EntryDetailVC: UIViewController {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var notesTextView:  UITextView!
     
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    var entryController: EntryController?
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         borderUpdate()
+        updateViews()
 
     }
     
@@ -39,10 +48,27 @@ class EntryDetailVC: UIViewController {
         
     }
     
+    private func updateViews() {
+        guard isViewLoaded else { return }
+        self.navigationItem.title = entry?.title ?? "Create Entry"
+        titleTextField.text       = entry?.title
+        notesTextView.text        = entry?.bodyText
+        
+    }
+    
     // MARK: - Actions and Methods
     
     @IBAction func saveBtnPressed(_ sender: UIBarButtonItem) {
-        
+        guard let entryTitle = titleTextField.text, !entryTitle.isEmpty,
+            let entryNotes = notesTextView.text, !entryNotes.isEmpty else {
+                return
+        }
+        if let entry = entry {
+            entryController?.update(entry: entry, title: entryTitle, bodyText: entryNotes)
+        } else {
+            entryController?.createEntry(title: entryTitle, bodyText: entryNotes)
+        }
+        navigationController?.popViewController(animated: true)
     }
     
     

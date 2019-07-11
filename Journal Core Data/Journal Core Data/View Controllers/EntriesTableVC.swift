@@ -13,13 +13,32 @@ class EntriesTableVC: UIViewController {
     // MARK: - Variables and Outlets
     @IBOutlet weak var tableView: UITableView!
     
-    
+    let entryController = EntryController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate   = self
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "AddItem" {
+            guard let destinationVC = segue.destination as? EntryDetailVC else { return }
+            destinationVC.entryController = entryController
+        }
+        if segue.identifier == "ShowDetail" {
+            guard let indexPath = tableView.indexPathForSelectedRow else { return }
+            let entry = entryController.entries[indexPath.row]
+            guard let destinationVC = segue.destination as? EntryDetailVC else { return }
+            destinationVC.entryController = entryController
+            destinationVC.entry = entry
+        }
     }
 
 
@@ -28,7 +47,7 @@ class EntriesTableVC: UIViewController {
 extension EntriesTableVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return entryController.entries.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -36,7 +55,19 @@ extension EntriesTableVC: UITableViewDataSource {
             return UITableViewCell()
         }
         
+        let entry = entryController.entries[indexPath.row]
+        
+        cell.entry = entry
+        
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let entry = entryController.entries[indexPath.row]
+            entryController.delete(entry: entry)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
     
     
