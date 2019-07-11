@@ -91,33 +91,50 @@
         <!--Title-->
         <scene sceneID="uoH-mR-CQB">
             <objects>
-                <viewController id="bVC-H8-aGv" sceneMemberID="viewController">
+                <viewController id="bVC-H8-aGv" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="iDF-6l-bMX">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AHt-l3-H6H">
-                                <rect key="frame" x="20" y="157" width="97" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nKM-3d-Qr9">
-                                <rect key="frame" x="20" y="220" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="MqC-5K-O3v">
+                                <rect key="frame" x="16" y="160" width="382" height="402"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="252" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="AHt-l3-H6H">
+                                        <rect key="frame" x="0.0" y="0.0" width="382" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="nKM-3d-Qr9">
+                                        <rect key="frame" x="0.0" y="46" width="382" height="356"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="MqC-5K-O3v" firstAttribute="top" secondItem="FZO-PF-XFc" secondAttribute="top" constant="20" id="0yj-p0-7WZ"/>
+                            <constraint firstItem="FZO-PF-XFc" firstAttribute="bottom" secondItem="MqC-5K-O3v" secondAttribute="bottom" constant="300" id="BFL-Gw-KbZ"/>
+                            <constraint firstItem="FZO-PF-XFc" firstAttribute="trailing" secondItem="MqC-5K-O3v" secondAttribute="trailing" constant="16" id="gG6-dp-5We"/>
+                            <constraint firstItem="MqC-5K-O3v" firstAttribute="leading" secondItem="FZO-PF-XFc" secondAttribute="leading" constant="16" id="uif-k7-sil"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="FZO-PF-XFc"/>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="emN-d9-8h6">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="KBd-8i-nZT"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="KBd-8i-nZT">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="bVC-H8-aGv" id="bk5-eB-4mc"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="detailView" destination="nKM-3d-Qr9" id="vIk-Oj-jlk"/>
+                        <outlet property="saveButton" destination="KBd-8i-nZT" id="E6O-0Y-axx"/>
+                        <outlet property="titleTextField" destination="AHt-l3-H6H" id="nU9-up-n6H"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FsE-dO-a4d" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
