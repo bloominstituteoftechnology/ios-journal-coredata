@@ -10,40 +10,22 @@ import Foundation
 import CoreData
 
 class EntryController {
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
-    
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
-        
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            NSLog("Error fetching entries: \(error)")
-            return []
-        }
-    }
-    
     func createEntry(withTitle title: String, withBodyText bodyText: String?, withMood mood: EntryMood) {
         let _ = Entry(title: title, bodyText: bodyText, mood: mood)
         self.saveToPersistentStore()
     }
     
     func updateEntry(withEntry entry: Entry, withTitle title: String, withBodyText bodyText: String?, withMood mood: EntryMood) {
-        guard let i = entries.firstIndex(of: entry) else { return }
-        self.entries[i].title = title
-        self.entries[i].bodyText = bodyText
-        self.entries[i].mood = mood.rawValue
-        self.entries[i].timestamp = Date()
+        entry.title = title
+        entry.bodyText = bodyText
+        entry.mood = mood.rawValue
+        entry.timestamp = Date()
         self.saveToPersistentStore()
     }
     
     func deleteEntry(withEntry entry: Entry) {
-        guard let i = entries.firstIndex(of: entry) else { return }
         let moc = CoreDataStack.shared.mainContext
-        moc.delete(self.entries[i])
+        moc.delete(entry)
         self.saveToPersistentStore()
     }
     
