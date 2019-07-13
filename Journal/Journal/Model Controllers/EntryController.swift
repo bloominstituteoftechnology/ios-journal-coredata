@@ -26,15 +26,16 @@ class EntryController {
         }
     }
     
-    func createEntry(withTitle title: String, withBodyText bodyText: String?) {
-        let _ = Entry(title: title, bodyText: bodyText)
+    func createEntry(withTitle title: String, withBodyText bodyText: String?, withMood mood: EntryMood) {
+        let _ = Entry(title: title, bodyText: bodyText, mood: mood)
         self.saveToPersistentStore()
     }
     
-    func updateEntry(withEntry entry: Entry, withTitle title: String, withBodyText bodyText: String?) {
+    func updateEntry(withEntry entry: Entry, withTitle title: String, withBodyText bodyText: String?, withMood mood: EntryMood) {
         guard let i = entries.firstIndex(of: entry) else { return }
         self.entries[i].title = title
         self.entries[i].bodyText = bodyText
+        self.entries[i].mood = mood.rawValue
         self.entries[i].timestamp = Date()
         self.saveToPersistentStore()
     }

@@ -14,6 +14,7 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet var saveButton: UIBarButtonItem!
     @IBOutlet var titleTextField: UITextField!
     @IBOutlet var bodyTextView: UITextView!
+    @IBOutlet var moodSegmentedControl: UISegmentedControl!
     
     var entry: Entry? {
         didSet {
@@ -35,11 +36,13 @@ class EntryDetailViewController: UIViewController {
             !entryTitle.isEmpty else { return }
         
         let entryBodyText = self.bodyTextView.text
+        let moodIndex = moodSegmentedControl.selectedSegmentIndex
+        let mood = EntryMood.allCases[moodIndex]
         
         if let entry = self.entry {
-            self.entryController?.updateEntry(withEntry: entry, withTitle: entryTitle, withBodyText: entryBodyText)
+            self.entryController?.updateEntry(withEntry: entry, withTitle: entryTitle, withBodyText: entryBodyText, withMood: mood)
         } else {
-            self.entryController?.createEntry(withTitle: entryTitle, withBodyText: entryBodyText)
+            self.entryController?.createEntry(withTitle: entryTitle, withBodyText: entryBodyText, withMood: mood)
         }
         
         self.navigationController?.popViewController(animated: true)
@@ -47,10 +50,18 @@ class EntryDetailViewController: UIViewController {
     
     private func updateViews() {
         guard isViewLoaded else { return }
+        
+        let mood: EntryMood
+        if let entryMood = entry?.mood {
+            mood = EntryMood(rawValue: entryMood)!
+        } else {
+            mood = .neutral
+        }
 
         self.title = self.entry?.title ?? "Create Entry"
         self.titleTextField.text = entry?.title
         self.bodyTextView.text = entry?.bodyText
+        moodSegmentedControl.selectedSegmentIndex = EntryMood.allCases.firstIndex(of: mood)!
     }
     
     @objc private func toggleSaveButton() {
