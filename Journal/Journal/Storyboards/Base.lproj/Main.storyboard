@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="0Ow-OH-IGA">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -20,7 +20,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="72" id="Jh6-hV-Gae" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="JornalCell" rowHeight="72" id="Jh6-hV-Gae" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="72"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Jh6-hV-Gae" id="G3J-b8-KXd">
@@ -67,7 +67,7 @@
                                     <outlet property="dateLabel" destination="iyP-MY-0GI" id="dth-Na-85s"/>
                                     <outlet property="detailLabel" destination="Djo-Rc-msT" id="a51-Ig-uPm"/>
                                     <outlet property="titleLabel" destination="yzy-Pe-cOU" id="d7r-Cs-4gK"/>
-                                    <segue destination="bVC-H8-aGv" kind="show" identifier="JournalCell" id="WP5-2B-aYQ"/>
+                                    <segue destination="bVC-H8-aGv" kind="show" identifier="JournalCellDetail" id="WP5-2B-aYQ"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -83,6 +83,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="9vF-Xs-Bg3" id="tdJ-Sc-XJ1"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o0Q-nz-utv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -158,6 +161,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="iKH-1u-fif"/>
+        <segue reference="WP5-2B-aYQ"/>
     </inferredMetricsTieBreakers>
 </document>
