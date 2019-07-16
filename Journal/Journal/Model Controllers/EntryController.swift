@@ -20,7 +20,7 @@ class EntryController {
         do {
             try moc.save()
         } catch {
-            NSLog("Error \(error)")
+            NSLog("Error saving data: \(error)")
         }
     }
     
@@ -32,20 +32,21 @@ class EntryController {
             let entry = try moc.fetch(fetchRequest)
             return entry
         } catch {
-            NSLog("Error \(error)")
+            NSLog("Error fetching data: \(error)")
         }
         return[]
     }
     
     func createEntry(title: String, bodyText: String){
         let _ = Entry(title: title, bodyText: bodyText)
-        
+        saveToPersistentStore()
     }
     
     func update(entry: Entry, title: String, bodyText: String, timestamp: Date = Date()) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = timestamp
+        saveToPersistentStore()
         
     }
     
@@ -53,6 +54,6 @@ class EntryController {
         
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
-        
+        saveToPersistentStore()
     }
 }

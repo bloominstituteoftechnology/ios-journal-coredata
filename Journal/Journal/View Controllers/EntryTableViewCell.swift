@@ -18,7 +18,9 @@ class EntryTableViewCell: UITableViewCell {
         didSet {
             updateViews()
         }
+        
     }
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,10 +29,16 @@ class EntryTableViewCell: UITableViewCell {
 
     func updateViews() {
         guard let entry = entry else {return}
+        // time format
         let format = DateFormatter()
+        format.dateStyle = .short
+        format.timeStyle = .short
+        
         titleLabel.text = entry.title
         dateLabel.text = format.string(from: entry.timestamp!)
         detailLabel.text = entry.bodyText
+        
+        
         
     }
 

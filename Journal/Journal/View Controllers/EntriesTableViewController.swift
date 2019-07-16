@@ -10,7 +10,6 @@ import UIKit
 
 class EntriesTableViewController: UITableViewController {
     
-//    @IBOutlet var tableView: UITableView!
     
     var entryController = EntryController()
 
@@ -25,7 +24,7 @@ class EntriesTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
-        tableView.backgroundColor = .lightGray
+        tableView.backgroundColor = ColorHelper.backgroundColorNew
     }
 
     // MARK: - Table view data source
@@ -46,9 +45,13 @@ class EntriesTableViewController: UITableViewController {
         let entry = entryController.entries[indexPath.row]
         
         cell.entry = entry
+        
+        cell.backgroundColor = ColorHelper.cellBackgroundColorNew // color
 
         return cell
     }
+    
+    
  
 
 
@@ -60,9 +63,9 @@ class EntriesTableViewController: UITableViewController {
             let entry = entryController.entries[indexPath.row]
             entryController.delete(entry: entry)
             tableView.deleteRows(at: [indexPath], with: .fade)
-        }    
+        }
+        
     }
-
 
     
     // MARK: - Navigation

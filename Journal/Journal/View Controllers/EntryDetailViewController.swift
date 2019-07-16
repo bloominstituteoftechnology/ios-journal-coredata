@@ -28,6 +28,7 @@ class EntryDetailViewController: UIViewController {
         super.viewDidLoad()
 
         updateViews()
+        view.backgroundColor = ColorHelper.backgroundColorNew
     }
     
     @IBAction func saveButtonTapped(_ sender: Any) {
