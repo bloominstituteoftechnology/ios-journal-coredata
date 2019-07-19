@@ -12,7 +12,7 @@ import CoreData
 class EntriesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     
-    var entryController = EntryController()
+    private var entryController = EntryController()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchrequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -25,6 +25,8 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         try! frc.performFetch()
         return frc
     }()
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,8 +83,23 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         if editingStyle == .delete {
 //            let entry = entryController.entries[indexPath.row]
             let entry = self.fetchedResultsController.object(at: indexPath)
-            entryController.delete(entry: entry)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            entryController.deleteEntryFromServer(entry) { (error) in
+                if let error = error {
+                    NSLog("Error deleting entry from server: \(error)")
+                    return
+                }
+                let moc = CoreDataStack.shared.mainContext
+                moc.delete(entry)
+                do {
+                    try moc.save()
+                    self.tableView.reloadData()
+                    
+                } catch {
+                    moc.reset()
+                    NSLog("Error saving managed object context: \(error)")
+            }
+//            entryController.delete(entry: entry)
+        }//       tableView.deleteRows(at: [indexPath], with: .fade)
         }
         
     }
@@ -153,17 +170,17 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         
         if segue.identifier == "AddDetail" {
             guard let detailVC = segue.destination as? EntryDetailViewController else {return}
-            detailVC.entryController = entryController
+            detailVC.entryController = self.entryController
         }
         
         if segue.identifier == "JournalCellDetail" {
             guard let indexPath = tableView.indexPathForSelectedRow else { return }
 //            let entry = entryController.entries[indexPath.row]
             guard let detailVC = segue.destination as? EntryDetailViewController else { return }
-            detailVC.entryController = entryController
+//            detailVC.entryController = entryController
 //            detailVC.entries = entry
             detailVC.entries = self.fetchedResultsController.object(at: indexPath)
-        
+            detailVC.entryController = self.entryController
     }
     }
     

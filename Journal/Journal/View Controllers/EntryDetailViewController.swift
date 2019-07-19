@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EntryDetailViewController: UIViewController {
+class EntryDetailViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var detailView: UITextView!
@@ -45,9 +45,11 @@ class EntryDetailViewController: UIViewController {
             entry.title = entryName
             entry.mood = mood.rawValue
             entry.bodyText = bodyText
+            entryController?.put(entry: entry)
             
         } else {
-            let _ = Entry(title: entryName, bodyText: bodyText!, mood: mood)
+            let entry = Entry(title: entryName, bodyText: bodyText!, mood: mood)
+            entryController?.put(entry: entry)
         }
         
         do {

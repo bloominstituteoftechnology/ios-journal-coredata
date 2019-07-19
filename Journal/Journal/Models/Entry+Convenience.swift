@@ -42,13 +42,13 @@ extension Entry {
     // Initialize an entry object from EntryRepresentation
     convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         guard let mood = EntryMood(rawValue: entryRepresentation.mood!),
-            let identifier = UUID(uuidString: entryRepresentation.identifier) else {return nil }
+            let identifier = UUID(uuidString: entryRepresentation.identifier) else { return nil }
         
         self.init(title: entryRepresentation.title,
                   bodyText: entryRepresentation.bodyText,
-                  identifier: entryRepresentation.identifier,
                   timestamp: entryRepresentation.timestamp,
                   identifier: identifier.uuidString,
-                  mood: mood)
+                  mood: mood,
+                  context: context)
     }
 }
