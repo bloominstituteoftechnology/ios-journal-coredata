@@ -31,6 +31,14 @@ class EntriesTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         self.tableView.reloadData()
     }
+    
+    @IBAction func refreshControl(_ sender: Any) {
+        self.entryController.fetchEntrysFromServer() { (_) in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
+    }
 
     // MARK: - Table view data source
     

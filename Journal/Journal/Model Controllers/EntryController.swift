@@ -30,46 +30,67 @@ class EntryController {
             
             guard let data = data else { NSLog("No data returned by the data task"); completion(error); return }
             
-            DispatchQueue.main.async {
-                do {
-                    let entryReps = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
-                    for entryRep in entryReps {
-                        let identifier = entryRep.identifier
-                        if let entry = self.fetchSingleEntryFromPersistentStore(forUUID: identifier) {
-                            self.update(entry: entry, with: entryRep)
-                        } else {
-                            let _ = Entry(entryRepresentation: entryRep)
-                        }
-                    }
-                    
-                    self.saveToPersistentStore()
-                    completion(nil)
-                } catch {
-                    NSLog("Error decoding task representations: \(error)")
-                    completion(error)
-                    return
-                }
+            do {
+                let entryReps = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
+                let moc = CoreDataStack.shared.mainContext
+                try self.updateEntries(with: entryReps, context: moc)
+                
+                completion(nil)
+            } catch {
+                NSLog("Error decoding task representations: \(error)")
+                completion(error)
+                return
             }
         }.resume()
     }
     
-    func fetchSingleEntryFromPersistentStore(forUUID uuid: String) -> Entry? {
+    private func updateEntries(with representations: [EntryRepresentation], context: NSManagedObjectContext) throws {
+        var error: Error? = nil
+        
+        context.performAndWait {
+            for entryRep in representations {
+                let identifier = entryRep.identifier
+                if let entry = self.fetchSingleEntryFromPersistentStore(forUUID: identifier, in: context) {
+                    self.update(entry: entry, with: entryRep, context: context)
+                } else {
+                    let _ = Entry(entryRepresentation: entryRep, context: context)
+                }
+            }
+            
+            do {
+                try context.save()
+            } catch let saveError {
+                error = saveError
+            }
+        }
+        if let error = error { throw error }
+    }
+    
+    func fetchSingleEntryFromPersistentStore(forUUID uuid: String, in context: NSManagedObjectContext) -> Entry? {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid)
         
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            return try moc.fetch(fetchRequest).first
-        } catch {
-            NSLog("Error fetching entry with uuid \(uuid): \(error)")
-            return nil
+        var result: Entry? = nil
+        context.performAndWait {
+            do {
+                result = try context.fetch(fetchRequest).first
+            } catch {
+                NSLog("Error fetching entry with uuid \(uuid): \(error)")
+            }
         }
+        
+        return result
     }
     
     func createEntry(withTitle title: String, withBodyText bodyText: String?, withMood mood: EntryMood) {
         let entry = Entry(title: title, bodyText: bodyText, mood: mood)
-        self.saveToPersistentStore()
-        self.put(entry: entry)
+        
+        do {
+            try CoreDataStack.shared.save()
+            self.put(entry: entry)
+        } catch {
+            NSLog("Error creating entry: \(entry)")
+        }
     }
     
     func updateEntry(withEntry entry: Entry, withTitle title: String, withBodyText bodyText: String?, withMood mood: EntryMood) {
@@ -77,12 +98,17 @@ class EntryController {
         entry.bodyText = bodyText
         entry.mood = mood.rawValue
         entry.timestamp = Date()
-        self.saveToPersistentStore()
-        self.put(entry: entry)
+        
+        do {
+            try CoreDataStack.shared.save()
+            self.put(entry: entry)
+        } catch {
+            NSLog("Error updating entry: \(entry)")
+        }
     }
     
     // Update Entry with Entry Representation from Server
-    private func update(entry: Entry, with representation: EntryRepresentation) {
+    private func update(entry: Entry, with representation: EntryRepresentation, context: NSManagedObjectContext) {
         entry.title = representation.title
         entry.bodyText = representation.bodyText
         entry.mood = representation.mood
@@ -96,9 +122,16 @@ class EntryController {
                 return
             }
             
-            let moc = CoreDataStack.shared.mainContext
-            moc.delete(entry)
-            self.saveToPersistentStore()
+            DispatchQueue.main.async {
+                let moc = CoreDataStack.shared.mainContext
+                moc.delete(entry)
+                
+                do {
+                    try moc.save()
+                } catch {
+                    NSLog("Error saving after delete method")
+                }
+            }
         }
     }
     
@@ -109,12 +142,12 @@ class EntryController {
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
         
+        guard var representation = entry.entryRepresentation else { completion(NSError()); return }
+
         do {
-            guard var representation = entry.entryRepresentation else { completion(NSError()); return }
-            
             representation.identifier = uuid
             entry.identifier = uuid
-            self.saveToPersistentStore()
+            try CoreDataStack.shared.save()
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
             NSLog("Error encoding task \(entry): \(error)")
