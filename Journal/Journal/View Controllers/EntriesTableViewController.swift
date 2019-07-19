@@ -89,15 +89,18 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
                     return
                 }
                 let moc = CoreDataStack.shared.mainContext
-                moc.delete(entry)
-                do {
-                    try moc.save()
-                    self.tableView.reloadData()
-                    
-                } catch {
-                    moc.reset()
-                    NSLog("Error saving managed object context: \(error)")
-            }
+                moc.performAndWait {
+                    moc.delete(entry)
+                    do {
+                        try moc.save()
+                        self.tableView.reloadData()
+                        
+                    } catch {
+                        moc.reset()
+                        NSLog("Error saving managed object context: \(error)")
+                    }
+                }
+                
 //            entryController.delete(entry: entry)
         }//       tableView.deleteRows(at: [indexPath], with: .fade)
         }

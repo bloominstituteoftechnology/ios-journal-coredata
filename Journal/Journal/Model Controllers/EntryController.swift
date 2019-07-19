@@ -43,7 +43,10 @@ class EntryController {
             
             do {
                 let entryRepresentation = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
-                try self.updateEntries(with: entryRepresentation)
+                
+                let moc = CoreDataStack.shared.container.newBackgroundContext()
+                try self.updateEntries(with: entryRepresentation, context: moc)
+                
                 completion(nil)
             } catch {
                 NSLog("Error decoding task representation: \(error)")
@@ -53,34 +56,49 @@ class EntryController {
         }.resume()
     }
     
-    private func updateEntries(with representations: [EntryRepresentation]) throws {
-        for entryRep in representations {
-            guard let uuid = UUID(uuidString: entryRep.identifier) else {continue}
-            
-            let entry = self.entry(forUUID: uuid)
-            
-            if let entry = entry {
-                self.update(entry: entry, with: entryRep)
-            } else {
-                let _ = Entry(entryRepresentation: entryRep)
-            }
-            
-        }
+    private func updateEntries(with representations: [EntryRepresentation], context: NSManagedObjectContext) throws {
         
-        try self.saveToPersistentStore()
+            var error: Error? = nil
+            
+            context.performAndWait {
+                for entryRep in representations {
+                    guard let uuid = UUID(uuidString: entryRep.identifier) else {continue}
+                    
+                    let entry = self.entry(forUUID: uuid, context: context)
+                    
+                    if let entry = entry {
+                        self.update(entry: entry, with: entryRep)
+                    } else {
+                        let _ = Entry(entryRepresentation: entryRep, context: context)
+                    }
+                    
+                }
+                
+                do {
+                    try context.save()
+                } catch let saveError {
+                    error = saveError
+                }
+            }
+        
+        if let error = error { throw error }
+        
     }
     
-    private func entry(forUUID uuid: UUID) -> Entry? {
+    private func entry(forUUID uuid: UUID, context: NSManagedObjectContext) -> Entry? {
         let fetchrequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchrequest.predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
         
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            return try moc.fetch(fetchrequest).first
-        } catch {
-            NSLog("Error fetching entry with uuid \(uuid): \(error)")
-            return nil
+        var result: Entry? = nil
+        context.performAndWait {
+            do {
+                result = try context.fetch(fetchrequest).first
+            } catch {
+                NSLog("Error fetching entry with uuid \(uuid): \(error)")
+            }
         }
+        
+        return result
         
     }
     
