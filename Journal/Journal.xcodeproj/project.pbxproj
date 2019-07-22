@@ -17,6 +17,7 @@
 		66648C9622E64674001F97B3 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66648C9522E64674001F97B3 /* CoreDataStack.swift */; };
 		66648C9A22E646C1001F97B3 /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 66648C9822E646C1001F97B3 /* Journal.xcdatamodeld */; };
 		66648C9C22E64750001F97B3 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66648C9B22E64750001F97B3 /* Entry+Convenience.swift */; };
+		66648C9E22E6485B001F97B3 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66648C9D22E6485A001F97B3 /* EntryController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		66648C9522E64674001F97B3 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		66648C9922E646C1001F97B3 /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
 		66648C9B22E64750001F97B3 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
+		66648C9D22E6485A001F97B3 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 				66648C7A22E641CF001F97B3 /* AppDelegate.swift */,
 				66648C9022E642E6001F97B3 /* Storyboards */,
 				66648C9722E64677001F97B3 /* Models */,
+				66648C9F22E6485D001F97B3 /* Controllers */,
 				66648C9122E642FA001F97B3 /* View Controllers */,
 				66648C9422E6431E001F97B3 /* Views */,
 				66648C8122E641D1001F97B3 /* Assets.xcassets */,
@@ -104,11 +107,19 @@
 		66648C9722E64677001F97B3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				66648C9522E64674001F97B3 /* CoreDataStack.swift */,
 				66648C9822E646C1001F97B3 /* Journal.xcdatamodeld */,
+				66648C9522E64674001F97B3 /* CoreDataStack.swift */,
 				66648C9B22E64750001F97B3 /* Entry+Convenience.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		66648C9F22E6485D001F97B3 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				66648C9D22E6485A001F97B3 /* EntryController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,6 +199,7 @@
 				66648C9A22E646C1001F97B3 /* Journal.xcdatamodeld in Sources */,
 				66648C8D22E642B7001F97B3 /* EntryDetailViewController.swift in Sources */,
 				66648C7B22E641CF001F97B3 /* AppDelegate.swift in Sources */,
+				66648C9E22E6485B001F97B3 /* EntryController.swift in Sources */,
 				66648C9C22E64750001F97B3 /* Entry+Convenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
