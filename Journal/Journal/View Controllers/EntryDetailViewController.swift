@@ -32,7 +32,7 @@ class EntryDetailViewController: UIViewController {
         bodyTextView.delegate = self
         titleTextField.delegate = self
         updateViews()
-        
+        setupKeyboardDismissRecognizer()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -98,6 +98,19 @@ class EntryDetailViewController: UIViewController {
         }
         
     }
+    
+    func setupKeyboardDismissRecognizer(){
+        let tapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(EntryDetailViewController.dismissKeyboard))
+        
+        self.view.addGestureRecognizer(tapRecognizer)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
 
 }
 
@@ -127,7 +140,7 @@ extension EntryDetailViewController: UITextFieldDelegate {
             self.saveButton.isEnabled = false
         } else {
             
-            UIView.animate(withDuration: 1.7, delay: 1.0, options: .curveEaseIn, animations: {
+            UIView.animate(withDuration: 0.8, delay: 1.0, options: .curveEaseIn, animations: {
                 self.saveButton.tintColor = AppearanceHelper.highlightColor.withAlphaComponent(1.0)
                 self.saveButton.isEnabled = true
             }, completion: nil)
@@ -141,7 +154,7 @@ extension EntryDetailViewController: UITextFieldDelegate {
                 self.saveButton.isEnabled = false
             } else {
                 
-                UIView.animate(withDuration: 1.7, delay: 1.0, options: .curveEaseIn, animations: {
+                UIView.animate(withDuration: 0.8, delay: 1.0, options: .curveEaseIn, animations: {
                     self.saveButton.tintColor = AppearanceHelper.highlightColor.withAlphaComponent(1.0)
                     self.saveButton.isEnabled = true
                 }, completion: nil)
