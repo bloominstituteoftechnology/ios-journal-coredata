@@ -13,16 +13,24 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet var nameLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
     @IBOutlet var entryPreviewLabel: UILabel!
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    func updateViews() {
+        nameLabel.text = entry?.title
+        entryPreviewLabel.text = entry?.bodyText
+        
+        guard let dateToFormat = entry?.timeStamp else { return }
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        formatter.dateStyle = .long
+        let formattedDate = formatter.string(from: dateToFormat)
+        
+        dateLabel.text = formattedDate
     }
 
 }

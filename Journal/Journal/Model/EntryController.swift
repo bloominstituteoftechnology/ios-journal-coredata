@@ -12,15 +12,17 @@ import CoreData
 class EntryController {
     
     var entries: [Entry] {
-        return loadFromPersistentStore()
+       return loadFromPersistentStore()
+        
     }
+    
     
     
     let formatter = DateFormatter()
     
-    func createEntry(title: String, bodyText: String) {
+    func createEntry(title: String, bodyText: String? = nil) {
         Entry(title: title, bodyText: bodyText)
-        saveToPersistentStore()
+        self.saveToPersistentStore()
     }
     
     func updateEntry(entry: Entry, title: String, bodyText: String) {
@@ -54,15 +56,13 @@ class EntryController {
     
     func loadFromPersistentStore() -> [Entry] {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
         let moc = CoreDataStack.shared.mainContext
         
         do {
-            let entries = try moc.fetch(fetchRequest)
-            // return try moc.fetch(fetchRequest)
-            return entries
+            return try moc.fetch(fetchRequest)
+            
         } catch {
-            NSLog("Error fetching Tasks: \(error)")
+            NSLog("Error fetching Entries: \(error)")
             return []
         }
         
