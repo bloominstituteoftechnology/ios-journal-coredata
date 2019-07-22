@@ -35,6 +35,12 @@ class EntryDetailViewController: UIViewController {
         
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        
+        updateViews()
+    }
+    
     @IBAction func save(_ sender: UIBarButtonItem) {
         guard let title = titleTextField.text,
             let bodyText = bodyTextView.text,
@@ -63,6 +69,7 @@ class EntryDetailViewController: UIViewController {
             title = nil
             saveButton.title = "Edit"
         }
+        
         
         titleTextField.text = entry?.title
         let placeHolder = "Enter your text"
