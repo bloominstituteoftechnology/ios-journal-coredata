@@ -44,10 +44,22 @@ class EntryDetailViewController: UIViewController {
     @IBAction func save(_ sender: UIBarButtonItem) {
         guard let title = titleTextField.text,
             let bodyText = bodyTextView.text,
-            !title.isEmpty else { return }
+            !title.isEmpty else {
+                let alert = UIAlertController(title: "No Title!", message: "Please add a title to your entry", preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+                return }
         
         if let entry = entry {
-            self.entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText)
+            let alert = UIAlertController(title: "Editing Entry", message: "Are you sure you want to overwrite your entry?", preferredStyle: UIAlertController.Style.alert)
+            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Save", style: UIAlertAction.Style.destructive, handler: { UIAlertAction in
+                self.entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText)
+                self.navigationController?.popViewController(animated: true)
+            }))
+            self.present(alert, animated: true, completion: nil)
+            
+            
         } else {
             self.entryController?.createEntry(title: title, bodyText: bodyText)
         }
