@@ -45,6 +45,8 @@ class EntryDetailViewController: UIViewController {
         } else {
             entryController?.createEntry(title: title, bodyText: bodyText)
         }
+        
+        navigationController?.popViewController(animated: true)
     }
 
 }
