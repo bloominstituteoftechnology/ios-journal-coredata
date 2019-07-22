@@ -26,6 +26,7 @@ class EntryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        bodyTextView.delegate = self
         updateViews()
         
     }
@@ -52,9 +53,32 @@ class EntryDetailViewController: UIViewController {
         
         title = entry?.title ?? "Create Entry"
         titleTextField.text = entry?.title
-        bodyTextView.text = entry?.bodyText
-        
+        let placeHolder = "Enter your text"
+        bodyTextView.text = entry?.bodyText ?? placeHolder
+        if bodyTextView.text == placeHolder {
+            bodyTextView.textColor = UIColor.lightGray
+        } else {
+            bodyTextView.textColor = UIColor.black
+        }
         
     }
 
+}
+
+
+extension EntryDetailViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = ""
+            textView.textColor = UIColor.black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "Enter your text"
+            textView.textColor = UIColor.lightGray
+        }
+    }
+    
 }
