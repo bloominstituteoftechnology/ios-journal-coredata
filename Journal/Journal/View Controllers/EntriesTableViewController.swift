@@ -12,10 +12,18 @@ class EntriesTableViewController: UITableViewController {
 
     var entryController = EntryController()
     
-    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
         tableView.reloadData()
+        
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        
+        
     }
 
     // MARK: - Table view data source

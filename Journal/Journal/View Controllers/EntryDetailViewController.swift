@@ -12,6 +12,7 @@ class EntryDetailViewController: UIViewController {
     
     @IBOutlet var titleTextField: UITextField!
     @IBOutlet var bodyTextView: UITextView!
+    @IBOutlet var saveButton: UIBarButtonItem!
 
     
     var entry: Entry? {
@@ -26,7 +27,10 @@ class EntryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        self.navigationController?.navigationBar.prefersLargeTitles = false
         bodyTextView.delegate = self
+        titleTextField.delegate = self
         updateViews()
         
     }
@@ -43,6 +47,7 @@ class EntryDetailViewController: UIViewController {
         }
         
         navigationController?.popViewController(animated: true)
+        
     }
 
     
@@ -51,7 +56,14 @@ class EntryDetailViewController: UIViewController {
         
         guard isViewLoaded else { return }
         
-        title = entry?.title ?? "Create Entry"
+        if entry?.title == nil {
+            title = "Create Entry"
+            saveButton.tintColor = UIColor.blue.withAlphaComponent(0.1)
+        } else {
+            title = nil
+            saveButton.title = "Edit"
+        }
+        
         titleTextField.text = entry?.title
         let placeHolder = "Enter your text"
         bodyTextView.text = entry?.bodyText ?? placeHolder
@@ -80,5 +92,38 @@ extension EntryDetailViewController: UITextViewDelegate {
             textView.textColor = UIColor.lightGray
         }
     }
+    
+}
+
+extension EntryDetailViewController: UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField.text == "" {
+            self.saveButton.tintColor = UIColor.blue.withAlphaComponent(0.2)
+            self.saveButton.isEnabled = false
+        } else {
+            
+            UIView.animate(withDuration: 2.0, delay: 1.0, options: .curveEaseIn, animations: {
+                self.saveButton.tintColor = UIColor.blue.withAlphaComponent(1.0)
+                self.saveButton.isEnabled = true
+            }, completion: nil)
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        if reason == .committed {
+            if textField.text == "" {
+                self.saveButton.tintColor = UIColor.blue.withAlphaComponent(0.2)
+                self.saveButton.isEnabled = false
+            } else {
+                
+                UIView.animate(withDuration: 2.0, delay: 1.0, options: .curveEaseIn, animations: {
+                    self.saveButton.tintColor = UIColor.blue.withAlphaComponent(1.0)
+                    self.saveButton.isEnabled = true
+                }, completion: nil)
+            }
+        }
+    }
+    
     
 }
