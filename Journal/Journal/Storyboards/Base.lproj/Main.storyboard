@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="80" id="IfQ-ch-o2x" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="80" id="IfQ-ch-o2x" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="IfQ-ch-o2x" id="yax-Ik-Tbx">
@@ -57,8 +57,8 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="entryDate" destination="tf5-zU-lqC" id="V01-V8-fyz"/>
-                                    <outlet property="entryDetails" destination="SmK-eh-oYV" id="TRC-q2-eOh"/>
+                                    <outlet property="entryBodyText" destination="SmK-eh-oYV" id="TRC-q2-eOh"/>
+                                    <outlet property="entryTimestamp" destination="tf5-zU-lqC" id="V01-V8-fyz"/>
                                     <outlet property="entryTitle" destination="BUR-rS-rgj" id="0c0-Lr-eUU"/>
                                     <segue destination="R2g-JE-8qx" kind="show" identifier="ShowEntry" id="Jic-rr-fl2"/>
                                 </connections>
@@ -120,7 +120,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="kZv-9e-jkN"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="detailsTextView" destination="Iyq-hf-mwh" id="aOF-aK-cnh"/>
+                        <outlet property="bodyTextView" destination="Iyq-hf-mwh" id="aOF-aK-cnh"/>
                         <outlet property="titleTextField" destination="ffj-mB-wje" id="eJf-Pf-9yq"/>
                     </connections>
                 </viewController>

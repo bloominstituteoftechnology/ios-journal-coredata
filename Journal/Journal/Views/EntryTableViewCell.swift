@@ -11,8 +11,8 @@ import UIKit
 class EntryTableViewCell: UITableViewCell {
 
     @IBOutlet weak var entryTitle: UILabel!
-    @IBOutlet weak var entryDetails: UILabel!
-    @IBOutlet weak var entryDate: UILabel!
+    @IBOutlet weak var entryBodyText: UILabel!
+    @IBOutlet weak var entryTimestamp: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
