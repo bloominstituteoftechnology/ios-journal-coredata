@@ -13,6 +13,7 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet var titleTextField: UITextField!
     @IBOutlet var bodyTextView: UITextView!
     @IBOutlet var saveButton: UIBarButtonItem!
+    @IBOutlet var moodControl: UISegmentedControl!
 
     
     var entry: Entry? {
@@ -50,18 +51,12 @@ class EntryDetailViewController: UIViewController {
                 self.present(alert, animated: true, completion: nil)
                 return }
         
+        let mood = Mood.allMoods[moodControl.selectedSegmentIndex]
+        
         if let entry = entry {
-            let alert = UIAlertController(title: "Editing Entry", message: "Are you sure you want to overwrite your entry?", preferredStyle: UIAlertController.Style.alert)
-            alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertAction.Style.cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: "Save", style: UIAlertAction.Style.destructive, handler: { UIAlertAction in
-                self.entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText)
-                self.navigationController?.popViewController(animated: true)
-            }))
-            self.present(alert, animated: true, completion: nil)
-            
-            
+            self.entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText, mood: mood)
         } else {
-            self.entryController?.createEntry(title: title, bodyText: bodyText)
+            self.entryController?.createEntry(title: title, bodyText: bodyText, mood: mood)
         }
         
         navigationController?.popViewController(animated: true)
@@ -86,6 +81,18 @@ class EntryDetailViewController: UIViewController {
             title = nil
             saveButton.title = "Edit"
         }
+        
+        let mood: Mood
+        
+        if let entryMood = entry?.mood {
+            mood = Mood(rawValue: entryMood)!
+        } else {
+            mood = .😐
+        }
+        
+        let moodIndex = Mood.allMoods.firstIndex(of: mood)!
+        
+        moodControl.selectedSegmentIndex = moodIndex
         
         
         titleTextField.text = entry?.title

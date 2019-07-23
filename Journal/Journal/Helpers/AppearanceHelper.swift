@@ -32,5 +32,6 @@ enum AppearanceHelper {
         UINavigationBar.appearance().tintColor = highlightColor
         UITableView.appearance().backgroundColor = whiteBackground
         UITableViewCell.appearance().backgroundColor = whiteBackground
+        UISegmentedControl.appearance().tintColor = highlightColor
     }
 }

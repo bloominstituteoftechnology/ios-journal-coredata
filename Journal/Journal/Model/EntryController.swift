@@ -20,18 +20,19 @@ class EntryController {
     
     let formatter = DateFormatter()
     
-    func createEntry(title: String, bodyText: String? = nil) {
-        Entry(title: title, bodyText: bodyText)
+    func createEntry(title: String, bodyText: String? = nil, mood: Mood) {
+        Entry(title: title, bodyText: bodyText, mood: mood)
         self.saveToPersistentStore()
     }
     
-    func updateEntry(entry: Entry, title: String, bodyText: String) {
+    func updateEntry(entry: Entry, title: String, bodyText: String, mood: Mood) {
         
         let currentDateTime = Date()
         
         entry.title = title
         entry.bodyText = bodyText
         entry.timeStamp = currentDateTime
+        entry.mood = mood.rawValue
         saveToPersistentStore()
     }
     
