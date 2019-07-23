@@ -57,6 +57,7 @@ class EntryDetailViewController: UIViewController {
         if saveButton.title == "Edit" {
             titleTextField.isEnabled = true
             bodyTextView.isEditable = true
+            moodControl.isEnabled = true
             
             bodyTextView.becomeFirstResponder()
             saveButton.title = "Save"
@@ -93,6 +94,7 @@ class EntryDetailViewController: UIViewController {
             if saveButton.title == "Edit" {
                 titleTextField.isEnabled = false
                 bodyTextView.isEditable = false
+                moodControl.isEnabled = false
             }
         }
         
@@ -165,7 +167,10 @@ extension EntryDetailViewController: UITextFieldDelegate {
             self.saveButton.tintColor = AppearanceHelper.highlightColor.withAlphaComponent(0.2)
             self.saveButton.isEnabled = false
         } else if saveButton.title == "Edit" {
-            self.saveButton.title = "Save"
+                UIView.animate(withDuration: 0.8, delay: 1.0, options: .curveEaseInOut, animations: {
+                    self.saveButton.title = "Save"
+                    
+                }, completion: nil)
         } else {
             
             UIView.animate(withDuration: 0.8, delay: 1.0, options: .curveEaseIn, animations: {
