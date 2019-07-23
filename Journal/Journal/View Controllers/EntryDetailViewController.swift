@@ -53,13 +53,23 @@ class EntryDetailViewController: UIViewController {
         
         let mood = Mood.allMoods[moodControl.selectedSegmentIndex]
         
-        if let entry = entry {
-            self.entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText, mood: mood)
+        
+        if saveButton.title == "Edit" {
+            titleTextField.isEnabled = true
+            bodyTextView.isEditable = true
+            
+            bodyTextView.becomeFirstResponder()
+            saveButton.title = "Save"
+                
         } else {
-            self.entryController?.createEntry(title: title, bodyText: bodyText, mood: mood)
+            if let entry = entry {
+                self.entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText, mood: mood)
+            } else {
+                self.entryController?.createEntry(title: title, bodyText: bodyText, mood: mood)
+        }
+            navigationController?.popViewController(animated: true)
         }
         
-        navigationController?.popViewController(animated: true)
         
     }
 
@@ -80,6 +90,10 @@ class EntryDetailViewController: UIViewController {
         } else {
             title = nil
             saveButton.title = "Edit"
+            if saveButton.title == "Edit" {
+                titleTextField.isEnabled = false
+                bodyTextView.isEditable = false
+            }
         }
         
         let mood: Mood
@@ -127,6 +141,11 @@ extension EntryDetailViewController: UITextViewDelegate {
         if textView.textColor == UIColor.lightGray {
             textView.text = ""
             textView.textColor = UIColor.black
+        }  else if saveButton.title == "Edit" {
+            UIView.animate(withDuration: 0.8, delay: 1.0, options: .curveEaseInOut, animations: {
+                    self.saveButton.title = "Save"
+                
+        }, completion: nil)
         }
     }
     
@@ -145,10 +164,13 @@ extension EntryDetailViewController: UITextFieldDelegate {
         if textField.text == "" {
             self.saveButton.tintColor = AppearanceHelper.highlightColor.withAlphaComponent(0.2)
             self.saveButton.isEnabled = false
+        } else if saveButton.title == "Edit" {
+            self.saveButton.title = "Save"
         } else {
             
             UIView.animate(withDuration: 0.8, delay: 1.0, options: .curveEaseIn, animations: {
-                self.saveButton.tintColor = AppearanceHelper.highlightColor.withAlphaComponent(1.0)
+                
+                self.saveButton.tintColor = AppearanceHelper.highlightColor.withAlphaComponent(0.7)
                 self.saveButton.isEnabled = true
             }, completion: nil)
         }
@@ -162,7 +184,7 @@ extension EntryDetailViewController: UITextFieldDelegate {
             } else {
                 
                 UIView.animate(withDuration: 0.8, delay: 1.0, options: .curveEaseIn, animations: {
-                    self.saveButton.tintColor = AppearanceHelper.highlightColor.withAlphaComponent(1.0)
+                    self.saveButton.tintColor = AppearanceHelper.highlightColor.withAlphaComponent(0.7)
                     self.saveButton.isEnabled = true
                 }, completion: nil)
             }

@@ -29,9 +29,9 @@ enum AppearanceHelper {
         UINavigationBar.appearance().barTintColor = whiteBackground
         UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
         UINavigationBar.appearance().shadowImage = UIImage()
-        UINavigationBar.appearance().tintColor = highlightColor
+        UINavigationBar.appearance().tintColor = highlightColor.withAlphaComponent(0.7)
         UITableView.appearance().backgroundColor = whiteBackground
         UITableViewCell.appearance().backgroundColor = whiteBackground
-        UISegmentedControl.appearance().tintColor = highlightColor
+        UISegmentedControl.appearance().tintColor = highlightColor.withAlphaComponent(0.6)
     }
 }

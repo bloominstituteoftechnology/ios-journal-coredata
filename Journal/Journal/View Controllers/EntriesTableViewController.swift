@@ -65,6 +65,10 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         return sectionInfo.name.capitalized
     }
     
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        (view as! UITableViewHeaderFooterView).backgroundView?.backgroundColor = AppearanceHelper.highlightColor.withAlphaComponent(0.4)
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as! EntryTableViewCell
         
