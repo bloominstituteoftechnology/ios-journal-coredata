@@ -12,6 +12,7 @@ class EntryDetailViewController: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var moodControl: UISegmentedControl!
     
     var entry: Entry? {
         didSet {
