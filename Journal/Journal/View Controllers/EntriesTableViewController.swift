@@ -85,8 +85,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
             // Delete the row from the data source
             let entry = fetchedResultsController.object(at: indexPath)
             entryController.deleteEntry(entry: entry)
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            tableView.reloadData()
+
         }
     }
 
@@ -114,20 +113,20 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
 extension EntriesTableViewController {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
-        
-        
+
+
     }
-    
+
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
-        
-        
+
+
     }
-    
+
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        
+
         switch type {
-            
+
         case .insert:
             guard let newIndexPath = newIndexPath else { return }
             tableView.insertRows(at: [newIndexPath], with: .automatic)
@@ -142,15 +141,15 @@ extension EntriesTableViewController {
         case .update:
             guard let indexPath = indexPath else { return }
             tableView.reloadRows(at: [indexPath], with: .automatic)
-            
+
         @unknown default:
             break
         }
-        
+
     }
-    
+
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        
+
         let sections = IndexSet(integer: sectionIndex)
         switch type {
         case .insert:
@@ -160,7 +159,9 @@ extension EntriesTableViewController {
         default:
             break
         }
-        
+
     }
     
 }
+
+
