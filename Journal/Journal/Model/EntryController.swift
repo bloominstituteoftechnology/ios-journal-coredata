@@ -92,6 +92,7 @@ class EntryController {
                     for entryRep in entryReps {
                         let identifier = entryRep.identifier
                         if let entry = self.fetchSingleEntryFromStore(UUID: identifier!) {
+                            
                             self.update(entry: entry, with: entryRep)
                         } else {
                             let _ = Entry(entryRepresentation: entryRep)
@@ -109,33 +110,34 @@ class EntryController {
             }.resume()
     }
     
-//    private func updateEntries(with representations: [EntryRepresentation]) {
-//        
-//        for representation in representations {
-//            guard let identifier = representation.identifier,
-//                let uuid = UUID(uuidString: identifier) else { return }
-//            
-//            if let entry = entry(for: uuid) {
-//              
-//                entry.title = representation.title
-//                entry.bodyText = representation.bodyText
-//                entry.identifier = representation.identifier
-//                entry.mood = representation.mood
-//                
-//            } else {
-//                
-//                Entry(entryRepresentation: representation)
-//                
-//            }
-//        }
-//        
-//    }
+    private func updateEntries(with representations: [EntryRepresentation]) {
+        
+        for representation in representations {
+            guard let identifier = representation.identifier,
+                let uuid = UUID(uuidString: identifier) else { return }
+            
+            if let entry = entry(for: uuid) {
+              
+                entry.title = representation.title
+                entry.bodyText = representation.bodyText
+                entry.identifier = representation.identifier
+                entry.mood = representation.mood
+                
+            } else {
+                
+                Entry(entryRepresentation: representation)
+                
+            }
+        }
+        
+    }
     
     private func update(entry: Entry, with representation: EntryRepresentation) {
         entry.title = representation.title
         entry.bodyText = representation.bodyText
         entry.mood = representation.mood
         entry.timeStamp = representation.timeStamp
+        entry.identifier = representation.identifier
     }
     
     func fetchSingleEntryFromStore(UUID uuid: String) -> Entry? {

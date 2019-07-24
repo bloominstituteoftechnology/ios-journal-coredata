@@ -139,6 +139,7 @@ extension EntriesTableViewController {
         case .move:
             guard let indexPath = indexPath,
                 let newIndexPath = newIndexPath else { return }
+           
             tableView.moveRow(at: indexPath, to: newIndexPath)
         case .update:
             guard let indexPath = indexPath else { return }
