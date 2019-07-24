@@ -39,7 +39,7 @@ extension Entry {
         self.title = entryRepresentation.title
         self.bodyText = entryRepresentation.bodyText
         self.mood = entryRepresentation.mood
-        self.timestamp = timestamp
+        self.timestamp = entryRepresentation.timestamp
         self.identifier = identifier
     }
     
