@@ -13,6 +13,21 @@ struct EntryRepresentation: Codable, Equatable {
     var bodyText: String?
     var timeStamp: Date?
     var identifier: String?
+    var mood: String?
 }
 
+func == (lhs: EntryRepresentation, rhs: Entry) -> Bool {
+    return lhs.identifier == rhs.identifier && lhs.title == rhs.title && lhs.bodyText == rhs.bodyText && lhs.mood == rhs.mood && lhs.timeStamp == rhs.timeStamp
+}
 
+func == (lhs: Entry, rhs: EntryRepresentation) -> Bool {
+    return rhs == lhs
+}
+
+func != (lhs: EntryRepresentation, rhs: Entry) -> Bool {
+    return !(rhs == lhs)
+}
+
+func != (lhs: Entry, rhs: EntryRepresentation) -> Bool {
+    return rhs != lhs
+}
