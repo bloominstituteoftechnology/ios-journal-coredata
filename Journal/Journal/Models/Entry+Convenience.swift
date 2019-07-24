@@ -9,14 +9,12 @@
 import Foundation
 import CoreData
 
-enum Mood: String {
-    case happy = "😃"
-    case neutral = "😐"
-    case sad = "😞"
+enum Mood: String, CaseIterable {
+    case 😃
+    case 😐
+    case 😞
     
-    static var allMoods: [Mood] {
-        return [.happy, .neutral, .sad]
-    }
+    static var allMoods = Mood.allCases
 }
 
 extension Entry {

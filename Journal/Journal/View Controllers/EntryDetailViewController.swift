@@ -34,15 +34,19 @@ class EntryDetailViewController: UIViewController {
         titleTextField.text = entry?.title
         bodyTextView.text = entry?.bodyText
         
+        let attributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
+        moodControl.setTitleTextAttributes(attributes, for: .selected)
+        
         let mood: Mood
         
         if let entryMood = entry?.mood {
             mood = Mood(rawValue: entryMood)!
         } else {
-            mood = .neutral
+            mood = .😐
         }
         
         moodControl.selectedSegmentIndex = Mood.allMoods.firstIndex(of: mood)!
+        
     }
 
     @IBAction func save(_ sender: Any) {
