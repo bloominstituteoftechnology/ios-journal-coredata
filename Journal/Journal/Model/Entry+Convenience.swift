@@ -9,14 +9,12 @@
 import Foundation
 import CoreData
 
-enum Mood: String {
+enum Mood: String, CaseIterable {
     case 😁
     case 😐
     case 🥺
     
-    static var allMoods: [Mood] {
-        return [.😁, .😐, .🥺]
-    }
+    
 }
 
 extension Entry {

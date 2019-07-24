@@ -51,7 +51,7 @@ class EntryDetailViewController: UIViewController {
                 self.present(alert, animated: true, completion: nil)
                 return }
         
-        let mood = Mood.allMoods[moodControl.selectedSegmentIndex]
+        let mood = Mood.allCases[moodControl.selectedSegmentIndex]
         
         
         if saveButton.title == "Edit" {
@@ -106,7 +106,7 @@ class EntryDetailViewController: UIViewController {
             mood = .😐
         }
         
-        let moodIndex = Mood.allMoods.firstIndex(of: mood)!
+        let moodIndex = Mood.allCases.firstIndex(of: mood)!
         
         moodControl.selectedSegmentIndex = moodIndex
         
