@@ -9,10 +9,20 @@
 import Foundation
 import CoreData
 
+enum HTTPMethod: String {
+    case get = "GET"
+    case put = "PUT"
+    case post = "POST"
+    case delete = "DELETE"
+}
+
 class EntryController {
     
+    let baseURL = URL(string: "https://journal-9006c.firebaseio.com/")!
+    
     func createEntry(title: String, bodyText: String?, mood: String) {
-        Entry(title: title, bodyText: bodyText, mood: mood)
+        let entry = Entry(title: title, bodyText: bodyText, mood: mood)
+        put(entry: entry)
         saveToPersistentStore()
     }
     
@@ -21,6 +31,7 @@ class EntryController {
         entry.bodyText = bodyText
         entry.mood = mood
         entry.timestamp = Date()
+        put(entry: entry)
         saveToPersistentStore()
     }
     
@@ -29,6 +40,31 @@ class EntryController {
         
         moc.delete(entry)
         saveToPersistentStore()
+    }
+    
+    func put(entry: Entry, completion: @escaping () -> Void = { }) {
+        
+        let requestURL = baseURL.appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.put.rawValue
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(entry.entryRepresentation)
+        } catch {
+            NSLog("Error encoding entry \(entry): \(error)")
+            completion()
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error PUTting entry to server: \(error)")
+                completion()
+                return
+            }
+            
+            completion()
+        }.resume()
     }
     
     func saveToPersistentStore() {
