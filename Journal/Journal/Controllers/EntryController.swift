@@ -39,12 +39,13 @@ class EntryController {
         let moc = CoreDataStack.shared.mainContext
         
         moc.delete(entry)
+        deleteEntryFromServer(entry: entry)
         saveToPersistentStore()
     }
     
     func put(entry: Entry, completion: @escaping () -> Void = { }) {
-        
-        let requestURL = baseURL.appendingPathExtension("json")
+        let uuid = entry.identifier ?? UUID()
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.put.rawValue
         
@@ -64,6 +65,23 @@ class EntryController {
             }
             
             completion()
+        }.resume()
+    }
+    
+    func deleteEntryFromServer(entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
+        let uuid = entry.identifier ?? UUID()
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error deleting entry from server: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
         }.resume()
     }
     
