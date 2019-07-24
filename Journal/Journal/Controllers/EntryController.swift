@@ -43,6 +43,43 @@ class EntryController {
         saveToPersistentStore()
     }
     
+    func fetchEntriesFromServer(completion: @escaping () -> Void = { }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.get.rawValue
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let response = response as? HTTPURLResponse, response.statusCode != 200 {
+                NSLog("Bad response fetching entries, response code: \(response.statusCode)")
+                completion()
+                return
+            }
+            
+            if let error = error {
+                NSLog("Error fetching entries from server: \(error)")
+                completion()
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned from fetching entries from server")
+                completion()
+                return
+            }
+            
+            do {
+                let decodedJSON = try JSONDecoder().decode([String : EntryRepresentation].self, from: data)
+                let entryRepresentations = Array(decodedJSON.values)
+                self.updateEntries(with: entryRepresentations)
+            } catch {
+                NSLog("Error decoding entry representations \(error)")
+                completion()
+                return
+            }
+            }.resume()
+    }
+    
     func put(entry: Entry, completion: @escaping () -> Void = { }) {
         let uuid = entry.identifier ?? UUID()
         let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
@@ -83,6 +120,37 @@ class EntryController {
             
             completion(nil)
         }.resume()
+    }
+    
+    private func updateEntries(with representations: [EntryRepresentation]) {
+        for representation in representations {
+            guard let identifier = representation.identifier,
+                let uuid = UUID(uuidString: identifier) else { return }
+            
+            if let entry = entry(for: uuid) {
+                entry.title = representation.title
+                entry.bodyText = representation.bodyText
+                entry.mood = representation.mood
+                entry.timestamp = representation.timestamp
+            } else {
+                Entry(entryRepresentation: representation)
+            }
+        }
+        
+       saveToPersistentStore()
+    }
+    
+    private func entry(for uuid: UUID) -> Entry? {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
+        
+        do {
+            let moc = CoreDataStack.shared.mainContext
+            return try moc.fetch(fetchRequest).first
+        } catch {
+            NSLog("Error fetching task with uuid \(uuid): \(error)")
+            return nil
+        }
     }
     
     func saveToPersistentStore() {
