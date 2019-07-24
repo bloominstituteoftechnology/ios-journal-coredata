@@ -8,10 +8,30 @@
 
 import Foundation
 
-struct EntryRepresentation: Codable, Equatable {
+struct EntryRepresentation: Codable {
     var title: String?
     var bodyText: String?
     var mood: String?
     var timestamp: Date?
     var identifier: String?
+}
+
+extension EntryRepresentation: Equatable {
+    static func == (lhs: EntryRepresentation, rhs: Entry) -> Bool {
+        return
+            lhs.timestamp == rhs.timestamp &&
+            lhs.identifier == rhs.identifier?.uuidString
+    }
+    
+    static func == (lhs: Entry, rhs: EntryRepresentation) -> Bool {
+        return rhs == lhs
+    }
+    
+    static func != (lhs: Entry, rhs: EntryRepresentation) -> Bool {
+        return rhs != lhs
+    }
+    
+    static func != (lhs: EntryRepresentation, rhs: Entry) -> Bool {
+        return !(rhs == lhs)
+    }
 }

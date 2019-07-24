@@ -122,25 +122,8 @@ class EntryController {
         }.resume()
     }
     
-    private func updateEntries(with representations: [EntryRepresentation]) {
-        for representation in representations {
-            guard let identifier = representation.identifier,
-                let uuid = UUID(uuidString: identifier) else { return }
-            
-            if let entry = entry(for: uuid) {
-                entry.title = representation.title
-                entry.bodyText = representation.bodyText
-                entry.mood = representation.mood
-                entry.timestamp = representation.timestamp
-            } else {
-                Entry(entryRepresentation: representation)
-            }
-        }
-        
-       saveToPersistentStore()
-    }
-    
-    private func entry(for uuid: UUID) -> Entry? {
+    private func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+        guard let uuid = UUID(uuidString: identifier) else { return nil }
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
         
@@ -151,6 +134,31 @@ class EntryController {
             NSLog("Error fetching task with uuid \(uuid): \(error)")
             return nil
         }
+    }
+    
+    private func update(entry: Entry, representation: EntryRepresentation) {
+        entry.title = representation.title
+        entry.bodyText = representation.bodyText
+        entry.mood = representation.mood
+        entry.timestamp = representation.timestamp
+        entry.identifier = UUID(uuidString: representation.identifier!)
+    }
+    
+    private func updateEntries(with representations: [EntryRepresentation]) {
+        for representation in representations {
+            guard let identifier = representation.identifier else { return }
+            let entry = fetchSingleEntryFromPersistentStore(identifier: identifier)
+            
+            if let entry = entry {
+                if entry != representation {
+                    update(entry: entry, representation: representation)
+                }
+            } else {
+                Entry(entryRepresentation: representation)
+            }
+        }
+        
+       saveToPersistentStore()
     }
     
     func saveToPersistentStore() {
