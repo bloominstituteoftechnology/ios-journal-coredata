@@ -29,4 +29,21 @@ extension Entry {
         self.identifier = identifier
         self.mood = mood
     }
+    
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation,
+                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        self.init(context: context)
+        
+        guard let identifierString = entryRepresentation.identifier, let identifier = UUID(uuidString: identifierString) else { return nil }
+        
+        self.title = entryRepresentation.title
+        self.bodyText = entryRepresentation.bodyText
+        self.mood = entryRepresentation.mood
+        self.timestamp = timestamp
+        self.identifier = identifier
+    }
+    
+    var entryRepresentation: EntryRepresentation {
+        return EntryRepresentation(title: title, bodyText: bodyText, mood: mood, timestamp: timestamp, identifier: identifier?.uuidString)
+    }
 }
