@@ -38,6 +38,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.navigationBar.prefersLargeTitles = true
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -45,6 +46,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         tableView.reloadData()
         
         self.navigationController?.navigationBar.prefersLargeTitles = true
+        entryController.fetchEntriesFromServer()
         
         
     }
