@@ -41,9 +41,11 @@ class EntriesTableViewController: UITableViewController {
 
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        tableView.reloadData()
-//    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        entryController.fetchEntriesFromServer()
+    }
 
     // MARK: - Table view data source
 
