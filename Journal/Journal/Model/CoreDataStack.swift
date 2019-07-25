@@ -48,7 +48,6 @@ class CoreDataStack {
         return container
     }()
     
-    // This should help you remember to use the viewContext on the main thread only.
     var mainContext: NSManagedObjectContext {
         return container.viewContext
     }

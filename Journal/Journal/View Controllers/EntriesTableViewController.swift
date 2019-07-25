@@ -16,7 +16,6 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
-        // FRCs need at least one sort descriptor. If you are giving a "sectionNameKeyPath", the first sort descriptor must be the same attribute.
         let moodDescripter = NSSortDescriptor(key: "mood", ascending: true)
         let dateDescriptor = NSSortDescriptor(key: "timeStamp", ascending: false)
         
@@ -54,7 +53,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
+        
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 

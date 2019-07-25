@@ -208,19 +208,6 @@ class EntryController {
     }
     
     
-//    func saveToPersistentStore() {
-//        let moc = CoreDataStack.shared.mainContext
-//
-//        do {
-//            try moc.save()
-//        }
-//        catch {
-//            NSLog("Error saving MOC: \(error)")
-//            moc.reset()
-//        }
-//
-//    }
-    
     
     
 }
