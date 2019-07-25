@@ -86,14 +86,21 @@ class EntryController {
                 completion(error)
                 return }
             
-            DispatchQueue.main.async {
+//            DispatchQueue.main.async {
                 do {
                     let entryReps = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
                     for entryRep in entryReps {
-                        let identifier = entryRep.identifier
-                        if let entry = self.fetchSingleEntryFromStore(UUID: identifier!) {
-                            
-                            self.update(entry: entry, with: entryRep)
+//                        let identifier = entryRep.identifier
+//                        if let entry = self.fetchSingleEntryFromStore(UUID: identifier!) {
+//
+//                            self.update(entry: entry, with: entryRep)
+                        
+                        if let existingEntry = self.entry(for: UUID(uuidString: entryRep.identifier!)!)  {
+                            // It's on the server so update it with what is on Firebase
+                            existingEntry.title = entryRep.title
+                            existingEntry.bodyText = entryRep.bodyText
+                            existingEntry.timeStamp = entryRep.timeStamp
+                            existingEntry.mood = entryRep.mood
                         } else {
                             let _ = Entry(entryRepresentation: entryRep)
                         }
@@ -106,31 +113,31 @@ class EntryController {
                     completion(error)
                     return
                 }
-            }
+//            }
             }.resume()
     }
     
-    private func updateEntries(with representations: [EntryRepresentation]) {
-        
-        for representation in representations {
-            guard let identifier = representation.identifier,
-                let uuid = UUID(uuidString: identifier) else { return }
-            
-            if let entry = entry(for: uuid) {
-              
-                entry.title = representation.title
-                entry.bodyText = representation.bodyText
-                entry.identifier = representation.identifier
-                entry.mood = representation.mood
-                
-            } else {
-                
-                Entry(entryRepresentation: representation)
-                
-            }
-        }
-        
-    }
+//    private func updateEntries(with representations: [EntryRepresentation]) {
+//
+//        for representation in representations {
+//            guard let identifier = representation.identifier,
+//                let uuid = UUID(uuidString: identifier) else { return }
+//
+//            if let entry = entry(for: uuid) {
+//
+//                entry.title = representation.title
+//                entry.bodyText = representation.bodyText
+//                entry.identifier = representation.identifier
+//                entry.mood = representation.mood
+//
+//            } else {
+//
+//                Entry(entryRepresentation: representation)
+//
+//            }
+//        }
+//
+//    }
     
     private func update(entry: Entry, with representation: EntryRepresentation) {
         entry.title = representation.title

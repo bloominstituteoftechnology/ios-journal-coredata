@@ -43,8 +43,6 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
-        tableView.reloadData()
-        
         self.navigationController?.navigationBar.prefersLargeTitles = true
         entryController.fetchEntriesFromServer()
         
