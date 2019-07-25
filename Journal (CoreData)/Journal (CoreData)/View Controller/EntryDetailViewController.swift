@@ -20,6 +20,7 @@ class EntryDetailViewController: UIViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
 
     override func viewDidLoad() {
@@ -30,22 +31,27 @@ class EntryDetailViewController: UIViewController {
     
     func updateViews() {
         
-        if (entry != nil) {
-            
-        title = entry?.title
-        titleTextField.text = entry?.title
-        bodyTextView.text = entry?.bodyText
-            
+        guard isViewLoaded else { return }
+        
+        let mood: MoodLevel
+        if let entryMood = entry?.mood {
+            mood = MoodLevel(rawValue: entryMood)!
         } else {
-            
-            title = "Create Entry"
+            mood = .normal
         }
+        
+        self.title = self.entry?.title ?? "Create Entry"
+        self.titleTextField.text = entry?.title
+        self.bodyTextView.text = entry?.bodyText
+        segmentedControl.selectedSegmentIndex = MoodLevel.allMoods.firstIndex(of: mood)!
     }
     
     @IBAction func saveButton(_ sender: Any) {
         
         guard let title = titleTextField.text,
               let bodyText = bodyTextView.text else { return }
+        
+        let mood = MoodLevel.allMoods[segmentedControl.selectedSegmentIndex]
     
         //guard let entry = entry else { return }
         
@@ -53,12 +59,16 @@ class EntryDetailViewController: UIViewController {
             
             guard let thisEntry = entry else {return}
             
-            entryController?.updateEntry(entry: thisEntry, title: title, bodyText: bodyText)
+            entryController?.updateEntry(entry: thisEntry, title: title, bodyText: bodyText, mood: mood.rawValue)
             navigationController?.popViewController(animated: true)
         } else {
-            entryController?.createEntry(title: title)
+            entryController?.createEntry(title: title, bodyText: bodyText, mood: mood.rawValue)
             navigationController?.popViewController(animated: true)
         }
+    }
+    
+    func returnEnumCase(mood: String) {
+        
     }
     
     /*
@@ -70,5 +80,7 @@ class EntryDetailViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    
 
 }

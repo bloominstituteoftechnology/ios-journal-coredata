@@ -11,11 +11,11 @@ import CoreData
 
 class EntryController {
     
-    //Properties
-    var entries: [Entry] {
-        
-        return loadFromPersistentStore()
+    init() {
+        fetchEntriesFromServer()
     }
+    
+    var baseURL = URL(string: "https://journal-coredata-project.firebaseio.com/")!
     
     //Functions
     func saveToPersistentStore() {
@@ -34,36 +34,57 @@ class EntryController {
         }
     }
     
-    func loadFromPersistentStore() -> [Entry] {
+    func put(entry: Entry, completion: @escaping (Error?) -> Void = {_ in }) {
         
-        let moc = CoreDataStack.shared.mainContext
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        let uuid = entry.identifier ?? UUID().uuidString
+        
+        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
         
         do {
-            return try moc.fetch(fetchRequest)
+            guard var representation = entry.entryRepresentation else { completion(NSError()); return }
+            
+            representation.identifier = uuid
+            entry.identifier = uuid
+            self.saveToPersistentStore()
+            request.httpBody = try JSONEncoder().encode(representation)
         } catch {
-            NSLog("Error fetching MOC: \(error)")
+            NSLog("Error encoding task \(entry): \(error)")
+            completion(error)
+            return
         }
         
-        saveToPersistentStore()
-        
-        return []
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error sending task to server: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+            }.resume()
     }
     
-    func updateEntry(entry:Entry, title: String, bodyText: String) {
+    
+    
+    func updateEntry(entry:Entry, title: String, bodyText: String, mood: String) {
         
         entry.title = title
         entry.bodyText = bodyText
+        entry.mood = mood
         
         saveToPersistentStore()
+        self.put(entry: entry)
         
     }
     
-    func createEntry(title: String, bodyText: String? = nil) {
+    func createEntry(title: String, bodyText: String?, mood: String) {
         
-        _ = Entry(title: title, bodyText: bodyText)
+        let entry = Entry(title: title, bodyText: bodyText, mood: mood )
         
         saveToPersistentStore()
+        self.put(entry: entry)
     }
     
     func deleteEntry(entry: Entry) {
@@ -73,5 +94,90 @@ class EntryController {
         moc.delete(entry)
         
         saveToPersistentStore()
+        self.deleteEntryFromServer(entry: entry)
+    }
+    
+    func deleteEntryFromServer(entry: Entry, completion: @escaping (Error?) -> Void = {_ in}) {
+        
+        guard let uuid = entry.identifier else {
+            completion(NSError())
+            return }
+        
+        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error Deleting Entry From Server \(error)")
+                completion(error)
+                return
+            }
+            
+            }.resume()
+    }
+    
+    //Functions for syncing the firebase data with Coredata
+    func update(entry: Entry, entryRep: EntryRepresentation) {
+        
+        entry.bodyText = entryRep.bodyText
+        entry.identifier = entryRep.identifier
+        entry.mood = entryRep.mood
+        entry.timestamp = entryRep.timestamp
+        entry.title = entryRep.title
+    }
+    
+    func fetchEntryFromStore(uuid: String) -> Entry? {
+        
+        let fetchRequest:NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid)
+        
+        do{
+            
+            let moc = CoreDataStack.shared.mainContext
+            return try moc.fetch(fetchRequest).first
+            
+        } catch {
+            
+            NSLog("Error fetching UUID and Entry: \(uuid) and \(error)")
+            return nil
+        }
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
+        
+        let getURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: getURL) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching tasks: \(error)")
+                completion(error)
+                return
+            }
+            guard let data = data else { NSLog("No data returned by the data task"); completion(error); return }
+            
+            DispatchQueue.main.async {
+                do {
+                    let entryReps = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
+                    for entryRep in entryReps {
+                        let identifier = entryRep.identifier
+                        if let entry = self.fetchEntryFromStore(uuid: identifier) {
+                            self.update(entry: entry, entryRep: entryRep)
+                        } else {
+                            let _ = entryRep
+                        }
+                    }
+                    
+                    self.saveToPersistentStore()
+                    completion(nil)
+                } catch {
+                    NSLog("Error decoding task representations: \(error)")
+                    completion(error)
+                    return
+                }
+            }
+            }.resume()
     }
 }

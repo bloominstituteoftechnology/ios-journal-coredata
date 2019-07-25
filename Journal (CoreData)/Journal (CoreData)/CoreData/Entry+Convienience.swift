@@ -9,9 +9,27 @@
 import Foundation
 import CoreData
 
+enum MoodLevel: String {
+    case normal = "😐"
+    case happy = "🙂"
+    case sad = "☹️"
+    
+    static var allMoods: [MoodLevel] {
+        return [.normal, .happy, .sad]
+    }
+}
+
+enum EntryProperties: String {
+    case title
+    case bodyText
+    case timestamp
+    case identifier
+    case mood
+}
+
 extension Entry {
     
-    convenience init(title: String, bodyText: String?, timestamp: Date = Date(), identifier: UUID = UUID(), context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init(title: String, bodyText: String?, timestamp: Date = Date(), identifier: String = UUID().uuidString, mood: String = "😐", context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(context: context)
         
@@ -19,5 +37,25 @@ extension Entry {
         self.bodyText = bodyText
         self.timestamp = timestamp
         self.identifier = identifier
+        self.mood = mood
+    }
+    
+    convenience init?(entryRep: EntryRepresentation, context: NSManagedObjectContext) {
+    
+        self.init(context: context)
+        
+        self.title = entryRep.title
+        self.bodyText = entryRep.bodyText
+        self.timestamp = entryRep.timestamp
+        self.mood = entryRep.mood
+    }
+    
+    var entryRepresentation: EntryRepresentation? {
+        guard let title = self.title,
+            let timestamp = self.timestamp,
+            let identifier = self.identifier,
+            let mood = self.mood else { return nil }
+        
+        return EntryRepresentation(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier, mood: mood)
     }
 }

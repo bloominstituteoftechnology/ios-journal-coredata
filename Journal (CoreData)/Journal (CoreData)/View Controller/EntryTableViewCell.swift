@@ -35,9 +35,12 @@ class EntryTableViewCell: UITableViewCell {
         //Date needed to be unwrapped to silence errors
         guard let timestamp = entry?.timestamp else { return }
         
+        let dateFormat = DateFormatter()
+        dateFormat.dateStyle = .short
+        dateFormat.timeStyle = .short
         nameLabel.text = entry?.title
         noteLabel.text = entry?.bodyText
-        dateLabel.text = "\(timestamp)"
+        dateLabel.text = dateFormat.string(from: timestamp)
         
     }
 

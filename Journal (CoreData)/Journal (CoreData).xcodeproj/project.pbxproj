@@ -15,10 +15,11 @@
 		F6D2EC4522E66D77004AC582 /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D2EC4422E66D77004AC582 /* EntriesTableViewController.swift */; };
 		F6D2EC4722E66E67004AC582 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D2EC4622E66E67004AC582 /* EntryTableViewCell.swift */; };
 		F6D2EC4922E6704A004AC582 /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D2EC4822E6704A004AC582 /* EntryDetailViewController.swift */; };
-		F6D2EC4F22E6741D004AC582 /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F6D2EC4D22E6741D004AC582 /* Journal.xcdatamodeld */; };
+		F6D2EC4F22E6741D004AC582 /* Entry.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F6D2EC4D22E6741D004AC582 /* Entry.xcdatamodeld */; };
 		F6D2EC5122E674E6004AC582 /* Entry+Convienience.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D2EC5022E674E6004AC582 /* Entry+Convienience.swift */; };
 		F6D2EC5322E676B4004AC582 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D2EC5222E676B4004AC582 /* CoreDataStack.swift */; };
 		F6D2EC5522E67764004AC582 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D2EC5422E67764004AC582 /* EntryController.swift */; };
+		F6DF3CC122E9049600B447A0 /* EntryRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DF3CC022E9049600B447A0 /* EntryRepresentation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,8 @@
 		F6D2EC5022E674E6004AC582 /* Entry+Convienience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convienience.swift"; sourceTree = "<group>"; };
 		F6D2EC5222E676B4004AC582 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		F6D2EC5422E67764004AC582 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
+		F6D2EC5922E7AADC004AC582 /* Entry 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Entry 2.xcdatamodel"; sourceTree = "<group>"; };
+		F6DF3CC022E9049600B447A0 /* EntryRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryRepresentation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,7 +113,8 @@
 		F6D2EC4A22E670EE004AC582 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				F6D2EC4D22E6741D004AC582 /* Journal.xcdatamodeld */,
+				F6D2EC4D22E6741D004AC582 /* Entry.xcdatamodeld */,
+				F6DF3CC022E9049600B447A0 /* EntryRepresentation.swift */,
 				F6D2EC5022E674E6004AC582 /* Entry+Convienience.swift */,
 				F6D2EC5222E676B4004AC582 /* CoreDataStack.swift */,
 			);
@@ -189,7 +193,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F6D2EC5122E674E6004AC582 /* Entry+Convienience.swift in Sources */,
-				F6D2EC4F22E6741D004AC582 /* Journal.xcdatamodeld in Sources */,
+				F6DF3CC122E9049600B447A0 /* EntryRepresentation.swift in Sources */,
+				F6D2EC4F22E6741D004AC582 /* Entry.xcdatamodeld in Sources */,
 				F6D2EC4722E66E67004AC582 /* EntryTableViewCell.swift in Sources */,
 				F6D2EC5522E67764004AC582 /* EntryController.swift in Sources */,
 				F6D2EC4522E66D77004AC582 /* EntriesTableViewController.swift in Sources */,
@@ -398,13 +403,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		F6D2EC4D22E6741D004AC582 /* Journal.xcdatamodeld */ = {
+		F6D2EC4D22E6741D004AC582 /* Entry.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				F6D2EC5922E7AADC004AC582 /* Entry 2.xcdatamodel */,
 				F6D2EC4E22E6741D004AC582 /* Entry.xcdatamodel */,
 			);
-			currentVersion = F6D2EC4E22E6741D004AC582 /* Entry.xcdatamodel */;
-			path = Journal.xcdatamodeld;
+			currentVersion = F6D2EC5922E7AADC004AC582 /* Entry 2.xcdatamodel */;
+			path = Entry.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
