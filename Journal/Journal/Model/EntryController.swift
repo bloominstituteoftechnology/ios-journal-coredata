@@ -17,7 +17,11 @@ class EntryController {
     
     func createEntry(title: String, bodyText: String? = nil, mood: Mood) {
         let entry = Entry(title: title, bodyText: bodyText, mood: mood)
-        saveToPersistentStore()
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            NSLog("Error saving context: \(error)")
+        }
         put(entry: entry)
     }
     
@@ -29,7 +33,12 @@ class EntryController {
         entry.bodyText = bodyText
         entry.timeStamp = currentDateTime
         entry.mood = mood.rawValue
-        saveToPersistentStore()
+        
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            NSLog("Error saving context: \(error)")
+        }
         put(entry: entry)
     }
     
@@ -37,7 +46,11 @@ class EntryController {
             let moc = CoreDataStack.shared.mainContext
             moc.delete(entry)
             deleteEntryFromServer(entry)
-            saveToPersistentStore()
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            NSLog("Error saving context: \(error)")
+        }
     }
     
     func put(entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
@@ -52,7 +65,11 @@ class EntryController {
             
             representation.identifier = uuid
             entry.identifier = uuid
-            self.saveToPersistentStore()
+            do {
+                try CoreDataStack.shared.save()
+            } catch {
+                NSLog("Error saving context: \(error)")
+            }
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
             NSLog("Error encoding task \(entry): \(error)")
@@ -62,7 +79,7 @@ class EntryController {
         
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
-                NSLog("Error PUTing task to server: \(error)")
+                NSLog("Error putting task to server: \(error)")
                 completion(error)
                 return
             }
@@ -85,59 +102,51 @@ class EntryController {
                 NSLog("No data returned from data task")
                 completion(error)
                 return }
-            
-//            DispatchQueue.main.async {
+        
                 do {
                     let entryReps = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
-                    for entryRep in entryReps {
-//                        let identifier = entryRep.identifier
-//                        if let entry = self.fetchSingleEntryFromStore(UUID: identifier!) {
-//
-//                            self.update(entry: entry, with: entryRep)
-                        
-                        if let existingEntry = self.entry(for: UUID(uuidString: entryRep.identifier!)!)  {
-                            // It's on the server so update it with what is on Firebase
-                            existingEntry.title = entryRep.title
-                            existingEntry.bodyText = entryRep.bodyText
-                            existingEntry.timeStamp = entryRep.timeStamp
-                            existingEntry.mood = entryRep.mood
-                        } else {
-                            let _ = Entry(entryRepresentation: entryRep)
-                        }
-                    }
+                    let backGroundContext = CoreDataStack.shared.container.newBackgroundContext()
                     
-                    self.saveToPersistentStore()
+                    try self.updateEntries(with: entryReps, context: backGroundContext)
                     completion(nil)
+                    
                 } catch {
                     NSLog("Error decoding task representations: \(error)")
-                    completion(error)
+                    completion(nil)
                     return
                 }
-//            }
             }.resume()
     }
     
-//    private func updateEntries(with representations: [EntryRepresentation]) {
-//
-//        for representation in representations {
-//            guard let identifier = representation.identifier,
-//                let uuid = UUID(uuidString: identifier) else { return }
-//
-//            if let entry = entry(for: uuid) {
-//
-//                entry.title = representation.title
-//                entry.bodyText = representation.bodyText
-//                entry.identifier = representation.identifier
-//                entry.mood = representation.mood
-//
-//            } else {
-//
-//                Entry(entryRepresentation: representation)
-//
-//            }
-//        }
-//
-//    }
+    private func updateEntries(with representations: [EntryRepresentation], context: NSManagedObjectContext) throws {
+
+        var error: Error? = nil
+        
+        context.performAndWait {
+            for entryRep in representations {
+                guard let uuid = UUID(uuidString: entryRep.identifier!) else {continue}
+                
+                let entry = self.entry(for: uuid, context: context)
+                
+                if let entry = entry {
+                    self.update(entry: entry, with: entryRep)
+                } else {
+                    let _ = Entry(entryRepresentation: entryRep, context: context)
+                }
+                
+            }
+            
+            do {
+                try context.save()
+            } catch let saveError {
+                error = saveError
+            }
+        }
+        
+        if let error = error { throw error }
+        
+
+    }
     
     private func update(entry: Entry, with representation: EntryRepresentation) {
         entry.title = representation.title
@@ -161,23 +170,25 @@ class EntryController {
     }
     
     
-    private func entry(for uuid: UUID) -> Entry? {
+    private func entry(for uuid: UUID, context: NSManagedObjectContext) -> Entry? {
         
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         let predicate = NSPredicate(format: "identifier == %@", uuid as NSUUID)
         
         fetchRequest.predicate = predicate
         
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            let task = try moc.fetch(fetchRequest).first
+        var result: Entry? = nil
+        context.performAndWait {
             
-            return task
+        
+        do {
+            result = try context.fetch(fetchRequest).first
         } catch {
             NSLog("Error fetching task with UUID: \(uuid): \(error)")
-            return nil
+            
         }
-        
+        }
+        return result
     }
     
     func deleteEntryFromServer(_ entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
@@ -197,18 +208,18 @@ class EntryController {
     }
     
     
-    func saveToPersistentStore() {
-        let moc = CoreDataStack.shared.mainContext
-        
-        do {
-            try moc.save()
-        }
-        catch {
-            NSLog("Error saving MOC: \(error)")
-            moc.reset()
-        }
-        
-    }
+//    func saveToPersistentStore() {
+//        let moc = CoreDataStack.shared.mainContext
+//
+//        do {
+//            try moc.save()
+//        }
+//        catch {
+//            NSLog("Error saving MOC: \(error)")
+//            moc.reset()
+//        }
+//
+//    }
     
     
     

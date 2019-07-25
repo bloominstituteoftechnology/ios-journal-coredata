@@ -45,8 +45,6 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         
         self.navigationController?.navigationBar.prefersLargeTitles = true
         entryController.fetchEntriesFromServer()
-        
-        
     }
 
     // MARK: - Table view data source
