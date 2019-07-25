@@ -41,12 +41,6 @@ class EntriesTableViewController: UITableViewController {
 
         tableView.tableFooterView = UIView()
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//
-//        entryController.fetchEntriesFromServer()
-//    }
 
     // MARK: - Table view data source
 
@@ -105,6 +99,7 @@ class EntriesTableViewController: UITableViewController {
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
+        tableView.reloadData()
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
