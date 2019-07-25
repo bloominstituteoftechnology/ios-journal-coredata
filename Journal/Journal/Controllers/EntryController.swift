@@ -18,6 +18,10 @@ enum HTTPMethod: String {
 
 class EntryController {
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     let baseURL = URL(string: "https://journal-9006c.firebaseio.com/")!
     
     func createEntry(title: String, bodyText: String?, mood: String) {
