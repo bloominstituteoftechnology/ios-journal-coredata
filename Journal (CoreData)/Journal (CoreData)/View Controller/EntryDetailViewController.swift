@@ -26,12 +26,17 @@ class EntryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         updateViews()
+        
         // Do any additional setup after loading the view.
     }
     
     func updateViews() {
         
         guard isViewLoaded else { return }
+        
+        // fixes bug blanked out smileyfaced
+        let attributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
+        segmentedControl.setTitleTextAttributes(attributes, for: .selected)
         
         let mood: MoodLevel
         if let entryMood = entry?.mood {

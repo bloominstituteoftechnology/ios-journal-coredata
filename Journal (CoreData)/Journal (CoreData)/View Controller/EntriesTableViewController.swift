@@ -40,7 +40,7 @@ class EntriesTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
+        entryController.fetchEntriesFromServer()
     }
 
     override func viewDidLoad() {
@@ -88,7 +88,7 @@ class EntriesTableViewController: UITableViewController {
 
             entryController.deleteEntry(entry: entry)
             
-            entryController.deleteEntryFromServer(entry: entry)
+            
 
             //tableView.deleteRows(at: [indexPath], with: .automatic)
         }

@@ -91,10 +91,12 @@ class EntryController {
         
         let moc = CoreDataStack.shared.mainContext
         
+        self.deleteEntryFromServer(entry: entry)
+        
         moc.delete(entry)
         
         saveToPersistentStore()
-        self.deleteEntryFromServer(entry: entry)
+        
     }
     
     func deleteEntryFromServer(entry: Entry, completion: @escaping (Error?) -> Void = {_ in}) {
@@ -103,15 +105,23 @@ class EntryController {
             completion(NSError())
             return }
         
+       
+        
         let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
         
         var request = URLRequest(url: requestURL)
         
         request.httpMethod = "DELETE"
         
-        URLSession.shared.dataTask(with: request) { (_, _, error) in
+        URLSession.shared.dataTask(with: request) { (_, response, error) in
             if let error = error {
                 NSLog("Error Deleting Entry From Server \(error)")
+                completion(error)
+                return
+            }
+            
+            if let response = response as? HTTPURLResponse, response.statusCode != 200 {
+                NSLog("Bad response fetching entries, response code: \(response.statusCode)")
                 completion(error)
                 return
             }
@@ -149,10 +159,17 @@ class EntryController {
     func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
         
         let getURL = baseURL.appendingPathExtension("json")
+    
         
-        URLSession.shared.dataTask(with: getURL) { (data, _, error) in
+        URLSession.shared.dataTask(with: getURL) { (data, response, error) in
             if let error = error {
                 NSLog("Error fetching tasks: \(error)")
+                completion(error)
+                return
+            }
+            
+            if let response = response as? HTTPURLResponse, response.statusCode != 200 {
+                NSLog("Bad response fetching entries, response code: \(response.statusCode)")
                 completion(error)
                 return
             }
@@ -162,11 +179,11 @@ class EntryController {
                 do {
                     let entryReps = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
                     for entryRep in entryReps {
-                        let identifier = entryRep.identifier
+                        guard let identifier = entryRep.identifier else {return}
                         if let entry = self.fetchEntryFromStore(uuid: identifier) {
                             self.update(entry: entry, entryRep: entryRep)
                         } else {
-                            let _ = entryRep
+                            let _ = Entry(entryRep: entryRep)
                         }
                     }
                     

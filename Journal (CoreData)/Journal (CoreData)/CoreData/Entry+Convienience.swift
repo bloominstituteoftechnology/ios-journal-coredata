@@ -26,7 +26,6 @@ enum EntryProperties: String {
     case identifier
     case mood
 }
-
 extension Entry {
     
     convenience init(title: String, bodyText: String?, timestamp: Date = Date(), identifier: String = UUID().uuidString, mood: String = "😐", context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
@@ -40,10 +39,11 @@ extension Entry {
         self.mood = mood
     }
     
-    convenience init?(entryRep: EntryRepresentation, context: NSManagedObjectContext) {
+    convenience init?(entryRep: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
     
         self.init(context: context)
         
+        self.identifier = entryRep.identifier
         self.title = entryRep.title
         self.bodyText = entryRep.bodyText
         self.timestamp = entryRep.timestamp
@@ -51,10 +51,8 @@ extension Entry {
     }
     
     var entryRepresentation: EntryRepresentation? {
-        guard let title = self.title,
-            let timestamp = self.timestamp,
-            let identifier = self.identifier,
-            let mood = self.mood else { return nil }
+        
+        //guard let identifier = self.identifier else { return nil }
         
         return EntryRepresentation(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier, mood: mood)
     }
