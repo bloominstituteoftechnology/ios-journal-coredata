@@ -81,7 +81,7 @@ class EntryController {
                 completion()
                 return
             }
-            }.resume()
+        }.resume()
     }
     
     func put(entry: Entry, completion: @escaping () -> Void = { }) {
