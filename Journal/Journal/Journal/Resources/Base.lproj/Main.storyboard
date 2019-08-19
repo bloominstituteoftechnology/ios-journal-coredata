@@ -65,12 +65,14 @@
                     <navigationItem key="navigationItem" title="Journal" id="HL9-mx-iwu" userLabel="Journal">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="aVV-41-Nte">
                             <connections>
+                                <action selector="save:" destination="twp-e1-Ef5" id="1TT-Ts-F3R"/>
                                 <segue destination="iGI-On-7eE" kind="show" identifier="AddShowSegue" id="ar3-23-eVO"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aBJ-y0-eJb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="twp-e1-Ef5" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="760.86956521739137" y="57.589285714285708"/>
         </scene>
@@ -144,6 +146,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="rRk-Rh-whu"/>
+        <segue reference="ar3-23-eVO"/>
     </inferredMetricsTieBreakers>
 </document>
