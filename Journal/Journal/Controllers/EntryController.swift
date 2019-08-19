@@ -22,7 +22,7 @@ class EntryController {
     }
     
     // Update
-    func updateEntry(entry: Entry, with title: String, bodyText: String, identifier: String, timeStamp: Date) {
+    func updateEntry(entry: Entry, with title: String, bodyText: String, identifier: String?, timeStamp: Date) {
         entry.title = title
         entry.bodyText = bodyText
         entry.identifier = identifier

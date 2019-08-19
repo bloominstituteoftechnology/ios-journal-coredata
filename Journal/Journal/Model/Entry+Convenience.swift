@@ -11,7 +11,7 @@ import CoreData
 
 extension Entry {
     
-    @discardableResult convenience init(title: String, bodyText: String, identifier: String, timeStamp: Date, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    @discardableResult convenience init(title: String, bodyText: String, identifier: String?, timeStamp: Date, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         
         self.title = title
