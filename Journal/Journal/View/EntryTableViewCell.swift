@@ -14,6 +14,22 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var bodyLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    func updateViews() {
+        guard let entry = entry else { return }
+        titleLabel.text = entry.title
+        bodyLabel.text = entry.bodyText
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy"
+        dateLabel.text = dateFormatter.string(from: entry.timeStamp!)
+        
+    }
+    
 
     override func awakeFromNib() {
         super.awakeFromNib()
