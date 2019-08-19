@@ -10,7 +10,11 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
 
-    override func viewDidLoad() {
+	@IBOutlet weak var enteryTextField: UITextField!
+	@IBOutlet weak var enteriesTextView: UITextView!
+	
+	
+	override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.

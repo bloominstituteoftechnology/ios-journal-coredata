@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Enteries Table View Controller-->
+        <!--Journal-->
         <scene sceneID="HNc-jj-FMh">
             <objects>
                 <tableViewController id="rkf-Xd-5hF" customClass="EnteriesTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
@@ -62,7 +62,7 @@
                             <outlet property="delegate" destination="rkf-Xd-5hF" id="Uwz-qf-pSp"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="HL9-mx-iwu" userLabel="Journal">
+                    <navigationItem key="navigationItem" title="Journal" id="HL9-mx-iwu" userLabel="Journal">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="aVV-41-Nte">
                             <connections>
                                 <segue destination="iGI-On-7eE" kind="show" identifier="AddShowSegue" id="ar3-23-eVO"/>
@@ -74,28 +74,64 @@
             </objects>
             <point key="canvasLocation" x="760.86956521739137" y="57.589285714285708"/>
         </scene>
-        <!--Entry Detail View Controller-->
+        <!--Creative title here-->
         <scene sceneID="DfZ-qc-t08">
             <objects>
                 <viewController id="iGI-On-7eE" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Kqh-h5-51f">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="xzw-zg-mM8">
+                                <rect key="frame" x="11" y="161" width="374" height="255"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="inV-rg-lJ7">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Lg5-Tb-xgS">
+                                        <rect key="frame" x="0.0" y="50" width="374" height="205"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="Lg5-Tb-xgS" secondAttribute="bottom" id="bcd-Jl-zOV"/>
+                                    <constraint firstItem="Lg5-Tb-xgS" firstAttribute="top" secondItem="inV-rg-lJ7" secondAttribute="bottom" constant="20" id="f0p-Kc-aFz"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="xzw-zg-mM8" firstAttribute="leading" secondItem="KIW-wh-0HJ" secondAttribute="leading" constant="11" id="7mh-s0-lsc"/>
+                            <constraint firstItem="xzw-zg-mM8" firstAttribute="top" secondItem="KIW-wh-0HJ" secondAttribute="top" constant="21" id="NH9-2h-vUL"/>
+                            <constraint firstItem="KIW-wh-0HJ" firstAttribute="trailing" secondItem="xzw-zg-mM8" secondAttribute="trailing" constant="29" id="WnJ-IV-S8G"/>
+                            <constraint firstItem="KIW-wh-0HJ" firstAttribute="bottom" secondItem="xzw-zg-mM8" secondAttribute="bottom" constant="446" id="Yrf-xa-idn"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="KIW-wh-0HJ"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Creative title here" id="aIl-8U-vrF">
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="Gyd-i6-3Q7"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="enteriesTextView" destination="Lg5-Tb-xgS" id="g1Y-3D-mL9"/>
+                        <outlet property="enteryTextField" destination="inV-rg-lJ7" id="egb-uE-xMU"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6M0-66-scD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1675" y="58"/>
+            <point key="canvasLocation" x="1673.913043478261" y="57.589285714285708"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="6fE-kg-waA">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pzL-2T-f9F" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="8z6-mx-aDr">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="8z6-mx-aDr">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
