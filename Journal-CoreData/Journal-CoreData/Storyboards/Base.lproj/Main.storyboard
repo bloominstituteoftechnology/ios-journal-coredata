@@ -19,14 +19,56 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="JournalCell" id="8qI-bl-T6p" customClass="EntryTableViewCell" customModule="Journal_CoreData" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="JournalCell" rowHeight="66" id="8qI-bl-T6p" customClass="EntryTableViewCell" customModule="Journal_CoreData" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="66"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8qI-bl-T6p" id="6s4-cO-Q9p">
-                                    <rect key="frame" x="0.0" y="0.0" width="376" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="376" height="65.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="JKL-au-gsE">
+                                            <rect key="frame" x="20" y="11" width="348" height="44"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="01f-dw-ZzD">
+                                                    <rect key="frame" x="0.0" y="0.0" width="348" height="20.5"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title of Entry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jua-jq-oVn">
+                                                            <rect key="frame" x="0.0" y="0.0" width="166" height="20.5"/>
+                                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="To6-Vr-jOa">
+                                                            <rect key="frame" x="182" y="0.0" width="166" height="20.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Part of the body of the journal entry" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A5g-Kr-3OJ">
+                                                    <rect key="frame" x="0.0" y="22.5" width="348" height="21.5"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="01f-dw-ZzD" secondAttribute="trailing" id="hNL-sx-hah"/>
+                                            </constraints>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="JKL-au-gsE" firstAttribute="leading" secondItem="6s4-cO-Q9p" secondAttribute="leadingMargin" id="0fD-jZ-oZj"/>
+                                        <constraint firstItem="JKL-au-gsE" firstAttribute="top" secondItem="6s4-cO-Q9p" secondAttribute="topMargin" id="OrI-8z-52Y"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="JKL-au-gsE" secondAttribute="bottom" id="b0V-UB-OLZ"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="JKL-au-gsE" secondAttribute="trailing" id="lL2-3X-mzG"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="bodyLabel" destination="A5g-Kr-3OJ" id="Ojv-2R-u8v"/>
+                                    <outlet property="dateLabel" destination="To6-Vr-jOa" id="bZg-SH-fi7"/>
+                                    <outlet property="titleLabel" destination="jua-jq-oVn" id="71U-X4-y1T"/>
                                     <segue destination="Bq5-vK-yMi" kind="show" identifier="ShowDetailSegue" id="i22-ch-M9I"/>
                                 </connections>
                             </tableViewCell>
@@ -46,7 +88,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="k6Y-MK-dMh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="704" y="131"/>
+            <point key="canvasLocation" x="702.89855072463774" y="130.58035714285714"/>
         </scene>
         <!--Create Entry-->
         <scene sceneID="QbO-Ho-rlk">

@@ -10,6 +10,11 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
 
+	@IBOutlet weak var titleLabel: UILabel!
+	@IBOutlet weak var dateLabel: UILabel!
+	@IBOutlet weak var bodyLabel: UILabel!
+
+
 	var entry: Entry? {
 		didSet {
 			updateViews()
@@ -28,7 +33,8 @@ class EntryTableViewCell: UITableViewCell {
     }
 
 	private func updateViews() {
-		
+		titleLabel.text = entry?.title
+		bodyLabel.text = entry?.bodyText
+		dateLabel.text = "\(entry?.timeStamp ?? Date())"
 	}
-
 }
