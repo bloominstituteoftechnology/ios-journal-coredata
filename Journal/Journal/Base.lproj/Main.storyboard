@@ -131,8 +131,16 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="gXj-nV-1Y0">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="D2U-w5-MwH"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="D2U-w5-MwH">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="BYZ-38-t0r" id="krb-AS-YBZ"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="bodyTextView" destination="fCR-Hh-TFN" id="vCE-Vb-ghg"/>
+                        <outlet property="titleTextField" destination="FJS-qF-0tJ" id="Rmd-7A-9um"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
