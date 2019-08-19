@@ -10,6 +10,12 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
 
+	var entry: Entry? {
+		didSet {
+			updateViews()
+		}
+	}
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -20,5 +26,9 @@ class EntryTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+
+	private func updateViews() {
+		
+	}
 
 }
