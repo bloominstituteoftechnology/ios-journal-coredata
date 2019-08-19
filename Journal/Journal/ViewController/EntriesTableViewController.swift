@@ -21,27 +21,20 @@ class EntriesTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return entryController.entries.count
     }
-
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell()}
         cell.entry = entryController.entries[indexPath.row]
-
-        // Configure the cell...
-
+        
         return cell
     }
- 
-
-
-
     
-    // Override to support editing the table view.
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
+    }
+
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             entryController.deleteEntry(entry: entryController.entries[indexPath.row])
@@ -57,5 +50,4 @@ class EntriesTableViewController: UITableViewController {
             detailVC.entry = entryController.entries[indexPath.row]
         }
     }
-
 }

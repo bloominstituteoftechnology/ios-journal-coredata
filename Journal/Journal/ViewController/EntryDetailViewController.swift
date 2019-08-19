@@ -18,13 +18,14 @@ class EntryDetailViewController: UIViewController {
             updateViews()
         }
     }
+    
     var entryController: EntryController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         updateViews()
-        // Do any additional setup after loading the view.
     }
+    
     func updateViews() {
         guard let entry = entry, isViewLoaded else { return }
         title = entry.title
@@ -42,6 +43,5 @@ class EntryDetailViewController: UIViewController {
         }
         navigationController?.popViewController(animated: true)
     }
-    
 }
 

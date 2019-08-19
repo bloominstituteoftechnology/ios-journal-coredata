@@ -10,9 +10,11 @@ import Foundation
 import CoreData
 
 class EntryController {
+    
     var entries: [Entry] {
         return loadFromPersistentStore()
     }
+    
     func saveToPersistentStore() {
         do {
             try CoreDataStack.shared.mainContext.save()
