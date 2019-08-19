@@ -44,7 +44,6 @@ class EntryController {
     
     //MARK: - CRUD Methods
     func createEntry(title: String, bodyText: String) {
-//        df.dateFormat = "MM-dd-yyyy HH:mm:ss"
         Entry(title: title, bodyText: bodyText)
         saveToPersistentStore()
     }

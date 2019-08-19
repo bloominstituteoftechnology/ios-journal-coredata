@@ -14,10 +14,26 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var bodyTextLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
-
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    var entryController: EntryController?
+    let df = DateFormatter()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+    }
+    
+    func updateViews() {
+        df.dateFormat = "MM-dd-yyyy"
+        guard let entry = entry else { return }
+        guard let timestamp = entry.timestamp else { return }
+        entryNameLabel.text = entry.title
+        bodyTextLabel.text = entry.bodyText
+        dateLabel.text = df.string(from: timestamp)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
