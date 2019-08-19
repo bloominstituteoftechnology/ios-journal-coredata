@@ -11,6 +11,13 @@
 		377932B5230B3C29002EF6CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 377932B3230B3C29002EF6CF /* Main.storyboard */; };
 		377932B7230B3C2A002EF6CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 377932B6230B3C2A002EF6CF /* Assets.xcassets */; };
 		377932BA230B3C2A002EF6CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 377932B8230B3C2A002EF6CF /* LaunchScreen.storyboard */; };
+		377932C2230B4552002EF6CF /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377932C1230B4552002EF6CF /* EntryDetailViewController.swift */; };
+		377932C4230B4569002EF6CF /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377932C3230B4569002EF6CF /* EntriesTableViewController.swift */; };
+		377932C6230B457D002EF6CF /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377932C5230B457D002EF6CF /* EntryTableViewCell.swift */; };
+		377932D3230B4936002EF6CF /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377932D2230B4936002EF6CF /* Entry+Convenience.swift */; };
+		377932D6230B4EE5002EF6CF /* Entry.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 377932D4230B4EE5002EF6CF /* Entry.xcdatamodeld */; };
+		377932D8230B5033002EF6CF /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377932D7230B5033002EF6CF /* EntryController.swift */; };
+		377932DA230B53F4002EF6CF /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377932D9230B53F4002EF6CF /* CoreDataStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +27,13 @@
 		377932B6230B3C2A002EF6CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		377932B9230B3C2A002EF6CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		377932BB230B3C2A002EF6CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		377932C1230B4552002EF6CF /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
+		377932C3230B4569002EF6CF /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
+		377932C5230B457D002EF6CF /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
+		377932D2230B4936002EF6CF /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
+		377932D5230B4EE5002EF6CF /* Entry.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Entry.xcdatamodel; sourceTree = "<group>"; };
+		377932D7230B5033002EF6CF /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
+		377932D9230B53F4002EF6CF /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,12 +67,59 @@
 			isa = PBXGroup;
 			children = (
 				377932AF230B3C29002EF6CF /* AppDelegate.swift */,
-				377932B3230B3C29002EF6CF /* Main.storyboard */,
+				377932C9230B480E002EF6CF /* Storyboards */,
+				377932C7230B47EB002EF6CF /* ViewControllers */,
+				377932C8230B4802002EF6CF /* Views */,
+				377932DB230B5B05002EF6CF /* ModelController */,
+				377932CD230B4835002EF6CF /* Model */,
 				377932B6230B3C2A002EF6CF /* Assets.xcassets */,
-				377932B8230B3C2A002EF6CF /* LaunchScreen.storyboard */,
 				377932BB230B3C2A002EF6CF /* Info.plist */,
 			);
 			path = "Journal-CoreData";
+			sourceTree = "<group>";
+		};
+		377932C7230B47EB002EF6CF /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				377932C1230B4552002EF6CF /* EntryDetailViewController.swift */,
+				377932C3230B4569002EF6CF /* EntriesTableViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		377932C8230B4802002EF6CF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				377932C5230B457D002EF6CF /* EntryTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		377932C9230B480E002EF6CF /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				377932B3230B3C29002EF6CF /* Main.storyboard */,
+				377932B8230B3C2A002EF6CF /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		377932CD230B4835002EF6CF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				377932D2230B4936002EF6CF /* Entry+Convenience.swift */,
+				377932D9230B53F4002EF6CF /* CoreDataStack.swift */,
+				377932D4230B4EE5002EF6CF /* Entry.xcdatamodeld */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		377932DB230B5B05002EF6CF /* ModelController */ = {
+			isa = PBXGroup;
+			children = (
+				377932D7230B5033002EF6CF /* EntryController.swift */,
+			);
+			path = ModelController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -132,7 +193,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				377932D6230B4EE5002EF6CF /* Entry.xcdatamodeld in Sources */,
+				377932C6230B457D002EF6CF /* EntryTableViewCell.swift in Sources */,
+				377932D8230B5033002EF6CF /* EntryController.swift in Sources */,
+				377932C4230B4569002EF6CF /* EntriesTableViewController.swift in Sources */,
+				377932C2230B4552002EF6CF /* EntryDetailViewController.swift in Sources */,
+				377932D3230B4936002EF6CF /* Entry+Convenience.swift in Sources */,
 				377932B0230B3C29002EF6CF /* AppDelegate.swift in Sources */,
+				377932DA230B53F4002EF6CF /* CoreDataStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,6 +400,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		377932D4230B4EE5002EF6CF /* Entry.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				377932D5230B4EE5002EF6CF /* Entry.xcdatamodel */,
+			);
+			currentVersion = 377932D5230B4EE5002EF6CF /* Entry.xcdatamodel */;
+			path = Entry.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 377932A4230B3C29002EF6CF /* Project object */;
 }
