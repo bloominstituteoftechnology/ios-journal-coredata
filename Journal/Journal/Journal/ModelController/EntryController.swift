@@ -12,7 +12,7 @@ import CoreData
 class EntryController {
 	
 	var entries: [Entry] {
-		loadFromPersistentStore()
+		return loadFromPersistentStore()
 	}
 	
 	func saveToPersistentStore() {
@@ -40,17 +40,15 @@ class EntryController {
 	}
 	
 	// Create
-	func createEntry(with title: String, bodyText: String, timestamp: Date, identifier: String) {
-		Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier)
+	func createEntry(with title: String, bodyText: String) {
+		Entry(title: title, bodyText: bodyText)
 		saveToPersistentStore()
 	}
 	
 	// Update
-	func updateEntry(entry: Entry, with title: String, bodyText: String, timestamp: Date, identifier: String) {
+	func updateEntry(entry: Entry, with title: String, bodyText: String) {
 		entry.title = title
 		entry.bodyText  = bodyText
-		entry.timestamp = timestamp
-		entry.identifier = identifier
 		saveToPersistentStore()
 	}
 	

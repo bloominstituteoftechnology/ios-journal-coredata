@@ -87,14 +87,22 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="xzw-zg-mM8">
                                 <rect key="frame" x="11" y="161" width="374" height="255"/>
                                 <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="XdR-7S-nrU">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="29"/>
+                                        <segments>
+                                            <segment title="" image="Image"/>
+                                            <segment title="" image="Image"/>
+                                            <segment title=""/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="inV-rg-lJ7">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
+                                        <rect key="frame" x="0.0" y="48" width="374" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Lg5-Tb-xgS">
-                                        <rect key="frame" x="0.0" y="50" width="374" height="205"/>
+                                        <rect key="frame" x="0.0" y="98" width="374" height="157"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -116,9 +124,14 @@
                         <viewLayoutGuide key="safeArea" id="KIW-wh-0HJ"/>
                     </view>
                     <navigationItem key="navigationItem" title="Creative title here" id="aIl-8U-vrF">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="Gyd-i6-3Q7"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Gyd-i6-3Q7">
+                            <connections>
+                                <action selector="save:" destination="iGI-On-7eE" id="sbW-oL-AHw"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="enteriesTextView" destination="Lg5-Tb-xgS" id="rmV-jU-bLK"/>
                         <outlet property="enteryTextField" destination="inV-rg-lJ7" id="egb-uE-xMU"/>
                     </connections>
                 </viewController>
@@ -145,6 +158,9 @@
             <point key="canvasLocation" x="-149.27536231884059" y="57.589285714285708"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Image" width="144" height="144"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="ar3-23-eVO"/>
     </inferredMetricsTieBreakers>
