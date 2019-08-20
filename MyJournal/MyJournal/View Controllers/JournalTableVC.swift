@@ -22,7 +22,7 @@ class JournalTableVC: UITableViewController {
 		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
 		
 		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "feelingEmoji", ascending: true),
-										NSSortDescriptor(key: "lastUpdated", ascending: false)]
+										NSSortDescriptor(key: "lastUpdated", ascending: true)]
 		
 		let fetchControl = NSFetchedResultsController(fetchRequest: fetchRequest,
 													  managedObjectContext: CoreDataStack.shared.mainContext,
