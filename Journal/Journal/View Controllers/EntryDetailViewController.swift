@@ -14,6 +14,7 @@ class EntryDetailViewController: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     
     var entryController: EntryController?
     var entry: Entry? {
@@ -36,21 +37,47 @@ class EntryDetailViewController: UIViewController {
             isViewLoaded {
             titleTextField.text = entry.title
             bodyTextView.text = entry.bodyText
+            title = entry.title
+            
+            if let moodString = entry.mood,
+                let mood = Mood(rawValue: moodString) {
+                let moodIndex = Mood.allCases.firstIndex(of: mood) ?? 1
+                
+                moodSegmentedControl.selectedSegmentIndex = moodIndex
+            }
+            
         }
     }
 
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
-        guard let title = titleTextField.text,
+        guard let entryTitle = titleTextField.text,
             let bodyText = bodyTextView.text else { return }
+        
         let timeInterval = TimeInterval(NSDate().timeIntervalSince1970)
         let timeStamp = Date(timeIntervalSince1970: timeInterval)
         
+        let moodIndex = moodSegmentedControl.selectedSegmentIndex
+        var mood: Mood
+        
+        switch moodIndex {
+        case 0:
+            mood = Mood.happy
+        case 1:
+            mood = Mood.neutral
+        case 2:
+            mood = Mood.sad
+        default:
+            mood = Mood.happy
+        }
+        
         if let entry = entry,
            let entryController = entryController {
-            entryController.updateEntry(entry: entry, with: title, bodyText: bodyText, identifier: "1", timeStamp: timeStamp)
+            entryController.updateEntry(entry: entry, with: entryTitle, bodyText: bodyText, identifier: "1", timeStamp: timeStamp, mood: mood)
+            title = entryTitle
         }else {
             guard let entryController = entryController else { return }
-            entryController.createEntry(with: title, bodyText: bodyText, identifier: "1", timeStamp: timeStamp)
+            entryController.createEntry(with: entryTitle, bodyText: bodyText, identifier: "1", timeStamp: timeStamp, mood: mood)
+            
         }
         navigationController?.popToRootViewController(animated: true)
     }

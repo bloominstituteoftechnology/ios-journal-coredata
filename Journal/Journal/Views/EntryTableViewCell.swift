@@ -13,8 +13,10 @@ class EntryTableViewCell: UITableViewCell {
     // MARK: - IBOutlets & Properties
     
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var bodyTextLabel: UILabel!
     @IBOutlet weak var timeStampLabel: UILabel!
+    @IBOutlet weak var bodyTextLabel: UILabel!
+    @IBOutlet weak var moodLabel: UILabel!
+    
     
     var entry: Entry? {
         didSet {
@@ -34,10 +36,10 @@ class EntryTableViewCell: UITableViewCell {
     private func updateViews() {
         guard let entry = entry,
               let date = entry.timeStamp else { return }
-        
         titleLabel.text = entry.title
         bodyTextLabel.text = entry.bodyText
         timeStampLabel.text = dateFormatter.string(from: date)
+        moodLabel.text = entry.mood
     }
 
 }
