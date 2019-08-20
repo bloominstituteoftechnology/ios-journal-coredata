@@ -43,15 +43,16 @@ class EntryController {
     }
     
     //MARK: - CRUD Methods
-    func createEntry(title: String, bodyText: String) {
-        Entry(title: title, bodyText: bodyText)
+    func createEntry(title: String, bodyText: String, mood: Moods) {
+        Entry(title: title, bodyText: bodyText, mood: mood.rawValue)
         saveToPersistentStore()
     }
     
-    func updateEntry(entry: Entry, title: String, bodyText: String, timestamp: Date) {
+    func updateEntry(entry: Entry, title: String, bodyText: String, timestamp: Date, mood: Moods) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = timestamp
+        entry.mood = mood.rawValue
         
         saveToPersistentStore()
     }
