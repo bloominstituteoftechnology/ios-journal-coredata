@@ -53,14 +53,12 @@ class EnteriesTableViewController: UITableViewController {
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if segue.identifier == "AddShowSegue" {
-			guard let newEntryVC = segue.destination as? EntryDetailViewController,
-				let indexPath = tableView.indexPathForSelectedRow else { return }
-			
-			newEntryVC.entry = entryController.entries[indexPath.row]
+			guard let newEntryVC = segue.destination as? EntryDetailViewController else { return }
 			newEntryVC.entryController = entryController
 		} else {
-			guard let selectedEntryVC = segue.destination as? EntryDetailViewController else { return }
-			
+			guard let selectedEntryVC = segue.destination as? EntryDetailViewController,
+			let indexPath = tableView.indexPathForSelectedRow else { return }
+			selectedEntryVC.entry = entryController.entries[indexPath.row]
 			selectedEntryVC.entryController = entryController
 		}
 	}

@@ -8,6 +8,13 @@
 
 import UIKit
 
+
+enum Moods: String {
+	case 0 = "Happy"
+	case 1 = "Silly"
+	case 2 = "Deep thought"
+}
+
 class EntryDetailViewController: UIViewController {
 	
 	var entry: Entry? {
@@ -15,6 +22,7 @@ class EntryDetailViewController: UIViewController {
 			updateViews()
 		}
 	}
+	
 	var entryController: EntryController?
 
 	@IBOutlet weak var moodSegmentController: UISegmentedControl!
@@ -26,6 +34,7 @@ class EntryDetailViewController: UIViewController {
 			title = entry?.title
 			enteryTextField.text = entry?.title
 			enteriesTextView.text = entry?.bodyText
+			moodSegmentController.selectedSegmentIndex = entry?.mood
 		} else {
 			title = "Create Entry"
 		}
@@ -33,15 +42,16 @@ class EntryDetailViewController: UIViewController {
 	
 	@IBAction func save(_ sender: Any) {
 		guard let title = enteryTextField.text,
+			let mood = moodSegmentController.titleForSegment(at: 0),
 			let bodyText = enteriesTextView.text else { return }
 		
 		if entry != nil {
 			guard let thisEntry = entry else { return }
 			
-			entryController?.updateEntry(entry: thisEntry, with: title, bodyText: bodyText)
+			entryController?.updateEntry(entry: thisEntry, with: title, bodyText: bodyText, mood: mood)
 			navigationController?.popViewController(animated: true)
 		} else {
-			entryController?.createEntry(with: title, bodyText: bodyText)
+			entryController?.createEntry(with: title, bodyText: bodyText, mood: mood)
 			navigationController?.popViewController(animated: true)
 		}
 	}
@@ -52,7 +62,4 @@ class EntryDetailViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
-    
-
-   
 }
