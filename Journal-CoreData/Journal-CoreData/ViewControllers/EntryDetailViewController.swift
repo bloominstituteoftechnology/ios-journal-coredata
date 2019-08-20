@@ -10,10 +10,18 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
 
+	@IBOutlet weak var dateLabel: UILabel!
 	@IBOutlet weak var titleStaticLabel: UILabel!
 	@IBOutlet weak var titleTextField: UITextField!
 	@IBOutlet weak var bodyStaticLabel: UILabel!
 	@IBOutlet weak var bodyTextView: UITextView!
+
+	var dateFormatter: DateFormatter {
+		let formatter = DateFormatter()
+		formatter.dateStyle = .medium
+		formatter.timeStyle = .short
+		return formatter
+	}
 
 	var entry: Entry? {
 		didSet {
@@ -25,6 +33,7 @@ class EntryDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+		setUpToolBar()
 		updateViews()
 		setupUI()
 	}
@@ -52,8 +61,10 @@ class EntryDetailViewController: UIViewController {
 
 		if entry == nil {
 			title = "Create Entry"
+			dateLabel.isHidden = true
 		} else {
 			title = entry?.title
+			dateLabel.text = "Last modidfied: \(dateFormatter.string(from: entry?.timeStamp ?? Date()))"
 		}
 	}
 
@@ -61,5 +72,21 @@ class EntryDetailViewController: UIViewController {
 		bodyTextView.layer.borderWidth = 1
 		bodyTextView.layer.borderColor = UIColor(red: 0.66, green: 0.85, blue: 0.85, alpha: 1.00).cgColor
 		bodyTextView.layer.cornerRadius = 6
+	}
+
+	@objc func doneButtonAction() {
+		self.view.endEditing(true)
+	}
+
+	private func setUpToolBar() {
+		let toolbar: UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0,  width: self.view.frame.size.width, height: 30))
+		toolbar.barTintColor = UIColor(red: 0.82, green: 0.83, blue: 0.85, alpha: 1.00)
+		let flexSpace = UIBarButtonItem(barButtonSystemItem:    .flexibleSpace, target: nil, action: nil)
+		let doneBtn: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonAction))
+		doneBtn.tintColor = #colorLiteral(red: 0.05213885743, green: 0.103666974, blue: 0.1644355106, alpha: 1)
+		toolbar.setItems([flexSpace, doneBtn], animated: false)
+		toolbar.sizeToFit()
+		self.titleTextField.inputAccessoryView = toolbar
+		self.bodyTextView.inputAccessoryView = toolbar
 	}
 }

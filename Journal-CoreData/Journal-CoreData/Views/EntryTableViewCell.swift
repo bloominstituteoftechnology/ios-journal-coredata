@@ -14,6 +14,12 @@ class EntryTableViewCell: UITableViewCell {
 	@IBOutlet weak var dateLabel: UILabel!
 	@IBOutlet weak var bodyLabel: UILabel!
 
+	var dateFormatter: DateFormatter {
+		let formatter = DateFormatter()
+		formatter.dateStyle = .medium
+		formatter.timeStyle = .short
+		return formatter
+	}
 
 	var entry: Entry? {
 		didSet {
@@ -21,20 +27,10 @@ class EntryTableViewCell: UITableViewCell {
 		}
 	}
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
 
 	private func updateViews() {
 		titleLabel.text = entry?.title
 		bodyLabel.text = entry?.bodyText
-		dateLabel.text = "\(entry?.timeStamp ?? Date())"
+		dateLabel.text = "\(dateFormatter.string(from: entry?.timeStamp ?? Date()))"
 	}
 }
