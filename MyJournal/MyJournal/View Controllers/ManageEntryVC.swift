@@ -50,13 +50,17 @@ class ManageEntryVC: UIViewController {
 		for index in 0..<EntryEmoji.allCases.count {
 			feelingSegControl.insertSegment(withTitle: EntryEmoji.allCases[index].rawValue, at: index, animated: true)
 		}
-		feelingSegControl.selectedSegmentIndex = EntryEmoji.allCases.count / 2
+		feelingSegControl.selectedSegmentIndex = EntryEmoji.defaultIndex
 	}
 	
 	private func updateViews() {
 		guard let entry = entry else { return }
 		titleTextField.text = entry.title
 		storyTextView.text = entry.story
+		if let feelingEmoji = entry.feelingEmoji, let emoji = EntryEmoji(rawValue: feelingEmoji) {
+			let emojiIndex = EntryEmoji.allCases.firstIndex(of: emoji) ?? EntryEmoji.defaultIndex
+			feelingSegControl.selectedSegmentIndex = emojiIndex
+		}
 	}
 	
 	private func okAction(message: String) {

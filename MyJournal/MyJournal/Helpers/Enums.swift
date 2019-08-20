@@ -10,4 +10,8 @@ import Foundation
 
 enum EntryEmoji: String, CaseIterable {
 	case 😞, 😐, 🙂, 😃
+	
+	static var defaultIndex: Int {
+		return self.allCases.count / 2
+	}
 }
