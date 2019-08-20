@@ -41,6 +41,5 @@ class EntryTableViewCell: UITableViewCell {
         timeStampLabel.text = dateFormatter.string(from: date)
         moodLabel.text = entry.mood
     }
-
 }
 
