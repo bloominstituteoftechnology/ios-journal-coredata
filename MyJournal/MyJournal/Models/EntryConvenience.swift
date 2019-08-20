@@ -11,11 +11,12 @@ import CoreData
 
 extension Entry {
 	
-	@discardableResult convenience init(title: String, story: String?, lastUpdated: Date = Date(), context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+	@discardableResult convenience init(title: String, story: String?, lastUpdated: Date = Date(), entryFeeling: EntryEmoji, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
 		self.init(context: context)
 		
 		self.title = title
 		self.story = story
 		self.lastUpdated = lastUpdated
+		self.feelingEmoji = entryFeeling.rawValue
 	}
 }
