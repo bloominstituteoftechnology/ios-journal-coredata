@@ -14,6 +14,7 @@ class ManageEntryVC: UIViewController {
 	
 	@IBOutlet weak var titleTextField: UITextField!
 	@IBOutlet weak var storyTextView: UITextView!
+	@IBOutlet weak var feelingSegControl: UISegmentedControl!
 	
 	//MARK: - Properties
 	
@@ -25,6 +26,7 @@ class ManageEntryVC: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
+		setupSegControl()
 		updateViews()
 	}
 	
@@ -32,18 +34,27 @@ class ManageEntryVC: UIViewController {
 	
 	@IBAction func saveBtnTapped(_ sender: Any) {
 		guard let title = titleTextField.optionalText else { return }
-		let story  = storyTextView.text
+		let story = storyTextView.text
+		let emoji = EntryEmoji.allCases[feelingSegControl.selectedSegmentIndex]
 		
 		if let entry = entry {
-			journalController.updateEntry(entry: entry, title: title, story: story)
+			journalController.updateEntry(entry: entry, title: title, story: story, entryFeeling: emoji)
 		} else {
-			journalController.createEntry(title: title, story: story)
+			journalController.createEntry(title: title, story: story, entryFeeling: emoji)
 		}
 		
 		okAction(message: entry == nil ? "New journal entry created." : "Journal entry updated.")
 	}
 	
 	//MARK: - Helpers
+	
+	private func setupSegControl() {
+		feelingSegControl.removeAllSegments()
+		for index in 0..<EntryEmoji.allCases.count {
+			feelingSegControl.insertSegment(withTitle: EntryEmoji.allCases[index].rawValue, at: index, animated: true)
+		}
+		feelingSegControl.selectedSegmentIndex = EntryEmoji.allCases.count / 2
+	}
 	
 	private func updateViews() {
 		guard let entry = entry else { return }

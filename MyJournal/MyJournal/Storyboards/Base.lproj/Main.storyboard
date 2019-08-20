@@ -13,7 +13,6 @@
         <!--Create Entry-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <viewController id="BYZ-38-t0r" customClass="ManageEntryVC" customModule="MyJournal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -28,8 +27,17 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="l5V-Nc-AJI">
+                                        <rect key="frame" x="0.0" y="45" width="373" height="29"/>
+                                        <segments>
+                                            <segment title="First"/>
+                                            <segment title="Second"/>
+                                            <segment title=""/>
+                                            <segment title=""/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Z5d-1g-J1s">
-                                        <rect key="frame" x="0.0" y="45" width="373" height="316"/>
+                                        <rect key="frame" x="0.0" y="88" width="373" height="273"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -54,10 +62,12 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="feelingSegControl" destination="l5V-Nc-AJI" id="SF4-Po-8DE"/>
                         <outlet property="storyTextView" destination="Z5d-1g-J1s" id="wI1-aq-bEd"/>
                         <outlet property="titleTextField" destination="wHP-LD-6MN" id="Nvx-Mc-nYI"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1903" y="139"/>
         </scene>

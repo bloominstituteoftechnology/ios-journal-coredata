@@ -10,16 +10,17 @@ import Foundation
 
 class JournalController {
 	
-	func createEntry(title: String, story: String?) {
-		Entry(title: title, story: story, lastUpdated: Date())
+	func createEntry(title: String, story: String?, entryFeeling: EntryEmoji) {
+		Entry(title: title, story: story, lastUpdated: Date(), entryFeeling: entryFeeling)
 		
 		saveToPersistentStore()
 	}
 	
-	func updateEntry(entry: Entry, title: String, story: String?) {
+	func updateEntry(entry: Entry, title: String, story: String?, entryFeeling: EntryEmoji) {
 		entry.title = title
 		entry.story = story
 		entry.lastUpdated = Date()
+		entry.feelingEmoji = entryFeeling.rawValue
 		
 		saveToPersistentStore()
 	}
