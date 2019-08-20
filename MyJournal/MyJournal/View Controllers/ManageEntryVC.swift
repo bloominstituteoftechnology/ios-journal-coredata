@@ -25,7 +25,6 @@ class ManageEntryVC: UIViewController {
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		
 		setupSegControl()
 		updateViews()
 	}
@@ -36,13 +35,11 @@ class ManageEntryVC: UIViewController {
 		guard let title = titleTextField.optionalText else { return }
 		let story = storyTextView.text
 		let emoji = EntryEmoji.allCases[feelingSegControl.selectedSegmentIndex]
-		
 		if let entry = entry {
 			journalController.updateEntry(entry: entry, title: title, story: story, entryFeeling: emoji)
 		} else {
 			journalController.createEntry(title: title, story: story, entryFeeling: emoji)
 		}
-		
 		okAction(message: entry == nil ? "New journal entry created." : "Journal entry updated.")
 	}
 	
@@ -58,7 +55,6 @@ class ManageEntryVC: UIViewController {
 	
 	private func updateViews() {
 		guard let entry = entry else { return }
-		
 		titleTextField.text = entry.title
 		storyTextView.text = entry.story
 	}
@@ -70,7 +66,6 @@ class ManageEntryVC: UIViewController {
 		}))
 		self.present(alert, animated: true)
 	}
-	
 }
 
 extension UITextField {
