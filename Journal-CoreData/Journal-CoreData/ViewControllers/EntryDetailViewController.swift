@@ -48,7 +48,7 @@ class EntryDetailViewController: UIViewController {
 			entryController?.createEntry(title: title, bodyText: bodyText, identifier: "")
 		} else {
 			guard let entry = entry else { return }
-			entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText)
+			entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText, date: Date())
 		}
 		navigationController?.popViewController(animated: true)
 	}

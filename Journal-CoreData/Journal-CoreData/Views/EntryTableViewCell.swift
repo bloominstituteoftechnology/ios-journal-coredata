@@ -16,7 +16,7 @@ class EntryTableViewCell: UITableViewCell {
 
 	var dateFormatter: DateFormatter {
 		let formatter = DateFormatter()
-		formatter.dateStyle = .medium
+		formatter.dateStyle = .short
 		formatter.timeStyle = .short
 		return formatter
 	}
