@@ -15,7 +15,10 @@ class EntryDetailViewController: UIViewController {
 	@IBOutlet weak var titleTextField: UITextField!
 	@IBOutlet weak var bodyStaticLabel: UILabel!
 	@IBOutlet weak var bodyTextView: UITextView!
+	@IBOutlet weak var gradientView: UIView!
+	@IBOutlet weak var bodyView: UIView!
 
+	let layer = CAGradientLayer()
 	var dateFormatter: DateFormatter {
 		let formatter = DateFormatter()
 		formatter.dateStyle = .medium
@@ -33,6 +36,7 @@ class EntryDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+		bodyTextView.delegate = self
 		setUpToolBar()
 		updateViews()
 		setupUI()
@@ -69,9 +73,12 @@ class EntryDetailViewController: UIViewController {
 	}
 
 	private func setupUI() {
-		bodyTextView.layer.borderWidth = 1
-		bodyTextView.layer.borderColor = UIColor(red: 0.66, green: 0.85, blue: 0.85, alpha: 1.00).cgColor
-		bodyTextView.layer.cornerRadius = 6
+		bodyStaticLabel.isHidden = true
+		layer.colors = [UIColor.white.cgColor, UIColor(red: 0.70, green: 0.89, blue: 0.89, alpha: 0.95).cgColor]
+		layer.frame = gradientView.bounds
+		gradientView.layer.insertSublayer(layer, at: 0)
+		bodyView.backgroundColor = .clear
+		bodyStaticLabel.isHidden = true
 	}
 
 	@objc func doneButtonAction() {
@@ -88,5 +95,29 @@ class EntryDetailViewController: UIViewController {
 		toolbar.sizeToFit()
 		self.titleTextField.inputAccessoryView = toolbar
 		self.bodyTextView.inputAccessoryView = toolbar
+	}
+}
+
+extension EntryDetailViewController: UITextViewDelegate {
+	func textViewDidBeginEditing(_ textView: UITextView) {
+		UIView.animate(withDuration: 0.3) {
+			self.bodyStaticLabel.isHidden = false
+			self.bodyView.layer.shadowColor = #colorLiteral(red: 0.05213885743, green: 0.103666974, blue: 0.1644355106, alpha: 1)
+			self.bodyView.layer.shadowRadius = 20
+			self.bodyView.layer.shadowOpacity = 0.2
+			self.bodyView.layer.cornerRadius = 8
+			self.bodyView.backgroundColor = .white
+		}
+	}
+
+	func textViewDidEndEditing(_ textView: UITextView) {
+		bodyTextView.layer.borderWidth = 0
+		bodyTextView.layer.borderColor = UIColor(red: 0.66, green: 0.85, blue: 0.85, alpha: 1.00).cgColor
+		bodyTextView.layer.cornerRadius = 6
+
+		UIView.animate(withDuration: 0.3) {
+			self.bodyStaticLabel.isHidden = true
+			self.bodyView.backgroundColor = .clear
+		}
 	}
 }

@@ -29,19 +29,19 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="JKL-au-gsE">
                                             <rect key="frame" x="20" y="11" width="348" height="44"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="01f-dw-ZzD">
+                                                <stackView opaque="NO" contentMode="scaleToFill" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="01f-dw-ZzD">
                                                     <rect key="frame" x="0.0" y="0.0" width="348" height="20.5"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Title of Entry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jua-jq-oVn">
-                                                            <rect key="frame" x="0.0" y="0.0" width="242.5" height="20.5"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Title of Entry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.69999999999999996" translatesAutoresizingMaskIntoConstraints="NO" id="jua-jq-oVn">
+                                                            <rect key="frame" x="0.0" y="0.0" width="102.5" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="To6-Vr-jOa">
-                                                            <rect key="frame" x="258.5" y="0.0" width="89.5" height="20.5"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12/20/19, 12:07 AM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="To6-Vr-jOa">
+                                                            <rect key="frame" x="118.5" y="0.0" width="229.5" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                            <nil key="textColor"/>
+                                                            <color key="textColor" red="0.007648295823" green="0.373678754" blue="0.39324643570000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -98,19 +98,46 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Gti-NC-M39">
-                                <rect key="frame" x="20" y="283" width="374" height="404"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fRJ-7c-Bfl">
+                                <rect key="frame" x="0.0" y="242" width="414" height="654"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Body:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pki-RT-hl3">
+                                        <rect key="frame" x="28" y="5" width="40.5" height="18"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
+                                        <color key="textColor" red="0.32067876439999998" green="0.41238524780000002" blue="0.41292274540000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qZp-v1-m3H">
+                                        <rect key="frame" x="20" y="28" width="374" height="476"/>
+                                        <subviews>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Gti-NC-M39">
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="476"/>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <inset key="scrollIndicatorInsets" minX="16" minY="10" maxX="16" maxY="10"/>
+                                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="Gti-NC-M39" firstAttribute="leading" secondItem="qZp-v1-m3H" secondAttribute="leading" id="0qH-Lg-85z"/>
+                                            <constraint firstItem="Gti-NC-M39" firstAttribute="top" secondItem="qZp-v1-m3H" secondAttribute="top" id="7FX-eA-R55"/>
+                                            <constraint firstAttribute="trailing" secondItem="Gti-NC-M39" secondAttribute="trailing" id="7Fz-j1-LlH"/>
+                                            <constraint firstAttribute="bottom" secondItem="Gti-NC-M39" secondAttribute="bottom" id="qmz-KW-mEr"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <inset key="scrollIndicatorInsets" minX="16" minY="10" maxX="16" maxY="10"/>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Body:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pki-RT-hl3">
-                                <rect key="frame" x="28" y="259" width="40.5" height="18"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                                <color key="textColor" red="0.32067876439999998" green="0.41238524780000002" blue="0.41292274540000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="qZp-v1-m3H" secondAttribute="bottom" constant="150" id="81Q-Xg-MA5"/>
+                                    <constraint firstItem="qZp-v1-m3H" firstAttribute="leading" secondItem="fRJ-7c-Bfl" secondAttribute="leading" constant="20" id="LbO-3H-jnH"/>
+                                    <constraint firstAttribute="trailing" secondItem="qZp-v1-m3H" secondAttribute="trailing" constant="20" id="Qmk-Cd-M1P"/>
+                                    <constraint firstItem="qZp-v1-m3H" firstAttribute="top" secondItem="Pki-RT-hl3" secondAttribute="bottom" constant="5" id="Z1F-KC-53m"/>
+                                    <constraint firstItem="Pki-RT-hl3" firstAttribute="top" secondItem="fRJ-7c-Bfl" secondAttribute="top" constant="5" id="bok-7n-zg7"/>
+                                    <constraint firstItem="Pki-RT-hl3" firstAttribute="leading" secondItem="fRJ-7c-Bfl" secondAttribute="leading" constant="28" id="poA-zZ-ReI"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Pki-RT-hl3" secondAttribute="trailing" constant="20" symbolic="YES" id="vAg-SU-bZI"/>
+                                </constraints>
+                            </view>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="as9-Ri-lrf">
                                 <rect key="frame" x="20" y="148" width="374" height="86"/>
                                 <subviews>
@@ -163,16 +190,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="Gti-NC-M39" firstAttribute="top" secondItem="Pki-RT-hl3" secondAttribute="bottom" constant="6" id="B1W-Yd-Mhw"/>
-                            <constraint firstItem="Hrw-TB-riH" firstAttribute="bottom" secondItem="Gti-NC-M39" secondAttribute="bottom" constant="175" id="BzB-mn-T4J"/>
-                            <constraint firstItem="Pki-RT-hl3" firstAttribute="top" secondItem="as9-Ri-lrf" secondAttribute="bottom" constant="25" id="KhP-3H-zn7"/>
-                            <constraint firstItem="Gti-NC-M39" firstAttribute="leading" secondItem="Hrw-TB-riH" secondAttribute="leading" constant="20" id="Rrd-5D-atg"/>
-                            <constraint firstItem="Hrw-TB-riH" firstAttribute="trailing" secondItem="Gti-NC-M39" secondAttribute="trailing" constant="20" id="WYt-l5-XnS"/>
+                            <constraint firstAttribute="bottom" secondItem="fRJ-7c-Bfl" secondAttribute="bottom" id="7e9-hL-RCP"/>
+                            <constraint firstItem="fRJ-7c-Bfl" firstAttribute="top" secondItem="as9-Ri-lrf" secondAttribute="bottom" constant="8" symbolic="YES" id="MFP-XI-UKt"/>
+                            <constraint firstItem="fRJ-7c-Bfl" firstAttribute="centerX" secondItem="as9-Ri-lrf" secondAttribute="centerX" id="Tfl-Mg-dhy"/>
                             <constraint firstItem="as9-Ri-lrf" firstAttribute="top" secondItem="Hrw-TB-riH" secondAttribute="top" constant="8" id="ait-IT-zha"/>
                             <constraint firstItem="Hrw-TB-riH" firstAttribute="trailing" secondItem="as9-Ri-lrf" secondAttribute="trailing" constant="20" id="eo2-lm-dog"/>
-                            <constraint firstItem="Pki-RT-hl3" firstAttribute="leading" secondItem="Hrw-TB-riH" secondAttribute="leading" constant="28" id="gnJ-1l-pG9"/>
                             <constraint firstItem="as9-Ri-lrf" firstAttribute="leading" secondItem="Hrw-TB-riH" secondAttribute="leading" constant="20" id="jH0-oR-Y6O"/>
-                            <constraint firstItem="Hrw-TB-riH" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Pki-RT-hl3" secondAttribute="trailing" id="ztG-zv-K6t"/>
+                            <constraint firstItem="fRJ-7c-Bfl" firstAttribute="leading" secondItem="Hk7-Ck-gRy" secondAttribute="leading" id="ulD-Jf-Arh"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Hrw-TB-riH"/>
                     </view>
@@ -186,7 +210,9 @@
                     <connections>
                         <outlet property="bodyStaticLabel" destination="Pki-RT-hl3" id="0gf-aZ-rXC"/>
                         <outlet property="bodyTextView" destination="Gti-NC-M39" id="DAH-bj-G6Z"/>
+                        <outlet property="bodyView" destination="qZp-v1-m3H" id="dB3-5n-rJB"/>
                         <outlet property="dateLabel" destination="LL8-Xp-xFr" id="ioQ-04-fkO"/>
+                        <outlet property="gradientView" destination="fRJ-7c-Bfl" id="BYY-4e-xOi"/>
                         <outlet property="titleStaticLabel" destination="QHy-pE-lcx" id="wzQ-ae-wJK"/>
                         <outlet property="titleTextField" destination="GMA-GL-C06" id="VlA-wR-lXv"/>
                     </connections>
