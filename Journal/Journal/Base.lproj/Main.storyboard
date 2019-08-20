@@ -104,13 +104,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="FJS-qF-0tJ">
-                                <rect key="frame" x="30" y="108" width="354" height="30"/>
+                                <rect key="frame" x="30" y="158" width="354" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fCR-Hh-TFN">
-                                <rect key="frame" x="30" y="168" width="354" height="300"/>
+                                <rect key="frame" x="30" y="248" width="354" height="300"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="300" id="ruO-90-MK4"/>
@@ -118,15 +118,29 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="wo1-Cr-jbZ">
+                                <rect key="frame" x="100" y="108" width="214" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="l8U-z5-6e6"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="😞"/>
+                                    <segment title="😐"/>
+                                    <segment title="🙂"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="fCR-Hh-TFN" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="6pI-wb-SZI"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="fCR-Hh-TFN" secondAttribute="trailing" constant="30" id="8tD-rC-P5L"/>
+                            <constraint firstItem="wo1-Cr-jbZ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="Gzc-6Y-S4H"/>
+                            <constraint firstItem="wo1-Cr-jbZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="100" id="IkK-To-XYV"/>
                             <constraint firstItem="FJS-qF-0tJ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="SjI-oC-rKY"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="FJS-qF-0tJ" secondAttribute="trailing" constant="30" id="Tyv-Rq-WRS"/>
-                            <constraint firstItem="FJS-qF-0tJ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="UCB-Ju-Jb1"/>
-                            <constraint firstItem="fCR-Hh-TFN" firstAttribute="top" secondItem="FJS-qF-0tJ" secondAttribute="bottom" constant="30" id="lsh-V7-WGA"/>
+                            <constraint firstItem="fCR-Hh-TFN" firstAttribute="top" secondItem="FJS-qF-0tJ" secondAttribute="bottom" constant="60" id="lsh-V7-WGA"/>
+                            <constraint firstItem="FJS-qF-0tJ" firstAttribute="top" secondItem="wo1-Cr-jbZ" secondAttribute="bottom" constant="20" id="reC-WO-ult"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="wo1-Cr-jbZ" secondAttribute="trailing" constant="100" id="yxP-Id-9Cw"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -139,6 +153,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bodyTextView" destination="fCR-Hh-TFN" id="vCE-Vb-ghg"/>
+                        <outlet property="moodSegmentControl" destination="wo1-Cr-jbZ" id="rmB-Lu-dJX"/>
                         <outlet property="titleTextField" destination="FJS-qF-0tJ" id="Rmd-7A-9um"/>
                     </connections>
                 </viewController>
