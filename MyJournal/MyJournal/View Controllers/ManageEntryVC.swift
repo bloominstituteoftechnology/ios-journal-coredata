@@ -20,12 +20,14 @@ class ManageEntryVC: UIViewController {
 	
 	var journalController: JournalController!
 	var entry: Entry?
+	private let textViewPlaceholder = "Tell us your story..."
 	
 	//MARK: - Life Cycle
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupSegControl()
+		setupTextView()
 		updateViews()
 	}
 	
@@ -73,6 +75,32 @@ class ManageEntryVC: UIViewController {
 		self.present(alert, animated: true)
 	}
 }
+
+//MARK: - TextView Delegate
+
+extension ManageEntryVC: UITextViewDelegate {
+	private func setupTextView() {
+		storyTextView.delegate = self
+		storyTextView.text = textViewPlaceholder
+		storyTextView.textColor = UIColor.lightGray
+	}
+	
+	func textViewDidBeginEditing(_ textView: UITextView) {
+		if textView.textColor == UIColor.lightGray {
+			textView.text = nil
+			textView.textColor = UIColor.black
+		}
+	}
+	
+	func textViewDidEndEditing(_ textView: UITextView) {
+		if textView.text.isEmpty {
+			textView.text = textViewPlaceholder
+			textView.textColor = UIColor.lightGray
+		}
+	}
+}
+
+//MARK: - TextField Extension
 
 extension UITextField {
 	var optionalText: String? {
