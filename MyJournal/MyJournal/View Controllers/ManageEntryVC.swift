@@ -28,6 +28,7 @@ class ManageEntryVC: UIViewController {
 		super.viewDidLoad()
 		setupSegControl()
 		setupTextView()
+		setupKeyboardDismissRecognizer()
 		updateViews()
 	}
 	
@@ -73,6 +74,15 @@ class ManageEntryVC: UIViewController {
 			self.navigationController?.popViewController(animated: true)
 		}))
 		self.present(alert, animated: true)
+	}
+	
+	private func setupKeyboardDismissRecognizer(){
+		let tapRecognizer: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+		self.view.addGestureRecognizer(tapRecognizer)
+	}
+	
+	@objc private func dismissKeyboard() {
+		view.endEditing(true)
 	}
 }
 
