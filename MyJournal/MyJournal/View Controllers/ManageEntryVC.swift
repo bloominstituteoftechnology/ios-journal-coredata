@@ -46,6 +46,8 @@ class ManageEntryVC: UIViewController {
 	//MARK: - Helpers
 	
 	private func setupSegControl() {
+		let attributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
+		feelingSegControl.setTitleTextAttributes(attributes, for: .selected)
 		feelingSegControl.removeAllSegments()
 		for index in 0..<EntryEmoji.allCases.count {
 			feelingSegControl.insertSegment(withTitle: EntryEmoji.allCases[index].rawValue, at: index, animated: true)
