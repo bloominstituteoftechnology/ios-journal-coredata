@@ -17,6 +17,9 @@ class EntryDetailViewController: UIViewController {
 	@IBOutlet weak var bodyTextView: UITextView!
 	@IBOutlet weak var gradientView: UIView!
 	@IBOutlet weak var bodyView: UIView!
+	@IBOutlet weak var moodSegControl: UISegmentedControl!
+	@IBOutlet weak var textFieldView: UIView!
+	@IBOutlet weak var textFieldAndSegControlStackView: UIStackView!
 
 	let layer = CAGradientLayer()
 	var dateFormatter: DateFormatter {
@@ -25,6 +28,7 @@ class EntryDetailViewController: UIViewController {
 		formatter.timeStyle = .short
 		return formatter
 	}
+	
 
 	var entry: Entry? {
 		didSet {
@@ -48,11 +52,14 @@ class EntryDetailViewController: UIViewController {
 			!title.isEmpty,
 			!bodyText.isEmpty else { return }
 
+		let moodIndex = moodSegControl.selectedSegmentIndex
+		let mood = Mood.allCases[moodIndex]
+
 		if entry == nil {
-			entryController?.createEntry(title: title, bodyText: bodyText, identifier: "")
+			entryController?.createEntry(title: title, bodyText: bodyText, identifier: "", mood: mood)
 		} else {
 			guard let entry = entry else { return }
-			entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText, date: Date())
+			entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText, date: Date(), mood: mood)
 		}
 		navigationController?.popViewController(animated: true)
 	}
@@ -62,6 +69,12 @@ class EntryDetailViewController: UIViewController {
 		guard isViewLoaded else { return }
 		titleTextField.text = entry?.title
 		bodyTextView.text = entry?.bodyText
+
+		if let moodString = entry?.mood,
+			let mood = Mood(rawValue: moodString) {
+			let moodIndex = Mood.allCases.firstIndex(of: mood) ?? 1
+			moodSegControl.selectedSegmentIndex = moodIndex
+		}
 
 		if entry == nil {
 			title = "Create Entry"
@@ -74,11 +87,12 @@ class EntryDetailViewController: UIViewController {
 
 	private func setupUI() {
 		bodyStaticLabel.isHidden = true
-		layer.colors = [UIColor.white.cgColor, UIColor(red: 0.70, green: 0.89, blue: 0.89, alpha: 0.95).cgColor]
+		layer.colors = [UIColor.white.cgColor, UIColor(red: 0.03, green: 0.68, blue: 0.72, alpha: 1.00).cgColor]
 		layer.frame = gradientView.bounds
 		gradientView.layer.insertSublayer(layer, at: 0)
 		bodyView.backgroundColor = .clear
-		bodyStaticLabel.isHidden = true
+		bodyStaticLabel.isHidden = false
+		moodSegControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:UIColor.white], for:.selected)
 	}
 
 	@objc func doneButtonAction() {
@@ -87,7 +101,7 @@ class EntryDetailViewController: UIViewController {
 
 	private func setUpToolBar() {
 		let toolbar: UIToolbar = UIToolbar(frame: CGRect(x: 0, y: 0,  width: self.view.frame.size.width, height: 30))
-		toolbar.barTintColor = UIColor(red: 0.82, green: 0.83, blue: 0.85, alpha: 1.00)
+		toolbar.barStyle = .default
 		let flexSpace = UIBarButtonItem(barButtonSystemItem:    .flexibleSpace, target: nil, action: nil)
 		let doneBtn: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonAction))
 		doneBtn.tintColor = #colorLiteral(red: 0.05213885743, green: 0.103666974, blue: 0.1644355106, alpha: 1)
@@ -100,14 +114,21 @@ class EntryDetailViewController: UIViewController {
 
 extension EntryDetailViewController: UITextViewDelegate {
 	func textViewDidBeginEditing(_ textView: UITextView) {
-		UIView.animate(withDuration: 0.3) {
-			self.bodyStaticLabel.isHidden = false
+		UIView.animate(withDuration: 0.1) {
+			self.moodSegControl.isHidden = true
+			self.bodyStaticLabel.isHidden = true
+			self.textFieldView.isHidden = true
+		}
+
+		UIView.animate(withDuration: 0.7, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 5.0, options: [.curveEaseOut], animations: {
+			self.navigationController?.isNavigationBarHidden = true
+			self.textFieldAndSegControlStackView.isHidden = true
 			self.bodyView.layer.shadowColor = #colorLiteral(red: 0.05213885743, green: 0.103666974, blue: 0.1644355106, alpha: 1)
 			self.bodyView.layer.shadowRadius = 20
 			self.bodyView.layer.shadowOpacity = 0.2
 			self.bodyView.layer.cornerRadius = 8
 			self.bodyView.backgroundColor = .white
-		}
+		}, completion: nil)
 	}
 
 	func textViewDidEndEditing(_ textView: UITextView) {
@@ -115,9 +136,16 @@ extension EntryDetailViewController: UITextViewDelegate {
 		bodyTextView.layer.borderColor = UIColor(red: 0.66, green: 0.85, blue: 0.85, alpha: 1.00).cgColor
 		bodyTextView.layer.cornerRadius = 6
 
-		UIView.animate(withDuration: 0.3) {
-			self.bodyStaticLabel.isHidden = true
-			self.bodyView.backgroundColor = .clear
+		UIView.animate(withDuration: 0.2) {
+			self.moodSegControl.isHidden = false
+			self.bodyStaticLabel.isHidden = false
+			self.textFieldView.isHidden = false
 		}
+
+		UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 5.0, options: [], animations: {
+			self.navigationController?.isNavigationBarHidden = false
+			self.textFieldAndSegControlStackView.isHidden = false
+			self.bodyView.backgroundColor = .clear
+		}, completion: nil)
 	}
 }
