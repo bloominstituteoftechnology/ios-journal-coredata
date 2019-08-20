@@ -10,11 +10,7 @@ import Foundation
 import CoreData
 
 class EntryController {
-    
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
-    
+
     func saveToPersistentStore() {
         do {
             try CoreDataStack.shared.mainContext.save()
@@ -22,18 +18,7 @@ class EntryController {
             NSLog("Error saving to persistent:\(error)")
         }
     }
-    
-    func loadFromPersistentStore() -> [Entry] {
-        let request : NSFetchRequest<Entry> = Entry.fetchRequest()
-        
-        do {
-            return try CoreDataStack.shared.mainContext.fetch(request)
-        } catch {
-            NSLog("Error loading from persistent: \(error)")
-            return []
-        }
-    }
-    
+
     func createEntry(with title: String, timeStamp: Date, bodyText: String, identifier: String, mood: Int64) {
         let _ = Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, identifier: identifier, mood: mood)
         saveToPersistentStore()
