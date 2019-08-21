@@ -28,7 +28,6 @@ class EntryDetailViewController: UIViewController {
 		formatter.timeStyle = .short
 		return formatter
 	}
-	
 
 	var entry: Entry? {
 		didSet {
@@ -36,7 +35,6 @@ class EntryDetailViewController: UIViewController {
 		}
 	}
 	var entryController: EntryController?
-
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,18 +68,17 @@ class EntryDetailViewController: UIViewController {
 		titleTextField.text = entry?.title
 		bodyTextView.text = entry?.bodyText
 
-		if let moodString = entry?.mood,
-			let mood = Mood(rawValue: moodString) {
-			let moodIndex = Mood.allCases.firstIndex(of: mood) ?? 1
-			moodSegControl.selectedSegmentIndex = moodIndex
-		}
-
 		if entry == nil {
 			title = "Create Entry"
 			dateLabel.isHidden = true
 		} else {
 			title = entry?.title
 			dateLabel.text = "Last modidfied: \(dateFormatter.string(from: entry?.timeStamp ?? Date()))"
+			if let moodString = entry?.mood,
+				let mood = Mood(rawValue: moodString) {
+				let moodIndex = Mood.allCases.firstIndex(of: mood) ?? 1
+				moodSegControl.selectedSegmentIndex = moodIndex
+			}
 		}
 	}
 
