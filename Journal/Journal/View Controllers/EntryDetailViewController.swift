@@ -72,11 +72,11 @@ class EntryDetailViewController: UIViewController {
         
         if let entry = entry,
            let entryController = entryController {
-            entryController.updateEntry(entry: entry, with: entryTitle, bodyText: bodyText, identifier: "1", timeStamp: timeStamp, mood: mood)
+            entryController.updateEntry(entry: entry, with: entryTitle, bodyText: bodyText, timeStamp: timeStamp, mood: mood)
             title = entryTitle
         }else {
             guard let entryController = entryController else { return }
-            entryController.createEntry(with: entryTitle, bodyText: bodyText, identifier: "1", timeStamp: timeStamp, mood: mood)
+            entryController.createEntry(with: entryTitle, bodyText: bodyText, timeStamp: timeStamp, mood: mood)
             
         }
         navigationController?.popToRootViewController(animated: true)

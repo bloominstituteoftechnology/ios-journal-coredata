@@ -18,8 +18,9 @@ class CoreDataStack {
         let container = NSPersistentContainer(name: "Journal")
         
         container.loadPersistentStores(completionHandler: { (_, error) in
-            if let error = error {
-                fatalError("Failed to load persistent store(s): \(error)")
+            if let error = error as NSError? {
+                fatalError("Failed to load persistent store(s): \(error) \(error.userInfo)")
+                
             }
         })
         return container

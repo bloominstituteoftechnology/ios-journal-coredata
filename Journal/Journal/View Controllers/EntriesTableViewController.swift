@@ -21,8 +21,9 @@ class EntriesTableViewController: UIViewController {
         
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
-        let timeStampDiscriptor = NSSortDescriptor(key: "timeStamp", ascending: true)
-        fetchRequest.sortDescriptors = [timeStampDiscriptor]
+        let timeStampDiscriptor = NSSortDescriptor(key: "timeStamp", ascending: false)
+        let moodDescriptor = NSSortDescriptor(key: "mood", ascending: true)
+        fetchRequest.sortDescriptors = [moodDescriptor, timeStampDiscriptor]
         
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.shared.mainContext, sectionNameKeyPath: "timeStamp", cacheName: nil)
         frc.delegate = self
@@ -90,7 +91,6 @@ extension EntriesTableViewController: UITableViewDelegate, UITableViewDataSource
         if editingStyle == .delete {
             let entryToDelete = fetchedResultsController.object(at: indexPath)
             entryController.deleteEntry(entry: entryToDelete)
-            tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
 }
