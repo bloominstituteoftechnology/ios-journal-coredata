@@ -62,7 +62,8 @@ You will now implement an `NSFetchedResultsController` to manage displaying entr
 
 1. In the `EntriesTableViewController`, create a lazy stored property called `fetchedResultsController`. Its type should be `NSFetchedResultsController<Entry>`. It should be initialized using a closure. Inside the closure:
     - Create a fetch request from the `Entry` object.
-    - Create a sort descriptor that will sort the entries based on their `timestamp`. This can be either ascending or descending depending on your preference.
+    - Create a sort descriptor that will sort the entries based on their `mood`. This can be either ascending or descending depending on your preference.
+    - Create a sort descriptor that will sort the entries based on their `timestamp`. This can also be either ascending or descending depending on your preference.
     - Give the sort descriptor to the fetch request's `sortDescriptors` property. Note that this property's type is an array of sort descriptors, not a single one.
     - Create a constant that references your core data stack's `mainContext`.
     - Create a constant and initialize an `NSFetchedResultsController` using the fetch request and managed object context. For the `sectionNameKeyPath`, put "mood" (exactly how you spelled it in the data model file), and `nil` for `cacheName`.
