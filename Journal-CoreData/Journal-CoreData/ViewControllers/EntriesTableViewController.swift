@@ -13,10 +13,15 @@ class EntriesTableViewController: UITableViewController {
 
 	let entryController = EntryController()
 
+	override var preferredStatusBarStyle: UIStatusBarStyle {
+		return .lightContent
+	}
+
 	lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
 		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
 		let timeDescriptor = NSSortDescriptor(key: "timeStamp", ascending: false)
-		fetchRequest.sortDescriptors = [timeDescriptor]
+		let moodDescriptor = NSSortDescriptor(key: "mood", ascending: false)
+		fetchRequest.sortDescriptors = [moodDescriptor, timeDescriptor]
 		let moc = CoreDataStack.shared.mainContext
 		let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
 		frc.delegate = self

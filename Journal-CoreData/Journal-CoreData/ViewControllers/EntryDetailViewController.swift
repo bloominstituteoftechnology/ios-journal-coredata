@@ -22,6 +22,11 @@ class EntryDetailViewController: UIViewController {
 	@IBOutlet weak var textFieldAndSegControlStackView: UIStackView!
 
 	let layer = CAGradientLayer()
+
+	override var preferredStatusBarStyle: UIStatusBarStyle {
+		return .lightContent
+	}
+	
 	var dateFormatter: DateFormatter {
 		let formatter = DateFormatter()
 		formatter.dateStyle = .medium
