@@ -36,6 +36,7 @@ class EntriesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
+		tableView.separatorColor = #colorLiteral(red: 0.6629147508, green: 0.8524925693, blue: 0.8536036969, alpha: 1)
     }
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -48,8 +49,13 @@ class EntriesTableViewController: UITableViewController {
 		return fetchedResultsController.sections?.count ?? 1
 	}
 
-	override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-		return fetchedResultsController.sections?[section].name
+	override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+		let returnedView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 25))
+		returnedView.backgroundColor = UIColor(red: 0.18, green: 0.20, blue: 0.25, alpha: 1.00)
+		let label = UILabel(frame: CGRect(x: 10, y: 0, width: 24, height: 24))
+		label.text = fetchedResultsController.sections?[section].name
+		returnedView.addSubview(label)
+		return returnedView
 	}
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
