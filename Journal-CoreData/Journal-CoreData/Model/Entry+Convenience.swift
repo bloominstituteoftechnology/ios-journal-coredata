@@ -18,7 +18,7 @@ enum Mood: String, CaseIterable, Codable {
 extension Entry {
 	@discardableResult convenience init(title: String,
 										timeStamp: Date = Date(),
-										identifier: UUID = UUID(),
+										identifier: String = UUID().uuidString,
 										bodyText: String,
 										context: NSManagedObjectContext = CoreDataStack.shared.mainContext,
 										mood: Mood) {

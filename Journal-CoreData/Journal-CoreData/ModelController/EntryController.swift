@@ -29,10 +29,10 @@ class EntryController {
 	}
 
 	func deleteEntry(entry: Entry) {
+		deleteEntryFromServer(entry: entry)
 		let moc = CoreDataStack.shared.mainContext
 		moc.delete(entry)
 		saveToPersistentStore()
-		deleteEntryFromServer(entry: entry)
 	}
 
 	func loadFromPersistentStore() -> [Entry] {
@@ -64,7 +64,10 @@ class EntryController {
 extension EntryController {
 
 	func put(entry: Entry, completion: @escaping(Error?) -> Void = { _ in }) {
-		let requestURL = baseURL.appendingPathExtension("json")
+		guard let identifier = entry.identifier else { return }
+		let requestURL = baseURL
+			.appendingPathComponent(identifier)
+			.appendingPathExtension("json")
 		var request = URLRequest(url: requestURL)
 		request.httpMethod = HTTPMethod.put.rawValue
 
@@ -93,7 +96,7 @@ extension EntryController {
 		}
 
 		let requestURL = baseURL
-			.appendingPathComponent(identifier.uuidString)
+			.appendingPathComponent(identifier)
 			.appendingPathExtension("json")
 		var request = URLRequest(url: requestURL)
 		request.httpMethod = HTTPMethod.delete.rawValue
@@ -104,6 +107,10 @@ extension EntryController {
 			}
 			completion(nil)
 		}.resume()
+	}
+
+	func update(entry: Entry, entryRepresentation: EntryRepresentation) {
+		
 	}
 }
 

@@ -9,11 +9,11 @@
 import Foundation
 
 
-struct EntryRepresentation: Codable, Equatable {
+struct EntryRepresentation: Codable {
 	let title: String?
 	let bodyText: String?
 	let timeStamp: Date?
-	let identifier: UUID?
+	let identifier: String?
 	let mood: String?
 }
 
