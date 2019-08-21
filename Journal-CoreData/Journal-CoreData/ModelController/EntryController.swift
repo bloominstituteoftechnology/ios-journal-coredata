@@ -110,7 +110,38 @@ extension EntryController {
 	}
 
 	func update(entry: Entry, entryRepresentation: EntryRepresentation) {
-		
+		entry.title = entryRepresentation.title
+		entry.bodyText = entryRepresentation.bodyText
+		entry.timeStamp = entryRepresentation.timeStamp
+		entry.mood = entryRepresentation.mood
+		entry.identifier = entryRepresentation.identifier
+	}
+
+	func fetchingSingleEntryFromPersistentStore(identifier: String) -> Entry? {
+		let requestURL = baseURL
+			.appendingPathComponent(identifier)
+			.appendingPathExtension("json")
+		var request = URLRequest(url: requestURL)
+		request.httpMethod = HTTPMethod.get.rawValue
+
+		URLSession.shared.dataTask(with: request) { (data, _, error) in
+			if let error = error {
+				NSLog("Error fetching single Entry: \(error)")
+				return
+			}
+
+			guard let data = data else {
+				NSLog("No data returned from data task")
+				return
+			}
+
+			do {
+				let entry = try JSONDecoder().decode(EntryRepresentation.self, from: data)
+			} catch {
+				NSLog("Error decoding task")
+			}
+		}
+		return entry
 	}
 }
 
