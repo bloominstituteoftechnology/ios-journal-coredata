@@ -11,12 +11,16 @@ import CoreData
 
 class EntryController {
 
-	func createEntry(title: String, bodyText: String, identifier: String, mood: Mood) {
-		Entry(title: title, identifier: identifier, bodyText: bodyText, mood: mood)
+	let baseURL = URL(string: "https://journal-797ea.firebaseio.com/")!
+
+	func createEntry(title: String, bodyText: String, mood: Mood) {
+		let entry = Entry(title: title, bodyText: bodyText, mood: mood)
 		saveToPersistentStore()
+		put(entry: entry)
 	}
 
 	func updateEntry(entry: Entry, title: String, bodyText: String, date: Date = Date(), mood: Mood) {
+		put(entry: entry)
 		entry.title = title
 		entry.bodyText = bodyText
 		entry.timeStamp = date
@@ -28,6 +32,7 @@ class EntryController {
 		let moc = CoreDataStack.shared.mainContext
 		moc.delete(entry)
 		saveToPersistentStore()
+		deleteEntryFromServer(entry: entry)
 	}
 
 	func loadFromPersistentStore() -> [Entry] {
@@ -53,4 +58,58 @@ class EntryController {
 			moc.reset()
 		}
 	}
+}
+
+
+extension EntryController {
+
+	func put(entry: Entry, completion: @escaping(Error?) -> Void = { _ in }) {
+		let requestURL = baseURL.appendingPathExtension("json")
+		var request = URLRequest(url: requestURL)
+		request.httpMethod = HTTPMethod.put.rawValue
+
+		do {
+			let entryData = try JSONEncoder().encode(entry.entryRepresentation)
+			request.httpBody = entryData
+		} catch {
+			NSLog("Error encoding entry representation: \(error)")
+			completion(error)
+			return
+		}
+
+		URLSession.shared.dataTask(with: request) { (_, _, error) in
+			if let error = error {
+				NSLog("Error PUTing entry representation to server: \(error)")
+			}
+			completion(nil)
+		}.resume()
+
+	}
+
+	func deleteEntryFromServer(entry: Entry, completion: @escaping(Error?) -> Void = { _ in }) {
+		guard let identifier = entry.identifier else {
+			completion(nil)
+			return
+		}
+
+		let requestURL = baseURL
+			.appendingPathComponent(identifier.uuidString)
+			.appendingPathExtension("json")
+		var request = URLRequest(url: requestURL)
+		request.httpMethod = HTTPMethod.delete.rawValue
+
+		URLSession.shared.dataTask(with: request) { (_, _, error) in
+			if let error = error {
+				NSLog("Error deleting task: \(error)")
+			}
+			completion(nil)
+		}.resume()
+	}
+}
+
+enum HTTPMethod: String {
+	case get = "GET"
+	case put = "PUT"
+	case post = "POST"
+	case delete = "DELETE"
 }
