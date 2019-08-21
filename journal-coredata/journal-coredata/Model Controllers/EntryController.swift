@@ -11,10 +11,12 @@ import CoreData
 
 class EntryController {
     //MARK: - Properties
-    var entries: [Entry] {
-        let entries = loadFromPersistentStore()
-        return entries
-    }
+//    var entries: [Entry] {
+//        let entries = loadFromPersistentStore()
+//        return entries
+//    }
+    
+    
     
 //    let df = DateFormatter()
     //MARK: - Persistence
@@ -29,18 +31,18 @@ class EntryController {
         }
     }
     
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
-        
-        do {
-            let entries = try moc.fetch(fetchRequest)
-            return entries
-        } catch {
-            NSLog("Error loading entries: \(error)")
-            return []
-        }
-    }
+//    func loadFromPersistentStore() -> [Entry] {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let moc = CoreDataStack.shared.mainContext
+//
+//        do {
+//            let entries = try moc.fetch(fetchRequest)
+//            return entries
+//        } catch {
+//            NSLog("Error loading entries: \(error)")
+//            return []
+//        }
+//    }
     
     //MARK: - CRUD Methods
     func createEntry(title: String, bodyText: String, mood: Moods) {

@@ -39,6 +39,8 @@ class EntryDetailViewController: UIViewController {
             let moodIndex = Moods.allCases.firstIndex(of: mood) ?? 1
             
             moodSegmentedControl.selectedSegmentIndex = moodIndex
+        } else {
+            moodSegmentedControl.selectedSegmentIndex = 1
         }
     }
     
