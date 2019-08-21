@@ -109,6 +109,7 @@ class EntryDetailViewController: UIViewController {
 		doneBtn.tintColor = #colorLiteral(red: 0.05213885743, green: 0.103666974, blue: 0.1644355106, alpha: 1)
 		toolbar.setItems([flexSpace, doneBtn], animated: false)
 		toolbar.sizeToFit()
+		bodyTextView.textContainerInset = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
 		self.titleTextField.inputAccessoryView = toolbar
 		self.bodyTextView.inputAccessoryView = toolbar
 	}
