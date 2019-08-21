@@ -11,6 +11,9 @@ import CoreData
 
 class EntryController {
 	
+	let baseURL = URL(string: "https://tasks-3f211.firebaseio.com/")!
+
+	
 	var entries: [Entry] {
 		return loadFromPersistentStore()
 	}
@@ -40,16 +43,16 @@ class EntryController {
 	}
 	
 	// Create
-	func createEntry(with title: String, bodyText: String, mood: String) {
+	func createEntry(with title: String, bodyText: String, mood: Mood) {
 		Entry(title: title, bodyText: bodyText, mood: mood)
 		saveToPersistentStore()
 	}
 	
 	// Update
-	func updateEntry(entry: Entry, with title: String, bodyText: String, mood: String) {
+	func updateEntry(entry: Entry, with title: String, bodyText: String, mood: Mood) {
 		entry.title = title
 		entry.bodyText  = bodyText
-		entry.mood = mood
+		entry.mood = mood.rawValue
 		saveToPersistentStore()
 	}
 	
@@ -59,4 +62,18 @@ class EntryController {
 		moc.delete(entry)
 		saveToPersistentStore()
 	}
+	
+	func put(entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
+		
+		let uuid = entry.identifier ?? UUID().uuidString
+		let requestURL = baseURL.appendingPathComponent(uuid)
+								.appendingPathExtension("json")
+		var request = URLRequest(url: requestURL)
+		request.httpMethod = "PUT"
+		
+		do {
+			var representation = entry
+		}
+	}
+	
 }
