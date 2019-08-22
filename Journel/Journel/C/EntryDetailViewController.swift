@@ -8,16 +8,6 @@
 
 import UIKit
 
-enum Moods: String {
-    case BRUH = "BRUH"
-    case AIGHT = "AIGHT"
-    case LIT = "LIT"
-    
-    static var allmoods: [Moods] {
-        return [.BRUH, .AIGHT, .LIT]
-    }
-}
-
 class EntryDetailViewController: UIViewController {
     
     //Properties

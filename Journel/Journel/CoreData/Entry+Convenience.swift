@@ -22,3 +22,23 @@ extension Entry {
         self.identifier = identifier
     }
 }
+
+
+//ENUMS
+enum EntryProperties: String {
+    case title
+    case bodyText
+    case timestamp
+    case identifier
+    case mood
+}
+
+enum Moods: String {
+    case BRUH = "BRUH"
+    case AIGHT = "AIGHT"
+    case LIT = "LIT"
+    
+    static var allmoods: [Moods] {
+        return [.BRUH, .AIGHT, .LIT]
+    }
+}

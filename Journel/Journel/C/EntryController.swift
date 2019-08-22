@@ -12,11 +12,11 @@ import CoreData
 class EntryController {
     
     //Properties
-    var entries: [Entry] {
-        // this adds the stored data to the "source of all truth"
-        //remember computed properties need to RETURN a value. So this "return" returns the value that is retuned in the loadFromPersistentStore function
-        return loadFromPersistentStore()
-    }
+//    var entries: [Entry] {
+//        // this adds the stored data to the "source of all truth"
+//        //remember computed properties need to RETURN a value. So this "return" returns the value that is retuned in the loadFromPersistentStore function
+//        return loadFromPersistentStore()
+//    }
 }
 
 
@@ -33,18 +33,18 @@ extension EntryController {
         }
     }
     
-    func loadFromPersistentStore() -> [Entry] {
-        let moc = CoreDataStack.shared.mainContext
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            NSLog("Error fetching MOC: \(error)")
-        }
-        saveToPersistentStore()
-        return []
-    }
+//    func loadFromPersistentStore() -> [Entry] {
+//        let moc = CoreDataStack.shared.mainContext
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//
+//        do {
+//            return try moc.fetch(fetchRequest)
+//        } catch {
+//            NSLog("Error fetching MOC: \(error)")
+//        }
+//        saveToPersistentStore()
+//        return []
+//    }
 }
 
 

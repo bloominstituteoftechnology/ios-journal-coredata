@@ -7,11 +7,30 @@
 //
 
 import UIKit
+import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
     //Properties
     let entryController = EntryController()
+    
+    lazy var fetchedResultsControler: NSFetchedResultsController<Entry> = {
+        var fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        let moodDescriptor = NSSortDescriptor(key: EntryProperties.mood.rawValue, ascending: true)
+        let titleDescriptor = NSSortDescriptor(key: EntryProperties.title.rawValue, ascending: true)
+        fetchRequest.sortDescriptors = [moodDescriptor, titleDescriptor]
+        let moc = CoreDataStack.shared.mainContext
+        
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: EntryProperties.mood.rawValue, cacheName: nil)
+        frc.delegate = self
+        
+        do {
+            try frc.performFetch()
+        } catch {
+            fatalError("Error performing fetch for frc: \(error)")
+        }
+        return frc
+    }()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -96,5 +115,9 @@ class EntriesTableViewController: UITableViewController {
         }
     }
     
+    
+}
+
+extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
     
 }
