@@ -186,7 +186,7 @@ extension EntryController {
                     entry.identifier = entryRep.identifier
                     entry.bodyText = entryRep.bodyText
                 } else {
-                    Entry(entryRepresentation: entryRep)
+                    Entry(entryRepresentation: entryRep, context: context)
                 }
             }
             do {
@@ -197,5 +197,4 @@ extension EntryController {
             }
         }
     }
-    
 }
