@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B5184CC0230E25990003F8F3 /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5184CBF230E25990003F8F3 /* Enums.swift */; };
+		B5184CC4230E275F0003F8F3 /* EntryRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5184CC3230E275F0003F8F3 /* EntryRepresentation.swift */; };
 		B5F5C3F8230B25260052DF80 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F5C3F7230B25260052DF80 /* AppDelegate.swift */; };
 		B5F5C3FA230B25260052DF80 /* ManageEntryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5F5C3F9230B25260052DF80 /* ManageEntryVC.swift */; };
 		B5F5C3FD230B25260052DF80 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5F5C3FB230B25260052DF80 /* Main.storyboard */; };
@@ -21,6 +23,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B5184CBF230E25990003F8F3 /* Enums.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
+		B5184CC1230E27030003F8F3 /* MyJournal 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "MyJournal 2.xcdatamodel"; sourceTree = "<group>"; };
+		B5184CC3230E275F0003F8F3 /* EntryRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryRepresentation.swift; sourceTree = "<group>"; };
 		B5F5C3F4230B25260052DF80 /* MyJournal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5F5C3F7230B25260052DF80 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5F5C3F9230B25260052DF80 /* ManageEntryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManageEntryVC.swift; sourceTree = "<group>"; };
@@ -47,6 +52,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B5184CC2230E27380003F8F3 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				B5F5C3FE230B25260052DF80 /* MyJournal.xcdatamodeld */,
+				B5F5C417230B28A60052DF80 /* CoreDataStack.swift */,
+				B5F5C415230B27560052DF80 /* EntryConvenience.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		B5F5C3EB230B25260052DF80 = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +120,7 @@
 		B5F5C40F230B25DC0052DF80 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				B5184CBF230E25990003F8F3 /* Enums.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -112,9 +128,8 @@
 		B5F5C410230B25DC0052DF80 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B5F5C3FE230B25260052DF80 /* MyJournal.xcdatamodeld */,
-				B5F5C417230B28A60052DF80 /* CoreDataStack.swift */,
-				B5F5C415230B27560052DF80 /* EntryConvenience.swift */,
+				B5184CC2230E27380003F8F3 /* CoreData */,
+				B5184CC3230E275F0003F8F3 /* EntryRepresentation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -210,12 +225,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5F5C400230B25260052DF80 /* MyJournal.xcdatamodeld in Sources */,
+				B5184CC4230E275F0003F8F3 /* EntryRepresentation.swift in Sources */,
 				B5F5C414230B27140052DF80 /* JournalController.swift in Sources */,
 				B5F5C416230B27560052DF80 /* EntryConvenience.swift in Sources */,
 				B5F5C418230B28A60052DF80 /* CoreDataStack.swift in Sources */,
 				B5F5C41C230B384B0052DF80 /* EntryCell.swift in Sources */,
 				B5F5C3FA230B25260052DF80 /* ManageEntryVC.swift in Sources */,
 				B5F5C41A230B350E0052DF80 /* JournalTableVC.swift in Sources */,
+				B5184CC0230E25990003F8F3 /* Enums.swift in Sources */,
 				B5F5C3F8230B25260052DF80 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -421,9 +438,10 @@
 		B5F5C3FE230B25260052DF80 /* MyJournal.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				B5184CC1230E27030003F8F3 /* MyJournal 2.xcdatamodel */,
 				B5F5C3FF230B25260052DF80 /* MyJournal.xcdatamodel */,
 			);
-			currentVersion = B5F5C3FF230B25260052DF80 /* MyJournal.xcdatamodel */;
+			currentVersion = B5184CC1230E27030003F8F3 /* MyJournal 2.xcdatamodel */;
 			path = MyJournal.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

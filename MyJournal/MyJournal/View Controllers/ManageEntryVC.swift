@@ -14,7 +14,7 @@ class ManageEntryVC: UIViewController {
 	
 	@IBOutlet weak var titleTextField: UITextField!
 	@IBOutlet weak var storyTextView: UITextView!
-	@IBOutlet weak var feelingSegControl: UISegmentedControl!
+	@IBOutlet weak var moodSegControl: UISegmentedControl!
 	
 	//MARK: - Properties
 	
@@ -37,11 +37,11 @@ class ManageEntryVC: UIViewController {
 	@IBAction func saveBtnTapped(_ sender: Any) {
 		guard let title = titleTextField.optionalText else { return }
 		let story = storyTextView.text
-		let emoji = EntryEmoji.allCases[feelingSegControl.selectedSegmentIndex]
+		let emoji = MoodEmoji.allCases[moodSegControl.selectedSegmentIndex]
 		if let entry = entry {
-			journalController.updateEntry(entry: entry, title: title, story: story, entryFeeling: emoji)
+			journalController.updateEntry(entry: entry, title: title, story: story, mood: emoji)
 		} else {
-			journalController.createEntry(title: title, story: story, entryFeeling: emoji)
+			journalController.createEntry(title: title, story: story, mood: emoji)
 		}
 		okAction(message: entry == nil ? "New journal entry created." : "Journal entry updated.")
 	}
@@ -50,21 +50,21 @@ class ManageEntryVC: UIViewController {
 	
 	private func setupSegControl() {
 		let attributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
-		feelingSegControl.setTitleTextAttributes(attributes, for: .selected)
-		feelingSegControl.removeAllSegments()
-		for index in 0..<EntryEmoji.allCases.count {
-			feelingSegControl.insertSegment(withTitle: EntryEmoji.allCases[index].rawValue, at: index, animated: true)
+		moodSegControl.setTitleTextAttributes(attributes, for: .selected)
+		moodSegControl.removeAllSegments()
+		for index in 0..<MoodEmoji.allCases.count {
+			moodSegControl.insertSegment(withTitle: MoodEmoji.allCases[index].rawValue, at: index, animated: true)
 		}
-		feelingSegControl.selectedSegmentIndex = EntryEmoji.defaultIndex
+		moodSegControl.selectedSegmentIndex = MoodEmoji.defaultIndex
 	}
 	
 	private func updateViews() {
 		guard let entry = entry else { return }
 		titleTextField.text = entry.title
 		storyTextView.text = entry.story
-		if let feelingEmoji = entry.feelingEmoji, let emoji = EntryEmoji(rawValue: feelingEmoji) {
-			let emojiIndex = EntryEmoji.allCases.firstIndex(of: emoji) ?? EntryEmoji.defaultIndex
-			feelingSegControl.selectedSegmentIndex = emojiIndex
+		if let mood = entry.mood, let emoji = MoodEmoji(rawValue: mood) {
+			let emojiIndex = MoodEmoji.allCases.firstIndex(of: emoji) ?? MoodEmoji.defaultIndex
+			moodSegControl.selectedSegmentIndex = emojiIndex
 		}
 	}
 	

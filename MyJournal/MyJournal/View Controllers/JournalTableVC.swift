@@ -21,12 +21,12 @@ class JournalTableVC: UITableViewController {
 	lazy var fetchResultsController: NSFetchedResultsController<Entry> = {
 		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
 		
-		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "feelingEmoji", ascending: true),
+		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
 										NSSortDescriptor(key: "lastUpdated", ascending: true)]
 		
 		let fetchControl = NSFetchedResultsController(fetchRequest: fetchRequest,
 													  managedObjectContext: CoreDataStack.shared.mainContext,
-													  sectionNameKeyPath: "feelingEmoji",
+													  sectionNameKeyPath: "mood",
 													  cacheName: nil)
 		
 		fetchControl.delegate = self
@@ -41,6 +41,13 @@ class JournalTableVC: UITableViewController {
 	}()
 	
 	//MARK: - Life Cycle
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		journalController.fetchEntriesFromServer{ (results) in
+			
+		}
+	}
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
