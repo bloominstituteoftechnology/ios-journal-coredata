@@ -42,6 +42,7 @@ class EntriesTableViewController: UIViewController {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        entryController.fetchEntriesFromServer()
     }
     
     override func viewWillAppear(_ animated: Bool) {
