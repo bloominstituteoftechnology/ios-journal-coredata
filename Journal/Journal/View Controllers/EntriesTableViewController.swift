@@ -25,7 +25,7 @@ class EntriesTableViewController: UIViewController {
         let moodDescriptor = NSSortDescriptor(key: "mood", ascending: true)
         fetchRequest.sortDescriptors = [moodDescriptor, timeStampDiscriptor]
         
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.shared.mainContext, sectionNameKeyPath: "timeStamp", cacheName: nil)
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: CoreDataStack.shared.mainContext, sectionNameKeyPath: "mood", cacheName: nil)
         frc.delegate = self
         
         do {
@@ -73,11 +73,17 @@ class EntriesTableViewController: UIViewController {
 
 extension EntriesTableViewController: UITableViewDelegate, UITableViewDataSource {
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return fetchedResultsController.sections?[section].name
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
+
         return fetchedResultsController.sections?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
