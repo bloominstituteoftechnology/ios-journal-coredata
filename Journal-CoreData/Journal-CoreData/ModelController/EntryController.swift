@@ -90,7 +90,6 @@ extension EntryController {
 			}
 			completion(nil)
 		}.resume()
-
 	}
 
 	func deleteEntryFromServer(entry: Entry, completion: @escaping(Error?) -> Void = { _ in }) {
