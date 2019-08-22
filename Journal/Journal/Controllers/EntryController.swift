@@ -122,7 +122,7 @@ extension EntryController {
     func fetchSingleEntryFromPersistentStore(identifier: String) -> Entry? {
         
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "idnetifier == %@", identifier)
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", identifier)
         
         do {
             let moc = CoreDataStack.shared.mainContext
@@ -133,7 +133,7 @@ extension EntryController {
         }
     }
     
-    func fetchEntriesFromServer(completion: @escaping(NetworkError?) -> Void = {_ in}) {
+    func fetchEntriesFromServer(completion: @escaping() -> Void) {
         let requestURL = baseURL.appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.get.rawValue
@@ -141,12 +141,13 @@ extension EntryController {
         URLSession.shared.dataTask(with: request) { data, _, error in
             if let error = error {
                 NSLog("Error fetching entries from server:\(error)")
-                completion(.otherError(error))
+                completion()
+                return
             }
             
             guard let data = data else {
                 NSLog("Error GETing data from all entries")
-                completion(.badData)
+                completion()
                 return
             }
             
@@ -169,9 +170,8 @@ extension EntryController {
                 self.saveToPersistentStore()
             } catch {
                 NSLog("error decoding entries:\(error)")
-                completion(.noDecode)
             }
-            completion(nil)
+            completion()
         }.resume()
     }
 }
