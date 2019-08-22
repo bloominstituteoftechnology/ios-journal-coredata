@@ -54,7 +54,7 @@ class EntryDetailViewController: UIViewController {
 	@IBOutlet weak var enteriesTextView: UITextView!
 	
 	func updateViews() {
-		
+		loadViewIfNeeded()
 		guard let entry = entry else {
 			title = "Create Entry"
 			return
