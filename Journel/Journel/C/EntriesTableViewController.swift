@@ -44,41 +44,34 @@ class EntriesTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        // #warning Incomplete implementation, return the number of sections
-//        return 0
-//    }
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return fetchedResultsControler.sections?.count ?? 1
+    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return entryController.entries.count
+        return fetchedResultsControler.sections?[section].numberOfObjects ?? 0
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as! EntryTableViewCell
-        let entry = entryController.entries[indexPath.row]
+        let entry = fetchedResultsControler.object(at: indexPath)
         cell.entry = entry
         cell.updateViews()
         return cell
     }
     
     
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
     
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let entry = entryController.entries[indexPath.row]
+            let entry = fetchedResultsControler.object(at: indexPath)
             entryController.delete(entry: entry)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+
         }    
     }
     
@@ -105,8 +98,8 @@ class EntriesTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "CellDetailSegue" {
             let detailVC = segue.destination as! EntryDetailViewController
-            guard let selectedEntryPath = tableView.indexPathForSelectedRow?.row else {return print("Selected row couldnt be found")}
-            let entry = entryController.entries[selectedEntryPath]
+            guard let selectedEntryPath = tableView.indexPathForSelectedRow else {return print("Selected row couldnt be found")}
+            let entry = fetchedResultsControler.object(at: selectedEntryPath)
             detailVC.entryController = entryController
             detailVC.entry = entry
         } else {
