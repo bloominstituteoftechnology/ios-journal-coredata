@@ -38,13 +38,20 @@ class EntryTableViewCell: UITableViewCell {
 extension EntryTableViewCell {
     
     func updateViews() {
-        guard let timeStamp = entry?.timeStamp else {return}
+        guard let entry = entry else {return print("No Entry")}
+        guard let timeStamp = entry.timeStamp else {return print("No timeStamp for entry")}
         let dateFormat = DateFormatter()
         dateFormat.dateStyle = .short
         dateFormat.timeStyle = .short
-        self.titleLabel.text = entry?.title
-        self.textBodyLabel.text = String("\(entry?.bodyText?.maxLength(length: 15))...")
+        self.titleLabel.text = entry.title?.uppercased()
         self.dateLabel.text = dateFormat.string(from: timeStamp)
+        if entry.bodyText == "" {
+            self.textBodyLabel.text = "(EMPTY)"
+        } else {
+            self.textBodyLabel.text = entry.bodyText
+        }
+        
+        
     }
 }
 

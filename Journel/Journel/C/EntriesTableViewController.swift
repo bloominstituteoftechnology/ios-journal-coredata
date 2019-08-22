@@ -20,15 +20,15 @@ class EntriesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
     }
     
     // MARK: - Table view data source
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
+//    override func numberOfSections(in tableView: UITableView) -> Int {
+//        // #warning Incomplete implementation, return the number of sections
+//        return 0
+//    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
@@ -86,7 +86,7 @@ class EntriesTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "CellDetailSegue" {
             let detailVC = segue.destination as! EntryDetailViewController
-            guard let selectedEntryPath = tableView.indexPathForSelectedRow?.row else {return}
+            guard let selectedEntryPath = tableView.indexPathForSelectedRow?.row else {return print("Selected row couldnt be found")}
             let entry = entryController.entries[selectedEntryPath]
             detailVC.entryController = entryController
             detailVC.entry = entry
