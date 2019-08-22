@@ -37,11 +37,22 @@ class EntriesTableViewController: UITableViewController {
         super.viewDidLoad()
         tableView.tableFooterView = UIView()
 		tableView.separatorColor = #colorLiteral(red: 0.6629147508, green: 0.8524925693, blue: 0.8536036969, alpha: 1)
+		tableView.refreshControl = UIRefreshControl()
+		tableView.refreshControl?.addTarget(self, action: #selector(beginRefresh), for: .valueChanged)
     }
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		tableView.reloadData()
+	}
+
+	@objc func beginRefresh() {
+//		tableView.refreshControl?.beginRefreshing()
+		entryController.fetchEntriesFromServer { (_) in
+			DispatchQueue.main.async {
+				self.tableView.refreshControl?.endRefreshing()
+			}
+		}
 	}
 
     // MARK: - Table view data source
