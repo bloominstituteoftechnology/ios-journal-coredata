@@ -38,8 +38,13 @@ class EntryTableViewCell: UITableViewCell {
 extension EntryTableViewCell {
     
     func updateViews() {
-        titleLabel.text = entry?.title
-        textBodyLabel.text = String("\(entry?.bodyText?.maxLength(length: 15))...")
+        guard let timeStamp = entry?.timeStamp else {return}
+        let dateFormat = DateFormatter()
+        dateFormat.dateStyle = .short
+        dateFormat.timeStyle = .short
+        self.titleLabel.text = entry?.title
+        self.textBodyLabel.text = String("\(entry?.bodyText?.maxLength(length: 15))...")
+        self.dateLabel.text = dateFormat.string(from: timeStamp)
     }
 }
 
