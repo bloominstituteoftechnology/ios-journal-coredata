@@ -14,10 +14,16 @@ class JournalController {
 	let baseURL = URL(string: "https://myjournal-santana.firebaseio.com/")!
 	
 	func createEntry(title: String, story: String?, mood: MoodEmoji) {
-		let entry = Entry(title: title, story: story, lastUpdated: Date(), mood: mood)
-		
-		saveToPersistentStore()
-		putInDB(entry: entry)
+		CoreDataStack.shared.mainContext.performAndWait {
+			let entry = Entry(title: title, story: story, lastUpdated: Date(), mood: mood)
+			
+			do {
+				try CoreDataStack.shared.save()
+			} catch {
+				NSLog("Error saving context when creating a new task")
+			}
+			putInDB(entry: entry)
+		}
 	}
 	
 	func updateEntry(entry: Entry, title: String, story: String?, mood: MoodEmoji) {
@@ -26,7 +32,13 @@ class JournalController {
 		entry.lastUpdated = Date()
 		entry.mood = mood.rawValue
 		
-		saveToPersistentStore()
+		CoreDataStack.shared.mainContext.performAndWait {
+			do {
+				try CoreDataStack.shared.save()
+			} catch {
+				NSLog("Error saving context when updating a new task")
+			}
+		}
 		putInDB(entry: entry)
 	}
 	
@@ -34,20 +46,15 @@ class JournalController {
 		deleteFromDB(entry: entry)
 		let moc = CoreDataStack.shared.mainContext
 		
-		moc.delete(entry)
-		saveToPersistentStore()
-		
-	}
-	
-	func saveToPersistentStore() {
-		let moc = CoreDataStack.shared.mainContext
-		
-		do {
-			try moc.save()
-		} catch {
-			NSLog("Error saving moc: \(error)")
-			moc.reset()
+		moc.performAndWait {
+			moc.delete(entry)
+			do {
+				try CoreDataStack.shared.save()
+			} catch {
+				NSLog("Error saving context when deleting a new task")
+			}
 		}
+		
 	}
 }
 
@@ -77,36 +84,65 @@ extension JournalController {
 				
 				let EntryRepDictionary = try decoder.decode([String:EntryRepresentation].self, from: data)
 				let entryReps = EntryRepDictionary.map{$0.value}
+				let context = CoreDataStack.shared.container.newBackgroundContext()
 				
-				//See if the same id exists in CoreData
-				for entryRep in entryReps {
-					guard let id = entryRep.id else { continue }
-					let predicate  = NSPredicate(format: "id == %@", id as NSUUID)
-					let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-					fetchRequest.predicate = predicate
-					
-					let moc = CoreDataStack.shared.mainContext
-					let entry = try moc.fetch(fetchRequest).first
-					
-					if let entry = entry {
-						entry.title = entryRep.title
-						entry.story = entryRep.bodyText
-						entry.mood = entryRep.mood
-						entry.lastUpdated = entryRep.timestamp
-					} else {
-						_ = Entry(entryRepresentation: entryRep)
-					}
-				}
-				self.saveToPersistentStore()
+				self.updatePersistentStore(with: entryReps, context: context)
 				completion(.success(true))
 			} catch {
 				completion(.failure(.notDecoding))
 			}
-			}.resume()
+		}.resume()
+	}
+	
+	private func updatePersistentStore(with entryRepresentations: [EntryRepresentation], context: NSManagedObjectContext) {
+		
+		context.performAndWait {
+			//See if the same id exists in CoreData
+			for entryRep in entryRepresentations {
+				guard let id = entryRep.id else { continue }
+				let entry = self.entry(for: id, in: context)
+				
+				if let entry = entry {
+					entry.title = entryRep.title
+					entry.story = entryRep.bodyText
+					entry.mood = entryRep.mood
+					entry.lastUpdated = entryRep.timestamp
+				} else {
+					_ = Entry(entryRepresentation: entryRep, context: context)
+				}
+			}
+			
+			do {
+				try CoreDataStack.shared.save(context: context)
+			} catch {
+				NSLog("Error saving to core data")
+				context.reset()
+			}
+		}
+	}
+	
+	private func entry(for id: UUID, in context: NSManagedObjectContext) -> Entry? {
+		let predicate  = NSPredicate(format: "id == %@", id as NSUUID)
+		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+		fetchRequest.predicate = predicate
+		
+		var entry: Entry?
+		do {
+			entry = try context.fetch(fetchRequest).first
+		} catch {
+			NSLog("Error fetching specific id")
+		}
+		return entry
 	}
 	
 	func putInDB(entry: Entry, completion: ((Result<Bool, NetworkError>) -> Void)? = nil) {
-		let id = entry.id ?? UUID()
+		var id = UUID()
+		if let tempId = entry.id {
+			id = tempId
+		} else {
+			#warning("update coredata entry without an id")
+		}
+		
 		let requestURL = baseURL.appendingPathComponent(id.uuidString)
 			.appendingPathExtension("json")
 		var request = URLRequest(url: requestURL)
