@@ -18,6 +18,7 @@
 		A2E16D9B230B3E340037562A /* journal-coredata.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A2E16D99230B3E340037562A /* journal-coredata.xcdatamodeld */; };
 		A2E16D9D230B3F400037562A /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E16D9C230B3F400037562A /* Entry+Convenience.swift */; };
 		A2E16D9F230B412A0037562A /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E16D9E230B412A0037562A /* EntryController.swift */; };
+		A2ECC1FF230DEFFA00939587 /* EntryRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2ECC1FE230DEFFA00939587 /* EntryRepresentation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		A2E16D9A230B3E340037562A /* journal-coredata.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "journal-coredata.xcdatamodel"; sourceTree = "<group>"; };
 		A2E16D9C230B3F400037562A /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
 		A2E16D9E230B412A0037562A /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
+		A2ECC1FE230DEFFA00939587 /* EntryRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryRepresentation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,9 +110,8 @@
 		A2E16D98230B3D6F0037562A /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				A2E16D96230B3D620037562A /* CoreDataStack.swift */,
-				A2E16D99230B3E340037562A /* journal-coredata.xcdatamodeld */,
-				A2E16D9C230B3F400037562A /* Entry+Convenience.swift */,
+				A2ECC1FE230DEFFA00939587 /* EntryRepresentation.swift */,
+				A2ECC200230DF00800939587 /* Core Data Models */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -121,6 +122,16 @@
 				A2E16D9E230B412A0037562A /* EntryController.swift */,
 			);
 			path = "Model Controllers";
+			sourceTree = "<group>";
+		};
+		A2ECC200230DF00800939587 /* Core Data Models */ = {
+			isa = PBXGroup;
+			children = (
+				A2E16D96230B3D620037562A /* CoreDataStack.swift */,
+				A2E16D99230B3E340037562A /* journal-coredata.xcdatamodeld */,
+				A2E16D9C230B3F400037562A /* Entry+Convenience.swift */,
+			);
+			path = "Core Data Models";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,6 +212,7 @@
 				A2E16D95230B3C850037562A /* EntryDetailViewController.swift in Sources */,
 				A2E16D7C230B377A0037562A /* AppDelegate.swift in Sources */,
 				A2E16D9F230B412A0037562A /* EntryController.swift in Sources */,
+				A2ECC1FF230DEFFA00939587 /* EntryRepresentation.swift in Sources */,
 				A2E16D9D230B3F400037562A /* Entry+Convenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
