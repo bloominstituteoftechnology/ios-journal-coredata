@@ -1,125 +1,53 @@
-# Journal (Core Data)
+# Journal (Core Data) Day 4
 
 ## Introduction
 
-This version of Journal will allow you to implement each part of CRUD when working with Core Data. This project is essentially the same as the Journal project you've previously wrote. However, please write this project from scratch. We can't regulate this, but you will undoubtedly learn less if you are copying and pasting past code.
+For today's project, you will update Journal to update its Core Data data from the server in the background. This will allow you to practice more complex Core Data scenarios using multiple managed object contexts, as well as using concurrency with Core Data. You will be modifying an existing codebase to be more performant and correct. To prepare for many of these changes, you'll [_refactor_](https://en.wikipedia.org/wiki/Code_refactoring) your code, meaning you'll restructure it so that it's functionality can be updated without compromising its readability and maintainability.
 
-Please look at the screen recording below to know what the finished project should look like:
-
-![](https://user-images.githubusercontent.com/16965587/43887099-03638784-9b7b-11e8-9556-1c02ffffc32e.gif)
+The instructions for this project are intentionally somewhat less detailed that previous instructions this week. This project will require you to think about and understand how to architect your app to use multiple contexts and concurrency correctly. As always, follow the 20-minute rule, but don't be afraid to ask for help as you work.
 
 ## Instructions
 
-Please fork and clone this repository. This repository does not have a starter project, so create one inside of the cloned repository folder.
+Use the Journal project you made yesterday. Create a new branch called `day4`. When you finish today's instructions and go to make a pull request, be sure to select the original repository's `day4` branch as the base branch, and your own `day4` branch as the compare branch.
 
-### Part 1 - Storyboard Layout
+### Part 0 - Troubleshooting
 
-This application will implement the Master-Detail pattern that you're surely familiar with by now.
+Before starting, run your app with the `-com.apple.CoreData.ConcurrencyDebug 1` launch argument. Excercise all functions of the app and note whether any Core Data concurrency assertions are triggered. Were any triggered (ie. did the app crash)? If so, why? Today you'll fix these problems while simultaneously improving the overall performance of the app.
 
-#### EntriesTableViewController and EntryTableViewCell
+### Part 1 - Refactor to Prepare for Multiple Contexts
 
-1. Delete the view controller scene that comes with the Main.storyboard
-2. Add a `UITableViewController` scene, then embed it in a navigation controller. Set the navigation controller as the initial view controller. 
-3. Add a `UIViewController` scene as well. Leave it blank for now.
-4. On the table view controller scene, change its navigation item's title to "Journal".
-5. Add a bar button item on the right side of the navigation bar. Change its "System Item" to "Add". 
-6. Create a segue from the bar button item to the blank `UIViewController` scene. This segue will be used to create new entries. Give it an appropriate identifier.
-7. Create a second segue from the table view's prototype cell. This segue will be used to view existing entries. Give it an appropriate identifier as well.
-8. Create a Cocoa Touch subclass of `UITableViewController` called `EntriesTableViewController`. Set this table view controller scene's class to it.
-8. This prototype cell will be a custom cell. Add three labels. One for the entry's title, timestamp, and body text.
-9. Create a Cocoa Touch subclass of `UITableViewCell` called `EntryTableViewCell`. Set this cell's class to it.
-10. Create outlets for the three labels in the `EntryTableViewCell` class.
+Start by refactoring some of your code to be better prepared to switch to using a separate managed object context for syncing operations.
 
-#### EntryDetailViewController
+1. Make your `fetchSingleEntry` method accept a `context` argument that it uses to fetch from.
+2. Change your convenience initalizer for creating an `Entry` from an `EntryRepresentation` to accept a context in which to create the new `Entry`.
+3. Extract the code responsible for iterating through the array of fetched `EntryRepresentation`s and updating or creating corresponding `Tasks`. Put it in a function that takes a context.
+4. Update code that calls these functions to supply a context. For now, that should continue to be the main context you've used so far.
+5. Test your app to be sure your refactoring hasn't broken anything.
 
-1. In the `UIViewController` scene, add a `UITextField`. Set its placeholder text to "Enter a title:"
-2. Add a `UITextView`. Remove the Lorem Ipsum text from it. Constrain the text field right below the navigation bar, and the text view below that.
-3. Add a navigation item to the view controller, then add a bar button item on the right side of the navigation bar. Change its "System Item" to "Save".
-4. Create a Cocoa Touch subclass of `UIViewController` called `EntryDetailViewController`. Set this scene's class to the newly created subclass in the Identity Inspector.
-5. Create an outlet from the text field and one from the text view. Also, create an action from the bar button item.
+### Part 2 - Use Concurrency APIs to Ensure Correctness
 
-### Part 2 - Entry and EntryController Setup
+Even though you haven't yet updated your code to use multiple contexts, you can prepare for that by using Core Data's concurrency APIs to ensure that regardless of context, your code is concurrency-safe. Core Data is designed in such a way that you can write concurrency-correct code without having to keep track of and maintain dispatch queues, etc. yourself.
 
-#### CoreDataStack
+Remember that **any** use of managed objects or a managed object context must be done in a `perform` or `performAndWait` call for non-main-queue contexts. Even for main-queue contexts, it is safe and valid to use `perform` or `performAndWait`.
 
-Create a swift file for your core data stack. Feel free to take the core data stack you used in this morning's project and paste it in this file. You may need to change the name of the persistent container to match the name of your data model file.
+1. Go through each function that deals with managed objects. Decide whether it should ensure concurrency correctness itself, or whether responsibility for correctness should be left up to its caller. 
+2. Update each function to do its work using `perform()` or `performAndWait()` on the appropriate context.
+3. Run your app with the `-com.apple.CoreData.ConcurrencyDebug 1` launch argument. Excercise all functions of the app and verify that no Core Data concurrency assertions are triggered (ie. the app shouldn't crash).
 
-#### Entry
+### Part 3 - Use a Background Context for Syncing
 
-You will be using a model object called `Entry`.
+1. Update your `fetchEntriesFromServer(...)` method so that it creates a new background context, and does all Core Data work on this context. It should update/create tasks from the fetched data on this context.
+2. Save the context only after the update/creation process is complete. Remember that `save()` itself must be called on the context's private queue using `perform()` or `performAndWait()`.
+3. In your `CoreDataStack`, after creating the container, set its `viewContext`'s `automaticallyMergesChangesFromParent` property to true. This is required for the `viewContext` (ie. the main context) to be updated with changes saved in a background context. In this case, the `viewContext`'s parent is the persistent store (coordinator), **not** another context.
 
-1. Create a new Data Model file under the Core Data section. Make the name of the file match the name of your project.
-2. Create a new entity and call it `Entry`. Keep the codegen as "Class Definition".
-3. Add the following attributes to the `Entry` entity:
-    - A `title` string.
-    - A `bodyText` string.
-    - A `timestamp` `Date`.
-    - An `identifier` string.
+### Part 4 - Testing
 
-4. Create a new swift file called "Entry+Convenience.swift". 
-5. Import `CoreData` in this file.
-6. Add an extension on `Entry`.
-7. Create a convenience initializer that takes in values for each of the `Entry` entity's attributes, and an instance of `NSManagedObjectContext`. Consider giving default values to the timestamp and identifier parameters in this initializer. This initializer should:
-    - Call the `Entry` class' initializer that takes in an `NSManagedObjectContext`
-    - Set the value of attributes you defined in the data model using the parameters of the initializer.
+Thoroughly test your app to be sure that all features continue to function correctly. From an end user perspective, the app should behave **exactly** as it did yesterday. While you're testing the app, be sure the `-com.apple.CoreData.ConcurrencyDebug 1` launch argument is set. Verify that no Core Data multithreading assertions are triggered.
 
-#### EntryController
-
-1. Create a Swift file called "EntryController.swift". Make a class called `EntryController`.
-2. Create a function called `saveToPersistentStore()`. This method should save your core data stack's `mainContext`. Remember that this will bundle the changes in the context, pass them to the persistent store coordinator who will then put those changes in the persistent store.
-3. Create a function called `loadFromPersistentStore() -> [Entry]`. This method should:
-    - Create an `NSFetchRequest` for `Entry` objects
-    - Perform that fetch request on the core data stack's `mainContext` using a do-try-catch block.
-    - Return the results of the fetch request.
-    - In the catch statement, handle any errors and return an empty array.
-4. Create an `entries: [Entry]` computed property. Inside of the computed property, call `loadFromPersistentStore()`. This will allow any changes to the persistent store become immediately visible to the user when accessing this array (i.e. in the table view showing a list of entries).
-5. Create a "Create" CRUD method that will:
-    - Initialize an `Entry` object
-    - Save it to the persistent store. 
-    - **NOTE:** if Xcode is giving you a warning that the `Entry` object isn't being used, you can make the constant's name `_`, or add the `@discardableResult` attribute to the `Entry`'s convenience intializer in the extension you created.
-6. Create an "Update" CRUD method. The method should:
-    - Have title and bodyText parameters as well as the `Entry` you want to update.
-    - Change the title and bodyText of the `Entry` to the new values passed in as parameters to the function.
-    - Update the entry's timestamp to the current time as well.
-    - Save these changes to the persistent store.
-7. Create a "Delete" CRUD method. This method should:
-    - Take an an `Entry` object to delete
-    - Delete the `Entry` from the core data stack's `mainContext`
-    - Save this deletion to the persistent store.
-
-### Part 3 - View and View Controller Implementation
-
-In the `EntryTableViewCell` class:
-
-1. Add an `entry: Entry?` variable.
-2. Create an `updateViews()` function that takes the values from the `entry` variable and places them in the outlets.
-3. Add a `didSet` property observer to the `entry` variable. Call `updateViews()` in it.
-
-In the `EntryDetailViewController`:
-
-1. Add an `entry: Entry?` variable.
-2. Add an `entryController: EntryController?` variable.
-
-In the `EntryTableViewController`:
-
-1. Add an `entryController` constant whose value is a new instance of `EntryController`.
-2. Implement the `numberOfRows` method. It should return the amount of entries in the `entryController`.
-3. Implement the `cellForRowAt` method. Remember to cast the call as `EntryTableViewCell`, then pass an `Entry` to the cell's `entry` property in order for it to call the `updateViews()` method to fill in the information for the cell's labels.
-4. Add the `viewWillAppear` method. It should reload the table view.
-5. Implement the `commit editingStyle` `UITableViewDataSource` method to allow the user to swipe to delete entries. You don't have to handle the `editingStyle` being `.insert`, just `.delete`.
-6. Implement the `prepare(for segue: ...)` method. If the segue's identifier shows that the user is trying to create an entry, you will only need to pass the `entryController` to the destination view controller. If the identifier shows that they want to view an entry (by tapping a cell), pass the `entryController` and also the `Entry` that corresponds with the cell they tapped.
-
-Back in the `EntryDetailViewController`:
-
-1. Add an `updateViews()` method. Inside of it:
-    - Make sure the view is loaded.
-    - Set the view controller's title to the title of the `entry` if one was passed to this view controller, or "Create Entry" if not. 
-    - This method should also fill in the text field and text view's `text` to the `title` and `bodyText` of the `entry` respectively.
-2. Add a `didSet` to the `entry` variable, and call `updateViews()` in it. Also call `updateViews()` in the `viewDidLoad`.
-3. In the bar button item's action:
-    - Unwrap the text from both the text field and text view.
-    - Unwrap the `entry` property separately. If there is an entry, call the `update` method in the `entryController`. If not, call the `createEntry` method in the `entryController` instead. Either way, pop the view controller off the navigation stack.
+If the app behaves correctly and doesn't trigger any assertions, you're done! Submit your pull request. If you have time left, try the suggestions in the Go Further section below.
 
 ## Go Further
 
-This project will be added on to as the Sprint progresses. As such, there are no "Go Further" challenges. However it is always a good idea to rebuild this project again. The more you build a project, the more you will learn from it. If you want to challenge yourself, try to write as much as you can without referencing these instructions. 
+If you'd like a further challenge, try using a separate managed object context in the detail view controller. This managed object context can be used a scratchpad, so that operations on the task being created/edited occur in it, and are only saved to the main context after the user taps the Save button. You can make the detail view controller's context a child of the main context. You can also use one of the other multiple managed object context setups. Because you can not "switch" which context an object instance is in, you'll need to use `NSManagedObjectID` and related APIs to communicate to the detail view controller which task it should be displaying/editing.
+
+Just like yesterday, try to solidify today's concepts by starting over and rewriting the project from where you started today. Or even better, try to write the entire project with both today and yesterday's content from scratch. Use these instructions as sparingly as possible to help you practice recall.
