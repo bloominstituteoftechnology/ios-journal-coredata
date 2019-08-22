@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 extension Entry {
-    convenience init(title: String, bodyText: String, timeStamp: Date, identifier: UUID = UUID(), mood: Int64, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    @discardableResult convenience init(title: String, bodyText: String, timeStamp: Date, identifier: UUID = UUID(), mood: Int64, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.title = title
         self.bodyText = bodyText
@@ -19,7 +19,7 @@ extension Entry {
         self.mood = mood
     }
     
-    convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         guard let title = entryRepresentation.title, let bodyText = entryRepresentation.bodyText, let timeStamp = entryRepresentation.timeStamp, let identifier = entryRepresentation.identifier, let mood = entryRepresentation.mood else { return nil }
         self.init(title: title, bodyText: bodyText, timeStamp: timeStamp, identifier: identifier, mood: mood, context: context)
     }

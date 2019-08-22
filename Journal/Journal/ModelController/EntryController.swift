@@ -17,33 +17,45 @@ class EntryController {
         fetchFromServer()
     }
 
-    func saveToPersistentStore() {
-        do {
-            try CoreDataStack.shared.mainContext.save()
-        } catch {
-            NSLog("Error saving to persistent:\(error)")
+    func createEntry(with title: String, timeStamp: Date, bodyText: String, mood: Int64, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        context.performAndWait {
+            let entry = Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, mood: mood)
+            do {
+                try CoreDataStack.shared.save(context: context)
+            } catch {
+                NSLog("Error saving to persistent when creating:\(error)")
+                context.reset()
+            }
+            put(entry: entry)
         }
     }
-
-    func createEntry(with title: String, timeStamp: Date, bodyText: String, mood: Int64) {
-        let entry = Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, mood: mood)
-        saveToPersistentStore()
-        put(entry: entry)
+    
+    func updateEntry(entry: Entry, with title: String, bodyText: String, mood: Int64, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        context.performAndWait {
+            entry.title = title
+            entry.bodyText = bodyText
+            entry.mood = mood
+            do {
+                try CoreDataStack.shared.save(context: context)
+            } catch {
+                NSLog("Error saving to persistent when updating:\(error)")
+                context.reset()
+            }
+            put(entry: entry)
+        }
     }
     
-    func updateEntry(entry: Entry, with title: String, bodyText: String, mood: Int64) {
-        entry.title = title
-        entry.bodyText = bodyText
-        entry.mood = mood
-        saveToPersistentStore()
-        
-        put(entry: entry)
-    }
-    
-    func deleteEntry(entry: Entry) {
-        deleteEntryFromServer(entry: entry)
-        CoreDataStack.shared.mainContext.delete(entry)
-        saveToPersistentStore()
+    func deleteEntry(entry: Entry, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        context.performAndWait {
+            deleteEntryFromServer(entry: entry)
+            CoreDataStack.shared.mainContext.delete(entry)
+            do {
+                try CoreDataStack.shared.save(context: context)
+            } catch {
+                NSLog("Error saving to persistent when deleting:\(error)")
+                context.reset()
+            }
+        }
     }
 }
 
@@ -62,8 +74,7 @@ extension EntryController {
             completion(error)
             return
         }
-        
-        
+
         URLSession.shared.dataTask(with: request) { (_, _, error) in
             if let error = error {
                 NSLog("Error PUTing entry to Firebase: \(error)")
@@ -108,30 +119,41 @@ extension EntryController {
             do {
                 let entriesRepDictionary = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
                 let entriesRep = entriesRepDictionary.map({$0.value})
-                
-                for entryRep in entriesRep {
-                    guard let identifier = entryRep.identifier else { continue }
-                    
-                    
-                    if let entry = self.fetchSingleEntryFromPersistentStore(identifier: identifier) {
-                        //entry exist, check if the same
-                        if entry == entryRep {
-                           // no need update
-                        } else {
-                            //not same, update
-                         self.update(entry: entry, entryRep: entryRep)
-                        }
-                    } else {
-                        //entry does not exist, create one
-                        Entry(entryRepresentation: entryRep)
-                    }
+                let moc = CoreDataStack.shared.container.newBackgroundContext()
+                moc.performAndWait {
+                    self.fetchSingelEntry(in: entriesRep, context: moc)
                 }
-                self.saveToPersistentStore()
             } catch {
                 NSLog("Error decoding: \(error)")
             }
             completion(nil)
         }.resume()
+    }
+    
+    func fetchSingelEntry(in entriesRep: [EntryRepresentation], context: NSManagedObjectContext) {
+        context.performAndWait {
+            for entryRep in entriesRep {
+                guard let identifier = entryRep.identifier else { continue }
+                
+                
+                if let entry = self.fetchSingleEntryFromPersistentStore(identifier: identifier, context: context) {
+                    //entry exist, check if the same
+                    if entry != entryRep {
+                        // not the same, update
+                        self.update(entry: entry, entryRep: entryRep)
+                    }
+                } else {
+                    //entry does not exist, create one
+                    Entry(entryRepresentation: entryRep, context: context)
+                }
+            }
+            do {
+                try CoreDataStack.shared.save(context: context)
+            } catch {
+                NSLog("Error saving when fetching from server: \(error)")
+                context.reset()
+            }
+        }
     }
     func update(entry:Entry, entryRep: EntryRepresentation) {
         entry.title = entryRep.title
@@ -139,12 +161,11 @@ extension EntryController {
         entry.mood = entryRep.mood!
     }
     
-    func fetchSingleEntryFromPersistentStore(identifier: UUID) -> Entry? {
+    func fetchSingleEntryFromPersistentStore(identifier: UUID, context: NSManagedObjectContext) -> Entry? {
         let predicate = NSPredicate(format: "identifier == %@", identifier as NSUUID)
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = predicate
-        
-        let moc = CoreDataStack.shared.mainContext
-        return try? moc.fetch(fetchRequest).first
+    
+        return try? context.fetch(fetchRequest).first
     }
 }

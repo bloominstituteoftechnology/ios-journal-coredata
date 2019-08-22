@@ -17,8 +17,8 @@ struct EntryRepresentation: Codable, Equatable {
 }
 
 func == (lhs: EntryRepresentation, rhs: Entry) -> Bool {
-    guard let identifier1 = lhs.identifier, let identifier2 = rhs.identifier else { return false }
-    return  identifier1 == identifier2 && lhs.title == rhs.title && lhs.mood == rhs.mood && rhs.bodyText == lhs.bodyText && rhs.timeStamp == lhs.timeStamp
+    //guard let identifier1 = lhs.identifier, let identifier2 = rhs.identifier else { return false }
+    return  lhs.identifier == rhs.identifier && lhs.title == rhs.title && lhs.mood == rhs.mood && rhs.bodyText == lhs.bodyText && rhs.timeStamp == lhs.timeStamp
 }
 
 func == (lhs: Entry, rhs: EntryRepresentation) -> Bool {
