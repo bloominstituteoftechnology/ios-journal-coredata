@@ -10,6 +10,8 @@ import Foundation
 import CoreData
 
 class CoreDataStack {
+
+	private init() {}
 	static let shared = CoreDataStack()
 
 	lazy var container: NSPersistentContainer = {

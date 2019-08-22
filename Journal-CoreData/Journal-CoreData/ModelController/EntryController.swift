@@ -11,7 +11,11 @@ import CoreData
 
 class EntryController {
 
-	let baseURL = URL(string: "https://journal-797ea.firebaseio.com/")!
+	init() {
+		fetchEntriesFromServer()
+	}
+
+	let baseURL = URL(string: "https://journal-797ea.firebaseio.com/journal")!
 
 	func createEntry(title: String, bodyText: String, mood: Mood) {
 		let entry = Entry(title: title, bodyText: bodyText, mood: mood)
@@ -20,11 +24,11 @@ class EntryController {
 	}
 
 	func updateEntry(entry: Entry, title: String, bodyText: String, date: Date = Date(), mood: Mood) {
-		put(entry: entry)
 		entry.title = title
 		entry.bodyText = bodyText
 		entry.timeStamp = date
 		entry.mood = mood.rawValue
+		put(entry: entry)
 		saveToPersistentStore()
 	}
 
@@ -118,9 +122,22 @@ extension EntryController {
 	}
 
 	func fetchingSingleEntryFromPersistentStore(identifier: String) -> Entry? {
-		let requestURL = baseURL
-			.appendingPathComponent(identifier)
-			.appendingPathExtension("json")
+		do {
+			let predicate = NSPredicate(format: "identifier == %@", identifier)
+			let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+			fetchRequest.predicate = predicate
+
+			let moc = CoreDataStack.shared.mainContext
+			let entry = try moc.fetch(fetchRequest).first
+			return entry
+		} catch {
+			NSLog("Error fetching entry")
+			return nil
+		}
+	}
+
+	func fetchEntriesFromServer(completion: @escaping(Error?) -> Void = { _ in }) {
+		let requestURL = baseURL.appendingPathExtension("json")
 		var request = URLRequest(url: requestURL)
 		request.httpMethod = HTTPMethod.get.rawValue
 
@@ -136,12 +153,28 @@ extension EntryController {
 			}
 
 			do {
-				let entry = try JSONDecoder().decode(EntryRepresentation.self, from: data)
+				var entries: [EntryRepresentation] = []
+				let entryData = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
+				entries = Array(entryData.values)
+
+				for entryRepresention in entries {
+					guard let identifier = entryRepresention.identifier else { return }
+					let entry = self.fetchingSingleEntryFromPersistentStore(identifier: identifier)
+
+					if let entry = entry {
+						if entryRepresention != entry {
+							self.update(entry: entry, entryRepresentation: entryRepresention)
+						}
+					} else {
+						Entry(entryRepresentation: entryRepresention)
+					}
+				}
+				self.saveToPersistentStore()
 			} catch {
-				NSLog("Error decoding task")
+				NSLog("Error decoding task: \(error)")
 			}
-		}
-		return entry
+			completion(nil)
+		}.resume()
 	}
 }
 
