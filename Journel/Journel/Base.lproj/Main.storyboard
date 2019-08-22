@@ -95,11 +95,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="DYC-bR-kDB">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="DYC-bR-kDB">
                                 <rect key="frame" x="20" y="167" width="374" height="562"/>
                                 <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="rnk-fD-88y">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="31.5"/>
+                                        <segments>
+                                            <segment title="BRUH"/>
+                                            <segment title="AIGHT"/>
+                                            <segment title="LIT"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="d0M-0m-EsR">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
+                                        <rect key="frame" x="0.0" y="41.5" width="374" height="30"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tob-5F-SzU">
                                                 <rect key="frame" x="0.0" y="0.0" width="39.5" height="30"/>
@@ -116,7 +124,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="yuA-zR-aPW">
-                                        <rect key="frame" x="0.0" y="35" width="374" height="527"/>
+                                        <rect key="frame" x="0.0" y="82.5" width="374" height="479.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Journal Entry:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ck-Xn-TDk">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="20.5"/>
@@ -125,7 +133,7 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Uhc-6N-mbg">
-                                                <rect key="frame" x="0.0" y="21.5" width="374" height="505.5"/>
+                                                <rect key="frame" x="0.0" y="21.5" width="374" height="458"/>
                                                 <color key="backgroundColor" red="0.91913864213197971" green="0.91913864213197971" blue="0.91913864213197971" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -152,6 +160,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="moodControl" destination="rnk-fD-88y" id="Pq0-Ip-A5R"/>
                         <outlet property="textView" destination="Uhc-6N-mbg" id="Vml-5v-IAP"/>
                         <outlet property="titleTextField" destination="54j-ND-xkN" id="JQg-5N-eZ8"/>
                     </connections>

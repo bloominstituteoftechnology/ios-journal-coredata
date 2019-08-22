@@ -51,15 +51,16 @@ extension EntryController {
 //CRUD
 extension EntryController {
     
-    func create(title: String, bodyText: String? ) {
+    func create(title: String, bodyText: String?, mood: String ) {
         _ = Entry(title: title, bodyText: bodyText)
         saveToPersistentStore()
     }
     
-    func update(entry: Entry, title: String, bodyText: String?, updatedTimeStamp: Date = Date()) {
+    func update(entry: Entry, title: String, bodyText: String?, updatedTimeStamp: Date = Date(), mood: String) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timeStamp = updatedTimeStamp
+        entry.mood = mood
         saveToPersistentStore()
     }
     
