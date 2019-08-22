@@ -14,7 +14,7 @@ class EntriesTableViewController: UITableViewController {
     //Properties
     let entryController = EntryController()
     
-    lazy var fetchedResultsControler: NSFetchedResultsController<Entry> = {
+    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         var fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         let moodDescriptor = NSSortDescriptor(key: EntryProperties.mood.rawValue, ascending: true)
         let titleDescriptor = NSSortDescriptor(key: EntryProperties.title.rawValue, ascending: true)
@@ -46,18 +46,18 @@ class EntriesTableViewController: UITableViewController {
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return fetchedResultsControler.sections?.count ?? 1
+        return fetchedResultsController.sections?.count ?? 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return fetchedResultsControler.sections?[section].numberOfObjects ?? 0
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as! EntryTableViewCell
-        let entry = fetchedResultsControler.object(at: indexPath)
+        let entry = fetchedResultsController.object(at: indexPath)
         cell.entry = entry
         cell.updateViews()
         return cell
@@ -69,10 +69,16 @@ class EntriesTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let entry = fetchedResultsControler.object(at: indexPath)
+            let entry = fetchedResultsController.object(at: indexPath)
             entryController.delete(entry: entry)
 
         }    
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+        
+        return sectionInfo.name.capitalized
     }
     
     
@@ -99,7 +105,7 @@ class EntriesTableViewController: UITableViewController {
         if segue.identifier == "CellDetailSegue" {
             let detailVC = segue.destination as! EntryDetailViewController
             guard let selectedEntryPath = tableView.indexPathForSelectedRow else {return print("Selected row couldnt be found")}
-            let entry = fetchedResultsControler.object(at: selectedEntryPath)
+            let entry = fetchedResultsController.object(at: selectedEntryPath)
             detailVC.entryController = entryController
             detailVC.entry = entry
         } else {
@@ -169,4 +175,6 @@ extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
         }
     }
 }
+
+
 
