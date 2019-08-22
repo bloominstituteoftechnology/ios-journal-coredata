@@ -175,7 +175,7 @@ extension EntryController {
 	func updatePersistentStore(with entryRepresentations: [EntryRepresentation], context: NSManagedObjectContext) {
 		context.performAndWait {
 			for entryRepresention in entryRepresentations {
-				guard let identifier = entryRepresention.identifier else { return }
+				guard let identifier = entryRepresention.identifier else { continue }
 				let entry = self.fetchingSingleEntryFromPersistentStore(identifier: identifier, context: context)
 
 				if let entry = entry {
