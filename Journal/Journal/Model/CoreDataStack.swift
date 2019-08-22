@@ -18,8 +18,8 @@ class CoreDataStack {
         let container = NSPersistentContainer(name: "Journal")
         
         container.loadPersistentStores(completionHandler: { (_, error) in
-            if let error = error {
-                fatalError("Failed to load persistent store(s): \(error)")
+            if let error = error as NSError? {
+                fatalError("Failed to load persistent store(s): \(error) \(error.userInfo)")
             }
         })
         return container
@@ -27,5 +27,9 @@ class CoreDataStack {
     
     var mainContext: NSManagedObjectContext {
         return container.viewContext
+    }
+    
+    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
+        try context.save()
     }
 }

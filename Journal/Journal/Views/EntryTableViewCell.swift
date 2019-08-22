@@ -24,10 +24,11 @@ class EntryTableViewCell: UITableViewCell {
         }
     }
     
+    var secondsFromGMT: Int { return TimeZone.current.secondsFromGMT() }
     var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "MM-dd-yy, h:mm a"
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.timeZone = TimeZone(secondsFromGMT: secondsFromGMT)
         return formatter
     }
     
