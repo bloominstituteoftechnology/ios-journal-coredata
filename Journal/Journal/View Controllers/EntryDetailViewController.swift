@@ -42,21 +42,18 @@ class EntryDetailViewController: UIViewController {
             if let moodString = entry.mood,
                 let mood = Mood(rawValue: moodString) {
                 let moodIndex = Mood.allCases.firstIndex(of: mood) ?? 1
-                
                 moodSegmentedControl.selectedSegmentIndex = moodIndex
             }
-            
         }
     }
 
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
         guard let entryTitle = titleTextField.text,
-            let bodyText = bodyTextView.text else { return }
+            let bodyText     = bodyTextView.text else { return }
         
         let timeInterval = TimeInterval(NSDate().timeIntervalSince1970)
-        let timeStamp = Date(timeIntervalSince1970: timeInterval)
-        
-        let moodIndex = moodSegmentedControl.selectedSegmentIndex
+        let timeStamp    = Date(timeIntervalSince1970: timeInterval)
+        let moodIndex    = moodSegmentedControl.selectedSegmentIndex
         var mood: Mood
         
         switch moodIndex {
@@ -74,12 +71,10 @@ class EntryDetailViewController: UIViewController {
            let entryController = entryController {
             entryController.updateEntry(entry: entry, with: entryTitle, bodyText: bodyText, timeStamp: timeStamp, mood: mood)
             title = entryTitle
-        }else {
+        } else {
             guard let entryController = entryController else { return }
             entryController.createEntry(with: entryTitle, bodyText: bodyText, timeStamp: timeStamp, mood: mood)
-            
         }
         navigationController?.popToRootViewController(animated: true)
     }
-    
 }

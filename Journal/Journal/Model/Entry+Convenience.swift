@@ -28,7 +28,6 @@ extension Entry {
     }
     
     @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        
         guard let title = entryRepresentation.title,
             let bodyText = entryRepresentation.bodyText,
             let identifier = entryRepresentation.identifier,

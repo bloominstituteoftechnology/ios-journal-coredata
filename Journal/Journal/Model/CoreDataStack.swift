@@ -20,7 +20,6 @@ class CoreDataStack {
         container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
                 fatalError("Failed to load persistent store(s): \(error) \(error.userInfo)")
-                
             }
         })
         return container
