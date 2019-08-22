@@ -36,14 +36,11 @@ class EntriesTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    
-    }
-    
-    // MARK: - Table view data source
-    
+}
+
+
+// MARK: - Table view data source
+extension EntriesTableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return fetchedResultsController.sections?.count ?? 1
@@ -62,10 +59,7 @@ class EntriesTableViewController: UITableViewController {
         cell.updateViews()
         return cell
     }
-    
-    
-    
-    
+
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -82,25 +76,7 @@ class EntriesTableViewController: UITableViewController {
     }
     
     
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    
     // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "CellDetailSegue" {
             let detailVC = segue.destination as! EntryDetailViewController
@@ -113,9 +89,8 @@ class EntriesTableViewController: UITableViewController {
             detailVC.entryController = entryController
         }
     }
-    
-    
 }
+
 
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
@@ -131,7 +106,6 @@ extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
                     at indexPath: IndexPath?,
                     for type: NSFetchedResultsChangeType,
                     newIndexPath: IndexPath?) {
-        
         
         switch type {
         case .insert:
