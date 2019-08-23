@@ -16,6 +16,18 @@ enum HTTPMethod: String {
     case put = "PUT"
 }
 
+enum NetworkError: Error {
+    case noData
+    case badAuth
+    case noDecode
+    case failedFetch(Error)
+    case failedAdd(Error)
+    case badURL
+    case invalidData
+    case failedSignUp
+    case otherError
+}
+
 class EntryController {
     
     //Properties
@@ -53,8 +65,8 @@ extension EntryController {
     //        saveToPersistentStore()
     //        return []
     //    }
-
-//CRUD
+    
+    //CRUD
     func create(title: String, bodyText: String?, mood: String ) {
         _ = Entry(title: title, bodyText: bodyText)
         saveToPersistentStore()
@@ -78,23 +90,37 @@ extension EntryController {
 //MARK: - Network Functions
 extension EntryController {
     
-    func put(entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
-        
+    func put(entry: Entry, completion: @escaping (NetworkError?) -> Void = { _ in }) {
         let id = entry.identifier?.uuidString ?? UUID().uuidString
         let requestURL = baseURL.appendingPathComponent(id).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.put.rawValue
         
         do {
-            guard var representation = entry.entryRepresentation else {completion(NSError()); return}
+            guard var representation = entry.entryRepresentation else {completion(.otherError); return}
             representation.identifier = UUID(uuidString: id)!
             self.saveToPersistentStore()
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
             NSLog("EntryController: Put Method : Entry: (\(entry)), not encoded")
-            completion(error)
+            completion(.otherError)
             return
         }
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                NSLog("EntryController: Put Method : Error adding \(entry) to database")
+                completion(.failedAdd(error))
+                return
+            }
+            completion(nil)
+        }.resume()
     }
     
+    func deleteEntryFromServer(entry: Entry, completion: @escaping (NetworkError?) -> Void = { _ in }) {
+        
+        guard let id = entry.identifier?.uuidString else {return completion(.otherError)}
+        
+        
+    }
 }
