@@ -30,6 +30,10 @@ enum NetworkError: Error {
 
 class EntryController {
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     //Properties
     let baseURL = URL(string: "https://journal-coredata-project.firebaseio.com/")!
     //    var entries: [Entry] {
@@ -50,6 +54,18 @@ extension EntryController {
         } catch {
             NSLog("Error saving MOC: \(error)")
             moc.reset()
+        }
+    }
+    
+    func fetchSingleEntryFromPersistentStore(id: UUID) -> Entry? {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", id.uuidString)
+        do{
+            let moc = CoreDataStack.shared.mainContext
+            return try moc.fetch(fetchRequest).first
+        } catch {
+            NSLog("Could not find Entry with id: \(id.uuidString). Error: \(error)")
+            return nil
         }
     }
     
@@ -117,7 +133,7 @@ extension EntryController {
                 return
             }
             completion(nil)
-        }.resume()
+            }.resume()
     }
     
     func deleteEntryFromServer(entry: Entry, completion: @escaping (NetworkError?) -> Void = { _ in }) {
@@ -140,7 +156,7 @@ extension EntryController {
                 completion(.otherError(NSError()))
                 return
             }
-        }.resume()
+            }.resume()
     }
     
     func updateCoreData(entry: Entry, representation: EntryRepresentation) {
@@ -151,15 +167,43 @@ extension EntryController {
         entry.title = representation.title
     }
     
-    func fetchSingleEntryFromPersistentStore(id: UUID) -> Entry? {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identifier == %@", id.uuidString)
-        do{
-            let moc = CoreDataStack.shared.mainContext
-            return try moc.fetch(fetchRequest).first
-        } catch {
-            NSLog("Could not find Entry with id: \(id.uuidString). Error: \(error)")
-            return nil
-        }
+    func fetchEntriesFromServer(completion: @escaping (NetworkError?) -> Void = { _ in }) {
+        let getURL = baseURL.appendingPathExtension("json")
+        URLSession.shared.dataTask(with: getURL) { (data, response, error) in
+            if let error = error {
+                NSLog("Error fetching tasks: \(error)")
+                completion(.failedFetch(error))
+                return
+            }
+            
+            if let response = response as? HTTPURLResponse, response.statusCode != 200 {
+                NSLog("Bad response fetching entries, response code: \(response.statusCode)")
+                completion(.otherError(NSError()))
+                return
+            }
+            
+            guard let data = data else { NSLog("No data returned by the data task"); completion(.noData); return }
+            
+            DispatchQueue.main.async {
+                do {
+                    let entryReps = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
+                    for entryRep in entryReps {
+                        let identifier = entryRep.identifier
+                        if let entry = self.fetchSingleEntryFromPersistentStore(id: identifier) {
+                            self.updateCoreData(entry: entry, representation: entryRep)
+                        } else {
+                            let _ = Entry(representor: entryRep)
+                        }
+                    }
+                    self.saveToPersistentStore()
+                    completion(nil)
+                } catch {
+                    NSLog("Error decoding task representations: \(error)")
+                    completion(.noDecode)
+                    return
+                }
+            }
+            }.resume()
     }
+    
 }
