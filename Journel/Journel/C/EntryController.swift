@@ -25,7 +25,7 @@ enum NetworkError: Error {
     case badURL
     case invalidData
     case failedSignUp
-    case otherError
+    case otherError(Error)
 }
 
 class EntryController {
@@ -97,13 +97,13 @@ extension EntryController {
         request.httpMethod = HTTPMethod.put.rawValue
         
         do {
-            guard var representation = entry.entryRepresentation else {completion(.otherError); return}
+            guard var representation = entry.entryRepresentation else {completion(.otherError(NSError())); return}
             representation.identifier = UUID(uuidString: id)!
             self.saveToPersistentStore()
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
             NSLog("EntryController: Put Method : Entry: (\(entry)), not encoded")
-            completion(.otherError)
+            completion(.otherError(error))
             return
         }
         
@@ -119,8 +119,24 @@ extension EntryController {
     
     func deleteEntryFromServer(entry: Entry, completion: @escaping (NetworkError?) -> Void = { _ in }) {
         
-        guard let id = entry.identifier?.uuidString else {return completion(.otherError)}
+        guard let id = entry.identifier?.uuidString else {completion(.otherError(NSError())); return}
         
+        let requestURL = baseURL.appendingPathComponent(id).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.delete.rawValue
         
+        URLSession.shared.dataTask(with: request) { ( _, response, error) in
+            if let error = error {
+                NSLog("Error deleting \(entry) from database: \(error)")
+                completion(.otherError(error))
+                return
+            }
+            
+            if let response = response as? HTTPURLResponse, response.statusCode != 200 {
+                NSLog("Bad response to deleting \(entry). Response code: \(response.statusCode)")
+                completion(.otherError(NSError()))
+                return
+            }
+        }.resume()
     }
 }
