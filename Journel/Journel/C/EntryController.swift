@@ -151,5 +151,15 @@ extension EntryController {
         entry.title = representation.title
     }
     
-    
+    func fetchSingleEntryFromPersistentStore(id: UUID) -> Entry? {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", id.uuidString)
+        do{
+            let moc = CoreDataStack.shared.mainContext
+            return try moc.fetch(fetchRequest).first
+        } catch {
+            NSLog("Could not find Entry with id: \(id.uuidString). Error: \(error)")
+            return nil
+        }
+    }
 }
