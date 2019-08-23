@@ -68,7 +68,8 @@ extension EntryController {
     
     //CRUD
     func create(title: String, bodyText: String?, mood: String ) {
-        _ = Entry(title: title, bodyText: bodyText)
+        let entry = Entry(title: title, bodyText: bodyText)
+        put(entry: entry)
         saveToPersistentStore()
     }
     
@@ -82,6 +83,7 @@ extension EntryController {
     
     func delete(entry: Entry) {
         let moc = CoreDataStack.shared.mainContext
+        deleteEntryFromServer(entry: entry)
         moc.delete(entry)
         saveToPersistentStore()
     }
