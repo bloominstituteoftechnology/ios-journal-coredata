@@ -78,6 +78,7 @@ extension EntryController {
         entry.bodyText = bodyText
         entry.timeStamp = updatedTimeStamp
         entry.mood = mood
+        put(entry: entry)
         saveToPersistentStore()
     }
     
@@ -141,4 +142,14 @@ extension EntryController {
             }
         }.resume()
     }
+    
+    func updateCoreData(entry: Entry, representation: EntryRepresentation) {
+        entry.bodyText = representation.bodyText
+        entry.identifier = representation.identifier
+        entry.mood = representation.mood
+        entry.timeStamp = representation.timeStamp
+        entry.title = representation.title
+    }
+    
+    
 }
