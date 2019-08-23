@@ -9,9 +9,17 @@
 import Foundation
 import CoreData
 
+enum HTTPMethod: String {
+    case get = "GET"
+    case post = "POST"
+    case delete = "Delete"
+    case put = "PUT"
+}
+
 class EntryController {
     
     //Properties
+    let baseURL = URL(string: "https://journal-coredata-project.firebaseio.com/")!
     //    var entries: [Entry] {
     //        // this adds the stored data to the "source of all truth"
     //        //remember computed properties need to RETURN a value. So this "return" returns the value that is retuned in the loadFromPersistentStore function
@@ -69,5 +77,24 @@ extension EntryController {
 
 //MARK: - Network Functions
 extension EntryController {
+    
+    func put(entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
+        
+        let id = entry.identifier?.uuidString ?? UUID().uuidString
+        let requestURL = baseURL.appendingPathComponent(id).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.put.rawValue
+        
+        do {
+            guard var representation = entry.entryRepresentation else {completion(NSError()); return}
+            representation.identifier = UUID(uuidString: id)!
+            self.saveToPersistentStore()
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            NSLog("EntryController: Put Method : Entry: (\(entry)), not encoded")
+            completion(error)
+            return
+        }
+    }
     
 }

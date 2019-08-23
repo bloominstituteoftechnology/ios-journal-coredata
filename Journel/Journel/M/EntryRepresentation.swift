@@ -11,11 +11,11 @@ import CoreData
 
 struct EntryRepresentation: Codable, Equatable {
     
-    let title: String
-    let identifier: UUID
-    let bodyText: String
-    let mood: String
-    let timeStamp: Date
+    var title: String
+    var identifier: UUID
+    var bodyText: String
+    var mood: String
+    var timeStamp: Date
 }
 
 //Comparitive Methods
