@@ -36,11 +36,6 @@ class EntryController {
     
     //Properties
     let baseURL = URL(string: "https://journal-coredata-project.firebaseio.com/")!
-    //    var entries: [Entry] {
-    //        // this adds the stored data to the "source of all truth"
-    //        //remember computed properties need to RETURN a value. So this "return" returns the value that is retuned in the loadFromPersistentStore function
-    //        return loadFromPersistentStore()
-    //    }
 }
 
 
@@ -68,19 +63,6 @@ extension EntryController {
             return nil
         }
     }
-    
-    //    func loadFromPersistentStore() -> [Entry] {
-    //        let moc = CoreDataStack.shared.mainContext
-    //        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-    //
-    //        do {
-    //            return try moc.fetch(fetchRequest)
-    //        } catch {
-    //            NSLog("Error fetching MOC: \(error)")
-    //        }
-    //        saveToPersistentStore()
-    //        return []
-    //    }
     
     //CRUD
     func create(title: String, bodyText: String?, mood: String ) {
@@ -207,3 +189,25 @@ extension EntryController {
     }
     
 }
+
+//MARK: - CLEAN UP
+//MOC Functions
+//    func loadFromPersistentStore() -> [Entry] {
+//        let moc = CoreDataStack.shared.mainContext
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//
+//        do {
+//            return try moc.fetch(fetchRequest)
+//        } catch {
+//            NSLog("Error fetching MOC: \(error)")
+//        }
+//        saveToPersistentStore()
+//        return []
+//    }
+
+//Properties
+//    var entries: [Entry] {
+//        // this adds the stored data to the "source of all truth"
+//        //remember computed properties need to RETURN a value. So this "return" returns the value that is retuned in the loadFromPersistentStore function
+//        return loadFromPersistentStore()
+//    }
