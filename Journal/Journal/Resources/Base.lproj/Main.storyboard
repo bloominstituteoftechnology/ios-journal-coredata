@@ -13,13 +13,20 @@
         <!--My Journals-->
         <scene sceneID="sUz-Rv-jki">
             <objects>
-                <tableViewController id="A2R-gX-XT9" customClass="JournalTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="A2R-gX-XT9" customClass="EntriesTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="jqq-EJ-ecQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap the plus button to add a new entry" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3qj-j9-2Xb">
+                            <rect key="frame" x="0.0" y="78" width="414" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="JournalCell" rowHeight="50" id="sRt-Tn-a4U" customClass="JournalTableViewCell" customModule="Journal" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="JournalCell" rowHeight="50" id="sRt-Tn-a4U" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sRt-Tn-a4U" id="YYr-Vs-KyT">
@@ -86,13 +93,13 @@
         <!--Create New Journal-->
         <scene sceneID="TbM-PQ-Dr4">
             <objects>
-                <viewController id="4UP-0F-63L" customClass="JournalDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="4UP-0F-63L" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="nrU-e8-fZp">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="58" translatesAutoresizingMaskIntoConstraints="NO" id="Qhp-zn-DrN">
-                                <rect key="frame" x="20" y="190" width="374" height="536"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="Qhp-zn-DrN">
+                                <rect key="frame" x="20" y="176" width="374" height="502"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Journal Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="prV-dj-ewO">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
@@ -101,7 +108,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wWI-co-pf3">
-                                        <rect key="frame" x="0.0" y="88" width="374" height="448"/>
+                                        <rect key="frame" x="0.0" y="54" width="374" height="448"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -114,7 +121,7 @@
                             <constraint firstItem="ezp-8h-bF2" firstAttribute="trailing" secondItem="Qhp-zn-DrN" secondAttribute="trailing" constant="20" id="4F1-Z4-U2I"/>
                             <constraint firstItem="Qhp-zn-DrN" firstAttribute="leading" secondItem="ezp-8h-bF2" secondAttribute="leading" constant="20" id="EAb-yA-5c0"/>
                             <constraint firstItem="wWI-co-pf3" firstAttribute="height" secondItem="nrU-e8-fZp" secondAttribute="height" multiplier="0.5" id="Vmm-LR-mH9"/>
-                            <constraint firstItem="Qhp-zn-DrN" firstAttribute="top" secondItem="ezp-8h-bF2" secondAttribute="top" constant="50" id="px9-aQ-WOY"/>
+                            <constraint firstItem="Qhp-zn-DrN" firstAttribute="top" secondItem="ezp-8h-bF2" secondAttribute="top" constant="36" id="px9-aQ-WOY"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ezp-8h-bF2"/>
                     </view>
