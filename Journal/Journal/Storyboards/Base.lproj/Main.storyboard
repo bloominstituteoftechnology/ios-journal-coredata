@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Journal Table View Controller-->
+        <!--Journal-->
         <scene sceneID="jpc-sm-gyr">
             <objects>
                 <tableViewController id="5ee-DZ-eQM" customClass="JournalTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
@@ -52,7 +52,7 @@
                             <outlet property="delegate" destination="5ee-DZ-eQM" id="fhD-6S-sNM"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="WZL-cn-Wvx">
+                    <navigationItem key="navigationItem" title="Journal" id="WZL-cn-Wvx">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Xtt-F7-Lf0">
                             <connections>
                                 <segue destination="pFK-Ok-X5A" kind="show" identifier="CreateJournalSegue" id="ziW-pZ-iLs"/>
@@ -71,9 +71,55 @@
                     <view key="view" contentMode="scaleToFill" id="ruj-eB-p1y">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="mr3-We-Yq9">
+                                <rect key="frame" x="20" y="160" width="374" height="400"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qM7-lR-IMX">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="anu-EL-uac"/>
+                                        </constraints>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="What would you like to say?" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="kdb-3o-Ou3">
+                                        <rect key="frame" x="0.0" y="38" width="374" height="362"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="400" id="6Xy-v1-lUk"/>
+                                    <constraint firstItem="qM7-lR-IMX" firstAttribute="leading" secondItem="mr3-We-Yq9" secondAttribute="leading" id="8az-wq-NU9"/>
+                                    <constraint firstAttribute="trailing" secondItem="qM7-lR-IMX" secondAttribute="trailing" id="BEN-1n-3e5"/>
+                                    <constraint firstAttribute="trailing" secondItem="kdb-3o-Ou3" secondAttribute="trailing" id="XEf-27-Mow"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.79182420799999997" green="0.81440746450000001" blue="0.79747002209999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="mr3-We-Yq9" firstAttribute="top" secondItem="bu6-Ra-OiS" secondAttribute="top" constant="20" id="9cz-A4-HMf"/>
+                            <constraint firstItem="mr3-We-Yq9" firstAttribute="leading" secondItem="bu6-Ra-OiS" secondAttribute="leading" constant="20" id="O1B-q5-bVW"/>
+                            <constraint firstItem="bu6-Ra-OiS" firstAttribute="trailing" secondItem="mr3-We-Yq9" secondAttribute="trailing" constant="20" id="lM7-Oy-U7J"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="bu6-Ra-OiS"/>
                     </view>
+                    <navigationItem key="navigationItem" id="pEV-zv-q9t">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="zkE-0S-QtW">
+                            <connections>
+                                <action selector="saveTapped:" destination="pFK-Ok-X5A" id="Uhx-j5-B2s"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="textField" destination="qM7-lR-IMX" id="q9V-nB-z1u"/>
+                        <outlet property="textView" destination="kdb-3o-Ou3" id="c0y-tC-d8U"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RLn-H5-EUs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -84,8 +130,8 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6JG-ja-uCW" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="qAl-np-zlK">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="qAl-np-zlK">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -99,6 +145,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="iOs-HH-9JM"/>
+        <segue reference="ziW-pZ-iLs"/>
     </inferredMetricsTieBreakers>
 </document>

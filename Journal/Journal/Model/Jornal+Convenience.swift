@@ -12,7 +12,7 @@ import CoreData
 extension Journal {
     
     
-    convenience init(title: String, bodyText: String, identifier: String, time: Date, context: NSManagedObjectContext) {
+    convenience init(title: String, bodyText: String, identifier: String?, time: Date, context: NSManagedObjectContext) {
         
         self.init(context: context)
         
