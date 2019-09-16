@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="111" id="e64-r6-tf4" customClass="EntryTableViewCell" customModule="Journal_CoreData" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="entryCell" rowHeight="111" id="e64-r6-tf4" customClass="EntryTableViewCell" customModule="Journal_CoreData" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="111"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="e64-r6-tf4" id="F9p-gf-Iwb">
@@ -74,20 +74,54 @@
             </objects>
             <point key="canvasLocation" x="1065.217391304348" y="132.58928571428572"/>
         </scene>
-        <!--View Controller-->
+        <!--Title-->
         <scene sceneID="4kK-Yi-Zfu">
             <objects>
-                <viewController id="C58-MR-HON" sceneMemberID="viewController">
+                <viewController id="C58-MR-HON" customClass="EntryDetailViewController" customModule="Journal_CoreData" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hag-xa-L9q">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vku-QH-dx0">
+                                <rect key="frame" x="30" y="117" width="342" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6mQ-1C-0db">
+                                <rect key="frame" x="30" y="189" width="342" height="128"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="m0Y-TL-Y8N" firstAttribute="bottom" secondItem="6mQ-1C-0db" secondAttribute="bottom" constant="545" id="2AX-8r-iVk"/>
+                            <constraint firstItem="vku-QH-dx0" firstAttribute="trailing" secondItem="6mQ-1C-0db" secondAttribute="trailing" id="3l9-xN-QwL"/>
+                            <constraint firstItem="6mQ-1C-0db" firstAttribute="top" secondItem="vku-QH-dx0" secondAttribute="bottom" constant="42" id="3yH-le-KQp"/>
+                            <constraint firstItem="m0Y-TL-Y8N" firstAttribute="trailing" secondItem="vku-QH-dx0" secondAttribute="trailing" constant="42" id="D2K-BK-KEA"/>
+                            <constraint firstItem="vku-QH-dx0" firstAttribute="top" secondItem="m0Y-TL-Y8N" secondAttribute="top" constant="29" id="NZG-Cx-cQf"/>
+                            <constraint firstItem="vku-QH-dx0" firstAttribute="leading" secondItem="m0Y-TL-Y8N" secondAttribute="leading" constant="30" id="TVb-lE-Nj8"/>
+                            <constraint firstItem="vku-QH-dx0" firstAttribute="leading" secondItem="6mQ-1C-0db" secondAttribute="leading" id="yZR-h6-Tnc"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="m0Y-TL-Y8N"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" id="8fD-OS-MKm">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="n9A-UO-WXN">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="C58-MR-HON" id="bEt-pw-VRG"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="bodyTextView" destination="6mQ-1C-0db" id="tzS-2o-gk3"/>
+                        <outlet property="titleTextField" destination="vku-QH-dx0" id="THN-Q3-m7d"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wWN-7I-RBd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1799" y="133"/>
+            <point key="canvasLocation" x="1798.5507246376812" y="132.58928571428572"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="RLQ-xt-S9V">
