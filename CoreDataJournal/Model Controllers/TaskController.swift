@@ -25,6 +25,8 @@ class TaskController {
     func updateTask(task: Task, with title: String, journalNote: String?) {
         task.title = title
         task.journalNote = journalNote
+        
+        CoreDataStack.share.saveToPersistentStore()
     }
     
     func delete(task: Task) {

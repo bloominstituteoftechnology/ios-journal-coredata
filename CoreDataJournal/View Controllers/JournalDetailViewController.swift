@@ -12,8 +12,11 @@ class JournalDetailViewController: UIViewController {
 
     
     @IBOutlet weak var titleTextField: UITextField!
-    
     @IBOutlet weak var journalTextView: UITextView!
+    
+    var taskController: TaskController?
+    var task: Task?
+    
     
     
     override func viewDidLoad() {
