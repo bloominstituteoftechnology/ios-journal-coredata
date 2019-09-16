@@ -14,6 +14,9 @@
 		4556A6822330141100FD0CC5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4556A6802330141100FD0CC5 /* LaunchScreen.storyboard */; };
 		4556A68A2330155E00FD0CC5 /* JournalTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4556A6892330155E00FD0CC5 /* JournalTableViewController.swift */; };
 		4556A68C2330157A00FD0CC5 /* JournalDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4556A68B2330157A00FD0CC5 /* JournalDetailViewController.swift */; };
+		4556A68F2330160F00FD0CC5 /* Tasks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4556A68D2330160F00FD0CC5 /* Tasks.xcdatamodeld */; };
+		4556A6912330170500FD0CC5 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4556A6902330170500FD0CC5 /* CoreDataStack.swift */; };
+		4556A693233017CE00FD0CC5 /* Task+Conveneince.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4556A692233017CE00FD0CC5 /* Task+Conveneince.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,9 @@
 		4556A6832330141100FD0CC5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4556A6892330155E00FD0CC5 /* JournalTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalTableViewController.swift; sourceTree = "<group>"; };
 		4556A68B2330157A00FD0CC5 /* JournalDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalDetailViewController.swift; sourceTree = "<group>"; };
+		4556A68E2330160F00FD0CC5 /* Tasks.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tasks.xcdatamodel; sourceTree = "<group>"; };
+		4556A6902330170500FD0CC5 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		4556A692233017CE00FD0CC5 /* Task+Conveneince.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Task+Conveneince.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,8 +48,9 @@
 		4556A66B2330141000FD0CC5 = {
 			isa = PBXGroup;
 			children = (
-				4556A68B2330157A00FD0CC5 /* JournalDetailViewController.swift */,
-				4556A6892330155E00FD0CC5 /* JournalTableViewController.swift */,
+				4556A6962330190300FD0CC5 /* View Controllers */,
+				4556A695233018EF00FD0CC5 /* Model Controllers */,
+				4556A694233018E600FD0CC5 /* Model */,
 				4556A6762330141000FD0CC5 /* CoreDataJournal */,
 				4556A6752330141000FD0CC5 /* Products */,
 			);
@@ -68,6 +75,32 @@
 				4556A6832330141100FD0CC5 /* Info.plist */,
 			);
 			path = CoreDataJournal;
+			sourceTree = "<group>";
+		};
+		4556A694233018E600FD0CC5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4556A6902330170500FD0CC5 /* CoreDataStack.swift */,
+				4556A692233017CE00FD0CC5 /* Task+Conveneince.swift */,
+				4556A68D2330160F00FD0CC5 /* Tasks.xcdatamodeld */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4556A695233018EF00FD0CC5 /* Model Controllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Model Controllers";
+			sourceTree = "<group>";
+		};
+		4556A6962330190300FD0CC5 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				4556A6892330155E00FD0CC5 /* JournalTableViewController.swift */,
+				4556A68B2330157A00FD0CC5 /* JournalDetailViewController.swift */,
+			);
+			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -142,7 +175,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				4556A67A2330141000FD0CC5 /* ViewController.swift in Sources */,
+				4556A693233017CE00FD0CC5 /* Task+Conveneince.swift in Sources */,
 				4556A68A2330155E00FD0CC5 /* JournalTableViewController.swift in Sources */,
+				4556A68F2330160F00FD0CC5 /* Tasks.xcdatamodeld in Sources */,
+				4556A6912330170500FD0CC5 /* CoreDataStack.swift in Sources */,
 				4556A6782330141000FD0CC5 /* AppDelegate.swift in Sources */,
 				4556A68C2330157A00FD0CC5 /* JournalDetailViewController.swift in Sources */,
 			);
@@ -342,6 +378,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4556A68D2330160F00FD0CC5 /* Tasks.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4556A68E2330160F00FD0CC5 /* Tasks.xcdatamodel */,
+			);
+			currentVersion = 4556A68E2330160F00FD0CC5 /* Tasks.xcdatamodel */;
+			path = Tasks.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 4556A66C2330141000FD0CC5 /* Project object */;
 }
