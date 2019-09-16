@@ -7,14 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		861390D123303C9F00795971 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861390D023303C9F00795971 /* EntryTableViewCell.swift */; };
 		8621E04C2330305900743AD2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8621E04B2330305900743AD2 /* AppDelegate.swift */; };
 		8621E04E2330305A00743AD2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8621E04D2330305A00743AD2 /* ViewController.swift */; };
 		8621E0512330305A00743AD2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8621E04F2330305A00743AD2 /* Main.storyboard */; };
 		8621E0532330305C00743AD2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8621E0522330305C00743AD2 /* Assets.xcassets */; };
 		8621E0562330305C00743AD2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8621E0542330305C00743AD2 /* LaunchScreen.storyboard */; };
+		8621E05E233033B700743AD2 /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8621E05D233033B700743AD2 /* EntriesTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		861390D023303C9F00795971 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
 		8621E0482330305900743AD2 /* Journal CoreData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Journal CoreData.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8621E04B2330305900743AD2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8621E04D2330305A00743AD2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +25,7 @@
 		8621E0522330305C00743AD2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8621E0552330305C00743AD2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8621E0572330305C00743AD2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8621E05D233033B700743AD2 /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +39,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		861390D223303D0B00795971 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				861390D023303C9F00795971 /* EntryTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		8621E03F2330305900743AD2 = {
 			isa = PBXGroup;
 			children = (
@@ -57,11 +69,21 @@
 				8621E04B2330305900743AD2 /* AppDelegate.swift */,
 				8621E04D2330305A00743AD2 /* ViewController.swift */,
 				8621E04F2330305A00743AD2 /* Main.storyboard */,
+				8621E05F233033C400743AD2 /* Model Controller */,
+				861390D223303D0B00795971 /* View */,
 				8621E0522330305C00743AD2 /* Assets.xcassets */,
 				8621E0542330305C00743AD2 /* LaunchScreen.storyboard */,
 				8621E0572330305C00743AD2 /* Info.plist */,
 			);
 			path = "Journal CoreData";
+			sourceTree = "<group>";
+		};
+		8621E05F233033C400743AD2 /* Model Controller */ = {
+			isa = PBXGroup;
+			children = (
+				8621E05D233033B700743AD2 /* EntriesTableViewController.swift */,
+			);
+			path = "Model Controller";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -135,6 +157,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				861390D123303C9F00795971 /* EntryTableViewCell.swift in Sources */,
+				8621E05E233033B700743AD2 /* EntriesTableViewController.swift in Sources */,
 				8621E04E2330305A00743AD2 /* ViewController.swift in Sources */,
 				8621E04C2330305900743AD2 /* AppDelegate.swift in Sources */,
 			);
