@@ -22,23 +22,32 @@ class JournalDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        updateViews()
     }
     
 
     
     @IBAction func save(_ sender: Any) {
+        guard let title = titleTextField.text,
+            let journalNote = journalTextView.text,
+            !title.isEmpty else {return}
+        
+        if let task = task {
+            taskController?.updateTask(task: task, with: title, journalNote: journalNote)
+        } else {
+            taskController?.createTask(with: title, journalNote: journalNote)
+        }
+        navigationController?.popViewController(animated: true)
+        
     }
     
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func updateViews(){
+        title = task?.title ?? "Create Task"
+        
+        titleTextField.text = task?.title
+        journalTextView.text = task?.journalNote
+        
     }
-    */
 
 }
