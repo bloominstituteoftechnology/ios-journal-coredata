@@ -11,6 +11,13 @@ import CoreData
 
 class CoreDataStack {
     
+    static let share = CoreDataStack()
+    
+    private init() {
+        
+    }
+    
+    
     //Create Code Snippet
     //Making The Box
     //Lazy means it doesn't create the property upon init, but only init when its called first time
@@ -27,12 +34,15 @@ class CoreDataStack {
             }
         })
         return container
-    }() // Creating only one instance for use
+    }()
+    
+    
     
     var mainContext: NSManagedObjectContext {
         return container.viewContext
     }
     
+    //Make a function to save to persistent store
     func saveToPersistentStore() {
         do{
             try mainContext.save()
