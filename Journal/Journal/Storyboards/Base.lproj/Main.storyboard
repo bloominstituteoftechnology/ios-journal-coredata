@@ -102,7 +102,11 @@
                         <viewLayoutGuide key="safeArea" id="MpH-fa-NJr"/>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="fPW-55-jjS">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="hkW-uW-6yS"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="hkW-uW-6yS">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="cVE-mW-yFG" id="uia-ev-kts"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="detailTextField" destination="DKm-Bc-lSH" id="Fvi-EF-rIh"/>
