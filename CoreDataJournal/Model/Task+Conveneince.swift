@@ -19,7 +19,7 @@ extension Task {
         //Setting up the generic NSManageObject functionality of the model object
         self.init(context: context)
         
-        //Once we have the object we can sculpt it
+        //Once we have the object we can sculpt it self = Task
         self.title = title
         self.journalNote = journalNote
         
