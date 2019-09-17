@@ -44,6 +44,24 @@ class EntriesTableViewController: UITableViewController {
         return cell
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            
+            let entry = entryController.entry[indexPath.row]
+            
+            // ALWAYS delete the model object before you delete the row.
+            
+            entryController.deleteEntry(entry: entry)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
 
     /*
     // Override to support conditional editing of the table view.
