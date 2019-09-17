@@ -46,14 +46,14 @@ class EntryDetailViewController: UIViewController {
 			!title.isEmpty,
 			!detailText.isEmpty else { return }
 
-		if let entry = entry {
-			entryController?.updateEntry(entry: entry, title: title, bodyText: detailText)
-		} else {
-			entryController?.createEntry(with: title, bodyText: detailText)
-		}
-		navigationController?.popViewController(animated: true)
+//		if let entry = entry {
+//			entryController?.updateEntry(entry: entry, title: title, bodyText: detailText, mood: mood)
+//		} else {
+//			entryController?.createEntry(with: title, bodyText: detailText, mood: mood)
+//		}
+//		navigationController?.popViewController(animated: true)
 	}
-	
+
 
     // MARK: - Navigation
 
