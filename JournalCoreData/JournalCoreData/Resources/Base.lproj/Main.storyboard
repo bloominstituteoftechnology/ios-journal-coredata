@@ -26,30 +26,40 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="59.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X2C-tz-ye1">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X2C-tz-ye1">
                                             <rect key="frame" x="20" y="11" width="79" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Detail Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H76-yZ-ik5">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Detail Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H76-yZ-ik5">
                                             <rect key="frame" x="20" y="38" width="90" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Date Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CUX-Ph-8kF">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CUX-Ph-8kF">
                                             <rect key="frame" x="312" y="11" width="82" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="H76-yZ-ik5" firstAttribute="top" secondItem="X2C-tz-ye1" secondAttribute="bottom" constant="6" id="FBS-U3-wEr"/>
+                                        <constraint firstItem="X2C-tz-ye1" firstAttribute="leading" secondItem="gM2-AI-TnN" secondAttribute="leadingMargin" id="J8x-Yl-X83"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="H76-yZ-ik5" secondAttribute="trailing" constant="20" symbolic="YES" id="TUG-07-9bU"/>
+                                        <constraint firstItem="CUX-Ph-8kF" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="X2C-tz-ye1" secondAttribute="trailing" constant="8" symbolic="YES" id="cn5-0A-n3r"/>
+                                        <constraint firstItem="CUX-Ph-8kF" firstAttribute="baseline" secondItem="X2C-tz-ye1" secondAttribute="baseline" id="kjB-Yq-LWL"/>
+                                        <constraint firstItem="CUX-Ph-8kF" firstAttribute="trailing" secondItem="gM2-AI-TnN" secondAttribute="trailingMargin" id="nsl-zL-fHD"/>
+                                        <constraint firstItem="X2C-tz-ye1" firstAttribute="leading" secondItem="H76-yZ-ik5" secondAttribute="leading" id="pAw-4F-We9"/>
+                                        <constraint firstItem="CUX-Ph-8kF" firstAttribute="top" secondItem="gM2-AI-TnN" secondAttribute="topMargin" id="yFm-Mb-3ym"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="dateLabel" destination="CUX-Ph-8kF" id="sZ2-AP-UNL"/>
+                                    <outlet property="detailLabel" destination="H76-yZ-ik5" id="RIb-YS-fWZ"/>
+                                    <outlet property="titleLabel" destination="X2C-tz-ye1" id="YPn-XI-S82"/>
                                     <segue destination="v36-ze-rXc" kind="show" identifier="ShowDetailSegue" id="LCC-2F-UV4"/>
                                 </connections>
                             </tableViewCell>
@@ -67,9 +77,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="DateLabel" destination="CUX-Ph-8kF" id="kXp-mF-7YI"/>
-                        <outlet property="detailLabel" destination="H76-yZ-ik5" id="eqb-p8-hgL"/>
-                        <outlet property="titleLabel" destination="X2C-tz-ye1" id="flt-Oq-DKB"/>
+                        <outlet property="detailDate" destination="H76-yZ-ik5" id="syJ-pi-OAt"/>
+                        <outlet property="detailLabel" destination="H76-yZ-ik5" id="qnH-V9-feB"/>
+                        <outlet property="titleLabel" destination="X2C-tz-ye1" id="d05-C7-W5h"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2UW-Gu-ecE" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -84,22 +94,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Title Here:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vnB-qb-Zlh">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Title Here:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vnB-qb-Zlh">
                                 <rect key="frame" x="20" y="161" width="374" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="MRF-5h-u5B">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="MRF-5h-u5B">
                                 <rect key="frame" x="20" y="199" width="374" height="187"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="vnB-qb-Zlh" firstAttribute="trailing" secondItem="MRF-5h-u5B" secondAttribute="trailing" id="0Px-TK-1ec"/>
+                            <constraint firstItem="HtZ-Ff-kEU" firstAttribute="bottom" secondItem="MRF-5h-u5B" secondAttribute="bottom" constant="476" id="CFB-2o-ToH"/>
+                            <constraint firstItem="vnB-qb-Zlh" firstAttribute="top" secondItem="HtZ-Ff-kEU" secondAttribute="top" constant="21" id="WCA-vx-Ouv"/>
+                            <constraint firstItem="vnB-qb-Zlh" firstAttribute="leading" secondItem="MRF-5h-u5B" secondAttribute="leading" id="iVI-cm-CsZ"/>
+                            <constraint firstItem="vnB-qb-Zlh" firstAttribute="trailing" secondItem="GLb-nX-Zhq" secondAttribute="trailingMargin" id="raJ-WX-eF8"/>
+                            <constraint firstItem="MRF-5h-u5B" firstAttribute="top" secondItem="vnB-qb-Zlh" secondAttribute="bottom" constant="8" symbolic="YES" id="td0-lm-WTt"/>
+                            <constraint firstItem="vnB-qb-Zlh" firstAttribute="leading" secondItem="GLb-nX-Zhq" secondAttribute="leadingMargin" id="xSi-Cy-rOX"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="HtZ-Ff-kEU"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Entry" id="g7m-lz-3jN">
@@ -110,7 +127,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="EntryTitle" destination="vnB-qb-Zlh" id="saq-tX-n0B"/>
+                        <outlet property="EntryTitle" destination="vnB-qb-Zlh" id="vVg-t2-D80"/>
                         <outlet property="entryText" destination="MRF-5h-u5B" id="DgR-4I-9wV"/>
                     </connections>
                 </viewController>

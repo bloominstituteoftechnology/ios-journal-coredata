@@ -9,12 +9,6 @@
 import UIKit
 
 class EntriesTableViewController: UITableViewController {
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var DateLabel: UILabel!
-    
-    @IBOutlet weak var detailLabel: UILabel!
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
