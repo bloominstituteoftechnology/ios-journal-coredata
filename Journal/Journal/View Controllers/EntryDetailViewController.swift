@@ -12,14 +12,45 @@ class EntryDetailViewController: UIViewController {
 
 	@IBOutlet weak var titleTextField: UITextField!
 	@IBOutlet weak var detailTextField: UITextView!
+
+	var entry: Entry? {
+		didSet {
+			updateViews()
+		}
+	}
+	var entryController: EntryController?
+	
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-
-
+		updateViews()
     }
-    
+
+
+	// MARK: - Properties
+
+	func updateViews() {
+		guard let entry = entry, isViewLoaded else { return }
+		title = entry.title
+		titleTextField.text = entry.title
+		detailTextField.text = entry.bodyText
+	}
+
+
+	// MARK: - Actions
+
 	@IBAction func saveButtonTapped(_ sender: Any) {
+		guard let title = titleTextField.text,
+			let detailText = detailTextField.text,
+			!title.isEmpty,
+			!detailText.isEmpty else { return }
+
+		if let entry = entry {
+			entryController?.updateEntry(entry: entry, title: title, bodyText: detailText)
+		} else {
+			entryController?.createEntry(with: title, timestamp: Date(), bodyText: detailText, identifier: "placeholder")
+		}
+		navigationController?.popViewController(animated: true)
 	}
 	
 
