@@ -34,9 +34,7 @@ class EntriesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath)
-		//cell.textLabel?.text = entryController.
 
-        // Configure the cell...
 
         return cell
     }
@@ -50,17 +48,19 @@ class EntriesTableViewController: UITableViewController {
     }
     */
 
-    /*
+
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
+
+			let entry = entryController.entry[indexPath.row]
+
+			entryController.deleteEntry(entry: entry)
             tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
-    */
+
 
     /*
     // Override to support rearranging the table view.
@@ -77,14 +77,19 @@ class EntriesTableViewController: UITableViewController {
     }
     */
 
-    /*
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+		if segue.identifier == "ShowDetailSegue" {
+			guard let detailVC = segue.destination as? EntryDetailViewController,
+				let indexPath = tableView.indexPathForSelectedRow else { return }
+			detailVC.entry = entryController.entry[indexPath.row]
+			detailVC.entryController = entryController
+		} else if segue.identifier == "CreateNewEntrySegue" {
+			guard let detailVC = segue.destination as? EntryDetailViewController else { return }
+			detailVC.entryController = entryController
+		}
     }
-    */
-
 }
