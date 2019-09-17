@@ -46,4 +46,21 @@ class EntryController {
         return entry
     }
     
+    func updateEntry(entry: Entry, with title: String, bodyText: String, identifier: String, timestamp: Date) {
+        
+        entry.title = title
+        entry.bodyText = bodyText
+        entry.identifier = identifier
+        entry.timestamp = Date() // Is this right?
+        
+        CoreDataStack.shared.saveToPersistentStore()
+    }
+    
+    func deleteEntry(entry: Entry) {
+        
+        CoreDataStack.shared.mainContext.delete(entry)
+        CoreDataStack.shared.saveToPersistentStore()
+        
+    }
+    
 }
