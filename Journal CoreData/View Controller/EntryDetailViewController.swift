@@ -35,10 +35,14 @@ class EntryDetailViewController: UIViewController {
             !unwrappedTitleText.isEmpty,
             !unwrappedBodyText.isEmpty else { return }
         
+        let index = prioritySegmentedControl.selectedSegmentIndex
+        let emojiSelected = EmojiSelection.allCases[index]
+        
         if let unwrappedEntry = entry {
-            entryController?.updateEntry(entry: unwrappedEntry, with: unwrappedTitleText, bodyText: unwrappedBodyText, identifier: "RandomIdentifier", timestamp: Date())
+            entryController?.updateEntry(entry: unwrappedEntry, with: unwrappedTitleText, bodyText: unwrappedBodyText, identifier: "RandomIdentifier", timestamp: Date(), mood: emojiSelected.rawValue)
         } else {
-            entryController?.createEntry(with: unwrappedTitleText, bodyText: unwrappedBodyText, identifier: "RandomIdentifier", timestamp: Date())
+            entryController?.createEntry(with: unwrappedTitleText, bodyText: unwrappedBodyText, identifier: "RandomIdentifier", timestamp: Date(), mood: emojiSelected.rawValue)
+            print(emojiSelected.rawValue)
         }
         
         navigationController?.popViewController(animated: true)

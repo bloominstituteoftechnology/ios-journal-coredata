@@ -88,21 +88,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vku-QH-dx0">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vku-QH-dx0">
                                 <rect key="frame" x="30" y="172" width="342" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6mQ-1C-0db">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6mQ-1C-0db">
                                 <rect key="frame" x="30" y="278" width="342" height="128"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="BXk-l6-i0E">
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="BXk-l6-i0E">
                                 <rect key="frame" x="92" y="108" width="231" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title=" 😎"/>
                                     <segment title="🙏🏼"/>
@@ -112,13 +111,16 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="m0Y-TL-Y8N" firstAttribute="bottom" secondItem="6mQ-1C-0db" secondAttribute="bottom" constant="545" id="2AX-8r-iVk"/>
-                            <constraint firstItem="vku-QH-dx0" firstAttribute="trailing" secondItem="6mQ-1C-0db" secondAttribute="trailing" id="3l9-xN-QwL"/>
-                            <constraint firstItem="6mQ-1C-0db" firstAttribute="top" secondItem="vku-QH-dx0" secondAttribute="bottom" constant="42" id="3yH-le-KQp"/>
-                            <constraint firstItem="m0Y-TL-Y8N" firstAttribute="trailing" secondItem="vku-QH-dx0" secondAttribute="trailing" constant="42" id="D2K-BK-KEA"/>
-                            <constraint firstItem="vku-QH-dx0" firstAttribute="top" secondItem="m0Y-TL-Y8N" secondAttribute="top" constant="29" id="NZG-Cx-cQf"/>
-                            <constraint firstItem="vku-QH-dx0" firstAttribute="leading" secondItem="m0Y-TL-Y8N" secondAttribute="leading" constant="30" id="TVb-lE-Nj8"/>
-                            <constraint firstItem="vku-QH-dx0" firstAttribute="leading" secondItem="6mQ-1C-0db" secondAttribute="leading" id="yZR-h6-Tnc"/>
+                            <constraint firstItem="vku-QH-dx0" firstAttribute="leading" secondItem="m0Y-TL-Y8N" secondAttribute="leading" constant="30" id="37L-XL-dtG"/>
+                            <constraint firstItem="vku-QH-dx0" firstAttribute="leading" secondItem="6mQ-1C-0db" secondAttribute="leading" id="3Uw-42-QzG"/>
+                            <constraint firstItem="BXk-l6-i0E" firstAttribute="centerX" secondItem="Hag-xa-L9q" secondAttribute="centerX" id="H6Z-XF-aNi"/>
+                            <constraint firstItem="6mQ-1C-0db" firstAttribute="top" secondItem="vku-QH-dx0" secondAttribute="bottom" constant="76" id="Nhj-rj-tpx"/>
+                            <constraint firstItem="vku-QH-dx0" firstAttribute="top" secondItem="BXk-l6-i0E" secondAttribute="bottom" constant="36" id="P45-53-8Pe"/>
+                            <constraint firstItem="m0Y-TL-Y8N" firstAttribute="bottom" secondItem="6mQ-1C-0db" secondAttribute="bottom" constant="456" id="S1S-bE-tKQ"/>
+                            <constraint firstItem="BXk-l6-i0E" firstAttribute="top" secondItem="m0Y-TL-Y8N" secondAttribute="top" constant="20" id="Z6x-lL-IYR"/>
+                            <constraint firstItem="BXk-l6-i0E" firstAttribute="leading" secondItem="m0Y-TL-Y8N" secondAttribute="leading" constant="92" id="eD5-ne-JfY"/>
+                            <constraint firstItem="vku-QH-dx0" firstAttribute="trailing" secondItem="6mQ-1C-0db" secondAttribute="trailing" id="jMF-ke-V0G"/>
+                            <constraint firstItem="m0Y-TL-Y8N" firstAttribute="trailing" secondItem="vku-QH-dx0" secondAttribute="trailing" constant="42" id="yMn-AG-YWY"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="m0Y-TL-Y8N"/>
                     </view>
