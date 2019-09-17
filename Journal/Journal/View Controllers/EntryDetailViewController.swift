@@ -26,7 +26,9 @@ class EntryDetailViewController: UIViewController {
         super.viewDidLoad()
         updateViews()
     
-        moodSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:UIColor.white], for: .selected)
+       moodSegmentedControl.selectedSegmentIndex = 1
+       moodSegmentedControl.setTitleTextAttributes(
+        [NSAttributedString.Key.foregroundColor:UIColor.white], for: .selected)
         
         setUI()
     }
@@ -79,14 +81,15 @@ class EntryDetailViewController: UIViewController {
     }
     
     @IBAction func saveTapped(_ sender: UIButton) {
+        let mood = EntryMood.allCases[moodSegmentedControl.selectedSegmentIndex]
+        
         guard let title = titleTextField.text,
             let bodyText = journalEntryTextView.text,
             !title.isEmpty, !bodyText.isEmpty else { return }
         if let entry = entry {
-            entryController?.updateEntry(entry: entry, with: title, bodyText: bodyText)
+            entryController?.updateEntry(entry: entry, with: title, bodyText: bodyText, mood: mood)
         } else {
-            entryController?.createEntry(with: title, bodyText: bodyText)
-            
+            entryController?.createEntry(with: title, bodyText: bodyText, mood: mood)
         }
         navigationController?.popViewController(animated: true)
     }
