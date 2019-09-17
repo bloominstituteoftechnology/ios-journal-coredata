@@ -94,14 +94,22 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="gaj-O9-PII">
                                 <rect key="frame" x="20" y="108" width="374" height="300"/>
                                 <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="fCy-A1-avg">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="29"/>
+                                        <segments>
+                                            <segment title="☹️"/>
+                                            <segment title="😐"/>
+                                            <segment title="🙂"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ezE-eP-pBR">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
+                                        <rect key="frame" x="0.0" y="48" width="374" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="RoU-Gy-oo9">
-                                        <rect key="frame" x="0.0" y="50" width="374" height="250"/>
+                                        <rect key="frame" x="0.0" y="98" width="374" height="202"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -128,6 +136,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="moodSegmentedControl" destination="fCy-A1-avg" id="fTf-O0-jtG"/>
                         <outlet property="storyTextView" destination="RoU-Gy-oo9" id="N5r-xN-PEP"/>
                         <outlet property="titleTextField" destination="ezE-eP-pBR" id="v5x-yS-UnA"/>
                     </connections>
