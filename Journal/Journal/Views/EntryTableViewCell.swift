@@ -11,14 +11,12 @@ import UIKit
 class EntryTableViewCell: UITableViewCell {
     
     var isDarkMode: Bool?
-    
     var entry: Entry? {
         didSet {
             updateViews()
             setUI()
         }
     }
-    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var journalEntryLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!

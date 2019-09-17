@@ -12,6 +12,7 @@ class EntriesTableViewController: UITableViewController {
     
     var isDarkMode: Bool = false
     
+    @IBOutlet weak var darkModeButton: UIBarButtonItem!
     @IBOutlet weak var noEntriesLabel: UILabel!
     
     let entryController = EntryController()
@@ -36,10 +37,12 @@ class EntriesTableViewController: UITableViewController {
     }
     
     func setUI() {
-        if isDarkMode { navigationController?.navigationBar.barTintColor = .background
-        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.textColor]
-        navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.textColor]
-        navigationController?.navigationBar.tintColor = .textColor
+        if isDarkMode {
+            navigationController?.navigationBar.barTintColor = .background
+            navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.textColor]
+            navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.textColor]
+            navigationController?.navigationBar.tintColor = .textColor
+            darkModeButton.tintColor = .textColor
         
             noEntriesLabel.backgroundColor = .background
             noEntriesLabel.textColor = .textColor
@@ -50,6 +53,7 @@ class EntriesTableViewController: UITableViewController {
             navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
             navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
             navigationController?.navigationBar.tintColor = UIColor(red:0.07, green:0.42, blue:1.00, alpha:1.00)
+            darkModeButton.tintColor = .black
             
             noEntriesLabel.backgroundColor = .white
             noEntriesLabel.textColor = .black

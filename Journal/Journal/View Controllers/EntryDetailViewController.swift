@@ -54,13 +54,13 @@ class EntryDetailViewController: UIViewController {
             titleTextField.backgroundColor = .lightGray
             titleTextField.attributedPlaceholder = NSAttributedString(string: "Enter Title:",
                                                                       attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
-            titleTextField.textColor = .black
+            titleTextField.textColor = .textColor
             
             journalEntryTextView.layer.borderWidth = 0.5
             journalEntryTextView.layer.borderColor = UIColor(displayP3Red: 0.2, green: 0.2, blue: 0.2, alpha: 0.3).cgColor
             journalEntryTextView.layer.cornerRadius = 6
             journalEntryTextView.backgroundColor = .lightGray
-            journalEntryTextView.textColor = .white
+            journalEntryTextView.textColor = .textColor
             
             view.backgroundColor = .white
         }
@@ -85,7 +85,7 @@ class EntryDetailViewController: UIViewController {
             entryController?.createEntry(with: title, bodyText: bodyText)
             
         }
-        dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
     }
     
     /*
