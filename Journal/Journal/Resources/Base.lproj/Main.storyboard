@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fcG-Q9-Rl1">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="SKl-UW-m0z">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -11,14 +11,14 @@
     </dependencies>
     <scenes>
         <!--My Journals-->
-        <scene sceneID="sUz-Rv-jki">
+        <scene sceneID="s0F-C8-0dn">
             <objects>
-                <tableViewController id="A2R-gX-XT9" customClass="EntriesTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="jqq-EJ-ecQ">
+                <tableViewController id="TFA-Hr-pgt" customClass="EntriesTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="eZf-oC-8Ar">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap the plus button to add a new entry" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3qj-j9-2Xb">
+                        <label key="tableFooterView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Press the plus button to add a new entry" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="UA6-6d-mR4">
                             <rect key="frame" x="0.0" y="78" width="414" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -26,23 +26,23 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="JournalCell" rowHeight="50" id="sRt-Tn-a4U" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="JournalCell" rowHeight="50" id="QWO-Fw-CDX" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sRt-Tn-a4U" id="YYr-Vs-KyT">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="QWO-Fw-CDX" id="8S7-sl-n4d">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="49.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="s0g-Jo-OMv">
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="IjQ-x0-FbU">
                                             <rect key="frame" x="20" y="5.5" width="71.5" height="39"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ba9-C2-Zsv">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kUf-vM-i3H">
                                                     <rect key="frame" x="0.0" y="0.0" width="71.5" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Journal Entry" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CXD-rb-hvF">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Journal Entry" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ISV-jd-fc6">
                                                     <rect key="frame" x="0.0" y="25.5" width="71.5" height="13.5"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="11"/>
                                                     <nil key="textColor"/>
@@ -50,7 +50,7 @@
                                                 </label>
                                             </subviews>
                                         </stackView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qux-t6-YW3">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G0B-bZ-IEy">
                                             <rect key="frame" x="370.5" y="5.5" width="23.5" height="12"/>
                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="10"/>
                                             <nil key="textColor"/>
@@ -58,37 +58,56 @@
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="s0g-Jo-OMv" firstAttribute="centerY" secondItem="YYr-Vs-KyT" secondAttribute="centerY" id="7cK-8Y-6Ue"/>
-                                        <constraint firstItem="s0g-Jo-OMv" firstAttribute="leading" secondItem="YYr-Vs-KyT" secondAttribute="leadingMargin" id="Qzn-0X-V5d"/>
-                                        <constraint firstItem="Qux-t6-YW3" firstAttribute="top" secondItem="s0g-Jo-OMv" secondAttribute="top" id="cju-dt-JW5"/>
-                                        <constraint firstItem="Qux-t6-YW3" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="s0g-Jo-OMv" secondAttribute="trailing" constant="8" id="w9Z-nL-z4R"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="Qux-t6-YW3" secondAttribute="trailing" id="xB9-dQ-HxK"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="G0B-bZ-IEy" secondAttribute="trailing" id="FEi-X1-JNh"/>
+                                        <constraint firstItem="G0B-bZ-IEy" firstAttribute="top" secondItem="IjQ-x0-FbU" secondAttribute="top" id="Iqk-rm-c2w"/>
+                                        <constraint firstItem="G0B-bZ-IEy" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="IjQ-x0-FbU" secondAttribute="trailing" constant="8" id="c0f-r8-710"/>
+                                        <constraint firstItem="IjQ-x0-FbU" firstAttribute="leading" secondItem="8S7-sl-n4d" secondAttribute="leadingMargin" id="sgS-aP-igF"/>
+                                        <constraint firstItem="IjQ-x0-FbU" firstAttribute="centerY" secondItem="8S7-sl-n4d" secondAttribute="centerY" id="xZo-uZ-HjG"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="dateLabel" destination="Qux-t6-YW3" id="M0S-LH-5ap"/>
-                                    <outlet property="journalEntryLabel" destination="CXD-rb-hvF" id="xvk-d1-zsQ"/>
-                                    <outlet property="titleLabel" destination="ba9-C2-Zsv" id="IFB-Tw-dZT"/>
-                                    <segue destination="4UP-0F-63L" kind="show" identifier="ShowJournalDetailSegue" id="Tev-RV-Vvs"/>
+                                    <outlet property="dateLabel" destination="G0B-bZ-IEy" id="gFZ-wN-znT"/>
+                                    <outlet property="journalEntryLabel" destination="ISV-jd-fc6" id="JOF-e8-6Q5"/>
+                                    <outlet property="titleLabel" destination="kUf-vM-i3H" id="VmL-WI-qsh"/>
+                                    <segue destination="4UP-0F-63L" kind="show" identifier="ShowJournalDetailSegue" id="8as-Vw-qqY"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
-                            <outlet property="dataSource" destination="A2R-gX-XT9" id="6jQ-sc-QSt"/>
-                            <outlet property="delegate" destination="A2R-gX-XT9" id="VoJ-vb-Tjy"/>
+                            <outlet property="dataSource" destination="TFA-Hr-pgt" id="wBd-UB-aru"/>
+                            <outlet property="delegate" destination="TFA-Hr-pgt" id="i8m-xO-CDW"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="My Journals" id="iDs-z7-SCb">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Ajl-bM-QMq">
+                    <navigationItem key="navigationItem" title="My Journals" id="pyY-uB-32w">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="afB-WF-FpP">
                             <connections>
-                                <segue destination="4UP-0F-63L" kind="show" identifier="ShowAddJournalSegue" id="2Kp-cU-ahN"/>
+                                <segue destination="4UP-0F-63L" kind="show" identifier="ShowAddJournalSegue" id="cAN-Dl-ah8"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="noEntriesLabel" destination="UA6-6d-mR4" id="dKf-31-X58"/>
+                    </connections>
                 </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="4rA-f0-SB8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g7a-9z-FrV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="100" y="179"/>
+            <point key="canvasLocation" x="35" y="179"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="xDR-1L-6lR">
+            <objects>
+                <navigationController id="SKl-UW-m0z" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="uNd-l1-y4x">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="TFA-Hr-pgt" kind="relationship" relationship="rootViewController" id="GYQ-mw-5sb"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RCY-0J-iyT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-887" y="179"/>
         </scene>
         <!--Create New Journal-->
         <scene sceneID="TbM-PQ-Dr4">
@@ -141,24 +160,8 @@
             </objects>
             <point key="canvasLocation" x="867" y="179"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="hlz-JU-Mzc">
-            <objects>
-                <navigationController id="fcG-Q9-Rl1" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="Muc-PO-eQN">
-                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="A2R-gX-XT9" kind="relationship" relationship="rootViewController" id="9pd-Dy-Npt"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="18S-UP-r7m" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-667" y="179"/>
-        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="2Kp-cU-ahN"/>
+        <segue reference="cAN-Dl-ah8"/>
     </inferredMetricsTieBreakers>
 </document>

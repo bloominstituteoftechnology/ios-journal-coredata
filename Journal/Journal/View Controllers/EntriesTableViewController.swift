@@ -10,16 +10,38 @@ import UIKit
 
 class EntriesTableViewController: UITableViewController {
     
+    @IBOutlet weak var noEntriesLabel: UILabel!
+    
     let entryController = EntryController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.rowHeight = 50;
+        
+        setUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
+        if entryController.entries.count >= 1 {
+            noEntriesLabel.isHidden = true
+        } else {
+            noEntriesLabel.isHidden = false
+        }
+        
         tableView.reloadData()
+    }
+    
+    func setUI() {
+        navigationController?.navigationBar.barTintColor = .background
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.textColor]
+        navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.textColor]
+        navigationController?.navigationBar.tintColor = .textColor
+        
+        noEntriesLabel.backgroundColor = .background
+        
+        view.backgroundColor = .background
     }
 
     // MARK: - Table view data source

@@ -13,6 +13,7 @@ class EntryTableViewCell: UITableViewCell {
     var entry: Entry? {
         didSet {
             updateViews()
+            setUI()
         }
     }
     
@@ -30,8 +31,18 @@ class EntryTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        
+        setUI()
     }
+    
+    func setUI() {
+        backgroundColor = .background
+        
+        titleLabel.textColor = .textColor
+        journalEntryLabel.textColor = .textColor
+        dateLabel.textColor = .textColor
+    }
+    
     
     func updateViews() {
         titleLabel.text = entry?.title ?? ""
