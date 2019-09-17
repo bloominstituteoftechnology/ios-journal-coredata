@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class EntryController: CoreDataStack {
+class EntryController {
 
 	// MARK: - Properties
 
@@ -20,12 +20,12 @@ class EntryController: CoreDataStack {
 	// MARK: - Questions: Why does compiler want the return?
 
 
-	override func saveToPersistentStore() {
+	func saveToPersistentStore() {
 		do {
-			try mainContext.save()
+			try CoreDataStack.shared.mainContext.save()
 		} catch {
 			NSLog("Error saving context: \(error)")
-			mainContext.reset()
+			
 		}
 	}
 
@@ -41,9 +41,11 @@ class EntryController: CoreDataStack {
 		}
 	}
 
-	func createEntry(with title: String, timestamp: Date, bodyText: String, identifier: String) {
-		let _ = Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier)
+	@discardableResult func createEntry(with title: String, bodyText: String) -> Entry {
+		let entry = Entry(title: title, bodyText: bodyText, context: CoreDataStack.shared.mainContext)
 		saveToPersistentStore()
+
+		return entry
 	}
 
 	func updateEntry(entry: Entry, title: String, bodyText: String ) {

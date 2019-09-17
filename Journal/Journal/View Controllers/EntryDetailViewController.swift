@@ -48,7 +48,7 @@ class EntryDetailViewController: UIViewController {
 		if let entry = entry {
 			entryController?.updateEntry(entry: entry, title: title, bodyText: detailText)
 		} else {
-			entryController?.createEntry(with: title, timestamp: Date(), bodyText: detailText, identifier: "placeholder")
+			entryController?.createEntry(with: title, bodyText: detailText)
 		}
 		navigationController?.popViewController(animated: true)
 	}
