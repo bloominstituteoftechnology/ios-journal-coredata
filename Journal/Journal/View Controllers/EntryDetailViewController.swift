@@ -10,6 +10,7 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
     
+    var isDarkMode: Bool?
     var entryController: EntryController?
     var entry: Entry? {
         didSet {
@@ -28,22 +29,41 @@ class EntryDetailViewController: UIViewController {
     }
     
     func setUI() {
-        navigationController?.navigationBar.barTintColor = .background
-        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.textColor]
-        navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.textColor]
-        
-        titleTextField.backgroundColor = .textFieldBackground
-        titleTextField.attributedPlaceholder = NSAttributedString(string: "Enter Title:",
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
-        titleTextField.textColor = .textColor
-        
-        journalEntryTextView.layer.borderWidth = 0.5
-        journalEntryTextView.layer.borderColor = UIColor(displayP3Red: 0.2, green: 0.2, blue: 0.2, alpha: 0.3).cgColor
-        journalEntryTextView.layer.cornerRadius = 6
-        journalEntryTextView.backgroundColor = .textFieldBackground
-        journalEntryTextView.textColor = .textColor
-        
-        view.backgroundColor = .background
+        if let isDarkMode = isDarkMode, isDarkMode {
+            navigationController?.navigationBar.barTintColor = .background
+            navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.textColor]
+            navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.textColor]
+            
+            titleTextField.backgroundColor = .textFieldBackground
+            titleTextField.attributedPlaceholder = NSAttributedString(string: "Enter Title:",
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+            titleTextField.textColor = .textColor
+            
+            journalEntryTextView.layer.borderWidth = 0.5
+            journalEntryTextView.layer.borderColor = UIColor(displayP3Red: 0.2, green: 0.2, blue: 0.2, alpha: 0.3).cgColor
+            journalEntryTextView.layer.cornerRadius = 6
+            journalEntryTextView.backgroundColor = .textFieldBackground
+            journalEntryTextView.textColor = .textColor
+            
+            view.backgroundColor = .background
+        } else {
+            navigationController?.navigationBar.barTintColor = .white
+            navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.black]
+            navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.black]
+            
+            titleTextField.backgroundColor = .lightGray
+            titleTextField.attributedPlaceholder = NSAttributedString(string: "Enter Title:",
+                                                                      attributes: [NSAttributedString.Key.foregroundColor: UIColor.white])
+            titleTextField.textColor = .black
+            
+            journalEntryTextView.layer.borderWidth = 0.5
+            journalEntryTextView.layer.borderColor = UIColor(displayP3Red: 0.2, green: 0.2, blue: 0.2, alpha: 0.3).cgColor
+            journalEntryTextView.layer.cornerRadius = 6
+            journalEntryTextView.backgroundColor = .lightGray
+            journalEntryTextView.textColor = .white
+            
+            view.backgroundColor = .white
+        }
     }
     
     func updateViews() {

@@ -79,6 +79,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="My Journals" id="pyY-uB-32w">
+                        <barButtonItem key="leftBarButtonItem" image="dark-mode" id="Py3-6J-YPL">
+                            <connections>
+                                <action selector="toggleDarkMode:" destination="TFA-Hr-pgt" id="Wp8-dU-83a"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="afB-WF-FpP">
                             <connections>
                                 <segue destination="4UP-0F-63L" kind="show" identifier="ShowAddJournalSegue" id="cAN-Dl-ah8"/>
@@ -135,7 +140,7 @@
                                 </subviews>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="ezp-8h-bF2" firstAttribute="trailing" secondItem="Qhp-zn-DrN" secondAttribute="trailing" constant="20" id="4F1-Z4-U2I"/>
                             <constraint firstItem="Qhp-zn-DrN" firstAttribute="leading" secondItem="ezp-8h-bF2" secondAttribute="leading" constant="20" id="EAb-yA-5c0"/>
@@ -161,6 +166,9 @@
             <point key="canvasLocation" x="867" y="179"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="dark-mode" width="32" height="32"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="cAN-Dl-ah8"/>
     </inferredMetricsTieBreakers>

@@ -10,6 +10,8 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
     
+    var isDarkMode: Bool?
+    
     var entry: Entry? {
         didSet {
             updateViews()
@@ -36,11 +38,19 @@ class EntryTableViewCell: UITableViewCell {
     }
     
     func setUI() {
-        backgroundColor = .background
-        
-        titleLabel.textColor = .textColor
-        journalEntryLabel.textColor = .textColor
-        dateLabel.textColor = .textColor
+        if let isDarkMode = isDarkMode, isDarkMode {
+            backgroundColor = .background
+            
+            titleLabel.textColor = .textColor
+            journalEntryLabel.textColor = .textColor
+            dateLabel.textColor = .textColor
+        } else {
+            backgroundColor = .white
+            
+            titleLabel.textColor = .black
+            journalEntryLabel.textColor = .black
+            dateLabel.textColor = .black
+        }
     }
     
     
