@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 
 extension Entry {
+    
     convenience init(title: String, bodyText: String, timestamp: Date, identifier: String, mood: String, context: NSManagedObjectContext) {
     
         self.init(context: context)
