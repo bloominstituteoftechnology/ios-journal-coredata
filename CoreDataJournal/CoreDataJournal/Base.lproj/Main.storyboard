@@ -10,14 +10,14 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Journal Table View Controller-->
+        <!--Journal Entries -->
         <scene sceneID="hid-1n-Ja1">
             <objects>
                 <tableViewController id="XFl-kh-K4q" customClass="JournalTableViewController" customModule="CoreDataJournal" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="d4k-Mv-41V">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.59343960910000004" green="0.90613765729999995" blue="0.84770783920000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="JournalCell" id="8Rl-Fy-Q1g">
                                 <rect key="frame" x="0.0" y="28" width="414" height="44"/>
@@ -26,6 +26,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" red="0.59343960910000004" green="0.90613765729999995" blue="0.84770783920000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <segue destination="PAD-Zs-9zF" kind="show" identifier="JournalCellSegue" id="zwP-Qw-DMf"/>
                                 </connections>
@@ -36,7 +37,7 @@
                             <outlet property="delegate" destination="XFl-kh-K4q" id="cCg-c9-by8"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Yzc-hV-eeZ">
+                    <navigationItem key="navigationItem" title="Journal Entries " id="Yzc-hV-eeZ">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="4Pe-yV-GYe">
                             <connections>
                                 <segue destination="PAD-Zs-9zF" kind="show" identifier="AddJournalSegue" id="dW7-sl-hUh"/>
@@ -77,7 +78,7 @@
                                 </segments>
                             </segmentedControl>
                         </subviews>
-                        <color key="backgroundColor" red="0.58174763090000003" green="0.80969920240000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.59343960910000004" green="0.90613765729999995" blue="0.84770783920000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="MvX-ZX-6Ot" firstAttribute="leading" secondItem="e34-sH-zf0" secondAttribute="leading" constant="20" id="1GS-pj-zL5"/>
                             <constraint firstItem="v0E-A7-iag" firstAttribute="leading" secondItem="e34-sH-zf0" secondAttribute="leading" constant="20" id="35t-mM-4H6"/>
