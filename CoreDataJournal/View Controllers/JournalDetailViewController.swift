@@ -33,6 +33,7 @@ class JournalDetailViewController: UIViewController {
             let journalNote = journalTextView.text,
             !title.isEmpty else {return}
         
+        //check which segment is selected and create a string constant that holds the corresponding mood
         let index = moodSegmentController.selectedSegmentIndex
         let mood = TaskMood.allCases[index]
         
@@ -52,7 +53,7 @@ class JournalDetailViewController: UIViewController {
         titleTextField.text = task?.title
         journalTextView.text = task?.journalNote
         
-        //check which segment is selected and create a string constant that holds the corresponding mood
+        
         if let moodString = task?.mood,
             let mood = TaskMood(rawValue: moodString) {
             
