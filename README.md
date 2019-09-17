@@ -13,6 +13,7 @@ Please look at the screen recording below to know what the finished project shou
 
 Use the Journal project you made yesterday. Create a new branch called `day2`. When you finish today's instructions and go to make a pull request, be sure to select the original repository's `day2` branch as the base branch, and your own `day2` branch as the compare branch.
 
+
 ### Part 1 - Mood Feature
 
 #### Segmented Control Addition
@@ -49,6 +50,7 @@ At this point, take the time to test your project. Make sure that:
 - Entries that you have saved before adding the `mood` property have a default `mood` value added to them.
 - The segmented control in the detail view controller selects the correct mood of an entry that you view when seguing to it.
 - Moods get saved correctly to entries, both newly created and updated.
+
 
 ### Part 2 - NSFetchedResultsController Implementation
 
