@@ -13,8 +13,8 @@ class TaskController {
     
     //CRUD
     
-    @discardableResult func createTask(with title: String, journalNote: String?) -> Task {
-        let task = Task(title: title, journalNote: journalNote, context: CoreDataStack.share.mainContext)
+    @discardableResult func createTask(with title: String, journalNote: String?, mood: TaskMood) -> Task {
+        let task = Task(title: title, journalNote: journalNote, mood: mood, context: CoreDataStack.share.mainContext)
         
         CoreDataStack.share.saveToPersistentStore()
         
@@ -22,9 +22,10 @@ class TaskController {
         
     }
     
-    func updateTask(task: Task, with title: String, journalNote: String?) {
+    func updateTask(task: Task, with title: String, journalNote: String?, mood: TaskMood) {
         task.title = title
         task.journalNote = journalNote
+        task.mood = mood.rawValue
         
         CoreDataStack.share.saveToPersistentStore()
     }
