@@ -10,7 +10,11 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
     
-    var entry: Entry?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
     var entryController: EntryController?
     
     @IBOutlet weak var titleTextField: UITextField!
@@ -24,6 +28,19 @@ class EntryDetailViewController: UIViewController {
     
 
     @IBAction func saveButtonTapped(_ sender: Any) {
+        
+        guard let unwrappedTitleText = titleTextField.text,
+            let unwrappedBodyText = bodyTextView.text,
+            !unwrappedTitleText.isEmpty,
+            !unwrappedBodyText.isEmpty else { return }
+        
+        if let unwrappedEntry = entry {
+            entryController?.updateEntry(entry: unwrappedEntry, with: unwrappedTitleText, bodyText: unwrappedBodyText, identifier: "RandomIdentifier", timestamp: Date())
+        } else {
+            entryController?.createEntry(with: unwrappedTitleText, bodyText: unwrappedBodyText, identifier: "RandomIdentifier", timestamp: Date())
+        }
+        
+        navigationController?.popViewController(animated: true)
     }
     
     /*
@@ -35,5 +52,14 @@ class EntryDetailViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func updateViews() {
+        
+        title = entry?.title ?? "Create Entry"
+        
+        titleTextField.text = entry?.title
+        bodyTextView.text = entry?.bodyText
+        
+    }
 
 }

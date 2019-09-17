@@ -114,6 +114,7 @@ class EntriesTableViewController: UITableViewController {
         if segue.identifier == "showAddDetail" {
             addDetailVC.entryController = entryController
             
+        // Pass entryController and the Entry that corresponds with the cell tapped
         } else if segue.identifier == "showCellDetail" {
             addDetailVC.entryController = entryController
             addDetailVC.entry = entryController.entry[indexPath.row]
