@@ -89,7 +89,13 @@ class JournalTableViewController: UITableViewController {
         return cell
     }
     
-
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        guard let sectionInfo = fetchResultController.sections?[section] else {return nil}
+        
+        return sectionInfo.name.capitalized
+        
+    }
  
 
     
