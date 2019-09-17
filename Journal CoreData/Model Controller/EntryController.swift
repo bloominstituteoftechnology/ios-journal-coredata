@@ -41,7 +41,7 @@ class EntryController {
         
         let entry = Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier, context: CoreDataStack.shared.mainContext)
         
-        CoreDataStack.shared.saveToPersistentStore()
+        saveToPersistentStore()
         
         return entry
     }
@@ -50,16 +50,16 @@ class EntryController {
         
         entry.title = title
         entry.bodyText = bodyText
-        entry.identifier = identifier
-        entry.timestamp = Date() // Is this right?
+        // entry.identifier = identifier
+        entry.timestamp = Date() // TODO: Not sure if correct format
         
-        CoreDataStack.shared.saveToPersistentStore()
+        saveToPersistentStore()
     }
     
     func deleteEntry(entry: Entry) {
         
         CoreDataStack.shared.mainContext.delete(entry)
-        CoreDataStack.shared.saveToPersistentStore()
+        saveToPersistentStore()
         
     }
     
