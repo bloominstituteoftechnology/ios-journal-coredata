@@ -43,7 +43,7 @@ class EntryDetailViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -51,7 +51,6 @@ class EntryDetailViewController: UIViewController {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
     }
-    */
     
     func updateViews() {
         

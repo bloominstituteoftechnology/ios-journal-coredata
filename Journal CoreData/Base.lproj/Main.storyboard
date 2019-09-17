@@ -26,28 +26,34 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="110.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i2H-5l-aIg">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i2H-5l-aIg">
                                             <rect key="frame" x="31" y="12" width="34" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Body" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oKT-Qw-Amg">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Body" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oKT-Qw-Amg">
                                             <rect key="frame" x="31" y="45" width="40" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Timestamp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yhz-JC-uLj">
-                                            <rect key="frame" x="27" y="79" width="86" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Timestamp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yhz-JC-uLj">
+                                            <rect key="frame" x="308" y="12" width="86" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="i2H-5l-aIg" firstAttribute="leading" secondItem="F9p-gf-Iwb" secondAttribute="leadingMargin" constant="11" id="M7R-z2-ctn"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="oKT-Qw-Amg" secondAttribute="bottom" constant="34" id="PhJ-Fu-ms6"/>
+                                        <constraint firstItem="oKT-Qw-Amg" firstAttribute="top" secondItem="i2H-5l-aIg" secondAttribute="bottom" constant="12" id="Pm0-Up-lu3"/>
+                                        <constraint firstItem="i2H-5l-aIg" firstAttribute="baseline" secondItem="yhz-JC-uLj" secondAttribute="baseline" id="SW2-7V-rYS"/>
+                                        <constraint firstItem="i2H-5l-aIg" firstAttribute="leading" secondItem="oKT-Qw-Amg" secondAttribute="leading" id="u7q-Ib-ZL0"/>
+                                        <constraint firstItem="yhz-JC-uLj" firstAttribute="trailing" secondItem="F9p-gf-Iwb" secondAttribute="trailingMargin" id="vvP-dU-31k"/>
+                                        <constraint firstItem="oKT-Qw-Amg" firstAttribute="centerY" secondItem="F9p-gf-Iwb" secondAttribute="centerY" id="vvS-ID-IzB"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="bodyLabel" destination="oKT-Qw-Amg" id="PVv-gc-Eqz"/>

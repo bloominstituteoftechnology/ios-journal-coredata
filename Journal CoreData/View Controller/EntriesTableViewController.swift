@@ -108,14 +108,16 @@ class EntriesTableViewController: UITableViewController {
         
         guard let addDetailVC = segue.destination as? EntryDetailViewController else { return }
         
-        guard let indexPath = tableView.indexPathForSelectedRow else { return }
+       
         
         // Pass entryController to destinationView Controller
         if segue.identifier == "showAddDetail" {
             addDetailVC.entryController = entryController
+    
             
         // Pass entryController and the Entry that corresponds with the cell tapped
         } else if segue.identifier == "showCellDetail" {
+            guard let indexPath = tableView.indexPathForSelectedRow else { return }
             addDetailVC.entryController = entryController
             addDetailVC.entry = entryController.entry[indexPath.row]
         }
