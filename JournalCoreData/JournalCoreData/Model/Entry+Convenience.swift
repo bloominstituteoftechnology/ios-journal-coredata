@@ -11,7 +11,7 @@ import CoreData
 
 extension Entry {
     
-    convenience init(title: String, bodyText: String, context: NSManagedObjectContext) {
+    convenience init(title: String, bodyText: String?, timeStamp: Date = Date(), context: NSManagedObjectContext) {
     
     self.init(context: context)
     

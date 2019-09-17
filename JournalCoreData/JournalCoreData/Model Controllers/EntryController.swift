@@ -11,18 +11,19 @@ import CoreData
 
 class EntryController {
     
+    var entries: [Entry] = []
     
     func saveToPersistentStore() {
+        let coreDataStack = CoreDataStack.shared.mainContext
         do {
-            try CoreDataStack.shared.mainContext.save()
+            try coreDataStack.save()
         } catch {
             NSLog("Error saving context: \(error)")
-            CoreDataStack.shared.mainContext.reset()
+            coreDataStack.reset()
         }
     }
-    var entries: [Entry]
     
-    func loadFromPersistentStoe() -> [Entry] {
+    func loadFromPersistentStore() -> [Entry] {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
         do {
@@ -34,7 +35,8 @@ class EntryController {
         }
     }
     
-    func createAnEntry(with title: String, bodyText: String) -> Entry {
+    func createAnEntry(title: String, bodyText: String?) {
+        guard let bodyText = bodyText else { return }
         
         let entry = Entry(title: title, bodyText: bodyText, context: CoreDataStack.shared.mainContext)
         entry.identifier = String(bodyText.prefix(25))
@@ -42,7 +44,8 @@ class EntryController {
         
         saveToPersistentStore()
     }
-    func updateEntry(entries: Entry, with title: String, bodyText: String?) {
+    
+    func updateEntry(entries: Entry, title: String, bodyText: String?) {
         
         entries.bodyText = bodyText
         entries.title = title

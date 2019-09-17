@@ -21,10 +21,11 @@ class EntriesTableViewCell: UITableViewCell {
     
     
     func updateViews() {
-        guard let entry = entry else { return }
+        guard let entry = entry,
+        let date = entry.timeStamp else { return }
         titleLabel.text = entry.title
         detailLabel.text = entry.bodyText
-        dateLabel.text = theDateIs.string(from: entry.timeStamp)
+        dateLabel.text = theDateIs.string(from: date)
         
         
     }
