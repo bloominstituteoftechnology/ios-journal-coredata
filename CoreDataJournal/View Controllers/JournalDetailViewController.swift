@@ -13,6 +13,7 @@ class JournalDetailViewController: UIViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var journalTextView: UITextView!
+    @IBOutlet weak var moodSegmentController: UISegmentedControl!
     
     var taskController: TaskController?
     var task: Task?

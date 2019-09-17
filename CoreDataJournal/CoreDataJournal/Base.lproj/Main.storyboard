@@ -57,25 +57,36 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MvX-ZX-6Ot">
-                                <rect key="frame" x="20" y="113" width="374" height="30"/>
+                                <rect key="frame" x="20" y="213" width="374" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="v0E-A7-iag">
-                                <rect key="frame" x="20" y="151" width="374" height="691"/>
+                                <rect key="frame" x="20" y="251" width="374" height="591"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Xx7-B1-BDS">
+                                <rect key="frame" x="20" y="133" width="374" height="29"/>
+                                <segments>
+                                    <segment title="😞"/>
+                                    <segment title="😕"/>
+                                    <segment title="🙂"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" red="0.58174763090000003" green="0.80969920240000004" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="MvX-ZX-6Ot" firstAttribute="leading" secondItem="e34-sH-zf0" secondAttribute="leading" constant="20" id="1GS-pj-zL5"/>
-                            <constraint firstItem="MvX-ZX-6Ot" firstAttribute="top" secondItem="e34-sH-zf0" secondAttribute="top" constant="25" id="2j2-lD-fyA"/>
                             <constraint firstItem="v0E-A7-iag" firstAttribute="leading" secondItem="e34-sH-zf0" secondAttribute="leading" constant="20" id="35t-mM-4H6"/>
                             <constraint firstItem="e34-sH-zf0" firstAttribute="trailing" secondItem="MvX-ZX-6Ot" secondAttribute="trailing" constant="20" id="44z-px-JSk"/>
+                            <constraint firstItem="MvX-ZX-6Ot" firstAttribute="top" secondItem="Xx7-B1-BDS" secondAttribute="bottom" constant="52" id="M9R-Lg-7aq"/>
+                            <constraint firstItem="Xx7-B1-BDS" firstAttribute="leading" secondItem="e34-sH-zf0" secondAttribute="leading" constant="20" id="RnT-hc-eMh"/>
+                            <constraint firstItem="e34-sH-zf0" firstAttribute="trailing" secondItem="Xx7-B1-BDS" secondAttribute="trailing" constant="20" id="Tgh-cd-SoT"/>
                             <constraint firstItem="e34-sH-zf0" firstAttribute="bottom" secondItem="v0E-A7-iag" secondAttribute="bottom" constant="20" id="Yzk-wq-zyn"/>
+                            <constraint firstItem="Xx7-B1-BDS" firstAttribute="top" secondItem="e34-sH-zf0" secondAttribute="top" constant="45" id="gdy-yJ-YET"/>
                             <constraint firstItem="v0E-A7-iag" firstAttribute="top" secondItem="MvX-ZX-6Ot" secondAttribute="bottom" constant="8" id="joz-Yl-uTy"/>
                             <constraint firstItem="e34-sH-zf0" firstAttribute="trailing" secondItem="v0E-A7-iag" secondAttribute="trailing" constant="20" id="r4C-Ob-JE5"/>
                         </constraints>
@@ -90,6 +101,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="journalTextView" destination="v0E-A7-iag" id="Ypl-Pe-vgE"/>
+                        <outlet property="moodSegmentController" destination="Xx7-B1-BDS" id="RI7-43-YtT"/>
                         <outlet property="titleTextField" destination="MvX-ZX-6Ot" id="Jxi-zW-Iae"/>
                     </connections>
                 </viewController>
