@@ -24,13 +24,17 @@ class EntryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateViews()
-    
-       moodSegmentedControl.selectedSegmentIndex = 1
-       moodSegmentedControl.setTitleTextAttributes(
-        [NSAttributedString.Key.foregroundColor:UIColor.white], for: .selected)
+        
+        moodSegmentedControl.selectedSegmentIndex = 1
+        moodSegmentedControl.setTitleTextAttributes(
+            [NSAttributedString.Key.foregroundColor:UIColor.white], for: .selected)
         
         setUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        updateViews()
     }
     
     func setUI() {
@@ -81,7 +85,7 @@ class EntryDetailViewController: UIViewController {
             if let moodString = entry?.mood,
                 let mood = EntryMood(rawValue: moodString) {
                 let index = EntryMood.allCases.firstIndex(of: mood)
-                
+
                 moodSegmentedControl.selectedSegmentIndex = index ?? 0
             }
         }
