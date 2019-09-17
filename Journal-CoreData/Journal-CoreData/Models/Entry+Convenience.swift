@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 extension Entry {
-    convenience init(title: String, bodyText: String, timestamp: Date, identifier: String, context: NSManagedObjectContext) {
+    convenience init(title: String, bodyText: String, timestamp: Date, identifier: String, mood: String, context: NSManagedObjectContext) {
     
         self.init(context: context)
         
@@ -18,5 +18,6 @@ extension Entry {
         self.bodyText = bodyText
         self.timestamp = timestamp
         self.identifier = identifier
+        self.mood = mood
     }
 }
