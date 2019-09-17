@@ -124,16 +124,24 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="Qhp-zn-DrN">
-                                <rect key="frame" x="20" y="176" width="374" height="502"/>
+                                <rect key="frame" x="20" y="176" width="374" height="554"/>
                                 <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="WF5-la-5mW">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="29"/>
+                                        <segments>
+                                            <segment title="😄"/>
+                                            <segment title="😐"/>
+                                            <segment title="🤬"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Journal Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="prV-dj-ewO">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="30"/>
+                                        <rect key="frame" x="0.0" y="52" width="374" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wWI-co-pf3">
-                                        <rect key="frame" x="0.0" y="54" width="374" height="448"/>
+                                        <rect key="frame" x="0.0" y="106" width="374" height="448"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -159,6 +167,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="journalEntryTextView" destination="wWI-co-pf3" id="Qc4-9M-PL9"/>
+                        <outlet property="moodSegmentedControl" destination="WF5-la-5mW" id="vBr-Qj-zNV"/>
                         <outlet property="titleTextField" destination="prV-dj-ewO" id="l9K-7i-iTu"/>
                     </connections>
                 </viewController>

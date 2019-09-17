@@ -18,12 +18,15 @@ class EntryDetailViewController: UIViewController {
         }
     }
     
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var journalEntryTextView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         updateViews()
+    
+        moodSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.foregroundColor:UIColor.white], for: .selected)
         
         setUI()
     }
