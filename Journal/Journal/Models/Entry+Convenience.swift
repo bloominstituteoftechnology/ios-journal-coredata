@@ -9,9 +9,15 @@
 import Foundation
 import CoreData
 
+enum Mood: String {
+	case happy
+	case sad
+	case neutral
+}
+
 extension Entry {
 
-	convenience init(title: String, bodyText: String, context: NSManagedObjectContext) {
+	convenience init(title: String, bodyText: String, mood: Mood, context: NSManagedObjectContext) {
 
 		self.init(context: context)
 
@@ -19,5 +25,8 @@ extension Entry {
 		self.bodyText = bodyText
 		self.timestamp = Date()
 		self.identifier = "Entry\(Int.random(in: 1...5000))"
+		self.mood = mood.rawValue
+
+		
 	}
 }
