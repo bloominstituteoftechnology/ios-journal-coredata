@@ -13,12 +13,9 @@ class CoreDataStack {
     
     static let shared = CoreDataStack()
     
-    private init() {
-        
-    }
+    private init() {}
     
     lazy var container: NSPersistentContainer = {
-        
         let container = NSPersistentContainer(name: "Journal-CoreData")
         container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error {
@@ -32,12 +29,12 @@ class CoreDataStack {
         return container.viewContext
     }
     
-    func saveToPersistentStore() {
-        do {
-            try mainContext.save()
-        } catch {
-            NSLog("Error saving context: \(error)")
-            mainContext.reset()
-        }
-    }
+//    func saveToPersistentStore() {
+//        do {
+//            try mainContext.save()
+//        } catch {
+//            NSLog("Error saving context: \(error)")
+//            mainContext.reset()
+//        }
+//    }
 }
