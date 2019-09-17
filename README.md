@@ -50,7 +50,7 @@ At this point, take the time to test your project. Make sure that:
 - The segmented control in the detail view controller selects the correct mood of an entry that you view when seguing to it.
 - Moods get saved correctly to entries, both newly created and updated.
 
-#### Part 2 - NSFetchedResultsController Implementation
+### Part 2 - NSFetchedResultsController Implementation
 
 You will now implement an `NSFetchedResultsController` to manage displaying entries on and handling interactions with the table view.
 
