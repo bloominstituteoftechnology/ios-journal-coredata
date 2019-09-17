@@ -8,6 +8,12 @@
 
 import UIKit
 
+enum Mood: String, CaseIterable {
+    case sad = "☹️"
+    case neutral = "😐"
+    case happy = "🙂"
+}
+
 class EntryDetailViewController: UIViewController {
     
     var entry: Entry? {
@@ -24,10 +30,14 @@ class EntryDetailViewController: UIViewController {
     @IBAction func saveTapped(_ sender: Any) {
         guard let titleTextField = titleTextField.text, let storyTextView = storyTextView.text else { return }
         
+        let index = moodSegmentedControl.selectedSegmentIndex
+        
+        let mood = Mood.allCases[index]
+        
         if let entry = entry {
-            entryController?.updateEntry(entry: entry, title: titleTextField, bodyText: storyTextView)
+            entryController?.updateEntry(entry: entry, title: titleTextField, bodyText: storyTextView, mood: mood.rawValue)
         } else {
-            entryController?.createEntry(title: titleTextField, bodyText: storyTextView, timestamp: Date(), identifier: titleTextField)
+            entryController?.createEntry(title: titleTextField, bodyText: storyTextView, timestamp: Date(), identifier: titleTextField, mood: mood.rawValue)
         }
         
         navigationController?.popViewController(animated: true)
@@ -46,8 +56,13 @@ class EntryDetailViewController: UIViewController {
             title = entry?.title ?? "Create Entry"
             titleTextField.text = entry?.title
             storyTextView.text = entry?.bodyText
+            
+            if let moodString = entry?.mood,
+                let mood = Mood(rawValue: moodString) {
+                let index = Mood.allCases.firstIndex(of: mood) ?? 1
+                moodSegmentedControl.selectedSegmentIndex = index
+            }
         }
-        
     }
 
     /*
