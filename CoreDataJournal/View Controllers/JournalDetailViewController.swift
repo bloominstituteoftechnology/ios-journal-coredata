@@ -33,10 +33,13 @@ class JournalDetailViewController: UIViewController {
             let journalNote = journalTextView.text,
             !title.isEmpty else {return}
         
+        let index = moodSegmentController.selectedSegmentIndex
+        let mood = TaskMood.allCases[index]
+        
         if let task = task {
-            taskController?.updateTask(task: task, with: title, journalNote: journalNote)
+            taskController?.updateTask(task: task, with: title, journalNote: journalNote, mood: mood)
         } else {
-            taskController?.createTask(with: title, journalNote: journalNote)
+            taskController?.createTask(with: title, journalNote: journalNote, mood: mood)
         }
         navigationController?.popViewController(animated: true)
         
@@ -48,6 +51,15 @@ class JournalDetailViewController: UIViewController {
         
         titleTextField.text = task?.title
         journalTextView.text = task?.journalNote
+        
+        //check which segment is selected and create a string constant that holds the corresponding mood
+        if let moodString = task?.mood,
+            let mood = TaskMood(rawValue: moodString) {
+            
+            let index = TaskMood.allCases.firstIndex(of: mood) ?? 0
+            
+            moodSegmentController.selectedSegmentIndex = index
+        }
         
     }
 
