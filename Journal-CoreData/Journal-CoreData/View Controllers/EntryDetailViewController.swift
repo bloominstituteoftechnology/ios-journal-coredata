@@ -52,7 +52,7 @@ class EntryDetailViewController: UIViewController {
     }
     
     func updateViews() {
-        if isViewLoaded == true {
+        if isViewLoaded {
             title = entry?.title ?? "Create Entry"
             titleTextField.text = entry?.title
             storyTextView.text = entry?.bodyText

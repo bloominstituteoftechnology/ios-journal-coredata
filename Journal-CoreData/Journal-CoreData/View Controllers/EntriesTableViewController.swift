@@ -30,6 +30,8 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,7 +66,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
-        return sectionInfo.indexTitle?.capitalized
+        return sectionInfo.name.capitalized
     }
     
     // MARK: - NSFetchedResultsControllerDelegate Methods
