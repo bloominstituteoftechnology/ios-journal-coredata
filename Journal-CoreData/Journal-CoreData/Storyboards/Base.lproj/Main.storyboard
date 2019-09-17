@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Journal-->
+        <!--Journal - Day 2-->
         <scene sceneID="4rm-IK-esL">
             <objects>
                 <tableViewController id="KSN-kt-8bh" customClass="EntriesTableViewController" customModule="Journal_CoreData" customModuleProvider="target" sceneMemberID="viewController">
@@ -71,7 +71,7 @@
                             <outlet property="delegate" destination="KSN-kt-8bh" id="1TL-AQ-MNg"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Journal" id="yQy-DK-RFd">
+                    <navigationItem key="navigationItem" title="Journal - Day 2" largeTitleDisplayMode="always" id="yQy-DK-RFd">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="UKW-jb-w2f">
                             <connections>
                                 <segue destination="ZBi-BC-fWm" kind="show" identifier="ShowAddNewEntrySegue" id="uQm-by-qxh"/>
@@ -128,7 +128,8 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="B0p-Bn-Nah"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Title" id="H20-lx-LID">
+                    <navigationItem key="navigationItem" title="Title" largeTitleDisplayMode="always" id="H20-lx-LID">
+                        <barButtonItem key="backBarButtonItem" title="Journal - Day 2" id="Qq1-8P-CYE"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="CeK-3n-v1G">
                             <connections>
                                 <action selector="saveTapped:" destination="ZBi-BC-fWm" id="jAh-AD-6Qu"/>
