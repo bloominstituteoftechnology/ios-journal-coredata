@@ -11,7 +11,17 @@ import CoreData
 
 extension Entry {
     
-    convenience init(title: String, bodyText: String, timestamp: Date, identifier: String, mood: String, context: NSManagedObjectContext) {
+    var entryRepresentation: EntryRepresentation? {
+        guard let entryBodyText = bodyText,
+            let entryIdentifier = identifier,
+            let entryMood = mood,
+            let entryTimestamp = timestamp,
+            let entryTitle = title else { return nil }
+        
+        return EntryRepresentation(bodyText: entryBodyText, identifier: entryIdentifier, mood: entryMood, timestamp: entryTimestamp, title: entryTitle)
+    }
+    
+    convenience init(title: String, bodyText: String, timestamp: Date, identifier: UUID, mood: String, context: NSManagedObjectContext) {
     
         self.init(context: context)
         
@@ -20,5 +30,15 @@ extension Entry {
         self.timestamp = timestamp
         self.identifier = identifier
         self.mood = mood
+    }
+    
+    @discardableResult convenience init?(entryRep: EntryRepresentation, context: NSManagedObjectContext) {
+        
+        self.init(title: entryRep.title,
+                  bodyText: entryRep.bodyText,
+                  timestamp: entryRep.timestamp,
+                  identifier: entryRep.identifier,
+                  mood: entryRep.mood,
+                  context: context)
     }
 }
