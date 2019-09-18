@@ -11,7 +11,9 @@ import CoreData
 
 class EntryController {
     
-    var entries: [Entry] = []
+    var entries: [Entry] {
+        return loadFromPersistentStore()
+    }
     
     func saveToPersistentStore() {
         let coreDataStack = CoreDataStack.shared.mainContext
@@ -36,11 +38,10 @@ class EntryController {
     }
     
     func createAnEntry(title: String, bodyText: String?) {
-        guard let bodyText = bodyText else { return }
         
-        let entry = Entry(title: title, bodyText: bodyText, context: CoreDataStack.shared.mainContext)
-        entry.identifier = String(bodyText.prefix(25))
-        entry.timeStamp = Date()
+        
+        //let entry = Entry(title: title, bodyText: bodyText)
+        var entry = Entry(title: title, bodyText: bodyText, identifier: UUID().uuidString, context: CoreDataStack.shared.mainContext)
         
         saveToPersistentStore()
     }
