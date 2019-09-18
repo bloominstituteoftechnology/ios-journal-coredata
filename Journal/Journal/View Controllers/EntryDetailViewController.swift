@@ -35,6 +35,14 @@ class EntryDetailViewController: UIViewController {
 		title = entry.title
 		titleTextField.text = entry.title
 		detailTextField.text = entry.bodyText
+
+		if let moodString = entry.mood,
+			let mood = Mood(rawValue: moodString) {
+
+			let index = Mood.allCases.firstIndex(of: mood) ?? 0
+
+		moodSegmentedControl.selectedSegmentIndex = index
+		}
 	}
 
 
@@ -46,12 +54,26 @@ class EntryDetailViewController: UIViewController {
 			!title.isEmpty,
 			!detailText.isEmpty else { return }
 
-//		if let entry = entry {
-//			entryController?.updateEntry(entry: entry, title: title, bodyText: detailText, mood: mood)
-//		} else {
-//			entryController?.createEntry(with: title, bodyText: detailText, mood: mood)
+		// Using some info from the segmented control, get a Mood from the enum to pass to the function below?
+		let index = moodSegmentedControl.selectedSegmentIndex
+
+		let mood = Mood.allCases[index]
+
+//		switch index {
+//		case 0:
+//			mood = .happy
+//		case 1:
+//			mood = .sad
+//		default:
+//			mood = .neutral
 //		}
-//		navigationController?.popViewController(animated: true)
+
+		if let entry = entry {
+			entryController?.updateEntry(entry: entry, title: title, bodyText: detailText, mood: mood)
+		} else {
+			entryController?.createEntry(with: title, bodyText: detailText, mood: mood)
+		}
+		navigationController?.popViewController(animated: true)
 	}
 
 

@@ -14,6 +14,12 @@ class EntriesTableViewController: UITableViewController {
 
 	let entryController = EntryController()
 
+	lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+
+		let fetchRequest
+
+	}
+
 
     override func viewDidLoad() {
         super.viewDidLoad()

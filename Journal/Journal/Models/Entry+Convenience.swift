@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-enum Mood: String {
+enum Mood: String, CaseIterable {
 	case happy
 	case sad
 	case neutral
