@@ -10,15 +10,30 @@ import UIKit
 import CoreData
 
 
-class EntriesTableViewController: UITableViewController {
+class EntriesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
 	let entryController = EntryController()
 
 	lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
 
-		let fetchRequest
+		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true)]
 
-	}
+		let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+											 managedObjectContext: CoreDataStack.shared.mainContext, // If a sectionNameKeyPath is used than the key tot he NSSortDescriptor has to be set to the same value.
+											 sectionNameKeyPath: "mood", cacheName: nil)
+
+		frc.delegate = self
+
+		do {
+			try frc.performFetch()
+		} catch {
+			fatalError("Error performing fetch for frc: \(error)")
+		}
+
+		return frc
+
+	}()
 
 
     override func viewDidLoad() {
@@ -34,7 +49,7 @@ class EntriesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        return entryController.loadFromPersistentStore().count
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
 

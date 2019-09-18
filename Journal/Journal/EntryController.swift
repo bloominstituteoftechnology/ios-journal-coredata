@@ -29,17 +29,17 @@ class EntryController {
 		}
 	}
 
-//	func loadFromPersistentStore() -> [Entry] {
-//		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//		do {
-//			let entry = try
-//				CoreDataStack.shared.mainContext.fetch(fetchRequest)
-//			return entry
-//		} catch {
-//			NSLog("Error fetching entry: \(error)")
-//			return[]
-//		}
-//	}
+	func loadFromPersistentStore() -> [Entry] {
+		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+		do {
+			let entry = try
+				CoreDataStack.shared.mainContext.fetch(fetchRequest)
+			return entry
+		} catch {
+			NSLog("Error fetching entry: \(error)")
+			return[]
+		}
+	}
 
 	@discardableResult func createEntry(with title: String, bodyText: String, mood: Mood) -> Entry {
 		let entry = Entry(title: title, bodyText: bodyText, mood: mood, context: CoreDataStack.shared.mainContext)
