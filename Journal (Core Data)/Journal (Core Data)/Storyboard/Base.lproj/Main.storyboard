@@ -91,31 +91,41 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="luw-Nj-xxc">
-                                <rect key="frame" x="20" y="160" width="374" height="30"/>
-                                <nil key="textColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="j7N-7s-IbZ">
-                                <rect key="frame" x="20" y="198" width="374" height="300"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="300" id="fDK-4z-cA8"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="hsT-1a-Q53">
+                                <rect key="frame" x="20" y="160" width="374" height="398"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="PUH-TE-6N6">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="29"/>
+                                        <segments>
+                                            <segment title="😎"/>
+                                            <segment title="😐"/>
+                                            <segment title="😢"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="luw-Nj-xxc">
+                                        <rect key="frame" x="0.0" y="48" width="374" height="30"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="j7N-7s-IbZ">
+                                        <rect key="frame" x="0.0" y="98" width="374" height="300"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="300" id="fDK-4z-cA8"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="luw-Nj-xxc" firstAttribute="leading" secondItem="vdd-PY-g7w" secondAttribute="leading" constant="20" id="09J-qh-Acp"/>
-                            <constraint firstItem="vdd-PY-g7w" firstAttribute="trailing" secondItem="j7N-7s-IbZ" secondAttribute="trailing" constant="20" id="FPb-0N-IdP"/>
-                            <constraint firstItem="luw-Nj-xxc" firstAttribute="centerX" secondItem="c81-VS-zBD" secondAttribute="centerX" id="GVy-WB-Jen"/>
-                            <constraint firstItem="luw-Nj-xxc" firstAttribute="top" secondItem="vdd-PY-g7w" secondAttribute="top" constant="20" id="Jq1-je-eyP"/>
-                            <constraint firstItem="j7N-7s-IbZ" firstAttribute="leading" secondItem="vdd-PY-g7w" secondAttribute="leading" constant="20" id="KKY-dy-Y9H"/>
-                            <constraint firstItem="vdd-PY-g7w" firstAttribute="trailing" secondItem="luw-Nj-xxc" secondAttribute="trailing" constant="20" id="Uva-wg-GHI"/>
-                            <constraint firstItem="j7N-7s-IbZ" firstAttribute="top" secondItem="luw-Nj-xxc" secondAttribute="bottom" constant="8" id="tjf-rd-PgM"/>
+                            <constraint firstItem="vdd-PY-g7w" firstAttribute="trailing" secondItem="hsT-1a-Q53" secondAttribute="trailing" constant="20" id="Ago-LJ-BzS"/>
+                            <constraint firstItem="hsT-1a-Q53" firstAttribute="top" secondItem="vdd-PY-g7w" secondAttribute="top" constant="20" id="FSv-Ei-PV8"/>
+                            <constraint firstItem="hsT-1a-Q53" firstAttribute="centerX" secondItem="c81-VS-zBD" secondAttribute="centerX" id="MRZ-DL-Q87"/>
+                            <constraint firstItem="hsT-1a-Q53" firstAttribute="leading" secondItem="vdd-PY-g7w" secondAttribute="leading" constant="20" id="SWT-cV-Emx"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vdd-PY-g7w"/>
                     </view>
@@ -128,6 +138,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="descriptionTextView" destination="j7N-7s-IbZ" id="JGC-wb-29F"/>
+                        <outlet property="moodSegmentedControl" destination="PUH-TE-6N6" id="sGA-kw-meh"/>
                         <outlet property="titleTextField" destination="luw-Nj-xxc" id="nMD-NG-VOA"/>
                     </connections>
                 </viewController>

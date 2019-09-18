@@ -12,6 +12,7 @@ import UIKit
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     
     var entry: Entry? {
         didSet {
@@ -32,9 +33,13 @@ import UIKit
     func updateViews() {
         if isViewLoaded {
             self.title = entry?.title ?? "Create Entry"
-            if entry != nil {
-                self.titleTextField.text = entry?.title
-                self.descriptionTextView.text = entry?.bodyText
+            self.titleTextField.text = entry?.title
+            self.descriptionTextView.text = entry?.bodyText
+            
+            if let moodString = entry?.mood,
+                let mood = Mood(rawValue: moodString) {
+                let index = Mood.allCases.firstIndex(of: mood) ?? 1
+                moodSegmentedControl.selectedSegmentIndex = index
             }
         }
     }
@@ -46,10 +51,13 @@ import UIKit
             let bodyText = descriptionTextView.text,
             !bodyText.isEmpty else { return }
         
+        let index = moodSegmentedControl.selectedSegmentIndex
+        let mood = Mood.allCases[index]
+        
         if let entry = entry {
-            entryController?.updateEntry(entry: entry, title: titleText, bodyText: bodyText)
+            entryController?.updateEntry(entry: entry, title: titleText, bodyText: bodyText, mood: mood)
         } else {
-            entryController?.createEntry(title: titleText, bodyText: bodyText, timeStamp: Date())
+            entryController?.createEntry(title: titleText, bodyText: bodyText, timeStamp: Date(), mood: mood)
         }
         
         navigationController?.popViewController(animated: true)
