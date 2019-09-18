@@ -15,13 +15,23 @@ class EntryController {
     }
     
     
+    func saveToPersistentStore() {
+        
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        } catch let error {
+            NSLog("error saving to perssistent store: \(error)")
+        }
+    }
+    
+
     private func loadFromPErsistence() -> [Entry] {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         do {
             let tasks = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
             return tasks
         } catch {
-            NSLog("Error fetching tasks: \(error)")
+            NSLog("Error fetching entry: \(error)")
             return []
         }
 
@@ -29,6 +39,8 @@ class EntryController {
     
     func createEntry(with title: String, bodytext: String, identifier:String, timeStamp: Date) -> Entry {
         let entry = Entry(title: title, bodyText: bodytext, identifier: identifier, timeStamp: timeStamp, context: CoreDataStack.shared.mainContext)
+        saveToPersistentStore()
+        
         return entry
     }
     
@@ -37,12 +49,12 @@ class EntryController {
         entry.identifier = identifier
         entry.timeStamp = timeStamp
         entry.title = title
-        CoreDataStack.shared.saveToPersistentStore()
+      //  CoreDataStack.shared.saveToPersistentStore()
     }
     
     func deleteEntry(_ entry: Entry) {
         
         CoreDataStack.shared.mainContext.delete(entry)
-        CoreDataStack.shared.saveToPersistentStore()
+     //   CoreDataStack.shared.saveToPersistentStore()
     }
 }
