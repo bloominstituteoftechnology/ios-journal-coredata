@@ -21,11 +21,16 @@ enum TaskMood: String, CaseIterable {
 
 extension Task {
     
-    
+    var taskRepresentation: TaskRepresentation? {
+        guard let title = title,
+            let mood = mood,
+            let identifier = identifier?.uuidString else{return nil}
+        return TaskRepresentation(title: title, journalNote: journalNote, mood: mood, identifier: identifier)
+    }
     
     
     //Core Data creates the Task Class then we add function to it
-    convenience init(title: String, journalNote: String?, mood: TaskMood, context: NSManagedObjectContext) {
+    convenience init(title: String, journalNote: String?, mood: TaskMood, identifier: UUID = UUID(), context: NSManagedObjectContext) {
         
         
         //Setting up the generic NSManageObject functionality of the model object
@@ -35,6 +40,7 @@ extension Task {
         self.title = title
         self.journalNote = journalNote
         self.mood = mood.rawValue
+        self.identifier = identifier
         
         
     }

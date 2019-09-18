@@ -11,6 +11,10 @@ import Foundation
 
 class TaskController {
     
+    
+    
+    let baseURL = URL(string: "https://journal-9c351.firebaseio.com/")!
+    
     //CRUD
     
     @discardableResult func createTask(with title: String, journalNote: String?, mood: TaskMood) -> Task {
