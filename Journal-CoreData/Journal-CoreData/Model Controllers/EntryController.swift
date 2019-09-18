@@ -20,7 +20,7 @@ class EntryController {
         }
     }
     
-    func createEntry(title: String, bodyText: String, timestamp: Date, identifier: String, mood: String) -> Entry {
+    func createEntry(title: String, bodyText: String, timestamp: Date, identifier: UUID, mood: String) -> Entry {
         let entry = Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier, mood: mood, context: CoreDataStack.shared.mainContext)
         saveToPersistentStore()
         return entry
