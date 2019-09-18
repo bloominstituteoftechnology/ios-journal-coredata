@@ -46,5 +46,12 @@ extension Task {
     }
     
     
+     @discardableResult convenience init?(taskRepresentation: TaskRepresentation, context: NSManagedObjectContext) {
+        guard let identifier = UUID(uuidString: taskRepresentation.identifier),
+            let mood = TaskMood(rawValue: taskRepresentation.mood) else {return nil}
+        
+        self.init(title: taskRepresentation.title, journalNote: taskRepresentation.journalNote, mood: mood, identifier: identifier, context: context)
+    }
+    
     
 }
