@@ -23,6 +23,7 @@ class EntryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateViews()
 
         // Do any additional setup after loading the view.
     }
@@ -42,27 +43,19 @@ class EntryDetailViewController: UIViewController {
             entryController?.updateEntry(entry: unwrappedEntry, with: unwrappedTitleText, bodyText: unwrappedBodyText, identifier: "RandomIdentifier", timestamp: Date(), mood: emojiSelected.rawValue)
         } else {
             entryController?.createEntry(with: unwrappedTitleText, bodyText: unwrappedBodyText, identifier: "RandomIdentifier", timestamp: Date(), mood: emojiSelected.rawValue)
-            print(emojiSelected.rawValue)
+            
         }
         
         navigationController?.popViewController(animated: true)
     }
     
     
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    
     func updateViews() {
         
-        title = entry?.title ?? "Create Entry"
-        
-        titleTextField.text = entry?.title
-        bodyTextView.text = entry?.bodyText
+        guard let entry = entry, isViewLoaded else { return }
+        title = entry.title
+        titleTextField.text = entry.title
+        bodyTextView.text = entry.bodyText
         
     }
 

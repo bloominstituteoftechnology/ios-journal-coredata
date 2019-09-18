@@ -12,9 +12,9 @@ import CoreData
 
 class EntryController {
     
-    var entry: [Entry] {
-        return loadFromPersistentStore()
-    }
+//    var entry: [Entry] {
+//        return loadFromPersistentStore()
+//    }
     
     func saveToPersistentStore() {
         do {
@@ -25,17 +25,17 @@ class EntryController {
         }
     }
     
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
-        do {
-            let entries = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
-            return entries
-        } catch {
-            NSLog("Error fetching tasks: \(error)")
-            return []
-        }
-    }
+//    func loadFromPersistentStore() -> [Entry] {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//
+//        do {
+//            let entries = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
+//            return entries
+//        } catch {
+//            NSLog("Error fetching tasks: \(error)")
+//            return []
+//        }
+//    }
     
     @discardableResult func createEntry(with title: String, bodyText: String, identifier: String, timestamp: Date, mood: String) -> Entry {
         

@@ -36,12 +36,12 @@ class EntryTableViewCell: UITableViewCell {
     
     func updateViews() {
         
-        
-        titleLabel.text = entry?.title
-        bodyLabel.text = entry?.bodyText
+        guard let entry = entry else { return }
+        titleLabel.text = entry.title
+        bodyLabel.text = entry.bodyText
         
         let dateFormatter = DateFormatter()
-        guard let currentDate = entry?.timestamp else { return }
+        guard let currentDate = entry.timestamp else { return }
         dateFormatter.dateFormat = "dd-MMM-yyyy"
         timeStampLabel.text = dateFormatter.string(from: currentDate)
     }
