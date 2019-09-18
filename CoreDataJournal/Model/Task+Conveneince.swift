@@ -17,7 +17,12 @@ enum TaskMood: String, CaseIterable {
 }
 
 
+
+
 extension Task {
+    
+    
+    
     
     //Core Data creates the Task Class then we add function to it
     convenience init(title: String, journalNote: String?, mood: TaskMood, context: NSManagedObjectContext) {
