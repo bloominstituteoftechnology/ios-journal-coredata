@@ -27,13 +27,8 @@ The way to prevent this is to create an intermediate data type between the JSON 
 1. Create a new Swift file called "EntryRepresentation". In the file, create a struct called `EntryRepresentation`.
 2. Adopt the `Codable` protocol.
 3. Add a property in this struct for each attribute in the `Entry` model. Their names should match exactly or else the JSON from Firebase will not decode into this struct properly.
-4. Adopt the Equatable protocol. 
-5. Outside of the `EntryRepresentation` struct, implement the `==` method. The left hand side (`lhs`) should be of type `EntryRepresentation` and the right hand side (`rhs`) should be an `Entry`. This is because we're comparing two unlike types to each other.
-6. Implement an additional `==` method, this time with `Entry` as the left hand side and `EntryRepresentation` as the right hand side. You can simply return `rhs == lhs`, since you've implemented the logic to compare the two objects in the first `==` implementation.
-7. Implement the `!=` method with `EntryRepresentation` as the left hand side, and `Entry` as the right hand side. This should return `!(rhs == lhs)`
-8. Implement the `!=` again but swapping the left hand side's type to `Entry` and `EntryRepresentation` as the right hand side. Simply return `rhs != lhs`. 
-9. In the "Entry+Convenience.swift" file, add a new convenience initializer. This initializer should be failable. It should take in an `EntryRepresentation` parameter. This should simply pass the values from the entry representation to the convenience initializer you made earlier in the project. 
-10. In the Entry extension, create a `var entryRepresentation: EntryRepresentation` computed property. It should simply return an `EntryRepresentation` object that is initialized from the values of the `Entry`.
+4. In the "Entry+Convenience.swift" file, add a new convenience initializer. This initializer should be failable. It should take in an `EntryRepresentation` parameter and an `NSManagedObjectContext`. This should simply pass the values from the entry representation to the convenience initializer you made earlier in the project. 
+5. In the `Entry` extension, create a `var entryRepresentation: EntryRepresentation` computed property. It should simply return an `EntryRepresentation` object that is initialized from the values of the `Entry`.
 
 #### EntryController
 
@@ -66,36 +61,38 @@ You'll use the `EntryRepresentation` to do this. It will let you decode the JSON
 Back in the `EntryController`, you will make a couple methods that will help when fetching the entries from Firebase. 
 
 1. Create a new "Update" function called `update`. It should take in an `Entry` whose values should be updated, and an `EntryRepresentation` to take the values from. This should simply set each of the `Entry`'s values to the `EntryRepresentation`'s corresponding values. **DO NOT** call `saveToPersistentStore` in this method. It will be explained why later on.
-2. Create a method called `fetchSingleEntryFromPersistentStore`. This method should take in a string that represents an entry's identifier, and return an optional `Entry`. This method should:
+2. Create a method called `updateEntries(with representations: [EntryRepresentation])`. This method's `representation` argument represents the EntryRepresentation objects that are fetched from Firebase. This method should:
     - Create a fetch request from `Entry` object. 
-    - Give the fetch request an `NSPredicate`. This predicate should see if the `identifier` attribute in the `Entry` is equal to the identifier parameter of this function. Refer to the hint below if you need help with the predicate.
+    - Create a dictionary with the identifiers of the `representations` as the keys, and the values as the `representations`. To accomplish making this dictionary you will need to create a separate array of just the entry representations identifiers. You can use the `zip` method to combine two arrays of items together into a dictionary.
+    - Give the fetch request an `NSPredicate`. This predicate should see if the `identifier` attribute in the `Entry` is in identifiers array that you made from the previous step. Refer to the hint below if you need help with the predicate.
     - <details><summary>Predicate Hint:</summary><p>
   
-      `NSPredicate(format: "identifier == %@", identifier)`
+      `NSPredicate(format: "identifier IN %@", identifiersToFetch) // assuming the array of identifiers you made was called "identifiersToFetch"`
 
       </p>
       </details>
-    - Perform the fetch request on your core data stack's `mainContext` and return the first `Entry` from the array you get back. In theory, there should only be one entry fetched anyway, because the predicate uses the entry's identifier. Handle the potential error from performing the fetch request.
+    - Perform the fetch request on your core data stack's `mainContext`. This will return an array of `Entry` objects whose identifier was in the array you passed in to the predicate. Make sure you handle a potential error from the `fetch` method on your managed object context, as it is a throwing method.
+    - From here, loop through the fetched entries and call your `update(entry: ...` method that you made earlier. One you have updated the entry, remove the entry from the dictionary you made a few points earlier. This will make it so you only create entries from the remaining objects in the dictionary. The only ones that would remain after this loop are ones that didn't exist in Core Data already.
+    - Then make a second loop through your dictionary's `values` property. This should create an entry for each of the values in that dictionary using the `Entry` initializer that takes in an `EntryRepresentation` and an `NSManagedObjectContext`
+    - Under both loops, call `saveToPersistentStore()` to persist the changes and effectively synchronize the data in the device's persistent store with the data on the server.  Since you are using an `NSFetchedResultsController`, as soon as you save the managed object context, the fetched results controller will observe those changes and automatically update the table view with the updated entries.
+    
 3. Create a function called `fetchEntriesFromServer`. It should have a completion closure that returns an optional error and its default value should be an empty closure. This method should:
     - Take the `baseURL` and add the "json" extension to it. 
     - Perform a GET `URLSessionDataTask` with the url you just set up.
     - In the completion of the data task, check for errors
     - Unwrap the data returned in the closure.
     - Create a variable of type `[EntryRepresentation]`. Set its initial value to an empty array.
-    - Decode the data into `[String: EntryRepresentation].self`. Set the value of the array you just made in the previous step to the entry representations in this decoded dictionary. **HINT:** loop through the dictionary to return an array of just the entry representations without the identifier keys.
-    - Loop through the array of entry representations. Inside the loop, create a constant called `entry`. For its value, give it the result of the `fetchSingleEntryFromPersistentStore` method. Pass in the entry representation's identifier. This will allow us to compare the entry representation and see if there is a corresponding entry in the persistent store already. 
-    - Check to see if the entry returned from the persistent store exists. If it does, check whether the entry and the entry representation have the same values. If they do, then you don't need to do anything because the entry on the server and the entry in the persistent store are synchronized. 
-    - If the entry exists, but the entry and the entry representation's values are not the same, then call the new `update(entry: ...)` method that takes in an entry and an entry representation. This will then synchronize the entry from the persistent store to the updated values from the server's version of the entry.
-    - If there was no entry returned from the persistent store, that means the server has an entry that the device does not. In that case, initialize a new `Entry` using the convenience initializer that takes in an `EntryRepresentation`.
-    - Outside of the loop, call `saveToPersistentStore()` to persist the changes and effectively synchronize the data in the device's persistent store with the data on the server.  Since you are using an `NSFetchedResultsController`, as soon as you save the managed object context, the fetched results controller will observe those changes and automatically update the table view with the updated entries.
+    - Decode the data into `[String: EntryRepresentation].self`. Set the value of the array you just made in the previous step to the entry representations in this decoded dictionary. Think about why we are decoding it in this way. Loop through the dictionary to return an array of just the entry representations without the identifier keys. **HINT:** You can use a for-in loop or `map` to do this.
+    - Call your `updateEntries` method that you just made in the previous step.
     - Call completion and pass in `nil` for the error.
     - Don't forget to resume the data task.
 4. Write an initializer for the `EntryController`. It shouldn't take in any values. Inside of the initializer, call the `fetchEntriesFromServer` method. As soon as the app runs and initializes this model controller, it should fetch the entries from Firebase and update the persistent store.
 
 The app should be working at this point. Test it by going to the Firebase Database in a browser and changing some values in the entries saved there. The easiest thing to change is the mood. This will allow you to easily see if the table view will update according to the new changes. It may take a few seconds after the app launches, but you should see the cell(s) move to different sections if you changed the mood of some entries in Firebase.
 
-**NOTE: The app will not automatically fetch posts when you change or add posts in the database. At this point you must trigger the fetch manually, the simplest way being to relaunch the application.**
+**NOTE: The app will not automatically fetch posts when you change or add posts in the database. ** At this point you must trigger the fetch manually, the simplest way being to relaunch the application. If you want, you could look up how to implement a refresh control on a table view controller which would allow you to drag down on the table view to refresh the table view and allow you to re-fetch the entries.
 
 ## Go Further
 
 Just like yesterday, try to solidify today's concepts by starting over and rewriting the project from where you started today. Or even better, try to write the entire project with both today and yesterday's content from scratch. Use these instructions as sparingly as possible to help you practice recall.
+
