@@ -37,7 +37,7 @@ class EntryController {
 //    }
     
     func createEntry(title: String, bodyText: String, timeStamp: Date, mood: Mood) {
-        _ = Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, identifier: "id", mood: mood, context: CoreDataStack.shared.mainContext)
+        _ = Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, mood: mood, context: CoreDataStack.shared.mainContext)
         
         saveToPersistentStore()
     }

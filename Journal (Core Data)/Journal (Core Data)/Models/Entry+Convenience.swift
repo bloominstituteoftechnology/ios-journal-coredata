@@ -16,7 +16,18 @@ enum Mood: String, CaseIterable {
 }
 
 extension Entry {
-    convenience init(title: String, bodyText: String, timeStamp: Date = Date(), identifier: String, mood: Mood, context: NSManagedObjectContext) {
+    
+    var entryRepresentation: EntryRepresentation? {
+        guard let title = title,
+            let bodyText = bodyText,
+            let timeStamp = timeStamp,
+            let identifier = identifier,
+            let mood = mood else { return nil }
+        
+        return EntryRepresentation(title: title, bodyText: bodyText, timeStamp: timeStamp, mood: mood, identifier: identifier)
+    }
+    
+    convenience init(title: String, bodyText: String, timeStamp: Date = Date(), identifier: UUID = UUID(), mood: Mood, context: NSManagedObjectContext) {
         self.init(context: context)
         
         self.title = title
@@ -24,5 +35,17 @@ extension Entry {
         self.timeStamp = timeStamp
         self.identifier = identifier
         self.mood = mood.rawValue
+    }
+    
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext) {
+        guard let mood = Mood(rawValue: entryRepresentation.mood) else { return nil }
+        
+//        guard let identifier = entryRepresentation.identifier else { return } // Feel like there could be a problem in the future with not specifying this as the 'entryRepresentation`s' identifier.
+        
+        self.init(title: entryRepresentation.title,
+                  bodyText: entryRepresentation.bodyText,
+                  timeStamp: entryRepresentation.timeStamp,
+                  identifier: entryRepresentation.identifier,
+                  mood: mood, context: context)
     }
 }
