@@ -113,9 +113,12 @@ class TaskController {
         var tasksToCreate = representationsByID
         
         
+        let context = CoreDataStack.share.container.newBackgroundContext()
+        context.performAndWait {
+            
+        
         
         do {
-            let context = CoreDataStack.share.mainContext
             
             let fetchRequest: NSFetchRequest<Task> = Task.fetchRequest()
             //Name of Attibute
@@ -147,7 +150,7 @@ class TaskController {
         } catch {
             NSLog("Error fetching tasks from persistent store: \(error)")
         }
-        
+     }
         
     }
     
