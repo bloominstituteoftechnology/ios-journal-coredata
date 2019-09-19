@@ -40,9 +40,9 @@ class EntryDetailViewController: UIViewController {
         let emojiSelected = EmojiSelection.allCases[index]
         
         if let unwrappedEntry = entry {
-            entryController?.updateEntry(entry: unwrappedEntry, with: unwrappedTitleText, bodyText: unwrappedBodyText, identifier: "RandomIdentifier", timestamp: Date(), mood: emojiSelected.rawValue)
+            entryController?.updateEntry(entry: unwrappedEntry, with: unwrappedTitleText, bodyText: unwrappedBodyText, timestamp: Date(), mood: emojiSelected.rawValue)
         } else {
-            entryController?.createEntry(with: unwrappedTitleText, bodyText: unwrappedBodyText, identifier: "RandomIdentifier", timestamp: Date(), mood: emojiSelected.rawValue)
+            entryController?.createEntry(with: unwrappedTitleText, bodyText: unwrappedBodyText, timestamp: Date(), mood: emojiSelected.rawValue)
             
         }
         
