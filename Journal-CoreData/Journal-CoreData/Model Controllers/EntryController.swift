@@ -122,7 +122,7 @@ class EntryController {
     }
     
     func updateEntries(with representations: [EntryRepresentation]) {
-        let context = CoreDataStack.shared.mainContext
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         
         context.performAndWait {
             do {
@@ -194,7 +194,7 @@ class EntryController {
     }
     
     func createEntry(title: String, bodyText: String, timestamp: Date, identifier: UUID, mood: String) -> Entry {
-        let context = CoreDataStack.shared.mainContext
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         let entry = Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier, mood: mood, context: context)
         CoreDataStack.shared.save(context: context)
         put(entry: entry)
@@ -202,7 +202,7 @@ class EntryController {
     }
     
     func updateEntry(entry: Entry, title: String, bodyText: String, mood: String) {
-        let context = CoreDataStack.shared.mainContext
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = Date()
