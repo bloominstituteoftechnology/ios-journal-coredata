@@ -48,7 +48,7 @@ class CoreDataStack {
             
         
         do{
-            try mainContext.save()
+            try context.save()
         } catch {
             NSLog("Error saving context \(error)")
             mainContext.reset()
