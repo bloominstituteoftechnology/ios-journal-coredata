@@ -32,8 +32,8 @@ class EntryController {
         // Take the baseURL and append the identifier of the entry parameter to it. (unwrap identifier first)
         // Add the "json" extension to the URL as well.
         let requestURL = baseURL
-        .appendingPathComponent(identifier.uuidString)
-        .appendingPathExtension("json")
+            .appendingPathComponent(identifier.uuidString)
+            .appendingPathExtension("json")
         
         // Create a URLRequest object. Set its HTTP method to PUT.
         var request = URLRequest(url: requestURL)
@@ -59,7 +59,6 @@ class EntryController {
         // Perform a URLSessionDataTask with the request, and handle any errors.
         // Make sure to call completion and resume the data task.
         URLSession.shared.dataTask(with: request) { (_, _, error) in
-            
             // Handle errors
             if let error = error {
                 NSLog("Error PUTting task: \(error)")
@@ -123,53 +122,52 @@ class EntryController {
     }
     
     func updateEntries(with representations: [EntryRepresentation]) {
+        let context = CoreDataStack.shared.mainContext
         
-        do {
-        
-            // Create a fetch request from Entry object
-            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-            
-            // To accomplish making this dictionary you will need to create a separate array of just the entry representations identifiers.
-            let entryRepresentations = representations.compactMap({ UUID(uuidString: $0.identifier.uuidString) })
-            
-            //Create a dictionary with the identifiers
-            var representationsByID = Dictionary(uniqueKeysWithValues: zip(entryRepresentations, representations))
-                        // You can use the zip method to combine two arrays of items together into a dictionary.
-            
-            // Give the fetch request an NSPredicate
-            fetchRequest.predicate = NSPredicate(format: "identifier IN %@", entryRepresentations)
-            
-            // Perform the fetch request on your core data stack's mainContext
-            let context = CoreDataStack.shared.mainContext
-            let existingEntries = try context.fetch(fetchRequest)
-            
-            // loop through the fetched entries and call your update(entry: ... method
-            for entry in existingEntries {
-                guard let identifier = entry.identifier,
-                    let representation = representationsByID[identifier] else { continue }
+        context.performAndWait {
+            do {
+                // Create a fetch request from Entry object
+                let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
                 
-                entry.mood = representation.mood
-                entry.bodyText = representation.bodyText
-                entry.title = representation.title
-                entry.timestamp = representation.timestamp
+                // To accomplish making this dictionary you will need to create a separate array of just the entry representations identifiers.
+                let entryRepresentations = representations.compactMap({ UUID(uuidString: $0.identifier.uuidString) })
                 
-                // remove the entry from the dictionary
-                representationsByID.removeValue(forKey: identifier)
-            }
-            
-            // make a second loop through your dictionary's values property
-            // This should create an entry for each of the values in that dictionary using the Entry initializer that takes in an EntryRepresentation and an NSManagedObjectContext
-            for representation in representationsByID.values {
-                Entry(entryRep: representation, context: context)
-            }
-            
-            // Make sure you handle a potential error from the fetch method on your managed object context
+                //Create a dictionary with the identifiers
+                var representationsByID = Dictionary(uniqueKeysWithValues: zip(entryRepresentations, representations))
+                // You can use the zip method to combine two arrays of items together into a dictionary.
+                
+                // Give the fetch request an NSPredicate
+                fetchRequest.predicate = NSPredicate(format: "identifier IN %@", entryRepresentations)
+                
+                let existingEntries = try context.fetch(fetchRequest)
+                
+                // loop through the fetched entries and call your update(entry: ... method
+                for entry in existingEntries {
+                    guard let identifier = entry.identifier,
+                        let representation = representationsByID[identifier] else { continue }
+                    
+                    entry.mood = representation.mood
+                    entry.bodyText = representation.bodyText
+                    entry.title = representation.title
+                    entry.timestamp = representation.timestamp
+                    
+                    // remove the entry from the dictionary
+                    representationsByID.removeValue(forKey: identifier)
+                }
+                
+                // make a second loop through your dictionary's values property
+                // This should create an entry for each of the values in that dictionary using the Entry initializer that takes in an EntryRepresentation and an NSManagedObjectContext
+                for representation in representationsByID.values {
+                    Entry(entryRep: representation, context: context)
+                }
+                
+                CoreDataStack.shared.save(context: context)
+                
+                // Make sure you handle a potential error from the fetch method on your managed object context
             } catch {
                 NSLog("Error fetching entries \(error)")
             }
-        
-        // Under both loops, call saveToPersistentStore() to persist the changes and effectively synchronize the data in the device's persistent store with the data on the server
-        saveToPersistentStore()
+        }
     }
     
     func deleteEntryFromServer(entry: Entry, completion: @escaping () -> Void = { }) {
@@ -195,35 +193,28 @@ class EntryController {
         }.resume()
     }
     
-    // Remove the EntryController's saveToPersistentStore method
-//    func saveToPersistentStore() {
-//        do {
-//            try CoreDataStack.shared.mainContext.save()
-//        } catch {
-//            NSLog("Error saving context: \(error)")
-//            CoreDataStack.shared.mainContext.reset()
-//        }
-//    }
-    
     func createEntry(title: String, bodyText: String, timestamp: Date, identifier: UUID, mood: String) -> Entry {
-        let entry = Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier, mood: mood, context: CoreDataStack.shared.mainContext)
-        saveToPersistentStore()
+        let context = CoreDataStack.shared.mainContext
+        let entry = Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier, mood: mood, context: context)
+        CoreDataStack.shared.save(context: context)
         put(entry: entry)
         return entry
     }
     
     func updateEntry(entry: Entry, title: String, bodyText: String, mood: String) {
+        let context = CoreDataStack.shared.mainContext
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = Date()
         entry.mood = mood
-        saveToPersistentStore()
+        CoreDataStack.shared.save(context: context)
         put(entry: entry)
     }
     
     func deleteEntry(entry: Entry) {
-        CoreDataStack.shared.mainContext.delete(entry)
+        let context = CoreDataStack.shared.mainContext
+        context.delete(entry)
         deleteEntryFromServer(entry: entry)
-        saveToPersistentStore()
+        CoreDataStack.shared.save(context: context)
     }
 }

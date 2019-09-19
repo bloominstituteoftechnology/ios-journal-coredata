@@ -29,15 +29,6 @@ class CoreDataStack {
         return container.viewContext
     }
     
-//    func saveToPersistentStore() {
-//        do {
-//            try mainContext.save()
-//        } catch {
-//            NSLog("Error saving context: \(error)")
-//            mainContext.reset()
-//        }
-//    }
-    
     // create a save(context: NSManagedObjectContext) method in your CoreDataStack
     // call .performAndWait on the context that is passed in, then save the same context.
     // Handle any potential errors.
