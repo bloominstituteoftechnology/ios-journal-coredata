@@ -16,8 +16,11 @@ struct EntryRepresentation: Codable, Equatable {
 	let mood: String
 	let identifier: String
 
-static func 
+static func == (lhs: EntryRepresentation, rhs: Entry) -> Bool {
 
+	return (lhs.title == rhs.title &&
+	lhs.timestamp == rhs.timestamp &&
+	lhs.identifier == rhs.identifier)
 }
 
 //static func == (lhs: EntryRepresentation, rhs: Entry) -> Bool {
@@ -40,3 +43,5 @@ static func
 //
 //	return rhs != lhs
 //}
+
+}

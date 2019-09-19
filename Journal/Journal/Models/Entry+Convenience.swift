@@ -17,6 +17,12 @@ enum Mood: String, CaseIterable {
 
 extension Entry {
 
+	var entryRepresentation: EntryRepresentation? {
+		guard let
+
+		return EntryRepresentation(title: <#T##String#>, bodyText: <#T##String#>, timestamp: <#T##Date#>, mood: <#T##String#>, identifier: <#T##String#>)
+	}
+
 	convenience init(title: String, bodyText: String, mood: Mood, context: NSManagedObjectContext) {
 
 		self.init(context: context)
@@ -26,7 +32,16 @@ extension Entry {
 		self.timestamp = Date()
 		self.identifier = "Entry\(Int.random(in: 1...5000))"
 		self.mood = mood.rawValue
+	}
 
-		
+	@discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext) {
+		guard let identifier = UUID(uuidString: entryRepresentation.identifier),
+			let mood = EntryRepresentation(rawValue: entryRepresentation.mood) else { return nil }
+
+		self.init(title: entryRepresentation.title,
+				  bodyText: entryRepresentation.bodyText,
+				  mood: mood,
+				  identifier: identifier,
+				  timestamp: entryRepresentation.timestamp)
 	}
 }
