@@ -145,7 +145,7 @@ class TaskController {
                 Task(taskRepresentation: representation, context: context)
             }
             
-            CoreDataStack.share.saveToPersistentStore()
+            CoreDataStack.share.save(context: context)
             
         } catch {
             NSLog("Error fetching tasks from persistent store: \(error)")
@@ -165,7 +165,7 @@ class TaskController {
         let task = Task(title: title, journalNote: journalNote, mood: mood, context: CoreDataStack.share.mainContext)
         
         put(task: task)
-        CoreDataStack.share.saveToPersistentStore()
+        CoreDataStack.share.save()
         
         return task
         
@@ -177,12 +177,12 @@ class TaskController {
         task.mood = mood.rawValue
         
         put(task: task)
-        CoreDataStack.share.saveToPersistentStore()
+        CoreDataStack.share.save()
     }
     
     func delete(task: Task) {
         CoreDataStack.share.mainContext.delete(task)
-        CoreDataStack.share.saveToPersistentStore()
+        CoreDataStack.share.save()
     }
     
     
