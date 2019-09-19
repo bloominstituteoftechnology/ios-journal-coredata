@@ -10,16 +10,18 @@ import UIKit
 import CoreData
 
 
-class EntriesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class EntriesTableViewController: UITableViewController {
 
 	let entryController = EntryController()
 
 	lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
 
 		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true)]
+		fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: true)]
+		//fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true)]
 
 		let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+				
 											 managedObjectContext: CoreDataStack.shared.mainContext, // If a sectionNameKeyPath is used than the key tot he NSSortDescriptor has to be set to the same value.
 											 sectionNameKeyPath: "mood", cacheName: nil)
 
@@ -47,16 +49,22 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
 
     // MARK: - Table view data source
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
+		return fetchedResultsController.sections?.count ?? 0
+	}
+
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
-
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
-		let entry = entryController.entry[indexPath.row]
-		cell.entry = entry
+		let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath)
+
+		let entry = fetchedResultsController.object(at: indexPath)
+
+		cell.textLabel?.text = entry.title
+
         return cell
     }
 
@@ -75,7 +83,7 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         if editingStyle == .delete {
             // Delete the row from the data source
 
-			let entry = entryController.entry[indexPath.row]
+			let entry = fetchedResultsController.object(at: indexPath)
 
 			entryController.deleteEntry(entry: entry)
             tableView.deleteRows(at: [indexPath], with: .fade)
@@ -106,11 +114,69 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
 		if segue.identifier == "ShowDetailSegue" {
 			guard let detailVC = segue.destination as? EntryDetailViewController,
 				let indexPath = tableView.indexPathForSelectedRow else { return }
-			detailVC.entry = entryController.entry[indexPath.row]
+
+			let entry = fetchedResultsController.object(at: indexPath)
+
+			detailVC.entry = entry
 			detailVC.entryController = entryController
+
 		} else if segue.identifier == "CreateNewEntrySegue" {
 			guard let detailVC = segue.destination as? EntryDetailViewController else { return }
 			detailVC.entryController = entryController
 		}
     }
+}
+
+extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
+
+	func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+		tableView.beginUpdates()
+	}
+
+	func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+		tableView.endUpdates()
+	}
+
+	func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+					didChange sectionInfo: NSFetchedResultsSectionInfo,
+					atSectionIndex sectionIndex: Int,
+					for type: NSFetchedResultsChangeType) {
+
+		let sectionSet = IndexSet(integer: sectionIndex)
+
+		switch type {
+		case .insert:
+			tableView.insertSections(sectionSet, with: .automatic)
+		case .delete:
+			tableView.deleteSections(sectionSet, with: .automatic)
+		default:
+			return
+		}
+	}
+
+	func controller(_ controller:NSFetchedResultsController<NSFetchRequestResult>,
+					didChange anObject: Any,
+					at indexPath: IndexPath?,
+					for type: NSFetchedResultsChangeType,
+					newIndexPath: IndexPath?) {
+
+		switch type {
+		case .insert:
+			guard let newIndexPath = newIndexPath else { return }
+			tableView.insertRows(at: [newIndexPath], with: .automatic)
+		case .delete:
+			guard let indexPath = indexPath else { return }
+			tableView.deleteRows(at: [indexPath], with: .automatic)
+		case .move:
+			guard let indexPath = indexPath,
+				let newIndexPath = newIndexPath else { return }
+			tableView.moveRow(at: indexPath, to: newIndexPath)
+		case .update:
+			guard let indexPath = indexPath else { return }
+			tableView.reloadRows(at: [indexPath], with: .automatic)
+		@unknown default:
+			return
+
+		}
+	}
 }
