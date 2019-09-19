@@ -37,4 +37,18 @@ class CoreDataStack {
 //            mainContext.reset()
 //        }
 //    }
+    
+    // create a save(context: NSManagedObjectContext) method in your CoreDataStack
+    // call .performAndWait on the context that is passed in, then save the same context.
+    // Handle any potential errors.
+    func save(context: NSManagedObjectContext) {
+        context.performAndWait {
+            do {
+                try context.save()
+            } catch {
+                NSLog("Error saving context: \(error)")
+                context.reset()
+            }
+        }
+    }
 }

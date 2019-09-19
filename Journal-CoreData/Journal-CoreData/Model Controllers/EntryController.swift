@@ -195,14 +195,15 @@ class EntryController {
         }.resume()
     }
     
-    func saveToPersistentStore() {
-        do {
-            try CoreDataStack.shared.mainContext.save()
-        } catch {
-            NSLog("Error saving context: \(error)")
-            CoreDataStack.shared.mainContext.reset()
-        }
-    }
+    // Remove the EntryController's saveToPersistentStore method
+//    func saveToPersistentStore() {
+//        do {
+//            try CoreDataStack.shared.mainContext.save()
+//        } catch {
+//            NSLog("Error saving context: \(error)")
+//            CoreDataStack.shared.mainContext.reset()
+//        }
+//    }
     
     func createEntry(title: String, bodyText: String, timestamp: Date, identifier: UUID, mood: String) -> Entry {
         let entry = Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier, mood: mood, context: CoreDataStack.shared.mainContext)
