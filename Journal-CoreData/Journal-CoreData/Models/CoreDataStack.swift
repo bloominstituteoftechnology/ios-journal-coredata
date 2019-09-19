@@ -33,7 +33,7 @@ class CoreDataStack {
     // create a save(context: NSManagedObjectContext) method in your CoreDataStack
     // call .performAndWait on the context that is passed in, then save the same context.
     // Handle any potential errors.
-    func save(context: NSManagedObjectContext) {
+    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         context.performAndWait {
             do {
                 try context.save()

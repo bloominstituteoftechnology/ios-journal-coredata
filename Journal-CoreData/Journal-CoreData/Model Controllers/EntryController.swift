@@ -145,6 +145,7 @@ class EntryController {
                 for entry in existingEntries {
                     guard let identifier = entry.identifier,
                         let representation = representationsByID[identifier] else { continue }
+                    self.update(entry: entry, representation: representation)
                     
                     entry.mood = representation.mood
                     entry.bodyText = representation.bodyText
@@ -161,12 +162,11 @@ class EntryController {
                     Entry(entryRep: representation, context: context)
                 }
                 
-                CoreDataStack.shared.save(context: context)
-                
                 // Make sure you handle a potential error from the fetch method on your managed object context
             } catch {
                 NSLog("Error fetching entries \(error)")
             }
+            CoreDataStack.shared.save(context: context)
         }
     }
     
@@ -214,7 +214,7 @@ class EntryController {
     func deleteEntry(entry: Entry) {
         let context = CoreDataStack.shared.mainContext
         context.delete(entry)
-        deleteEntryFromServer(entry: entry)
         CoreDataStack.shared.save(context: context)
+        deleteEntryFromServer(entry: entry)
     }
 }
