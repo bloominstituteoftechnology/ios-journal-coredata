@@ -21,13 +21,13 @@ extension Entry {
         guard let title = title,
             let bodyText = bodyText,
             let timeStamp = timeStamp,
-            let identifier = identifier,
+            let identifier = identifier, // Lightweight migration doesn't cover switching your identifier from type String to Type UUID. If the app crashes try switching all the data types in all modes to UUID and if that doesn't work, switch them all back to string.
             let mood = mood else { return nil }
         
         return EntryRepresentation(title: title, bodyText: bodyText, timeStamp: timeStamp, mood: mood, identifier: identifier)
     }
     
-    convenience init(title: String, bodyText: String, timeStamp: Date = Date(), identifier: UUID = UUID(), mood: Mood, context: NSManagedObjectContext) {
+    convenience init(title: String, bodyText: String, timeStamp: Date = Date(), identifier: String = UUID().uuidString, mood: Mood, context: NSManagedObjectContext) {
         self.init(context: context)
         
         self.title = title
