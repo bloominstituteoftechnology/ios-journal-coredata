@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  EntryDetailViewController.swift
 //  Journal
 //
 //  Created by John Kouris on 9/30/19.
@@ -8,13 +8,19 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class EntryDetailViewController: UIViewController {
+    
+    @IBOutlet var titleTextField: UITextField!
+    @IBOutlet var bodyTextView: UITextView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         // Do any additional setup after loading the view.
     }
-
+    
+    @IBAction func saveTapped(_ sender: Any) {
+    }
+    
 
 }
-
