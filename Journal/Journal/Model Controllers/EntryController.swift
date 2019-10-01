@@ -30,7 +30,7 @@ class EntryController {
         }
     }
     
-    func createEntry(with title: String, bodyText: String?, identifier: String, timestamp: Date) -> Entry {
+    @discardableResult func createEntry(with title: String, bodyText: String?, identifier: String, timestamp: Date) -> Entry {
         let entry = Entry(title: title, bodyText: bodyText, context: CoreDataStack.shared.mainContext)
         saveToPersistentStore()
         return entry
