@@ -11,6 +11,19 @@ import CoreData
 
 class EntryController {
     
+    func saveToPersistentStore() {
+        CoreDataStack.shared.saveToPersistentStore()
+    }
     
+    func loadFromPersistentStore() -> [Entry] {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        do {
+            let entries = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
+            return entries
+        } catch {
+            print("Error fetching tasks: \(error)")
+            return []
+        }
+    }
     
 }
