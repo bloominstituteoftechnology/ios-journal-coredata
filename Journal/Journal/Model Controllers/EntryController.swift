@@ -11,6 +11,10 @@ import CoreData
 
 class EntryController {
     
+    var entries: [Entry] {
+        loadFromPersistentStore()
+    }
+    
     func saveToPersistentStore() {
         CoreDataStack.shared.saveToPersistentStore()
     }
@@ -24,6 +28,12 @@ class EntryController {
             print("Error fetching tasks: \(error)")
             return []
         }
+    }
+    
+    func createEntry(with title: String, bodyText: String?, identifier: String, timestamp: Date) -> Entry {
+        let entry = Entry(title: title, bodyText: bodyText, context: CoreDataStack.shared.mainContext)
+        saveToPersistentStore()
+        return entry
     }
     
 }
