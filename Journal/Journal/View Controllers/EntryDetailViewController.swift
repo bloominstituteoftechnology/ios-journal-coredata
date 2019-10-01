@@ -30,8 +30,13 @@ class EntryDetailViewController: UIViewController {
     
     @IBAction func saveTapped(_ sender: Any) {
         guard let title = titleTextField.text,
-            let bodyText = bodyTextView.text,
-            !title.isEmpty else { return }
+            let bodyText = bodyTextView.text else { return }
+        guard !title.isEmpty, title != " " else {
+            let ac = UIAlertController(title: "Oops!", message: "Please enter a title for your journal entry before saving!", preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+            present(ac, animated: true, completion: nil)
+            return
+        }
         
         if let entry = entry {
             entryController?.updateEntry(entry: entry, with: title, bodyText: bodyText)
