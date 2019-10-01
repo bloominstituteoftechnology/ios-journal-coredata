@@ -22,6 +22,7 @@ class EntryDetailViewController: UIViewController {
     }
     
     func updateViews() {
+        navigationItem.largeTitleDisplayMode = .never
         title = entry?.title ?? "Create Entry"
         titleTextField.text = entry?.title
         bodyTextView.text = entry?.bodyText
