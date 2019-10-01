@@ -18,11 +18,26 @@ class EntryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        updateViews()
+    }
+    
+    func updateViews() {
+        title = entry?.title ?? "Create Entry"
+        titleTextField.text = entry?.title
+        bodyTextView.text = entry?.bodyText
     }
     
     @IBAction func saveTapped(_ sender: Any) {
+        guard let title = titleTextField.text,
+            let bodyText = bodyTextView.text,
+            !title.isEmpty else { return }
+        
+        if let entry = entry {
+            entryController?.updateEntry(entry: entry, with: title, bodyText: bodyText)
+        } else {
+            entryController?.createEntry(with: title, bodyText: bodyText)
+        }
+        navigationController?.popViewController(animated: true)
     }
     
 
