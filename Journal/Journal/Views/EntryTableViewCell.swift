@@ -13,6 +13,23 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet var titleLabel: UILabel!
     @IBOutlet var timestampLabel: UILabel!
     @IBOutlet var bodyText: UILabel!
+    
+    let dateFormatter = DateFormatter()
+    
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    func updateViews() {
+        titleLabel.text = entry?.title
+        bodyText.text = entry?.bodyText
+        
+        dateFormatter.dateFormat = "MM-dd-yyyy HH:mm"
+        let timestamp = dateFormatter.string(from: entry?.timestamp ?? Date())
+        timestampLabel.text = timestamp
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
