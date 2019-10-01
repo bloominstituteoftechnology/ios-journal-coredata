@@ -36,4 +36,15 @@ class EntryController {
         return entry
     }
     
+    func updateEntry(entry: Entry, with title: String, bodyText: String?) {
+        entry.title = title
+        entry.bodyText = bodyText
+        saveToPersistentStore()
+    }
+    
+    func delete(entry: Entry) {
+        CoreDataStack.shared.mainContext.delete(entry)
+        saveToPersistentStore()
+    }
+    
 }
