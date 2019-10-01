@@ -12,7 +12,10 @@ class EntryDetailViewController: UIViewController {
     
     @IBOutlet var titleTextField: UITextField!
     @IBOutlet var bodyTextView: UITextView!
-
+    
+    var entry: Entry?
+    var entryController: EntryController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
