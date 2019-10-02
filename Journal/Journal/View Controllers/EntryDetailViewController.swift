@@ -1,5 +1,5 @@
 //
-//  JournalDetailViewController.swift
+//  EntryDetailViewController.swift
 //  Journal
 //
 //  Created by Vici Shaweddy on 10/2/19.
@@ -8,15 +8,19 @@
 
 import UIKit
 
-class JournalDetailViewController: UIViewController {
-
+class EntryDetailViewController: UIViewController {
+    @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var textView: UITextView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
     
-
+    @IBAction func saveButton(_ sender: Any) {
+    }
+    
     /*
     // MARK: - Navigation
 

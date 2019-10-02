@@ -12,11 +12,12 @@
 		E3C821602344E8DA00174A15 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3C8215E2344E8DA00174A15 /* Main.storyboard */; };
 		E3C821622344E8DC00174A15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3C821612344E8DC00174A15 /* Assets.xcassets */; };
 		E3C821652344E8DC00174A15 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3C821632344E8DC00174A15 /* LaunchScreen.storyboard */; };
-		E3C8216F2344F58F00174A15 /* JournalDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C8216E2344F58F00174A15 /* JournalDetailViewController.swift */; };
-		E3C821712344F5A100174A15 /* JournalsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C821702344F5A100174A15 /* JournalsTableViewController.swift */; };
 		E3C821742344F5C000174A15 /* Journals.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E3C821722344F5C000174A15 /* Journals.xcdatamodeld */; };
 		E3C821762344F5E500174A15 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C821752344F5E500174A15 /* CoreDataStack.swift */; };
 		E3C821782344F5FA00174A15 /* Journal+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C821772344F5FA00174A15 /* Journal+Convenience.swift */; };
+		E3C8217A2344F6C500174A15 /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C821792344F6C500174A15 /* EntriesTableViewController.swift */; };
+		E3C8217C2344F6FF00174A15 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C8217B2344F6FF00174A15 /* EntryTableViewCell.swift */; };
+		E3C8217E234539A600174A15 /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C8217D234539A600174A15 /* EntryDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,11 +28,12 @@
 		E3C821612344E8DC00174A15 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E3C821642344E8DC00174A15 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E3C821662344E8DC00174A15 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E3C8216E2344F58F00174A15 /* JournalDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalDetailViewController.swift; sourceTree = "<group>"; };
-		E3C821702344F5A100174A15 /* JournalsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalsTableViewController.swift; sourceTree = "<group>"; };
 		E3C821732344F5C000174A15 /* Journals.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journals.xcdatamodel; sourceTree = "<group>"; };
 		E3C821752344F5E500174A15 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		E3C821772344F5FA00174A15 /* Journal+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Journal+Convenience.swift"; sourceTree = "<group>"; };
+		E3C821792344F6C500174A15 /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
+		E3C8217B2344F6FF00174A15 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
+		E3C8217D234539A600174A15 /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,8 +81,9 @@
 		E3C8216C2344F56A00174A15 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				E3C8216E2344F58F00174A15 /* JournalDetailViewController.swift */,
-				E3C821702344F5A100174A15 /* JournalsTableViewController.swift */,
+				E3C821792344F6C500174A15 /* EntriesTableViewController.swift */,
+				E3C8217B2344F6FF00174A15 /* EntryTableViewCell.swift */,
+				E3C8217D234539A600174A15 /* EntryDetailViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -166,13 +169,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3C8217C2344F6FF00174A15 /* EntryTableViewCell.swift in Sources */,
+				E3C8217A2344F6C500174A15 /* EntriesTableViewController.swift in Sources */,
 				E3C821742344F5C000174A15 /* Journals.xcdatamodeld in Sources */,
 				E3C821592344E8DA00174A15 /* AppDelegate.swift in Sources */,
-				E3C8216F2344F58F00174A15 /* JournalDetailViewController.swift in Sources */,
 				E3C821782344F5FA00174A15 /* Journal+Convenience.swift in Sources */,
 				E3C821762344F5E500174A15 /* CoreDataStack.swift in Sources */,
+				E3C8217E234539A600174A15 /* EntryDetailViewController.swift in Sources */,
 				E3C8215B2344E8DA00174A15 /* SceneDelegate.swift in Sources */,
-				E3C821712344F5A100174A15 /* JournalsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

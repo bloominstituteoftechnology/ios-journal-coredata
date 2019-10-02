@@ -10,13 +10,13 @@
         <!--Journal-->
         <scene sceneID="nAX-Lb-eRY">
             <objects>
-                <tableViewController id="LfR-S2-cfA" customClass="JournalsTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="LfR-S2-cfA" customClass="EntriesTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="N7a-JL-GTm">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="JournalCell" id="fb8-Lw-48s">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="JournalCell" id="fb8-Lw-48s" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="69"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fb8-Lw-48s" id="KTc-pt-JEU">
@@ -35,7 +35,7 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date, Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zkr-aj-GWO">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Timestamp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zkr-aj-GWO">
                                                             <rect key="frame" x="187" y="0.0" width="187" height="24"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <nil key="textColor"/>
@@ -64,6 +64,9 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="descriptionLabel" destination="PIq-U0-1b8" id="Mk8-PC-dkV"/>
+                                    <outlet property="timestampLabel" destination="zkr-aj-GWO" id="OlC-eX-pOQ"/>
+                                    <outlet property="titleLabel" destination="azA-JP-Mgs" id="TgI-Cq-oMX"/>
                                     <segue destination="jYz-0f-C2P" kind="show" identifier="DetailJournalSegue" id="qll-5d-TYg"/>
                                 </connections>
                             </tableViewCell>
@@ -85,10 +88,10 @@
             </objects>
             <point key="canvasLocation" x="-44" y="67"/>
         </scene>
-        <!--Journal Detail View Controller-->
+        <!--Entry Detail View Controller-->
         <scene sceneID="Jq3-Zf-Jo6">
             <objects>
-                <viewController id="jYz-0f-C2P" customClass="JournalDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="jYz-0f-C2P" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0q6-xi-Kf7">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -96,7 +99,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Jng-b3-C38">
                                 <rect key="frame" x="20" y="160" width="374" height="248"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Creative title here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uB7-MD-eGL">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uB7-MD-eGL">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="Kvi-gx-6r1"/>
@@ -110,7 +113,6 @@
                                         <constraints>
                                             <constraint firstAttribute="height" constant="200" id="2Jb-Ks-O2W"/>
                                         </constraints>
-                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -131,8 +133,16 @@
                         <viewLayoutGuide key="safeArea" id="gab-VT-oeC"/>
                     </view>
                     <navigationItem key="navigationItem" id="2aY-K8-wXt">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="gXJ-6o-111"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="gXJ-6o-111">
+                            <connections>
+                                <action selector="saveButton:" destination="jYz-0f-C2P" id="zha-R0-6mn"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="textField" destination="uB7-MD-eGL" id="cZ6-Uu-0rh"/>
+                        <outlet property="textView" destination="vLp-K3-4V5" id="cMZ-nz-i41"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9mf-a1-HXO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
