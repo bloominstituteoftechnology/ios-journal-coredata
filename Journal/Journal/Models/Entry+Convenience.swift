@@ -22,7 +22,6 @@ extension Entry {
             let identifier = identifier?.uuidString,
             let timestamp = timestamp,
             let mood = mood else { return nil }
-            
         return EntryRepresentation(title: title, bodyText: bodyText, identifier: identifier, mood: mood, timestamp: timestamp)
     }
     
