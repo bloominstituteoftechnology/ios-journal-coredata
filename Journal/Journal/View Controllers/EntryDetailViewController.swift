@@ -12,6 +12,7 @@ class EntryDetailViewController: UIViewController {
     
     @IBOutlet var titleTextField: UITextField!
     @IBOutlet var bodyTextView: UITextView!
+    @IBOutlet var moodSegmentedControl: UISegmentedControl!
     
     var entry: Entry?
     var entryController: EntryController?
@@ -26,6 +27,12 @@ class EntryDetailViewController: UIViewController {
         title = entry?.title ?? "Create Entry"
         titleTextField.text = entry?.title
         bodyTextView.text = entry?.bodyText
+        
+        if let moodString = entry?.mood,
+            let mood = Mood(rawValue: moodString) {
+            let index = Mood.allCases.firstIndex(of: mood) ?? 1
+            moodSegmentedControl.selectedSegmentIndex = index
+        }
     }
     
     @IBAction func saveTapped(_ sender: Any) {
@@ -38,10 +45,13 @@ class EntryDetailViewController: UIViewController {
             return
         }
         
+        let index = moodSegmentedControl.selectedSegmentIndex
+        let mood = Mood.allCases[index]
+        
         if let entry = entry {
-            entryController?.updateEntry(entry: entry, with: title, bodyText: bodyText)
+            entryController?.updateEntry(entry: entry, with: title, bodyText: bodyText, mood: mood)
         } else {
-            entryController?.createEntry(with: title, bodyText: bodyText)
+            entryController?.createEntry(with: title, bodyText: bodyText, mood: mood)
         }
         navigationController?.popViewController(animated: true)
     }
