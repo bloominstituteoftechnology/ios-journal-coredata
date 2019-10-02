@@ -88,17 +88,50 @@
             </objects>
             <point key="canvasLocation" x="440" y="161"/>
         </scene>
-        <!--View Controller-->
+        <!--Entry Detail View Controller-->
         <scene sceneID="Qfx-FK-14N">
             <objects>
-                <viewController id="iBk-5j-mIR" sceneMemberID="viewController">
+                <viewController id="iBk-5j-mIR" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vjb-BW-Q2k">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EIP-U0-wTD">
+                                <rect key="frame" x="20" y="160" width="374" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="oNp-3e-wzu">
+                                <rect key="frame" x="20" y="214" width="374" height="348"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="EIP-U0-wTD" firstAttribute="top" secondItem="V3x-c5-5ai" secondAttribute="top" constant="20" id="0Fz-HO-IgZ"/>
+                            <constraint firstItem="oNp-3e-wzu" firstAttribute="top" secondItem="EIP-U0-wTD" secondAttribute="bottom" constant="20" id="LYu-a4-UsZ"/>
+                            <constraint firstItem="V3x-c5-5ai" firstAttribute="trailing" secondItem="EIP-U0-wTD" secondAttribute="trailing" constant="20" id="VCo-FX-dmd"/>
+                            <constraint firstItem="oNp-3e-wzu" firstAttribute="leading" secondItem="V3x-c5-5ai" secondAttribute="leading" constant="20" id="XoP-Zl-RiA"/>
+                            <constraint firstItem="V3x-c5-5ai" firstAttribute="trailing" secondItem="oNp-3e-wzu" secondAttribute="trailing" constant="20" id="aAX-Hn-VSR"/>
+                            <constraint firstItem="V3x-c5-5ai" firstAttribute="bottom" secondItem="oNp-3e-wzu" secondAttribute="bottom" constant="300" id="j1u-wh-swS"/>
+                            <constraint firstItem="EIP-U0-wTD" firstAttribute="leading" secondItem="V3x-c5-5ai" secondAttribute="leading" constant="20" id="wVC-aA-UQK"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="V3x-c5-5ai"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Aa3-YA-Xe8"/>
+                    <navigationItem key="navigationItem" id="Aa3-YA-Xe8">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Pxl-7e-anh">
+                            <connections>
+                                <action selector="save:" destination="iBk-5j-mIR" id="crI-g2-lOL"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="entryTextView" destination="oNp-3e-wzu" id="hjT-uA-yxV"/>
+                        <outlet property="titleTextField" destination="EIP-U0-wTD" id="Dec-m3-MdO"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qi3-HB-6Tg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -108,8 +141,8 @@
         <scene sceneID="lnL-I1-LDc">
             <objects>
                 <navigationController id="Avk-Xx-5wm" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Wd7-qH-zCR">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="Wd7-qH-zCR">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
