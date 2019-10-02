@@ -18,6 +18,10 @@ enum HTTPMethod: String {
 
 class EntryController {
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     let baseURL = URL(string: "https://journal-f54c4.firebaseio.com/")!
     
     func put(entry: Entry, completion: @escaping () -> Void = {}) {
@@ -119,6 +123,7 @@ class EntryController {
     @discardableResult func createEntry(with title: String, bodyText: String?, mood: Mood) -> Entry {
         let entry = Entry(title: title, bodyText: bodyText, mood: mood, context: CoreDataStack.shared.mainContext)
         saveToPersistentStore()
+        put(entry: entry)
         return entry
     }
     
@@ -126,6 +131,7 @@ class EntryController {
         entry.title = title
         entry.bodyText = bodyText
         entry.mood = mood.rawValue
+        put(entry: entry)
         saveToPersistentStore()
     }
     
