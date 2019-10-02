@@ -9,10 +9,26 @@
 import UIKit
 
 class EntryTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var entryTitleLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var bodyTextLabel: UILabel!
+    
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    
+    private func updateViews() {
+        guard let entry = entry else { return }
+        
+        
+        bodyTextLabel.text = entry.bodyText
+        entryTitleLabel.text = entry.title
+        
+    }
     
     
     override func awakeFromNib() {
@@ -25,5 +41,7 @@ class EntryTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    
 
 }
