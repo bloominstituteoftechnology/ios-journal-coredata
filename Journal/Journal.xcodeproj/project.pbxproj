@@ -15,6 +15,7 @@
 		37A4DA1923451A6000C1CBC8 /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4DA1823451A6000C1CBC8 /* EntriesTableViewController.swift */; };
 		37A4DA1B23451AC800C1CBC8 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4DA1A23451AC800C1CBC8 /* EntryTableViewCell.swift */; };
 		37A4DA1D23451E9300C1CBC8 /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4DA1C23451E9300C1CBC8 /* EntryDetailViewController.swift */; };
+		37A4DA1F2345218600C1CBC8 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A4DA1E2345218600C1CBC8 /* CoreDataStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		37A4DA1823451A6000C1CBC8 /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 		37A4DA1A23451AC800C1CBC8 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
 		37A4DA1C23451E9300C1CBC8 /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
+		37A4DA1E2345218600C1CBC8 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,17 +62,42 @@
 		37A4DA03234515BD00C1CBC8 /* Journal */ = {
 			isa = PBXGroup;
 			children = (
+				37A4DA222345219200C1CBC8 /* Models */,
+				37A4DA212345219000C1CBC8 /* Views */,
+				37A4DA202345218E00C1CBC8 /* Storyboards */,
 				37A4DA04234515BD00C1CBC8 /* AppDelegate.swift */,
 				37A4DA06234515BD00C1CBC8 /* SceneDelegate.swift */,
-				37A4DA0A234515BD00C1CBC8 /* Main.storyboard */,
 				37A4DA0D234515BE00C1CBC8 /* Assets.xcassets */,
-				37A4DA0F234515BE00C1CBC8 /* LaunchScreen.storyboard */,
 				37A4DA12234515BE00C1CBC8 /* Info.plist */,
-				37A4DA1823451A6000C1CBC8 /* EntriesTableViewController.swift */,
-				37A4DA1A23451AC800C1CBC8 /* EntryTableViewCell.swift */,
-				37A4DA1C23451E9300C1CBC8 /* EntryDetailViewController.swift */,
 			);
 			path = Journal;
+			sourceTree = "<group>";
+		};
+		37A4DA202345218E00C1CBC8 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				37A4DA0A234515BD00C1CBC8 /* Main.storyboard */,
+				37A4DA0F234515BE00C1CBC8 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		37A4DA212345219000C1CBC8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				37A4DA1823451A6000C1CBC8 /* EntriesTableViewController.swift */,
+				37A4DA1C23451E9300C1CBC8 /* EntryDetailViewController.swift */,
+				37A4DA1A23451AC800C1CBC8 /* EntryTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		37A4DA222345219200C1CBC8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				37A4DA1E2345218600C1CBC8 /* CoreDataStack.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -147,6 +174,7 @@
 				37A4DA1B23451AC800C1CBC8 /* EntryTableViewCell.swift in Sources */,
 				37A4DA1923451A6000C1CBC8 /* EntriesTableViewController.swift in Sources */,
 				37A4DA05234515BD00C1CBC8 /* AppDelegate.swift in Sources */,
+				37A4DA1F2345218600C1CBC8 /* CoreDataStack.swift in Sources */,
 				37A4DA1D23451E9300C1CBC8 /* EntryDetailViewController.swift in Sources */,
 				37A4DA07234515BD00C1CBC8 /* SceneDelegate.swift in Sources */,
 			);
