@@ -15,4 +15,8 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var entryTimestampLabel: UILabel!
     @IBOutlet weak var entryNotesLabel: UILabel!
 
+    //MARK: - PROPERTIES
+    var entry: Entry?
+    var entryController: EntriesController?
+    
 }
