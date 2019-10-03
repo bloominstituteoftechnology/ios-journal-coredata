@@ -13,6 +13,8 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var lblTimeStamp: UILabel!
     @IBOutlet weak var lblEntryBody: UILabel!
     
+    var entry: JournalEntry? { didSet { updateViews() } }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -24,4 +26,13 @@ class EntryTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    func updateViews() {
+        guard let entry = entry else { return }
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "mm/dd/yy, HH:mm a"
+        lblTitle.text = entry.title
+        lblEntryBody.text = entry.bodyText
+        lblTimeStamp.text = formatter.string(from: entry.timestamp ?? Date())
+    }
 }
