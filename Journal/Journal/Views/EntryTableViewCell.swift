@@ -30,7 +30,7 @@ class EntryTableViewCell: UITableViewCell {
         guard let entry = entry else { return }
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "mm/dd/yy, HH:mm a"
+        formatter.dateFormat = "mm/dd/yy, hh:mm a"
         lblTitle.text = entry.title
         lblEntryBody.text = entry.bodyText
         lblTimeStamp.text = formatter.string(from: entry.timestamp ?? Date())
