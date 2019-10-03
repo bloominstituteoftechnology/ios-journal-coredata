@@ -23,6 +23,7 @@ class EntryController {
         do {
             try moc.save()
         } catch {
+            moc.reset()
             print("Error saving managed object context: \(error)")
         }
     }

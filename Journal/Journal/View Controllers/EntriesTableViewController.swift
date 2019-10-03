@@ -40,8 +40,11 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            entryController.delete(entry: entryController.entries[indexPath.row])
+//            tableView.deleteRows(at: [indexPath], with: .fade)
+            let entry = entryController.entries[indexPath.row]
+            entryController.delete(entry: entry)
+            tableView.reloadData()
+//            entryController.delete(entry: entryController.entries[indexPath.row])
             
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
