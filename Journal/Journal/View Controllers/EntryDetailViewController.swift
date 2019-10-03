@@ -10,9 +10,14 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
 
-    
+    // MARK: Outlets
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodytextTextView: UITextView!
+    
+    // MARK: Properties
+    var entry: Entry?
+    var entryController: EntryController?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()

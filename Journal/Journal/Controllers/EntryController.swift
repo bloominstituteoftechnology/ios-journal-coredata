@@ -11,7 +11,7 @@ import CoreData
 
 class EntryController {
     
-    private var entries: [Entry] {
+    var entries: [Entry] {
         loadFromPersistentStore()
     }
     
