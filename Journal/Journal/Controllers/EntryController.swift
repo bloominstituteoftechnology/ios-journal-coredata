@@ -17,7 +17,7 @@ class EntryController {
     
     private let moc = CoreDataStack.shared.mainContext
     
-    // MARK: MEHODS FOR SAVING AND LOADING DATA
+    // MARK: METHODS FOR SAVING AND LOADING DATA
     private func saveToPersistentStore() {
         
         do {
