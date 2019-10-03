@@ -10,6 +10,7 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
 
+    // MARK: Outlets
     @IBOutlet weak var entryTitleLabel: UILabel!
     @IBOutlet weak var summaryLabel: UILabel!
     @IBOutlet weak var timeStampLabel: UILabel!
@@ -21,7 +22,6 @@ class EntryTableViewCell: UITableViewCell {
         dateFormatter.timeStyle = .short
         return dateFormatter
     }
-    
     
     var entry: Entry? {
         didSet {
