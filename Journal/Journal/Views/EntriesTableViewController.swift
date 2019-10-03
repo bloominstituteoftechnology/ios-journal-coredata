@@ -24,6 +24,9 @@ class EntriesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 300
+        
     }
 
     // MARK: - Table view data source

@@ -40,15 +40,31 @@ class EntryController {
     
     func Create(title: String, bodyText: String) {
         
-        let _ = Entry(title: title, timestamp: Date(), bodyText: bodyText)
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        formatter.dateStyle = .short
+        let result = formatter.string(from: date)
+        
+        
+        let _ = Entry(title: title, timestamp: result, bodyText: bodyText)
     
         saveToPersistentStore()
     }
     
     func Update(title: String, bodyText: String, entry: Entry) {
         
+        let date = Date()
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        formatter.dateStyle = .short
+        let result = formatter.string(from: date)
+        
+        
         entry.title = title
         entry.bodyText = bodyText
+        entry.timestamp = result
+        
         
         saveToPersistentStore()
     }

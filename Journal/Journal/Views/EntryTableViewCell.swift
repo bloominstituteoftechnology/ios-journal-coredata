@@ -27,6 +27,7 @@ class EntryTableViewCell: UITableViewCell {
         
         bodyTextLabel.text = entry.bodyText
         entryTitleLabel.text = entry.title
+        timestampLabel.text = entry.timestamp
         
     }
     
