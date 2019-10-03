@@ -25,6 +25,7 @@ class EntryController {
     }
     
     func loadFromPersistentStore() -> [Entry] {
+        
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         let moc = CoreDataStack.shared.mainContext
         do {
@@ -32,17 +33,15 @@ class EntryController {
             return allEntries
         } catch {
             print("Error fetching entries: \(error)")
-            return[]
+            return []
         }
+        
     }
     
     func Create(title: String, bodyText: String) {
         
-        let entry = Entry()
-        
-        entry.title = title
-        entry.bodyText = bodyText
-        
+        let _ = Entry(title: title, timestamp: Date(), bodyText: bodyText)
+    
         saveToPersistentStore()
     }
     

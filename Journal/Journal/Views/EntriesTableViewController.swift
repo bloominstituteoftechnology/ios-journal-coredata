@@ -14,15 +14,16 @@ class EntriesTableViewController: UITableViewController {
     
     let entryController = EntryController()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
         tableView.reloadData()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
     }
 
     // MARK: - Table view data source
@@ -34,7 +35,7 @@ class EntriesTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "JournalEntryCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
         
         cell.entry = entryController.entries[indexPath.row]
         
@@ -47,7 +48,20 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
-            entryController.Delete(entry: entryController.entries[indexPath.row])
+            let moc = CoreDataStack.shared.mainContext
+            
+            let entry = entryController.entries[indexPath.row]
+            
+            entryController.Delete(entry: entry)
+            
+            do {
+                
+                try moc.save()
+                tableView.reloadData()
+            } catch {
+                moc.reset()
+                print("Error saving managed object context: \(error)")
+            }
             
         }
     }

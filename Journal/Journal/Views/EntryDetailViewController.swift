@@ -37,12 +37,12 @@ class EntryDetailViewController: UIViewController {
     
     @IBAction func save(_ sender: Any) {
         
-        guard let title = titleTextField.text, !title.isEmpty, let entryText = entryTextView.text, !entryText.isEmpty else { return }
+        guard let title = titleTextField.text, !title.isEmpty, let bodyText = entryTextView.text, !bodyText.isEmpty else { return }
         
         if let entry = entry {
-            entryController?.Update(title: title, bodyText: entryText, entry: entry)
+            entryController?.Update(title: title, bodyText: bodyText, entry: entry)
         } else {
-            entryController?.Create(title: title, bodyText: entryText)
+            entryController?.Create(title: title, bodyText: bodyText)
         }
         
         navigationController?.popViewController(animated: true)
