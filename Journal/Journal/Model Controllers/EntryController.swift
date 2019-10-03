@@ -16,13 +16,37 @@ enum HTTPMethod: String {
     case delete = "DELETE"
 }
 
+enum NetworkError: Error {
+    
+}
+
 class EntryController {
+    
+    let baseURL = URL(string: "https://journal-f54c4.firebaseio.com/")! // try to avoid the bang operator
     
     init() {
         fetchEntriesFromServer()
     }
     
-    let baseURL = URL(string: "https://journal-f54c4.firebaseio.com/")!
+    @discardableResult func createEntry(with title: String, bodyText: String?, mood: Mood) -> Entry {
+        let entry = Entry(title: title, bodyText: bodyText, mood: mood, context: CoreDataStack.shared.mainContext)
+        put(entry: entry)
+        saveToPersistentStore()
+        return entry
+    }
+    
+    func updateEntry(entry: Entry, with title: String, bodyText: String?, mood: Mood) {
+        entry.title = title
+        entry.bodyText = bodyText
+        entry.mood = mood.rawValue
+        put(entry: entry)
+        saveToPersistentStore()
+    }
+    
+    func delete(entry: Entry) {
+        CoreDataStack.shared.mainContext.delete(entry)
+        saveToPersistentStore()
+    }
     
     func put(entry: Entry, completion: @escaping () -> Void = {}) {
         let identifier = entry.identifier ?? UUID()
@@ -118,26 +142,6 @@ class EntryController {
     
     func saveToPersistentStore() {
         CoreDataStack.shared.saveToPersistentStore()
-    }
-    
-    @discardableResult func createEntry(with title: String, bodyText: String?, mood: Mood) -> Entry {
-        let entry = Entry(title: title, bodyText: bodyText, mood: mood, context: CoreDataStack.shared.mainContext)
-        saveToPersistentStore()
-        put(entry: entry)
-        return entry
-    }
-    
-    func updateEntry(entry: Entry, with title: String, bodyText: String?, mood: Mood) {
-        entry.title = title
-        entry.bodyText = bodyText
-        entry.mood = mood.rawValue
-        put(entry: entry)
-        saveToPersistentStore()
-    }
-    
-    func delete(entry: Entry) {
-        CoreDataStack.shared.mainContext.delete(entry)
-        saveToPersistentStore()
     }
     
 }

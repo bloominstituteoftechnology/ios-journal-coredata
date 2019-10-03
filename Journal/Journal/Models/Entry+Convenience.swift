@@ -17,7 +17,7 @@ enum Mood: String, CaseIterable {
 
 extension Entry {
     
-    var entryRepresentation: EntryRepresentation? {
+    var entryRepresentation: EntryRepresentation? { //why optional?
         guard let title = title,
             let identifier = identifier?.uuidString,
             let timestamp = timestamp,
