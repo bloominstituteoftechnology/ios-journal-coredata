@@ -15,6 +15,9 @@
 		5D56AB1623458CF300895657 /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D56AB1523458CF300895657 /* EntriesTableViewController.swift */; };
 		5D56AB1823458DB100895657 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D56AB1723458DB100895657 /* EntryTableViewCell.swift */; };
 		5D56AB1A23458EBC00895657 /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D56AB1923458EBC00895657 /* EntryDetailViewController.swift */; };
+		5D56AB202345903900895657 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D56AB1F2345903900895657 /* CoreDataStack.swift */; };
+		5D56AB23234590C800895657 /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5D56AB21234590C800895657 /* Journal.xcdatamodeld */; };
+		5D56AB252345912200895657 /* JournalEntry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D56AB242345912200895657 /* JournalEntry+Convenience.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +31,9 @@
 		5D56AB1523458CF300895657 /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 		5D56AB1723458DB100895657 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
 		5D56AB1923458EBC00895657 /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
+		5D56AB1F2345903900895657 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		5D56AB22234590C800895657 /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
+		5D56AB242345912200895657 /* JournalEntry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JournalEntry+Convenience.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +80,9 @@
 		5D56AB1123458C7D00895657 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				5D56AB21234590C800895657 /* Journal.xcdatamodeld */,
+				5D56AB1F2345903900895657 /* CoreDataStack.swift */,
+				5D56AB242345912200895657 /* JournalEntry+Convenience.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -160,8 +169,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5D56AB23234590C800895657 /* Journal.xcdatamodeld in Sources */,
+				5D56AB202345903900895657 /* CoreDataStack.swift in Sources */,
 				5D56AB1823458DB100895657 /* EntryTableViewCell.swift in Sources */,
 				5D56AB1623458CF300895657 /* EntriesTableViewController.swift in Sources */,
+				5D56AB252345912200895657 /* JournalEntry+Convenience.swift in Sources */,
 				5D56AAFE23458B9700895657 /* AppDelegate.swift in Sources */,
 				5D56AB1A23458EBC00895657 /* EntryDetailViewController.swift in Sources */,
 				5D56AB0023458B9700895657 /* SceneDelegate.swift in Sources */,
@@ -360,6 +372,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		5D56AB21234590C800895657 /* Journal.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				5D56AB22234590C800895657 /* Journal.xcdatamodel */,
+			);
+			currentVersion = 5D56AB22234590C800895657 /* Journal.xcdatamodel */;
+			path = Journal.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 5D56AAF223458B9700895657 /* Project object */;
 }
