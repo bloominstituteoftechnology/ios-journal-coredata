@@ -48,9 +48,18 @@ class EntriesController {
         saveToPersistentStore()
     }
     
-    func deleteEntry(entry: Entry) {
+    func deleteEntry(entry: Entry) -> Bool {
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
+        
+        do {
+            try moc.save()
+            return true
+        } catch {
+            moc.reset()
+            print("Error deleting Entry from managed object context in CoreDataStack: \(error)")
+            return false
+        }
     }
     
 }
