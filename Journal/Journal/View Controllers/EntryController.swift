@@ -13,18 +13,6 @@ class EntryController {
     var entries: [Entry] {
         loadFromPersistentStore()
     }
-    
-    private var dateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .short
-        return dateFormatter
-    }()
-    
-    func dateString(for entry: Entry) -> String? {
-        // execute with map if there is any date
-        return entry.timestamp.map { dateFormatter.string(from: $0) }
-    }
 
     func saveToPersistentStore() {
         let moc = CoreDataStack.shared.mainContext
@@ -47,9 +35,9 @@ class EntryController {
         }
     }
     
-    func create(title: String, bodyText: String?, identifier: String) {
+    func create(title: String, bodyText: String?) {
     
-        let _ = Entry(title: title, bodyText: bodyText, identifier: identifier)
+        let _ = Entry(title: title, bodyText: bodyText)
         
         do {
             let moc = CoreDataStack.shared.mainContext
@@ -59,7 +47,7 @@ class EntryController {
         }
     }
     
-    func update(entry: Entry, title: String, bodyText: String?, timestamp: Date = Date()) {
+    func update(entry: Entry, title: String, bodyText: String, timestamp: Date = Date()) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = timestamp

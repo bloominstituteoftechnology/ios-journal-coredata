@@ -9,16 +9,42 @@
 import UIKit
 
 class EntryDetailViewController: UIViewController {
+    
+    var entry: Entry?
+    
+    var entryController: EntryController?
+    
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var textView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        updateViews()
+    }
+    
+    private func updateViews() {
+        self.textField.text = entry?.title
+        self.textView.text = entry?.bodyText
+        
+        if entry == nil {
+            self.navigationItem.title = "Create Entry"
+        } else {
+            self.navigationItem.title = entry?.title
+        }
     }
     
     @IBAction func saveButton(_ sender: Any) {
+        guard let textField = self.textField.text, !textField.isEmpty else { return }
+        
+        let textView = self.textView.text
+        
+        if let entry = entry {
+            entryController?.update(entry: entry, title: textField, bodyText: textView ?? "")
+        } else {
+            entryController?.create(title: textField, bodyText: textView)
+
+        }
+        navigationController?.popViewController(animated: true)
     }
     
     /*
