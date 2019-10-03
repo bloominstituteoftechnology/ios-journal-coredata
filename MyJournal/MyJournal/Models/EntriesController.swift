@@ -11,6 +11,10 @@ import CoreData
 
 class EntriesController {
     
+    var entries: [Entry] {
+        loadFromPersistentStore()
+    }
+    
     func saveToPersistentStore() {
         do {
             let moc = CoreDataStack.shared.mainContext

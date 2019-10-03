@@ -15,26 +15,57 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var notesTextView: UITextView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
+    //MARK: - PROPERTIES
+    var entriesController: EntriesController?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
     //MARK: - VIEW LIFECYCLE
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateViews()
+    }
+
+    //MARK: - PRIVATE FUNCTIONS
+    private func updateViews() {
+        guard isViewLoaded else { return }
         
+        guard let entry = entry else {
+            title = "New Entry"
+            saveButton.isEnabled = false
+            return
+        }
+        
+        title = entry.name
+        titleTextField.text = entry.name
+        notesTextView.text = entry.bodyText
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func textEditingDidChange(_ sender: Any) {
+        if let name = titleTextField.text, !name.isEmpty {
+            saveButton.isEnabled = true
+        } else {
+            saveButton.isEnabled = false
+        }
     }
-    */
-
+    
+    
     //MARK: - IBACTIONS
     @IBAction func saveButtonTapped(_ sender: Any) {
+        guard let name = titleTextField.text,
+            let bodyText = notesTextView.text,
+            !name.isEmpty else { return }
         
+        if let entry = entry {
+            entriesController?.updateEntry(name: name, bodyText: bodyText, entry: entry)
+        } else {
+            entriesController?.createEntry(name: name, bodyText: bodyText)
+        }
+        
+        navigationController?.popViewController(animated: true)
     }
     
 }

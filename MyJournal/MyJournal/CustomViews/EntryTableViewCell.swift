@@ -16,7 +16,27 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var entryNotesLabel: UILabel!
 
     //MARK: - PROPERTIES
-    var entry: Entry?
     var entryController: EntriesController?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    //MARK: - PRIVATE FUNCTIONS
+    func updateViews() {
+        guard let entry = entry else { return }
+        if let name = entry.name, let bodyText = entry.bodyText, let timestamp = entry.timestamp {
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .medium
+            
+            let timestampString = dateFormatter.string(from: timestamp)
+            
+            entryTitleLabel.text = name.capitalized
+            entryNotesLabel.text = bodyText
+            entryTimestampLabel.text = timestampString
+        }
+    }
     
 }
