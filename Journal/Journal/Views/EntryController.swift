@@ -38,7 +38,7 @@ class EntryController {
         
     }
     
-    func Create(title: String, bodyText: String) {
+    func Create(title: String, bodyText: String, mood: String) {
         
         let date = Date()
         let formatter = DateFormatter()
@@ -47,12 +47,13 @@ class EntryController {
         let result = formatter.string(from: date)
         
         
-        let _ = Entry(title: title, timestamp: result, bodyText: bodyText)
+        
+        let _ = Entry(mood: EntryPriority(rawValue: mood)!, title: title, timestamp: result, bodyText: bodyText)
     
         saveToPersistentStore()
     }
     
-    func Update(title: String, bodyText: String, entry: Entry) {
+    func Update(title: String, bodyText: String, entry: Entry, mood: String) {
         
         let date = Date()
         let formatter = DateFormatter()
@@ -64,6 +65,7 @@ class EntryController {
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = result
+        entry.mood = mood
         
         
         saveToPersistentStore()

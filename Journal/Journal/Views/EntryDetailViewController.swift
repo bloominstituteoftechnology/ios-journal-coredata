@@ -32,18 +32,34 @@ class EntryDetailViewController: UIViewController {
         guard isViewLoaded else { return }
         
         title = entry?.title ?? "Create Entry"
+        
+        var mood: EntryPriority
+        if let entryPriorityString = entry?.mood, let entryPriority = EntryPriority(rawValue: entryPriorityString) {
+            mood = entryPriority
+        } else {
+            mood = .😐
+        }
+        if let index = EntryPriority.allCases.firstIndex(of: mood) {
+            moodConntrol.selectedSegmentIndex = index
+        }
+        
         titleTextField.text = entry?.title
         entryTextView.text = entry?.bodyText
     }
     
+    
     @IBAction func save(_ sender: Any) {
         
-        guard let title = titleTextField.text, !title.isEmpty, let bodyText = entryTextView.text, !bodyText.isEmpty else { return }
+        guard let title = titleTextField.text, !title.isEmpty, let bodyText = entryTextView.text else { return }
+        
+        let moodIndex = moodConntrol.selectedSegmentIndex
+        guard let mood = moodConntrol.titleForSegment(at: moodIndex) else { return }
+        
         
         if let entry = entry {
-            entryController?.Update(title: title, bodyText: bodyText, entry: entry)
+            entryController?.Update(title: title, bodyText: bodyText, entry: entry, mood: mood)
         } else {
-            entryController?.Create(title: title, bodyText: bodyText)
+            entryController?.Create(title: title, bodyText: bodyText, mood: mood)
         }
         
         navigationController?.popViewController(animated: true)
