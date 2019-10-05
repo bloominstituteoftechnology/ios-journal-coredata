@@ -95,13 +95,21 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="bK7-3d-uxo">
                                 <rect key="frame" x="12" y="152" width="390" height="510"/>
                                 <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="uxS-JC-qJi">
+                                        <rect key="frame" x="0.0" y="0.0" width="390" height="32"/>
+                                        <segments>
+                                            <segment title="😞"/>
+                                            <segment title="😐"/>
+                                            <segment title="😁"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fh2-Kd-poz">
-                                        <rect key="frame" x="0.0" y="0.0" width="390" height="34"/>
+                                        <rect key="frame" x="0.0" y="39" width="390" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="God-it-CMp">
-                                        <rect key="frame" x="0.0" y="42" width="390" height="468"/>
+                                        <rect key="frame" x="0.0" y="81" width="390" height="429"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -128,6 +136,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="entryTextView" destination="God-it-CMp" id="uYu-gD-uIu"/>
+                        <outlet property="moodSegmentedControl" destination="uxS-JC-qJi" id="ahr-PO-lmv"/>
                         <outlet property="titleTextField" destination="fh2-Kd-poz" id="abE-6l-Qhb"/>
                     </connections>
                 </viewController>
