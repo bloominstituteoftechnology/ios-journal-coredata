@@ -12,26 +12,11 @@ import CoreData
 class EntryController {
     let moc = CoreDataStack.shared.mainContext
     
-    var entries: [JournalEntry] {
-        return self.loadFromPersistentStore()
-    }
-    
     func saveToPersistentStore() {
         do {
             try moc.save()
         } catch {
             print("Error saving: \(error)")
-        }
-    }
-    
-    func loadFromPersistentStore() -> [JournalEntry] {
-        let fetchRequest: NSFetchRequest<JournalEntry> = JournalEntry.fetchRequest()
-        
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            print("Error fetching: \(error)")
-            return []
         }
     }
     
