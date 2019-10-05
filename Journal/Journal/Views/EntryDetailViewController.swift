@@ -53,13 +53,14 @@ class EntryDetailViewController: UIViewController {
         guard let title = titleTextField.text, !title.isEmpty, let bodyText = entryTextView.text else { return }
         
         let moodIndex = moodConntrol.selectedSegmentIndex
-        guard let mood = moodConntrol.titleForSegment(at: moodIndex) else { return }
+        let mood = EntryPriority.allCases[moodIndex]
+//        guard let mood = moodConntrol.titleForSegment(at: moodIndex) else { return }
         
         
         if let entry = entry {
-            entryController?.Update(title: title, bodyText: bodyText, entry: entry, mood: mood)
+            entryController?.Update(title: title, bodyText: bodyText, entry: entry, mood: mood.rawValue)
         } else {
-            entryController?.Create(title: title, bodyText: bodyText, mood: mood)
+            entryController?.Create(title: title, bodyText: bodyText, mood: mood.rawValue)
         }
         
         navigationController?.popViewController(animated: true)

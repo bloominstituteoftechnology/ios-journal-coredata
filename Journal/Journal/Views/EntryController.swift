@@ -22,7 +22,7 @@ class EntryController {
     }
     
     
-    func Create(title: String, bodyText: String, mood: String) {
+    func Create(title: String, bodyText: String, mood: Int16) {
         
         let date = Date()
         let formatter = DateFormatter()
@@ -37,7 +37,7 @@ class EntryController {
         saveToPersistentStore()
     }
     
-    func Update(title: String, bodyText: String, entry: Entry, mood: String) {
+    func Update(title: String, bodyText: String, entry: Entry, mood: Int16) {
         
         let date = Date()
         let formatter = DateFormatter()

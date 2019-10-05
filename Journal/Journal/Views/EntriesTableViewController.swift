@@ -56,9 +56,10 @@ class EntriesTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
-        guard let sectionName = EntryPriority(rawValue: sectionInfo.name) else { return nil }
+        guard let sectionName = EntryPriority(rawValue: Int16(sectionInfo.name)!) else { return nil }
         
-        return sectionName.rawValue
+        
+        return sectionName.name
     }
 
     

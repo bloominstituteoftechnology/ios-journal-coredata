@@ -9,16 +9,29 @@
 import Foundation
 import CoreData
 
-enum EntryPriority: String, CaseIterable {
-    case 🙁
-    case 😐
-    case 🙂
+enum EntryPriority: Int16, CaseIterable {
+    case 🙁 = 0
+    case 😐 = 1
+    case 🙂 = 2
+    
+    var name: String {
+        switch self {
+        case .🙁:
+            return "🙁"
+        case .😐:
+            return "😐"
+        case .🙂:
+            return "🙂"
+        
+        }
+    }
+    
 }
 
 extension Entry {
     convenience init(mood: EntryPriority = .😐, title: String? = nil, timestamp: String? = nil, identifier: String? = nil, bodyText: String? = nil, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
-        self.mood = mood.rawValue
+        self.mood = mood.rawValue // not sure here
         self.title = title
         self.timestamp = timestamp
         self.identifier = identifier
