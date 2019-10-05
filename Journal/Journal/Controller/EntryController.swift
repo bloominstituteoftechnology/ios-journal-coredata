@@ -39,9 +39,10 @@ class EntryController {
     }
     
     func createEntry(title: String, bodyText: String, mood: String) {
-        let _ = Entry(title: title, bodyText: bodyText, mood: mood)
-        
-        saveToPersistentStore()
+        if let moodRaw = Mood(rawValue: mood) {
+            let _ = Entry(title: title, bodyText: bodyText, mood: moodRaw)
+            saveToPersistentStore()
+        }
     }
     
     func updateEntry(title: String, bodyText: String, mood: String, entry: Entry) {
