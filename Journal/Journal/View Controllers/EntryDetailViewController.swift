@@ -10,14 +10,21 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
     
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    var entryController: EntryController?
+    
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
         
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        updateViews()
     }
     
 
@@ -33,6 +40,29 @@ class EntryDetailViewController: UIViewController {
     
     
     @IBAction func saveButtonTapped(_ sender: Any) {
+        guard let title = titleTextField.text, !title.isEmpty, let bodyText = entryTextView.text, !bodyText.isEmpty else { return }
+        
+        if let entry = entry {
+            entryController?.updateEntry(title: title, bodyText: bodyText, entry: entry)
+            navigationController?.popViewController(animated: true)
+        } else {
+            entryController?.createEntry(title: title, bodyText: bodyText)
+            navigationController?.popViewController(animated: true)
+        }
+        
+    }
+    
+    func updateViews() {
+        guard isViewLoaded else { return }
+        
+        if let entry = entry {
+            title = entry.title
+            titleTextField.text = entry.title
+            entryTextView.text = entry.bodyText
+        } else {
+            title = "Create Entry"
+        }
+        
     }
     
 

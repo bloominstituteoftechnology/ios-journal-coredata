@@ -38,8 +38,9 @@ class EntryController {
         }
     }
     
-    func createEntry() {
-        let _ = Entry()
+    func createEntry(title: String, bodyText: String) {
+        let _ = Entry(title: title, bodyText: bodyText)
+        
         saveToPersistentStore()
     }
     
