@@ -97,10 +97,18 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Jng-b3-C38">
-                                <rect key="frame" x="20" y="160" width="374" height="248"/>
+                                <rect key="frame" x="20" y="160" width="374" height="287"/>
                                 <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="4eZ-uM-cVp">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="32"/>
+                                        <segments>
+                                            <segment title="🙁"/>
+                                            <segment title="😐"/>
+                                            <segment title="🙂"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uB7-MD-eGL">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="40"/>
+                                        <rect key="frame" x="0.0" y="39" width="374" height="40"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="40" id="Kvi-gx-6r1"/>
                                         </constraints>
@@ -108,7 +116,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="vLp-K3-4V5">
-                                        <rect key="frame" x="0.0" y="48" width="374" height="200"/>
+                                        <rect key="frame" x="0.0" y="87" width="374" height="200"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="200" id="2Jb-Ks-O2W"/>
@@ -119,6 +127,7 @@
                                     </textView>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstItem="4eZ-uM-cVp" firstAttribute="width" secondItem="Jng-b3-C38" secondAttribute="width" id="YQ0-DY-irT"/>
                                     <constraint firstItem="uB7-MD-eGL" firstAttribute="width" secondItem="Jng-b3-C38" secondAttribute="width" id="ZQb-bI-RHx"/>
                                     <constraint firstItem="vLp-K3-4V5" firstAttribute="width" secondItem="Jng-b3-C38" secondAttribute="width" id="s5U-KC-Vvh"/>
                                 </constraints>
@@ -140,6 +149,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="moodSegmentedControl" destination="4eZ-uM-cVp" id="sgO-Ms-lyT"/>
                         <outlet property="textField" destination="uB7-MD-eGL" id="cZ6-Uu-0rh"/>
                         <outlet property="textView" destination="vLp-K3-4V5" id="cMZ-nz-i41"/>
                     </connections>
