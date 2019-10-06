@@ -35,9 +35,9 @@ class EntryController {
         }
     }
     
-    func create(title: String, bodyText: String?) {
+    func create(mood: String, title: String, bodyText: String?) {
     
-        let _ = Entry(title: title, bodyText: bodyText)
+        let _ = Entry(mood: mood, title: title, bodyText: bodyText)
         
         do {
             let moc = CoreDataStack.shared.mainContext
@@ -47,7 +47,8 @@ class EntryController {
         }
     }
     
-    func update(entry: Entry, title: String, bodyText: String, timestamp: Date = Date()) {
+    func update(entry: Entry, mood: String, title: String, bodyText: String, timestamp: Date = Date()) {
+        entry.mood = mood
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = timestamp

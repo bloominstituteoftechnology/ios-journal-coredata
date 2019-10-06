@@ -10,12 +10,14 @@ import Foundation
 import CoreData
 
 extension Entry {
-    convenience init(title: String, bodyText: String? = nil, timestamp: Date = Date(), identifier: String = "", context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init(mood: String = "😐", title: String, bodyText: String? = nil, timestamp: Date = Date(), identifier: String = "", context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         
+        self.mood = mood
         self.title = title
         self.bodyText = bodyText
         self.timestamp = timestamp
         self.identifier = identifier
+        
     }
 }
