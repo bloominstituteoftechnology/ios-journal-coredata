@@ -91,12 +91,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tth-dB-CVc">
-                                <rect key="frame" x="20" y="152" width="374" height="34"/>
+                                <rect key="frame" x="20" y="195" width="374" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="L9u-ya-NPU">
-                                <rect key="frame" x="20" y="198" width="374" height="240"/>
+                                <rect key="frame" x="20" y="241" width="374" height="240"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="240" id="Ops-8n-Skl"/>
@@ -105,13 +105,24 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bordered" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="xFT-IB-0r9">
+                                <rect key="frame" x="20" y="152" width="374" height="32"/>
+                                <segments>
+                                    <segment title="😡"/>
+                                    <segment title="🤨"/>
+                                    <segment title="😁"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="L9u-ya-NPU" firstAttribute="top" secondItem="tth-dB-CVc" secondAttribute="bottom" constant="12" id="0rQ-Jc-nMm"/>
+                            <constraint firstItem="xFT-IB-0r9" firstAttribute="leading" secondItem="D4B-ZL-HJQ" secondAttribute="leading" constant="20" id="2k1-DU-65X"/>
                             <constraint firstItem="tth-dB-CVc" firstAttribute="leading" secondItem="D4B-ZL-HJQ" secondAttribute="leading" constant="20" id="G7V-tn-syM"/>
-                            <constraint firstItem="tth-dB-CVc" firstAttribute="top" secondItem="D4B-ZL-HJQ" secondAttribute="top" constant="12" id="Lan-yF-4J2"/>
+                            <constraint firstItem="tth-dB-CVc" firstAttribute="top" secondItem="xFT-IB-0r9" secondAttribute="bottom" constant="12" id="Lan-yF-4J2"/>
                             <constraint firstItem="D4B-ZL-HJQ" firstAttribute="trailing" secondItem="tth-dB-CVc" secondAttribute="trailing" constant="20" id="Pzr-py-Onz"/>
+                            <constraint firstItem="D4B-ZL-HJQ" firstAttribute="trailing" secondItem="xFT-IB-0r9" secondAttribute="trailing" constant="20" id="Qul-1b-eMT"/>
+                            <constraint firstItem="xFT-IB-0r9" firstAttribute="top" secondItem="D4B-ZL-HJQ" secondAttribute="top" constant="12" id="X3R-Uy-Qfy"/>
                             <constraint firstItem="L9u-ya-NPU" firstAttribute="leading" secondItem="D4B-ZL-HJQ" secondAttribute="leading" constant="20" id="ozZ-bY-7tZ"/>
                             <constraint firstItem="D4B-ZL-HJQ" firstAttribute="trailing" secondItem="L9u-ya-NPU" secondAttribute="trailing" constant="20" id="zLQ-dA-2kL"/>
                         </constraints>
