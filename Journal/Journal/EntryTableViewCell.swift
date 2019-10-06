@@ -20,30 +20,19 @@ class EntryTableViewCell: UITableViewCell {
         }
     }
     
-    var formattedDate: String {
-        guard let entry = entry else {
-            <#statements#>
-        }
-    }
-    
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
-    func updateViews() {
+  private func updateViews() {
         guard let entry = entry else { return }
+        if let name = entry.title, let body = entry.bodyText, let date = entry.timeStamp {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .short
+            let dateString = formatter.string(from: date)
+            
+            entryTitleLabel.text = name
+            entryBodyLabel.text = body
+            entryTimeLabel.text = dateString
+        }
         
-        entryTitleLabel.text = entry.title
-        entryBodyLabel.text = entry.bodyText
-        entryTimeLabel.text = String(entry.timeStamp ?? "N/A")
+        
     }
     
     

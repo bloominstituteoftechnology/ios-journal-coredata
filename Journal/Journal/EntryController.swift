@@ -43,11 +43,19 @@ class EntryController {
     func editEntry(entry: Entry, title: String, bodyText: String) {
         entry.title = title
         entry.bodyText = bodyText
+        entry.timeStamp = Date()
         saveToPersistentStore()
     }
     
-    func deleteEntry(entry: Entry) {
+    func deleteEntry(entry: Entry) -> Bool {
         CoreDataStack.shared.mainContext.delete(entry)
-        saveToPersistentStore()
+        
+        do {
+            try CoreDataStack.shared.mainContext.save()
+            return true
+        } catch {
+            print("Error deleting: \(error)")
+            return false
+        }
     }
 }
