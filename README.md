@@ -1,12 +1,13 @@
-# Journal (Core Data)
+# Journal (Core Data) Day 2
 
 ## Introduction
 
-This version of Journal will allow you to implement each part of CRUD when working with Core Data. This project is essentially the same as the Journal project you've previously wrote. However, please write this project from scratch. We can't regulate this, but you will undoubtedly learn less if you are copying and pasting past code.
+Today you will take the Journal project you made yesterday and add more functionality to it. This will help you practice migrating data in Core Data and `NSFetchedResultsController`.
 
 Please look at the screen recording below to know what the finished project should look like:
 
-![](https://user-images.githubusercontent.com/16965587/43887099-03638784-9b7b-11e8-9556-1c02ffffc32e.gif)
+![](https://user-images.githubusercontent.com/16965587/44080370-10aef76a-9f69-11e8-85de-289b9fea722a.gif)
+
 
 ## Instructions
 
@@ -122,4 +123,4 @@ Back in the `EntryDetailViewController`:
 
 ## Go Further
 
-This project will be added on to as the Sprint progresses. As such, there are no "Go Further" challenges. However it is always a good idea to rebuild this project again. The more you build a project, the more you will learn from it. If you want to challenge yourself, try to write as much as you can without referencing these instructions. 
+Just like yesterday, try to solidify today's concepts by starting over and rewriting the project from where you started today. Or even better, try to write the entire project with both today and yesterday's content from scratch. Use these instructions as sparingly as possible to help you practice recall.
