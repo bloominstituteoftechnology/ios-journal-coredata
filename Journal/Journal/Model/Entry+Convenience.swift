@@ -13,8 +13,6 @@ enum Mood: String, CaseIterable {
     case horrible = "😡"
     case interesting = "🤨"
     case awesome = "😁"
-    
-    
 }
 
 extension Entry {
