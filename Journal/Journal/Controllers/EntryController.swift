@@ -39,12 +39,12 @@ class EntryController {
         }
     }
     
-    func create(title: String, bodyText: String?, timeStamp: Date, identifier: String) {
-        let _ = Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, identifier: identifier)
+    func create(title: String, bodyText: String?, timeStamp: Date, identifier: String, mood: String) {
+        let _ = Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, identifier: identifier, mood: mood)
         saveToPersistentStore()
     }
     
-    func update(title: String, bodyText: String?, entry: Entry) {
+    func update(title: String, bodyText: String?, entry: Entry, mood: String) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timeStamp = Date()
