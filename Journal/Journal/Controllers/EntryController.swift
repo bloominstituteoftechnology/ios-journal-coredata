@@ -48,6 +48,7 @@ class EntryController {
         entry.title = title
         entry.bodyText = bodyText
         entry.timeStamp = Date()
+        entry.mood = mood
         saveToPersistentStore()
     }
     
