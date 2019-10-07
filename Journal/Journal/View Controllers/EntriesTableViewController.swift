@@ -17,7 +17,7 @@ class EntriesTableViewController: UITableViewController {
         // fetch request
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "mood", ascending: false),
+            NSSortDescriptor(key: "mood", ascending: true),
             NSSortDescriptor(key: "title", ascending: true)
         ]
         let moc = CoreDataStack.shared.mainContext
