@@ -15,6 +15,7 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var bodytextTextView: UITextView!
     @IBOutlet weak var moodControl: UISegmentedControl!
     
+    
     // MARK: Properties
     var entry: Entry? {
         didSet {
@@ -26,6 +27,8 @@ class EntryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        moodControl.layer.borderWidth = 2.0
+        moodControl.layer.borderColor = UIColor.systemBlue.cgColor
         updateViews()
     }
     
