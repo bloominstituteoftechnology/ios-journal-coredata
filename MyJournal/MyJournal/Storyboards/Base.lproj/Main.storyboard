@@ -93,31 +93,45 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="8LD-rR-ja7">
+                                <rect key="frame" x="20" y="257" width="374" height="585"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9bd-tb-fnm">
+                                <rect key="frame" x="20" y="152" width="374" height="32"/>
+                                <segments>
+                                    <segment title="☹️"/>
+                                    <segment title="😐"/>
+                                    <segment title="😄"/>
+                                </segments>
+                                <connections>
+                                    <action selector="moodValueChanged:" destination="qs4-F4-feC" eventType="valueChanged" id="OtC-pG-Ruw"/>
+                                </connections>
+                            </segmentedControl>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2W2-jU-Sz6">
-                                <rect key="frame" x="20" y="160" width="374" height="34"/>
+                                <rect key="frame" x="20" y="203" width="374" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <action selector="textEditingDidChange:" destination="qs4-F4-feC" eventType="editingChanged" id="nL2-YJ-d6e"/>
                                 </connections>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="8LD-rR-ja7">
-                                <rect key="frame" x="20" y="214" width="374" height="628"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                         </subviews>
                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="8LD-rR-ja7" firstAttribute="leading" secondItem="Y59-dH-be0" secondAttribute="leading" constant="20" id="3Bs-eS-tLh"/>
-                            <constraint firstItem="Y59-dH-be0" firstAttribute="trailing" secondItem="8LD-rR-ja7" secondAttribute="trailing" constant="20" id="DAQ-Sk-Hyq"/>
-                            <constraint firstItem="Y59-dH-be0" firstAttribute="trailing" secondItem="2W2-jU-Sz6" secondAttribute="trailing" constant="20" id="RXU-2H-hYE"/>
-                            <constraint firstItem="Y59-dH-be0" firstAttribute="bottom" secondItem="8LD-rR-ja7" secondAttribute="bottom" constant="20" id="T1e-mX-agM"/>
-                            <constraint firstItem="8LD-rR-ja7" firstAttribute="top" secondItem="2W2-jU-Sz6" secondAttribute="bottom" constant="20" id="hjs-aa-rJ1"/>
-                            <constraint firstItem="2W2-jU-Sz6" firstAttribute="leading" secondItem="Y59-dH-be0" secondAttribute="leading" constant="20" id="n11-ec-vhG"/>
-                            <constraint firstItem="2W2-jU-Sz6" firstAttribute="top" secondItem="Y59-dH-be0" secondAttribute="top" constant="20" id="r7L-B6-CRD"/>
+                            <constraint firstItem="Y59-dH-be0" firstAttribute="bottom" secondItem="8LD-rR-ja7" secondAttribute="bottom" constant="20" id="8Y3-0S-dTJ"/>
+                            <constraint firstItem="2W2-jU-Sz6" firstAttribute="top" secondItem="9bd-tb-fnm" secondAttribute="bottom" constant="20" id="Bcp-ax-hhF"/>
+                            <constraint firstItem="9bd-tb-fnm" firstAttribute="leading" secondItem="Y59-dH-be0" secondAttribute="leading" constant="20" id="DsE-ul-fGT"/>
+                            <constraint firstItem="2W2-jU-Sz6" firstAttribute="leading" secondItem="Y59-dH-be0" secondAttribute="leading" constant="20" id="EYG-6i-ClG"/>
+                            <constraint firstItem="Y59-dH-be0" firstAttribute="trailing" secondItem="2W2-jU-Sz6" secondAttribute="trailing" constant="20" id="Hfx-TW-2KG"/>
+                            <constraint firstItem="Y59-dH-be0" firstAttribute="trailing" secondItem="9bd-tb-fnm" secondAttribute="trailing" constant="20" id="RfU-3b-NPx"/>
+                            <constraint firstItem="Y59-dH-be0" firstAttribute="trailing" secondItem="8LD-rR-ja7" secondAttribute="trailing" constant="20" id="XOo-a7-cqt"/>
+                            <constraint firstItem="8LD-rR-ja7" firstAttribute="leading" secondItem="Y59-dH-be0" secondAttribute="leading" constant="20" id="cQR-ch-tOi"/>
+                            <constraint firstItem="9bd-tb-fnm" firstAttribute="top" secondItem="Y59-dH-be0" secondAttribute="top" constant="12" id="iyL-C3-pKn"/>
+                            <constraint firstItem="8LD-rR-ja7" firstAttribute="top" secondItem="2W2-jU-Sz6" secondAttribute="bottom" constant="20" id="ohI-zJ-eov"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Y59-dH-be0"/>
                     </view>
@@ -129,6 +143,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="moodSegmentedControl" destination="9bd-tb-fnm" id="BnK-GP-PHq"/>
                         <outlet property="notesTextView" destination="8LD-rR-ja7" id="Ejm-pO-PdG"/>
                         <outlet property="saveButton" destination="lRg-Jt-6Ql" id="9MZ-kS-hcg"/>
                         <outlet property="titleTextField" destination="2W2-jU-Sz6" id="iLn-W3-cso"/>
@@ -136,7 +151,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yNH-TM-BuA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1565" y="207"/>
+            <point key="canvasLocation" x="1563.768115942029" y="206.91964285714286"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="fhe-GF-wgW">

@@ -11,10 +11,6 @@ import CoreData
 
 class EntriesController {
     
-    var entries: [Entry] {
-        loadFromPersistentStore()
-    }
-    
     func saveToPersistentStore() {
         do {
             let moc = CoreDataStack.shared.mainContext
@@ -36,15 +32,16 @@ class EntriesController {
         }
     }
     
-    func createEntry(name: String, bodyText: String) {
-        let _ = Entry(name: name, bodyText: bodyText)
+    func createEntry(name: String, bodyText: String, mood: String) {
+        let _ = Entry(name: name, bodyText: bodyText, mood: mood)
         saveToPersistentStore()
     }
 
-    func updateEntry(name: String, bodyText: String, entry: Entry) {
+    func updateEntry(name: String, bodyText: String, mood: String, entry: Entry) {
         entry.name = name
         entry.bodyText = bodyText
         entry.timestamp = Date()
+        entry.mood = mood
         saveToPersistentStore()
     }
     
