@@ -9,10 +9,23 @@
 import Foundation
 import CoreData
 
-extension Entry {
-    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = UUID.init().uuidString, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+enum EntryMood: String, CaseIterable {
+    case sad = "🙁"
+    case neutral = "😐"
+    case happy = "🙂"
+}
 
+extension Entry {
+    
+    convenience init(mood: EntryMood = .neutral,
+                     title: String,
+                     bodyText: String? = nil,
+                     timestamp: Date = Date(),
+                     identifier: String = "",
+                     context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
+        
+        self.mood = mood.rawValue
         self.title = title
         self.bodyText = bodyText
         self.timestamp = timestamp

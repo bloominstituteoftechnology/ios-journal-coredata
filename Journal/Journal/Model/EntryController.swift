@@ -6,64 +6,56 @@
 //  Copyright © 2019 Thomas Dye. All rights reserved.
 //
 
-import CoreData
 import Foundation
+import CoreData
 
 class EntryController {
     
-    let moc = CoreDataStack.shared.mainContext
-    
-    func savePersistentStore() {
+    func create(mood: EntryMood, title: String, bodyText: String?) {
+        
+        let capitalizedTitle = title.capitalizingFirstLetter()
+        let _ = Entry(mood: mood,
+                      title: capitalizedTitle,
+                      bodyText: bodyText)
+        
         do {
+            let moc = CoreDataStack.shared.mainContext
             try moc.save()
         } catch {
-            NSLog("Could not save entry \(error)")
+            print("Error saving context \(error)")
         }
     }
     
-    func loadFromPersistentStore() -> [Entry] {
-        
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            NSLog("Could not load entry \(error)")
-            return []
-        }
-    }
-    
-    var entries: [Entry] {
-        
-        // load
-        return loadFromPersistentStore()
-    }
-    
-    // CRUD
-    func create(title: String, bodyText: String) {
-        // 
-        _ = Entry(title: title, bodyText: bodyText)
-        
-        // save
-        savePersistentStore()
-    }
-    
-    func update(title: String,
+    func update(entry: Entry,
+                mood: String,
+                title: String,
                 bodyText: String,
-                timestamp: Date = Date(),
-                entry: Entry) {
+                timestamp: Date = Date()) {
+        entry.mood = mood
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = timestamp
         
-        // save
-        savePersistentStore()
+        do {
+            let moc = CoreDataStack.shared.mainContext
+            try moc.save()
+        } catch {
+            print("Error saving updated entry \(error)")
+        }
     }
     
     func delete(entry: Entry) {
+        
+        let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
         
-        // save
-        savePersistentStore()
+        do {
+            try moc.save()
+        } catch {
+            moc.reset()
+            print("Error saving deleted entry \(error)")
+        }
     }
+
 }
+

@@ -10,24 +10,18 @@ import Foundation
 import CoreData
 
 class CoreDataStack {
-    
-    // create singleton of an instance of CoreDataStack
     static let shared = CoreDataStack()
     
     lazy var container: NSPersistentContainer = {
-        
-        // create container the name of the model
-        let container = NSPersistentContainer(name: "Entry" as String)
-        
-        // load the saved data
-        container.loadPersistentStores(completionHandler: { (_, error) in
+        let container = NSPersistentContainer(name: "Entry")
+        container.loadPersistentStores { (_, error) in
             if let error = error {
-                fatalError("Failed to load stored data \(error)")
+                fatalError("Failed to load persistent stores: \(error)")
             }
-        })
+        }
         return container
     }()
-
+    
     var mainContext: NSManagedObjectContext {
         return container.viewContext
     }
