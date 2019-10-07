@@ -11,9 +11,9 @@ import CoreData
 
 class EntryController {
     
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
+//    var entries: [Entry] {
+//        return loadFromPersistentStore()
+//    }
     
     func saveToPersistentStore() {
         do {
@@ -23,17 +23,19 @@ class EntryController {
         }
     }
     
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
-        do {
-            let entries = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
-            return entries
-        } catch {
-            print("Error \(error)")
-            return []
-        }
-    }
+//    func loadFromPersistentStore() -> [Entry] {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//
+//        do {
+//            let entries = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
+//            return entries
+//        } catch {
+//            print("Error \(error)")
+//            return []
+//        }
+//    }
+    
+    
     
     func addEntry(mood: String ,title: String, bodyText: String) {
         _ = Entry(mood: mood, title: title, bodyText: bodyText)
