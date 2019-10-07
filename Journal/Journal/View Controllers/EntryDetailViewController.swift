@@ -15,7 +15,6 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var bodytextTextView: UITextView!
     @IBOutlet weak var moodControl: UISegmentedControl!
     
-    
     // MARK: Properties
     var entry: Entry? {
         didSet {

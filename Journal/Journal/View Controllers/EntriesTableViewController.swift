@@ -40,7 +40,7 @@ class EntriesTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        fetchedResultsController.sections?.count ?? 1
+        return fetchedResultsController.sections?.count ?? 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -48,8 +48,6 @@ class EntriesTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
-//        guard let sectionGroup = Mood(rawValue: sectionInfo.name) else { return nil }
         guard let sectionName = fetchedResultsController.sections?[section].name else { return nil }
         return sectionName
     }
