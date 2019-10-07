@@ -35,7 +35,7 @@ class EntryController {
         }
     }
     
-    func create(mood: String, title: String, bodyText: String?) {
+    func create(mood: EntryMood, title: String, bodyText: String?) {
     
         let _ = Entry(mood: mood, title: title, bodyText: bodyText)
         

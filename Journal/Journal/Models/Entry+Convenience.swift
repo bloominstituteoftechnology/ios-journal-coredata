@@ -9,15 +9,20 @@
 import Foundation
 import CoreData
 
+enum EntryMood: String, CaseIterable {
+    case sad = "🙁"
+    case okay = "😐"
+    case happy = "🙂"
+}
+
 extension Entry {
-    convenience init(mood: String = "😐", title: String, bodyText: String? = nil, timestamp: Date = Date(), identifier: String = "", context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init(mood: EntryMood = .okay, title: String, bodyText: String? = nil, timestamp: Date = Date(), identifier: String = "", context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         
-        self.mood = mood
+        self.mood = mood.rawValue
         self.title = title
         self.bodyText = bodyText
         self.timestamp = timestamp
         self.identifier = identifier
-        
     }
 }

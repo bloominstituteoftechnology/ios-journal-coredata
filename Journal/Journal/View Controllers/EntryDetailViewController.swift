@@ -32,17 +32,32 @@ class EntryDetailViewController: UIViewController {
         } else {
             self.navigationItem.title = entry?.title
         }
+        
+        var mood: EntryMood
+        if let moodString = entry?.mood, let entryMood = EntryMood(rawValue: moodString) {
+            mood = entryMood
+        } else {
+            mood = .okay
+        }
+        
+        if let index = EntryMood.allCases.firstIndex(of: mood) {
+            moodSegmentedControl.selectedSegmentIndex = index
+        }
     }
     
     @IBAction func saveButton(_ sender: Any) {
         guard let textField = self.textField.text, !textField.isEmpty else { return }
         
+        // for mood segmented control
+        let moodIndex = moodSegmentedControl.selectedSegmentIndex
+        let mood = EntryMood.allCases[moodIndex]
+        
         let textView = self.textView.text
         
         if let entry = entry {
-            entryController?.update(entry: entry, title: textField, bodyText: textView ?? "")
+            entryController?.update(entry: entry, mood: mood.rawValue, title: textField, bodyText: textView ?? "")
         } else {
-            entryController?.create(title: textField, bodyText: textView)
+            entryController?.create(mood: mood, title: textField, bodyText: textView)
 
         }
         navigationController?.popViewController(animated: true)
