@@ -47,6 +47,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F34C1F73234AA06D0003D7D6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F3F4771B23451DC30071B3FE /* CoreDataStack.swift */,
+				F3F477222345265E0071B3FE /* Entry+Convenience.swift */,
+				F3F4771F2345256A0071B3FE /* Journal.xcdatamodeld */,
+				F3F47724234536840071B3FE /* EntryController.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		F34C1F74234AA07D0003D7D6 /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				F3F4771723451B1E0071B3FE /* EntryTableViewController.swift */,
+				F3F4771923451D150071B3FE /* EntryDetailViewController.swift */,
+			);
+			path = "View Controller";
+			sourceTree = "<group>";
+		};
+		F34C1F75234AA0860003D7D6 /* Custom Views */ = {
+			isa = PBXGroup;
+			children = (
+				F3F477152345113C0071B3FE /* EntryTableViewCell.swift */,
+			);
+			path = "Custom Views";
+			sourceTree = "<group>";
+		};
 		F3F476F723450E9E0071B3FE = {
 			isa = PBXGroup;
 			children = (
@@ -66,18 +94,14 @@
 		F3F4770223450E9E0071B3FE /* Journal */ = {
 			isa = PBXGroup;
 			children = (
+				F34C1F75234AA0860003D7D6 /* Custom Views */,
+				F34C1F74234AA07D0003D7D6 /* View Controller */,
+				F34C1F73234AA06D0003D7D6 /* Model */,
 				F3F4770323450E9E0071B3FE /* AppDelegate.swift */,
-				F3F4771723451B1E0071B3FE /* EntryTableViewController.swift */,
-				F3F4771923451D150071B3FE /* EntryDetailViewController.swift */,
-				F3F4771F2345256A0071B3FE /* Journal.xcdatamodeld */,
-				F3F477222345265E0071B3FE /* Entry+Convenience.swift */,
-				F3F47724234536840071B3FE /* EntryController.swift */,
 				F3F4770723450E9E0071B3FE /* Main.storyboard */,
-				F3F477152345113C0071B3FE /* EntryTableViewCell.swift */,
 				F3F4770A23450E9F0071B3FE /* Assets.xcassets */,
 				F3F4770C23450E9F0071B3FE /* LaunchScreen.storyboard */,
 				F3F4770F23450E9F0071B3FE /* Info.plist */,
-				F3F4771B23451DC30071B3FE /* CoreDataStack.swift */,
 			);
 			path = Journal;
 			sourceTree = "<group>";
