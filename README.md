@@ -1,16 +1,35 @@
+<<<<<<< HEAD
 # Journal (Core Data) Day 2
+||||||| merged common ancestors
+# Journal (Core Data)
+=======
+# Journal (Core Data) Day 3
+>>>>>>> 785a6c4f1ef9fcba0406a52f34f1e7df72ec1bc8
 
 ## Introduction
 
+<<<<<<< HEAD
 Today you will take the Journal project you made yesterday and add more functionality to it. This will help you practice migrating data in Core Data and `NSFetchedResultsController`.
+||||||| merged common ancestors
+This version of Journal will allow you to implement each part of CRUD when working with Core Data. This project is essentially the same as the Journal project you've previously wrote. However, please write this project from scratch. We can't regulate this, but you will undoubtedly learn less if you are copying and pasting past code.
+=======
+Today's project will continue to add more functionality to the Journal project. You will add syncing between Core Data and a server. In this case, Firebase will be used as the server. Since we have already set up an `NSFetchedResultsController` to update the table view when the persistent store's managed objects change, you will only need to do work on the model and model controller layers. This is a good example of adding functionality without having to tear up your entire application.
+>>>>>>> 785a6c4f1ef9fcba0406a52f34f1e7df72ec1bc8
 
 Please look at the screen recording below to know what the finished project should look like:
 
+<<<<<<< HEAD
 ![](https://user-images.githubusercontent.com/16965587/44080370-10aef76a-9f69-11e8-85de-289b9fea722a.gif)
 
+||||||| merged common ancestors
+![](https://user-images.githubusercontent.com/16965587/43887099-03638784-9b7b-11e8-9556-1c02ffffc32e.gif)
+=======
+![](https://user-images.githubusercontent.com/16965587/44161634-2a8b6480-a07b-11e8-948d-0c7e7c43bc78.gif)
+>>>>>>> 785a6c4f1ef9fcba0406a52f34f1e7df72ec1bc8
 
 ## Instructions
 
+<<<<<<< HEAD
 Use the Journal project you made yesterday. Create a new branch called `day2`. When you finish today's instructions and go to make a pull request, be sure to select the original repository's `day2` branch as the base branch, and your own `day2` branch as the compare branch.
 
 ### Part 1 - Mood Feature
@@ -156,7 +175,13 @@ You will be using a model object called `Entry`.
     - Take an an `Entry` object to delete
     - Delete the `Entry` from the core data stack's `mainContext`
     - Save this deletion to the persistent store.
+||||||| merged common ancestors
+Please fork and clone this repository. This repository does not have a starter project, so create one inside of the cloned repository folder.
+=======
+Use the Journal project you made yesterday. Create a new branch called `day3`. When you finish today's instructions and go to make a pull request, be sure to select the original repository's `day3` branch as the base branch, and your own `day3` branch as the compare branch.
+>>>>>>> 785a6c4f1ef9fcba0406a52f34f1e7df72ec1bc8
 
+<<<<<<< HEAD
 ### Part 3 - View and View Controller Implementation
 
 In the `EntryTableViewCell` class:
@@ -191,58 +216,31 @@ Back in the `EntryDetailViewController`:
     - Unwrap the `entry` property separately. If there is an entry, call the `update` method in the `entryController`. If not, call the `createEntry` method in the `entryController` instead. Either way, pop the view controller off the navigation stack.
 ||||||| merged common ancestors
 ### Part 1 - Storyboard Layout
+||||||| merged common ancestors
+### Part 1 - Storyboard Layout
+=======
+### Part 1 - PUTting and deleting Entries
+>>>>>>> 785a6c4f1ef9fcba0406a52f34f1e7df72ec1bc8
 
-This application will implement the Master-Detail pattern that you're surely familiar with by now.
+First, you'll set up the ability to PUT entries to Firebase. Since the `Entry` entity already has an `identifier` attribute, there is no need to make a new model version.
 
-#### EntriesTableViewController and EntryTableViewCell
+1. Create a new Firebase project for this application. Choose to use the "Realtime Database" and set it to testing mode so no authentication is required.
 
-1. Delete the view controller scene that comes with the Main.storyboard
-2. Add a `UITableViewController` scene, then embed it in a navigation controller. Set the navigation controller as the initial view controller. 
-3. Add a `UIViewController` scene as well. Leave it blank for now.
-4. On the table view controller scene, change its navigation item's title to "Journal".
-5. Add a bar button item on the right side of the navigation bar. Change its "System Item" to "Add". 
-6. Create a segue from the bar button item to the blank `UIViewController` scene. This segue will be used to create new entries. Give it an appropriate identifier.
-7. Create a second segue from the table view's prototype cell. This segue will be used to view existing entries. Give it an appropriate identifier as well.
-8. Create a Cocoa Touch subclass of `UITableViewController` called `EntriesTableViewController`. Set this table view controller scene's class to it.
-8. This prototype cell will be a custom cell. Add three labels. One for the entry's title, timestamp, and body text.
-9. Create a Cocoa Touch subclass of `UITableViewCell` called `EntryTableViewCell`. Set this cell's class to it.
-10. Create outlets for the three labels in the `EntryTableViewCell` class.
+#### EntryRepresentation
 
-#### EntryDetailViewController
+Something to keep in mind when trying to sync multiple databases like we are in this case is that you need to make sure you don't duplicate data. For example, say you have an entry saved in your persistent store on the device, and on Firebase. If you were to go about fetching the entries from Firebase and decoding them into `Entry` objects like you've done previously before today, you would end up with a duplicate of the entry in your persistent store. This would occur every single time that you fetch the entry from Firebase. 
 
-1. In the `UIViewController` scene, add a `UITextField`. Set its placeholder text to "Enter a title:"
-2. Add a `UITextView`. Remove the Lorem Ipsum text from it. Constrain the text field right below the navigation bar, and the text view below that.
-3. Add a navigation item to the view controller, then add a bar button item on the right side of the navigation bar. Change its "System Item" to "Save".
-4. Create a Cocoa Touch subclass of `UIViewController` called `EntryDetailViewController`. Set this scene's class to the newly created subclass in the Identity Inspector.
-5. Create an outlet from the text field and one from the text view. Also, create an action from the bar button item.
+The way to prevent this is to create an intermediate data type between the JSON and the `Entry` class that will serve as a temporary representation of an `Entry` without being added to a managed object context.
 
-### Part 2 - Entry and EntryController Setup
-
-#### CoreDataStack
-
-Create a swift file for your core data stack. Feel free to take the core data stack you used in this morning's project and paste it in this file. You may need to change the name of the persistent container to match the name of your data model file.
-
-#### Entry
-
-You will be using a model object called `Entry`.
-
-1. Create a new Data Model file under the Core Data section. Make the name of the file match the name of your project.
-2. Create a new entity and call it `Entry`. Keep the codegen as "Class Definition".
-3. Add the following attributes to the `Entry` entity:
-    - A `title` string.
-    - A `bodyText` string.
-    - A `timestamp` `Date`.
-    - An `identifier` string.
-
-4. Create a new swift file called "Entry+Convenience.swift". 
-5. Import `CoreData` in this file.
-6. Add an extension on `Entry`.
-7. Create a convenience initializer that takes in values for each of the `Entry` entity's attributes, and an instance of `NSManagedObjectContext`. Consider giving default values to the timestamp and identifier parameters in this initializer. This initializer should:
-    - Call the `Entry` class' initializer that takes in an `NSManagedObjectContext`
-    - Set the value of attributes you defined in the data model using the parameters of the initializer.
+1. Create a new Swift file called "EntryRepresentation". In the file, create a struct called `EntryRepresentation`.
+2. Adopt the `Codable` protocol.
+3. Add a property in this struct for each attribute in the `Entry` model. Their names should match exactly or else the JSON from Firebase will not decode into this struct properly.
+4. In the "Entry+Convenience.swift" file, add a new convenience initializer. This initializer should be failable. It should take in an `EntryRepresentation` parameter and an `NSManagedObjectContext`. This should simply pass the values from the entry representation to the convenience initializer you made earlier in the project. 
+5. In the `Entry` extension, create a `var entryRepresentation: EntryRepresentation` computed property. It should simply return an `EntryRepresentation` object that is initialized from the values of the `Entry`.
 
 #### EntryController
 
+<<<<<<< HEAD
 1. Create a Swift file called "EntryController.swift". Make a class called `EntryController`.
 2. Create a function called `saveToPersistentStore()`. This method should save your core data stack's `mainContext`. Remember that this will bundle the changes in the context, pass them to the persistent store coordinator who will then put those changes in the persistent store.
 3. Create a function called `loadFromPersistentStore() -> [Entry]`. This method should:
@@ -304,7 +302,131 @@ Back in the `EntryDetailViewController`:
 7. In the `commit editingStyle`, use the `object(at: IndexPath)` method again to get the correct entry to be deleted instead of using the `entries` array in the `EntryController.
 8. Use the same `object(at: IndexPath)` method in the `prepare(for segue: ...)` method to get the correct entry instead of using the `entries` array in the `EntryController.
 >>>>>>> 0ea488aa741a070df3edaf5271896bc1b8dfed43
+||||||| merged common ancestors
+1. Create a Swift file called "EntryController.swift". Make a class called `EntryController`.
+2. Create a function called `saveToPersistentStore()`. This method should save your core data stack's `mainContext`. Remember that this will bundle the changes in the context, pass them to the persistent store coordinator who will then put those changes in the persistent store.
+3. Create a function called `loadFromPersistentStore() -> [Entry]`. This method should:
+    - Create an `NSFetchRequest` for `Entry` objects
+    - Perform that fetch request on the core data stack's `mainContext` using a do-try-catch block.
+    - Return the results of the fetch request.
+    - In the catch statement, handle any errors and return an empty array.
+4. Create an `entries: [Entry]` computed property. Inside of the computed property, call `loadFromPersistentStore()`. This will allow any changes to the persistent store become immediately visible to the user when accessing this array (i.e. in the table view showing a list of entries).
+5. Create a "Create" CRUD method that will:
+    - Initialize an `Entry` object
+    - Save it to the persistent store. 
+    - **NOTE:** if Xcode is giving you a warning that the `Entry` object isn't being used, you can make the constant's name `_`, or add the `@discarableResult` attribute to the `Entry`'s convenience intializer in the extension you created.
+6. Create an "Update" CRUD method. The method should:
+    - Have title and bodyText parameters as well as the `Entry` you want to update.
+    - Change the title and bodyText of the `Entry` to the new values passed in as parameters to the function.
+    - Update the entry's timestamp to the current time as well.
+    - Save these changes to the persistent store.
+7. Create a "Delete" CRUD method. This method should:
+    - Take an an `Entry` object to delete
+    - Delete the `Entry` from the core data stack's `mainContext`
+    - Save this deletion to the persistent store.
+
+### Part 3 - View and View Controller Implementation
+
+In the `EntryTableViewCell` class:
+
+1. Add an `entry: Entry?` variable.
+2. Create an `updateViews()` function that takes the values from the `entry` variable and places them in the outlets.
+3. Add a `didSet` property observer to the `entry` variable. Call `updateViews()` in it.
+
+In the `EntryDetailViewController`:
+
+1. Add an `entry: Entry?` variable.
+2. Add an `entryController: EntryController?` variable.
+
+In the `EntryTableViewController`:
+
+1. Add an `entryController` constant whose value is a new instance of `EntryController`.
+2. Implement the `numberOfRows` method. It should return the amount of entries in the `entryController`.
+3. Implement the `cellForRowAt` method. Remember to cast the call as `EntryTableViewCell`, then pass an `Entry` to the cell's `entry` property in order for it to call the `updateViews()` method to fill in the information for the cell's labels.
+4. Add the `viewWillAppear` method. It should reload the table view.
+5. Implement the `commit editingStyle` `UITableViewDataSource` method to allow the user to swipe to delete entries. You don't have to handle the `editingStyle` being `.insert`, just `.delete`.
+6. Implement the `prepare(for segue: ...)` method. If the segue's identifier shows that the user is trying to create an entry, you will only need to pass the `entryController` to the destination view controller. If the identifier shows that they want to view an entry (by tapping a cell), pass the `entryController` and also the `Entry` that corresponds with the cell they tapped.
+
+Back in the `EntryDetailViewController`:
+
+1. Add an `updateViews()` method. Inside of it:
+    - Make sure the view is loaded.
+    - Set the view controller's title to the title of the `entry` if one was passed to this view controller, or "Create Entry" if not. 
+    - This method should also fill in the text field and text view's `text` to the `title` and `bodyText` of the `entry` respectively.
+2. Add a `didSet` to the `entry` variable, and call `updateViews()` in it. Also call `updateViews()` in the `viewDidLoad`.
+3. In the bar button item's action:
+    - Unwrap the text from both the text field and text view.
+    - Unwrap the `entry` property separately. If there is an entry, call the `update` method in the `entryController`. If not, call the `createEntry` method in the `entryController` instead. Either way, pop the view controller off the navigation stack.
+=======
+1. In the `EntryController`, add a `baseURL: URL` constant that is the URL from the new Firebase database you created for this app.
+2. Create a function called `put`, that takes in an entry and has an escaping completion closure. The closure should return an optional error. Give this completion closure a default value of an empty closure. (e.g. `{ _ in }` ). This will allow you to use the completion closure if you want to do something when `completion` is called or just not worry about doing anything after knowing the data task has completed. This method should:
+    - Take the `baseURL` and append the identifier of the entry parameter to it. Add the `"json"` extension to the URL as well.
+    - Create a `URLRequest` object. Set its HTTP method to PUT.
+    - Using `JSONEncoder`, encode the entry's `entryRepresentation` into JSON data. Set the URL request's `httpBody` to this data.
+    - Perform a `URLSessionDataTask` with the request, and handle any errors. Make sure to call completion and resume the data task.
+3. Call the `put` method in the `createEntry` and `update(entry: ...)` methods.
+4. Create a `deleteEntryFromServer` method. It should take in an entry, and a completion closure that returns an optional error. Again, give the closure a default value of an empty closure. This method should:
+    - Create a URL from the `baseURL` and append the entry parameter's identifier to it. Also append the "json" extension to the URL as well. This URL should be formatted the same as the URL you would use to PUT an entry to Firebase.
+    - Create a `URLRequest` object, and set its HTTP method to DELETE.
+    - Perform a `URLSessionDataTask` with the request and handle any errors. Call completion and don't forget to resume the data task.
+5. Call the `deleteEntryFromServer` method in your `delete(entry: ...)` method.
+
+Test the app at this point. You should be able to both create and update entries and they will be sent to Firebase as well as to the `NSPersistentStore` on the device. You should also be able to delete entries from Firebase also.
+
+#### Part 2 - Syncing Databases
+
+#### Back to EntryController
+
+The goal when fetching the entries from Firebase is to go through each fetched entry and check a couple things:
+- **Is there a corresponding entry in the device's persistent store?**
+    - No, so create a new `Entry` object. (This would happen if someone else created an entry on their device and you don't have it on your device yet)
+    - Yes. Are its values different from the entry fetched from Firebase? If so, then update the entry in the persistent store with the new values from the entry from Firebase.
+
+You'll use the `EntryRepresentation` to do this. It will let you decode the JSON as `EntryRepresentation`s, perform these checks and either create an actual `Entry` if one doesn't exist on the device or update an existing one with its decoded values.
+
+Back in the `EntryController`, you will make a couple methods that will help when fetching the entries from Firebase. 
+
+1. Create a new "Update" function called `update`. It should take in an `Entry` whose values should be updated, and an `EntryRepresentation` to take the values from. This should simply set each of the `Entry`'s values to the `EntryRepresentation`'s corresponding values. **DO NOT** call `saveToPersistentStore` in this method. It will be explained why later on.
+2. Create a method called `updateEntries(with representations: [EntryRepresentation])`. This method's `representation` argument represents the EntryRepresentation objects that are fetched from Firebase. This method should:
+    - Create a fetch request from `Entry` object. 
+    - Create a dictionary with the identifiers of the `representations` as the keys, and the values as the `representations`. To accomplish making this dictionary you will need to create a separate array of just the entry representations identifiers. You can use the `zip` method to combine two arrays of items together into a dictionary.
+    - Give the fetch request an `NSPredicate`. This predicate should see if the `identifier` attribute in the `Entry` is in identifiers array that you made from the previous step. Refer to the hint below if you need help with the predicate.
+    - <details><summary>Predicate Hint:</summary><p>
+  
+      `NSPredicate(format: "identifier IN %@", identifiersToFetch) // assuming the array of identifiers you made was called "identifiersToFetch"`
+
+      </p>
+      </details>
+    - Perform the fetch request on your core data stack's `mainContext`. This will return an array of `Entry` objects whose identifier was in the array you passed in to the predicate. Make sure you handle a potential error from the `fetch` method on your managed object context, as it is a throwing method.
+    - From here, loop through the fetched entries and call your `update(entry: ...` method that you made earlier. One you have updated the entry, remove the entry from the dictionary you made a few points earlier. This will make it so you only create entries from the remaining objects in the dictionary. The only ones that would remain after this loop are ones that didn't exist in Core Data already.
+    - Then make a second loop through your dictionary's `values` property. This should create an entry for each of the values in that dictionary using the `Entry` initializer that takes in an `EntryRepresentation` and an `NSManagedObjectContext`
+    - Under both loops, call `saveToPersistentStore()` to persist the changes and effectively synchronize the data in the device's persistent store with the data on the server.  Since you are using an `NSFetchedResultsController`, as soon as you save the managed object context, the fetched results controller will observe those changes and automatically update the table view with the updated entries.
+    
+3. Create a function called `fetchEntriesFromServer`. It should have a completion closure that returns an optional error and its default value should be an empty closure. This method should:
+    - Take the `baseURL` and add the "json" extension to it. 
+    - Perform a GET `URLSessionDataTask` with the url you just set up.
+    - In the completion of the data task, check for errors
+    - Unwrap the data returned in the closure.
+    - Create a variable of type `[EntryRepresentation]`. Set its initial value to an empty array.
+    - Decode the data into `[String: EntryRepresentation].self`. Set the value of the array you just made in the previous step to the entry representations in this decoded dictionary. Think about why we are decoding it in this way. Loop through the dictionary to return an array of just the entry representations without the identifier keys. **HINT:** You can use a for-in loop or `map` to do this.
+    - Call your `updateEntries` method that you just made in the previous step.
+    - Call completion and pass in `nil` for the error.
+    - Don't forget to resume the data task.
+4. Write an initializer for the `EntryController`. It shouldn't take in any values. Inside of the initializer, call the `fetchEntriesFromServer` method. As soon as the app runs and initializes this model controller, it should fetch the entries from Firebase and update the persistent store.
+
+The app should be working at this point. Test it by going to the Firebase Database in a browser and changing some values in the entries saved there. The easiest thing to change is the mood. This will allow you to easily see if the table view will update according to the new changes. It may take a few seconds after the app launches, but you should see the cell(s) move to different sections if you changed the mood of some entries in Firebase.
+
+**NOTE: The app will not automatically fetch posts when you change or add posts in the database.** At this point you must trigger the fetch manually, the simplest way being to relaunch the application. If you want, you could look up how to implement a refresh control on a table view controller which would allow you to drag down on the table view to refresh the table view and allow you to re-fetch the entries.
+
+>>>>>>> 785a6c4f1ef9fcba0406a52f34f1e7df72ec1bc8
 
 ## Go Further
 
+<<<<<<< HEAD
 Just like yesterday, try to solidify today's concepts by starting over and rewriting the project from where you started today. Or even better, try to write the entire project with both today and yesterday's content from scratch. Use these instructions as sparingly as possible to help you practice recall.
+||||||| merged common ancestors
+This project will be added on to as the Sprint progresses. As such, there are no "Go Further" challenges. However it is always a good idea to rebuild this project again. The more you build a project, the more you will learn from it. If you want to challenge yourself, try to write as much as you can without referencing these instructions. 
+=======
+Just like yesterday, try to solidify today's concepts by starting over and rewriting the project from where you started today. Or even better, try to write the entire project with both today and yesterday's content from scratch. Use these instructions as sparingly as possible to help you practice recall.
+
+>>>>>>> 785a6c4f1ef9fcba0406a52f34f1e7df72ec1bc8
