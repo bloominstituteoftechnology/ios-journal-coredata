@@ -17,6 +17,10 @@ class EntryController {
 //        loadFromPersistentStore()
 //    }
     
+    private init() {
+        fetchEntriesFromServer()
+    }
+    
     func saveToPersistentStore() {
         let moc = CoreDataStack.shared.mainContext
         
@@ -137,6 +141,46 @@ class EntryController {
             print("Error fetching entries for identifiers: \(error)")
         }
     
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = { _ in })  {
+        
+        let requestURL = baseURL.appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        
+        request.httpMethod = "GET"
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            
+            if let error = error {
+                print("Error fetching entries: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                completion(nil)
+                return
+            }
+            
+            var entryRepresentations: [EntryRepresentation] = []
+            
+            let decoder = JSONDecoder()
+            
+            do {
+                let entriesDictionary = try decoder.decode([String: EntryRepresentation].self, from: data)
+                
+                for entry in entriesDictionary {
+                    entryRepresentations.append(entry.value)
+                }
+                
+                self.updateEntries(with: entryRepresentations)
+                completion(nil)
+            } catch {
+                print("Error decoding entry data: \(error)")
+            }
+            
+        }.resume()
     }
     
     
