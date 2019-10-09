@@ -23,7 +23,7 @@ class EntryController {
     }
     
     func createEntry(title: String, body: String, mood: EntryMood) {
-        let entry = JournalEntry(title: title, bodyText: body, mood: mood)
+        let entry = JournalEntry(title: title, bodyText: body, mood: mood, identifier: UUID().uuidString)
         saveToPersistentStore()
         put(entry: entry)
     }
@@ -38,16 +38,18 @@ class EntryController {
         put(entry: entry)
     }
     
-    func deleteEntry(entry: JournalEntry) {
-        moc.delete(entry)
-        
-        do {
-            try moc.save()
-        } catch {
-            moc.reset()
-            print("Error deleting entry: \(error)")
+    func deleteEntry(entry: JournalEntry, completion: @escaping () -> Void = { }) {
+        deleteFromServer(entry: entry) { (error) in
+            if let _ = error {
+                print("Will not delete local copy")
+                completion()
+                return
+            } else {
+                self.moc.delete(entry)
+                self.saveToPersistentStore()
+                completion()
+            }
         }
-        deleteFromServer(entry: entry)
     }
     
     func put(entry: JournalEntry, completion: @escaping (Error?) -> Void = { _ in }) {
@@ -93,16 +95,18 @@ class EntryController {
             return
         }
         
-        let requestURL = baseURL.appendingPathExtension(uuid).appendingPathExtension("json")
+        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
-        URLSession.shared.dataTask(with: request) { (_, _, error) in
+        URLSession.shared.dataTask(with: request) { (_, res, error) in
             if let error = error {
                 print("Error deleting entry from server: \(error)")
                 completion(error)
                 return
+            } else {
+                print("Response: \(String(describing: res))")
             }
+            completion(nil)
         }.resume()
     }
-
 }
