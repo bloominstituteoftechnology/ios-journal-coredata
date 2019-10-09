@@ -29,7 +29,13 @@ class EntryController {
     
     func put(entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
         
-        let requestURL = baseURL.appendingPathExtension("json")
+        guard let identifier = entry.identifier else {
+            completion(nil)
+            return
+        }
+        
+        let baseWithIdentifierURL = baseURL.appendingPathComponent(identifier)
+        let requestURL = baseWithIdentifierURL.appendingPathExtension("json")
         
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
@@ -57,6 +63,35 @@ class EntryController {
         }.resume()
         
     }
+    
+    func deleteEntryFromServer(entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
+        
+        guard let identifier = entry.identifier else {
+            completion(nil)
+            return
+        }
+        
+        let baseWithIdentifierURL = baseURL.appendingPathComponent(identifier)
+        let requestURL = baseWithIdentifierURL.appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            
+            if let error = error {
+                print("Error deleting entry object: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+            
+        }.resume()
+    }
+    
+    
     
     
     
