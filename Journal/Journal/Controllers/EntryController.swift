@@ -47,6 +47,7 @@ class EntryController {
             moc.reset()
             print("Error deleting entry: \(error)")
         }
+        deleteFromServer(entry: entry)
     }
     
     func put(entry: JournalEntry, completion: @escaping (Error?) -> Void = { _ in }) {
