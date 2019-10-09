@@ -22,7 +22,7 @@ class EntryController {
     
     private let moc = CoreDataStack.shared.mainContext
     
-    func put(entry: EntryRepresentation, completion: @escaping (Error?) -> Void = { _ in }) {
+    func put(entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
         
         guard let baseURL = baseURL, let identifier = entry.identifier else { return }
         
@@ -34,7 +34,7 @@ class EntryController {
         
         let encoder = JSONEncoder()
         do {
-            let data = try encoder.encode(entry)
+            let data = try encoder.encode(entry.entryRepresentation)
             request.httpBody = data
         } catch {
             print("Error encoding data: \(error)")
@@ -42,30 +42,34 @@ class EntryController {
             return
         }
         
-        URLSession.shared.dataTask(with: request) { (data, _, error) in
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
             if let error = error {
                 print("Error fetching entries: \(error)")
                 completion(error)
                 return
             }
             
-            guard let data = data else {
-                print("No data was returned by the data task")
-                completion(nil)
-                return
-            }
+//            guard let data = data else {
+//                print("No data was returned by the data task")
+//                completion(nil)
+//                return
+//            }
             
-            do {
-                let decoder = JSONDecoder()
-                let _ = try decoder.decode(EntryRepresentation.self, from: data)
-                completion(nil)
-            } catch {
-                print("Error decoding entry representations: \(error)")
-                completion(error)
-                return
-            }
+//            do {
+//                let decoder = JSONDecoder()
+//                let _ = try decoder.decode(EntryRepresentation.self, from: data)
+//                completion(nil)
+//            } catch {
+//                print("Error decoding entry representations: \(error)")
+//                completion(error)
+//                return
+//            }
         }.resume()
     }
+//    
+//    func deleteEntryFromServer(entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
+//        completion(nil)
+//    }
     
     
     // MARK: METHODS FOR SAVING AND LOADING DATA
@@ -80,9 +84,9 @@ class EntryController {
     }
     
     func create(title: String, bodyText: String?, timeStamp: Date, identifier: String, mood: String) {
-        let _ = Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, identifier: identifier, mood: mood)
+        let entry = Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, identifier: identifier, mood: mood)
         saveToPersistentStore()
-        put(entry: EntryRepresentation(title: title, bodyText: bodyText, timeStamp: timeStamp, mood: mood, identifier: identifier))
+        put(entry: entry)
     }
     
     func update(title: String, bodyText: String?, entry: Entry, mood: String) {
@@ -91,12 +95,13 @@ class EntryController {
         entry.timeStamp = Date()
         entry.mood = mood
         saveToPersistentStore()
-        guard let timeStamp = entry.timeStamp else { return }
-        put(entry: EntryRepresentation(title: title, bodyText: bodyText, timeStamp: timeStamp, mood: mood, identifier: entry.identifier))
+        guard let timeStamp = entry.timeStamp, let identifier = entry.identifier else { return }
+        put(entry: Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, identifier: identifier, mood: mood))
     }
     
     func delete(entry: Entry) {
         moc.delete(entry)
         saveToPersistentStore()
+//        deleteEntryFromServer(entry: entry, completion: nil)
     }
 }
