@@ -35,4 +35,18 @@ extension JournalEntry {
         self.timestamp = timestamp
         self.identifier = identifier
     }
+    
+    convenience init?(representation: JournalEntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        self.init(context: context)
+        self.title = representation.title
+        self.bodyText = representation.bodyText
+        self.mood = representation.mood
+        self.timestamp = representation.timestamp
+        self.identifier = representation.identifier
+    }
+    
+    var representation: JournalEntryRepresentation? {
+        guard let title = title else { return nil }
+        return JournalEntryRepresentation(bodyText: bodyText, identifier: identifier, mood: mood!, timestamp: timestamp ?? Date(), title: title)
+    }
 }
