@@ -9,11 +9,52 @@
 import Foundation
 import CoreData
 
+enum HTTPMethod: String {
+    case put = "PUT"
+    case delete = "DELETE"
+    case get = "GET"
+}
+
 class EntryController {
     
 //    var entries: [Entry] {
 //        return loadFromPersistentStore()
 //    }
+    
+    let baseURL = URL(string: "https://journal-b558a.firebaseio.com/")!
+    
+    func put(entry: Entry, completion: @escaping () -> Void = {}) {
+        let identifier = entry.identifier ?? UUID()
+        entry.identifier = identifier
+        
+        let requestURL = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.put.rawValue
+        
+        
+        let jsonEncoder = JSONEncoder()
+        do {
+            let jsonData = try jsonEncoder.encode(entry.entryRepresentation)
+            request.httpBody = jsonData
+        } catch {
+            print("Error encoding user object: \(error)")
+            completion()
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                print("Error: \(error)")
+                completion()
+                return
+            }
+            completion()
+        }.resume()
+        
+        
+    }
     
     func saveToPersistentStore() {
         do {
@@ -38,16 +79,17 @@ class EntryController {
     
     
     func addEntry(mood: String ,title: String, bodyText: String) {
-        _ = Entry(mood: mood, title: title, bodyText: bodyText)
+        let entry = Entry(mood: mood, title: title, bodyText: bodyText)
         saveToPersistentStore()
+        put(entry: entry)
     }
-    
+
     func editEntry(entry: Entry, mood: String, title: String, bodyText: String) {
         entry.mood = mood
         entry.title = title
         entry.bodyText = bodyText
-        entry.timeStamp = Date()
         saveToPersistentStore()
+        put(entry: entry)
     }
     
     func deleteEntry(entry: Entry) -> Bool {
@@ -61,4 +103,6 @@ class EntryController {
             return false
         }
     }
+    
+   
 }
