@@ -93,6 +93,7 @@ class EntryController {
     }
     
     func deleteEntry(entry: Entry) -> Bool {
+        deleteEntryFromServer(entry: entry)
         CoreDataStack.shared.mainContext.delete(entry)
         
         do {
@@ -102,7 +103,28 @@ class EntryController {
             print("Error deleting: \(error)")
             return false
         }
+        
+        
     }
     
+    func deleteEntryFromServer(entry: Entry, completion: @escaping (Error?) -> Void = {_ in }) {
+        let identifier = entry.identifier ?? UUID()
+        entry.identifier = identifier
+          
+        let requestURL = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+          
+          
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                print("Error deleting entry: \(error)")
+                completion(error)
+                return
+            }
+            completion(error)
+        }.resume()
+    }
    
 }
