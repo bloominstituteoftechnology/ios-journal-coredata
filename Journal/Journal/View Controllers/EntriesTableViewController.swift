@@ -42,7 +42,15 @@ class EntriesTableViewController: UITableViewController {
         
         tableView.reloadData()
     }
-
+    
+    @IBAction func shouldRefresh(_ sender: Any) {
+        entryController.fetchEntriesFromServer { (_) in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
