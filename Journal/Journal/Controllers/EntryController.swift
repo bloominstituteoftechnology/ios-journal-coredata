@@ -86,6 +86,22 @@ class EntryController {
         }.resume()
     }
     
-
+    func deleteFromServer(entry: JournalEntry, completion: @escaping (Error?) -> Void = { _ in }) {
+        guard let uuid = entry.identifier else {
+            completion(nil)
+            return
+        }
+        
+        let requestURL = baseURL.appendingPathExtension(uuid).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                print("Error deleting entry from server: \(error)")
+                completion(error)
+                return
+            }
+        }.resume()
+    }
 
 }
