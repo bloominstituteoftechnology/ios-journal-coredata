@@ -109,4 +109,15 @@ class EntryController {
             completion(nil)
         }.resume()
     }
+    
+    func update(entry: JournalEntry, with representation: JournalEntryRepresentation) {
+        entry.bodyText = representation.bodyText
+        entry.mood = representation.mood
+        entry.timestamp = representation.timestamp
+        entry.title = representation.title
+    }
+    
+    func updateEntries(with representations: [JournalEntryRepresentation]) {
+        
+    }
 }
