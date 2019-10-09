@@ -27,6 +27,8 @@ class EntryController {
         }
     }
     
+    // MARK: - Put & Delete Entries
+    
     func put(entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
         
         guard let identifier = entry.identifier else {
@@ -92,21 +94,57 @@ class EntryController {
     }
     
     
+    // MARK: - Syncing Databases
+    
+    // Set each of the Entry's values to the Entry Represenation's corresponding values
+    func update(entry: Entry, entryRepresentation: EntryRepresentation) {
+        entry.title = entryRepresentation.title
+        entry.bodyText = entryRepresentation.bodyText
+        entry.mood = entryRepresentation.mood
+        entry.timestamp = entryRepresentation.timestamp
+        entry.identifier = entryRepresentation.identifier
+    }
+    
+    func updateEntries(with representations: [EntryRepresentation]) {
+        
+        let entryIdentifiers = representations.compactMap({ $0.identifier })
+        var representationsByID = Dictionary(uniqueKeysWithValues: zip(entryIdentifiers, representations))
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", entryIdentifiers)
+        
+        let context = CoreDataStack.shared.mainContext
+        
+        do {
+            let existingEntries = try context.fetch(fetchRequest)
+            
+            for entry in existingEntries {
+                guard let id = entry.identifier, let representaion = representationsByID[id] else {
+                    continue
+                }
+                
+                self.update(entry: entry, entryRepresentation: representaion)
+                representationsByID.removeValue(forKey: id)
+            }
+            
+            for representation in representationsByID.values {
+                let _ = Entry(entryRepresentation: representation, context: context)
+            }
+            
+            saveToPersistentStore()
+            
+        } catch {
+            print("Error fetching entries for identifiers: \(error)")
+        }
+    
+    }
     
     
     
-//    func loadFromPersistentStore() -> [Entry] {
-//        let fetchedRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//
-//        let moc = CoreDataStack.shared.mainContext
-//
-//        do {
-//            return try moc.fetch(fetchedRequest)
-//        } catch {
-//            print("error fetching data: \(error)")
-//            return []
-//        }
-//    }
+    
+
+    
+    // MARK: - CRUD Entry Methods
     
     func createEntry(title: String, bodyText: String, mood: String) {
         if let moodRaw = Mood(rawValue: mood) {
@@ -129,7 +167,22 @@ class EntryController {
     func deleteEntry(entry: Entry) {
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
+        deleteEntryFromServer(entry: entry)
         
         saveToPersistentStore()
     }
+    
+    //    func loadFromPersistentStore() -> [Entry] {
+    //        let fetchedRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+    //
+    //        let moc = CoreDataStack.shared.mainContext
+    //
+    //        do {
+    //            return try moc.fetch(fetchedRequest)
+    //        } catch {
+    //            print("error fetching data: \(error)")
+    //            return []
+    //        }
+    //    }
+    
 }
