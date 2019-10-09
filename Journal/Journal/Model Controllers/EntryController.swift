@@ -12,6 +12,10 @@ import CoreData
 class EntryController {
     let baseURL = URL(string: "https://journal-7b7fa.firebaseio.com/")!
     
+    init() {
+        self.fetchEntriesFromServer()
+    }
+    
     func put(entry: Entry, completion: @escaping () -> Void = { }) {
         let uuid = entry.identifier ?? UUID()
         
@@ -45,10 +49,11 @@ class EntryController {
     }
     
     func deleteEntryFromServer(entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
-        let requestURL = baseURL.appendingPathExtension("json")
+        let uuid = entry.identifier!.uuidString
+        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
-        
+
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
                 print("Error DELETEing entry to server: \(error)")
@@ -56,6 +61,68 @@ class EntryController {
                 return
             }
             completion(error)
+        }.resume()
+    }
+    
+    func updateEntries(with representations: [EntryRepresentation]) throws {
+        let entriesWithID = representations.filter({ $0.identifier != nil })
+        let identifiersToFetch = entriesWithID.compactMap({ UUID(uuidString: $0.identifier!) })
+        let representationByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
+        
+        var entriesToCreate = representationByID
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let context = CoreDataStack.shared.mainContext
+        
+        do {
+            let existingEntries = try context.fetch(fetchRequest)
+            
+            for entry in existingEntries {
+                guard let id = entry.identifier,
+                    let representation = representationByID[id] else {
+                        continue
+                }
+                self.update(entry: entry, with: representation)
+                entriesToCreate.removeValue(forKey: id)
+            }
+            
+            for representation in entriesToCreate.values {
+                let _ = Entry(entryRepresentation: representation, context: context)
+            }
+        } catch {
+            print("Error fetching entries for UUIDs: \(error)")
+        }
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                print("Error fetching entries: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                print("No data returned by data entry")
+                completion(nil)
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                let dictionaryOfEntries = try decoder.decode([String: EntryRepresentation].self, from: data)
+                let entryRepresentations = Array(dictionaryOfEntries.values)
+                try self.updateEntries(with: entryRepresentations)
+                completion(nil)
+            } catch {
+                print("Error decoding entry representations: \(error)")
+                completion(error)
+                return
+            }
         }.resume()
     }
 
@@ -95,13 +162,23 @@ class EntryController {
         }
     }
     
+    func update(entry: Entry, with representation: EntryRepresentation) {
+        entry.mood = representation.mood
+        entry.title = representation.title
+        entry.bodyText = representation.bodyText
+        entry.timestamp = representation.timestamp
+    }
+    
     func delete(entry: Entry) {
+        // delete from server
+        self.deleteEntryFromServer(entry: entry)
+        
+        // delete from local
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
         
         do {
             try moc.save()
-            self.deleteEntryFromServer(entry: entry)
         } catch {
             moc.reset()
             print("Error saving managed object context: \(error)")
