@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-struct EntryRepresentation {
+struct EntryRepresentation: Codable {
     
     var title: String
     var bodyText: String

@@ -36,4 +36,21 @@ extension Entry {
         self.identifier = identifier
         self.timestamp = timestamp
     }
+    
+
+    convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        
+        guard let mood = Mood(rawValue: entryRepresentation.mood) else { return nil }
+        
+        self.init(title: entryRepresentation.title, bodyText: entryRepresentation.bodyText, identifier: entryRepresentation.identifier, timestamp: entryRepresentation.timestamp, mood: mood, context: context)
+    }
+    
+    var entryRepresentation: EntryRepresentation? {
+        guard let title = self.title, let bodyText = self.bodyText, let timestamp = self.timestamp, let mood = self.mood, let identifier = self.identifier else { return nil }
+        
+        return EntryRepresentation(title: title, bodyText: bodyText, timestamp: timestamp, mood: mood, identifier: identifier)
+        
+    }
+    
+    
 }

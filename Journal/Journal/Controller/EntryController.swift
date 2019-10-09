@@ -11,6 +11,8 @@ import CoreData
 
 class EntryController {
     
+    private let baseURL = URL(string: "https://journal-dd383.firebaseio.com/")!
+    
 //    var entries: [Entry] {
 //        loadFromPersistentStore()
 //    }
@@ -24,6 +26,39 @@ class EntryController {
             print("Error saving data: \(error)")
         }
     }
+    
+    func put(entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
+        
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        let jsonEncoder = JSONEncoder()
+        
+        do {
+            let data = try jsonEncoder.encode(entry.entryRepresentation)
+            request.httpBody = data
+        } catch {
+            print("Error encoding the data: \(error)")
+            completion(nil)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            
+            if let error = error {
+                print("General error: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }.resume()
+        
+    }
+    
+    
     
 //    func loadFromPersistentStore() -> [Entry] {
 //        let fetchedRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -40,7 +75,8 @@ class EntryController {
     
     func createEntry(title: String, bodyText: String, mood: String) {
         if let moodRaw = Mood(rawValue: mood) {
-            let _ = Entry(title: title, bodyText: bodyText, mood: moodRaw)
+            let entry = Entry(title: title, bodyText: bodyText, mood: moodRaw)
+            put(entry: entry)
             saveToPersistentStore()
         }
     }
@@ -50,6 +86,7 @@ class EntryController {
         entry.bodyText = bodyText
         entry.timestamp = Date()
         entry.mood = mood
+        put(entry: entry)
         
         saveToPersistentStore()
     }
