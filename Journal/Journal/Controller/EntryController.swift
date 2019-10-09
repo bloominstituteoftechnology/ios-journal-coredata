@@ -17,7 +17,7 @@ class EntryController {
 //        loadFromPersistentStore()
 //    }
     
-    private init() {
+    init() {
         fetchEntriesFromServer()
     }
     
