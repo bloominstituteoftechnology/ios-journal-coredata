@@ -133,15 +133,6 @@ class EntryController {
             }
         }.resume()
     }
-
-//    func saveToPersistentStore() {
-//        let moc = CoreDataStack.shared.mainContext
-//        do {
-//            try moc.save()
-//        } catch {
-//            print("Error saving to core data: \(error)")
-//        }
-//    }
     
     func create(mood: EntryMood, title: String, bodyText: String?) {
     
