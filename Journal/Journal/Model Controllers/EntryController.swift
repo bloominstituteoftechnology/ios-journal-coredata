@@ -30,7 +30,9 @@ class EntryController {
             }
             representation.identifier = uuid.uuidString
             entry.identifier = uuid
-            self.saveToPersistentStore()
+            
+            try CoreDataStack.shared.save()
+            
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
             NSLog("Error encoding entry \(entry): \(error)")
@@ -74,26 +76,32 @@ class EntryController {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
         
-        let context = CoreDataStack.shared.mainContext
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         
-        do {
-            let existingEntries = try context.fetch(fetchRequest)
-            
-            for entry in existingEntries {
-                guard let id = entry.identifier,
-                    let representation = representationByID[id] else {
-                        continue
+        // this is bg context so it's fine without waiting
+        context.perform {
+
+            do {
+                let existingEntries = try context.fetch(fetchRequest)
+                
+                for entry in existingEntries {
+                    guard let id = entry.identifier,
+                        let representation = representationByID[id] else {
+                            continue
+                    }
+                    self.update(entry: entry, with: representation)
+                    entriesToCreate.removeValue(forKey: id)
                 }
-                self.update(entry: entry, with: representation)
-                entriesToCreate.removeValue(forKey: id)
+                
+                for representation in entriesToCreate.values {
+                    let _ = Entry(entryRepresentation: representation, context: context)
+                }
+            } catch {
+                print("Error fetching entries for UUIDs: \(error)")
             }
-            
-            for representation in entriesToCreate.values {
-                let _ = Entry(entryRepresentation: representation, context: context)
-            }
-        } catch {
-            print("Error fetching entries for UUIDs: \(error)")
         }
+        
+        try CoreDataStack.shared.save(context: context)
     }
     
     func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
@@ -126,14 +134,14 @@ class EntryController {
         }.resume()
     }
 
-    func saveToPersistentStore() {
-        let moc = CoreDataStack.shared.mainContext
-        do {
-            try moc.save()
-        } catch {
-            print("Error saving to core data: \(error)")
-        }
-    }
+//    func saveToPersistentStore() {
+//        let moc = CoreDataStack.shared.mainContext
+//        do {
+//            try moc.save()
+//        } catch {
+//            print("Error saving to core data: \(error)")
+//        }
+//    }
     
     func create(mood: EntryMood, title: String, bodyText: String?) {
     
