@@ -24,20 +24,36 @@ class EntryController {
     
     func put(entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
         
-        guard let baseURL = baseURL, let identifier = entry.identifier else { return }
-        
-        let idURL = baseURL.appendingPathComponent(identifier)
-        let requestURL = idURL.appendingPathExtension("json")
+        guard let baseURL = baseURL, let id = entry.identifier else { return }
+        let uuid = UUID(uuidString: id) ?? UUID()
+        let requestURL = baseURL.appendingPathComponent(id).appendingPathExtension("json")
         
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.put.rawValue
+//
+//        let encoder = JSONEncoder()
+//        do {
+//            let data = try encoder.encode(entry.entryRepresentation)
+//            request.httpBody = data
+//        } catch {
+//            print("Error encoding data: \(error)")
+//            completion(error)
+//            return
+//        }
         
-        let encoder = JSONEncoder()
         do {
-            let data = try encoder.encode(entry.entryRepresentation)
-            request.httpBody = data
+            guard var representation = entry.entryRepresentation else {
+                completion(nil)
+                return
+            }
+            representation.identifier = uuid.uuidString
+            entry.identifier = uuid.uuidString
+            
+            try CoreDataStack.shared.mainContext.save()
+            
+            request.httpBody = try JSONEncoder().encode(representation)
         } catch {
-            print("Error encoding data: \(error)")
+            print("Error encoding task (or saving to persistent store): \(error)")
             completion(error)
             return
         }
@@ -48,22 +64,7 @@ class EntryController {
                 completion(error)
                 return
             }
-            
-//            guard let data = data else {
-//                print("No data was returned by the data task")
-//                completion(nil)
-//                return
-//            }
-            
-//            do {
-//                let decoder = JSONDecoder()
-//                let _ = try decoder.decode(EntryRepresentation.self, from: data)
-//                completion(nil)
-//            } catch {
-//                print("Error decoding entry representations: \(error)")
-//                completion(error)
-//                return
-//            }
+            completion(nil)
         }.resume()
     }
 //    
