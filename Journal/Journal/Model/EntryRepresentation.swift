@@ -10,10 +10,10 @@ import Foundation
 
 struct EntryRepresentation: Codable {
     
-    let title: String
-    let bodyText: String?
-    let timeStamp: Date
-    let mood: String
-    let identifier: String?
+    var title: String
+    var bodyText: String?
+    var timeStamp: Date
+    var mood: String
+    var identifier: String?
 
 }
