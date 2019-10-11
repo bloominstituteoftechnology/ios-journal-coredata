@@ -118,4 +118,42 @@ class EntryController {
 //        deleteEntryFromServer(entry: entry, completion: nil)
         deleteEntryFromServer(entry: entry)
     }
+    
+    private func updateEntries(with representation: [EntryRepresentation]) throws {
+        let entriesWithID = representation.filter({ $0.identifier != nil})
+        let identifiersToFetch = entriesWithID.compactMap({ $0.identifier! })
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
+        
+        var entriesToCreate = representationsByID
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        context.perform {
+            do {
+                let existingEntries = try context.fetch(fetchRequest)
+                for entry in existingEntries {
+                    guard let id  = entry.identifier,
+                        let representation = representationsByID[id] else { continue }
+                    self.updateWith(entry, with: representation)
+                    entriesToCreate.removeValue(forKey: id)
+                }
+                
+                for representation in entriesToCreate.values {
+                    let _ = Entry(entryRepresentation: representation, context: context)
+                }
+            } catch {
+                print("Error fetching entries for UUIDS: \(error)")
+            }
+        }
+        try CoreDataStack.shared.save(context: context)
+    }
+    
+    func updateWith(_ entry: Entry, with representation: EntryRepresentation) {
+        let mood = Mood(rawValue: representation.mood) ?? Mood.interesting
+        entry.title = representation.title
+        entry.bodyText = representation.bodyText
+        entry.mood = mood.rawValue
+    }
 }
