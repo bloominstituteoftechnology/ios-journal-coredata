@@ -14,6 +14,8 @@ class EntryController {
     
     let baseURL: URL = URL(string: "https://lambda-ios-journal.firebaseio.com/")!
     
+    // MARK: - Local store methods
+    
     func saveToPersistentStore() {
         do {
             try moc.save()
@@ -51,6 +53,52 @@ class EntryController {
             }
         }
     }
+    
+    func update(entry: JournalEntry, with representation: JournalEntryRepresentation) {
+        entry.bodyText = representation.bodyText
+        entry.mood = representation.mood
+        entry.timestamp = representation.timestamp
+        entry.title = representation.title
+    }
+    
+    func updateEntries(with representations: [JournalEntryRepresentation]) {
+        
+        // Create a dictionary of Representations keyed by their UUID
+          // filter out entries with no UUID
+        let entriesWithID = representations.filter({ $0.identifier != nil })
+          // create array of just the UUIDs (string form)
+        let identifiersToFetch = entriesWithID.compactMap({ $0.identifier })
+          // creates the dictionary
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
+        
+        var entriesToCreate = representationsByID   // holds all entries now, but will be whittled down
+        
+        let fetchRequest: NSFetchRequest<JournalEntry> = JournalEntry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        moc.perform {
+            do {
+                let existingEntries = try self.moc.fetch(fetchRequest)
+                
+                for entry in existingEntries {
+                    guard let id = entry.identifier, let representation = representationsByID[id] else { continue }
+                    
+                    self.update(entry: entry, with: representation)
+                    entriesToCreate.removeValue(forKey: id)
+                    self.saveToPersistentStore()
+                }
+                
+                for representation in entriesToCreate.values {
+                    let _ = JournalEntry(representation: representation)
+                    self.saveToPersistentStore()
+                }
+            } catch {
+                print("Error fetching tasks for UUIDs: \(error)")
+            }
+        }
+    }
+    
+    // MARK: - Server methods
     
     func put(entry: JournalEntry, completion: @escaping (Error?) -> Void = { _ in }) {
         guard var representation = entry.representation else {
@@ -110,47 +158,35 @@ class EntryController {
         }.resume()
     }
     
-    func update(entry: JournalEntry, with representation: JournalEntryRepresentation) {
-        entry.bodyText = representation.bodyText
-        entry.mood = representation.mood
-        entry.timestamp = representation.timestamp
-        entry.title = representation.title
-    }
-    
-    func updateEntries(with representations: [JournalEntryRepresentation]) {
+    func fetchEntriesFromServer(completiom: @escaping (Error?) -> Void = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
         
-        // Create a dictionary of Representations keyed by their UUID
-          // filter out entries with no UUID
-        let entriesWithID = representations.filter({ $0.identifier != nil })
-          // create array of just the UUIDs (string form)
-        let identifiersToFetch = entriesWithID.compactMap({ $0.identifier })
-          // creates the dictionary
-        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
-        
-        var entriesToCreate = representationsByID   // holds all entries now, but will be whittled down
-        
-        let fetchRequest: NSFetchRequest<JournalEntry> = JournalEntry.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
-        
-        moc.perform {
-            do {
-                let existingEntries = try self.moc.fetch(fetchRequest)
-                
-                for entry in existingEntries {
-                    guard let id = entry.identifier, let representation = representationsByID[id] else { continue }
-                    
-                    self.update(entry: entry, with: representation)
-                    entriesToCreate.removeValue(forKey: id)
-                    self.saveToPersistentStore()
-                }
-                
-                for representation in entriesToCreate.values {
-                    let _ = JournalEntry(representation: representation)
-                    self.saveToPersistentStore()
-                }
-            } catch {
-                print("Error fetching tasks for UUIDs: \(error)")
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                print("Error fetching entries: \(error)")
+                completiom(error)
+                return
             }
-        }
+            
+            guard let data = data else {
+                print("No data returned by data task :(")
+                completiom(nil)
+                return
+            }
+            
+            var representations: [JournalEntryRepresentation] = []
+            do {
+                let decoder = JSONDecoder()
+                let dictionaryOfEntries = try decoder.decode([String : JournalEntryRepresentation].self, from: data)
+                representations = Array(dictionaryOfEntries.values)
+            } catch {
+                print("Error decoding entry representations: \(error)")
+                completiom(error)
+                return
+            }
+            
+            self.updateEntries(with: representations)
+            completiom(nil)
+        }.resume()
     }
 }
