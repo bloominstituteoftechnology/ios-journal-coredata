@@ -11,8 +11,11 @@ import CoreData
 
 class EntryController {
     let moc = CoreDataStack.shared.mainContext
-    
     let baseURL: URL = URL(string: "https://lambda-ios-journal.firebaseio.com/")!
+    
+    init() {
+        fetchEntriesFromServer()
+    }
     
     // MARK: - Local store methods
     
