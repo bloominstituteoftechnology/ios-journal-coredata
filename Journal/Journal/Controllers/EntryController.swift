@@ -102,6 +102,7 @@ class EntryController {
         entry.timeStamp = Date()
         entry.mood = mood
 //        saveToPersistentStore()
+        CoreDataStack.shared.save()
         guard let timeStamp = entry.timeStamp, let identifier = entry.identifier else { return }
         put(entry: Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, identifier: identifier, mood: mood))
     }
