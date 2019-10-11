@@ -119,5 +119,38 @@ class EntryController {
     
     func updateEntries(with representations: [JournalEntryRepresentation]) {
         
+        // Create a dictionary of Representations keyed by their UUID
+          // filter out entries with no UUID
+        let entriesWithID = representations.filter({ $0.identifier != nil })
+          // create array of just the UUIDs (string form)
+        let identifiersToFetch = entriesWithID.compactMap({ $0.identifier })
+          // creates the dictionary
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
+        
+        var entriesToCreate = representationsByID   // holds all entries now, but will be whittled down
+        
+        let fetchRequest: NSFetchRequest<JournalEntry> = JournalEntry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        moc.perform {
+            do {
+                let existingEntries = try self.moc.fetch(fetchRequest)
+                
+                for entry in existingEntries {
+                    guard let id = entry.identifier, let representation = representationsByID[id] else { continue }
+                    
+                    self.update(entry: entry, with: representation)
+                    entriesToCreate.removeValue(forKey: id)
+                    self.saveToPersistentStore()
+                }
+                
+                for representation in entriesToCreate.values {
+                    let _ = JournalEntry(representation: representation)
+                    self.saveToPersistentStore()
+                }
+            } catch {
+                print("Error fetching tasks for UUIDs: \(error)")
+            }
+        }
     }
 }
