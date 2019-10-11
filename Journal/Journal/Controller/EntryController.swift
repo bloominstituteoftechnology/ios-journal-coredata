@@ -21,15 +21,15 @@ class EntryController {
         fetchEntriesFromServer()
     }
     
-    func saveToPersistentStore() {
-        let moc = CoreDataStack.shared.mainContext
-        
-        do {
-            try moc.save()
-        } catch {
-            print("Error saving data: \(error)")
-        }
-    }
+//    func saveToPersistentStore() {
+//        let moc = CoreDataStack.shared.mainContext
+//
+//        do {
+//            try moc.save()
+//        } catch {
+//            print("Error saving data: \(error)")
+//        }
+//    }
     
     // MARK: - Put & Delete Entries
     
@@ -49,6 +49,7 @@ class EntryController {
         let jsonEncoder = JSONEncoder()
         
         do {
+            CoreDataStack.shared.save()
             let data = try jsonEncoder.encode(entry.entryRepresentation)
             request.httpBody = data
         } catch {
@@ -117,29 +118,30 @@ class EntryController {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", entryIdentifiers)
         
-        let context = CoreDataStack.shared.mainContext
-        
-        do {
-            let existingEntries = try context.fetch(fetchRequest)
-            
-            for entry in existingEntries {
-                guard let id = entry.identifier, let representaion = representationsByID[id] else {
-                    continue
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        context.perform {
+            do {
+                let existingEntries = try context.fetch(fetchRequest)
+                
+                for entry in existingEntries {
+                    guard let id = entry.identifier, let representaion = representationsByID[id] else {
+                        continue
+                    }
+                    
+                    self.update(entry: entry, entryRepresentation: representaion)
+                    representationsByID.removeValue(forKey: id)
                 }
                 
-                self.update(entry: entry, entryRepresentation: representaion)
-                representationsByID.removeValue(forKey: id)
+                for representation in representationsByID.values {
+                    let _ = Entry(entryRepresentation: representation, context: context)
+                }
+                
+            } catch {
+                print("Error fetching entries for identifiers: \(error)")
             }
-            
-            for representation in representationsByID.values {
-                let _ = Entry(entryRepresentation: representation, context: context)
-            }
-            
-            saveToPersistentStore()
-            
-        } catch {
-            print("Error fetching entries for identifiers: \(error)")
         }
+        
+        CoreDataStack.shared.save(context: context)
     
     }
     
@@ -194,7 +196,9 @@ class EntryController {
         if let moodRaw = Mood(rawValue: mood) {
             let entry = Entry(title: title, bodyText: bodyText, mood: moodRaw)
             put(entry: entry)
-            saveToPersistentStore()
+            
+            CoreDataStack.shared.save()
+            
         }
     }
     
@@ -205,7 +209,7 @@ class EntryController {
         entry.mood = mood
         put(entry: entry)
         
-        saveToPersistentStore()
+        CoreDataStack.shared.save()
     }
     
     func deleteEntry(entry: Entry) {
@@ -213,7 +217,7 @@ class EntryController {
         moc.delete(entry)
         deleteEntryFromServer(entry: entry)
         
-        saveToPersistentStore()
+        CoreDataStack.shared.save()
     }
     
     //    func loadFromPersistentStore() -> [Entry] {
