@@ -22,6 +22,10 @@ class EntryController {
     
     private let moc = CoreDataStack.shared.mainContext
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     func put(entry: Entry, completion: @escaping (Error?) -> Void = { _ in }) {
         
         guard let baseURL = baseURL, let identifier = entry.identifier else { return }
@@ -30,16 +34,6 @@ class EntryController {
         
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.put.rawValue
-//
-//        let encoder = JSONEncoder()
-//        do {
-//            let data = try encoder.encode(entry.entryRepresentation)
-//            request.httpBody = data
-//        } catch {
-//            print("Error encoding data: \(error)")
-//            completion(error)
-//            return
-//        }
         
         do {
             guard var representation = entry.entryRepresentation else {
@@ -112,12 +106,11 @@ class EntryController {
         put(entry: Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, identifier: identifier, mood: mood))
     }
     
-    func delete(entry: Entry) {
-        moc.delete(entry)
+//    func delete(entry: Entry) {
+//        moc.delete(entry)
+//        deleteEntryFromServer(entry: entry)
 //        saveToPersistentStore()
-//        deleteEntryFromServer(entry: entry, completion: nil)
-        deleteEntryFromServer(entry: entry)
-    }
+//    }
     
     private func updateEntries(with representation: [EntryRepresentation]) throws {
         let entriesWithID = representation.filter({ $0.identifier != nil})
@@ -143,6 +136,7 @@ class EntryController {
                 for representation in entriesToCreate.values {
                     let _ = Entry(entryRepresentation: representation, context: context)
                 }
+                self.saveToPersistentStore()
             } catch {
                 print("Error fetching entries for UUIDS: \(error)")
             }
@@ -155,5 +149,39 @@ class EntryController {
         entry.title = representation.title
         entry.bodyText = representation.bodyText
         entry.mood = mood.rawValue
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
+        guard let baseURL = baseURL else { return }
+        let requestURL = baseURL.appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.get.rawValue
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                print("Error fetching entries from server: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                completion(NSError())
+                return
+            }
+            
+            var entries: [EntryRepresentation] = []
+            do {
+                let entryDict = try JSONDecoder().decode([String: EntryRepresentation].self, from: data)
+                for entry in entryDict.values {
+                    entries.append(entry)
+                }
+                try self.updateEntries(with: entries)
+            } catch {
+                print("Error decoding array of entries: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
     }
 }

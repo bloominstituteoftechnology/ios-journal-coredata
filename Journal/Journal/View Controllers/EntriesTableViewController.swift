@@ -37,6 +37,13 @@ class EntriesTableViewController: UITableViewController {
         tableView.reloadData()
     }
 
+    @IBAction func shouldRefresh(_ sender: Any) {
+        entryController.fetchEntriesFromServer{ (_) in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
+    }
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -67,7 +74,24 @@ class EntriesTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             let entry = fetchedResultsController.object(at: indexPath)
-            entryController.delete(entry: entry)
+            
+            entryController.deleteEntryFromServer(entry: entry) { (error) in
+                if let error = error {
+                    print("Error deleting entry from server: \(error)")
+                    return
+                }
+                DispatchQueue.main.async {
+                    let moc = CoreDataStack.shared.mainContext
+                    moc.delete(entry)
+                    
+                    do {
+                        try moc.save()
+                    } catch {
+                        moc.reset()
+                        print("Error saving managed object context: \(error)")
+                    }
+                }
+            }
             tableView.reloadData()
         }
     }
