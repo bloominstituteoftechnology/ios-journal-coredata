@@ -29,10 +29,12 @@ class EntryTableViewCell: UITableViewCell {
     func updateViews() {
         guard let entry = entry else { return }
         
-        let formatter = DateFormatter()
-        formatter.dateFormat = "mm/dd/yy, hh:mm a"
-        lblTitle.text = entry.title
-        lblEntryBody.text = entry.bodyText
-        lblTimeStamp.text = formatter.string(from: entry.timestamp ?? Date())
+        DispatchQueue.main.async {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MM/dd/yy, hh:mm a"
+            self.lblTitle.text = entry.title
+            self.lblEntryBody.text = entry.bodyText
+            self.lblTimeStamp.text = formatter.string(from: entry.timestamp ?? Date())
+        }
     }
 }

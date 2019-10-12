@@ -44,7 +44,9 @@ class EntryDetailViewController: UIViewController {
             entryController.createEntry(title: title, body: body, mood: mood)
         }
         
-        navigationController?.popViewController(animated: true)
+        DispatchQueue.main.async {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     func updateViews() {

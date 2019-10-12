@@ -19,13 +19,14 @@ class EntryController {
     
     // MARK: - Local store methods
     
-    func saveToPersistentStore() {
-        do {
-            try moc.save()
-        } catch {
-            print("Error saving: \(error)")
-        }
-    }
+    // replacing with save() method in CoreDataStack
+//    func saveToPersistentStore() {
+//        do {
+//            try moc.save()
+//        } catch {
+//            print("Error saving: \(error)")
+//        }
+//    }
     
     func createEntry(title: String, body: String, mood: EntryMood) {
         let entry = JournalEntry(title: title, bodyText: body, mood: mood, identifier: UUID().uuidString)

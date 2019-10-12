@@ -31,7 +31,9 @@ class EntriesTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
     }
 
     // MARK: - Table view data source
@@ -67,7 +69,7 @@ class EntriesTableViewController: UITableViewController {
             let entry = fetchedResultsController.object(at: indexPath)
             entryController.deleteEntry(entry: entry) {
                 DispatchQueue.main.async {
-                    tableView.reloadData()
+                    self.tableView.reloadData()
                 }
             }
         }    
