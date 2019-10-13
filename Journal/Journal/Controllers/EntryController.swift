@@ -30,11 +30,13 @@ class EntryController {
     
     func createEntry(title: String, body: String, mood: EntryMood, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         let entry = JournalEntry(title: title, bodyText: body, mood: mood, identifier: UUID().uuidString)
-        do {
-            try CoreDataStack.shared.save(context: context)
-        } catch {
-            print("Unable to save new entry: \(error)")
-            context.reset()
+        context.perform {
+            do {
+                try CoreDataStack.shared.save(context: context)
+            } catch {
+                print("Unable to save new entry: \(error)")
+                context.reset()
+            }
         }
         put(entry: entry)
     }
@@ -45,11 +47,13 @@ class EntryController {
         entry.bodyText = newBody
         entry.mood = newMood.stringValue
         entry.timestamp = Date()
-        do {
-            try CoreDataStack.shared.save(context: context)
-        } catch {
-            print("Could not save after updating: \(error)")
-            context.reset()
+        context.perform {
+            do {
+                try CoreDataStack.shared.save(context: context)
+            } catch {
+                print("Could not save after updating: \(error)")
+                context.reset()
+            }
         }
         put(entry: entry)
     }
@@ -61,13 +65,15 @@ class EntryController {
                 completion(nil)
                 return
             } else {
-                do {
-                    context.delete(entry)
-                    try CoreDataStack.shared.save(context: context)
-                } catch {
-                    print("Could not save after deleting: \(error)")
-                    context.reset()
-                    completion(error)
+                context.perform {
+                    do {
+                        context.delete(entry)
+                        try CoreDataStack.shared.save(context: context)
+                    } catch {
+                        print("Could not save after deleting: \(error)")
+                        context.reset()
+                        completion(error)
+                    }
                 }
                 completion(nil)
             }
@@ -170,9 +176,9 @@ class EntryController {
                 print("Error deleting entry from server: \(error)")
                 completion(error)
                 return
-            } else {
-                print("Response: \(String(describing: res))")
-            }
+            } // else {
+//                print("Response: \(String(describing: res))")
+//            }
             completion(nil)
         }.resume()
     }

@@ -67,7 +67,7 @@ class EntriesTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             let entry = fetchedResultsController.object(at: indexPath)
-            entryController.deleteEntry(entry: entry) {
+            entryController.deleteEntry(entry: entry) { _ in
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
