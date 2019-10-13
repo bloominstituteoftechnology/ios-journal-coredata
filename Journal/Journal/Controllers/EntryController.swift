@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 class EntryController {
-    let moc = CoreDataStack.shared.mainContext
+//    let moc = CoreDataStack.shared.mainContext
     let baseURL: URL = URL(string: "https://lambda-ios-journal.firebaseio.com/")!
     
     init() {
@@ -102,21 +102,22 @@ class EntryController {
         let fetchRequest: NSFetchRequest<JournalEntry> = JournalEntry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
         
-        moc.perform {
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        context.perform {
             do {
-                let existingEntries = try self.moc.fetch(fetchRequest)
+                let existingEntries = try context.fetch(fetchRequest)
                 
                 for entry in existingEntries {
                     guard let id = entry.identifier, let representation = representationsByID[id] else { continue }
                     
                     self.update(entry: entry, with: representation)
                     entriesToCreate.removeValue(forKey: id)
-                    try CoreDataStack.shared.save()
+                    try CoreDataStack.shared.save(context: context)
                 }
                 
                 for representation in entriesToCreate.values {
                     let _ = JournalEntry(representation: representation)
-                    try CoreDataStack.shared.save()
+                    try CoreDataStack.shared.save(context: context)
                 }
             } catch {
                 print("Error fetching tasks for UUIDs: \(error)")
