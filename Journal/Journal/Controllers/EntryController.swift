@@ -28,32 +28,48 @@ class EntryController {
 //        }
 //    }
     
-    func createEntry(title: String, body: String, mood: EntryMood) {
+    func createEntry(title: String, body: String, mood: EntryMood, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         let entry = JournalEntry(title: title, bodyText: body, mood: mood, identifier: UUID().uuidString)
-        saveToPersistentStore()
+        do {
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            print("Unable to save new entry: \(error)")
+            context.reset()
+        }
         put(entry: entry)
     }
     
-    func updateEntry(entry: JournalEntry, newTitle: String, newBody: String, newMood: EntryMood) {
+    func updateEntry(entry: JournalEntry, newTitle: String, newBody: String, newMood: EntryMood, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         guard !newTitle.isEmpty else { return }
         entry.title = newTitle
         entry.bodyText = newBody
         entry.mood = newMood.stringValue
         entry.timestamp = Date()
-        saveToPersistentStore()
+        do {
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            print("Could not save after updating: \(error)")
+            context.reset()
+        }
         put(entry: entry)
     }
     
-    func deleteEntry(entry: JournalEntry, completion: @escaping () -> Void = { }) {
+    func deleteEntry(entry: JournalEntry, context: NSManagedObjectContext = CoreDataStack.shared.mainContext, completion: @escaping (Error?) -> Void = { _ in }) {
         deleteFromServer(entry: entry) { (error) in
             if let _ = error {
                 print("Will not delete local copy")
-                completion()
+                completion(nil)
                 return
             } else {
-                self.moc.delete(entry)
-                self.saveToPersistentStore()
-                completion()
+                do {
+                    context.delete(entry)
+                    try CoreDataStack.shared.save(context: context)
+                } catch {
+                    print("Could not save after deleting: \(error)")
+                    context.reset()
+                    completion(error)
+                }
+                completion(nil)
             }
         }
     }
@@ -89,12 +105,12 @@ class EntryController {
                     
                     self.update(entry: entry, with: representation)
                     entriesToCreate.removeValue(forKey: id)
-                    self.saveToPersistentStore()
+                    try CoreDataStack.shared.save()
                 }
                 
                 for representation in entriesToCreate.values {
                     let _ = JournalEntry(representation: representation)
-                    self.saveToPersistentStore()
+                    try CoreDataStack.shared.save()
                 }
             } catch {
                 print("Error fetching tasks for UUIDs: \(error)")
@@ -115,8 +131,6 @@ class EntryController {
         // set identifier to both entry and representation in case we just created it
         entry.identifier = uuid
         representation.identifier = uuid
-        // save the change, if any
-        saveToPersistentStore()
         
         let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
@@ -124,6 +138,7 @@ class EntryController {
         
         let encoder = JSONEncoder()
         do {
+            try CoreDataStack.shared.save() // if the UUID was changed, save it
             request.httpBody = try encoder.encode(representation)
         } catch {
             print("Error encoding representation: \(error)")
