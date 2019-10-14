@@ -30,6 +30,8 @@ class EntryController {
             }
     }
     
+    
+    
     func createEntry(with title: String, bodyText: String, context: NSManagedObjectContext) {
         
         Entry(title: title, bodyText: bodyText, context: context)

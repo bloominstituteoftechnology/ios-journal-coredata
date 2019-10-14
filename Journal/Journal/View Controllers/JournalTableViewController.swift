@@ -17,34 +17,35 @@ class JournalTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return entryController.entries.count
     }
-
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "EntryTableViewCell", for: indexPath)
-
-        cell.textLabel?.text = entryController.entries[indexPath.row].title
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryTableViewCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
+        
+        let entry = entryController.entries[indexPath.row]
+        cell.entry = entry
         
         return cell
     }
-
+    
     // MARK: - Navigation
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "ShowEntryDetail" {
             if let detailVC = segue.destination as?
-            DetailViewController,
+                DetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow {
                 
                 detailVC.entryController = entryController
@@ -60,9 +61,10 @@ class JournalTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            //entryController.entries.remove(at: indexPath.row)
+            let entry = entryController.entries[indexPath.row]
+            entryController.deleteEntry(entry: entry)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
-
+    
 }
