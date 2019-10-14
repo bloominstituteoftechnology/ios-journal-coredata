@@ -16,6 +16,7 @@
 		DDFDFF2223550CF00083A828 /* EntriesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFDFF2123550CF00083A828 /* EntriesTableViewCell.swift */; };
 		DDFDFF272355117D0083A828 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFDFF262355117D0083A828 /* CoreDataStack.swift */; };
 		DDFDFF2A2355121B0083A828 /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DDFDFF282355121B0083A828 /* Journal.xcdatamodeld */; };
+		DDFDFF2D2355138D0083A828 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDFDFF2C2355138D0083A828 /* Entry+Convenience.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		DDFDFF2123550CF00083A828 /* EntriesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewCell.swift; sourceTree = "<group>"; };
 		DDFDFF262355117D0083A828 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		DDFDFF292355121B0083A828 /* Entry.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Entry.xcdatamodel; sourceTree = "<group>"; };
+		DDFDFF2C2355138D0083A828 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,11 +65,10 @@
 			isa = PBXGroup;
 			children = (
 				DDFDFF2323550DE70083A828 /* Resources */,
+				DDFDFF2B2355136E0083A828 /* Models */,
 				DDFDFF2523550E0F0083A828 /* View Controllers */,
 				DDFDFF2423550DFE0083A828 /* Storyboards */,
 				DDFDFF2123550CF00083A828 /* EntriesTableViewCell.swift */,
-				DDFDFF262355117D0083A828 /* CoreDataStack.swift */,
-				DDFDFF282355121B0083A828 /* Journal.xcdatamodeld */,
 			);
 			path = Journal;
 			sourceTree = "<group>";
@@ -98,6 +99,16 @@
 				DDFDFF1F23550CCA0083A828 /* EntriesTableViewController.swift */,
 			);
 			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		DDFDFF2B2355136E0083A828 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DDFDFF262355117D0083A828 /* CoreDataStack.swift */,
+				DDFDFF282355121B0083A828 /* Journal.xcdatamodeld */,
+				DDFDFF2C2355138D0083A828 /* Entry+Convenience.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -177,6 +188,7 @@
 				DDFDFF102355022C0083A828 /* EntryDetailViewController.swift in Sources */,
 				DDFDFF2223550CF00083A828 /* EntriesTableViewCell.swift in Sources */,
 				DDFDFF0E2355022C0083A828 /* AppDelegate.swift in Sources */,
+				DDFDFF2D2355138D0083A828 /* Entry+Convenience.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
