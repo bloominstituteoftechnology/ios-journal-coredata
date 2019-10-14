@@ -15,6 +15,9 @@
 		80F214C42355002400B79A1F /* JournalTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F214C32355002400B79A1F /* JournalTableViewController.swift */; };
 		80F214C72355008000B79A1F /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F214C62355008000B79A1F /* DetailViewController.swift */; };
 		80F214C92355039D00B79A1F /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F214C82355039D00B79A1F /* EntryTableViewCell.swift */; };
+		80F214CC235505D500B79A1F /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F214CB235505D500B79A1F /* CoreDataStack.swift */; };
+		80F214D0235506D900B79A1F /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 80F214CE235506D900B79A1F /* Journal.xcdatamodeld */; };
+		80F214D22355075900B79A1F /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80F214D12355075900B79A1F /* Entry+Convenience.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +31,9 @@
 		80F214C32355002400B79A1F /* JournalTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalTableViewController.swift; sourceTree = "<group>"; };
 		80F214C62355008000B79A1F /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		80F214C82355039D00B79A1F /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
+		80F214CB235505D500B79A1F /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		80F214CF235506D900B79A1F /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
+		80F214D12355075900B79A1F /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +74,7 @@
 				80F214BD2354FDEE00B79A1F /* Info.plist */,
 				80F214C52355007000B79A1F /* View Controllers */,
 				80F214CA235503A100B79A1F /* Views */,
+				80F214CD235505D900B79A1F /* Model */,
 			);
 			path = Journal;
 			sourceTree = "<group>";
@@ -87,6 +94,16 @@
 				80F214C82355039D00B79A1F /* EntryTableViewCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		80F214CD235505D900B79A1F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				80F214CB235505D500B79A1F /* CoreDataStack.swift */,
+				80F214CE235506D900B79A1F /* Journal.xcdatamodeld */,
+				80F214D12355075900B79A1F /* Entry+Convenience.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -160,9 +177,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80F214D0235506D900B79A1F /* Journal.xcdatamodeld in Sources */,
 				80F214B02354FDEC00B79A1F /* AppDelegate.swift in Sources */,
 				80F214C92355039D00B79A1F /* EntryTableViewCell.swift in Sources */,
 				80F214C42355002400B79A1F /* JournalTableViewController.swift in Sources */,
+				80F214D22355075900B79A1F /* Entry+Convenience.swift in Sources */,
+				80F214CC235505D500B79A1F /* CoreDataStack.swift in Sources */,
 				80F214B22354FDEC00B79A1F /* SceneDelegate.swift in Sources */,
 				80F214C72355008000B79A1F /* DetailViewController.swift in Sources */,
 			);
@@ -360,6 +380,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		80F214CE235506D900B79A1F /* Journal.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				80F214CF235506D900B79A1F /* Journal.xcdatamodel */,
+			);
+			currentVersion = 80F214CF235506D900B79A1F /* Journal.xcdatamodel */;
+			path = Journal.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 80F214A42354FDEC00B79A1F /* Project object */;
 }
