@@ -8,12 +8,20 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class EntryDetailViewController: UIViewController {
+
+	@IBOutlet weak var titleTextField: UITextField!
+
+	@IBOutlet weak var textViewField: UITextView!
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		// Do any additional setup after loading the view.
 	}
+
+	@IBAction func saveButtonTapped(_ sender: Any) {
+	}
+	
 
 
 }
