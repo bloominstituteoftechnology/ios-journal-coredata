@@ -52,8 +52,19 @@ class EntryController {
 	// Read
 
 	// Update
+	func updateTask(entry: Entry, title: String, timestamp: Date, bodyText: String) {
+		entry.title = title
+		entry.bodyText = bodyText
+		entry.timestamp = timestamp
+		CoreDataStack.shared.saveToPersistentStore()
+	}
 
 	// Delete
+	func deleteTask(entry: Entry) {
+		let mainC = CoreDataStack.shared.mainContext
+		mainC.delete(entry)
+		CoreDataStack.shared.saveToPersistentStore()
+	}
 
 
 }
