@@ -61,7 +61,10 @@ class EntryController {
     
     // Delete
     
+    //TODO: Delete from persitentStore
     func deleteEntry(entry: Entry) {
+        
+        //let entry
         
         CoreDataStack.shared.saveToPersistentStore()
     }
