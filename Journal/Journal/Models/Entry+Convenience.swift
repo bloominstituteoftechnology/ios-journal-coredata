@@ -11,7 +11,7 @@ import CoreData
 
 extension Entry {
 
-	convenience init(title: String, timestamp: Date = Date(), identifier: String, bodyText: String, context: NSManagedObjectContext) {
+	@discardableResult convenience init(title: String, timestamp: Date = Date(), identifier: String, bodyText: String, context: NSManagedObjectContext) {
 
 		self.init(context: context)
 
