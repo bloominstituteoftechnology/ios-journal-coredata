@@ -32,12 +32,12 @@ class CoreDataStack {
         return container.viewContext
     }
     
-    func saveToPersistentStore() {
-        do {
-            try mainContext.save()
-        } catch {
-            NSLog("Error saving context: \(error)")
-        }
-    }
+//    func saveToPersistentStore() {
+//        do {
+//            try mainContext.save()
+//        } catch {
+//            NSLog("Error saving context: \(error)")
+//        }
+//    }
     
 }
