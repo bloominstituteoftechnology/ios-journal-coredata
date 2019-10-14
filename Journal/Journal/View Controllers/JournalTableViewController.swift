@@ -7,8 +7,16 @@
 //
 
 import UIKit
+import CoreData
 
 class JournalTableViewController: UITableViewController {
+    
+    let entryController = EntryController()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,14 +26,14 @@ class JournalTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 0
+        return entryController.entries.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "EntryTableViewCell", for: indexPath)
 
-
+        cell.textLabel?.text = entryController.entries[indexPath.row].title
         
         return cell
     }
@@ -34,6 +42,27 @@ class JournalTableViewController: UITableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
+        if segue.identifier == "ShowEntryDetail" {
+            if let detailVC = segue.destination as?
+            DetailViewController,
+                let indexPath = tableView.indexPathForSelectedRow {
+                
+                detailVC.entryController = entryController
+                detailVC.entry = entryController.entries[indexPath.row]
+            }
+        } else if segue.identifier == "AddEntry" {
+            if let detailVC = segue.destination as?
+                DetailViewController {
+                detailVC.entryController = entryController
+            }
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            //entryController.entries.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
 
 }

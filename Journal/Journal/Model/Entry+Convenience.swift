@@ -11,7 +11,7 @@ import CoreData
 
 extension Entry {
     
-    @discardableResult convenience init(title: String, bodyText: String, timestamp: Date, identifier: String, context: NSManagedObjectContext) {
+    @discardableResult convenience init(title: String, bodyText: String, timestamp: Date = Date.init(timeIntervalSinceNow: 50), identifier: String = "", context: NSManagedObjectContext) {
         
         self.init(context: context)
         
@@ -20,4 +20,6 @@ extension Entry {
         self.timestamp = timestamp
         self.identifier = identifier
     }
+    
+
 }
