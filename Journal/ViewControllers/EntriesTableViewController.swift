@@ -9,6 +9,8 @@
 import UIKit
 
 class EntriesTableViewController: UITableViewController {
+    
+    var coreDataStack = CoreDataStack()
 
     override func viewDidLoad() {
         super.viewDidLoad()
