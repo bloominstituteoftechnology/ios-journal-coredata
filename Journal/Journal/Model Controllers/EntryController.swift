@@ -12,24 +12,24 @@ import UIKit
 
 class EntryController {
     
-    var entries: [Entry] {
-        loadFromPersistentStore()
-    }
-        
-    func loadFromPersistentStore() -> [Entry] {
-            
-            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-            
-            let moc = CoreDataStack.shared.mainContext
-            
-            do {
-                let entries = try moc.fetch(fetchRequest)
-                return entries
-            } catch {
-                NSLog("Error fetching tasks: \(error)")
-                return []
-            }
-    }
+//    var entries: [Entry] {
+//        loadFromPersistentStore()
+//    }
+//        
+//    func loadFromPersistentStore() -> [Entry] {
+//            
+//            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//            
+//            let moc = CoreDataStack.shared.mainContext
+//            
+//            do {
+//                let entries = try moc.fetch(fetchRequest)
+//                return entries
+//            } catch {
+//                NSLog("Error fetching tasks: \(error)")
+//                return []
+//            }
+//    }
     
     func createEntry(with title: String, bodyText: String, mood: String, context: NSManagedObjectContext) {
         
