@@ -11,34 +11,38 @@ import CoreData
 
 class EntryController {
     
-    var entries: [Entry] {
-    loadFromPersistentStore()
+//    var entries: [Entry] {
+//      loadFromPersistentStore()
+//    }
+    
    
-    }
     
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
-        let moc = CoreDataStack.shared.mainContext
-        
-        do {
-            let entries = try moc.fetch(fetchRequest)
-            return entries
-        } catch {
-            NSLog("Error fetching entries: \(error)")
-            return []
-        }
-    }
     
-    func createEntry(with title: String, bodyText: String, context: NSManagedObjectContext) {
+//    func loadFromPersistentStore() -> [Entry] {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//
+//        let moc = CoreDataStack.shared.mainContext
+//
+//        do {
+//            let entries = try moc.fetch(fetchRequest)
+//            return entries
+//        } catch {
+//            NSLog("Error fetching entries: \(error)")
+//            return []
+//        }
+//    }
+
+    
+    func createEntry(with title: String, bodyText: String, mood: Mood, context: NSManagedObjectContext) {
         
-        Entry(title: title, bodyText: bodyText, context: context)
+        Entry(title: title, bodyText: bodyText, mood: mood, context: context)
         CoreDataStack.shared.saveToPersistentStore()
     }
     
-    func updateEntry(entry: Entry, with title: String, bodyText: String) {
+    func updateEntry(entry: Entry, with title: String, bodyText: String, mood: Mood) {
         entry.title = title
         entry.bodyText = bodyText
+        entry.mood = mood.rawValue
         CoreDataStack.shared.saveToPersistentStore()
     }
     

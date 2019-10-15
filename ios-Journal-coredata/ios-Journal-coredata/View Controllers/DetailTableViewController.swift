@@ -23,7 +23,8 @@ class DetailViewController: UIViewController {
     // MARK: - Outlets
     @IBOutlet weak var entryTitle: UITextField!
     @IBOutlet weak var entryText: UITextView!
-   
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         updateViews()
@@ -34,10 +35,22 @@ class DetailViewController: UIViewController {
         if let title = entryTitle.text,
             let bodyText = entryText.text {
             
-            if let entry = entry {
-                entryController?.updateEntry(entry: entry, with: title, bodyText: bodyText)
+            let index = moodSegmentedControl.selectedSegmentIndex
+            
+            let mood: Mood
+            
+            if index == 0 {
+                mood = .😁
+            } else if index == 1 {
+                mood = .😐
             } else {
-                entryController?.createEntry(with: title, bodyText: bodyText, context: CoreDataStack.shared.mainContext)
+                mood = .🥺
+            }
+            
+            if let entry = entry {
+                entryController?.updateEntry(entry: entry, with: title, bodyText: bodyText, mood: mood)
+            } else {
+                entryController?.createEntry(with: title, bodyText: bodyText, mood: mood, context: CoreDataStack.shared.mainContext)
             }
         }
         navigationController?.popViewController(animated: true)
@@ -49,5 +62,10 @@ class DetailViewController: UIViewController {
         title = entry?.title ?? "Create Entry"
         entryTitle.text = entry?.title
         entryText.text = entry?.bodyText
+        
+        if let mood = Mood(rawValue: entry?.mood ?? "😐"),
+            let moodIndex = Mood.allCases.firstIndex(of: mood) {
+            moodSegmentedControl.selectedSegmentIndex = moodIndex
+        }
     }
 }
