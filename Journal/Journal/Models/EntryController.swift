@@ -11,6 +11,11 @@ import CoreData
 
 class EntryController {
 
+	// MARK: - Properties
+	// all computed properties have to return something!
+	var entries: [Entry] {
+		return loadFromPersistentStore()
+	}
 
 	func saveToPersistentStore() {
 
@@ -35,10 +40,6 @@ class EntryController {
 			NSLog("Error fetching entries: \(error)")
 			return []
 		}
-	}
-
-	var entries: [Entry] {
-		loadFromPersistentStore()
 	}
 
 	// MARK: - CRUD Methods

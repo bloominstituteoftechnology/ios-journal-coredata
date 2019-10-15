@@ -13,6 +13,14 @@ class EntriesTableViewCell: UITableViewCell {
 	@IBOutlet weak var titleTextField: UILabel!
 	@IBOutlet weak var bodyTextField: UILabel!
 	@IBOutlet weak var timestampTextField: UILabel!
+
+	// MARK: - Properties
+	var entry: Entry? {
+		didSet {
+			updateViews()
+		}
+	}
+
 	
 	override func awakeFromNib() {
         super.awakeFromNib()
@@ -25,4 +33,17 @@ class EntriesTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+	func updateViews() {
+		guard let entry = entry else { return }
+
+		titleTextField.text = entry.title
+		bodyTextField.text = entry.bodyText
+
+		let dateFormatter = DateFormatter()
+		dateFormatter.locale = Locale(identifier: "en_US")
+		dateFormatter.dateStyle = .short
+		dateFormatter.timeStyle = .short
+		timestampTextField.text = dateFormatter.string(from: entry.timestamp!)
+
+	}
 }
