@@ -32,18 +32,27 @@ class EntryDetailViewController: UIViewController {
         title = entry?.title ?? "Create Entry"
         titleTextField.text = entry?.title
         descriptionTextView.text = entry?.bodyText
+        
+        if let mood = EntryMood(rawValue: entry?.mood ?? EntryMood.happy.rawValue),
+            let moodIndex = EntryMood.allCases.firstIndex(of: mood) {
+            moodSegmentedControl.selectedSegmentIndex = moodIndex
+        }
     }
     
     @IBAction func saveTapped(_ sender: UIBarButtonItem) {
         guard let title = titleTextField.text,
             let description = descriptionTextView.text,
+            let moodText = moodSegmentedControl.titleForSegment(at: moodSegmentedControl.selectedSegmentIndex),
+            let mood = EntryMood(rawValue: moodText),
             !title.isEmpty,
             !description.isEmpty else { return }
         
+        
+        
         if let entry = entry {
-            entryController?.updateEntry(entry: entry, title: title, bodyText: description)
+            entryController?.updateEntry(entry: entry, title: title, bodyText: description, mood: mood)
         } else {
-            entryController?.createEntry(title: title, bodyText: description, context: CoreDataStack.shared.mainContext)
+            entryController?.createEntry(title: title, bodyText: description, mood: mood, context: CoreDataStack.shared.mainContext)
         }
         
         navigationController?.popViewController(animated: true)

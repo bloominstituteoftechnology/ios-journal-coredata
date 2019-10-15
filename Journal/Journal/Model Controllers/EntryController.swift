@@ -35,16 +35,16 @@ class EntryController {
         }
     }
     
-    func createEntry(title: String, bodyText: String, mood: String, context: NSManagedObjectContext) {
+    func createEntry(title: String, bodyText: String, mood: EntryMood, context: NSManagedObjectContext) {
         Entry(title: title, bodyText: bodyText, mood: mood, context: context)
         saveToPersistentStore()
     }
     
-    func updateEntry(entry: Entry, title: String, bodyText: String, mood: String) {
+    func updateEntry(entry: Entry, title: String, bodyText: String, mood: EntryMood) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = Date()
-        entry.mood = mood
+        entry.mood = mood.rawValue
         saveToPersistentStore()
     }
     
