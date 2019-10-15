@@ -26,9 +26,11 @@ class EntryTableViewCell: UITableViewCell {
         entryTitle?.text = entry?.title
         entryDescription.text = entry?.bodyText
         
-        guard let timestamp = entryTimeStamp,
-            let entryTimeStamp = entry?.timestamp else { return }
-        timestamp.text = String("\(entryTimeStamp)")
-        
+        if let timestamp = entry?.timestamp {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
+        entryTimeStamp.text = dateFormatter.string(from: timestamp)
+        }
     }
 }
