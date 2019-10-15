@@ -31,16 +31,17 @@ class EntryController {
             }
     }
     
-    func createEntry(with title: String, bodyText: String, context: NSManagedObjectContext) {
+    func createEntry(with title: String, bodyText: String, mood: String, context: NSManagedObjectContext) {
         
-        Entry(title: title, bodyText: bodyText, context: context)
+        Entry(title: title, bodyText: bodyText, mood: mood, context: context)
         CoreDataStack.shared.saveToPersistentStore()
     }
     
-    func updateEntry(entry: Entry, with title: String, bodyText: String) {
+    func updateEntry(entry: Entry, with title: String, bodyText: String, mood: String) {
         
         entry.title = title
         entry.bodyText = bodyText
+        entry.mood = mood
         CoreDataStack.shared.saveToPersistentStore()
     }
     
