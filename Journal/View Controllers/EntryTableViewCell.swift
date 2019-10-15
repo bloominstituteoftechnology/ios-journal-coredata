@@ -30,8 +30,11 @@ class EntryTableViewCell: UITableViewCell {
         
         guard let unwrappedEntry = entry else { return }
         
-        titleLabel.text = entry?.title
-        bodyText.text = entry?.bodyText
-        timeStamp.text = Date()
+        titleLabel.text = unwrappedEntry.title
+        bodyText.text = unwrappedEntry.bodyText
+        
+        let dateFormatter = DateFormatter()
+        timeStamp.text = dateFormatter.string(from: Date())
+
     }
 }

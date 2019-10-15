@@ -50,6 +50,7 @@ class EntryController {
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = Date()
+        // Identifier will have default value?
         CoreDataStack.shared.saveToPersistentStore()
     }
     
