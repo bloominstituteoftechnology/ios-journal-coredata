@@ -10,7 +10,7 @@
         <!--Journal-->
         <scene sceneID="Cv8-nz-n35">
             <objects>
-                <tableViewController id="9Cb-Py-vcu" customClass="EntriesTableViewCell" sceneMemberID="viewController">
+                <tableViewController id="9Cb-Py-vcu" customClass="EntriesTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="8ny-fa-NWL">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -80,7 +80,7 @@
         <!--Title-->
         <scene sceneID="iDB-J1-Tu5">
             <objects>
-                <viewController id="3MO-bU-TSc" customClass="EntryDetailTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="3MO-bU-TSc" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="O0Y-9K-cw8">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -114,7 +114,11 @@
                         <viewLayoutGuide key="safeArea" id="5Lr-xn-YUn"/>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="AWD-fb-tKf">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="S4R-1Y-6uJ"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="S4R-1Y-6uJ">
+                            <connections>
+                                <action selector="saveBarButton:" destination="3MO-bU-TSc" id="hJn-dJ-NpN"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="bodyTextView" destination="sHZ-xK-6JV" id="aae-oY-5Gp"/>

@@ -92,7 +92,7 @@ class EntriesTableViewController: UITableViewController {
         
         if segue.identifier == "ShowDetailsVCSegue" {
             
-            if let detailVC = segue.destination as? EntryDetailTableViewController,
+            if let detailVC = segue.destination as? EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow {
                 
                 detailVC.entry = entryController.entries[indexPath.row]
@@ -100,7 +100,7 @@ class EntriesTableViewController: UITableViewController {
             }
         } else if segue.identifier == "CreateNewEntrySegue" {
             
-            if let detailVC = segue.destination as? EntryDetailTableViewController {
+            if let detailVC = segue.destination as? EntryDetailViewController {
                 detailVC.entryController = entryController
             }
         }

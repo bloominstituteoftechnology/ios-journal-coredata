@@ -35,15 +35,14 @@ class EntryTableViewCell: UITableViewCell {
     
     func updateViews() {
         
-        guard let entry = entry,
-            let date = entry.timestamp else { return }
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM-dd-yyyy'T'HH:mm"
-        let newDate = dateFormatter.string(from: date)
-        
+        guard let entry = entry else { return }
+//
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "MM-dd-yyyy'T'HH:mm"
+//        let newDate = dateFormatter.string(from: date)
+//
         titleLabel.text = entry.title
-        timestampLabel.text = newDate
+        timestampLabel.text = TimestampFormatter.formatTimestamp(for: entry)
         bodyLabel.text = entry.bodyText
     }
 }

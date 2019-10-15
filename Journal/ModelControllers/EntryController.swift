@@ -54,8 +54,8 @@ class EntryController {
     
     // Create
     
-    func createEntry(title: String, bodyText: String, context: NSManagedObjectContext) {
-        Entry(title: title, bodyText: bodyText, context: context)
+    func createEntry(title: String, bodyText: String) {
+        _ = Entry(title: title, bodyText: bodyText)
         saveToPersistentStore()
     }
     
