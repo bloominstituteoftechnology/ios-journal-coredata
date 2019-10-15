@@ -94,7 +94,6 @@ class JournalTableViewController: UITableViewController {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
             entryController.deleteEntry(entry: entry)
-            tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
     
