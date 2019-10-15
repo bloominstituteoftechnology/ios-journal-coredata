@@ -45,27 +45,26 @@ class EntryController {
 	// MARK: - CRUD Methods
 
 	// Create
-	func createEntry(title: String, timestamp: Date, identifier: String, bodyText: String, context: NSManagedObjectContext) {
-		Entry(title: title, timestamp: timestamp, identifier: identifier, bodyText: bodyText, context: context)
-		CoreDataStack.shared.saveToPersistentStore()
+	func createEntry(title: String, bodyText: String) {
+		_ = Entry(title: title, bodyText: bodyText)
+		//Entry(title: title, timestamp: timestamp!, identifier: identifier!, bodyText: bodyText, context: context)
+		saveToPersistentStore()
 	}
 
 	// Read
 
 	// Update
-	func updateTask(entry: Entry, title: String, timestamp: Date, bodyText: String) {
+	func updateEntry(entry: Entry, title: String, bodyText: String) {
 		entry.title = title
 		entry.bodyText = bodyText
-		entry.timestamp = timestamp
-		CoreDataStack.shared.saveToPersistentStore()
+		saveToPersistentStore()
 	}
 
 	// Delete
-	func deleteTask(entry: Entry) {
+	func deleteEntry(entry: Entry) {
 		let mainC = CoreDataStack.shared.mainContext
 		mainC.delete(entry)
-		CoreDataStack.shared.saveToPersistentStore()
-	}
+		saveToPersistentStore()	}
 
 
 }
