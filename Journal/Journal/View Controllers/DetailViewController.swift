@@ -43,7 +43,7 @@ class DetailViewController: UIViewController {
             switch index {
             case 0:
                 mood = .sad
-            case 2:
+            case 1:
                 mood = .eh
             default:
                 mood = .happy

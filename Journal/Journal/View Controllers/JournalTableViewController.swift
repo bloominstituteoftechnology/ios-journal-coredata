@@ -13,6 +13,16 @@ class JournalTableViewController: UITableViewController {
     
     let entryController = EntryController()
     
+    var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd/yyyy"
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.locale = Locale(identifier: "en_US")
+        return formatter
+    }
+    
+    let date = Date(timeIntervalSinceNow: 0)
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
        
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -62,7 +72,7 @@ class JournalTableViewController: UITableViewController {
         cell.entryDescription.text = fetchedResultsController.object(at: indexPath).bodyText
         
         
-        cell.entryTimeStamp.text = String("\(fetchedResultsController.object(at: indexPath).timestamp)")
+        cell.entryTimeStamp.text = dateFormatter.string(from: date)
         
 //        cell.textLabel?.text = fetchedResultsController.object(at: indexPath).title
         
@@ -98,7 +108,6 @@ class JournalTableViewController: UITableViewController {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
             entryController.deleteEntry(entry: entry)
-            tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
 }
