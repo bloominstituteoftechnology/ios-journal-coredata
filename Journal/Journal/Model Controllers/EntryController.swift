@@ -8,13 +8,14 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 class EntryController {
     
     var entries: [Entry] {
         loadFromPersistentStore()
     }
-    
+        
     func loadFromPersistentStore() -> [Entry] {
             
             let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -29,8 +30,6 @@ class EntryController {
                 return []
             }
     }
-    
-    
     
     func createEntry(with title: String, bodyText: String, context: NSManagedObjectContext) {
         
@@ -50,5 +49,4 @@ class EntryController {
         CoreDataStack.shared.mainContext.delete(entry)
         CoreDataStack.shared.saveToPersistentStore()
     }
-    
 }

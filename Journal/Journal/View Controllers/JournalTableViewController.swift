@@ -12,6 +12,7 @@ import CoreData
 class JournalTableViewController: UITableViewController {
     
     let entryController = EntryController()
+
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -66,5 +67,4 @@ class JournalTableViewController: UITableViewController {
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
-    
 }

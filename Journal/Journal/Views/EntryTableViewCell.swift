@@ -26,9 +26,16 @@ class EntryTableViewCell: UITableViewCell {
         entryTitle?.text = entry?.title
         entryDescription.text = entry?.bodyText
         
-        guard let timestamp = entryTimeStamp,
-            let entryTimeStamp = entry?.timestamp else { return }
-        timestamp.text = String("\(entryTimeStamp)")
+        var dateFormatter: DateFormatter {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "MM/dd/yyyy"
+            formatter.timeZone = TimeZone(secondsFromGMT: 0)
+            return formatter
+        }
         
+        let date = Date(timeIntervalSinceNow: 0)
+        dateFormatter.locale = Locale(identifier: "en_US")
+        guard let timestamp = entryTimeStamp else { return }        
+        timestamp.text = dateFormatter.string(from: date)
     }
 }
