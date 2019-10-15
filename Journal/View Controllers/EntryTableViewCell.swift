@@ -13,6 +13,8 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var bodyText: UILabel!
     @IBOutlet weak var timeStamp: UILabel!
     
+    var entry: Entry?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -24,4 +26,12 @@ class EntryTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    func updateViews() {
+        
+        guard let unwrappedEntry = entry else { return }
+        
+        titleLabel.text = entry?.title
+        bodyText.text = entry?.bodyText
+        timeStamp.text = Date()
+    }
 }

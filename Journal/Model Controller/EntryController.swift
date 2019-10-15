@@ -40,13 +40,13 @@ class EntryController {
     }
     
     // Create
-    func createEntry(with title: String, bodyText: String, context: NSManagedObjectContext) {
-        Entry(title: title, bodyText: bodyText, context: context)
+    func createEntry(with title: String, bodyText: String, identifier: String, timestamp: Date, context: NSManagedObjectContext) {
+        Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifer: identifier, context: context)
         CoreDataStack.shared.saveToPersistentStore()
     }
     
     // Update
-    func updateEntry(entry: Entry, with title: String, bodyText: String) {
+    func updateEntry(entry: Entry, with title: String, bodyText: String, identifier: String, timestamp: Date) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = Date()
