@@ -15,6 +15,13 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var bodyLabel: UILabel!
     
+    // MARK: Properties
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -25,5 +32,18 @@ class EntryTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    
+    func updateViews() {
+        
+        guard let entry = entry,
+            let date = entry.timestamp else { return }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy'T'HH:mm"
+        let newDate = dateFormatter.string(from: date)
+        
+        titleLabel.text = entry.title
+        timestampLabel.text = newDate
+        bodyLabel.text = entry.bodyText
+    }
 }
