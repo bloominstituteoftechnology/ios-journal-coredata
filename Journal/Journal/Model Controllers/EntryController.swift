@@ -8,11 +8,55 @@
 
 import CoreData
 
+enum HTTPMethod: String {
+    case get = "GET"
+    case post = "POST"
+    case put = "PUT"
+    case delete = "DELETE"
+}
+
 class EntryController {
     
-//    var entries: [Entry] {
-//        loadFromPersistentStore()
-//    }
+    let baseURL = URL(string: "https://journal-5d828.firebaseio.com/")!
+    
+    func put(entry: Entry, completion: @escaping () -> Error? = { () -> Error? in return nil} ) {
+        guard let identifier = entry.identifier else {
+            NSLog("No identifier for entry.")
+            let _ = completion()
+            return
+        }
+        
+        let requestURL = baseURL
+            .appendingPathComponent(identifier)
+            .appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.put.rawValue
+        
+        guard let entryRepresentation = entry.entryRepresentation else {
+            NSLog("Entry representation is nil")
+            let _ = completion()
+            return
+        }
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(entryRepresentation)
+        } catch {
+            NSLog("Error encoding entry representation: \(error)")
+            let _ = completion()
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error PUTting entry: \(error)")
+                let _ = completion()
+                return
+            }
+            
+            let _ = completion()
+        }.resume()
+    }
     
     func saveToPersistentStore() {
         do {
@@ -22,22 +66,10 @@ class EntryController {
         }
     }
     
-//    func loadFromPersistentStore() -> [Entry] {
-//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//
-//        let moc = CoreDataStack.shared.mainContext
-//
-//        do {
-//            return try moc.fetch(fetchRequest)
-//        } catch {
-//            NSLog("Error fetching entries: \(error)")
-//            return []
-//        }
-//    }
-    
     func createEntry(title: String, bodyText: String, mood: EntryMood, context: NSManagedObjectContext) {
-        Entry(title: title, bodyText: bodyText, mood: mood, context: context)
+        let entry = Entry(title: title, bodyText: bodyText, mood: mood, context: context)
         saveToPersistentStore()
+        put(entry: entry)
     }
     
     func updateEntry(entry: Entry, title: String, bodyText: String, mood: EntryMood) {
@@ -46,6 +78,7 @@ class EntryController {
         entry.timestamp = Date()
         entry.mood = mood.rawValue
         saveToPersistentStore()
+        put(entry: entry)
     }
     
     func deleteEntry(entry: Entry) {
