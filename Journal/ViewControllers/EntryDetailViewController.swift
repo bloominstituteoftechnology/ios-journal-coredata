@@ -13,6 +13,7 @@ class EntryDetailViewController: UIViewController {
     //MARK: Outlets
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     
     //MARK: Properties
     var entry: Entry? {
@@ -35,12 +36,27 @@ class EntryDetailViewController: UIViewController {
             let bodyText = bodyTextView.text,
             !title.isEmpty,
             !bodyText.isEmpty else { return }
-            
+        
+        let index = moodSegmentedControl.selectedSegmentIndex
+        let mood: EntryMood
+        
+        // Chenging the Entry mood
+        switch index {
+        case 0:
+            mood = .sad
+        case 1:
+            mood = .neutral
+        case 2:
+            mood = .happy
+        default:
+            mood = .neutral
+        }
+        
             // Either save a new task or update the existing task
             if let entry = entry {
-                entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText)
+                entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText, mood: mood.rawValue)
             } else {
-                entryController?.createEntry(title: title, bodyText: bodyText)
+                entryController?.createEntry(title: title, bodyText: bodyText, mood: mood.rawValue)
             }
         
         navigationController?.popViewController(animated: true)
@@ -50,21 +66,15 @@ class EntryDetailViewController: UIViewController {
     //MARK: UpdateViews()
     func updateViews() {
         guard isViewLoaded else { return }
-        
-  
-            
+    
             title = entry?.title ?? "Create New Entry"
             titleTextField.text = entry?.title
             bodyTextView.text = entry?.bodyText
         
-//        else {
-//            guard let title = titleTextField.text,
-//                let bodyText = bodyTextView.text,
-//                !title.isEmpty,
-//                !bodyText.isEmpty  else { return }
-//
-//            entryController?.createEntry(title: title, bodyText: bodyText, context: CoreDataStack.shared.mainContext)
-//        }
+        if let mood = EntryMood(rawValue: entry?.mood ?? "😐"),
+            let moodIndex = EntryMood.allCases.firstIndex(of: mood) {
+            moodSegmentedControl.selectedSegmentIndex = moodIndex
+        }
 
     }
 }

@@ -86,7 +86,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XeN-AE-Mo1">
-                                <rect key="frame" x="0.0" y="150" width="414" height="38"/>
+                                <rect key="frame" x="0.0" y="188" width="414" height="38"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="38" id="jZj-9h-FVn"/>
                                 </constraints>
@@ -94,21 +94,35 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="sHZ-xK-6JV">
-                                <rect key="frame" x="0.0" y="198" width="414" height="364"/>
+                                <rect key="frame" x="0.0" y="236" width="414" height="446"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9S9-xM-JqI">
+                                <rect key="frame" x="8" y="148" width="398" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="G7v-XG-TmB"/>
+                                </constraints>
+                                <segments>
+                                    <segment title="🙁"/>
+                                    <segment title="😐"/>
+                                    <segment title="😄"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="9S9-xM-JqI" firstAttribute="leading" secondItem="5Lr-xn-YUn" secondAttribute="leading" constant="8" id="0gs-aA-zWN"/>
+                            <constraint firstItem="XeN-AE-Mo1" firstAttribute="top" secondItem="9S9-xM-JqI" secondAttribute="bottom" constant="10" id="3Lr-Af-HT7"/>
                             <constraint firstItem="5Lr-xn-YUn" firstAttribute="trailing" secondItem="XeN-AE-Mo1" secondAttribute="trailing" id="Ebk-7X-5vV"/>
-                            <constraint firstItem="XeN-AE-Mo1" firstAttribute="top" secondItem="5Lr-xn-YUn" secondAttribute="top" constant="10" id="MX9-sF-cY1"/>
-                            <constraint firstItem="5Lr-xn-YUn" firstAttribute="bottom" secondItem="sHZ-xK-6JV" secondAttribute="bottom" constant="300" id="UL7-fV-3xt"/>
+                            <constraint firstItem="5Lr-xn-YUn" firstAttribute="trailing" secondItem="9S9-xM-JqI" secondAttribute="trailing" constant="8" id="L4W-zi-jti"/>
+                            <constraint firstItem="5Lr-xn-YUn" firstAttribute="bottom" secondItem="sHZ-xK-6JV" secondAttribute="bottom" constant="180" id="UL7-fV-3xt"/>
                             <constraint firstItem="XeN-AE-Mo1" firstAttribute="leading" secondItem="5Lr-xn-YUn" secondAttribute="leading" id="aYm-Hd-8QL"/>
                             <constraint firstItem="sHZ-xK-6JV" firstAttribute="top" secondItem="XeN-AE-Mo1" secondAttribute="bottom" constant="10" id="amp-dZ-i2I"/>
                             <constraint firstItem="5Lr-xn-YUn" firstAttribute="trailing" secondItem="sHZ-xK-6JV" secondAttribute="trailing" id="g2f-WT-1gf"/>
+                            <constraint firstItem="9S9-xM-JqI" firstAttribute="top" secondItem="5Lr-xn-YUn" secondAttribute="top" constant="8" id="gEx-ZK-ds8"/>
                             <constraint firstItem="sHZ-xK-6JV" firstAttribute="leading" secondItem="5Lr-xn-YUn" secondAttribute="leading" id="wCU-wA-eQQ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="5Lr-xn-YUn"/>
@@ -122,12 +136,13 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bodyTextView" destination="sHZ-xK-6JV" id="aae-oY-5Gp"/>
+                        <outlet property="moodSegmentedControl" destination="9S9-xM-JqI" id="vow-wK-tMf"/>
                         <outlet property="titleTextField" destination="XeN-AE-Mo1" id="Eea-ai-Zow"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rod-WO-Pn3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2089" y="172"/>
+            <point key="canvasLocation" x="2088.4057971014495" y="171.42857142857142"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Xhp-tX-2a5">
