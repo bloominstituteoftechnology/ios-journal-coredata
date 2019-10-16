@@ -17,6 +17,8 @@ class EntryController {
         fetchEntryFromServer()
     }
     
+    // MARK: Fetch Entries from server
+    
     func fetchEntryFromServer(completion: @escaping () -> Void = {} ) {
         
         let requestURL = baseURL.appendingPathExtension("json")
@@ -49,6 +51,8 @@ class EntryController {
             completion()
         }.resume()
     }
+    
+    // MARK: Create Entries on server
     
     func createEntries(with representations: [EntryRepresentation]) {
         // Which representations do we already have in Core Data?
@@ -112,8 +116,8 @@ class EntryController {
            case post = "POST"
            case delete = "DELETE"
        }
-       
-       func put(entry: Entry, completion: @escaping () -> Void = {} ) {
+    // MARK: Put func
+    func put(entry: Entry, completion: @escaping () -> Void = {} ) {
            
 
            let identifier = entry.identifier ?? UUID()
@@ -152,6 +156,27 @@ class EntryController {
            }.resume()
        }
   
+    // MARK: Delete Entry from server
+    func deleteEntryFromServer(entry: Entry, completion: @escaping (Error?) -> Void = {_ in })  {
+        
+        let identifier = entry.identifier
+        entry.identifier = identifier
+        
+        let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error deleting entry from server: \(error)")
+                completion()
+            }
+                completion(nil)
+            
+            }.resume()
+        }
+    }
     // MARK: CRUD
     
     // Create Entry
