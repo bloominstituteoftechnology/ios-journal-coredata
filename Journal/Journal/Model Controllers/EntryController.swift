@@ -23,10 +23,10 @@ class EntryController {
     
     let baseURL = URL(string: "https://journal-5d828.firebaseio.com/")!
     
-    func put(entry: Entry, completion: @escaping () -> Error? = { () -> Error? in return nil} ) {
+    func put(entry: Entry, completion: @escaping (Error?) -> Void = { _ in } ) {
         guard let identifier = entry.identifier else {
             NSLog("No identifier for entry.")
-            let _ = completion()
+            completion(NSError())
             return
         }
         
@@ -39,7 +39,7 @@ class EntryController {
         
         guard let entryRepresentation = entry.entryRepresentation else {
             NSLog("Entry representation is nil")
-            let _ = completion()
+            completion(NSError())
             return
         }
         
@@ -47,25 +47,25 @@ class EntryController {
             request.httpBody = try JSONEncoder().encode(entryRepresentation)
         } catch {
             NSLog("Error encoding entry representation: \(error)")
-            let _ = completion()
+            completion(NSError())
             return
         }
         
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
                 NSLog("Error PUTting entry: \(error)")
-                let _ = completion()
+                completion(error)
                 return
             }
             
-            let _ = completion()
+            completion(nil)
         }.resume()
     }
     
-    func deleteEntryFromServer(entry: Entry, completion: @escaping  () -> Error? = { () -> Error? in return nil} ) {
+    func deleteEntryFromServer(entry: Entry, completion: @escaping (Error?) -> Void = { _ in } ) {
         guard let identifier = entry.identifier else {
             NSLog("No identifier for entry.")
-            let _ = completion()
+            completion(NSError())
             return
         }
         
@@ -79,25 +79,27 @@ class EntryController {
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
                 NSLog("Error deleting entry: \(error)")
-                let _ = completion()
+                completion(error)
                 return
             }
+            
+            completion(nil)
         }.resume()
     }
     
-    func fetchEntriesFromServer(completion: @escaping  () -> Error? = { () -> Error? in return nil}) {
+    func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = { _ in }) {
         let requestURL = baseURL.appendingPathExtension("json")
         
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
             if let error = error {
                 NSLog("Error getting entries: \(error)")
-                let _ = completion()
+                completion(error)
                 return
             }
             
             guard let data = data else {
                 NSLog("No data returned from data task.")
-                let _ = completion()
+                completion(NSError())
                 return
             }
             
@@ -106,11 +108,11 @@ class EntryController {
             do {
                 entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({ $0.value })
                 self.updateEntries(with: entryRepresentations)
+                completion(nil)
             } catch {
                 NSLog("Error decoding entry representations: \(error)")
+                completion(error)
             }
-            
-            let _ = completion()
         }.resume()
     }
     
