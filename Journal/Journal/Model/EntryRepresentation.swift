@@ -14,6 +14,6 @@ struct EntryRepresentation: Codable {
     let bodyText: String
     let timestamp: Date
     let mood: String
-    let identifier: String
+    let identifier: UUID
     
 }

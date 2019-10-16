@@ -28,7 +28,12 @@ extension Entry {
         return EntryRepresentation(title: title, bodyText: bodyText, timestamp: timestamp, mood: mood, identifier: identifier)
     }
     
-    @discardableResult convenience init(title: String, bodyText: String, timestamp: Date = Date.init(timeIntervalSinceNow: 0), identifier: String = "", mood: String, context: NSManagedObjectContext) {
+    @discardableResult convenience init(title: String,
+                                        bodyText: String,
+                                        timestamp: Date = Date.init(timeIntervalSinceNow: 0),
+                                        identifier: UUID = UUID(),
+                                        mood: String,
+                                        context: NSManagedObjectContext) {
         
         self.init(context: context)
         
