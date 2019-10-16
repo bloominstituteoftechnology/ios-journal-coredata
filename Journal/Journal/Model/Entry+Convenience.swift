@@ -32,7 +32,7 @@ extension Entry {
                                    title: title)
     }
     
-    @discardableResult convenience init(title: String, bodyText: String, timestamp: Date = Date(), mood: EntryMood, identifier: String = "", context: NSManagedObjectContext) {
+    @discardableResult convenience init(title: String, bodyText: String, timestamp: Date = Date(), mood: EntryMood, identifier: String = UUID().uuidString, context: NSManagedObjectContext) {
         self.init(context: context)
         
         self.title = title

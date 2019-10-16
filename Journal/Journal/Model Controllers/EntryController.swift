@@ -58,6 +58,29 @@ class EntryController {
         }.resume()
     }
     
+    func deleteEntryFromServer(entry: Entry, completion: @escaping  () -> Error? = { () -> Error? in return nil} ) {
+        guard let identifier = entry.identifier else {
+            NSLog("No identifier for entry.")
+            let _ = completion()
+            return
+        }
+        
+        let requestURL = baseURL
+            .appendingPathComponent(identifier)
+            .appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error Deleting entry: \(error)")
+                let _ = completion()
+                return
+            }
+        }.resume()
+    }
+    
     func saveToPersistentStore() {
         do {
             try CoreDataStack.shared.mainContext.save()
@@ -82,6 +105,7 @@ class EntryController {
     }
     
     func deleteEntry(entry: Entry) {
+        deleteEntryFromServer(entry: entry)
         CoreDataStack.shared.mainContext.delete(entry)
         saveToPersistentStore()
     }
