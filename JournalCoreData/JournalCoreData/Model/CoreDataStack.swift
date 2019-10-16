@@ -40,4 +40,19 @@ class CoreDataStack {
             mainContext.reset()
         }
     }
+    
+    func loadFromPersistentStore() -> [Entry] {
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        
+        let moc = CoreDataStack.shared.mainContext
+        do {
+            let tasks = try moc.fetch(fetchRequest)
+            return tasks
+        } catch {
+            NSLog("Error fetching tasks: \(error)")
+            return []
+        }
+        
+    }
 }
