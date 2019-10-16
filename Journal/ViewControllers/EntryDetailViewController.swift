@@ -70,6 +70,11 @@ class EntryDetailViewController: UIViewController {
             title = entry?.title ?? "Create New Entry"
             titleTextField.text = entry?.title
             bodyTextView.text = entry?.bodyText
+        
+        if let mood = EntryMood(rawValue: entry?.mood ?? "😐"),
+            let moodIndex = EntryMood.allCases.firstIndex(of: mood) {
+            moodSegmentedControl.selectedSegmentIndex = moodIndex
+        }
 
     }
 }
