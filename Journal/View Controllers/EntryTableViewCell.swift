@@ -13,7 +13,11 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var bodyText: UILabel!
     @IBOutlet weak var timeStamp: UILabel!
     
-    var entry: Entry?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
