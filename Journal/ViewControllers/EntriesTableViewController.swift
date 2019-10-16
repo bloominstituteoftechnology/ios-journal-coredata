@@ -28,9 +28,9 @@ class EntriesTableViewController: UITableViewController {
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: CoreDataStack.shared.mainContext,
                                              sectionNameKeyPath: "mood", //sectionNameKeyPath
-                                             cacheName: nil)
+            cacheName: nil)
         
-        frc.delegate = self as! NSFetchedResultsControllerDelegate
+        frc.delegate = self 
         
         do {
             try frc.performFetch() // Fetch the tasks
@@ -39,15 +39,15 @@ class EntriesTableViewController: UITableViewController {
         }
         
         return frc
-
+        
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
-
+        
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
@@ -56,62 +56,62 @@ class EntriesTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return fetchedResultsController.sections?.count ?? 0
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
-
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
         
         cell.entry = fetchedResultsController.object(at: indexPath)
-
+        
         return cell
     }
     
-
+    
     /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
+     // Override to support conditional editing of the table view.
+     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the specified item to be editable.
+     return true
+     }
+     */
+    
     
     // TODO: Check if correct
     //Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             entryController.deleteEntry(entry: fetchedResultsController.object(at: indexPath))
-//            entryController.deleteEntry(entry: entryController.entries[indexPath.row])
+            //            entryController.deleteEntry(entry: entryController.entries[indexPath.row])
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
     
-
+    
     /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
+     // Override to support rearranging the table view.
+     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
+     
+     }
+     */
+    
     /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
+     // Override to support conditional rearranging of the table view.
+     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+     // Return false if you do not want the item to be re-orderable.
+     return true
+     }
+     */
     
     
     // MARK: - Navigation
@@ -167,8 +167,8 @@ extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
                 let newIndexPath = newIndexPath else { return }
             
             tableView.moveRow(at: indexPath, to: newIndexPath)
-//            tableView.deleteRows(at: [indexPath], with: .automatic)
-//            tableView.insertRows(at: [newIndexPath], with: .automatic)
+            //            tableView.deleteRows(at: [indexPath], with: .automatic)
+        //            tableView.insertRows(at: [newIndexPath], with: .automatic)
         case .update:
             guard let indexPath = indexPath else { return }
             tableView.reloadRows(at: [indexPath], with: .automatic)
@@ -194,3 +194,4 @@ extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
         }
     }
 }
+
