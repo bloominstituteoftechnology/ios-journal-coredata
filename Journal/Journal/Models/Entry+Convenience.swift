@@ -10,9 +10,9 @@ import Foundation
 import CoreData
 
 enum MoodStates: String {
-	case 😞
-	case 😕
-	case 😆
+	case sad = "😞"
+	case normal = "😕"
+	case happy = "😆"
 }
 
 extension Entry {
@@ -20,7 +20,7 @@ extension Entry {
 	@discardableResult convenience init(title: String,
 										timestamp: Date = Date(),
 										identifier: String = UUID().uuidString,
-										bodyText: String, mood: MoodStates,
+										bodyText: String, mood: String,
 										context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
 
 		self.init(context: context)
@@ -29,6 +29,6 @@ extension Entry {
 		self.timestamp = timestamp
 		self.identifier = identifier
 		self.bodyText = bodyText
-		self.mood = mood.rawValue
+		self.mood = mood
 	}
 }
