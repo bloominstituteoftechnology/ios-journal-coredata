@@ -14,7 +14,11 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var timeStampLabel: UILabel!
     @IBOutlet weak var bodyTextLabel: UILabel!
     
-    var entry: Entry?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
     
 
     override func awakeFromNib() {
@@ -27,6 +31,8 @@ class EntryTableViewCell: UITableViewCell {
         guard let entry = entry else { return }
         
         entryTitleLabel.text = entry.title
+        timeStampLabel.text = "\(String(describing: entry.timestamp))"
+        bodyTextLabel.text = entry.bodyText
         
     }
 
