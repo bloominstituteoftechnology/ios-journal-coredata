@@ -10,7 +10,11 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
     
-    var entry: Entry?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
     var entryController: EntryController?
     
     @IBOutlet weak var titleTextField: UITextField!
@@ -21,10 +25,30 @@ class EntryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        updateViews()
+    }
+    
+    func updateViews() {
+        guard isViewLoaded else { return }
+        
+        title = entry?.title ?? "Set Title"
+        titleTextField.text = "title"
+        entryTextView.text = "entry"
     }
     
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
+        
+        if let title = titleTextField.text,
+            let body = entryTextView.text {
+            
+            if let entry = entry {
+                entryController?.updateEntry(entry: entry, with: title, bodyText: body, timestamp: <#T##Date#>, identifier: <#T##String#>)
+            } else {
+                entryController?.createEntry(with: title, bodyText: body, timestamp: <#T##Date#>, identifier: <#T##String#>, context: CoreDataStack.shared.mainContext)
+            }
+            
+        }
+        
     }
     
 
