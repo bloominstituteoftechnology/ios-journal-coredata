@@ -13,9 +13,11 @@ class EntryController {
 
 	// MARK: - Properties
 	// all computed properties have to return something!
-	var entries: [Entry] {
-		return loadFromPersistentStore()
-	}
+
+	// TODO: 1Delete after the app is working
+//	var entries: [Entry] {
+//		return loadFromPersistentStore()
+//	}
 
 	func saveToPersistentStore() {
 
@@ -26,21 +28,22 @@ class EntryController {
 		}
 	}
 
-	func loadFromPersistentStore() -> [Entry] {
-
-		//var entries: [Entry]
-
-		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-		let moc = CoreDataStack.shared.mainContext
-
-		do {
-			let entries = try moc.fetch(fetchRequest)
-			return entries
-		} catch {
-			NSLog("Error fetching entries: \(error)")
-			return []
-		}
-	}
+	// TODO: 2Delete after the app is working
+//	func loadFromPersistentStore() -> [Entry] {
+//
+//		//var entries: [Entry]
+//
+//		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//		let moc = CoreDataStack.shared.mainContext
+//
+//		do {
+//			let entries = try moc.fetch(fetchRequest)
+//			return entries
+//		} catch {
+//			NSLog("Error fetching entries: \(error)")
+//			return []
+//		}
+//	}
 
 	// MARK: - CRUD Methods
 
