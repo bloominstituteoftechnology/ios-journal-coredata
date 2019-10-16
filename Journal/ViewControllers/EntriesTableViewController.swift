@@ -27,8 +27,8 @@ class EntriesTableViewController: UITableViewController {
         //TODO: Do I need another one for the timestamp sorting?
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: CoreDataStack.shared.mainContext,
-                                             sectionNameKeyPath: "mood", //sectionNameKeyPath
-            cacheName: nil)
+                                             sectionNameKeyPath: "mood",
+                                             cacheName: nil)
         
         frc.delegate = self 
         
@@ -77,6 +77,11 @@ class EntriesTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+        return sectionInfo.name.capitalized
+    }
     
     /*
      // Override to support conditional editing of the table view.
@@ -93,7 +98,7 @@ class EntriesTableViewController: UITableViewController {
         if editingStyle == .delete {
             entryController.deleteEntry(entry: fetchedResultsController.object(at: indexPath))
             //            entryController.deleteEntry(entry: entryController.entries[indexPath.row])
-            tableView.deleteRows(at: [indexPath], with: .fade)
+          //  tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
     
