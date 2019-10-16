@@ -9,5 +9,7 @@
 
 /*
  1. delete from persitence function. How to get the correct Entry from the array to delete?
+ 2. do I need to sort by timestamp with the frc?
+ 
  
  */

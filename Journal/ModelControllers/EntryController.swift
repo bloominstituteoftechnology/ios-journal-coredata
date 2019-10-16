@@ -12,9 +12,9 @@ import CoreData
 class EntryController {
     
     var coreDataStack: CoreDataStack?
-    var entries: [Entry] {
-        loadFromPersistentStore()
-    }
+//    var entries: [Entry] {
+//        loadFromPersistentStore()
+//    }
     
     //MARK: Save to Persistence
     // TODO: Check if you actually need this saveToPersisten function
@@ -27,27 +27,27 @@ class EntryController {
         }
     }
     
-    //MARK: Load from Persistent
-    func loadFromPersistentStore() -> [Entry] {
-        
-        //coreDataStack?.container
-        
-        var entries: [Entry] {
-            
-            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-            
-            let moc = CoreDataStack.shared.mainContext
-            do {
-                let entries = try moc.fetch(fetchRequest)
-                return entries
-            } catch {
-                NSLog("Error fetching tasks: \(error)")
-                return []
-            }
-        }
-        
-        return entries
-    }
+//    //MARK: Load from Persistent
+//    func loadFromPersistentStore() -> [Entry] {
+//
+//        //coreDataStack?.container
+//
+//        var entries: [Entry] {
+//
+//            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//
+//            let moc = CoreDataStack.shared.mainContext
+//            do {
+//                let entries = try moc.fetch(fetchRequest)
+//                return entries
+//            } catch {
+//                NSLog("Error fetching tasks: \(error)")
+//                return []
+//            }
+//        }
+//
+//        return entries
+//    }
     
     
     //MARK: CRUD
