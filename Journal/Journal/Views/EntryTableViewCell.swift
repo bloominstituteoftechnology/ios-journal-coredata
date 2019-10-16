@@ -10,9 +10,9 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
+//    @IBOutlet weak var titleLabel: UILabel!
+//    @IBOutlet weak var dateLabel: UILabel!
+//    @IBOutlet weak var descriptionLabel: UILabel!
     
     var entry: Entry? {
         didSet {
@@ -32,18 +32,18 @@ class EntryTableViewCell: UITableViewCell {
     }
     
     private func updateViews() {
-        guard let entry = entry else { return }
+        guard let entry = entry,
+            let date = entry.timestamp,
+            let bodyText = entry.bodyText else { return }
         
-        titleLabel.text = entry.title
-        descriptionLabel.text = entry.bodyText
+        self.textLabel?.text = entry.title
         
-        if let date = entry.timestamp {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateStyle = .short
-            dateFormatter.timeStyle = .short
-            
-            dateLabel.text = dateFormatter.string(from: date)
-        }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
+        let dateText = dateFormatter.string(from: date)
+        
+        self.detailTextLabel?.text = "\(dateText). \(bodyText)"
     }
 
 }
