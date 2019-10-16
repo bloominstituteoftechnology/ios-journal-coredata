@@ -30,7 +30,7 @@ class EntriesTableViewController: UITableViewController {
                                              sectionNameKeyPath: "mood", //sectionNameKeyPath
                                              cacheName: nil)
         
-        frc.delegate = self
+        frc.delegate = self as! NSFetchedResultsControllerDelegate
         
         do {
             try frc.performFetch() // Fetch the tasks
@@ -59,21 +59,20 @@ class EntriesTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        // #warning Incomplete implementation, return the number of sections
-//        return 0
-//    }
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        // #warning Incomplete implementation, return the number of sections
+        return fetchedResultsController.sections?.count ?? 0
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return entryController.entries.count
-    }
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
         
-        cell.entry = entryController.entries[indexPath.row]
+        cell.entry = fetchedResultsController.object(at: indexPath)
 
         return cell
     }
@@ -92,7 +91,8 @@ class EntriesTableViewController: UITableViewController {
     //Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            entryController.deleteEntry(entry: entryController.entries[indexPath.row])
+            entryController.deleteEntry(entry: fetchedResultsController.object(at: indexPath))
+//            entryController.deleteEntry(entry: entryController.entries[indexPath.row])
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
@@ -124,7 +124,7 @@ class EntriesTableViewController: UITableViewController {
             if let detailVC = segue.destination as? EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow {
                 
-                detailVC.entry = entryController.entries[indexPath.row]
+                detailVC.entry = fetchedResultsController.object(at: indexPath)
                 detailVC.entryController = entryController
             }
         } else if segue.identifier == "CreateNewEntrySegue" {
