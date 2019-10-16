@@ -45,8 +45,8 @@ class EntryController {
 	// MARK: - CRUD Methods
 
 	// Create
-	func createEntry(title: String, bodyText: String) {
-		_ = Entry(title: title, bodyText: bodyText)
+	func createEntry(title: String, bodyText: String, mood: MoodStates) {
+		_ = Entry(title: title, bodyText: bodyText, mood: mood)
 		//Entry(title: title, timestamp: timestamp!, identifier: identifier!, bodyText: bodyText, context: context)
 		saveToPersistentStore()
 	}
@@ -54,9 +54,10 @@ class EntryController {
 	// Read
 
 	// Update
-	func updateEntry(entry: Entry, title: String, bodyText: String) {
+	func updateEntry(entry: Entry, title: String, bodyText: String, mood: MoodStates) {
 		entry.title = title
 		entry.bodyText = bodyText
+		entry.mood = "\(mood)"
 		saveToPersistentStore()
 	}
 
