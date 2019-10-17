@@ -13,6 +13,7 @@ class EntriesTableViewController: UITableViewController {
     
     let entryController = EntryController()
     
+    
    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         // YOU MUST make the descriptor with the same key path as the sectionNameKeyPath be the first sort descriptor in this array
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -35,7 +36,22 @@ class EntriesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshData(_:)), for: .valueChanged)
+        self.refreshControl = refreshControl
         tableView.reloadData()
+    }
+    
+    @objc private func refreshData(_ sender: Any) {
+        entryController.fetchEntriesFromServer { (error) in
+            if error == nil {
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                    self.refreshControl?.endRefreshing()
+                }
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

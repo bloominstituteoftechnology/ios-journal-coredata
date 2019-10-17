@@ -15,3 +15,4 @@ struct EntryRepresentation: Codable {
     let timestamp: Date
     let identifier: String
 }
+
