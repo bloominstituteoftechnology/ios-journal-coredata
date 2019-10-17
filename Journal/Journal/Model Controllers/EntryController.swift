@@ -65,36 +65,40 @@ class EntryController {
         
         var entriesToCreate = representationsByID
         
-        do {
-            let context = CoreDataStack.shared.mainContext
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        
+        context.performAndWait {
             
-            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-            
-            fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
-            
-            let existingEntries = try context.fetch(fetchRequest)
-            
-            for entry in existingEntries {
+            do {
                 
-                guard let identifier = entry.identifier,
-                    let representation = representationsByID[identifier] else { continue }
+                let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
                 
-                entry.title = representation.title
-                entry.bodyText = representation.bodyText
-                entry.timestamp = representation.timestamp
-                entry.mood = representation.mood
+                fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
                 
-                entriesToCreate.removeValue(forKey: identifier)
+                let existingEntries = try context.fetch(fetchRequest)
+                
+                for entry in existingEntries {
+                    
+                    guard let identifier = entry.identifier,
+                        let representation = representationsByID[identifier] else { continue }
+                    
+                    entry.title = representation.title
+                    entry.bodyText = representation.bodyText
+                    entry.timestamp = representation.timestamp
+                    entry.mood = representation.mood
+                    
+                    entriesToCreate.removeValue(forKey: identifier)
+                }
+                
+                for representation in entriesToCreate.values {
+                    Entry(entryRepresentation: representation, context: context)
+                }
+                
+                CoreDataStack.shared.save(context: context)
+                
+            } catch {
+                NSLog("Error fetching entries from persistent store: \(error)")
             }
-            
-            for representation in entriesToCreate.values {
-                Entry(entryRepresentation: representation, context: context)
-            }
-            
-            CoreDataStack.shared.saveToPersistentStore()
-            
-        } catch {
-            NSLog("Error fetching entries from persistent store: \(error)")
         }
     }
     
@@ -158,46 +162,46 @@ class EntryController {
         }.resume()
     }
     
-//    var entries: [Entry] {
-//        loadFromPersistentStore()
-//    }
-//
-//    func loadFromPersistentStore() -> [Entry] {
-//
-//            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//
-//            let moc = CoreDataStack.shared.mainContext
-//
-//            do {
-//                let entries = try moc.fetch(fetchRequest)
-//                return entries
-//            } catch {
-//                NSLog("Error fetching tasks: \(error)")
-//                return []
-//            }
-//    }
+    //    var entries: [Entry] {
+    //        loadFromPersistentStore()
+    //    }
+    //
+    //    func loadFromPersistentStore() -> [Entry] {
+    //
+    //            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+    //
+    //            let moc = CoreDataStack.shared.mainContext
+    //
+    //            do {
+    //                let entries = try moc.fetch(fetchRequest)
+    //                return entries
+    //            } catch {
+    //                NSLog("Error fetching tasks: \(error)")
+    //                return []
+    //            }
+    //    }
     
     func createEntry(with title: String, bodyText: String, mood: String, context: NSManagedObjectContext) {
         
         let entry = Entry(title: title, bodyText: bodyText, mood: mood, context: context)
-        CoreDataStack.shared.saveToPersistentStore()
+        CoreDataStack.shared.save(context: context)
         put(entry: entry)
     }
     
-    func updateEntry(entry: Entry, with title: String, bodyText: String, mood: String) {
+    func updateEntry(entry: Entry, with title: String, bodyText: String, mood: String, context: NSManagedObjectContext) {
         
         entry.title = title
         entry.bodyText = bodyText
         entry.mood = mood
-        CoreDataStack.shared.saveToPersistentStore()
+        CoreDataStack.shared.save(context: context)
         put(entry: entry)
     }
     
-    func deleteEntry(entry: Entry) {
-
+    func deleteEntry(entry: Entry, context: NSManagedObjectContext) {
+        
         CoreDataStack.shared.mainContext.delete(entry)
         deleteEntryFromServer(entry: entry)
-        CoreDataStack.shared.saveToPersistentStore()
+        CoreDataStack.shared.save(context: context)
         
     }
 }

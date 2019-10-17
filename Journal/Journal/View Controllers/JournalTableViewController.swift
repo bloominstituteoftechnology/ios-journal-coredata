@@ -107,7 +107,7 @@ class JournalTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
-            entryController.deleteEntry(entry: entry)
+            entryController.deleteEntry(entry: entry, context: CoreDataStack.shared.mainContext)
         }
     }
 }

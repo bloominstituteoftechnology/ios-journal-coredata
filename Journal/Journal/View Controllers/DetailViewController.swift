@@ -51,7 +51,7 @@ class DetailViewController: UIViewController {
             
             
             if let entry = entry {
-                entryController?.updateEntry(entry: entry, with: title, bodyText: bodyText, mood: mood.rawValue)
+                entryController?.updateEntry(entry: entry, with: title, bodyText: bodyText, mood: mood.rawValue, context: CoreDataStack.shared.mainContext)
             } else {
                 entryController?.createEntry(with: title, bodyText: bodyText, mood: mood.rawValue, context: CoreDataStack.shared.mainContext)
             }
