@@ -35,7 +35,7 @@ class EntryTableViewCell: UITableViewCell {
         
         let date = Date(timeIntervalSinceNow: 0)
         dateFormatter.locale = Locale(identifier: "en_US")
-        guard let timestamp = entryTimeStamp else { return }        
+        guard let timestamp = entryTimeStamp else { return }
         timestamp.text = dateFormatter.string(from: date)
     }
 }
