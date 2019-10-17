@@ -74,7 +74,7 @@ class EntryController {
     }
     func fetchEntriesFromServer(completion: @escaping (NetworkingError?) -> Void = { _ in }) {
         let requestURL = baseURL.appendingPathExtension("json")
-        var request = URLRequest(url: requestURL)
+        let request = URLRequest(url: requestURL)
         
         URLSession.shared.dataTask(with: request) { (data, _, error) in
             
