@@ -126,25 +126,27 @@ class EntryController {
         
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
         
-        do {
-            let existingEntries = try context.fetch(fetchRequest)
-            
-            for entry in existingEntries {
-                guard let identifier = entry.identifier,
-                    let representation = representationsByID[identifier] else { continue }
+        context.performAndWait {
+            do {
+                let existingEntries = try context.fetch(fetchRequest)
                 
-                update(entry: entry, representation: representation)
+                for entry in existingEntries {
+                    guard let identifier = entry.identifier,
+                        let representation = representationsByID[identifier] else { continue }
+                    
+                    update(entry: entry, representation: representation)
+                    
+                    representationsByID.removeValue(forKey: identifier)
+                }
                 
-                representationsByID.removeValue(forKey: identifier)
+                for representation in representationsByID.values {
+                    Entry(entryRepresentation: representation, context: context)
+                }
+                
+                save(context: context)
+            } catch {
+                NSLog("Error fetching existing entries: \(error)")
             }
-            
-            for representation in representationsByID.values {
-                Entry(entryRepresentation: representation, context: context)
-            }
-            
-            save(context: context)
-        } catch {
-            NSLog("Error fetching existing entries: \(error)")
         }
     }
     
