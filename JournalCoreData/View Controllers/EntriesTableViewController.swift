@@ -82,7 +82,7 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            entryController.deleteEntry(entry: fetchedResultsController.object(at: indexPath))
+            entryController.deleteEntry(entry: fetchedResultsController.object(at: indexPath), context: CoreDataStack.shared.mainContext)
         }
     }
     

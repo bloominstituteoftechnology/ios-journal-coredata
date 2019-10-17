@@ -38,12 +38,12 @@ class EntryController {
         let entry = Entry(title: title, mood: mood, bodyText: bodyText, context: context)
         put(entry: entry) { (error) in
             if error == nil {
-                CoreDataStack.shared.saveToPersistentStore()
+                CoreDataStack.shared.save(context: context)
             }
         }
     }
     
-    func updateEntry(entry: Entry, title: String, mood: JournalMood, bodyText: String) {
+    func updateEntry(entry: Entry, title: String, mood: JournalMood, bodyText: String, context: NSManagedObjectContext) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = Date()
@@ -51,17 +51,16 @@ class EntryController {
         
         put(entry: entry) { (error) in
             if error == nil {
-                CoreDataStack.shared.saveToPersistentStore()
+                CoreDataStack.shared.save(context: context)
             }
         }
     }
     
-    func deleteEntry(entry: Entry) {
-        CoreDataStack.shared.mainContext.delete(entry)
-        deleteFromServer(entry: entry) { (error) in
-            if error == nil {
-                CoreDataStack.shared.saveToPersistentStore()
-            }
+    func deleteEntry(entry: Entry, context: NSManagedObjectContext) {
+        context.performAndWait {
+            deleteFromServer(entry: entry)
+            context.delete(entry)
+            CoreDataStack.shared.save(context: context)
         }
     }
     
@@ -105,25 +104,27 @@ class EntryController {
         let representationByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
         var entryToCreate = representationByID
         
-        do {
-            let context = CoreDataStack.shared.mainContext
-            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
-            let existingEntries = try context.fetch(fetchRequest)
-            
-            for entry in existingEntries {
-                guard let identifier = entry.identifier, let representation = representationByID[identifier] else { continue }
-                update(entry: entry, representation: representation)
-                entryToCreate.removeValue(forKey: identifier)
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        context.performAndWait {
+            do {
+                let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+                fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+                let existingEntries = try context.fetch(fetchRequest)
+                
+                for entry in existingEntries {
+                    guard let identifier = entry.identifier, let representation = representationByID[identifier] else { continue }
+                    update(entry: entry, representation: representation)
+                    entryToCreate.removeValue(forKey: identifier)
+                }
+                
+                for representation in entryToCreate.values {
+                    Entry(entryRepresentation: representation, context: context)
+                }
+                
+                CoreDataStack.shared.save(context: context)
+            } catch {
+                NSLog("Error fetching entries from persistent store: \(error)")
             }
-            
-            for representation in entryToCreate.values {
-                Entry(entryRepresentation: representation, context: context)
-            }
-            
-            CoreDataStack.shared.saveToPersistentStore()
-        } catch {
-            NSLog("Error fetching entries from persistent store: \(error)")
         }
     }
     
@@ -164,8 +165,11 @@ class EntryController {
     
     func deleteFromServer(entry: Entry, completion: @escaping (NetworkingError?) -> Void = { _ in }) {
         
-        let identifier = entry.identifier ?? UUID().uuidString
-        entry.identifier = identifier
+        guard let identifier = entry.identifier else {
+            NSLog("No identifier found")
+            completion(.deleteError)
+            return
+        }
         
         let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
         

@@ -31,7 +31,7 @@ class EntryDetailViewController: UIViewController {
         let mood = JournalMood.allCases[moodSegmentedControl.selectedSegmentIndex]
         
         if let entry = entry {
-            entryController?.updateEntry(entry: entry, title: title, mood: mood, bodyText: body)
+            entryController?.updateEntry(entry: entry, title: title, mood: mood, bodyText: body, context: CoreDataStack.shared.mainContext)
         } else {
             entryController?.createEntry(title: title, mood: mood, bodyText: body, context: CoreDataStack.shared.mainContext)
         }
