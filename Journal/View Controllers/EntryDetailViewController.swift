@@ -56,7 +56,7 @@ class EntryDetailViewController: UIViewController {
                 entryController?.createEntry(with: title, bodyText: journalEntry, identifier: "123", timestamp: Date(), context: CoreDataStack.shared.mainContext)
             }
         }
-        
+        navigationController?.popViewController(animated: true)
     }
     
 }
