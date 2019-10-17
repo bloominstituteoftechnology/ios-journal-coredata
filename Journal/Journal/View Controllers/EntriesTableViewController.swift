@@ -51,36 +51,30 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+		return fetchedResultsController.sections?.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        return entryController.entries.count
+		return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntriesTableViewCell else { return UITableViewCell() }
 
-		cell.entry = entryController.entries[indexPath.row]
+		cell.titleTextField.text = fetchedResultsController.object(at: indexPath).title
 
         return cell
     }
 
-
-	/*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-	*/
-
-
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+
+			let entry = fetchedResultsController.object(at: indexPath)
+
             // Delete the row from the data source
+			entryController.deleteEntry(entry: entry)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
