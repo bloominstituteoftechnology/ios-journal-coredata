@@ -117,8 +117,6 @@ class EntryController {
     }
     
     func updateEntries(with representations: [EntryRepresentation]) {
-        let context = CoreDataStack.shared.mainContext
-        
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
         let identifiersToFetch = representations.map({ $0.identifier })
@@ -126,6 +124,7 @@ class EntryController {
         
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
         
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         context.performAndWait {
             do {
                 let existingEntries = try context.fetch(fetchRequest)

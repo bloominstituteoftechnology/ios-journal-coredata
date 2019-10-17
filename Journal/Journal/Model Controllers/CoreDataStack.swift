@@ -24,6 +24,8 @@ class CoreDataStack {
             }
         }
         
+        container.viewContext.automaticallyMergesChangesFromParent = true
+        
         return container
     }()
     
@@ -31,13 +33,5 @@ class CoreDataStack {
     var mainContext: NSManagedObjectContext {
         return container.viewContext
     }
-    
-//    func saveToPersistentStore() {
-//        do {
-//            try mainContext.save()
-//        } catch {
-//            NSLog("Error saving context: \(error)")
-//        }
-//    }
     
 }
