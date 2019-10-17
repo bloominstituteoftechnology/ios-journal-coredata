@@ -103,7 +103,10 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
 		if segue.identifier == "ShowDetailSegue" {
 			if let detailVC = segue.destination as? EntryDetailViewController,
 				let indexPath = tableView.indexPathForSelectedRow {
-				detailVC.entry = entryController.entries[indexPath.row]
+
+				let entry = fetchedResultsController.object(at: indexPath)
+
+				detailVC.entry = entry
 				detailVC.entryController = entryController
 			}
 		} else if segue.identifier == "CreateNewEntrySegue" {
