@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class EntriesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class EntriesTableViewController: UITableViewController {
 
 	// MARK: - Properties
 	let entryController = EntryController()
@@ -115,4 +115,59 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
 			}
 		}
 }
+}
+
+extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
+
+	func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+		tableView.beginUpdates()
+	}
+
+
+	func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+		tableView.endUpdates()
+	}
+
+
+	func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+					didChange anObject: Any,
+					at indexPath: IndexPath?,
+					for type: NSFetchedResultsChangeType,
+					newIndexPath: IndexPath?) {
+		switch type {
+		case .insert:
+			guard let newIndexPath = newIndexPath else { return }
+			tableView.insertRows(at: [newIndexPath], with: .automatic)
+		case .delete:
+			guard let oldIndexPath = indexPath else { return }
+			tableView.deleteRows(at: [oldIndexPath], with: .automatic)
+		case .move:
+			guard let oldIndexPath = indexPath,
+				let newIndexPath = newIndexPath else { return }
+			tableView.moveRow(at: oldIndexPath, to: newIndexPath)
+		case .update:
+			guard let oldIndexPath = indexPath else { return }
+			tableView.reloadRows(at: [oldIndexPath], with: .automatic)
+		@unknown default:
+			return
+		}
+	}
+
+
+	func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+					didChange sectionInfo: NSFetchedResultsSectionInfo,
+					atSectionIndex sectionIndex: Int,
+					for type: NSFetchedResultsChangeType) {
+
+		let sectionSet = IndexSet(integer: sectionIndex)
+
+		switch type {
+		case .insert:
+			tableView.insertSections(sectionSet, with: .automatic)
+		case .delete:
+			tableView.deleteSections(sectionSet, with: .automatic)
+		default:
+			return
+		}
+	}
 }
