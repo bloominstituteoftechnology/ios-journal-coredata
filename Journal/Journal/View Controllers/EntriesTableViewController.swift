@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CoreData
 
-class EntriesTableViewController: UITableViewController {
+class EntriesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
 
 	// MARK: - Properties
 	let entryController = EntryController()
@@ -22,6 +23,29 @@ class EntriesTableViewController: UITableViewController {
 		super.viewDidAppear(animated)
 		tableView.reloadData()
 	}
+
+	lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+		// This gets every Entry in core data
+		let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+
+		fetchRequest.sortDescriptors = [
+			NSSortDescriptor(key: "mood", ascending: true),
+			NSSortDescriptor(key: "timestamp", ascending: true)]
+
+		let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+											 managedObjectContext: CoreDataStack.shared.mainContext,
+											 sectionNameKeyPath: "mood",
+											 cacheName: nil)
+
+		frc.delegate = self
+
+		do {
+			try frc.performFetch() // The frc doesn't start fetch usless this line is added
+		} catch {
+			fatalError("Error performing fetch for frc: \(error)")
+		}
+		return frc // Return the frc so that it gets stored in line 28
+	}()
 
     // MARK: - Table view data source
 
