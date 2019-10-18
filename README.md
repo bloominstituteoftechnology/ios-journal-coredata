@@ -31,7 +31,6 @@ The way to prevent this is to create an intermediate data type between the JSON 
 5. In the `Entry` extension, create a `var entryRepresentation: EntryRepresentation` computed property. It should simply return an `EntryRepresentation` object that is initialized from the values of the `Entry`.
 
 #### EntryController
-
 1. In the `EntryController`, add a `baseURL: URL` constant that is the URL from the new Firebase database you created for this app.
 2. Create a function called `put`, that takes in an entry and has an escaping completion closure. The closure should return an optional error. Give this completion closure a default value of an empty closure. (e.g. `{ _ in }` ). This will allow you to use the completion closure if you want to do something when `completion` is called or just not worry about doing anything after knowing the data task has completed. This method should:
     - Take the `baseURL` and append the identifier of the entry parameter to it. Add the `"json"` extension to the URL as well.
@@ -91,6 +90,7 @@ Back in the `EntryController`, you will make a couple methods that will help whe
 The app should be working at this point. Test it by going to the Firebase Database in a browser and changing some values in the entries saved there. The easiest thing to change is the mood. This will allow you to easily see if the table view will update according to the new changes. It may take a few seconds after the app launches, but you should see the cell(s) move to different sections if you changed the mood of some entries in Firebase.
 
 **NOTE: The app will not automatically fetch posts when you change or add posts in the database.** At this point you must trigger the fetch manually, the simplest way being to relaunch the application. If you want, you could look up how to implement a refresh control on a table view controller which would allow you to drag down on the table view to refresh the table view and allow you to re-fetch the entries.
+
 
 
 ## Go Further
