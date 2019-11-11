@@ -47,7 +47,7 @@ class EntryDetailViewController: UIViewController {
         } else {
             entryController?.create(entryWithTitle: title, body: body)
         }
-        
+        navigationController?.popViewController(animated: true)
     }
     
     private func updateViews() {
