@@ -16,12 +16,12 @@ class EntryController {
     
     // MARK: - CRUD
     
-    func create(title: String, body: String, timestamp: Date, id: String) {
-        let _ = Entry(title: title, bodyText: body, timestamp: timestamp, identifier: id)
+    func create(entryWithTitle title: String, body: String) {
+        let _ = Entry(title: title, bodyText: body)
         saveToPersistentStore()
     }
     
-    func update(entry: Entry, toNewTitle title: String, body: String) {
+    func update(entry: Entry, withNewTitle title: String, body: String) {
         entry.title = title
         entry.bodyText = body
         saveToPersistentStore()

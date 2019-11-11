@@ -18,8 +18,46 @@ class EntryDetailViewController: UIViewController {
     // MARK: - Outlets
     
     @IBOutlet weak var titleField: UITextField!
-    @IBOutlet weak var entryTextView: UITextView!
+    @IBOutlet weak var bodyView: UITextView!
+    
+    // MARK: - Lifecycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        updateViews()
+    }
+    
+    // MARK: - Actions
     
     @IBAction func saveTapped(_ sender: UIBarButtonItem) {
+        save()
+    }
+    
+    // MARK: - Methods
+    
+    private func save() {
+        guard let title = titleField.text, !title.isEmpty,
+            let body = bodyView.text, !body.isEmpty
+            else {
+                print("Attempting to save with empty title and/or body.")
+                return
+        }
+        if let entry = entry {
+            entryController?.update(entry: entry, withNewTitle: title, body: body)
+        } else {
+            entryController?.create(entryWithTitle: title, body: body)
+        }
+        
+    }
+    
+    private func updateViews() {
+        guard isViewLoaded else {
+            print("Attempted to update views when view was not loaded.")
+            return
+        }
+        
+        title = entry?.title ?? "Create Entry"
+        titleField.text = entry?.title ?? ""
+        bodyView.text = entry?.bodyText ?? ""
     }
 }
