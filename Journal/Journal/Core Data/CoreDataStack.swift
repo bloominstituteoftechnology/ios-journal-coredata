@@ -24,4 +24,8 @@ class CoreDataStack {
     var mainContext: NSManagedObjectContext {
         return container.viewContext
     }
+    
+    func fetchRequest() -> NSFetchRequest<Entry> {
+        return Entry.fetchRequest()
+    }
 }
