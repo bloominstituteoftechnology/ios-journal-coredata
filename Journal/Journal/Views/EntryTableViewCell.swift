@@ -10,10 +10,30 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
     
+    // MARK: - Properties
+    
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
     // MARK: - Outlets
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
-    @IBOutlet weak var entryTextLabel: UILabel!
+    @IBOutlet weak var bodyLabel: UILabel!
     
+    // MARK: - Methods
+    
+    func updateViews() {
+        guard let entry = entry else {
+            print("No entry from which to update for cell!")
+            return
+        }
+        
+        titleLabel.text = entry.title ?? ""
+        timestampLabel.text = "\(entry.timestamp ?? Date())"
+        bodyLabel.text = entry.bodyText ?? ""
+    }
 }
