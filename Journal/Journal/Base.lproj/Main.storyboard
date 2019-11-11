@@ -28,7 +28,7 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" misplaced="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bqA-2m-YUU">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" misplaced="YES" text="Entry text" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bqA-2m-YUU">
                                             <rect key="frame" x="20" y="40" width="378" height="35"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -52,6 +52,9 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="entryTextLabel" destination="bqA-2m-YUU" id="F8b-6f-cz5"/>
+                                    <outlet property="timestampLabel" destination="98U-HB-DQy" id="cFm-cg-TAw"/>
+                                    <outlet property="titleLabel" destination="KgY-dl-qt0" id="SwI-yH-1BL"/>
                                     <segue destination="BYZ-38-t0r" kind="show" identifier="ViewEntryDetailSegue" id="OAT-ld-dGx"/>
                                 </connections>
                             </tableViewCell>
