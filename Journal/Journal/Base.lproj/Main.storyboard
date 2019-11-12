@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="57" id="p0q-za-SKV" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="57" id="p0q-za-SKV" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="57"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="p0q-za-SKV" id="PHZ-wr-NvI">
@@ -60,6 +60,9 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="entryBodyLabel" destination="fte-a3-KJN" id="0hZ-ND-Lu8"/>
+                                    <outlet property="entryTimeStampLabel" destination="Vxa-ej-ReD" id="ace-69-JC9"/>
+                                    <outlet property="entryTitleLabel" destination="UHG-I4-Vgr" id="7Jn-j7-riE"/>
                                     <segue destination="BYZ-38-t0r" kind="show" identifier="CellDetailSegue" id="qDR-tn-Og1"/>
                                 </connections>
                             </tableViewCell>
@@ -79,17 +82,17 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Dx7-pg-2T4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-788" y="176"/>
+            <point key="canvasLocation" x="-677" y="173"/>
         </scene>
-        <!--Entries Table View Controller-->
+        <!--Entry Detail View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="EntriesTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lx8-95-byq">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Lx8-95-byq">
                                 <rect key="frame" x="10" y="98" width="394" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -116,12 +119,20 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="mcu-DE-Yoq">
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="7bc-0l-JgK"/>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="7bc-0l-JgK">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="BYZ-38-t0r" id="eQQ-uk-tnA"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="entryBodyTextView" destination="PpR-v3-cV9" id="uyb-iV-RkQ"/>
+                        <outlet property="entryTitleTextField" destination="Lx8-95-byq" id="fYN-ig-FTj"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-59.420289855072468" y="222.99107142857142"/>
+            <point key="canvasLocation" x="157" y="188"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="pTo-E4-Vfx">
@@ -143,6 +154,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="qDR-tn-Og1"/>
+        <segue reference="8Dj-RI-HOm"/>
     </inferredMetricsTieBreakers>
 </document>
