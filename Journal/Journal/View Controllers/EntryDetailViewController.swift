@@ -8,6 +8,12 @@
 
 import UIKit
 
+enum Mood: String, CaseIterable {
+    case happy = "🙂"
+    case neutral = "😐"
+    case sad = "☹️"
+}
+
 class EntryDetailViewController: UIViewController {
 
     // MARK: - IBOutlets
@@ -38,6 +44,18 @@ class EntryDetailViewController: UIViewController {
         
         title = entry?.title ?? "Create Entry"
         titleTextField.text = entry?.title
+        
+        let mood: Mood
+        if let entryMood = entry?.mood,
+            let _mood = Mood(rawValue: entryMood) {
+            mood = _mood
+        } else {
+            mood = .neutral
+        }
+        
+        let moodIndex = Mood.allCases.firstIndex(of: mood)!
+        moodSegmentedControl.selectedSegmentIndex = moodIndex
+        
         bodyTextView.text = entry?.bodyText
         bodyTextView.layer.cornerRadius = 10
     }
@@ -49,11 +67,12 @@ class EntryDetailViewController: UIViewController {
             let title = titleTextField.text,
             !title.isEmpty else { return }
         let body = bodyTextView.text
-        
+        let moodIndex = moodSegmentedControl.selectedSegmentIndex
+        let mood = Mood.allCases[moodIndex]
         if let entry = entry {
-            entryController.update(for: entry, title: title, bodyText: body)
+            entryController.update(for: entry, title: title, bodyText: body, mood: mood.rawValue)
         } else {
-            entryController.create(title: title, timestamp: Date(), bodyText: body, identifier: nil)
+            entryController.create(title: title, timestamp: Date(), mood: mood.rawValue, bodyText: body, identifier: nil)
         }
         
         navigationController?.popViewController(animated: true)
