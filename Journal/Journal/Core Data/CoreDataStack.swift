@@ -9,8 +9,6 @@
 import CoreData
 
 class CoreDataStack {
-    static let shared = CoreDataStack()
-    
     lazy var container: NSPersistentContainer = { // won't run until we ask for it
         let container = NSPersistentContainer(name: "Journal") // MUST MATCH XCDATAMODELD FILENAME
         container.loadPersistentStores { (description, error) in

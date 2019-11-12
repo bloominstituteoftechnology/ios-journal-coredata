@@ -10,6 +10,10 @@ import Foundation
 
 class EntryController {
     
+    // MARK: - Properties
+    
+    var coreDataStack = CoreDataStack()
+    
     var entries: [Entry] {
         return loadFromPersistentStore()
     }
@@ -17,7 +21,7 @@ class EntryController {
     // MARK: - CRUD
     
     func create(entryWithTitle title: String, body: String) {
-        let _ = Entry(title: title, bodyText: body)
+        let _ = Entry(title: title, bodyText: body, context: coreDataStack.mainContext)
         saveToPersistentStore()
     }
     
@@ -28,14 +32,14 @@ class EntryController {
     }
     
     func delete(entry: Entry) {
-        CoreDataStack.shared.mainContext.delete(entry)
+        coreDataStack.mainContext.delete(entry)
         saveToPersistentStore()
     }
     
     // MARK: - Save/Load
     
     func saveToPersistentStore() {
-        let moc = CoreDataStack.shared.mainContext
+        let moc = coreDataStack.mainContext
         do {
             try moc.save()
         } catch {
@@ -44,8 +48,8 @@ class EntryController {
     }
     
     func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest = CoreDataStack.shared.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
+        let fetchRequest = coreDataStack.fetchRequest()
+        let moc = coreDataStack.mainContext
         
         do {
             return try moc.fetch(fetchRequest)

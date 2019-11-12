@@ -9,7 +9,7 @@
 import CoreData
 
 extension Entry {
-    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = "\(Date().timeIntervalSince1970)", context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = "\(Date().timeIntervalSince1970)", context: NSManagedObjectContext) {
         self.init(context: context)
         self.title = title
         self.bodyText = bodyText
