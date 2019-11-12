@@ -30,7 +30,7 @@ class EntriesTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.tableView.dataSource = self
     
     }
 

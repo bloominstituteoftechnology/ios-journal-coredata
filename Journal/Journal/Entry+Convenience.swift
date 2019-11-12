@@ -15,6 +15,7 @@ extension Entry {
     convenience init(title: String, bodyText: String? = nil, timestamp: Date, indentifier: String? = nil, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(context: context)
+        
         self.title = title
         self.timestamp = timestamp
         self.bodyText = bodyText

@@ -10,17 +10,14 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
 
-    
-    
+ 
     var entry: Entry? {
         didSet{
             updateViews()        }
     }
     
-    @IBOutlet weak var entryTitleTextField: UITextField!
-    
-    @IBOutlet weak var entryBodyTextView: UITextView!
-    
+    @IBOutlet private weak var entryTitleTextField: UITextField!
+    @IBOutlet private weak var entryBodyTextView: UITextView!
     
     
     override func viewDidLoad() {
@@ -28,38 +25,30 @@ class EntryDetailViewController: UIViewController {
            updateViews()
        }
 
-    
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
         guard let entryTitle = entryTitleTextField.text, !entryTitle.isEmpty else {return}
         let entryBody = entryBodyTextView.text
-            
+        
         if let entry = entry {
             entry.title = entryTitle
             entry.bodyText = entryBody
         } else {
-            let _ = Entry(title: title!, bodyText: entryBody, timestamp: Date.init(), indentifier: nil)
+            let _ = Entry(title: entryTitle, bodyText: entryBody, timestamp: Date.init(), indentifier: nil)
         }
         do {
-               let moc = CoreDataStack.shared.mainContext
-               try moc.save()
-               } catch {
-                   print("Error saving managed object context \(error)")
-               }
-               navigationController?.popViewController(animated: true)
-               
-
-
+            let moc = CoreDataStack.shared.mainContext
+            try moc.save()
+        } catch {
+            print("Error saving managed object context \(error)")
+        }
+        navigationController?.popViewController(animated: true)
     }
-    
     
     private func updateViews(){
         guard isViewLoaded else {return}
-        
         title = entry?.title ?? "Create an Entry"
         entryTitleTextField.text = entry?.title
         entryBodyTextView.text = entry?.bodyText
-        
     }
-    
 }
 
