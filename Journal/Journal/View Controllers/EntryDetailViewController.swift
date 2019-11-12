@@ -16,6 +16,8 @@ class EntryDetailViewController: UIViewController {
         }
     }
     var entryController: EntryController?
+   
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     @IBOutlet weak var nameTextField: UITextField!
 
@@ -32,10 +34,13 @@ class EntryDetailViewController: UIViewController {
                    !name.isEmpty else { return }
                let description = descriptionTextView.text
         
+        let moodIndex = segmentedControl.selectedSegmentIndex
+        let mood = Mood.allCases[moodIndex]
+        
         if let entry = entry {
-            entryController?.update(entry: entry, newTitle: name, newDescription: description ?? "")
+            entryController?.update(entry: entry, newTitle: name, newDescription: description ?? "", newMood: mood.rawValue)
         } else {
-            entryController?.create(title: name, time: Date(), description: description, identifier: "")
+            entryController?.create(title: name, time: Date(), description: description ?? "", mood: mood.rawValue, identifier: "")
         }
         navigationController?.popViewController(animated: true)
     }
@@ -46,6 +51,13 @@ class EntryDetailViewController: UIViewController {
         self.title = entry?.title ?? "Create Entry"
         nameTextField.text = entry?.title
         descriptionTextView.text = entry?.bodyText
+        let mood: Mood
+        if let aMood = entry?.mood {
+            mood = Mood(rawValue: aMood)!
+        } else {
+            mood = .normal
+        }
+        segmentedControl.selectedSegmentIndex = Mood.allCases.firstIndex(of: mood)!
     }
-    
 }
+

@@ -11,9 +11,7 @@ import CoreData
 
 class EntryController {
     
-    var entries: [Entry] {
-        loadFromPersistentStore()
-    }
+    var entries: [Entry] = []
     
     func saveToPersistentStore() {
         do {
@@ -34,15 +32,16 @@ class EntryController {
         }
     }
     
-    func create(title: String, time: Date, description: String?, identifier: String) {
-        let _ = Entry(name: title, description: description, time: time, identification: identifier)
+    func create(title: String, time: Date, description: String?, mood: String, identifier: String) {
+        let _ = Entry(name: title, description: description, time: Date(), identification: identifier, mood: Mood(rawValue: mood) ?? .normal)
         saveToPersistentStore()
     }
     
-    func update(entry: Entry, newTitle: String, newDescription: String) {
+    func update(entry: Entry, newTitle: String, newDescription: String, newMood: String) {
         entry.title = newTitle
         entry.bodyText = newDescription
         entry.timestamp = Date()
+        entry.mood = newMood
         saveToPersistentStore()
     }
     

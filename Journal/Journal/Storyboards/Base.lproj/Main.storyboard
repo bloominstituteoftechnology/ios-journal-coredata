@@ -93,22 +93,33 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="D4A-be-QQd">
-                                <rect key="frame" x="20" y="150" width="374" height="692"/>
+                                <rect key="frame" x="20" y="189" width="374" height="653"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="vr3-xI-qLK">
+                                <rect key="frame" x="20" y="150" width="374" height="32"/>
+                                <segments>
+                                    <segment title="🙂"/>
+                                    <segment title="😐"/>
+                                    <segment title="☹️"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="D4A-be-QQd" firstAttribute="top" secondItem="ANz-5z-een" secondAttribute="bottom" constant="8" id="6X8-1T-T25"/>
                             <constraint firstItem="fdj-Qy-uBE" firstAttribute="trailing" secondItem="ANz-5z-een" secondAttribute="trailing" constant="20" id="Cp1-xF-QZF"/>
                             <constraint firstItem="fdj-Qy-uBE" firstAttribute="bottom" secondItem="D4A-be-QQd" secondAttribute="bottom" constant="20" id="DSl-lo-jyK"/>
                             <constraint firstItem="D4A-be-QQd" firstAttribute="leading" secondItem="fdj-Qy-uBE" secondAttribute="leading" constant="20" id="FUf-JE-BtE"/>
                             <constraint firstItem="ANz-5z-een" firstAttribute="top" secondItem="fdj-Qy-uBE" secondAttribute="top" constant="20" id="KHT-el-S5u"/>
+                            <constraint firstItem="vr3-xI-qLK" firstAttribute="top" secondItem="ANz-5z-een" secondAttribute="bottom" constant="8" id="Omf-pC-hMJ"/>
                             <constraint firstItem="fdj-Qy-uBE" firstAttribute="trailing" secondItem="D4A-be-QQd" secondAttribute="trailing" constant="20" id="RKN-f5-S8F"/>
                             <constraint firstItem="ANz-5z-een" firstAttribute="leading" secondItem="fdj-Qy-uBE" secondAttribute="leading" constant="20" id="Sis-hH-oi8"/>
+                            <constraint firstItem="D4A-be-QQd" firstAttribute="top" secondItem="vr3-xI-qLK" secondAttribute="bottom" constant="8" id="boZ-Yy-uLq"/>
+                            <constraint firstItem="fdj-Qy-uBE" firstAttribute="trailing" secondItem="vr3-xI-qLK" secondAttribute="trailing" constant="20" id="ddl-Cz-Lct"/>
+                            <constraint firstItem="vr3-xI-qLK" firstAttribute="leading" secondItem="fdj-Qy-uBE" secondAttribute="leading" constant="20" id="jRs-X8-4dH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="fdj-Qy-uBE"/>
                     </view>
@@ -122,11 +133,12 @@
                     <connections>
                         <outlet property="descriptionTextView" destination="D4A-be-QQd" id="41I-RR-oPs"/>
                         <outlet property="nameTextField" destination="ANz-5z-een" id="XMd-OW-s3D"/>
+                        <outlet property="segmentedControl" destination="vr3-xI-qLK" id="Vpn-tJ-2gi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lhn-A6-jlv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1654" y="150"/>
+            <point key="canvasLocation" x="1653.6231884057972" y="150"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="FzA-WQ-CNW">
