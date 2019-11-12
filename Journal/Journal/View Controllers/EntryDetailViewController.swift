@@ -27,6 +27,7 @@ class EntryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         updateViews()
     }
     // MARK: - Functions
@@ -37,6 +38,7 @@ class EntryDetailViewController: UIViewController {
         title = entry?.title ?? "Create Entry"
         titleTextField.text = entry?.title
         bodyTextView.text = entry?.bodyText
+        bodyTextView.layer.cornerRadius = 10
     }
     
     // MARK: - IBActions
