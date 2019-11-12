@@ -19,9 +19,14 @@ class EntryDetailViewController: UIViewController {
     
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var bodyView: UITextView!
-    @IBOutlet weak var moodControl: UISegmentedControl!
+    @IBOutlet weak var moodSelector: UISegmentedControl!
     
     // MARK: - Lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        updateMoodControlFromModel()
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -43,10 +48,17 @@ class EntryDetailViewController: UIViewController {
                 print("Attempting to save with empty title and/or body.")
                 return
         }
+        let moodIndex = moodSelector.selectedSegmentIndex
+        let mood = Entry.Mood.allCases[moodIndex]
         if let entry = entry {
-            entryController?.update(entry: entry, withNewTitle: title, body: body)
+            entryController?.update(entry: entry,
+                                    withNewTitle: title,
+                                    body: body,
+                                    mood: mood)
         } else {
-            entryController?.create(entryWithTitle: title, body: body)
+            entryController?.create(entryWithTitle: title,
+                                    body: body,
+                                    mood: mood)
         }
         navigationController?.popViewController(animated: true)
     }
@@ -56,9 +68,25 @@ class EntryDetailViewController: UIViewController {
             print("Attempted to update views when view was not loaded.")
             return
         }
-        
         title = entry?.title ?? "Create Entry"
         titleField.text = entry?.title ?? ""
         bodyView.text = entry?.bodyText ?? ""
+        if let entryMoodEmoji = entry?.mood {
+            let mood = Entry.Mood(rawValue: entryMoodEmoji) ?? .neutral
+            let moodIndex = Entry.Mood.allCases.firstIndex(of: mood)!
+            moodSelector.selectedSegmentIndex = moodIndex
+        }
+    }
+    
+    // TODO: ensure that moodControl options match model
+    private func updateMoodControlFromModel() {
+//        let moodCount = Entry.Mood.allCases.count
+//        if moodCount != moodControl.numberOfSegments {
+//            moodControl.removeAllSegments()
+//            for i in 0..<Entry.Mood.allCases.count {
+//                let mood = Entry.Mood.allCases[i]
+//                moodControl.insertSegment(withTitle: mood.rawValue, at: i, animated: false)
+//            }
+//        }
     }
 }
