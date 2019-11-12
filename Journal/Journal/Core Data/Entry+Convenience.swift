@@ -9,11 +9,18 @@
 import CoreData
 
 extension Entry {
-    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = "\(Date().timeIntervalSince1970)", context: NSManagedObjectContext) {
+    convenience init(title: String, bodyText: String, timestamp: Date = Date(), mood: Mood = .neutral, identifier: String = "\(Date().timeIntervalSince1970)", context: NSManagedObjectContext) {
         self.init(context: context)
         self.title = title
         self.bodyText = bodyText
+        self.mood = mood.rawValue
         self.timestamp = timestamp
         self.identifier = identifier
+    }
+    
+    enum Mood: String, CaseIterable {
+        case sad = "☹"
+        case neutral = "😐"
+        case happy = "🙂"
     }
 }

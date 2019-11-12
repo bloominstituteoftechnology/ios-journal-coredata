@@ -20,14 +20,20 @@ class EntryController {
     
     // MARK: - CRUD
     
-    func create(entryWithTitle title: String, body: String) {
-        let _ = Entry(title: title, bodyText: body, context: coreDataStack.mainContext)
+    func create(entryWithTitle title: String, body: String, mood: Entry.Mood) {
+        let _ = Entry(
+            title: title,
+            bodyText: body,
+            mood: mood,
+            context: coreDataStack.mainContext
+        )
         saveToPersistentStore()
     }
     
-    func update(entry: Entry, withNewTitle title: String, body: String) {
+    func update(entry: Entry, withNewTitle title: String, body: String, mood: Entry.Mood) {
         entry.title = title
         entry.bodyText = body
+        entry.mood = mood.rawValue
         saveToPersistentStore()
     }
     
