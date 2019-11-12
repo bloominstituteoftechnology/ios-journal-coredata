@@ -6,17 +6,57 @@
 //  Copyright © 2019 Jon Bash. All rights reserved.
 //
 
-import Foundation
+import CoreData
+
+protocol EntryControllerDelegate: NSFetchedResultsControllerDelegate {}
 
 class EntryController {
     
     // MARK: - Properties
     
-    var coreDataStack = CoreDataStack()
+    private var coreDataStack = CoreDataStack()
+    var delegate: EntryControllerDelegate?
     
-    var entries: [Entry] {
-        return loadFromPersistentStore()
+    // MARK: - Entry Fetching
+    
+    func numberOfSections() -> Int {
+        return fetchedResultsController.sections?.count ?? 1
     }
+    
+    func numberOfRows(in section: Int) -> Int {
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
+    }
+    
+    func sectionTitle(for section: Int) -> String? {
+        guard let sectionInfo = fetchedResultsController.sections?[section]
+            else { return nil }
+        return sectionInfo.name.capitalized
+    }
+    
+    func fetch(entryAt indexPath: IndexPath) -> Entry {
+        return fetchedResultsController.object(at: indexPath)
+    }
+    
+    private lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.sortDescriptors = [
+            NSSortDescriptor(key: "mood", ascending: true),
+            NSSortDescriptor(key: "timestamp", ascending: true)
+        ]
+        let frc = NSFetchedResultsController(
+            fetchRequest: fetchRequest,
+            managedObjectContext: coreDataStack.mainContext,
+            sectionNameKeyPath: "mood",
+            cacheName: nil
+        )
+        frc.delegate = delegate
+        do {
+            try frc.performFetch()
+        } catch {
+            print("Error fetching results from data: \(error)")
+        }
+        return frc
+    }()
     
     // MARK: - CRUD
     
@@ -50,18 +90,6 @@ class EntryController {
             try moc.save()
         } catch {
             print("Error saving journal entries: \(error)")
-        }
-    }
-    
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest = coreDataStack.fetchRequest()
-        let moc = coreDataStack.mainContext
-        
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            print("Error fetching journal entries: \(error)")
-            return []
         }
     }
 }

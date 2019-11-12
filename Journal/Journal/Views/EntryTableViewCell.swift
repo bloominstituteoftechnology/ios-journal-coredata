@@ -32,9 +32,7 @@ class EntryTableViewCell: UITableViewCell {
             return
         }
         
-        let moodText = entry.mood ?? Entry.Mood.neutral.rawValue
-        let titleText = entry.title ?? ""
-        titleLabel.text = "\(moodText) \(titleText)"
+        titleLabel.text = entry.title ?? ""
         timestampLabel.text = "\(entry.timestamp ?? Date())"
         bodyLabel.text = entry.bodyText ?? ""
     }
