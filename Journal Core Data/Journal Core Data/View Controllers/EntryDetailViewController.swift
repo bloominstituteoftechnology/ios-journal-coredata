@@ -35,7 +35,7 @@ class EntryDetailViewController: UIViewController {
         if let entry = entry {
             entryController?.update(entry, title: title, bodyText: description, timeStamp: Date())
         } else {
-            entryController?.create(title: title, bodyText: description, timeStamp: Date())
+            entryController?.create(title: title, bodyText: description, identifier: "", timeStamp: Date())
         }
         
         navigationController?.popViewController(animated: true)
@@ -45,11 +45,9 @@ class EntryDetailViewController: UIViewController {
     func updateViews() {
         guard isViewLoaded else { return }
         
-            title = entry?.title ?? "Create Entry"
-            titleTextField.text = entry?.title
-            descriptionTextView.text = entry?.description
-            
-        
+        title = entry?.title ?? "Create Journal Entry"
+        titleTextField.text = entry?.title
+        descriptionTextView.text = entry?.bodyText
         
     }
     

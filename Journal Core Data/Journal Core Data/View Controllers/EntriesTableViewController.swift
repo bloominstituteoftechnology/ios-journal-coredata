@@ -15,6 +15,11 @@ class EntriesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
 
     // MARK: - Table view data source
 
@@ -44,22 +49,20 @@ class EntriesTableViewController: UITableViewController {
 
 
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "DetailSegue" {
-            if let entryDetailVC = segue.destination as? EntryDetailViewController ,
-                let indexPath = tableView.indexPathForSelectedRow {
-                entryDetailVC.entry = entryController.entries[indexPath.row]
+        if segue.identifier == "AddSegue" {
+            if let addVC = segue.destination as? EntryDetailViewController {
+                addVC.entryController = entryController
             }
-        } else if segue.identifier == "AddSegue" {
-            if let entryDetailVC = segue.destination as? EntryDetailViewController {
-                entryDetailVC.entryController = entryController
+        } else if segue.identifier == "DetailSegue" {
+            if let indexPath = tableView.indexPathForSelectedRow,
+                let detailVC = segue.destination as? EntryDetailViewController {
+                detailVC.entry = entryController.entries[indexPath.row]
+                detailVC.entryController = entryController
             }
-            
         }
     }
-
-
 }
  

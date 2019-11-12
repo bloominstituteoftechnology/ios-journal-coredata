@@ -27,6 +27,6 @@ class CoreDataStack {
     // review this subject
     var mainContext: NSManagedObjectContext {
         return container.viewContext
+
     }
-    
 }

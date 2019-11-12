@@ -9,15 +9,15 @@
 import UIKit
 
 class EntryTableViewCell: UITableViewCell {
-
+    
     // MARK: - Outlets
-
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var timeStampLabel: UILabel!
     
     // MARK: - Properties
-
+    
     var entry: Entry? {
         didSet {
             updateViews()
@@ -25,17 +25,22 @@ class EntryTableViewCell: UITableViewCell {
     }
     
     // MARK: - Methods
-
+    
     func updateViews() {
-        guard let title = titleLabel.text, !title.isEmpty else { return }
+        guard let entry = entry else { return }
         
-        guard let description = descriptionLabel.text, !description.isEmpty else { return }
-        guard let timeStamp = timeStampLabel.text else { return }
+        var dateFormatter: DateFormatter {
+            let formatter = DateFormatter()
+            formatter.timeZone = TimeZone.current
+            formatter.dateFormat = "MM/dd/yyyy, h:mm a"
+            return formatter
+        }
         
+        
+        titleLabel.text = entry.title
+        descriptionLabel.text = entry.bodyText
+        timeStampLabel.text = dateFormatter.string(from: entry.timeStamp!)
         
     }
     
-    
-    
-
 }
