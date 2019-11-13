@@ -9,12 +9,14 @@
 import CoreData
 
 extension Entry {
+    // MARK: - Convenience Initializers
+    
     convenience init(
         title: String,
         bodyText: String,
         timestamp: Date = Date(),
         mood: Mood?,
-        identifier: String = "\(Date().timeIntervalSince1970)",
+        identifier: String = UUID().uuidString,
         context: NSManagedObjectContext
     ) {
         self.init(context: context)
@@ -24,6 +26,20 @@ extension Entry {
         self.timestamp = timestamp
         self.identifier = identifier
     }
+    
+    convenience init?(
+        representation: EntryRepresentation,
+        context: NSManagedObjectContext
+    ) {
+        self.init(context: context)
+        self.title = representation.title
+        self.bodyText = representation.bodyText
+        self.mood = representation.mood
+        self.timestamp = representation.timestamp
+        self.identifier = representation.identifier
+    }
+    
+    // MARK: - Mood Enum
     
     enum Mood: String, CaseIterable {
         case sad = "😢"
