@@ -16,7 +16,7 @@ Please fork and clone this repository. This repository does not have a starter p
 
 This application will implement the Master-Detail pattern that you're surely familiar with by now.
 
-#### EntriesTableViewController and EntryTableViewCell
+## EntriesTableViewController and EntryTableViewCell
 
 1. Delete the view controller scene that comes with the Main.storyboard
 2. Add a `UITableViewController` scene, then embed it in a navigation controller. Set the navigation controller as the initial view controller. 
@@ -30,7 +30,7 @@ This application will implement the Master-Detail pattern that you're surely fam
 9. Create a Cocoa Touch subclass of `UITableViewCell` called `EntryTableViewCell`. Set this cell's class to it.
 10. Create outlets for the three labels in the `EntryTableViewCell` class.
 
-#### EntryDetailViewController
+## EntryDetailViewController
 
 1. In the `UIViewController` scene, add a `UITextField`. Set its placeholder text to "Enter a title:"
 2. Add a `UITextView`. Remove the Lorem Ipsum text from it. Constrain the text field right below the navigation bar, and the text view below that.
@@ -38,13 +38,13 @@ This application will implement the Master-Detail pattern that you're surely fam
 4. Create a Cocoa Touch subclass of `UIViewController` called `EntryDetailViewController`. Set this scene's class to the newly created subclass in the Identity Inspector.
 5. Create an outlet from the text field and one from the text view. Also, create an action from the bar button item.
 
-### Part 2 - Entry and EntryController Setup
+#  Part 2 - Entry and EntryController Setup
 
-#### CoreDataStack
+## CoreDataStack
 
 Create a swift file for your core data stack. Feel free to take the core data stack you used in this morning's project and paste it in this file. You may need to change the name of the persistent container to match the name of your data model file.
 
-#### Entry
+## Entry
 
 You will be using a model object called `Entry`.
 
