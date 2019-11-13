@@ -24,20 +24,20 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Timestamp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yit-w3-YGW">
-                                            <rect key="frame" x="318" y="11" width="86" height="21"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <rect key="frame" x="327.5" y="15" width="76.5" height="17"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hFC-Xk-ENI">
-                                            <rect key="frame" x="20" y="47.5" width="354" height="20.5"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <rect key="frame" x="20" y="38.5" width="354" height="18"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hny-T6-hU9">
-                                            <rect key="frame" x="20" y="6" width="52.5" height="33.5"/>
-                                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
+                                            <rect key="frame" x="20" y="10" width="294" height="20.5"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -45,13 +45,12 @@
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="Yit-w3-YGW" secondAttribute="trailing" constant="10" id="2vc-d0-tFl"/>
                                         <constraint firstItem="hFC-Xk-ENI" firstAttribute="top" secondItem="Hny-T6-hU9" secondAttribute="bottom" constant="8" id="3Rc-ro-rFl"/>
-                                        <constraint firstItem="Hny-T6-hU9" firstAttribute="top" secondItem="RtF-mR-uDV" secondAttribute="top" constant="6" id="Jek-EO-TVs"/>
+                                        <constraint firstItem="Hny-T6-hU9" firstAttribute="top" secondItem="RtF-mR-uDV" secondAttribute="top" constant="10" id="Jek-EO-TVs"/>
                                         <constraint firstItem="Yit-w3-YGW" firstAttribute="top" secondItem="Hny-T6-hU9" secondAttribute="top" constant="5" id="Oax-ba-uoT"/>
-                                        <constraint firstAttribute="trailing" secondItem="Hny-T6-hU9" secondAttribute="trailing" constant="341.5" id="UxI-6o-aD4"/>
+                                        <constraint firstAttribute="trailing" secondItem="Hny-T6-hU9" secondAttribute="trailing" constant="100" id="UxI-6o-aD4"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="Yit-w3-YGW" secondAttribute="bottom" constant="37" id="WPB-Bx-sC9"/>
                                         <constraint firstItem="hFC-Xk-ENI" firstAttribute="leading" secondItem="Hny-T6-hU9" secondAttribute="leading" id="g5c-jB-fIp"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="hFC-Xk-ENI" secondAttribute="trailing" constant="20" id="lWM-CW-AH5"/>
-                                        <constraint firstItem="Yit-w3-YGW" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="RtF-mR-uDV" secondAttribute="leading" symbolic="YES" id="mXA-aZ-rRB"/>
                                         <constraint firstItem="Hny-T6-hU9" firstAttribute="leading" secondItem="RtF-mR-uDV" secondAttribute="leading" constant="20" id="opo-zx-Gb9"/>
                                     </constraints>
                                 </tableViewCellContentView>
@@ -88,28 +87,40 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TfG-Pn-aA4">
-                                <rect key="frame" x="16" y="160" width="382" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Write something interesting." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="2Kl-7d-iRe">
-                                <rect key="frame" x="16" y="202" width="382" height="674"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="0pa-hK-I1e">
+                                <rect key="frame" x="16" y="160" width="382" height="716"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TfG-Pn-aA4">
+                                        <rect key="frame" x="0.0" y="0.0" width="382" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="0pW-VP-9Tk">
+                                        <rect key="frame" x="0.0" y="42" width="382" height="32"/>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                        <segments>
+                                            <segment title="😁"/>
+                                            <segment title="🧐"/>
+                                            <segment title="😥"/>
+                                        </segments>
+                                        <color key="selectedSegmentTintColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </segmentedControl>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Write something interesting." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="2Kl-7d-iRe">
+                                        <rect key="frame" x="0.0" y="81" width="382" height="635"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="2Kl-7d-iRe" secondAttribute="bottom" constant="20" id="2yN-lR-pZA"/>
-                            <constraint firstItem="gfw-cZ-n7n" firstAttribute="trailing" secondItem="2Kl-7d-iRe" secondAttribute="trailing" constant="16" id="MjZ-pw-AGE"/>
-                            <constraint firstItem="TfG-Pn-aA4" firstAttribute="leading" secondItem="gfw-cZ-n7n" secondAttribute="leading" constant="16" id="NqC-Nd-nH1"/>
-                            <constraint firstItem="2Kl-7d-iRe" firstAttribute="leading" secondItem="gfw-cZ-n7n" secondAttribute="leading" constant="16" id="Vbj-jG-FbF"/>
-                            <constraint firstItem="TfG-Pn-aA4" firstAttribute="top" secondItem="gfw-cZ-n7n" secondAttribute="top" constant="20" id="YD3-cp-xlw"/>
-                            <constraint firstItem="2Kl-7d-iRe" firstAttribute="top" secondItem="TfG-Pn-aA4" secondAttribute="bottom" constant="8" id="biU-RD-OQA"/>
-                            <constraint firstItem="gfw-cZ-n7n" firstAttribute="trailing" secondItem="TfG-Pn-aA4" secondAttribute="trailing" constant="16" id="rhS-v3-Oto"/>
+                            <constraint firstItem="0pa-hK-I1e" firstAttribute="top" secondItem="gfw-cZ-n7n" secondAttribute="top" constant="20" id="L1f-Mc-B13"/>
+                            <constraint firstAttribute="bottom" secondItem="0pa-hK-I1e" secondAttribute="bottom" constant="20" id="aNR-l0-Wtd"/>
+                            <constraint firstItem="gfw-cZ-n7n" firstAttribute="trailing" secondItem="0pa-hK-I1e" secondAttribute="trailing" constant="16" id="fTB-Eb-Gf1"/>
+                            <constraint firstItem="0pa-hK-I1e" firstAttribute="leading" secondItem="gfw-cZ-n7n" secondAttribute="leading" constant="16" id="xcK-Dg-Slf"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="gfw-cZ-n7n"/>
                     </view>
@@ -122,6 +133,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="descriptionTextView" destination="2Kl-7d-iRe" id="t6f-Tt-lIw"/>
+                        <outlet property="moodControl" destination="0pW-VP-9Tk" id="Icg-Li-va0"/>
                         <outlet property="titleTextField" destination="TfG-Pn-aA4" id="xgQ-37-nYO"/>
                     </connections>
                 </viewController>

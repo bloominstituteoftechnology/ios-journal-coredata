@@ -29,4 +29,14 @@ class CoreDataStack {
         return container.viewContext
 
     }
+    
+    // saveToPersistance
+    func saveToPersistentStore() {
+        do {
+            let moc = CoreDataStack.shared.mainContext
+            try moc.save()
+        } catch {
+            print("Error saving managed object context: \(error)")
+        }
+    }
 }
