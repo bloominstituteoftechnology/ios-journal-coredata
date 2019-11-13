@@ -7,10 +7,9 @@
 //
 
 import Foundation
+import CoreData
 
 extension Entry {
-    // MARK: - Entry Representation
-    
     struct Representation: Codable {
         var title: String
         var bodyText: String
@@ -37,7 +36,7 @@ extension Entry {
             identifier: id)
     }
     
-    convenience init?(
+    @discardableResult convenience init?(
         representation: Entry.Representation,
         context: NSManagedObjectContext
     ) {

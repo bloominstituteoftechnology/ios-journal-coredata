@@ -26,8 +26,6 @@ class EntryController: NSObject {
     
     let baseURL: URL = URL(string: "https://lambda-ios-journal-bc168.firebaseio.com/")!
     
-    typealias CompletionHandler = (Error?) -> Void
-    
     // MARK: - Local Fetching
     
     private lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
@@ -79,8 +77,13 @@ class EntryController: NSObject {
     
     // MARK: - Sync
     
-    private func urlRequest(for id: String) -> URLRequest {
-        let url = baseURL.appendingPathComponent(id).appendingPathExtension(.json)
+    private func urlRequest(for id: String?) -> URLRequest {
+        let url: URL
+        if let id = id {
+            url = baseURL.appendingPathComponent(id).appendingPathExtension(.json)
+        } else {
+            url = baseURL.appendingPathExtension(.json)
+        }
         return URLRequest(url: url)
     }
     
@@ -156,6 +159,14 @@ class EntryController: NSObject {
         putToServer(entry: entry)
     }
     
+    func update(entry: Entry, from representation: Entry.Representation) {
+        entry.title = representation.title
+        entry.bodyText = representation.bodyText
+        entry.mood = representation.mood
+        entry.timestamp = representation.timestamp
+        entry.identifier = representation.identifier
+    }
+    
     func delete(entry: Entry) {
         coreDataStack.mainContext.delete(entry)
         deleteEntryFromServer(entry)
@@ -192,9 +203,10 @@ extension EntryController: NSFetchedResultsControllerDelegate {
     }
 }
 
-// MARK: - Change Type
+// MARK: - Type Aliases
 
 extension EntryController {
     typealias ChangeType = NSFetchedResultsChangeType
+    typealias CompletionHandler = (Error?) -> Void
 }
 

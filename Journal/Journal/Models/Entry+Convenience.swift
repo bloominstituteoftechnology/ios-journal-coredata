@@ -9,7 +9,7 @@
 import CoreData
 
 extension Entry {
-    // MARK: - Convenience Initializers
+    // MARK: - Convenience Initializer
     
     convenience init(
         title: String,
