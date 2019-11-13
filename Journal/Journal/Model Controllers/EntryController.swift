@@ -134,8 +134,35 @@ class EntryController: NSObject {
         }.resume()
     }
     
-    func update(entry: Entry, from representation: Entry.Representation) {
+    private func updateEntries(from representations: [Entry.Representation]) {
+        let idsToFetch = representations.compactMap { $0.identifier }
+        let representationsByID = Dictionary(
+            uniqueKeysWithValues: zip(idsToFetch, representations)
+        )
+        var entriesToCreate = representationsByID
         
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", argumentArray: idsToFetch)
+        
+        do {
+            let existingEntries = try coreDataStack.mainContext.fetch(fetchRequest)
+            
+            for entry in existingEntries {
+                guard let id = entry.identifier,
+                    let representation = representationsByID[id]
+                    else { continue }
+                self.update(entry: entry, from: representation)
+                entriesToCreate.removeValue(forKey: id)
+            }
+            
+            for representation in entriesToCreate.values {
+                Entry(representation: representation, context: coreDataStack.mainContext)
+            }
+        } catch {
+            print("Error fetch tasks for IDs: \(error)")
+        }
+        
+        saveToPersistentStore()
     }
     
     // MARK: - CRUD
