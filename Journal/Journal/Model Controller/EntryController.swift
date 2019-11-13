@@ -6,16 +6,14 @@
 //  Copyright © 2019 Jon Bash. All rights reserved.
 //
 
+import UIKit
 import CoreData
 
-protocol EntryControllerDelegate: NSFetchedResultsControllerDelegate {}
-
-class EntryController {
-    
+class EntryController: NSObject {
     // MARK: - Properties
     
     private var coreDataStack = CoreDataStack()
-    var delegate: EntryControllerDelegate?
+    var tableView: UITableView?
     
     // MARK: - Entry Fetching
     
@@ -49,7 +47,7 @@ class EntryController {
             sectionNameKeyPath: "mood",
             cacheName: nil
         )
-        frc.delegate = delegate
+        frc.delegate = self
         do {
             try frc.performFetch()
         } catch {
@@ -82,14 +80,89 @@ class EntryController {
         saveToPersistentStore()
     }
     
-    // MARK: - Save/Load
-    
     func saveToPersistentStore() {
         let moc = coreDataStack.mainContext
         do {
             try moc.save()
         } catch {
             print("Error saving journal entries: \(error)")
+        }
+    }
+}
+
+// MARK: - Table Data Source
+
+extension EntryController: UITableViewDataSource, UITableViewDelegate {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return numberOfSections()
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sectionTitle(for: section)
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell
+            else {
+                print("Cell cannot conform to EntryTableViewCell!")
+                return UITableViewCell()
+        }
+        cell.entry = fetch(entryAt: indexPath)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return numberOfRows(in: section)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let entry = fetch(entryAt: indexPath)
+            delete(entry: entry)
+        }
+    }
+}
+
+// MARK: - FRC Delegate
+
+extension EntryController: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView?.beginUpdates()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView?.endUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert:
+            tableView?.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
+        case .delete:
+            tableView?.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
+        default:
+            break
+        }
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            guard let newIndexPath = newIndexPath else { return }
+            tableView?.insertRows(at: [newIndexPath], with: .automatic)
+        case .update:
+            guard let indexPath = indexPath else { return }
+            tableView?.reloadRows(at: [indexPath], with: .automatic)
+        case .move:
+            guard let oldIndexPath = indexPath,
+                let newIndexPath = newIndexPath else { return }
+            tableView?.deleteRows(at: [oldIndexPath], with: .automatic)
+            tableView?.insertRows(at: [newIndexPath], with: .automatic)
+        case .delete:
+            guard let indexPath = indexPath else { return }
+            tableView?.deleteRows(at: [indexPath], with: .automatic)
+        @unknown default:
+            break
         }
     }
 }
