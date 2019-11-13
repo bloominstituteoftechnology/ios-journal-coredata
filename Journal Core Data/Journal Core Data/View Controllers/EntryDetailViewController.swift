@@ -11,6 +11,8 @@ import CoreData
 
 class EntryDetailViewController: UIViewController {
     
+    // MARK: - Properties & Outlets
+
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var moodControl: UISegmentedControl!
@@ -22,7 +24,7 @@ class EntryDetailViewController: UIViewController {
         }
     }
     
-    var entryController: EntryController?
+//    var entryController: EntryController? - No longer used or needed
     
     
     override func viewDidLoad() {
@@ -31,7 +33,8 @@ class EntryDetailViewController: UIViewController {
         
     }
     
-    
+    // MARK: - Methods
+
     @IBAction func saveButton(_ sender: UIBarButtonItem) {
         guard let title = titleTextField.text else { return }
         guard let description = descriptionTextView.text else { return }
@@ -45,6 +48,7 @@ class EntryDetailViewController: UIViewController {
 //        }
         
         
+            // Creating New Entries / Updating
         if let entry = entry { // edit existing journal entry
             entry.title = title
             entry.bodyText = description
@@ -74,7 +78,7 @@ class EntryDetailViewController: UIViewController {
         moodControl.selectedSegmentIndex = Mood.allCases.firstIndex(of: setMood)!
     }
     
-    // Saving
+    // Saving them in the Database
     func saveToPersistentStore() {
         do {
             let moc = CoreDataStack.shared.mainContext
