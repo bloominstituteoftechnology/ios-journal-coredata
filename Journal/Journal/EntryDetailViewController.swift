@@ -10,7 +10,6 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
 
- 
     var entry: Entry? {
         didSet{
             updateViews()        }
@@ -18,9 +17,11 @@ class EntryDetailViewController: UIViewController {
     
     @IBOutlet private weak var entryTitleTextField: UITextField!
     @IBOutlet private weak var entryBodyTextView: UITextView!
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     
     
-    override func viewDidLoad() {
+    
+      override func viewDidLoad() {
            super.viewDidLoad()
            updateViews()
        }
@@ -28,12 +29,14 @@ class EntryDetailViewController: UIViewController {
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
         guard let entryTitle = entryTitleTextField.text, !entryTitle.isEmpty else {return}
         let entryBody = entryBodyTextView.text
-        
+        let moodIndex = moodSegmentedControl.selectedSegmentIndex
+        guard let moodString = moodSegmentedControl.titleForSegment(at: moodIndex) else {return}
+       
         if let entry = entry {
             entry.title = entryTitle
             entry.bodyText = entryBody
         } else {
-            let _ = Entry(title: entryTitle, bodyText: entryBody, timestamp: Date.init(), indentifier: nil)
+            let _ = Entry(title: entryTitle, bodyText: entryBody, timestamp: Date.init(),  indentifier: nil, mood: moodString)
         }
         do {
             let moc = CoreDataStack.shared.mainContext
@@ -44,11 +47,19 @@ class EntryDetailViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    private func updateViews(){
+    private func updateViews() {
         guard isViewLoaded else {return}
         title = entry?.title ?? "Create an Entry"
         entryTitleTextField.text = entry?.title
         entryBodyTextView.text = entry?.bodyText
+      
+        let mood: Mood
+        if let entryMood = entry?.mood {
+            mood = Mood(rawValue: entryMood)!
+        } else {
+            mood = .happy
+        }
+        moodSegmentedControl.selectedSegmentIndex = Mood.allCases.firstIndex(of: mood)!
     }
 }
 

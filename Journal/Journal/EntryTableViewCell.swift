@@ -10,26 +10,22 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
 
-    
-    
-   
-    
+
     @IBOutlet weak var entryTitleLabel: UILabel!
     @IBOutlet weak var entryBodyLabel: UILabel!
     @IBOutlet weak var entryTimeStampLabel: UILabel!
+    @IBOutlet weak var moodLabel: UILabel!
+    
     
     var entry: Entry? {
-        didSet{
+        didSet {
             updateViews()
         }
     }
     
-    
-    
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -40,6 +36,7 @@ class EntryTableViewCell: UITableViewCell {
     
     
     func updateViews(){
+        
         guard let entry = entry else {return}
         print("Heres the entry \(entry)")
         entryTitleLabel.text = entry.title
@@ -48,6 +45,7 @@ class EntryTableViewCell: UITableViewCell {
         dateFormatter.dateFormat = "MM/dd/yyyy, h:mm a"
         dateFormatter.timeZone = TimeZone.autoupdatingCurrent
         entryTimeStampLabel.text = dateFormatter.string(from: entry.timestamp!)
+        moodLabel.text = entry.mood
     }
     
     
@@ -55,3 +53,4 @@ class EntryTableViewCell: UITableViewCell {
     
     
 }
+
