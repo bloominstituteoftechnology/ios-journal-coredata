@@ -6,26 +6,25 @@
 //  Copyright © 2019 Jon Bash. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import CoreData
+
+// MARK: - Entry Controller Delegate
+
+protocol EntryControllerDelegate {
+    func entriesWillChange()
+    func entriesDidChange()
+    func sectionChanged(atIndex sectionIndex: Int, with type: EntryController.ChangeType)
+    func entryChanged(from indexPath: IndexPath?, to newIndexPath: IndexPath?, with type: EntryController.ChangeType)
+}
 
 class EntryController: NSObject {
     // MARK: - Properties
     
     private var coreDataStack = CoreDataStack()
-    var tableView: UITableView?
+    var delegate: EntryControllerDelegate?
     
     // MARK: - Entry Fetching
-    
-    func fetch(entryAt indexPath: IndexPath) -> Entry? {
-        return fetchedResultsController.object(at: indexPath)
-    }
-    
-    private var fetchedResultsAreEmpty: Bool {
-        guard let array = fetchedResultsController.fetchedObjects
-            else { return true }
-        return array.isEmpty
-    }
     
     private lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -47,6 +46,32 @@ class EntryController: NSObject {
         }
         return frc
     }()
+    
+    private var fetchedResultsAreEmpty: Bool {
+        guard let array = fetchedResultsController.fetchedObjects
+            else { return true }
+        return array.isEmpty
+    }
+    
+    func fetch(entryAt indexPath: IndexPath) -> Entry? {
+        return fetchedResultsController.object(at: indexPath)
+    }
+    
+    func mood(forIndex index: Int) -> String? {
+        if fetchedResultsAreEmpty { return nil }
+        let sectionInfo = fetchedResultsController.sections?[index]
+        return sectionInfo?.name.capitalized
+    }
+    
+    func numberOfMoods() -> Int {
+        if fetchedResultsAreEmpty { return 0 }
+        return fetchedResultsController.sections?.count ?? 1
+    }
+    
+    func numberOfEntries(forIndex index: Int) -> Int {
+        if fetchedResultsAreEmpty { return 0 }
+        return fetchedResultsController.sections?[index].numberOfObjects ?? 0
+    }
     
     // MARK: - CRUD
     
@@ -82,86 +107,29 @@ class EntryController: NSObject {
     }
 }
 
-// MARK: - Table Data Source
-
-extension EntryController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        if fetchedResultsAreEmpty { return 0 }
-        return fetchedResultsController.sections?.count ?? 1
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if fetchedResultsAreEmpty { return nil }
-        let sectionInfo = fetchedResultsController.sections?[section]
-        return sectionInfo?.name.capitalized
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell
-            else {
-                print("Cell cannot conform to EntryTableViewCell!")
-                return UITableViewCell()
-        }
-        cell.entry = fetch(entryAt: indexPath)
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if fetchedResultsAreEmpty { return 0 }
-        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
-    }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            guard let entry = fetch(entryAt: indexPath) else {
-                print("Could not find entry to delete!")
-                return
-            }
-            delete(entry: entry)
-        }
-    }
-}
-
 // MARK: - Fetched Results Controller Delegate
 
 extension EntryController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView?.beginUpdates()
+        delegate?.entriesWillChange()
     }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        tableView?.endUpdates()
+        delegate?.entriesDidChange()
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        switch type {
-        case .insert:
-            tableView?.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
-        case .delete:
-            tableView?.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
-        default:
-            break
-        }
+        delegate?.sectionChanged(atIndex: sectionIndex, with: type)
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-            guard let newIndexPath = newIndexPath else { return }
-            tableView?.insertRows(at: [newIndexPath], with: .automatic)
-        case .update:
-            guard let indexPath = indexPath else { return }
-            tableView?.reloadRows(at: [indexPath], with: .automatic)
-        case .move:
-            guard let oldIndexPath = indexPath,
-                let newIndexPath = newIndexPath else { return }
-            tableView?.deleteRows(at: [oldIndexPath], with: .automatic)
-            tableView?.insertRows(at: [newIndexPath], with: .automatic)
-        case .delete:
-            guard let indexPath = indexPath else { return }
-            tableView?.deleteRows(at: [indexPath], with: .automatic)
-        @unknown default:
-            break
-        }
+        delegate?.entryChanged(from: indexPath, to: newIndexPath, with: type)
     }
 }
+
+// MARK: - Change Type
+
+extension EntryController {
+    typealias ChangeType = NSFetchedResultsChangeType
+}
+
