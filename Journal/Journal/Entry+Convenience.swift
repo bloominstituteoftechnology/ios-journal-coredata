@@ -10,12 +10,12 @@ import Foundation
 import CoreData
 
 extension Entry {
-    convenience init(title: String,
-                     timestamp: Date,
-                     mood: String = "😐",
-                     bodyText: String? = nil,
-                     identifier: UUID = UUID(),
-                     context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    @discardableResult convenience init(title: String,
+                                        timestamp: Date,
+                                        mood: String = "😐",
+                                        bodyText: String? = nil,
+                                        identifier: UUID = UUID(),
+                                        context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.title = title
         self.timestamp = timestamp
@@ -26,6 +26,7 @@ extension Entry {
     
     @discardableResult convenience init?(entryRepresentation: EntryRepresentation,
                                          context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        
         guard let identifierString = entryRepresentation.identifier,
             let identifier = UUID(uuidString: identifierString) else { return nil }
         

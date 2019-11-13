@@ -14,7 +14,7 @@ class EntriesTableViewController: UITableViewController {
     
     // MARK: - Properties
     
-    let entryController = EntryController()
+    private let entryController = EntryController()
     
     lazy var fetchedResultController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
