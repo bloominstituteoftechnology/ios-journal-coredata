@@ -13,6 +13,8 @@ class EntriesTableViewController: UITableViewController {
     
     var entryController = EntryController()
     
+    // MARK: - View Lifecycle
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         entryController.tableView = tableView
@@ -29,7 +31,6 @@ class EntriesTableViewController: UITableViewController {
                     print("Error: failed to cast segue destination as EntryDetailViewController, or failed to get index path for selected row.")
                     return
             }
-            
             detailVC.entry = entryController.fetch(entryAt: indexPath)
             detailVC.entryController = entryController
         } else if segue.identifier == "NewEntrySegue" {

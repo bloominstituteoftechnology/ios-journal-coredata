@@ -122,7 +122,7 @@ extension EntryController: UITableViewDataSource {
     }
 }
 
-// MARK: - FRC Delegate
+// MARK: - Fetched Results Controller Delegate
 
 extension EntryController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {

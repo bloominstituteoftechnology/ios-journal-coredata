@@ -9,7 +9,14 @@
 import CoreData
 
 extension Entry {
-    convenience init(title: String, bodyText: String, timestamp: Date = Date(), mood: Mood?, identifier: String = "\(Date().timeIntervalSince1970)", context: NSManagedObjectContext) {
+    convenience init(
+        title: String,
+        bodyText: String,
+        timestamp: Date = Date(),
+        mood: Mood?,
+        identifier: String = "\(Date().timeIntervalSince1970)",
+        context: NSManagedObjectContext
+    ) {
         self.init(context: context)
         self.title = title
         self.bodyText = bodyText
