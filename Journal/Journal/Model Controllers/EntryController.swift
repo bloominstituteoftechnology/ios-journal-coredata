@@ -87,6 +87,40 @@ class EntryController: NSObject {
         return URLRequest(url: url)
     }
     
+    private func urlRequest() -> URLRequest {
+        return urlRequest(for: nil)
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let request = urlRequest()
+        
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            if let error = error {
+                print("Error fetching entries: \(error)")
+                completion(error)
+                return
+            }
+            guard let data = data else {
+                print("No data returned by data task!")
+                completion(nil)
+                return
+            }
+            
+            do {
+                let entryRepresentations = Array(try JSONDecoder().decode(
+                    [String : Entry.Representation].self,
+                    from: data
+                ).values)
+                self.updateEntries(from: entryRepresentations)
+            } catch {
+                print("Error decoding entry representations: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
+    }
+    
     private func putToServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         guard let id = entry.identifier else {
             print("")
