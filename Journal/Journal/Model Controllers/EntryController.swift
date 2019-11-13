@@ -26,6 +26,13 @@ class EntryController: NSObject {
     
     let baseURL: URL = URL(string: "https://lambda-ios-journal-bc168.firebaseio.com/")!
     
+    // MARK: - Init
+    
+    override init() {
+        super.init()
+        self.fetchEntriesFromServer()
+    }
+    
     // MARK: - Local Fetching
     
     private lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
@@ -36,7 +43,7 @@ class EntryController: NSObject {
         ]
         let frc = NSFetchedResultsController(
             fetchRequest: fetchRequest,
-            managedObjectContext: coreDataStack.mainContext,
+            managedObjectContext: coreDataStack.context,
             sectionNameKeyPath: "mood",
             cacheName: nil
         )
@@ -78,13 +85,13 @@ class EntryController: NSObject {
     // MARK: - Sync
     
     private func urlRequest(for id: String?) -> URLRequest {
-        let url: URL
         if let id = id {
-            url = baseURL.appendingPathComponent(id).appendingPathExtension(.json)
-        } else {
-            url = baseURL.appendingPathExtension(.json)
+            return URLRequest(url:
+                baseURL.appendingPathComponent(id)
+                .appendingPathExtension(.json)
+            )
         }
-        return URLRequest(url: url)
+        return URLRequest(url: baseURL.appendingPathExtension(.json))
     }
     
     private func urlRequest() -> URLRequest {
@@ -179,7 +186,7 @@ class EntryController: NSObject {
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", argumentArray: idsToFetch)
         
         do {
-            let existingEntries = try coreDataStack.mainContext.fetch(fetchRequest)
+            let existingEntries = try coreDataStack.context.fetch(fetchRequest)
             
             for entry in existingEntries {
                 guard let id = entry.identifier,
@@ -190,7 +197,7 @@ class EntryController: NSObject {
             }
             
             for representation in entriesToCreate.values {
-                Entry(representation: representation, context: coreDataStack.mainContext)
+                Entry(representation: representation, context: coreDataStack.context)
             }
         } catch {
             print("Error fetch tasks for IDs: \(error)")
@@ -206,7 +213,7 @@ class EntryController: NSObject {
             title: title,
             bodyText: body,
             mood: mood,
-            context: coreDataStack.mainContext
+            context: coreDataStack.context
         )
         saveToPersistentStore()
         putToServer(entry: entry)
@@ -229,13 +236,13 @@ class EntryController: NSObject {
     }
     
     func delete(entry: Entry) {
-        coreDataStack.mainContext.delete(entry)
+        coreDataStack.context.delete(entry)
         deleteEntryFromServer(entry)
         saveToPersistentStore()
     }
     
     func saveToPersistentStore() {
-        let moc = coreDataStack.mainContext
+        let moc = coreDataStack.context
         do {
             try moc.save()
         } catch {

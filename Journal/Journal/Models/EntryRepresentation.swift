@@ -18,7 +18,7 @@ extension Entry {
         var identifier: String
     }
     
-    var representation: Entry.Representation? {
+    var representation: Representation? {
         guard let title = self.title,
             let body = self.bodyText,
             let mood = self.mood,
@@ -28,7 +28,7 @@ extension Entry {
                 print("Error generating entry representation for entry; one of the required properties is nil!")
                 return nil
         }
-        return Entry.Representation(
+        return Representation(
             title: title,
             bodyText: body,
             mood: mood,
@@ -37,7 +37,7 @@ extension Entry {
     }
     
     @discardableResult convenience init?(
-        representation: Entry.Representation,
+        representation: Representation,
         context: NSManagedObjectContext
     ) {
         self.init(context: context)
