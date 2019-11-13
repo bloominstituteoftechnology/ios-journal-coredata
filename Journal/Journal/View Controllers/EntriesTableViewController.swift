@@ -81,7 +81,7 @@ extension EntriesTableViewController {
 
 // MARK: - Entry Controller Delegate
 
-extension EntriesTableViewController: EntryControllerDelegate {
+extension EntriesTableViewController: CoreDataStackDelegate {
     func entriesWillChange() {
         tableView?.beginUpdates()
     }

@@ -11,20 +11,19 @@ import CoreData
 
 // MARK: - Entry Controller Delegate
 
-protocol EntryControllerDelegate {
-    func entriesWillChange()
-    func entriesDidChange()
-    func sectionChanged(atIndex sectionIndex: Int, with type: EntryController.ChangeType)
-    func entryChanged(from indexPath: IndexPath?, to newIndexPath: IndexPath?, with type: EntryController.ChangeType)
-}
-
 class EntryController: NSObject {
     // MARK: - Properties
     
     private var coreDataStack = CoreDataStack()
-    var delegate: EntryControllerDelegate?
     
     let baseURL: URL = URL(string: "https://lambda-ios-journal-bc168.firebaseio.com/")!
+    var delegate: CoreDataStackDelegate? {
+        get {
+            return coreDataStack.delegate
+        } set {
+            coreDataStack.delegate = newValue
+        }
+    }
     
     // MARK: - Init
     
@@ -35,51 +34,30 @@ class EntryController: NSObject {
     
     // MARK: - Local Fetching
     
-    private lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "mood", ascending: true),
-            NSSortDescriptor(key: "timestamp", ascending: true)
-        ]
-        let frc = NSFetchedResultsController(
-            fetchRequest: fetchRequest,
-            managedObjectContext: coreDataStack.context,
-            sectionNameKeyPath: "mood",
-            cacheName: nil
-        )
-        frc.delegate = self
-        do {
-            try frc.performFetch()
-        } catch {
-            print("Error fetching results from data: \(error)")
-        }
-        return frc
-    }()
-    
     private var fetchedResultsAreEmpty: Bool {
-        guard let array = fetchedResultsController.fetchedObjects
+        guard let array = coreDataStack.fetchedResultsController.fetchedObjects
             else { return true }
         return array.isEmpty
     }
     
     func fetch(entryAt indexPath: IndexPath) -> Entry? {
-        return fetchedResultsController.object(at: indexPath)
+        return coreDataStack.fetchedResultsController.object(at: indexPath)
     }
     
     func mood(forIndex index: Int) -> String? {
         if fetchedResultsAreEmpty { return nil }
-        let sectionInfo = fetchedResultsController.sections?[index]
+        let sectionInfo = coreDataStack.fetchedResultsController.sections?[index]
         return sectionInfo?.name.capitalized
     }
     
     func numberOfMoods() -> Int {
         if fetchedResultsAreEmpty { return 0 }
-        return fetchedResultsController.sections?.count ?? 1
+        return coreDataStack.fetchedResultsController.sections?.count ?? 1
     }
     
     func numberOfEntries(forIndex index: Int) -> Int {
         if fetchedResultsAreEmpty { return 0 }
-        return fetchedResultsController.sections?[index].numberOfObjects ?? 0
+        return coreDataStack.fetchedResultsController.sections?[index].numberOfObjects ?? 0
     }
     
     // MARK: - Sync
@@ -248,26 +226,6 @@ class EntryController: NSObject {
         } catch {
             print("Error saving journal entries: \(error)")
         }
-    }
-}
-
-// MARK: - Fetched Results Controller Delegate
-
-extension EntryController: NSFetchedResultsControllerDelegate {
-    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        delegate?.entriesWillChange()
-    }
-    
-    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-        delegate?.entriesDidChange()
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-        delegate?.sectionChanged(atIndex: sectionIndex, with: type)
-    }
-    
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        delegate?.entryChanged(from: indexPath, to: newIndexPath, with: type)
     }
 }
 
