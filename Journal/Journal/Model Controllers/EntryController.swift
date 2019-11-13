@@ -24,7 +24,11 @@ class EntryController: NSObject {
     private var coreDataStack = CoreDataStack()
     var delegate: EntryControllerDelegate?
     
-    // MARK: - Entry Fetching
+    let baseURL: URL = URL(string: "https://lambda-ios-journal-bc168.firebaseio.com/")!
+    
+    typealias CompletionHandler = (Error?) -> Void
+    
+    // MARK: - Local Fetching
     
     private lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -73,16 +77,71 @@ class EntryController: NSObject {
         return fetchedResultsController.sections?[index].numberOfObjects ?? 0
     }
     
+    // MARK: - Sync
+    
+    private func urlRequest(for id: String) -> URLRequest {
+        let url = baseURL.appendingPathComponent(id).appendingPathExtension(.json)
+        return URLRequest(url: url)
+    }
+    
+    private func putToServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        guard let id = entry.identifier else {
+            print("")
+            return
+        }
+        var request = urlRequest(for: id)
+        request.httpMethod = HTTPMethod.put
+        
+        do {
+            guard var representation = entry.entryRepresentation else {
+                print("Error: failed to get entry representation.")
+                completion(nil)
+                return
+            }
+            representation.identifier = id
+            entry.identifier = id
+            saveToPersistentStore()
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            print("Error encoding entry: \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                print("Error PUTing task to server: \(error)")
+            }
+            completion(error)
+        }.resume()
+    }
+    
+    private func deleteEntryFromServer(_ entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        guard let id = entry.identifier else {
+            print("Error: entry has no identifier!")
+            completion(nil)
+            return
+        }
+        var request = urlRequest(for: id)
+        request.httpMethod = HTTPMethod.delete
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            print(response ?? "No response!")
+            completion(error)
+        }.resume()
+    }
+    
     // MARK: - CRUD
     
     func create(entryWithTitle title: String, body: String, mood: Entry.Mood) {
-        let _ = Entry(
+        let entry = Entry(
             title: title,
             bodyText: body,
             mood: mood,
             context: coreDataStack.mainContext
         )
         saveToPersistentStore()
+        putToServer(entry: entry)
     }
     
     func update(entry: Entry, withNewTitle title: String, body: String, mood: Entry.Mood) {
@@ -90,10 +149,12 @@ class EntryController: NSObject {
         entry.bodyText = body
         entry.mood = mood.rawValue
         saveToPersistentStore()
+        putToServer(entry: entry)
     }
     
     func delete(entry: Entry) {
         coreDataStack.mainContext.delete(entry)
+        deleteEntryFromServer(entry)
         saveToPersistentStore()
     }
     
