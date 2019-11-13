@@ -17,22 +17,14 @@ class EntryController: NSObject {
     
     // MARK: - Entry Fetching
     
-    func numberOfSections() -> Int {
-        return fetchedResultsController.sections?.count ?? 1
-    }
-    
-    func numberOfRows(in section: Int) -> Int {
-        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
-    }
-    
-    func sectionTitle(for section: Int) -> String? {
-        guard let sectionInfo = fetchedResultsController.sections?[section]
-            else { return nil }
-        return sectionInfo.name.capitalized
-    }
-    
-    func fetch(entryAt indexPath: IndexPath) -> Entry {
+    func fetch(entryAt indexPath: IndexPath) -> Entry? {
         return fetchedResultsController.object(at: indexPath)
+    }
+    
+    private var fetchedResultsAreEmpty: Bool {
+        guard let array = fetchedResultsController.fetchedObjects
+            else { return true }
+        return array.isEmpty
     }
     
     private lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
@@ -92,13 +84,16 @@ class EntryController: NSObject {
 
 // MARK: - Table Data Source
 
-extension EntryController: UITableViewDataSource, UITableViewDelegate {
+extension EntryController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return numberOfSections()
+        if fetchedResultsAreEmpty { return 0 }
+        return fetchedResultsController.sections?.count ?? 1
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionTitle(for: section)
+        if fetchedResultsAreEmpty { return nil }
+        let sectionInfo = fetchedResultsController.sections?[section]
+        return sectionInfo?.name.capitalized
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -112,12 +107,16 @@ extension EntryController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numberOfRows(in: section)
+        if fetchedResultsAreEmpty { return 0 }
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let entry = fetch(entryAt: indexPath)
+            guard let entry = fetch(entryAt: indexPath) else {
+                print("Could not find entry to delete!")
+                return
+            }
             delete(entry: entry)
         }
     }

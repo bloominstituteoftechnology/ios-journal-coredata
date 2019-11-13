@@ -17,7 +17,6 @@ class EntriesTableViewController: UITableViewController {
         super.viewWillAppear(animated)
         entryController.tableView = tableView
         tableView.dataSource = entryController
-        tableView.delegate = entryController
     }
     
     // MARK: - Navigation
