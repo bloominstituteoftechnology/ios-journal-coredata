@@ -11,7 +11,9 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
 
-    var entryController = EntryController()
+    // MARK: - Properties
+
+//    var entryController = EntryController()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -25,15 +27,10 @@ class EntriesTableViewController: UITableViewController {
     }()
     
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        tableView.reloadData()
-//    }
 
     // MARK: - Table view data source
 
@@ -48,6 +45,8 @@ class EntriesTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
 
 //        let entry = entryController.entries[indexPath.row]
+        
+        // Fetching information to Cell
         let entry = fetchedResultsController.object(at: indexPath)
         cell.entry = entry
 
@@ -65,6 +64,8 @@ class EntriesTableViewController: UITableViewController {
         if editingStyle == .delete {
             //        let entry = entryController.entries[indexPath.row]
             //        entryController.delete(entry: entry)
+            
+            // Deleting:
             let entry = fetchedResultsController.object(at: indexPath)
             let moc = CoreDataStack.shared.mainContext
             moc.delete(entry)
@@ -95,6 +96,8 @@ class EntriesTableViewController: UITableViewController {
     }
 }
  
+// MARK: - Delegates
+
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {

@@ -9,6 +9,8 @@
 import Foundation
 import CoreData
 
+// MARK: - Old Model Controller - Use this to refer back on how create, update, save, and delete entries were used before the fetchController
+
 class EntryController {
 //
 //    var entries: [Entry] {
