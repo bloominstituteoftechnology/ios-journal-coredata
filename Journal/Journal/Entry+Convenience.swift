@@ -14,7 +14,7 @@ extension Entry {
                      timestamp: Date,
                      mood: String = "😐",
                      bodyText: String? = nil,
-                     identifier: String? = nil,
+                     identifier: UUID = UUID(),
                      context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.title = title
@@ -26,12 +26,14 @@ extension Entry {
     
     @discardableResult convenience init?(entryRepresentation: EntryRepresentation,
                                          context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        guard let identifierString = entryRepresentation.identifier,
+            let identifier = UUID(uuidString: identifierString) else { return nil }
         
         self.init(title: entryRepresentation.title,
                   timestamp: entryRepresentation.timestamp,
                   mood: entryRepresentation.mood,
                   bodyText: entryRepresentation.bodyText,
-                  identifier: entryRepresentation.identifier,
+                  identifier: identifier,
                   context: context)
     }
     
@@ -39,6 +41,6 @@ extension Entry {
         guard let title = title,
             let timestamp = timestamp,
             let mood = mood else { return nil }
-        return EntryRepresentation(title: title, bodyText: bodyText, timestamp: timestamp, mood: mood, identifier: identifier)
+        return EntryRepresentation(title: title, bodyText: bodyText, timestamp: timestamp, mood: mood, identifier: identifier?.uuidString ?? "")
     }
 }
