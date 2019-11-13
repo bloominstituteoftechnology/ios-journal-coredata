@@ -27,38 +27,6 @@ extension Entry {
         self.identifier = identifier
     }
     
-    // MARK: - Entry Representation
-    
-    var entryRepresentation: EntryRepresentation? {
-        guard let title = self.title,
-            let body = self.bodyText,
-            let mood = self.mood,
-            let timestamp = self.timestamp,
-            let id = self.identifier
-            else {
-                print("Error generating entry representation for entry; one of the required properties is nil!")
-                return nil
-        }
-        return EntryRepresentation(
-            title: title,
-            bodyText: body,
-            mood: mood,
-            timestamp: timestamp,
-            identifier: id)
-    }
-    
-    convenience init?(
-        representation: EntryRepresentation,
-        context: NSManagedObjectContext
-    ) {
-        self.init(context: context)
-        self.title = representation.title
-        self.bodyText = representation.bodyText
-        self.mood = representation.mood
-        self.timestamp = representation.timestamp
-        self.identifier = representation.identifier
-    }
-    
     // MARK: - Mood Enum
     
     enum Mood: String, CaseIterable {

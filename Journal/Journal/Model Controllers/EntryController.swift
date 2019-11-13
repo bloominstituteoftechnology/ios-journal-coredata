@@ -93,7 +93,7 @@ class EntryController: NSObject {
         request.httpMethod = HTTPMethod.put
         
         do {
-            guard var representation = entry.entryRepresentation else {
+            guard var representation = entry.representation else {
                 print("Error: failed to get entry representation.")
                 completion(nil)
                 return
@@ -129,6 +129,10 @@ class EntryController: NSObject {
             print(response ?? "No response!")
             completion(error)
         }.resume()
+    }
+    
+    func update(entry: Entry, from representation: Entry.Representation) {
+        
     }
     
     // MARK: - CRUD
