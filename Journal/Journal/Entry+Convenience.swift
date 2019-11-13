@@ -23,4 +23,22 @@ extension Entry {
         self.bodyText = bodyText
         self.identifier = identifier
     }
+    
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation,
+                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        
+        self.init(title: entryRepresentation.title,
+                  timestamp: entryRepresentation.timestamp,
+                  mood: entryRepresentation.mood,
+                  bodyText: entryRepresentation.bodyText,
+                  identifier: entryRepresentation.identifier,
+                  context: context)
+    }
+    
+    var entryRepresentation: EntryRepresentation? {
+        guard let title = title,
+            let timestamp = timestamp,
+            let mood = mood else { return nil }
+        return EntryRepresentation(title: title, bodyText: bodyText, timestamp: timestamp, mood: mood, identifier: identifier)
+    }
 }
