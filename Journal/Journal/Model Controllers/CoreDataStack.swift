@@ -8,6 +8,8 @@
 
 import CoreData
 
+// MARK: - CoreDataStack Delegate
+
 protocol CoreDataStackDelegate {
     func entriesWillChange()
     func entriesDidChange()
@@ -16,6 +18,8 @@ protocol CoreDataStackDelegate {
 }
 
 class CoreDataStack: NSObject {
+    // MARK: - Properties
+    
     lazy var container: NSPersistentContainer = {
         // `NAME` MUST MATCH XCDATAMODELD FILENAME
         let container = NSPersistentContainer(name: "Journal")

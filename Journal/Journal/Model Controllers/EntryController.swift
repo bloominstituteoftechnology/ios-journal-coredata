@@ -9,8 +9,6 @@
 import Foundation
 import CoreData
 
-// MARK: - Entry Controller Delegate
-
 class EntryController: NSObject {
     // MARK: - Properties
     
@@ -30,6 +28,41 @@ class EntryController: NSObject {
     override init() {
         super.init()
         self.fetchEntriesFromServer()
+    }
+    
+    // MARK: - CRUD
+    
+    func create(entryWithTitle title: String, body: String, mood: Entry.Mood) {
+        let entry = Entry(
+            title: title,
+            bodyText: body,
+            mood: mood,
+            context: coreDataStack.context
+        )
+        saveToPersistentStore()
+        putToServer(entry: entry)
+    }
+    
+    func update(entry: Entry, withNewTitle title: String, body: String, mood: Entry.Mood) {
+        entry.title = title
+        entry.bodyText = body
+        entry.mood = mood.rawValue
+        saveToPersistentStore()
+        putToServer(entry: entry)
+    }
+    
+    func update(entry: Entry, from representation: Entry.Representation) {
+        entry.title = representation.title
+        entry.bodyText = representation.bodyText
+        entry.mood = representation.mood
+        entry.timestamp = representation.timestamp
+        entry.identifier = representation.identifier
+    }
+    
+    func delete(entry: Entry) {
+        coreDataStack.context.delete(entry)
+        deleteEntryFromServer(entry)
+        saveToPersistentStore()
     }
     
     // MARK: - Local Fetching
@@ -58,6 +91,15 @@ class EntryController: NSObject {
     func numberOfEntries(forIndex index: Int) -> Int {
         if fetchedResultsAreEmpty { return 0 }
         return coreDataStack.fetchedResultsController.sections?[index].numberOfObjects ?? 0
+    }
+    
+    func saveToPersistentStore() {
+        let moc = coreDataStack.context
+        do {
+            try moc.save()
+        } catch {
+            print("Error saving journal entries: \(error)")
+        }
     }
     
     // MARK: - Sync
@@ -182,50 +224,6 @@ class EntryController: NSObject {
         }
         
         saveToPersistentStore()
-    }
-    
-    // MARK: - CRUD
-    
-    func create(entryWithTitle title: String, body: String, mood: Entry.Mood) {
-        let entry = Entry(
-            title: title,
-            bodyText: body,
-            mood: mood,
-            context: coreDataStack.context
-        )
-        saveToPersistentStore()
-        putToServer(entry: entry)
-    }
-    
-    func update(entry: Entry, withNewTitle title: String, body: String, mood: Entry.Mood) {
-        entry.title = title
-        entry.bodyText = body
-        entry.mood = mood.rawValue
-        saveToPersistentStore()
-        putToServer(entry: entry)
-    }
-    
-    func update(entry: Entry, from representation: Entry.Representation) {
-        entry.title = representation.title
-        entry.bodyText = representation.bodyText
-        entry.mood = representation.mood
-        entry.timestamp = representation.timestamp
-        entry.identifier = representation.identifier
-    }
-    
-    func delete(entry: Entry) {
-        coreDataStack.context.delete(entry)
-        deleteEntryFromServer(entry)
-        saveToPersistentStore()
-    }
-    
-    func saveToPersistentStore() {
-        let moc = coreDataStack.context
-        do {
-            try moc.save()
-        } catch {
-            print("Error saving journal entries: \(error)")
-        }
     }
 }
 
