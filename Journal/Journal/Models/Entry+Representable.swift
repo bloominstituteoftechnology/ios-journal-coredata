@@ -9,7 +9,12 @@
 import Foundation
 import CoreData
 
-extension Entry {
+protocol Representable {
+    associatedtype Representation: Codable
+    var representation: Representation? { get }
+}
+
+extension Entry: Representable {
     struct Representation: Codable {
         var title: String
         var bodyText: String
