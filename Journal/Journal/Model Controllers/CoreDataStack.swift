@@ -23,6 +23,7 @@ class CoreDataStack: NSObject {
     lazy var container: NSPersistentContainer = {
         // `NAME` MUST MATCH XCDATAMODELD FILENAME
         let container = NSPersistentContainer(name: "Journal")
+        container.viewContext.automaticallyMergesChangesFromParent = true
         container.loadPersistentStores { (description, error) in
             if let error = error {
                 fatalError("Failed to load persistent stores: \(error)")
@@ -31,15 +32,28 @@ class CoreDataStack: NSObject {
         return container
     }()
     
-    var context: NSManagedObjectContext {
+    var mainContext: NSManagedObjectContext {
         return container.viewContext
     }
     
     var delegate: CoreDataStackDelegate?
     
+    func save(in context: NSManagedObjectContext) throws {
+        var error: Error?
+        context.performAndWait {
+            do {
+                try context.save()
+            } catch let saveError {
+                error = saveError
+            }
+        }
+        if let error = error { throw error }
+    }
+    
     // MARK: - Fetched Results Controller
     
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+        let context = mainContext
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [
             NSSortDescriptor(key: "mood", ascending: true),

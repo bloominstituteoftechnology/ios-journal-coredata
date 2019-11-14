@@ -37,10 +37,14 @@ extension Entry {
     
     // MARK: - Old ID handler
     
+    /// Old IDs contained `.` which couldn't be made into a URL.
+    /// This function replaces old IDs with a more compatible one.
     func handleBadID() {
         if let id = identifier, !id.contains(".") {
+            // if ID is good, no action needs to be taken
             return
         } else {
+            // replace bad/absent ID with good UUID string
             identifier = UUID().uuidString
         }
     }

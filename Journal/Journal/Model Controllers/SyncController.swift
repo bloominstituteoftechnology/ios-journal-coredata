@@ -8,27 +8,14 @@
 
 import Foundation
 
-// MARK: - Sync Controller Delegate
-
-protocol SyncControllerDelegate {
-    var coreDataStack: CoreDataStack { get }
-    
-    func fetch(request: EntryController.FetchRequest) throws -> [Entry]
-    func fetchAllEntriesFromLocalStore() -> [Entry]
-    func update(entry: Entry, from: Entry.Representation)
-    func saveToLocalPersistentStore()
-}
-
 class SyncController {
-    
     // MARK: - Properties
     
-    var delegate: SyncControllerDelegate?
     let baseURL: URL = URL(string: "https://lambda-ios-journal-bc168.firebaseio.com/")!
     
     typealias CompletionHandler = (Error?) -> Void
     
-    // MARK: - URL Requests
+    // MARK: - URLRequest Generators
     
     private func urlRequest(for id: String?) -> URLRequest {
         if let id = id {
@@ -46,18 +33,19 @@ class SyncController {
     
     // MARK: - Fetch
     
-    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+    // TODO: implement Result type in closure
+    func fetchEntriesFromServer(completion: @escaping (Error?, [Entry.Representation]?) -> Void = { _,_ in }) {
         let request = urlRequest()
         
         URLSession.shared.dataTask(with: request) { data, _, error in
             if let error = error {
                 print("Error fetching entries: \(error)")
-                completion(error)
+                completion(error, nil)
                 return
             }
             guard let data = data else {
                 print("No data returned by data task!")
-                completion(nil)
+                completion(nil, nil)
                 return
             }
             
@@ -66,33 +54,19 @@ class SyncController {
                     [String : Entry.Representation].self,
                     from: data
                 ).values)
-                self.updateEntries(from: entryRepresentations)
-                if let allLocalEntries = self.delegate?.fetchAllEntriesFromLocalStore() {
-                    for entry in allLocalEntries {
-                        if let rep = entry.representation,
-                            !entryRepresentations.contains(rep) {
-                            self.putToServer(entry: entry)
-                        }
-                    }
-                }
+                completion(nil, entryRepresentations) // update local entries from server
             } catch {
                 print("Error decoding entry representations: \(error)")
-                completion(error)
+                completion(error, nil)
                 return
             }
-            completion(nil)
         }.resume()
     }
     
-    // MARK: - Put
+    // MARK: - Send
     
-    func putToServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
-        entry.handleBadID()
-        guard let id = entry.identifier else {
-            print("")
-            return
-        }
-        var request = urlRequest(for: id)
+    func sendToServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        var request = urlRequest(for: entry.identifier!) // bad IDs just handled
         request.httpMethod = HTTPMethod.put
         
         do {
@@ -101,7 +75,6 @@ class SyncController {
                 completion(nil)
                 return
             }
-            delegate?.saveToLocalPersistentStore()
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
             print("Error encoding entry: \(error)")
@@ -117,40 +90,6 @@ class SyncController {
         }.resume()
     }
     
-    func updateEntries(from representations: [Entry.Representation]) {
-        let idsToFetch = representations.compactMap { $0.identifier }
-        let representationsByID = Dictionary(
-            uniqueKeysWithValues: zip(idsToFetch, representations)
-        )
-        var entriesToCreate = representationsByID
-        
-        let fetchRequest: EntryController.FetchRequest = Entry.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", idsToFetch)
-        
-        do {
-            if let existingEntries = try delegate?.fetch(request: fetchRequest) {
-                for entry in existingEntries {
-                    guard let id = entry.identifier,
-                        let representation = representationsByID[id]
-                        else { continue }
-                    delegate?.update(entry: entry, from: representation)
-                    entriesToCreate.removeValue(forKey: id)
-                }
-                for representation in entriesToCreate.values {
-                    guard let context = delegate?.coreDataStack.context else {
-                        print("Error getting context of CoreDataStack!")
-                        return
-                    }
-                    Entry(representation: representation, context: context)
-                }
-            }
-        } catch {
-            print("Error fetch tasks for IDs: \(error)")
-        }
-        
-        delegate?.saveToLocalPersistentStore()
-    }
-    
     // MARK: - Delete
     
     func deleteEntryFromServer(_ entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
@@ -163,7 +102,9 @@ class SyncController {
         request.httpMethod = HTTPMethod.delete
         
         URLSession.shared.dataTask(with: request) { data, response, error in
-            print(response ?? "No response!")
+            if let error = error {
+                print("Error deleting task from server: \(error)")
+            }
             completion(error)
         }.resume()
     }

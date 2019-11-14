@@ -15,7 +15,6 @@ class EntryController: NSObject {
     internal var coreDataStack = CoreDataStack()
     lazy private var syncController: SyncController = {
         let syncController = SyncController()
-        syncController.delegate = self
         return syncController
     }()
     
@@ -34,28 +33,59 @@ class EntryController: NSObject {
     
     override init() {
         super.init()
-        syncController.fetchEntriesFromServer()
+        syncAllEntries()
+    }
+    
+    func syncAllEntries() {
+        let allLocalEntries = fetchAllEntriesFromLocalStore()
+        syncController.fetchEntriesFromServer { error, entryRepresentations in
+            if let error = error {
+                print("Error fetching entries from server: \(error)")
+            }
+            guard let entryReps = entryRepresentations else {
+                print("Error; no entry representations received.")
+                return
+            }
+            self.updateLocalEntries(from: entryReps)
+            // send local entries that aren't on server
+            for entry in allLocalEntries {
+                if let rep = entry.representation,
+                    entryReps.contains(rep) {
+                    entry.handleBadID()
+                    self.syncController.sendToServer(entry: entry)
+                }
+            }
+        }
     }
     
     // MARK: - CRUD
     
     func create(entryWithTitle title: String, body: String, mood: Entry.Mood) {
+        let context = coreDataStack.mainContext
         let entry = Entry(
             title: title,
             bodyText: body,
             mood: mood,
-            context: coreDataStack.context
+            context: context
         )
-        saveToLocalPersistentStore()
-        syncController.putToServer(entry: entry)
+        do {
+            try coreDataStack.save(in: context)
+        } catch {
+            print("Error creating entry: \(error)")
+        }
+        syncController.sendToServer(entry: entry)
     }
     
     func update(entry: Entry, withNewTitle title: String, body: String, mood: Entry.Mood) {
         entry.title = title
         entry.bodyText = body
         entry.mood = mood.rawValue
-        saveToLocalPersistentStore()
-        syncController.putToServer(entry: entry)
+        do {
+            try coreDataStack.save(in: coreDataStack.mainContext)
+        } catch {
+            print("Error creating entry: \(error)")
+        }
+        syncController.sendToServer(entry: entry)
     }
     
     func update(entry: Entry, from representation: Entry.Representation) {
@@ -66,26 +96,63 @@ class EntryController: NSObject {
         entry.identifier = representation.identifier
     }
     
+    func updateLocalEntries(from serverRepresentations: [Entry.Representation]) {
+        let idsToFetch = serverRepresentations.compactMap { $0.identifier }
+        let representationsByID = Dictionary(
+            uniqueKeysWithValues: zip(idsToFetch, serverRepresentations)
+        )
+        var entriesToCreate = representationsByID
+        
+        let fetchRequest: EntryController.FetchRequest = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", idsToFetch)
+        // This method is called from a network completion closure,
+        // so a background context must be used.
+        let backgroundContext = coreDataStack.container.newBackgroundContext()
+        
+        var error: Error?
+        // Wait in case of error; then, if caught, handle it
+        backgroundContext.performAndWait {
+            do {
+                let existingEntries = try fetch(request: fetchRequest, with: backgroundContext)
+                for entry in existingEntries {
+                    guard let id = entry.identifier,
+                        let representation = representationsByID[id]
+                        else { continue }
+                    update(entry: entry, from: representation)
+                    entriesToCreate.removeValue(forKey: id)
+                }
+                for representation in entriesToCreate.values {
+                    Entry(representation: representation, context: backgroundContext)
+                }
+                try coreDataStack.save(in: backgroundContext)
+            } catch let updateError {
+                error = updateError
+            }
+        }
+        if let caughtError = error {
+            print("Error updating tasks from server: \(caughtError)")
+        }
+    }
+    
     func delete(entry: Entry) {
-        coreDataStack.context.delete(entry)
+        coreDataStack.mainContext.delete(entry)
+        do {
+            try coreDataStack.save(in: coreDataStack.mainContext)
+        } catch {
+            print("Error deleting entry: \(error)")
+            return
+        }
         syncController.deleteEntryFromServer(entry)
-        saveToLocalPersistentStore()
     }
     
-    // MARK: - Local Storage
-    
-    private var fetchedResultsAreEmpty: Bool {
-        guard let array = coreDataStack.fetchedResultsController.fetchedObjects
-            else { return true }
-        return array.isEmpty
-    }
+    // MARK: - TableView API
     
     func fetch(entryAt indexPath: IndexPath) -> Entry? {
         return coreDataStack.fetchedResultsController.object(at: indexPath)
     }
     
-    func fetch(request: FetchRequest) throws -> [Entry] {
-        return try coreDataStack.context.fetch(request)
+    func fetch(request: FetchRequest, with context: NSManagedObjectContext) throws -> [Entry] {
+        return try context.fetch(request)
     }
     
     func mood(forIndex index: Int) -> String? {
@@ -104,23 +171,16 @@ class EntryController: NSObject {
         return coreDataStack.fetchedResultsController.sections?[index].numberOfObjects ?? 0
     }
     
-    func saveToLocalPersistentStore() {
-        let moc = coreDataStack.context
-        do {
-            try moc.save()
-        } catch {
-            print("Error saving journal entries: \(error)")
-        }
-    }
-    
-    internal func fetchAllEntriesFromLocalStore() -> [Entry] {
+    func fetchAllEntriesFromLocalStore() -> [Entry] {
         guard let entries = coreDataStack.fetchedResultsController.fetchedObjects else {
             return []
         }
         return entries
     }
+    
+    private var fetchedResultsAreEmpty: Bool {
+        guard let array = coreDataStack.fetchedResultsController.fetchedObjects
+            else { return true }
+        return array.isEmpty
+    }
 }
-
-// MARK: - Sync Controller Delegate
-
-extension EntryController: SyncControllerDelegate {}
