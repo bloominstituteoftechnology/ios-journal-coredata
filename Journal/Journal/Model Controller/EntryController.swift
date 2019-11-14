@@ -68,7 +68,7 @@ class EntryController {
             
             representation.identifier = uuid.uuidString
             entry.identifier = uuid
-            try CoreDataStack.shared.save()
+            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
             print("Error encoding entry: \(error)")
@@ -159,7 +159,7 @@ class EntryController {
         let entry = Entry(title: title, timestamp: timestamp, mood: mood, bodyText: bodyText)
         put(entry: entry)
         do {
-            try CoreDataStack.shared.save()
+            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
         } catch {
             print("Error saving object \(error)")
         }
@@ -172,7 +172,7 @@ class EntryController {
         entry.timestamp = Date()
         put(entry: entry)
         do {
-            try CoreDataStack.shared.save()
+            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
         } catch {
             print("Error saving object \(error)")
         }
