@@ -17,29 +17,31 @@ class EntryController {
     
     typealias CompletionHandler = (Error?) -> Void
     
-    func saveToPersistentStore() {
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            try moc.save()
-        } catch {
-            print("Error saving managed object context: \(error)")
-        }
-    }
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            print("Error fetching entries: \(error)")
-            return []
-        }
-    }
+//    func saveToPersistentStore() {
+//        do {
+//            let moc = CoreDataStack.shared.mainContext
+//            try moc.save()
+//        } catch {
+//            print("Error saving managed object context: \(error)")
+//        }
+//    }
+//
+//    Inefficient way of loading, look at table view for better way (fetchedResultsController)
+//    func loadFromPersistentStore() -> [Entry] {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let moc = CoreDataStack.shared.mainContext
+//        do {
+//            return try moc.fetch(fetchRequest)
+//        } catch {
+//            print("Error fetching entries: \(error)")
+//            return []
+//        }
+//    }
     
     func create(title: String, time: Date, description: String?, mood: String) {
         let entry = Entry(name: title, description: description, time: Date(), identification: UUID(), mood: Mood(rawValue: mood) ?? .normal)
         put(entry: entry)
-        saveToPersistentStore()
+        
     }
     
     func update(entry: Entry, newTitle: String, newDescription: String, newMood: String) {
@@ -48,7 +50,6 @@ class EntryController {
         entry.timestamp = Date()
         entry.mood = newMood
         put(entry: entry)
-        saveToPersistentStore()
     }
     
     func delete(entry: Entry) {
@@ -88,10 +89,10 @@ class EntryController {
             
             representation.identifier = uuid.uuidString
             entry.identifier = uuid
-            saveToPersistentStore()
+            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
-            print("Error encoding task: \(error)")
+            print("Error encoding entry: \(error)")
             completion()
             return
         }
@@ -100,7 +101,7 @@ class EntryController {
             completion()
             
             if let error = error {
-                print("Error PUTing task to server: \(error)")
+                print("Error PUTing entry to server: \(error)")
             }
         }.resume()
     }
@@ -110,6 +111,16 @@ class EntryController {
              completion(NSError())
              return
          }
+        
+        let context = CoreDataStack.shared.mainContext
+        
+        do {
+            context.delete(entry)
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            context.reset()
+            print("Error deleting object from managed object context: \(error)")
+        }
          
          let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
          var request = URLRequest(url: requestURL)
@@ -139,7 +150,7 @@ class EntryController {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
         
-        let context = CoreDataStack.shared.mainContext
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         
         do {
             let existingEntries = try context.fetch(fetchRequest)
@@ -159,7 +170,7 @@ class EntryController {
             print("Error fetching entries for UUIDs: \(error)")
         }
         
-        self.saveToPersistentStore()
+        try CoreDataStack.shared.save(context: context)
     }
     
     func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {

@@ -48,7 +48,7 @@ class EntriesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
+
         switch section {
         case 0:
             return "🙂"
@@ -64,16 +64,9 @@ class EntriesTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
             let entry = fetchedResultsController.object(at: indexPath)
-            let moc = CoreDataStack.shared.mainContext
-            moc.delete(entry)
-            do {
-                try moc.save()
-            } catch {
-                moc.reset()
-                print("Error saving managed object context: \(error)")
-            }
+            
+            entryController.delete(entry: entry)
         }
     }
     
