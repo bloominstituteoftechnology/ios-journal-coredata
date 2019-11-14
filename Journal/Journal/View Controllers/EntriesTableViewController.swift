@@ -39,20 +39,12 @@ class EntriesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpViews()
     }
     
-    private func setUpViews() {
-        // Adding a Refresh control to the table view
-        tableView.refreshControl = UIRefreshControl()
-        self.refreshControl?.addTarget(self, action: #selector(refreshTable(_:)), for: .valueChanged)
-        self.refreshControl?.attributedTitle = NSAttributedString(string: "Fetching Data ...")
-    }
-    
-    // MARK: - Selector functions
+    // MARK: - IBActions
     
     // Refresh table view function for refresh control
-    @objc private func refreshTable(_ sender: Any) {
+    @IBAction func refreshTable(_ sender: Any) {
         entryController.fetchEntriesFromServer { _ in
             DispatchQueue.main.async {
                 self.refreshControl?.endRefreshing()
@@ -95,8 +87,6 @@ class EntriesTableViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        //ShowCreateJournalSegue
-        //ShowDetailJournalSegue
         if segue.identifier == "ShowDetailJournalSegue" {
             if let detailVC = segue.destination as? EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow {
