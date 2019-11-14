@@ -24,7 +24,7 @@ class EntryDetailViewController: UIViewController {
         }
     }
     
-//    var entryController: EntryController? - No longer used or needed
+//    var entryController: EntryController? // still something wrong with accessing the database // getting Nil error if ! is used, Firebase does not record w/ ?
     
     
     override func viewDidLoad() {
@@ -41,20 +41,18 @@ class EntryDetailViewController: UIViewController {
         let moodIndex = moodControl.selectedSegmentIndex
         let mood = Mood.allCases[moodIndex]
         
-//        if let entry = entry {
-//            entryController?.update(entry, title: title, bodyText: description, mood: mood.rawValue, timeStamp: Date())
-//        } else {
-//            entryController?.create(title: title, bodyText: description, mood: mood, identifier: "", timeStamp: Date())
-//        }
-        
-        
             // Creating New Entries / Updating
         if let entry = entry { // edit existing journal entry
             entry.title = title
             entry.bodyText = description
             entry.mood = mood.rawValue
+            entry.timeStamp = Date()
+//            entryController?.put(entry: entry)
+            EntryController.put(entry: entry)
         } else { // Create new Journal Entry:
-            let _ = Entry(title: title, bodyText: description, mood: mood, identifier: "", timeStamp: Date())
+            let entry = Entry(title: title, bodyText: description, mood: mood, identifier: "", timeStamp: Date())
+//            entryController?.put(entry: entry)
+            EntryController.put(entry: entry)
         }
         
         saveToPersistentStore()

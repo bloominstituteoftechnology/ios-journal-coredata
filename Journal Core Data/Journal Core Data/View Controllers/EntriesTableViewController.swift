@@ -13,7 +13,7 @@ class EntriesTableViewController: UITableViewController {
 
     // MARK: - Properties
 
-//    var entryController = EntryController()
+    private let entryController = EntryController()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -67,6 +67,12 @@ class EntriesTableViewController: UITableViewController {
             
             // Deleting:
             let entry = fetchedResultsController.object(at: indexPath)
+            entryController.deleteEntryFromServer(entry: entry) { (error) in
+                if let error = error {
+                    print("Error deleting task from server: \(error)")
+                    return
+                }
+            }
             let moc = CoreDataStack.shared.mainContext
             moc.delete(entry)
             do {

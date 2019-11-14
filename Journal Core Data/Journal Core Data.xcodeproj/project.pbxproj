@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B143EF1237CEA2B00A19388 /* EntryRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B143EF0237CEA2B00A19388 /* EntryRepresentation.swift */; };
 		4B5BC420237A094800D7C97A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5BC41F237A094800D7C97A /* AppDelegate.swift */; };
 		4B5BC422237A094800D7C97A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B5BC421237A094800D7C97A /* SceneDelegate.swift */; };
 		4B5BC427237A094800D7C97A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B5BC425237A094800D7C97A /* Main.storyboard */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4B143EF0237CEA2B00A19388 /* EntryRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryRepresentation.swift; sourceTree = "<group>"; };
 		4B5BC41C237A094800D7C97A /* Journal Core Data.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Journal Core Data.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B5BC41F237A094800D7C97A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4B5BC421237A094800D7C97A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -50,6 +52,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4B143EF2237CEA3600A19388 /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+				4B5BC445237A343100D7C97A /* Entry.xcdatamodeld */,
+			);
+			path = DataModel;
+			sourceTree = "<group>";
+		};
 		4B5BC413237A094800D7C97A = {
 			isa = PBXGroup;
 			children = (
@@ -102,10 +112,11 @@
 		4B5BC440237A14B300D7C97A /* CRUD */ = {
 			isa = PBXGroup;
 			children = (
+				4B143EF2237CEA3600A19388 /* DataModel */,
 				4B5BC43E237A101E00D7C97A /* CoreDataStack.swift */,
-				4B5BC445237A343100D7C97A /* Entry.xcdatamodeld */,
 				4B5BC443237A19E300D7C97A /* EntryController.swift */,
 				4B5BC441237A14C200D7C97A /* Entry+Convenience.swift */,
+				4B143EF0237CEA2B00A19388 /* EntryRepresentation.swift */,
 			);
 			path = CRUD;
 			sourceTree = "<group>";
@@ -182,6 +193,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B5BC43F237A101E00D7C97A /* CoreDataStack.swift in Sources */,
+				4B143EF1237CEA2B00A19388 /* EntryRepresentation.swift in Sources */,
 				4B5BC437237A09F100D7C97A /* EntriesTableViewController.swift in Sources */,
 				4B5BC439237A0BC900D7C97A /* EntryTableViewCell.swift in Sources */,
 				4B5BC447237A343100D7C97A /* Entry.xcdatamodeld in Sources */,

@@ -9,10 +9,75 @@
 import Foundation
 import CoreData
 
-// MARK: - Old Model Controller - Use this to refer back on how create, update, save, and delete entries were used before the fetchController
+// MARK: - New Model Controller using Database Sync Persistence (API Controller)
+
+let baseURL = URL(string: "https://journal-iosw7.firebaseio.com/")!
 
 class EntryController {
-//
+    
+    typealias CompletionHandler = (Error?) -> Void
+    
+    init() {
+        fetchTasksFromServer()
+    }
+    
+    func fetchTasksFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        
+    }
+    
+    
+    static func put(entry: Entry, completion: @escaping () -> Void = { }) {
+        guard let identifier = entry.identifier else { return }
+        let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            guard var representation = entry.entryRepresentation else {
+                completion()
+                return
+            }
+            
+            representation.identifier = identifier
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            print("Error encoding task: \(error)")
+            completion()
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, _, error  in
+            completion()
+            
+            if let error = error {
+                print("Error PUTing task to server: \(error)")
+            }
+        }.resume()
+    }
+    
+    func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        guard let identifier = entry.identifier else { return }
+        let requestURL = baseURL.appendingPathExtension(identifier).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            print(response!)
+            completion(error)
+        }.resume()
+    }
+    
+    
+    func saveToPersistentStore() throws {
+         let moc = CoreDataStack.shared.mainContext
+         try moc.save()
+     }
+    
+}
+    
+    
+// MARK: - Old Model Controller - Use this to refer back on how create, update, save, and delete entries were used before the fetchController
+// old EntryController
 //    var entries: [Entry] {
 //        loadfromPersistentStore()
 ////        print("test")
@@ -69,4 +134,4 @@ class EntryController {
 //        }
 //        saveToPersistentStore()
 //    }
-}
+
