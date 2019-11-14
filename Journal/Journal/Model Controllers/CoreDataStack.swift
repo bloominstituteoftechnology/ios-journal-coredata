@@ -37,6 +37,8 @@ class CoreDataStack: NSObject {
     
     var delegate: CoreDataStackDelegate?
     
+    // MARK: - Fetched Results Controller
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [
@@ -58,8 +60,6 @@ class CoreDataStack: NSObject {
         return frc
     }()
 }
-
-// MARK: - FRC Delegate
 
 extension CoreDataStack: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
