@@ -29,7 +29,12 @@ extension Entry {
                                    timestamp: timestamp)
     }
     
-    @discardableResult convenience init(title: String, bodyText: String, mood: String, timestamp: Date = Date(), identifier: String = UUID().uuidString, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    @discardableResult convenience init(title: String,
+                                        bodyText: String,
+                                        mood: String,
+                                        timestamp: Date = Date(),
+                                        identifier: String = UUID().uuidString,
+                                        context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         
         self.title = title

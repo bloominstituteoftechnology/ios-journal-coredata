@@ -31,7 +31,7 @@ class EntriesTableViewController: UITableViewController {
         
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: PropertyKeys.mood, ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: PropertyKeys.mood, ascending: true), NSSortDescriptor(key: PropertyKeys.timestamp, ascending: true)]
         
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: CoreDataStack.shared.mainContext,
@@ -65,7 +65,7 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
         return sectionInfo.name.capitalized
-    } 
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0

@@ -70,6 +70,7 @@ class EntryDetailViewController: UIViewController {
             entry.bodyText = bodyText
             entry.mood = mood.rawValue
             entry.timestamp = Date()
+            
             APIController.put(entry: entry)
         } else {
             let entry = Entry(title: title, bodyText: bodyText, mood: mood.rawValue)

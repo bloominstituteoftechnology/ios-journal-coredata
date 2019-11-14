@@ -30,15 +30,16 @@ class CoreDataStack {
     
     // Create easy access to the moc (managed object context)
     var mainContext: NSManagedObjectContext {
+        container.viewContext.automaticallyMergesChangesFromParent = true
         return container.viewContext
     }
     
-    func saveToPersistentStore() {
-        do {
-            try mainContext.save()
-        } catch {
-            NSLog("Error saving context: \(error)")
-            mainContext.reset()
-        }
-    }
+//    func saveToPersistentStore() {
+//        do {
+//            try mainContext.save()
+//        } catch {
+//            NSLog("Error saving context: \(error)")
+//            mainContext.reset()
+//        }
+//    }
 }

@@ -9,17 +9,26 @@
 import Foundation
 import CoreData
 
-class APIController {
+struct APIController {
+    
+    // MARK: - Properties
     
     static let baseURL = URL(string: "https://journal-4de34.firebaseio.com/")!
+    
+    struct HTTPMethod {
+        static let get = "GET"
+        static let put = "PUT"
+        static let post = "POST"
+        static let delete = "DELETE"
+    }
+    
+    // MARK: - Networking
     
     static func fetchEntriesFromServer(completion: @escaping () -> Void = { }) {
         
         let requestURL = APIController.baseURL.appendingPathExtension("json")
-        print(requestURL)
         
         let request = URLRequest(url: requestURL)
-        print(request)
         
         URLSession.shared.dataTask(with: request) { data, _, error in
             //            print(request)
@@ -44,64 +53,7 @@ class APIController {
                 print("Unable to decode data into object of type [EntryRepresentation]: \(error)")
                 completion()
             }
-            
-            
         }.resume()
-    }
-    
-    static func updateEntries(with representations: [EntryRepresentation]) {
-        
-        let identifiersToFetch = representations.map { $0.identifier }
-        
-        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
-        
-        var entriesToCreate = representationsByID
-        
-        do {
-            let context = CoreDataStack.shared.mainContext
-            
-            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-            
-            fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
-            
-            let existingEntries = try context.fetch(fetchRequest)
-            
-            for entry in existingEntries {
-                
-                guard let identifier = entry.identifier,
-                    let representation = representationsByID[identifier] else { continue }
-                
-                entry.title = representation.title
-                entry.identifier = representation.identifier
-                entry.mood = representation.mood
-                entry.timestamp = representation.timestamp
-                entry.bodyText = representation.bodyText
-                
-                entriesToCreate.removeValue(forKey: identifier)
-                
-                
-            }
-            
-            for representation in entriesToCreate.values {
-                Entry(entryRepresentation: representation, context: context)
-            }
-            
-            do {
-                let moc = CoreDataStack.shared.mainContext
-                try moc.save()
-            } catch {
-                print("Error saving managed object context: \(error)")
-            }
-        } catch {
-            print("Error fetching tasks from persistent store: \(error)")
-        }
-    }
-    
-    struct HTTPMethod {
-        static let get = "GET"
-        static let put = "PUT"
-        static let post = "POST"
-        static let delete = "DELETE"
     }
     
     static func put(entry: Entry, completion: @escaping () -> Void = { }) {
@@ -129,7 +81,7 @@ class APIController {
             completion()
             return
         }
-        print(request)
+        
         URLSession.shared.dataTask(with: request) { _, _, error in
             
             if let error = error {
@@ -137,7 +89,6 @@ class APIController {
                 completion()
                 return
             }
-            
             completion()
         }.resume()
     }
@@ -167,7 +118,7 @@ class APIController {
             completion()
             return
         }
-        print(request)
+        
         URLSession.shared.dataTask(with: request) { _, _, error in
             
             if let error = error {
@@ -180,4 +131,60 @@ class APIController {
         }.resume()
     }
     
+    // MARK: - Data Reconciliation
+    
+    static func updateEntries(with representations: [EntryRepresentation]) {
+        
+        let identifiersToFetch = representations.map { $0.identifier }
+        
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+        
+        var entriesToCreate = representationsByID
+        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        
+        context.performAndWait {
+            
+            
+            
+            do {
+                
+                let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+                
+                fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+                
+                let existingEntries = try context.fetch(fetchRequest)
+                
+                for entry in existingEntries {
+                    
+                    guard let identifier = entry.identifier,
+                        let representation = representationsByID[identifier] else { continue }
+                    
+                    entry.title = representation.title
+                    entry.identifier = representation.identifier
+                    entry.mood = representation.mood
+                    entry.timestamp = representation.timestamp
+                    entry.bodyText = representation.bodyText
+                    
+                    entriesToCreate.removeValue(forKey: identifier)
+                }
+                
+                for representation in entriesToCreate.values {
+                    Entry(entryRepresentation: representation, context: context)
+                }
+                
+                save(context: context)
+            } catch {
+                print("Error fetching tasks from persistent store: \(error)")
+            }
+        }
+    }
+    
+    static func save(context: NSManagedObjectContext) {
+        do {
+            try context.save()
+        } catch {
+            print("Error saving managed object context: \(error)")
+        }
+    }
 }
