@@ -150,7 +150,6 @@ class EntryController: NSObject {
                     if let rep = entry.representation,
                         !entryRepresentations.contains(rep)
                     {
-                        print("Entry \(entry.identifier ?? "???") not on server; PUTing.")
                         self.putToServer(entry: entry)
                     }
                 }
@@ -164,6 +163,7 @@ class EntryController: NSObject {
     }
     
     private func putToServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        entry.handleBadID()
         guard let id = entry.identifier else {
             print("")
             return
@@ -172,7 +172,7 @@ class EntryController: NSObject {
         request.httpMethod = HTTPMethod.put
         
         do {
-            guard var representation = entry.representation else {
+            guard let representation = entry.representation else {
                 print("Error: failed to get entry representation.")
                 completion(nil)
                 return
@@ -185,7 +185,7 @@ class EntryController: NSObject {
             return
         }
         
-        URLSession.shared.dataTask(with: request) { (data, _, error) in
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let error = error {
                 print("Error PUTing task to server: \(error)")
             }

@@ -34,4 +34,14 @@ extension Entry {
         case neutral = "😐"
         case happy = "😃"
     }
+    
+    // MARK: - Old ID handler
+    
+    func handleBadID() {
+        if let id = identifier, !id.contains(".") {
+            return
+        } else {
+            identifier = UUID().uuidString
+        }
+    }
 }
