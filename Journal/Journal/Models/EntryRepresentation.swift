@@ -48,3 +48,9 @@ extension Entry {
         self.identifier = representation.identifier
     }
 }
+
+extension Entry.Representation: Equatable {
+    static func == (lhs: Entry.Representation, rhs: Entry.Representation) -> Bool {
+        return lhs.identifier == rhs.identifier
+    }
+}

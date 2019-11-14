@@ -39,7 +39,7 @@ class EntryController: NSObject {
             mood: mood,
             context: coreDataStack.context
         )
-        saveToPersistentStore()
+        saveToLocalPersistentStore()
         putToServer(entry: entry)
     }
     
@@ -47,7 +47,7 @@ class EntryController: NSObject {
         entry.title = title
         entry.bodyText = body
         entry.mood = mood.rawValue
-        saveToPersistentStore()
+        saveToLocalPersistentStore()
         putToServer(entry: entry)
     }
     
@@ -62,10 +62,10 @@ class EntryController: NSObject {
     func delete(entry: Entry) {
         coreDataStack.context.delete(entry)
         deleteEntryFromServer(entry)
-        saveToPersistentStore()
+        saveToLocalPersistentStore()
     }
     
-    // MARK: - Local Fetching
+    // MARK: - Local Storage
     
     private var fetchedResultsAreEmpty: Bool {
         guard let array = coreDataStack.fetchedResultsController.fetchedObjects
@@ -93,13 +93,20 @@ class EntryController: NSObject {
         return coreDataStack.fetchedResultsController.sections?[index].numberOfObjects ?? 0
     }
     
-    func saveToPersistentStore() {
+    func saveToLocalPersistentStore() {
         let moc = coreDataStack.context
         do {
             try moc.save()
         } catch {
             print("Error saving journal entries: \(error)")
         }
+    }
+    
+    func fetchAllEntriesFromLocalStore() -> [Entry] {
+        guard let entries = coreDataStack.fetchedResultsController.fetchedObjects else {
+            return []
+        }
+        return entries
     }
     
     // MARK: - Sync
@@ -139,6 +146,14 @@ class EntryController: NSObject {
                     from: data
                 ).values)
                 self.updateEntries(from: entryRepresentations)
+                for entry in self.fetchAllEntriesFromLocalStore() {
+                    if let rep = entry.representation,
+                        !entryRepresentations.contains(rep)
+                    {
+                        print("Entry \(entry.identifier ?? "???") not on server; PUTing.")
+                        self.putToServer(entry: entry)
+                    }
+                }
             } catch {
                 print("Error decoding entry representations: \(error)")
                 completion(error)
@@ -162,9 +177,7 @@ class EntryController: NSObject {
                 completion(nil)
                 return
             }
-            representation.identifier = id
-            entry.identifier = id
-            saveToPersistentStore()
+            saveToLocalPersistentStore()
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
             print("Error encoding entry: \(error)")
@@ -203,7 +216,7 @@ class EntryController: NSObject {
         var entriesToCreate = representationsByID
         
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", argumentArray: idsToFetch)
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", idsToFetch)
         
         do {
             let existingEntries = try coreDataStack.context.fetch(fetchRequest)
@@ -223,7 +236,7 @@ class EntryController: NSObject {
             print("Error fetch tasks for IDs: \(error)")
         }
         
-        saveToPersistentStore()
+        saveToLocalPersistentStore()
     }
 }
 
