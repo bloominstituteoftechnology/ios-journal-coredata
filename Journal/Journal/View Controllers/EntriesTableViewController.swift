@@ -16,6 +16,7 @@ class EntriesTableViewController: UITableViewController {
     
     private let entryController = EntryController()
     
+    
     lazy var fetchedResultController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: false),
@@ -38,6 +39,25 @@ class EntriesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpViews()
+    }
+    
+    private func setUpViews() {
+        // Adding a Refresh control to the table view
+        tableView.refreshControl = UIRefreshControl()
+        self.refreshControl?.addTarget(self, action: #selector(refreshTable(_:)), for: .valueChanged)
+        self.refreshControl?.attributedTitle = NSAttributedString(string: "Fetching Data ...")
+    }
+    
+    // MARK: - Selector functions
+    
+    // Refresh table view function for refresh control
+    @objc private func refreshTable(_ sender: Any) {
+        entryController.fetchEntriesFromServer { _ in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
     }
     
     // MARK: - Table view data source
