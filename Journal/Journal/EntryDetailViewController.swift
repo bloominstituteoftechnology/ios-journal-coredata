@@ -21,6 +21,9 @@ class EntryDetailViewController: UIViewController {
             updateViews()
         }
     }
+    
+    var entryController: EntryController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         updateViews()
@@ -40,8 +43,10 @@ class EntryDetailViewController: UIViewController {
             entry.bodyText = bodyText
             entry.mood = mood.rawValue
             entry.title = title
+            entryController?.sendTaskToServer(entry: entry)
         } else {
-            let _ = Entry(bodyText: bodyText, title: title, mood: mood)
+            let entry = Entry(bodyText: bodyText, title: title, mood: mood)
+            entryController?.sendTaskToServer(entry: entry)
         }
         
         do {

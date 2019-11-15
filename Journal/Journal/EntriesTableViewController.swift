@@ -10,26 +10,36 @@ import UIKit
 import CoreData
 
 class EntriesTableViewController: UITableViewController {
-
-//    var entries: [Entry] {
-//        let fetchRequest: NSFetchRequest<Entry> =
-//        Entry.fetchRequest()
-//        let moc = CoreDataStack.shared.mainContext
-//
-//        do {
-//            return try moc.fetch(fetchRequest)
-//        } catch {
-//            print("Error fetching entries: \(error)")
-//            return []
-//        }
-//    }
+    
+    //    var entries: [Entry] {
+    //        let fetchRequest: NSFetchRequest<Entry> =
+    //        Entry.fetchRequest()
+    //        let moc = CoreDataStack.shared.mainContext
+    //
+    //        do {
+    //            return try moc.fetch(fetchRequest)
+    //        } catch {
+    //            print("Error fetching entries: \(error)")
+    //            return []
+    //        }
+    //    }
+    
+    var entryController = EntryController()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+        
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: false),
                                         NSSortDescriptor(key: "title", ascending: true)]
+        
         let moc = CoreDataStack.shared.mainContext
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
+        
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                             managedObjectContext: moc,
+                                             sectionNameKeyPath: "mood",
+                                             cacheName: nil)
+        
         frc.delegate = self
         
         do {
@@ -44,15 +54,21 @@ class EntriesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-    
+        
+        
     }
     
-
-
+    @IBAction func refresh(_ sender: Any) {
+        entryController.fetchEntriesFromServer { _ in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
+    }
+    
     // MARK: - Table view data source
-
-
+    
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
     }
@@ -61,7 +77,7 @@ class EntriesTableViewController: UITableViewController {
         // #warning Incomplete implementation, return the number of rows
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
-
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
@@ -75,24 +91,17 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else {return nil}
         
-        return sectionInfo.name.capitalized
+        return sectionInfo.name
     }
     
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
+    
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
             let moc = CoreDataStack.shared.mainContext
+            entryController.deleteEntry(entry)
             moc.delete(entry)
             do{
                 try moc.save()
@@ -104,43 +113,32 @@ class EntriesTableViewController: UITableViewController {
         }
     }
     
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowEntryDetailSegue" {
             if let detailVC = segue.destination as?
-            EntryDetailViewController,
+                EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow {
+                detailVC.entryController = entryController
                 detailVC.entry = fetchedResultsController.object(at: indexPath)
             }
         }
+        else if segue.identifier == "ShowCreateEntrySegue" {
+            if let detailVC = segue.destination as?
+                EntryDetailViewController {
+                detailVC.entryController = entryController
+            }
+        }
     }
-    
-
 }
 
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
-        }
+    }
     
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()

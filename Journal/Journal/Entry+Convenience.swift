@@ -14,8 +14,8 @@ enum Mood: String, CaseIterable {
 }
 
 extension Entry {
-    convenience init(bodyText: String? = nil,
-                     identifier: String? = nil,
+    @discardableResult convenience init(bodyText: String? = nil,
+                     identifier: UUID = UUID(),
                      timestamp: Date? = Date(),
                      title: String,
                      mood: Mood = .😺,
@@ -26,5 +26,27 @@ extension Entry {
         self.identifier = identifier
         self.bodyText = bodyText
         self.timestamp = timestamp
+    }
+    
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation,
+                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        guard let mood = Mood(rawValue: entryRepresentation.mood),
+            let identifierString = entryRepresentation.identifier,
+        let identifier = UUID(uuidString: identifierString) else { return nil}
+        
+        self.init(bodyText: entryRepresentation.bodyText,
+                  identifier: identifier,
+                  timestamp: entryRepresentation.timestamp,
+                  title: entryRepresentation.title,
+                  mood: mood,
+                  context: context)
+    }
+    
+    var entryRepresentation: EntryRepresentation? {
+        guard let title = title,
+            let mood = mood else { return nil }
+        
+        return EntryRepresentation(bodyText: bodyText, identifier: identifier?.uuidString ?? " ", mood: mood, timestamp: timestamp!, title: title)
+        
     }
 }
