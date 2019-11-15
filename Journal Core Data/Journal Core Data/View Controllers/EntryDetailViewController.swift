@@ -24,7 +24,7 @@ class EntryDetailViewController: UIViewController {
         }
     }
     
-//    var entryController: EntryController? // still something wrong with accessing the database // getting Nil error if ! is used, Firebase does not record w/ ?
+    var entryController: EntryController? // still something wrong with accessing the database // getting Nil error if ! is used, Firebase does not record w/ ?
     
     
     override func viewDidLoad() {
@@ -47,15 +47,12 @@ class EntryDetailViewController: UIViewController {
             entry.bodyText = description
             entry.mood = mood.rawValue
             entry.timeStamp = Date()
-//            entryController?.put(entry: entry)
-            EntryController.put(entry: entry)
+            entryController?.put(entry: entry)
         } else { // Create new Journal Entry:
             let entry = Entry(title: title, bodyText: description, mood: mood, identifier: "", timeStamp: Date())
-//            entryController?.put(entry: entry)
-            EntryController.put(entry: entry)
+            entryController?.put(entry: entry)
         }
         
-        saveToPersistentStore()
         navigationController?.popViewController(animated: true)
     }
     

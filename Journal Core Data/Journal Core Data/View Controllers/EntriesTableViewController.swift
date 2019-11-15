@@ -26,6 +26,14 @@ class EntriesTableViewController: UITableViewController {
         return frc
     }()
     
+    @IBAction func refresh(_ sender: Any) {
+        entryController.fetchEntriesFromServer() { (_) in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,7 +75,7 @@ class EntriesTableViewController: UITableViewController {
             
             // Deleting:
             let entry = fetchedResultsController.object(at: indexPath)
-            entryController.deleteEntryFromServer(entry: entry) { (error) in
+            entryController.deleteEntry(entry: entry) { (error) in
                 if let error = error {
                     print("Error deleting task from server: \(error)")
                     return
@@ -90,12 +98,10 @@ class EntriesTableViewController: UITableViewController {
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "AddSegue" {
-            if let addVC = segue.destination as? EntryDetailViewController {
-            }
-        } else if segue.identifier == "DetailSegue" {
-            if let indexPath = tableView.indexPathForSelectedRow,
-                let detailVC = segue.destination as? EntryDetailViewController {
+               if let detailVC = segue.destination as? EntryDetailViewController {
+                detailVC.entryController = entryController
+                if let indexPath = tableView.indexPathForSelectedRow,
+                    segue.identifier == "DetailSegue" {
                 detailVC.entry = fetchedResultsController.object(at: indexPath)
             }
         }

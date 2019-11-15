@@ -18,16 +18,42 @@ class EntryController {
     typealias CompletionHandler = (Error?) -> Void
     
     init() {
-        fetchTasksFromServer()
+        fetchEntriesFromServer()
     }
     
-    func fetchTasksFromServer(completion: @escaping CompletionHandler = { _ in }) {
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
         
-    }
+            URLSession.shared.dataTask(with: requestURL) { data, _, error in
+                if let error = error {
+                    print("Error fetching tasks: \(error)")
+                    completion(error)
+                    return
+                }
+                
+                // must ensure data exists everywhere, so guard let is needed
+                guard let data = data else {
+                    print("No data returned by data task")
+                    completion(NSError())
+                    return
+                }
+                
+                do {
+                    let entryRepresentation = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
+                    try self.updateEntries(with: entryRepresentation)
+                } catch {
+                    print("Error decoding task representations: \(error)")
+                    completion(error)
+                    return
+                }
+            }.resume()
+        }
+
     
     
-    static func put(entry: Entry, completion: @escaping () -> Void = { }) {
-        guard let identifier = entry.identifier else { return }
+    func put(entry: Entry, completion: @escaping () -> Void = { }) {
+        let identifier = entry.identifier ?? UUID().uuidString
+        entry.identifier = identifier
         let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
@@ -39,6 +65,8 @@ class EntryController {
             }
             
             representation.identifier = identifier
+            let context = CoreDataStack.shared.mainContext
+            try CoreDataStack.shared.save(context: context)
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
             print("Error encoding task: \(error)")
@@ -55,8 +83,66 @@ class EntryController {
         }.resume()
     }
     
-    func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
-        guard let identifier = entry.identifier else { return }
+    private func updateEntries(with representations: [EntryRepresentation]) throws {
+        let identifiersToFetch = representations.compactMap { $0.identifier }
+        
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+
+        var entriesToCreate = representationsByID
+        
+        let fetchReqeust: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchReqeust.predicate = NSPredicate(format: "identifier in %@", identifiersToFetch)
+        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+
+        context.perform {
+            do {
+                let existingEntries = try context.fetch(fetchReqeust)
+                
+                for entry in existingEntries {
+                    guard let id = entry.identifier,
+                        let representation = representationsByID[id] else { continue }
+                    
+                    self.update(entry: entry, with: representation)
+                    entriesToCreate.removeValue(forKey: id)
+                }
+                
+                for representation in entriesToCreate.values {
+                    Entry(entryRepresentation: representation)
+                }
+            } catch {
+                print("Error fetching entries for identifiers: \(error)")
+            }
+        }
+        try CoreDataStack.shared.save(context: context)
+    }
+    
+    
+    
+    private func update(entry: Entry, with representation: EntryRepresentation) {
+        entry.title = representation.title
+        entry.bodyText = representation.bodyText
+        entry.mood = representation.mood
+        entry.timeStamp = representation.timeStamp
+        entry.identifier = representation.identifier
+    }
+    
+    
+    
+    func deleteEntry(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        let identifier = entry.identifier ?? UUID().uuidString
+        entry.identifier = identifier
+        
+        let context = CoreDataStack.shared.mainContext
+        
+        do {
+            context.delete(entry)
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            context.reset()
+            print("Error deleting object from managed object context: \(error)")
+        }
+        
         let requestURL = baseURL.appendingPathExtension(identifier).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
@@ -68,10 +154,14 @@ class EntryController {
     }
     
     
-    func saveToPersistentStore() throws {
-         let moc = CoreDataStack.shared.mainContext
-         try moc.save()
-     }
+    
+    
+    
+    
+//    func saveToPersistentStore() throws {
+//        let moc = CoreDataStack.shared.mainContext
+//        try moc.save()
+//    }
     
 }
     

@@ -14,10 +14,21 @@ enum Mood: String, CaseIterable {
 }
 
 extension Entry {
+    
+    // did not change Identifier to UUID
+    var entryRepresentation: EntryRepresentation? {
+        guard let title = title,
+            let mood = mood, let bodyText = bodyText, let timeStamp = timeStamp, let identifier = identifier else {
+                return nil
+        }
+        
+        return EntryRepresentation (title: title, bodyText: bodyText, mood: mood, timeStamp: timeStamp, identifier: identifier)
+    }
+    
     @discardableResult convenience init (title: String,
                       bodyText: String,
                       mood: Mood = .🧐 ,
-                      identifier: String,
+                      identifier: String = UUID().uuidString,
                       timeStamp: Date = Date(),
                       context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
@@ -41,14 +52,7 @@ extension Entry {
         
     }
     
-    // did not change Identifier to UUID
-    var entryRepresentation: EntryRepresentation? {
-        guard let title = title,
-            let mood = mood, let bodyText = bodyText, let timeStamp = timeStamp, let identifier = identifier else {
-                return nil
-        }
-        
-        return EntryRepresentation(title: title, bodyText: bodyText, mood: mood, timeStamp: timeStamp, identifier: identifier)
-    }
-    
 }
+
+
+// Need to change to UUID string as all items are sharing an IDstring
