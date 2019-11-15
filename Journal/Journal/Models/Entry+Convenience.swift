@@ -16,7 +16,6 @@ extension Entry {
         bodyText: String,
         timestamp: Date = Date(),
         mood: Mood?,
-        identifier: String = UUID().uuidString,
         context: NSManagedObjectContext
     ) {
         self.init(context: context)
@@ -24,7 +23,7 @@ extension Entry {
         self.bodyText = bodyText
         self.mood = mood?.rawValue ?? Mood.neutral.rawValue
         self.timestamp = timestamp
-        self.identifier = identifier
+        self.identifier = UUID().uuidString
     }
     
     // MARK: - Mood Enum

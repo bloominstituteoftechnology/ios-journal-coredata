@@ -156,13 +156,13 @@ class EntryController: NSObject {
     
     func delete(entry: Entry) {
         coreDataStack.mainContext.delete(entry)
+        syncController.deleteEntryFromServer(entry)
         do {
             try coreDataStack.save(in: coreDataStack.mainContext)
         } catch {
             print("Error deleting entry: \(error)")
             return
         }
-        syncController.deleteEntryFromServer(entry)
     }
     
     // MARK: - TableView API
