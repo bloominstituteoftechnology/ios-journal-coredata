@@ -3,7 +3,7 @@
 //  Journal
 //
 //  Created by Rick Wolter on 11/11/19.
-//  Copyright © 2019 Richar Wolter. All rights reserved.
+//  Copyright © 2019 Richard Wolter. All rights reserved.
 //
 
 import UIKit
@@ -35,8 +35,10 @@ class EntryDetailViewController: UIViewController {
         if let entry = entry {
             entry.title = entryTitle
             entry.bodyText = entryBody
+            entry.mood = moodString
         } else {
-            let _ = Entry(title: entryTitle, bodyText: entryBody, timestamp: Date.init(),  indentifier: nil, mood: moodString)
+            print("There should be a mood string here \(moodString)")
+            let _ = Entry(title: entryTitle, bodyText: entryBody, timestamp: Date.init(),  indentifier: nil, mood: Mood(rawValue: moodString)! )
         }
         do {
             let moc = CoreDataStack.shared.mainContext
@@ -52,12 +54,16 @@ class EntryDetailViewController: UIViewController {
         title = entry?.title ?? "Create an Entry"
         entryTitleTextField.text = entry?.title
         entryBodyTextView.text = entry?.bodyText
+        
+        let moodIndex = moodSegmentedControl.selectedSegmentIndex
+        guard let moodString = moodSegmentedControl.titleForSegment(at: moodIndex) else {return}
+        
       
         let mood: Mood
         if let entryMood = entry?.mood {
             mood = Mood(rawValue: entryMood)!
         } else {
-            mood = .happy
+            mood = .😐
         }
         moodSegmentedControl.selectedSegmentIndex = Mood.allCases.firstIndex(of: mood)!
     }

@@ -11,18 +11,18 @@ import CoreData
 
 
 enum Mood: String, CaseIterable {
-    case happy = "😁"
-    case angry = "🤬"
-    case sad = "☹️"
+    case  😁
+    case  🤬
+    case  😐
 }
 
 
 extension Entry {
     
-    convenience init(title: String, bodyText: String? = nil, timestamp: Date, indentifier: String? = nil, mood: String,  context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init(title: String, bodyText: String? = nil, timestamp: Date, indentifier: String? = nil, mood: Mood,  context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(context: context)
-        self.mood = mood
+        self.mood = mood.rawValue
         self.title = title
         self.timestamp = timestamp
         self.bodyText = bodyText

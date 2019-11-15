@@ -14,7 +14,6 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var entryTitleLabel: UILabel!
     @IBOutlet weak var entryBodyLabel: UILabel!
     @IBOutlet weak var entryTimeStampLabel: UILabel!
-    @IBOutlet weak var moodLabel: UILabel!
     
     
     var entry: Entry? {
@@ -45,7 +44,7 @@ class EntryTableViewCell: UITableViewCell {
         dateFormatter.dateFormat = "MM/dd/yyyy, h:mm a"
         dateFormatter.timeZone = TimeZone.autoupdatingCurrent
         entryTimeStampLabel.text = dateFormatter.string(from: entry.timestamp!)
-        moodLabel.text = entry.mood
+       
     }
     
     

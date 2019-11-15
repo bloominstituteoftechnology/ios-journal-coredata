@@ -30,12 +30,10 @@ class EntriesTableViewController: UITableViewController {
         frc.delegate = self
         try! frc.performFetch()
         return frc
-        
-        
+
     }()
     
-    
-    
+
     override func viewWillAppear(_ animated: Bool) {
            super.viewWillAppear(animated)
            tableView.reloadData()
@@ -60,6 +58,13 @@ class EntriesTableViewController: UITableViewController {
     }
 
     
+    
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = fetchedResultsController.sections?[section] else {return nil}
+               return sectionInfo.name.capitalized
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else {return UITableViewCell()}
         
@@ -68,16 +73,14 @@ class EntriesTableViewController: UITableViewController {
         
 //        cell.entryTitleLabel.text = entry.title
 //        cell.entryBodyLabel.text = entry.bodyText
-      
-        
 
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let sectionInfo = fetchedResultsController.sections?[section] else {return nil}
-        return sectionInfo.name.capitalized
-    }
+   
+        
+       
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -121,8 +124,8 @@ class EntriesTableViewController: UITableViewController {
         }
     }
     
-
 }
+
 
 
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
