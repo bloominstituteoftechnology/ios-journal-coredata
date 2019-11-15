@@ -38,29 +38,24 @@ class EntryController: NSObject {
     
     // MARK: - Sync
     
-    func syncAllEntries() {
+    func syncAllEntries(completion: @escaping CompletionHandler = { _ in }) {
         syncController.fetchEntriesFromServer { error, entryRepresentations in
             if let error = error {
                 print("Error fetching entries from server: \(error)")
+                completion(error)
             }
             guard let entryReps = entryRepresentations else {
                 print("Error; no entry representations received.")
+                completion(nil)
                 return
             }
             self.updateLocalEntries(from: entryReps)
             self.updateServerEntries(using: entryReps)
+            completion(nil)
         }
     }
     
     func updateLocalEntries(from serverRepresentations: [Entry.Representation]) {
-        let idsToFetch = serverRepresentations.compactMap { $0.identifier }
-        let representationsByID = Dictionary(
-            uniqueKeysWithValues: zip(idsToFetch, serverRepresentations)
-        )
-        var entriesToCreate = representationsByID
-        
-        let fetchRequest: EntryController.FetchRequest = Entry.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", idsToFetch)
         // This method is called from a network completion closure,
         // so a background context must be used.
         let backgroundContext = coreDataStack.container.newBackgroundContext()
@@ -68,6 +63,14 @@ class EntryController: NSObject {
         var error: Error?
         // Wait in case of error; then, if caught, handle it
         backgroundContext.performAndWait {
+            let idsToFetch = serverRepresentations.compactMap { $0.identifier }
+            let representationsByID = Dictionary(
+                uniqueKeysWithValues: zip(idsToFetch, serverRepresentations)
+            )
+            var entriesToCreate = representationsByID
+            
+            let fetchRequest: FetchRequest = Entry.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "identifier IN %@", idsToFetch)
             do {
                 let existingEntries = try fetch(request: fetchRequest, with: backgroundContext)
                 for entry in existingEntries {

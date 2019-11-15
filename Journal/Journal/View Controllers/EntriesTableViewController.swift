@@ -9,15 +9,20 @@
 import UIKit
 
 class EntriesTableViewController: UITableViewController {
-    // MARK: - Properties
     
     var entryController = EntryController()
-    
-    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         entryController.delegate = self
+    }
+    
+    @IBAction func refresh(_ sender: Any) {
+        entryController.syncAllEntries { (_) in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
     }
     
     // MARK: - Navigation

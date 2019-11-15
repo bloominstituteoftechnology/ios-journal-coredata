@@ -8,12 +8,10 @@
 
 import Foundation
 
+typealias CompletionHandler = (Error?) -> Void
+
 class SyncController {
-    // MARK: - Properties
-    
     let baseURL: URL = URL(string: "https://lambda-ios-journal-bc168.firebaseio.com/")!
-    
-    typealias CompletionHandler = (Error?) -> Void
     
     // MARK: - URLRequest Generators
     
