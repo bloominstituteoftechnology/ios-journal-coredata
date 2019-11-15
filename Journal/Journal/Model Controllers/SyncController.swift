@@ -11,9 +11,9 @@ import Foundation
 typealias CompletionHandler = (Error?) -> Void
 
 class SyncController {
-    let baseURL: URL = URL(string: "https://lambda-ios-journal-bc168.firebaseio.com/")!
-    
     // MARK: - URLRequest Generators
+    
+    private let baseURL: URL = URL(string: "https://lambda-ios-journal-bc168.firebaseio.com/")!
     
     private func urlRequest(for id: String?) -> URLRequest {
         if let id = id {
@@ -31,7 +31,7 @@ class SyncController {
     
     // MARK: - Fetch
     
-    // TODO: implement Result type in closure
+    // TODO: implement `Result` type in closure
     func fetchEntriesFromServer(completion: @escaping (Error?, [Entry.Representation]?) -> Void = { _,_ in }) {
         let request = urlRequest()
         

@@ -12,7 +12,7 @@ import CoreData
 class EntryController: NSObject {
     // MARK: - Properties
     
-    internal var coreDataStack = CoreDataStack()
+    private var coreDataStack = CoreDataStack()
     lazy private var syncController: SyncController = {
         let syncController = SyncController()
         return syncController
@@ -55,7 +55,7 @@ class EntryController: NSObject {
         }
     }
     
-    func updateLocalEntries(from serverRepresentations: [Entry.Representation]) {
+    private func updateLocalEntries(from serverRepresentations: [Entry.Representation]) {
         // This method is called from a network completion closure,
         // so a background context must be used.
         let backgroundContext = coreDataStack.container.newBackgroundContext()
@@ -93,7 +93,7 @@ class EntryController: NSObject {
         }
     }
     
-    func updateServerEntries(using serverEntryReps: [Entry.Representation]) {
+    private func updateServerEntries(using serverEntryReps: [Entry.Representation]) {
         // send local entries that aren't on server
         let idsOnServer = serverEntryReps.map { rep -> String in
             return rep.identifier
@@ -204,7 +204,7 @@ class EntryController: NSObject {
         return entries ?? []
     }
     
-    // helper computed property, for TableView API
+    // helper computed property for TableView API
     private var fetchedResultsAreEmpty: Bool {
         guard let array = coreDataStack.fetchedResultsController.fetchedObjects
             else { return true }

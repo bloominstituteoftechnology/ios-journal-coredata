@@ -26,7 +26,7 @@ class EntryTableViewCell: UITableViewCell {
     
     // MARK: - Methods
     
-    func updateViews() {
+    private func updateViews() {
         guard let entry = entry else {
             print("No entry from which to update for cell!")
             return

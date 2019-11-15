@@ -18,10 +18,8 @@ class EntriesTableViewController: UITableViewController {
     }
     
     @IBAction func refresh(_ sender: Any) {
-        entryController.syncAllEntries { (_) in
-            DispatchQueue.main.async {
-                self.refreshControl?.endRefreshing()
-            }
+        entryController.syncAllEntries { _ in
+            DispatchQueue.main.async { self.refreshControl?.endRefreshing() }
         }
     }
     
