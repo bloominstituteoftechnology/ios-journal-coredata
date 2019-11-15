@@ -41,6 +41,8 @@ extension Entry: Representable {
             identifier: id)
     }
     
+    // MARK: - Convenience Init
+    
     @discardableResult convenience init?(
         representation: Representation,
         context: NSManagedObjectContext
@@ -53,6 +55,8 @@ extension Entry: Representable {
         self.identifier = representation.identifier
     }
 }
+
+// MARK: - Equatable
 
 extension Entry.Representation: Equatable {
     static func == (lhs: Entry.Representation, rhs: Entry.Representation) -> Bool {

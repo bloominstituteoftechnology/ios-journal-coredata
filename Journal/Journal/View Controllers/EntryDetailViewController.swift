@@ -23,11 +23,6 @@ class EntryDetailViewController: UIViewController {
     
     // MARK: - Lifecycle
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        updateMoodControlFromModel()
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateViews()
@@ -76,17 +71,5 @@ class EntryDetailViewController: UIViewController {
             let moodIndex = Entry.Mood.allCases.firstIndex(of: mood)!
             moodSelector.selectedSegmentIndex = moodIndex
         }
-    }
-    
-    // TODO: ensure that moodControl options match model
-    private func updateMoodControlFromModel() {
-//        let moodCount = Entry.Mood.allCases.count
-//        if moodCount != moodControl.numberOfSegments {
-//            moodControl.removeAllSegments()
-//            for i in 0..<Entry.Mood.allCases.count {
-//                let mood = Entry.Mood.allCases[i]
-//                moodControl.insertSegment(withTitle: mood.rawValue, at: i, animated: false)
-//            }
-//        }
     }
 }

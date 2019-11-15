@@ -36,8 +36,9 @@ class EntryController: NSObject {
         syncAllEntries()
     }
     
+    // MARK: - Sync
+    
     func syncAllEntries() {
-        let allLocalEntries = fetchAllEntriesFromLocalStore()
         syncController.fetchEntriesFromServer { error, entryRepresentations in
             if let error = error {
                 print("Error fetching entries from server: \(error)")
@@ -47,10 +48,64 @@ class EntryController: NSObject {
                 return
             }
             self.updateLocalEntries(from: entryReps)
-            // send local entries that aren't on server
-            for entry in allLocalEntries {
+            self.updateServerEntries(using: entryReps)
+        }
+    }
+    
+    func updateLocalEntries(from serverRepresentations: [Entry.Representation]) {
+        let idsToFetch = serverRepresentations.compactMap { $0.identifier }
+        let representationsByID = Dictionary(
+            uniqueKeysWithValues: zip(idsToFetch, serverRepresentations)
+        )
+        var entriesToCreate = representationsByID
+        
+        let fetchRequest: EntryController.FetchRequest = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", idsToFetch)
+        // This method is called from a network completion closure,
+        // so a background context must be used.
+        let backgroundContext = coreDataStack.container.newBackgroundContext()
+        
+        var error: Error?
+        // Wait in case of error; then, if caught, handle it
+        backgroundContext.performAndWait {
+            do {
+                let existingEntries = try fetch(request: fetchRequest, with: backgroundContext)
+                for entry in existingEntries {
+                    guard let id = entry.identifier,
+                        let representation = representationsByID[id]
+                        else { continue }
+                    update(entry: entry, from: representation)
+                    entriesToCreate.removeValue(forKey: id)
+                }
+                for representation in entriesToCreate.values {
+                    Entry(representation: representation, context: backgroundContext)
+                }
+                try coreDataStack.save(in: backgroundContext)
+            } catch let updateError {
+                error = updateError
+            }
+        }
+        if let caughtError = error {
+            print("Error updating tasks from server: \(caughtError)")
+        }
+    }
+    
+    func updateServerEntries(using serverEntryReps: [Entry.Representation]) {
+        // send local entries that aren't on server
+        let idsOnServer = serverEntryReps.map { rep -> String in
+            return rep.identifier
+        }
+        let context = self.coreDataStack.container.newBackgroundContext()
+        context.perform {
+            let request: NSFetchRequest<Entry> = Entry.fetchRequest()
+            request.predicate = NSPredicate(format: "NOT (identifier IN %@)", idsOnServer)
+            guard let entriesToSend: [Entry] = try? context.fetch(request) else {
+                print("Error fetching unsynced entries")
+                return
+            }
+            for entry in entriesToSend {
                 if let rep = entry.representation,
-                    entryReps.contains(rep) {
+                    serverEntryReps.contains(rep) {
                     entry.handleBadID()
                     self.syncController.sendToServer(entry: entry)
                 }
@@ -96,44 +151,6 @@ class EntryController: NSObject {
         entry.identifier = representation.identifier
     }
     
-    func updateLocalEntries(from serverRepresentations: [Entry.Representation]) {
-        let idsToFetch = serverRepresentations.compactMap { $0.identifier }
-        let representationsByID = Dictionary(
-            uniqueKeysWithValues: zip(idsToFetch, serverRepresentations)
-        )
-        var entriesToCreate = representationsByID
-        
-        let fetchRequest: EntryController.FetchRequest = Entry.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", idsToFetch)
-        // This method is called from a network completion closure,
-        // so a background context must be used.
-        let backgroundContext = coreDataStack.container.newBackgroundContext()
-        
-        var error: Error?
-        // Wait in case of error; then, if caught, handle it
-        backgroundContext.performAndWait {
-            do {
-                let existingEntries = try fetch(request: fetchRequest, with: backgroundContext)
-                for entry in existingEntries {
-                    guard let id = entry.identifier,
-                        let representation = representationsByID[id]
-                        else { continue }
-                    update(entry: entry, from: representation)
-                    entriesToCreate.removeValue(forKey: id)
-                }
-                for representation in entriesToCreate.values {
-                    Entry(representation: representation, context: backgroundContext)
-                }
-                try coreDataStack.save(in: backgroundContext)
-            } catch let updateError {
-                error = updateError
-            }
-        }
-        if let caughtError = error {
-            print("Error updating tasks from server: \(caughtError)")
-        }
-    }
-    
     func delete(entry: Entry) {
         coreDataStack.mainContext.delete(entry)
         do {
@@ -171,13 +188,20 @@ class EntryController: NSObject {
         return coreDataStack.fetchedResultsController.sections?[index].numberOfObjects ?? 0
     }
     
-    func fetchAllEntriesFromLocalStore() -> [Entry] {
-        guard let entries = coreDataStack.fetchedResultsController.fetchedObjects else {
-            return []
+    func fetchAllEntriesFromLocalStore(with context: NSManagedObjectContext) -> [Entry] {
+        let request = NSFetchRequest<Entry>()
+        var entries: [Entry]?
+        context.perform {
+            do {
+                entries = try context.fetch(request)
+            } catch {
+                print("Error fetching all entries: \(error)")
+            }
         }
-        return entries
+        return entries ?? []
     }
     
+    // helper computed property, for TableView API
     private var fetchedResultsAreEmpty: Bool {
         guard let array = coreDataStack.fetchedResultsController.fetchedObjects
             else { return true }
