@@ -34,4 +34,26 @@ class EntryController {
             return []
         }
     }
+    
+    func createEntry(for entry: Entry) {
+        guard let title = entry.title,
+            let timestamp = entry.timestamp,
+            let identifier = entry.identifier else { return }
+        let bodyText = entry.bodyText ?? ""
+        
+        let _ = Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier)
+        saveToPersistentStore()
+    }
+    
+    func updateEntry(for entry: Entry) {
+        // TODO: write logic for updateEntry
+    }
+    
+    func deleteEntry(for entry: Entry) {
+        let moc = CoreDataStack.shared.mainContext
+        moc.delete(entry)
+        saveToPersistentStore()
+        
+        // TODO: make sure to call reloadData() in the table view when deleting and entry
+    }
 }
