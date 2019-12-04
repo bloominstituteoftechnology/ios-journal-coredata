@@ -1,5 +1,5 @@
 //
-//  JournalDetailViewController.swift
+//  EntryDetailViewController.swift
 //  Journal
 //
 //  Created by Craig Swanson on 12/3/19.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class JournalDetailViewController: UIViewController {
+class EntryDetailViewController: UIViewController {
     
     
     @IBOutlet weak var titleTextField: UITextField!
