@@ -1,5 +1,5 @@
 //
-//  JournalTableViewController.swift
+//  EntriesTableViewController.swift
 //  Journal
 //
 //  Created by Craig Swanson on 12/3/19.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class JournalTableViewController: UITableViewController {
+class EntriesTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

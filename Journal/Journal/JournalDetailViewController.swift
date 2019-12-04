@@ -9,12 +9,17 @@
 import UIKit
 
 class JournalDetailViewController: UIViewController {
-
+    
+    
+    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var bodytextTextField: UITextView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
 
-
+    @IBAction func saveJournalEntry(_ sender: UIBarButtonItem) {
+    }
+    
 }
