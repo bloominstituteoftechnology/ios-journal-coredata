@@ -80,19 +80,9 @@ class EntryController {
     
     
     // MARK: METHODS FOR SAVING AND LOADING DATA
-    private func saveToPersistentStore() {
-        
-        do {
-            try moc.save()
-        } catch {
-            moc.reset()
-            print("Error saving managed object context: \(error)")
-        }
-    }
     
     func create(title: String, bodyText: String?, timeStamp: Date, identifier: String, mood: String) {
         let entry = Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, identifier: identifier, mood: mood)
-//        saveToPersistentStore()
         put(entry: entry)
     }
     
@@ -101,7 +91,6 @@ class EntryController {
         entry.bodyText = bodyText
         entry.timeStamp = Date()
         entry.mood = mood
-//        saveToPersistentStore()
         CoreDataStack.shared.save()
         guard let timeStamp = entry.timeStamp, let identifier = entry.identifier else { return }
         put(entry: Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, identifier: identifier, mood: mood))
@@ -137,12 +126,11 @@ class EntryController {
                 for representation in entriesToCreate.values {
                     let _ = Entry(entryRepresentation: representation, context: context)
                 }
-                self.saveToPersistentStore()
             } catch {
                 print("Error fetching entries for UUIDS: \(error)")
             }
         }
-        try CoreDataStack.shared.save(context: context)
+        CoreDataStack.shared.save(context: context)
     }
     
     func updateWith(_ entry: Entry, with representation: EntryRepresentation) {

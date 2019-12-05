@@ -47,8 +47,11 @@ class EntryDetailViewController: UIViewController {
                 let identifier = uuid.uuidString
                 return identifier
             }
-            
-            entryController.create(title: entryTitle, bodyText: bodyText, timeStamp: Date(), identifier: identifier, mood: mood)
+            entryController.create(title: entryTitle,
+                                   bodyText: bodyText,
+                                   timeStamp: Date(),
+                                   identifier: identifier,
+                                   mood: mood)
         }
         navigationController?.popViewController(animated: true)
     }
