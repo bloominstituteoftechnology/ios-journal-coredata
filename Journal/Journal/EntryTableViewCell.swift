@@ -9,12 +9,33 @@
 import UIKit
 
 class EntryTableViewCell: UITableViewCell {
+    
+    // MARK: - Properties
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var timeStampLabel: UILabel!
     @IBOutlet weak var bodyTextLabel: UILabel!
     
     
+    func updateViews() {
+        guard let entry = entry else { return }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yy, HH:mm"
+        
+        titleLabel.text = entry.title
+        if let entryDate = entry.timestamp {
+        timeStampLabel.text = dateFormatter.string(from: entryDate)
+        } else {
+            timeStampLabel.text = ""
+        }
+        bodyTextLabel.text = entry.bodyText
+    }
     
     
     
