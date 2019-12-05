@@ -14,7 +14,7 @@ class EntryController {
     private let moc = CoreDataStack.shared.mainContext
 
     
-    private var entries: [Entry] {
+    var entries: [Entry] {
         loadFromPersistentStore()
     }
     
