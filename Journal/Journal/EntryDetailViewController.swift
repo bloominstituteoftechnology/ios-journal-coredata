@@ -25,7 +25,7 @@ class EntryDetailViewController: UIViewController {
     
     @IBAction func saveEntry(_ sender: Any) {
         guard let entryController = entryController,
-            let entryTitle = entryBodyTextView.text,
+            let entryTitle = entryTitleTextField.text,
             let bodyText = entryBodyTextView.text
             else { return }
         
