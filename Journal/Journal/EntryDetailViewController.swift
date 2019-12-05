@@ -28,6 +28,17 @@ class EntryDetailViewController: UIViewController {
     }
 
     @IBAction func saveJournalEntry(_ sender: UIBarButtonItem) {
+        guard let title = titleTextField.text else { return }
+        let bodytext = bodytextTextField.text ?? ""
+        
+        if let entry = entry {
+            entry.title = title
+            entry.bodyText = bodytext
+            entryController?.updateEntry(for: entry)
+        } else {
+            let entry = Entry(title: title, bodyText: bodytext, timestamp: Date(), identifier: "temp")
+            entryController?.createEntry(for: entry)
+        }
     }
     
     private func updateViews() {
