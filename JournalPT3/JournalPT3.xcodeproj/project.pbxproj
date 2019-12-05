@@ -15,6 +15,9 @@
 		9586F63D2398A11600F781D2 /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9586F63C2398A11600F781D2 /* EntriesTableViewController.swift */; };
 		9586F63F2398A16300F781D2 /* EntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9586F63E2398A16300F781D2 /* EntryViewController.swift */; };
 		9586F6412398A4E900F781D2 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9586F6402398A4E900F781D2 /* EntryTableViewCell.swift */; };
+		9586F6442398A66500F781D2 /* Entry.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9586F6422398A66500F781D2 /* Entry.xcdatamodeld */; };
+		9586F6462398A75D00F781D2 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9586F6452398A75D00F781D2 /* Entry+Convenience.swift */; };
+		9586F6482398A8E600F781D2 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9586F6472398A8E600F781D2 /* CoreDataStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +31,9 @@
 		9586F63C2398A11600F781D2 /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 		9586F63E2398A16300F781D2 /* EntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryViewController.swift; sourceTree = "<group>"; };
 		9586F6402398A4E900F781D2 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
+		9586F6432398A66500F781D2 /* Entry.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Entry.xcdatamodel; sourceTree = "<group>"; };
+		9586F6452398A75D00F781D2 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
+		9586F6472398A8E600F781D2 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +75,9 @@
 				9586F63C2398A11600F781D2 /* EntriesTableViewController.swift */,
 				9586F63E2398A16300F781D2 /* EntryViewController.swift */,
 				9586F6402398A4E900F781D2 /* EntryTableViewCell.swift */,
+				9586F6422398A66500F781D2 /* Entry.xcdatamodeld */,
+				9586F6452398A75D00F781D2 /* Entry+Convenience.swift */,
+				9586F6472398A8E600F781D2 /* CoreDataStack.swift */,
 			);
 			path = JournalPT3;
 			sourceTree = "<group>";
@@ -144,11 +153,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9586F6442398A66500F781D2 /* Entry.xcdatamodeld in Sources */,
 				9586F63D2398A11600F781D2 /* EntriesTableViewController.swift in Sources */,
 				9586F6412398A4E900F781D2 /* EntryTableViewCell.swift in Sources */,
 				9586F63F2398A16300F781D2 /* EntryViewController.swift in Sources */,
 				9586F62923989EF000F781D2 /* AppDelegate.swift in Sources */,
 				9586F62B23989EF000F781D2 /* SceneDelegate.swift in Sources */,
+				9586F6462398A75D00F781D2 /* Entry+Convenience.swift in Sources */,
+				9586F6482398A8E600F781D2 /* CoreDataStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -346,6 +358,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9586F6422398A66500F781D2 /* Entry.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9586F6432398A66500F781D2 /* Entry.xcdatamodel */,
+			);
+			currentVersion = 9586F6432398A66500F781D2 /* Entry.xcdatamodel */;
+			path = Entry.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 9586F61D23989EF000F781D2 /* Project object */;
 }
