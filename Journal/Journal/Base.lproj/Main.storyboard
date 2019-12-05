@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="JournalCell" id="sdP-36-Gxf" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" id="sdP-36-Gxf" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="57.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="sdP-36-Gxf" id="Sep-pE-u2F">
@@ -59,9 +59,9 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="bodyText" destination="XxT-gI-hRs" id="hYQ-va-2Qj"/>
-                                    <outlet property="timeStamp" destination="fEv-cF-GY4" id="cuF-mP-qni"/>
-                                    <outlet property="title" destination="FBd-Jn-uO6" id="BAE-bn-Gpw"/>
+                                    <outlet property="bodyTextLabel" destination="XxT-gI-hRs" id="hYQ-va-2Qj"/>
+                                    <outlet property="timeStampLabel" destination="fEv-cF-GY4" id="cuF-mP-qni"/>
+                                    <outlet property="titleLabel" destination="FBd-Jn-uO6" id="BAE-bn-Gpw"/>
                                     <segue destination="zme-J7-1IJ" kind="show" identifier="ShowDetailJournal" id="dzY-FV-Mvd"/>
                                 </connections>
                             </tableViewCell>
@@ -125,8 +125,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="entryTextField" destination="MUJ-KE-tGZ" id="X21-mQ-hmt"/>
-                        <outlet property="entryTextView" destination="lWM-cI-kiO" id="VAc-pV-lVF"/>
+                        <outlet property="entryBodyTextView" destination="lWM-cI-kiO" id="VAc-pV-lVF"/>
+                        <outlet property="entryTitleTextField" destination="MUJ-KE-tGZ" id="X21-mQ-hmt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LIK-NM-KRd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
