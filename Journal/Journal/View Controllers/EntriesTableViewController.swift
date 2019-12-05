@@ -10,6 +10,7 @@ import UIKit
 
 class EntriesTableViewController: UITableViewController {
     
+    // Create a new instance of EntryController to access the array and the helper methods.
     var entryController = EntryController()
 
     // MARK: - View Controller Life Cycle
@@ -26,7 +27,6 @@ class EntriesTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return entryController.entries.count
     }
 
@@ -48,8 +48,6 @@ class EntriesTableViewController: UITableViewController {
     }
 
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowJournalDetailSegue" {
             guard let entryDetailVC = segue.destination as? EntryDetailViewController else { return }

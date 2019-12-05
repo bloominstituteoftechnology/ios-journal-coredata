@@ -11,6 +11,7 @@ import CoreData
 
 class EntryController {
     
+    // create the array of saved entries by calling the loadFromPersistentStore
     var entries: [Entry] {
         return loadFromPersistentStore()
     }
@@ -35,14 +36,15 @@ class EntryController {
         }
     }
     
+    // create and update are passed an "Entry" object, so all I need to do here is save.  I wasn't sure what a better way might be while still having the createEntry and updateEntry methods here, as we were instructed to do.
     func createEntry(for entry: Entry) {
         saveToPersistentStore()
     }
-    
     func updateEntry(for entry: Entry) {
         saveToPersistentStore()
     }
     
+    // deleteEntry is passed an entry object, deletes it from the array and saves the results.
     func deleteEntry(for entry: Entry) {
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)

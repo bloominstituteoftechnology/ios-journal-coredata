@@ -17,11 +17,13 @@ class EntryTableViewCell: UITableViewCell {
         }
     }
 
+    // MARK: - Outlets
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var timeStampLabel: UILabel!
     @IBOutlet weak var bodyTextLabel: UILabel!
     
     
+    // MARK: - Methods
     func updateViews() {
         guard let entry = entry else { return }
         
