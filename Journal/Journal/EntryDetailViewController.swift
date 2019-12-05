@@ -10,6 +10,13 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
     
+    var entryController: EntryController?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodytextTextField: UITextView!
@@ -17,9 +24,18 @@ class EntryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        updateViews()
     }
 
     @IBAction func saveJournalEntry(_ sender: UIBarButtonItem) {
+    }
+    
+    private func updateViews() {
+        guard isViewLoaded else { return }
+        
+        title = entry?.title ?? "Create Entry"
+        titleTextField.text = entry?.title
+        bodytextTextField.text = entry?.bodyText
     }
     
 }

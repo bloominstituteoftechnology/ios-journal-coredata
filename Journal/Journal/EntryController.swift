@@ -53,7 +53,5 @@ class EntryController {
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
         saveToPersistentStore()
-        
-        // TODO: make sure to call reloadData() in the table view when deleting and entry
     }
 }
