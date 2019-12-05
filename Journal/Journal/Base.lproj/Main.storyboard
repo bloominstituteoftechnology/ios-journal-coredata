@@ -60,7 +60,7 @@
                                     <outlet property="dateLabel" destination="TlM-Ud-hKi" id="7wd-VP-603"/>
                                     <outlet property="detailLabel" destination="6dg-h9-ssF" id="3Kq-p4-IQb"/>
                                     <outlet property="titleLabel" destination="1vX-lV-24F" id="Y5w-KT-NZP"/>
-                                    <segue destination="l81-0k-ECp" kind="show" identifier="ShowJournalPage" id="3UP-is-sWM"/>
+                                    <segue destination="l81-0k-ECp" kind="show" identifier="segueShowJournalEntry" id="3UP-is-sWM"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -72,7 +72,7 @@
                     <navigationItem key="navigationItem" title="Journal" id="Z1U-hG-onF">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="k6m-fd-IQg">
                             <connections>
-                                <segue destination="l81-0k-ECp" kind="show" identifier="AddNewJournalPage" id="56y-Yy-ay2"/>
+                                <segue destination="l81-0k-ECp" kind="show" identifier="segueAddJournalEntry" id="56y-Yy-ay2"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -84,7 +84,7 @@
         <!--Create Entry-->
         <scene sceneID="W8e-CS-mZj">
             <objects>
-                <viewController id="l81-0k-ECp" customClass="DetailVCViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="l81-0k-ECp" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KCJ-bl-24A">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -93,10 +93,6 @@
                                 <rect key="frame" x="20" y="140" width="374" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <action selector="textField:" destination="l81-0k-ECp" eventType="editingDidEnd" id="cNX-1s-QyU"/>
-                                    <action selector="textField:" destination="NxK-2I-ZNS" eventType="editingDidEnd" id="gp4-hR-uMm"/>
-                                </connections>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="rpm-nv-coI">
                                 <rect key="frame" x="20" y="182" width="374" height="429"/>
@@ -120,14 +116,18 @@
                         <viewLayoutGuide key="safeArea" id="9nd-0l-9mU"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Entry" id="NGL-HS-fcV">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="lg1-or-sqU"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="lg1-or-sqU">
+                            <connections>
+                                <action selector="saveTapped:" destination="l81-0k-ECp" id="CIt-E0-9pU"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="textView" destination="rpm-nv-coI" id="PvU-bY-e6t"/>
+                        <outlet property="txtTitle" destination="QZA-g3-rRY" id="qBE-4I-Bsg"/>
+                        <outlet property="txtvBody" destination="rpm-nv-coI" id="ALj-ES-iZN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SHQ-eO-V81" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <exit id="NxK-2I-ZNS" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1334.7826086956522" y="-21.428571428571427"/>
         </scene>
@@ -151,6 +151,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="3UP-is-sWM"/>
+        <segue reference="56y-Yy-ay2"/>
     </inferredMetricsTieBreakers>
 </document>
