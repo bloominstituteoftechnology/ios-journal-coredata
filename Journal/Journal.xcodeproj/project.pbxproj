@@ -16,6 +16,9 @@
 		12492F8F23989E8A00A830C2 /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12492F8E23989E8A00A830C2 /* EntriesTableViewController.swift */; };
 		12492F9123989F8600A830C2 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12492F9023989F8600A830C2 /* EntryTableViewCell.swift */; };
 		12492F932398A23B00A830C2 /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12492F922398A23B00A830C2 /* EntryDetailViewController.swift */; };
+		12492F952398A3A400A830C2 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12492F942398A3A400A830C2 /* CoreDataStack.swift */; };
+		12492F982398A3F100A830C2 /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 12492F962398A3F100A830C2 /* Journal.xcdatamodeld */; };
+		12492F9A2398A46800A830C2 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12492F992398A46800A830C2 /* Entry+Convenience.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +33,9 @@
 		12492F8E23989E8A00A830C2 /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 		12492F9023989F8600A830C2 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
 		12492F922398A23B00A830C2 /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
+		12492F942398A3A400A830C2 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		12492F972398A3F100A830C2 /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
+		12492F992398A46800A830C2 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +75,9 @@
 				12492F8E23989E8A00A830C2 /* EntriesTableViewController.swift */,
 				12492F9023989F8600A830C2 /* EntryTableViewCell.swift */,
 				12492F922398A23B00A830C2 /* EntryDetailViewController.swift */,
+				12492F942398A3A400A830C2 /* CoreDataStack.swift */,
+				12492F962398A3F100A830C2 /* Journal.xcdatamodeld */,
+				12492F992398A46800A830C2 /* Entry+Convenience.swift */,
 				12492F8323989CD100A830C2 /* Assets.xcassets */,
 				12492F8523989CD100A830C2 /* LaunchScreen.storyboard */,
 				12492F8823989CD100A830C2 /* Info.plist */,
@@ -147,12 +156,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				12492F952398A3A400A830C2 /* CoreDataStack.swift in Sources */,
+				12492F9A2398A46800A830C2 /* Entry+Convenience.swift in Sources */,
 				12492F8F23989E8A00A830C2 /* EntriesTableViewController.swift in Sources */,
 				12492F9123989F8600A830C2 /* EntryTableViewCell.swift in Sources */,
 				12492F7F23989CD000A830C2 /* ViewController.swift in Sources */,
 				12492F7B23989CD000A830C2 /* AppDelegate.swift in Sources */,
 				12492F932398A23B00A830C2 /* EntryDetailViewController.swift in Sources */,
 				12492F7D23989CD000A830C2 /* SceneDelegate.swift in Sources */,
+				12492F982398A3F100A830C2 /* Journal.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,6 +360,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		12492F962398A3F100A830C2 /* Journal.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				12492F972398A3F100A830C2 /* Journal.xcdatamodel */,
+			);
+			currentVersion = 12492F972398A3F100A830C2 /* Journal.xcdatamodel */;
+			path = Journal.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 12492F6F23989CD000A830C2 /* Project object */;
 }
