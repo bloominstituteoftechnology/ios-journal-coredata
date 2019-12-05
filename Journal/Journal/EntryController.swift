@@ -36,17 +36,11 @@ class EntryController {
     }
     
     func createEntry(for entry: Entry) {
-        guard let title = entry.title,
-            let timestamp = entry.timestamp,
-            let identifier = entry.identifier else { return }
-        let bodyText = entry.bodyText ?? ""
-        
-        let _ = Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier)
         saveToPersistentStore()
     }
     
     func updateEntry(for entry: Entry) {
-        // TODO: write logic for updateEntry
+        saveToPersistentStore()
     }
     
     func deleteEntry(for entry: Entry) {
