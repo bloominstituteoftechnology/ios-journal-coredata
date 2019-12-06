@@ -16,7 +16,8 @@ import UIKit
         
         @IBOutlet weak var txtTitle: UITextField!
         @IBOutlet weak var txtvBody: UITextView!
-        
+        @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
         override func viewDidLoad() {
             super.viewDidLoad()
             updateViews()
