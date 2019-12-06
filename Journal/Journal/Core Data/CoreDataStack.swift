@@ -15,6 +15,7 @@ class CoreDataStack {
     //can only be one instance of this class ever/Singleton
     static let shared = CoreDataStack()
     
+    //gets called once
     lazy var container: NSPersistentContainer = {
         let newContainer = NSPersistentContainer(name: "Journal")
         newContainer.loadPersistentStores { (_, error) in
