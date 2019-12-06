@@ -104,8 +104,16 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="2UN-kr-uac">
+                                        <rect key="frame" x="0.0" y="38" width="384" height="32"/>
+                                        <segments>
+                                            <segment title="🤦‍♂️"/>
+                                            <segment title="🤷‍♂️"/>
+                                            <segment title="🕺"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dRj-jW-OYt">
-                                        <rect key="frame" x="0.0" y="38" width="384" height="619"/>
+                                        <rect key="frame" x="0.0" y="77" width="384" height="580"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -132,6 +140,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bodytextTextField" destination="dRj-jW-OYt" id="4Jh-t0-QDT"/>
+                        <outlet property="moodController" destination="2UN-kr-uac" id="Ewq-02-Gzv"/>
                         <outlet property="titleTextField" destination="ZGr-dZ-ujE" id="8Lu-6Y-SAn"/>
                     </connections>
                 </viewController>
