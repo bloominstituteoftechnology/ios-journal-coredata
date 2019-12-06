@@ -57,7 +57,9 @@ class EntryDetailViewController: UIViewController {
         
         title = entry?.title ?? "Create Entry"
         titleTextField.text = entry?.title
-        
+        let moodSelected: Int16 = entry?.mood ?? 0
+        let newMood = Int(moodSelected)
+        moodController.selectedSegmentIndex = newMood
         bodytextTextField.text = entry?.bodyText
     }
     
