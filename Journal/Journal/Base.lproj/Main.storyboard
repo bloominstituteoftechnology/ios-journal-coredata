@@ -89,29 +89,39 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QZA-g3-rRY">
-                                <rect key="frame" x="20" y="140" width="374" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="rpm-nv-coI">
-                                <rect key="frame" x="20" y="182" width="374" height="429"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="JKl-DB-smY">
+                                <rect key="frame" x="20" y="140" width="374" height="510"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Wcw-MA-RDz">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="32"/>
+                                        <segments>
+                                            <segment title="😔"/>
+                                            <segment title="😐"/>
+                                            <segment title="🙂"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QZA-g3-rRY">
+                                        <rect key="frame" x="0.0" y="39" width="374" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="rpm-nv-coI">
+                                        <rect key="frame" x="0.0" y="81" width="374" height="429"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemGroupedBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="QZA-g3-rRY" firstAttribute="trailing" secondItem="KCJ-bl-24A" secondAttribute="trailingMargin" id="1Oj-75-v3g"/>
-                            <constraint firstItem="QZA-g3-rRY" firstAttribute="top" secondItem="9nd-0l-9mU" secondAttribute="top" id="GpE-jK-9QM"/>
-                            <constraint firstItem="rpm-nv-coI" firstAttribute="top" secondItem="QZA-g3-rRY" secondAttribute="bottom" constant="8" id="NFf-Di-O0z"/>
-                            <constraint firstItem="9nd-0l-9mU" firstAttribute="bottom" secondItem="rpm-nv-coI" secondAttribute="bottom" constant="251" id="SNj-wc-UqV"/>
-                            <constraint firstItem="QZA-g3-rRY" firstAttribute="leading" secondItem="KCJ-bl-24A" secondAttribute="leadingMargin" id="aKi-Ti-LM3"/>
-                            <constraint firstItem="QZA-g3-rRY" firstAttribute="leading" secondItem="rpm-nv-coI" secondAttribute="leading" id="eHd-cV-hpv"/>
-                            <constraint firstItem="QZA-g3-rRY" firstAttribute="trailing" secondItem="rpm-nv-coI" secondAttribute="trailing" id="vkj-BE-Pl2"/>
+                            <constraint firstItem="JKl-DB-smY" firstAttribute="trailing" secondItem="KCJ-bl-24A" secondAttribute="trailingMargin" id="AaB-5b-KYP"/>
+                            <constraint firstItem="9nd-0l-9mU" firstAttribute="bottom" secondItem="JKl-DB-smY" secondAttribute="bottom" constant="212" id="YRF-Pf-pNY"/>
+                            <constraint firstItem="JKl-DB-smY" firstAttribute="leading" secondItem="KCJ-bl-24A" secondAttribute="leadingMargin" id="huA-5y-RLn"/>
+                            <constraint firstItem="JKl-DB-smY" firstAttribute="top" secondItem="9nd-0l-9mU" secondAttribute="top" id="ocq-Dc-TpI"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="9nd-0l-9mU"/>
                     </view>
@@ -123,6 +133,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="segmentedControl" destination="Wcw-MA-RDz" id="eGs-Nz-Beg"/>
                         <outlet property="txtTitle" destination="QZA-g3-rRY" id="qBE-4I-Bsg"/>
                         <outlet property="txtvBody" destination="rpm-nv-coI" id="ALj-ES-iZN"/>
                     </connections>

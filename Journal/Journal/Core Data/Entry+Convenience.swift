@@ -9,9 +9,25 @@
 import Foundation
 import CoreData
 
+enum MoodPriority: String {
+    case 😔
+    case 😐
+    case 🙂
+    
+    static var allPriorities: [MoodPriority] {
+        return [.😔, .😐, .🙂]
+    }
+}
+
 extension Entry {
-    convenience init(title: String, bodyText: String, timestamp: Date = Date(), identifier: String = "", context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init(mood: MoodPriority = .😐,
+                     title: String,
+                     bodyText: String,
+                     timestamp: Date = Date(),
+                     identifier: String = "",
+                     context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
+        self.mood = mood.rawValue
         self.title = title
         self.bodyText = bodyText
         self.timestamp = timestamp

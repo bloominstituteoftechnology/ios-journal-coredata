@@ -16,7 +16,6 @@ class EntryController {
     var entries: [Entry] {
         return self.loadFromPersistentStore()
     }
-    
     let moc = CoreDataStack.shared.mainContext
     
     //MARK: Persistence
@@ -42,22 +41,22 @@ class EntryController {
     
     //MARK: CRUD
     
-    func createEntry(title: String, body: String) {
-        let _ = Entry(title: title, bodyText: body)
+    func createEntry(mood: MoodPriority, title: String, body: String) {
+        let _ = Entry(mood: mood, title: title, bodyText: body)
         saveToPersistentStore()
     }
     
-    func updateEntry(entry: Entry, newTitle: String, newBody: String) {
+    func updateEntry(entry: Entry, newTitle: String, newBody: String, newMood: MoodPriority) {
         guard !newTitle.isEmpty else { return }
         entry.title = newTitle
         entry.bodyText = newBody
         entry.timestamp = Date()
+        entry.mood = newMood.rawValue
         saveToPersistentStore()
     }
     
     func deleteEntry(entry: Entry) {
         moc.delete(entry)
-        
         do {
             try moc.save()
         } catch {

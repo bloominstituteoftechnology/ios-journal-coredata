@@ -10,13 +10,20 @@ import UIKit
 
 
    class EntryDetailViewController: UIViewController {
-
-        var entry: Entry? { didSet { updateViews() } }
+    
+    //MARK: Properties
+    
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
         var entryController: EntryController?
         
         @IBOutlet weak var txtTitle: UITextField!
         @IBOutlet weak var txtvBody: UITextView!
-        
+        @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
         override func viewDidLoad() {
             super.viewDidLoad()
             updateViews()
@@ -29,10 +36,14 @@ import UIKit
                 let body = txtvBody.text
             else { return }
             
+            let selectedMoodIndex = segmentedControl.selectedSegmentIndex
+            let mood = MoodPriority.allPriorities[selectedMoodIndex]
+            
             if let entry = entry {
-                entryController.updateEntry(entry: entry, newTitle: title, newBody: body)
+//                entryController.updateEntry(entry: entry, newTitle: title, newBody: body, newMood: )
+                entryController.updateEntry(entry: entry, newTitle: title, newBody: body, newMood: mood)
             } else {
-                entryController.createEntry(title: title, body: body)
+                entryController.createEntry(mood: .😐, title: title, body: body)
             }
             
             navigationController?.popViewController(animated: true)
@@ -43,6 +54,12 @@ import UIKit
             title = entry?.title ?? "Create Journal Entry"
             txtTitle.text = entry?.title ?? ""
             txtvBody.text = entry?.bodyText ?? ""
-        }
-
+            let mood: MoodPriority
+            if let moodPriority = entry?.mood {
+                mood = MoodPriority(rawValue: moodPriority)!
+            } else {
+                mood = .😐
+            }
+            segmentedControl.selectedSegmentIndex = MoodPriority.allPriorities.firstIndex(of: mood)!
     }
+}
