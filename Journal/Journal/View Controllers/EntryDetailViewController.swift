@@ -20,19 +20,22 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var entryTitleTextField: UITextField!
     @IBOutlet weak var entryBodyTextView: UITextView!
 
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     
     
     
     @IBAction func saveEntry(_ sender: Any) {
         guard let entryController = entryController,
-            let entryTitle = entryTitleTextField.text,
-            let bodyText = entryBodyTextView.text
+            let title = entryTitleTextField.text,
+            let body = entryBodyTextView.text
             else { return }
+        let moodIndex = moodSegmentedControl.selectedSegmentIndex
+        let mood = Mood.allMoods[moodIndex]
         
         if let entry = entry {
-            entryController.update(entry: entry, title: entryTitle, bodyText: bodyText)
+            entryController.update(entry: entry, title: title, bodyText: body, mood: mood.rawValue)
         } else {
-            entryController.create(title: entryTitle, timeStamp: Date(), bodyText: bodyText, identifier: "")
+            entryController.create(title: title, bodyText: body, mood: mood.rawValue, timeStamp: Date(), identifier: "")
         }
         navigationController?.popViewController(animated: true)
     }
@@ -48,6 +51,18 @@ class EntryDetailViewController: UIViewController {
         guard isViewLoaded else { return }
         title = entry?.title ?? "Create Entry"
         entryTitleTextField.text = entry?.title
+        
+        let mood: Mood
+        if let entryMood = entry?.mood,
+            let moods = Mood(rawValue: entryMood){
+            mood = moods
+        } else {
+            mood = .neutral
+        }
+            
+        let moodIndex = Mood.allMoods.firstIndex(of: mood)!
+        moodSegmentedControl.selectedSegmentIndex = moodIndex
+        
         entryBodyTextView.text = entry?.bodyText
     }
 

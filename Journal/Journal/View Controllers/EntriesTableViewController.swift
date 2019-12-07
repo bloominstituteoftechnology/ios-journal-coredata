@@ -12,6 +12,8 @@ class EntriesTableViewController: UITableViewController {
 
     let entryController = EntryController()
     
+    @IBAction func moodSegmentedControl(_ sender: Any) {
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
     }
