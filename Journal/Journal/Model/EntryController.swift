@@ -13,9 +13,9 @@ import CoreData
 
 class EntryController {
     
-    var entries: [Entry] {
-        loadFromPersistentStore()
-    }
+//    var entries: [Entry] {
+//        loadFromPersistentStore()
+//    }
     
     private func saveToPersistentStore() {
             let moc = CoreDataStack.shared.mainContext
@@ -26,16 +26,16 @@ class EntryController {
             }
     }
     
-    private func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            print("Error fetching entries: \(error)")
-            return []
-        }
-    }
+//    private func loadFromPersistentStore() -> [Entry] {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let moc = CoreDataStack.shared.mainContext
+//        do {
+//            return try moc.fetch(fetchRequest)
+//        } catch {
+//            print("Error fetching entries: \(error)")
+//            return []
+//        }
+//    }
     
     func create(title: String, bodyText: String, mood: String, timeStamp: Date,  identifier: String) {
         let _ = Entry(title: title, bodyText: bodyText, mood: mood, timeStamp: timeStamp, identifier: identifier)
@@ -43,20 +43,20 @@ class EntryController {
     }
     
     func update(entry: Entry, title: String, bodyText: String, mood: String) {
-        guard let entryIndex = entries.firstIndex(of: entry) else { return }
+        //guard let entryIndex = entries.firstIndex(of: entry) else { return }
         
-        entries[entryIndex].title = title
-        entries[entryIndex].bodyText = bodyText
-        entries[entryIndex].mood = mood
-        entries[entryIndex].timeStamp = Date()
+        entry.title = title
+        entry.bodyText = bodyText
+        entry.mood = mood
+        entry.timeStamp = Date()
         saveToPersistentStore()
     }
     
     func delete(for entry: Entry) {
-        guard let entryIndex = entries.firstIndex(of: entry) else { return }
+        //guard let entryIndex = entries.firstIndex(of: entry) else { return }
         
         let moc = CoreDataStack.shared.mainContext
-        moc.delete(entries[entryIndex])
+        moc.delete(entry)
         saveToPersistentStore()
     }
     
