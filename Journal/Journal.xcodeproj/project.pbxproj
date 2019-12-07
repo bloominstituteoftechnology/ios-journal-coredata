@@ -36,6 +36,7 @@
 		12492F972398A3F100A830C2 /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
 		12492F992398A46800A830C2 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
 		12492F9B2398A6F600A830C2 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
+		12492FA4239ABF2F00A830C2 /* Journal 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Journal 2.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,19 +71,43 @@
 			children = (
 				12492F7A23989CD000A830C2 /* AppDelegate.swift */,
 				12492F7C23989CD000A830C2 /* SceneDelegate.swift */,
-				12492F8023989CD000A830C2 /* Main.storyboard */,
+				12492FA3239ABE7E00A830C2 /* Resources */,
+				12492FA2239ABE4E00A830C2 /* View Controllers */,
+				12492FA1239ABE1D00A830C2 /* Model */,
+			);
+			path = Journal;
+			sourceTree = "<group>";
+		};
+		12492FA1239ABE1D00A830C2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				12492F942398A3A400A830C2 /* CoreDataStack.swift */,
+				12492F962398A3F100A830C2 /* Journal.xcdatamodeld */,
+				12492F9B2398A6F600A830C2 /* EntryController.swift */,
+				12492F992398A46800A830C2 /* Entry+Convenience.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		12492FA2239ABE4E00A830C2 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
 				12492F8E23989E8A00A830C2 /* EntriesTableViewController.swift */,
 				12492F9023989F8600A830C2 /* EntryTableViewCell.swift */,
 				12492F922398A23B00A830C2 /* EntryDetailViewController.swift */,
-				12492F942398A3A400A830C2 /* CoreDataStack.swift */,
-				12492F962398A3F100A830C2 /* Journal.xcdatamodeld */,
-				12492F992398A46800A830C2 /* Entry+Convenience.swift */,
-				12492F9B2398A6F600A830C2 /* EntryController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		12492FA3239ABE7E00A830C2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				12492F8023989CD000A830C2 /* Main.storyboard */,
 				12492F8323989CD100A830C2 /* Assets.xcassets */,
 				12492F8523989CD100A830C2 /* LaunchScreen.storyboard */,
 				12492F8823989CD100A830C2 /* Info.plist */,
 			);
-			path = Journal;
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -309,7 +334,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = Journal/Info.plist;
+				INFOPLIST_FILE = Journal/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -326,7 +351,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = Journal/Info.plist;
+				INFOPLIST_FILE = Journal/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -365,9 +390,10 @@
 		12492F962398A3F100A830C2 /* Journal.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				12492FA4239ABF2F00A830C2 /* Journal 2.xcdatamodel */,
 				12492F972398A3F100A830C2 /* Journal.xcdatamodel */,
 			);
-			currentVersion = 12492F972398A3F100A830C2 /* Journal.xcdatamodel */;
+			currentVersion = 12492FA4239ABF2F00A830C2 /* Journal 2.xcdatamodel */;
 			path = Journal.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
