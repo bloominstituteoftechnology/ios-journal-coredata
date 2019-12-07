@@ -11,35 +11,16 @@ import CoreData
 
 class EntryController {
     
-    var entries: [Entry] {
-    loadFromPersistentStore()
+    func createEntry(with title: String, bodyTitle: String, mood: Mood, context: NSManagedObjectContext) {
         
-    }
-    
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
-        let moc = CoreDataStack.shared.mainContext
-        
-        do {
-            let entries = try moc.fetch(fetchRequest)
-            return entries
-        } catch {
-            NSLog("Error fetching entries: \(error)")
-            return []
-        }
-    }
-    
-    func createEntry(with title: String, bodyTitle: String, context: NSManagedObjectContext) {
-        
-        Entry(title: title, bodyTitle: bodyTitle, context: context)
+        Entry(title: title, bodyTitle: bodyTitle, mood: mood, context: context)
         CoreDataStack.shared.saveToPersistenceStore()
     }
     
-    func updateEntry(entry: Entry, with title: String, bodyTitle: String) {
-        
+    func updateEntry(entry: Entry, with title: String, bodyTitle: String, mood: Mood) {
         entry.title = title
         entry.bodyTitle = bodyTitle
+        entry.mood = mood.rawValue
         CoreDataStack.shared.saveToPersistenceStore()
     }
     
@@ -48,7 +29,6 @@ class EntryController {
         CoreDataStack.shared.saveToPersistenceStore()
     }
 }
-
 
 
 
