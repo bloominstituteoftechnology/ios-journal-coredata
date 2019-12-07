@@ -14,8 +14,8 @@ class EntriesTableViewController: UITableViewController {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         //must have SORT DESCRIPTORS. this is where we start to make things conform for sections
         fetchRequest.sortDescriptors = [
-        NSSortDescriptor(key: "timestamp", ascending: false),
-        NSSortDescriptor(key: "name", ascending: true)
+        NSSortDescriptor(key: "timestamp", ascending: false)
+        
         ]
         let moc = CoreDataStack.shared.mainContext
         let fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
@@ -40,9 +40,18 @@ class EntriesTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//          guard let sectionInfo = fetchedResultsController.sections?[section] else {return nil}
+        guard let sectionInfo = fetchedResultsController.sections?[section] else {return nil}
+              return sectionInfo.name.capitalized
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return entryController.entries.count
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
+    }
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return fetchedResultsController.sections?.count ?? 1
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
