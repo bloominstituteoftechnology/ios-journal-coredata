@@ -34,7 +34,7 @@ class EntryDetailViewController: UIViewController {
         guard let title = titleTextField.text,
             !title.isEmpty else { return }
         let bodytext = bodytextTextField.text ?? ""
-        let mood = moodController.selectedSegmentIndex
+        let mood = moodController.selectedSegmentIndex // change this to be the string value
         
         // if an existing entry was passed from the tableview, the updates are saved
         if let entry = entry {
