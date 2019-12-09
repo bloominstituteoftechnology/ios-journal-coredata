@@ -9,19 +9,19 @@
 import Foundation
 import CoreData
 
-enum EntryMood: String {
-    case 🙁
-    case 😏
-    case 😁
+enum EntryMood: String, CaseIterable {
+    case low = "🙁"
+    case normal = "😏"
+    case great = "😁"
     
-    static var allMoods: [EntryMood] {
-        return [.🙁, .😏, .😁]
-    }
+//    static var allMoods: [EntryMood] {
+//        return [.low, .normal, .great]
+//    }
 }
 
 extension Entry {
     convenience init(title: String,
-                     mood: EntryMood,
+                     mood: EntryMood = .normal,
                      bodyText: String? = nil,
                      timestamp: Date = Date(),
                      identifier: String? = "",

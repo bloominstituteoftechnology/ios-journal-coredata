@@ -22,7 +22,7 @@ class EntryController {
         saveToPersistentStore()
     }
     
-    func updateEntry(title: String, mood: EntryMood = .😏, bodyText: String?, entry: Entry) {
+    func updateEntry(title: String, mood: EntryMood = .normal, bodyText: String?, entry: Entry) {
         entry.title = title
         entry.mood = mood.rawValue
         entry.bodyText = bodyText
@@ -48,7 +48,7 @@ class EntryController {
         do {
             return try moc.fetch(fetchRequest)
         } catch {
-            print("Error fetchign tasks: \(error)")
+            print("Error fetching tasks: \(error)")
             return []
         }
     }

@@ -32,7 +32,7 @@ class EntryViewController: UIViewController {
             let bodyText = bodytextView.text else { return }
         
         let moodIndex = moodControl.selectedSegmentIndex
-        let mood = EntryMood.allMoods[moodIndex]
+        let mood = EntryMood.allCases[moodIndex]
         
         if let entry = entry {
             entryController.updateEntry(title: entryTitle, mood: mood, bodyText: bodyText, entry: entry)
@@ -47,6 +47,16 @@ class EntryViewController: UIViewController {
         
         title = entry?.title ?? "Create Entry"
         titleTextField.text = entry?.title
+        
+        let mood: EntryMood
+        if let entryMood = entry?.mood {
+            mood = EntryMood(rawValue: entryMood) ?? .normal
+        } else {
+            mood = .normal
+        }
+        
+        moodControl.selectedSegmentIndex = EntryMood.allCases.firstIndex(of: mood)!
+        
         bodytextView.text = entry?.bodyText
     }
 }
