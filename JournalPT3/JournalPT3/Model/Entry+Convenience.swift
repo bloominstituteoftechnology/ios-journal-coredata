@@ -24,7 +24,7 @@ extension Entry {
                      mood: EntryMood = .normal,
                      bodyText: String? = nil,
                      timestamp: Date = Date(),
-                     identifier: String? = "",
+                     identifier: String? = UUID().uuidString,
                      context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.title = title
