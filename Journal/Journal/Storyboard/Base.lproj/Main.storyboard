@@ -89,12 +89,20 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="18g-5V-psf">
-                                <rect key="frame" x="20" y="148" width="374" height="34"/>
+                                <rect key="frame" x="20" y="187" width="374" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="L6G-nH-ek2">
+                                <rect key="frame" x="20" y="148" width="374" height="32"/>
+                                <segments>
+                                    <segment title="😭"/>
+                                    <segment title="😑"/>
+                                    <segment title="🥰"/>
+                                </segments>
+                            </segmentedControl>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="1N7-bi-XwK">
-                                <rect key="frame" x="20" y="190" width="374" height="615"/>
+                                <rect key="frame" x="20" y="229" width="374" height="576"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -103,13 +111,16 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="Ett-kW-MeC" firstAttribute="trailing" secondItem="18g-5V-psf" secondAttribute="trailing" constant="20" id="NfK-0b-Eq0"/>
-                            <constraint firstItem="1N7-bi-XwK" firstAttribute="top" secondItem="18g-5V-psf" secondAttribute="bottom" constant="8" id="PTq-JC-4ql"/>
-                            <constraint firstItem="Ett-kW-MeC" firstAttribute="trailing" secondItem="1N7-bi-XwK" secondAttribute="trailing" constant="20" id="STA-rz-NlA"/>
-                            <constraint firstItem="Ett-kW-MeC" firstAttribute="bottom" secondItem="1N7-bi-XwK" secondAttribute="bottom" constant="8" id="XmX-Pa-NX5"/>
-                            <constraint firstItem="18g-5V-psf" firstAttribute="top" secondItem="Ett-kW-MeC" secondAttribute="top" constant="8" id="kx6-Qn-DVv"/>
-                            <constraint firstItem="1N7-bi-XwK" firstAttribute="leading" secondItem="Ett-kW-MeC" secondAttribute="leading" constant="20" id="nYx-NV-kJm"/>
-                            <constraint firstItem="18g-5V-psf" firstAttribute="leading" secondItem="Ett-kW-MeC" secondAttribute="leading" constant="20" id="pua-nO-T7S"/>
+                            <constraint firstItem="Ett-kW-MeC" firstAttribute="trailing" secondItem="18g-5V-psf" secondAttribute="trailing" constant="20" id="64S-9R-rMt"/>
+                            <constraint firstItem="1N7-bi-XwK" firstAttribute="leading" secondItem="Ett-kW-MeC" secondAttribute="leading" constant="20" id="BXF-3h-bTd"/>
+                            <constraint firstItem="L6G-nH-ek2" firstAttribute="top" secondItem="Ett-kW-MeC" secondAttribute="top" constant="8" id="RCS-i0-e1w"/>
+                            <constraint firstItem="18g-5V-psf" firstAttribute="leading" secondItem="Ett-kW-MeC" secondAttribute="leading" constant="20" id="Vai-HG-iNa"/>
+                            <constraint firstItem="L6G-nH-ek2" firstAttribute="leading" secondItem="Ett-kW-MeC" secondAttribute="leading" constant="20" id="XHh-K6-E4J"/>
+                            <constraint firstItem="Ett-kW-MeC" firstAttribute="trailing" secondItem="L6G-nH-ek2" secondAttribute="trailing" constant="20" id="iCw-D4-EkZ"/>
+                            <constraint firstItem="Ett-kW-MeC" firstAttribute="bottom" secondItem="1N7-bi-XwK" secondAttribute="bottom" constant="8" id="jFa-qw-1Lc"/>
+                            <constraint firstItem="18g-5V-psf" firstAttribute="top" secondItem="L6G-nH-ek2" secondAttribute="bottom" constant="8" id="oNW-Ny-R2a"/>
+                            <constraint firstItem="1N7-bi-XwK" firstAttribute="top" secondItem="18g-5V-psf" secondAttribute="bottom" constant="8" id="uFz-zk-VW2"/>
+                            <constraint firstItem="Ett-kW-MeC" firstAttribute="trailing" secondItem="1N7-bi-XwK" secondAttribute="trailing" constant="20" id="vjH-Fp-9mc"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Ett-kW-MeC"/>
                     </view>
@@ -121,6 +132,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="segmentedControl" destination="L6G-nH-ek2" id="nm2-R2-L3j"/>
                         <outlet property="textField" destination="18g-5V-psf" id="U45-M3-zCD"/>
                         <outlet property="textView" destination="1N7-bi-XwK" id="RfW-ck-i7c"/>
                     </connections>

@@ -39,25 +39,22 @@ class EntryController {
     }
     
     // MARK: - CRUD Methods
-    func create(title: String, timestamp: Date, bodyText: String?, identifier: String?) {
+    func create(mood: String, title: String, timestamp: Date, bodyText: String?, identifier: String?) {
         let _ = Entry(title: title, timestamp: timestamp, bodyText: bodyText, identifier: identifier)
         saveToPersistentStore()
     }
     
-    func update(for entry: Entry, title: String, bodyText: String?) {
-        guard let entryIndex = entries.firstIndex(of: entry) else { return }
-        
-        entries[entryIndex].title = title
-        entries[entryIndex].bodyText = bodyText
-        entries[entryIndex].timestamp = Date()
+    func update(for entry: Entry, title: String, bodyText: String?, mood: String) {
+        entry.title = title
+        entry.bodyText = bodyText
+        entry.mood = mood
+        entry.timestamp = Date()
         saveToPersistentStore()
     }
     
     func delete(for entry: Entry) {
-        guard let entryIndex = entries.firstIndex(of: entry) else { return }
-        
         let moc = CoreDataStack.shared.mainContext
-        moc.delete(entries[entryIndex])
+        moc.delete(entry)
         saveToPersistentStore()
     }
 }
