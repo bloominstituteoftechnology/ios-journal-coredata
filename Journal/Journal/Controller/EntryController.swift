@@ -10,12 +10,6 @@ import Foundation
 import CoreData
 
 class EntryController {
-    
-    // MARK: - Properties
-    var entries: [Entry] {
-        loadFromPersistentStore()
-    }
-    
     // MARK: - Functions
     func saveToPersistentStore() {
         let moc = CoreDataStack.shared.mainContext
@@ -27,20 +21,9 @@ class EntryController {
         }
     }
     
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            print("Error fetching Entry: \(error)")
-            return []
-        }
-    }
-    
     // MARK: - CRUD Methods
     func create(mood: String, title: String, timestamp: Date, bodyText: String?, identifier: String?) {
-        let _ = Entry(title: title, timestamp: timestamp, bodyText: bodyText, identifier: identifier)
+        let _ = Entry(mood: mood, title: title, timestamp: timestamp, bodyText: bodyText, identifier: identifier)
         saveToPersistentStore()
     }
     
