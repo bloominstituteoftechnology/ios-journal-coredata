@@ -12,6 +12,7 @@ class EntryViewController: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodytextView: UITextView!
+    @IBOutlet weak var moodControl: UISegmentedControl!
     
     var entry: Entry? {
         didSet {
@@ -30,10 +31,13 @@ class EntryViewController: UIViewController {
             let entryTitle = titleTextField.text, !entryTitle.isEmpty,
             let bodyText = bodytextView.text else { return }
         
+        let moodIndex = moodControl.selectedSegmentIndex
+        let mood = EntryMood.allMoods[moodIndex]
+        
         if let entry = entry {
-            entryController.updateEntry(title: entryTitle, bodyText: bodyText, entry: entry)
+            entryController.updateEntry(title: entryTitle, mood: mood, bodyText: bodyText, entry: entry)
         } else {
-            entryController.createEntry(title: entryTitle, bodyText: bodyText, timeStamp: Date(), identifier: "")
+            entryController.createEntry(title: entryTitle, mood: mood, bodyText: bodyText)
         }
         navigationController?.popViewController(animated: true)
     }

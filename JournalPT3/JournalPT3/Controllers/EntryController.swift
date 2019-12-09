@@ -12,19 +12,19 @@ import CoreData
 class EntryController {
     
     private let moc = CoreDataStack.shared.mainContext
-
     
     var entries: [Entry] {
         loadFromPersistentStore()
     }
     
-    func createEntry(title: String, bodyText: String?, timeStamp: Date, identifier: String) {
-        let _ = Entry(title: title, bodyText: bodyText, timestamp: timeStamp, identifier: identifier)
+    func createEntry(title: String, mood: EntryMood, bodyText: String?) {
+        let _ = Entry(title: title, mood: mood, bodyText: bodyText)
         saveToPersistentStore()
     }
     
-    func updateEntry(title: String, bodyText: String?, entry: Entry) {
+    func updateEntry(title: String, mood: EntryMood = .😏, bodyText: String?, entry: Entry) {
         entry.title = title
+        entry.mood = mood.rawValue
         entry.bodyText = bodyText
         entry.timestamp = Date()
         saveToPersistentStore()
@@ -41,7 +41,6 @@ class EntryController {
         } catch {
             print("Error saving managed object context: \(error)")
         }
-        
     }
     
     private func loadFromPersistentStore() -> [Entry] {

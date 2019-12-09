@@ -12,7 +12,6 @@ import CoreData
 class EntriesTableViewController: UITableViewController {
     
     let entryController = EntryController()
-
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
