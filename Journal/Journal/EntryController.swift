@@ -99,8 +99,14 @@ class EntryController {
                 entriesToCreate.removeValue(forKey: id)
                 // at the completion of this loop above, the remaining entries in entriesToCreate are ones that existed in the server but not in core data.
             }
+            
+            for representation in entriesToCreate.values {
+                Entry(entryRepresentation: representation, context: moc)
+            }
+        } catch {
+            print("Error fetching tasks for identifiers: \(error)")
         }
-        
+        saveToPersistentStore()
     }
     
     func deleteEntryFromServer(_ entry: Entry, completion: @escaping (Error?) -> Void = {_ in }) {
