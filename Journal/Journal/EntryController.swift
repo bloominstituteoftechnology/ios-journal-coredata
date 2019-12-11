@@ -72,6 +72,37 @@ class EntryController {
         }.resume()
     }
     
+    func updateEntries(with representations: [EntryRepresentation]) throws {
+        let entriesWithID = representations.filter { $0.identifier != nil }
+        let identifiersToFetch = entriesWithID.compactMap { $0.identifier }
+        
+        let representationByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
+        
+        var entriesToCreate = representationByID
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        let moc = CoreDataStack.shared.mainContext
+        
+        do {
+            let existingEntries = try moc.fetch(fetchRequest)
+            
+            for entry in existingEntries {
+                guard let id = entry.identifier,
+                    let representation = representationByID[id] else {
+                        let moc = CoreDataStack.shared.mainContext
+                        moc.delete(entry)
+                        continue
+                }
+                
+                update(entry: entry, representation: representation)
+                
+                entriesToCreate.removeValue(forKey: id)
+                // at the completion of this loop above, the remaining entries in entriesToCreate are ones that existed in the server but not in core data.
+            }
+        }
+        
+    }
+    
     func deleteEntryFromServer(_ entry: Entry, completion: @escaping (Error?) -> Void = {_ in }) {
         guard let identifier = entry.identifier else {
             completion(NSError())
@@ -91,5 +122,13 @@ class EntryController {
             completion(nil)
         }.resume()
         
+    }
+    
+    private func update(entry: Entry, representation: EntryRepresentation) {
+        entry.bodyText = representation.bodyText
+        entry.identifier = representation.identifier
+        entry.mood = representation.mood
+        entry.timestamp = representation.timestamp
+        entry.title = representation.title
     }
 }
