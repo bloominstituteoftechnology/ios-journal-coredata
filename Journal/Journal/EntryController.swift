@@ -11,10 +11,7 @@ import CoreData
 
 class EntryController {
     
-    // create the array of saved entries by calling the loadFromPersistentStore
-//    var entries: [Entry] {
-//        return loadFromPersistentStore()
-//    }
+    private let baseURL = URL(string: "https://journal-9147c.firebaseio.com/")!
     
     func saveToPersistentStore() {
         do {
@@ -24,17 +21,6 @@ class EntryController {
             print("Error saving managed object context: \(error)")
         }
     }
-    
-//    func loadFromPersistentStore() -> [Entry] {
-//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//        let moc = CoreDataStack.shared.mainContext
-//        do {
-//            return try moc.fetch(fetchRequest)
-//        } catch {
-//            print("Error fetching entries: \(error)")
-//            return []
-//        }
-//    }
     
     // create and update are passed an "Entry" object, so all I need to do here is save.  I wasn't sure what a better way might be while still having the createEntry and updateEntry methods here, as we were instructed to do.
     func createEntry(for entry: Entry) {
@@ -49,5 +35,35 @@ class EntryController {
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
         saveToPersistentStore()
+    }
+    
+    func put(entry: Entry, completion: @escaping (Error?) -> Void = {_ in }) {
+        guard let identifier = entry.identifier else { return }
+        let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            guard var representation = entry.entryRepresentation else {
+                print("Error creating EntryRepresentation in PUT")
+                return
+            }
+            
+            representation.identifier = identifier
+            entry.identifier = identifier
+            try saveToPersistentStore()
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            print("Error encoding task \(error)")
+            completion(error)
+            return
+        }
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            guard error == nil else {
+                print("Error PUTing task to server: \(error!)")
+                completion(error)
+                return
+            }
+        }.resume()
     }
 }
