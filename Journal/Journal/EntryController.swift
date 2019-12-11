@@ -24,9 +24,11 @@ class EntryController {
     
     // create and update are passed an "Entry" object, so all I need to do here is save.  I wasn't sure what a better way might be while still having the createEntry and updateEntry methods here, as we were instructed to do.
     func createEntry(for entry: Entry) {
+        put(entry: entry)
         saveToPersistentStore()
     }
     func updateEntry(for entry: Entry) {
+        put(entry: entry)
         saveToPersistentStore()
     }
     
@@ -34,6 +36,7 @@ class EntryController {
     func deleteEntry(for entry: Entry) {
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
+        deleteEntryFromServer(entry)
         saveToPersistentStore()
     }
     
@@ -46,12 +49,13 @@ class EntryController {
         do {
             guard var representation = entry.entryRepresentation else {
                 print("Error creating EntryRepresentation in PUT")
+                completion(nil)
                 return
             }
             
             representation.identifier = identifier
             entry.identifier = identifier
-            try saveToPersistentStore()
+            saveToPersistentStore()
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
             print("Error encoding task \(error)")
@@ -64,6 +68,28 @@ class EntryController {
                 completion(error)
                 return
             }
+            completion(nil)
         }.resume()
+    }
+    
+    func deleteEntryFromServer(_ entry: Entry, completion: @escaping (Error?) -> Void = {_ in }) {
+        guard let identifier = entry.identifier else {
+            completion(NSError())
+            return
+        }
+        
+        let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { _, _, error in
+            guard error == nil else {
+                print("Error deleting task: \(error!)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
+        
     }
 }
