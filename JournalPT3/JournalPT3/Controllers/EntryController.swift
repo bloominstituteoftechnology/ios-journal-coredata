@@ -19,7 +19,7 @@ class EntryController {
 //        loadFromPersistentStore()
 //    }
     
-    func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+    private func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         guard let baseURL = baseURL else { return }
         let uuid = entry.identifier ?? UUID().uuidString
         let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
@@ -40,16 +40,43 @@ class EntryController {
             completion(error)
             return
         }
+        
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            guard error == nil else {
+                print("Error PUTing entry to the server: \(error!)")
+                completion(error)
+                return
+            }
+        }.resume()
     }
     
-    func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+    private func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        guard let baseURL = baseURL else { return }
+        guard let uuid = entry.identifier else {
+            completion(NSError())
+            return
+        }
+        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
         
+        URLSession.shared.dataTask(with: request) { _, _, error in
+                completion(error)
+        }.resume()
     }
     
     func createEntry(title: String, mood: EntryMood, bodyText: String?) {
         let entry = Entry(title: title, mood: mood, bodyText: bodyText)
         put(entry: entry)
-//        try saveToPersistentStore()
+        try! saveToPersistentStore()
+    }
+    
+    func update(entry: Entry, entryRepresentation: EntryRepresentation) {
+        entry.title = entryRepresentation.title
+        entry.mood = entryRepresentation.mood
+        entry.timestamp = entryRepresentation.timestamp
+        entry.bodyText = entryRepresentation.bodyText
+        entry.identifier = entryRepresentation.identifier
     }
     
     func updateEntry(title: String, mood: EntryMood = .normal, bodyText: String?, entry: Entry) {
@@ -58,12 +85,13 @@ class EntryController {
         entry.bodyText = bodyText
         entry.timestamp = Date()
         put(entry: entry)
-//        try saveToPersistentStore()
+        try! saveToPersistentStore()
     }
     
     func deleteEntry(entry: Entry) {
-        moc.delete(entry)
-//        try saveToPersistentStore()
+        deleteEntryFromServer(entry: entry)
+//        moc.delete(entry)
+        try! saveToPersistentStore()
     }
     
     private func saveToPersistentStore() throws {
