@@ -13,6 +13,10 @@ class EntryController {
     
     private let baseURL = URL(string: "https://journal-9147c.firebaseio.com/")!
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = {_ in }) {
         let requestURL = baseURL.appendingPathExtension("json")
         
@@ -28,6 +32,7 @@ class EntryController {
                 completion(NSError())
                 return
             }
+            
             do {
             var entries: [EntryRepresentation] = []
             entries = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
