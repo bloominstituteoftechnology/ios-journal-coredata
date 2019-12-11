@@ -13,6 +13,36 @@ class EntryController {
     
     private let baseURL = URL(string: "https://journal-9147c.firebaseio.com/")!
     
+    func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = {_ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { data, _, error in
+            guard error == nil else {
+                print("Error fetching tasks: \(error!)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                print("No data returned by data task")
+                completion(NSError())
+                return
+            }
+            do {
+            var entries: [EntryRepresentation] = []
+            entries = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
+            
+            try self.updateEntries(with: entries)
+            
+            completion(nil)
+            } catch {
+                print("Error decoding entries: \(error)")
+                completion(error)
+                return
+            }
+        }.resume()
+    }
+    
     func saveToPersistentStore() {
         do {
             let moc = CoreDataStack.shared.mainContext
