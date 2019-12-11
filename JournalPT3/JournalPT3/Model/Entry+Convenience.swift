@@ -27,7 +27,7 @@ extension Entry {
         return EntryRepresentation(title: title,
                                    timestamp: timestamp ?? Date(),
                                    mood: mood,
-                                   identifier: identifier ?? UUID().uuidString,
+                                   identifier: identifier?.uuidString ?? UUID().uuidString,
                                    bodyText: bodyText)
     }
     
@@ -35,7 +35,7 @@ extension Entry {
                      mood: EntryMood = .normal,
                      bodyText: String? = nil,
                      timestamp: Date = Date(),
-                     identifier: String? = UUID().uuidString,
+                     identifier: UUID = UUID(),
                      context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.title = title
@@ -56,7 +56,7 @@ extension Entry {
                   mood: mood,
                   bodyText: entryRepresentation.bodyText,
                   timestamp: entryRepresentation.timestamp,
-                  identifier: identifier.uuidString,
+                  identifier: identifier,
                   context: context)
     }
 }

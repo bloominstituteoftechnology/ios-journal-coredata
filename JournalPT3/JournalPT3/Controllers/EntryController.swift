@@ -15,18 +15,14 @@ class EntryController {
     
     private let moc = CoreDataStack.shared.mainContext
     
-//    var entries: [Entry] {
-//        loadFromPersistentStore()
-//    }
-    
     init() {
         fetchEntriesFromServer()
     }
     
     private func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         guard let baseURL = baseURL else { return }
-        let uuid = entry.identifier ?? UUID().uuidString
-        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
+        let uuid = entry.identifier ?? UUID()
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
         
@@ -35,7 +31,7 @@ class EntryController {
                 completion(NSError())
                 return
             }
-            representation.identifier = uuid
+            representation.identifier = uuid.uuidString
             entry.identifier = uuid
             try saveToPersistentStore()
             request.httpBody = try JSONEncoder().encode(representation)
@@ -60,7 +56,7 @@ class EntryController {
             completion(NSError())
             return
         }
-        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
         
@@ -80,7 +76,7 @@ class EntryController {
         entry.mood = entryRepresentation.mood
         entry.timestamp = entryRepresentation.timestamp
         entry.bodyText = entryRepresentation.bodyText
-        entry.identifier = entryRepresentation.identifier
+        entry.identifier = UUID(uuidString: entryRepresentation.identifier!)
         //put(entry: entry)
     }
     
@@ -106,14 +102,14 @@ class EntryController {
             
             for entry in existingEntries {
                 guard let id = entry.identifier,
-                    let representation = representationsByID[UUID(uuidString: id)!] else {
+                    let representation = representationsByID[id] else {
                         moc.delete(entry)
                         continue
                 }
                 
                 update(entry: entry, entryRepresentation: representation)
                     
-                entriesToCreate.removeValue(forKey: UUID(uuidString: id)!)
+                entriesToCreate.removeValue(forKey: id)
             }
             
             for representation in entriesToCreate.values {
