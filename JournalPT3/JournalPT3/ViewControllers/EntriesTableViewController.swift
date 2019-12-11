@@ -81,6 +81,14 @@ class EntriesTableViewController: UITableViewController {
             }
         }
     }
+    
+    @IBAction func refresh(_ sender: Any) {
+        entryController.fetchEntriesFromServer { ( _ ) in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
+    }
 }
 
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {

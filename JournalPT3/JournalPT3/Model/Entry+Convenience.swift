@@ -45,7 +45,7 @@ extension Entry {
         self.identifier = identifier
     }
     
-    convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         guard let mood = EntryMood(rawValue: entryRepresentation.mood),
             let identifierString = entryRepresentation.identifier,
             let identifier = UUID(uuidString: identifierString) else {
