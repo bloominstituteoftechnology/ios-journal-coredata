@@ -38,6 +38,7 @@ class EntriesTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    // Implement pull to refresh in table view
     @IBAction func refresh(_ sender: Any) {
         entryController.fetchEntriesFromServer { (_) in
             DispatchQueue.main.async {
@@ -98,6 +99,7 @@ class EntriesTableViewController: UITableViewController {
 
 }
 
+// MARK: - FRC Delegate
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()

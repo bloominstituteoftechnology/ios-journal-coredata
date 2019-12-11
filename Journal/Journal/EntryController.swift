@@ -17,6 +17,7 @@ class EntryController {
         fetchEntriesFromServer()
     }
     
+    // MARK: - Fetch
     func fetchEntriesFromServer(completion: @escaping (Error?) -> Void = {_ in }) {
         let requestURL = baseURL.appendingPathExtension("json")
         
@@ -37,6 +38,7 @@ class EntryController {
             var entries: [EntryRepresentation] = []
             entries = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
             
+            // Decodes JSON data and calls updateEntries method, which compares the server results with the core data. It adds entries to core data that don't exist there yet.
             try self.updateEntries(with: entries)
             
             completion(nil)
@@ -48,6 +50,7 @@ class EntryController {
         }.resume()
     }
     
+    // MARK: - Save
     func saveToPersistentStore() {
         do {
             let moc = CoreDataStack.shared.mainContext
@@ -57,6 +60,7 @@ class EntryController {
         }
     }
     
+    // MARK: - Helpers
     // create and update are passed an "Entry" object, so all I need to do here is save.  I wasn't sure what a better way might be while still having the createEntry and updateEntry methods here, as we were instructed to do.
     func createEntry(for entry: Entry) {
         put(entry: entry)
@@ -75,6 +79,15 @@ class EntryController {
         saveToPersistentStore()
     }
     
+    private func update(entry: Entry, representation: EntryRepresentation) {
+        entry.bodyText = representation.bodyText
+        entry.identifier = representation.identifier
+        entry.mood = representation.mood
+        entry.timestamp = representation.timestamp
+        entry.title = representation.title
+    }
+    
+    // MARK: Put to Server
     func put(entry: Entry, completion: @escaping (Error?) -> Void = {_ in }) {
         guard let identifier = entry.identifier else { return }
         let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
@@ -107,6 +120,9 @@ class EntryController {
         }.resume()
     }
     
+    // MARK: Update Core Data
+    
+    // updateEntries is called during the fetch method and makes sure that what we have in core data is up-to-date with the server. It assumes the server is always right.
     func updateEntries(with representations: [EntryRepresentation]) throws {
         let entriesWithID = representations.filter { $0.identifier != nil }
         let identifiersToFetch = entriesWithID.compactMap { $0.identifier }
@@ -124,17 +140,21 @@ class EntryController {
             for entry in existingEntries {
                 guard let id = entry.identifier,
                     let representation = representationByID[id] else {
+                        // if we fetched from the server and found that we have an item in core data that is not on the server, the core data item is deleted.
                         let moc = CoreDataStack.shared.mainContext
                         moc.delete(entry)
                         continue
                 }
                 
+                // overwrites the core data values with the values from the server.
                 update(entry: entry, representation: representation)
                 
+                // removes that item from the array and moves on to the next one.
                 entriesToCreate.removeValue(forKey: id)
                 // at the completion of this loop above, the remaining entries in entriesToCreate are ones that existed in the server but not in core data.
             }
             
+            // create new entries in core data that were on the server but not core data.
             for representation in entriesToCreate.values {
                 Entry(entryRepresentation: representation, context: moc)
             }
@@ -144,6 +164,7 @@ class EntryController {
         saveToPersistentStore()
     }
     
+    // MARK: - Delete from Server
     func deleteEntryFromServer(_ entry: Entry, completion: @escaping (Error?) -> Void = {_ in }) {
         guard let identifier = entry.identifier else {
             completion(NSError())
@@ -164,12 +185,5 @@ class EntryController {
         }.resume()
         
     }
-    
-    private func update(entry: Entry, representation: EntryRepresentation) {
-        entry.bodyText = representation.bodyText
-        entry.identifier = representation.identifier
-        entry.mood = representation.mood
-        entry.timestamp = representation.timestamp
-        entry.title = representation.title
-    }
+
 }
