@@ -40,9 +40,13 @@ class EntriesDetailViewController: UIViewController {
             }
             
             if let entry = entry {
-                entryController?.updateEntry(entry: entry, with: title, bodyTitle: bodyTitle, mood: mood)
+                entry.title = title
+                entry.mood = mood.rawValue
+                entry.bodyTitle = bodyTitle
+                entryController?.put(entry: entry)
             } else {
-                entryController?.createEntry(with: title, bodyTitle: bodyTitle, mood: mood, context: CoreDataStack.shared.mainContext)
+                let entry = Entry(title: title, bodyTitle: bodyTitle, mood: mood, context: CoreDataStack.shared.mainContext)
+                entryController?.put(entry: entry)
             }
         }
         navigationController?.popViewController(animated: true)

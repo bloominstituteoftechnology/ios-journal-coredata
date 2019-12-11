@@ -25,13 +25,4 @@ class CoreDataStack {
     var mainContext: NSManagedObjectContext {
         return container.viewContext
     }
-    
-    func saveToPersistenceStore() {
-        do {
-            try mainContext.save()
-        } catch {
-            NSLog("Error saving context: \(error)")
-            mainContext.reset()
-        }
-    }
 }
