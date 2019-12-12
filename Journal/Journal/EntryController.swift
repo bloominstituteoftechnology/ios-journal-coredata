@@ -51,24 +51,33 @@ class EntryController {
     }
     
     // MARK: - Save
-    func saveToPersistentStore() {
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            try moc.save()
-        } catch {
-            print("Error saving managed object context: \(error)")
-        }
-    }
+//    func saveToPersistentStore() {
+//        do {
+//            let moc = CoreDataStack.shared.mainContext
+//            try moc.save()
+//        } catch {
+//            print("Error saving managed object context: \(error)")
+//        }
+//    }
     
     // MARK: - Helpers
     // create and update are passed an "Entry" object, so all I need to do here is save.  I wasn't sure what a better way might be while still having the createEntry and updateEntry methods here, as we were instructed to do.
     func createEntry(for entry: Entry) {
         put(entry: entry)
-        saveToPersistentStore()
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            print("Error creating entry")
+        }
     }
     func updateEntry(for entry: Entry) {
         put(entry: entry)
-        saveToPersistentStore()
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            print("Error updating entry")
+        }
+           
     }
     
     // deleteEntry is passed an entry object, deletes it from the array and saves the results.
@@ -76,7 +85,11 @@ class EntryController {
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
         deleteEntryFromServer(entry)
-        saveToPersistentStore()
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            print("Error updating entry")
+        }
     }
     
     private func update(entry: Entry, representation: EntryRepresentation) {
@@ -103,7 +116,7 @@ class EntryController {
             
             representation.identifier = identifier
             entry.identifier = identifier
-            saveToPersistentStore()
+            try CoreDataStack.shared.save()
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
             print("Error encoding task \(error)")
@@ -132,8 +145,9 @@ class EntryController {
         var entriesToCreate = representationByID
         
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
+        let moc = CoreDataStack.shared.container.newBackgroundContext()
         
+        moc.perform {
         do {
             let existingEntries = try moc.fetch(fetchRequest)
             
@@ -147,7 +161,7 @@ class EntryController {
                 }
                 
                 // overwrites the core data values with the values from the server.
-                update(entry: entry, representation: representation)
+                self.update(entry: entry, representation: representation)
                 
                 // removes that item from the array and moves on to the next one.
                 entriesToCreate.removeValue(forKey: id)
@@ -161,7 +175,8 @@ class EntryController {
         } catch {
             print("Error fetching tasks for identifiers: \(error)")
         }
-        saveToPersistentStore()
+        }
+        try CoreDataStack.shared.save(context: moc)
     }
     
     // MARK: - Delete from Server
