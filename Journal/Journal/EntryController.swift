@@ -13,7 +13,7 @@ class EntryController {
     
     typealias CompletionHandler = (Error?) -> Void
     
-    private let baseURL = URL(string: "https://journal-a8d8c.firebaseio.com/")!
+    private let baseURL = URL(string: "https://journal-a8d8c.firebaseio.com/alexthompson")!
     
     init() {
         fetchTasksFromServer()
@@ -40,7 +40,7 @@ class EntryController {
                 
                 //Todo: Update the entries
                 
-                try self.updateEntry(with: entryRepresentations)
+                try self.updateEntry(with: entryRepresentations, context: CoreDataStack.shared.mainContext)
                 completion(nil)
             } catch {
                 print("Error decoding entry represnetations: \(error)")
@@ -63,7 +63,7 @@ class EntryController {
             }
             representation.identifier = uuid.uuidString
             entry.identifier = uuid
-            try saveToPersistentStore()
+            try CoreDataStack.shared.save()
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
             print("Error encoding entry \(entry): \(error)")
@@ -101,71 +101,62 @@ class EntryController {
             completion(error)
         }.resume()
     }
+
     
-    private func saveToPersistentStore() throws {
-        let moc = CoreDataStack.shared.mainContext
-        try moc.save()
-    }
     
-    private func updateEntry(with representations: [EntryRepresentation]) throws {
-        let entriesWithID = representations.filter { $0.identifier != nil }
-    
-    let identifiersToFetch = entriesWithID.compactMap { rep -> UUID?
-        in
-        return UUID(uuidString: rep.identifier!)
-    }
-    
-    let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
-        
-        var entriesToCreate = representationsByID
-        
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let context = CoreDataStack.shared.mainContext
-        
-        do {
-            let existingEntries = try context.fetch(fetchRequest)
+    private func updateEntry(with representations: [EntryRepresentation], context: NSManagedObjectContext) throws {
+        context.perform {
+            let entriesWithID = representations.filter { $0.identifier != nil }
             
-            for entry in existingEntries {
-                guard let id = entry.identifier,
-                    let representation = representationsByID[id] else {
-                        let moc = CoreDataStack.shared.mainContext
-                        moc.delete(entry)
-                        continue
+            let identifiersToFetch = entriesWithID.compactMap { rep -> UUID?
+                in
+                return UUID(uuidString: rep.identifier!)
+                
+                
+            }
+            
+            let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
+            
+            var entriesToCreate = representationsByID
+            
+            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+            let context = CoreDataStack.shared.container.newBackgroundContext()
+            
+            context.perform {
+                do {
+                    let existingEntries = try context.fetch(fetchRequest)
+                    
+                    for entry in existingEntries {
+                        guard let id = entry.identifier,
+                            let representation = representationsByID[id]
+                            else {
+                                let moc = CoreDataStack.shared.mainContext
+                                moc.delete(entry)
+                                continue
+                                
+                        }
+                        
+                        
+                        
+                        entry.title = representation.title
+                        entry.bodyTitle = representation.bodyTitle
+                        entry.mood = representation.mood
+                        
+                        entriesToCreate.removeValue(forKey: id)
+                    }
+                    
+                    for representation in entriesToCreate.values {
+                        Entry(entryRepresentation: representation, context: context)
+                    }
+                } catch {
+                    print("Error fetching entries for UUIDs: \(error)")
                 }
-                
-                entry.title = representation.title
-                entry.bodyTitle = representation.bodyTitle
-                entry.mood = representation.mood
-                
-                entriesToCreate.removeValue(forKey: id)
             }
-            
-            for representation in entriesToCreate.values {
-                Entry(entryRepresentation: representation, context: context)
-            }
-        } catch {
-            print("Error fetching entries for UUIDs: \(error)")
         }
-        try saveToPersistentStore()
+        
+        try CoreDataStack.shared.save(context: context)
+        
     }
-    
-//    func createEntry(with title: String, bodyTitle: String, mood: Mood, context: NSManagedObjectContext) {
-//
-//        Entry(title: title, bodyTitle: bodyTitle, mood: mood, context: context)
-//        CoreDataStack.shared.saveToPersistenceStore()
-//    }
-//
-//    func updateEntry(entry: Entry, with title: String, bodyTitle: String, mood: Mood) {
-//        entry.title = title
-//        entry.bodyTitle = bodyTitle
-//        entry.mood = mood.rawValue
-//        CoreDataStack.shared.saveToPersistenceStore()
-//    }
-//
-//    func deleteEntry(entry: Entry) {
-//        CoreDataStack.shared.mainContext.delete(entry)
-//        CoreDataStack.shared.saveToPersistenceStore()
-//    }
 }
 
 
