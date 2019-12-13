@@ -83,11 +83,8 @@ class EntryController {
         
         let entry = Entry(title: title, bodyText: bodyText, mood: mood, timeStamp: timeStamp)
         put(entry: entry)
-        do {
-            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
-        } catch {
-            print("Error saving object: \(error)")
-        }
+        CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+        
     }
     
     func update(entry: Entry, title: String, bodyText: String, mood: String) {
@@ -97,11 +94,8 @@ class EntryController {
         entry.mood = mood
         entry.timeStamp = Date()
         put(entry: entry)
-        do {
-            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
-        } catch {
-            print("Error saving object: \(error)")
-        }
+        CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
+        
         
     }
     
@@ -142,32 +136,31 @@ class EntryController {
         }
         
         
-        try CoreDataStack.shared.save(context: context)
+        CoreDataStack.shared.save(context: context)
     }
     
     func delete(for entry: Entry) {
+        CoreDataStack.shared.mainContext.delete(entry)
         deleteEntryFromServer(entry)
-        let moc = CoreDataStack.shared.mainContext
-        do {
-            moc.delete(entry)
-            try CoreDataStack.shared.save(context: moc)
-        } catch {
-            moc.reset()
-            print("Error deleting from MOC: \(error)")
-        }
+        CoreDataStack.shared.save()
     }
     
     func deleteEntryFromServer(_ entry: Entry, completion: @escaping CompletionHandler = { _ in}) {
-        guard let uuid = entry.identifier else {
+        guard let identifier = entry.identifier else {
             completion(NSError())
             return
         }
-        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        let requestURL = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
         
-        URLSession.shared.dataTask(with: request) { (_, _, error) in
-            completion(error)
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error deleting entry from server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
         }.resume()
     }
     

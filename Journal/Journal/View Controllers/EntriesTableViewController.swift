@@ -65,8 +65,9 @@ class EntriesTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             let entry = fetchedResultsController.object(at: indexPath)
+            entryController.delete(for: entry)
             let moc = CoreDataStack.shared.mainContext
-            moc.delete(entry)
+//            moc.delete(entry)
             do {
                 try moc.save()
                 tableView.reloadData()

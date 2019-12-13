@@ -28,18 +28,15 @@ class CoreDataStack {
         return container.viewContext
     }
     
-    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
-        var error: Error?
-        
-        //could be the main contect or a background context
+   func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         context.performAndWait {
             do {
                 try context.save()
-            } catch let saveError {
-                error = saveError
+            } catch {
+                NSLog("Unable to save context: \(error)")
+                context.reset()
             }
         }
-        if let error = error { throw error }
     }
     
 }
