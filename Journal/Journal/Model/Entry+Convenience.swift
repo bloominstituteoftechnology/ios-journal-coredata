@@ -23,17 +23,16 @@ extension Entry {
     
     var entryRepresentation: EntryRepresentation? {
         guard let title = title,
-            let mood = mood else {
-                return nil
-        }
-        return EntryRepresentation(title: title, bodyText: bodyText, mood: mood, timeStamp: timeStamp, identifier: identifier)
+            let timeStamp = timeStamp,
+            let mood = mood else { return nil }
+        return EntryRepresentation(title: title, bodyText: bodyText, mood: mood, timeStamp: timeStamp, identifier: identifier?.uuidString ?? UUID().uuidString)
     }
     
-    convenience init(title: String,
-                     bodyText: String,
+    convenience init(title: String?,
+                     bodyText: String?,
                      mood: String,
                      timeStamp: Date = Date(),
-                     identifier: String = UUID().uuidString,
+                     identifier: UUID = UUID(),
                      context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.title = title
@@ -48,11 +47,11 @@ extension Entry {
             let identifierString = entryRepresentation.identifier,
             let identifier = UUID(uuidString: identifierString) else { return nil }
         
-        self.init(title: entryRepresentation.title!,
-                  bodyText: entryRepresentation.bodyText!,
+        self.init(title: entryRepresentation.title,
+                  bodyText: entryRepresentation.bodyText,
                   mood: mood.rawValue,
                   timeStamp: entryRepresentation.timeStamp!,
-                  identifier: identifier.uuidString
+                  identifier: identifier
                   )
     }
 }
