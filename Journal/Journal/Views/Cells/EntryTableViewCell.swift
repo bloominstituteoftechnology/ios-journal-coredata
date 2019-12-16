@@ -76,9 +76,9 @@ class EntryTableViewCell: UITableViewCell {
         outerView.addArrangedSubview(innerView)
         outerView.addArrangedSubview(bodyTextLabel)
         NSLayoutConstraint.activate([
-            outerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            outerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             outerView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            outerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            outerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             outerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
