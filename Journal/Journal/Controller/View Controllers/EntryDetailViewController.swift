@@ -24,13 +24,18 @@ class EntryDetailViewController: UIViewController {
         return tv
     }()
     
-//    var entry: Entry?
-//    var entryController: EntryController?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    var entryController: EntryController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSubviews()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(handleSaveTapped))
+        updateViews()
     }
     
     private func setupSubviews() {
@@ -48,7 +53,21 @@ class EntryDetailViewController: UIViewController {
         ])
     }
     
+    private func updateViews() {
+        title = entry?.title ?? "Create Entry"
+        guard let entry = entry, self.isViewLoaded else { return }
+        titleTextField.text = entry.title
+        bodyTextView.text = entry.bodyText
+    }
+    
     @objc private func handleSaveTapped() {
-        
+        guard let title = titleTextField.text, !title.isEmpty, let bodyText = bodyTextView.text, !bodyText.isEmpty else { return }
+        if let entry = entry {
+            entryController?.update(entry: entry, title: title, bodyText: bodyText)
+            navigationController?.popViewController(animated: true)
+        } else {
+            entryController?.createEntry(title: title, bodyText: bodyText)
+            navigationController?.popViewController(animated: true)
+        }
     }
 }

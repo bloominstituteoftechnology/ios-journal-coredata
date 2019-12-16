@@ -54,7 +54,11 @@ class EntryTableViewCell: UITableViewCell {
         return formatter
     }()
     
-//    var entry: Entry?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -77,5 +81,12 @@ class EntryTableViewCell: UITableViewCell {
             outerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             outerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
+    }
+    
+    private func updateViews() {
+        guard let entry = entry, let timestamp = entry.timestamp else { return }
+        titleLabel.text = entry.title
+        bodyTextLabel.text = entry.bodyText
+        dateLabel.text = dateFormatter.string(from: timestamp)
     }
 }
