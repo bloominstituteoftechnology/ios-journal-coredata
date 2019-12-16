@@ -9,9 +9,16 @@
 import UIKit
 
 class EntriesTableViewController: UITableViewController {
+    
+    let entryController = EntryController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -23,14 +30,16 @@ class EntriesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return entryController.entries.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
+        let entry = entryController.entries[indexPath.row]
+        cell.entry = entry
 
-        // Configure the cell...
+        
 
         return cell
     }
@@ -41,7 +50,13 @@ class EntriesTableViewController: UITableViewController {
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     
+        switch editingStyle {
+        case .delete:
+            let entry = entryController.entries[indexPath.row]
+            entryController.delete(entry: entry)
+        default:
+            break
+        }
     }
     
 
@@ -50,9 +65,21 @@ class EntriesTableViewController: UITableViewController {
     
     // MARK: - Navigation
 
- 
+ // //
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
+        switch segue.identifier {
+        case "ShowCreateJournalEntrySegue":
+            guard let entryDetailVC = segue.destination as? EntryDetialViewController else { return }
+            entryDetailVC.entryController = entryController
+            
+        case "ShowJournalDetial":
+            guard let entryDetailVC = segue.destination as? EntryDetialViewController, let indexpath = tableView.indexPathForSelectedRow else { return }
+            let entry = entryController.entries[indexpath.row]
+            entryDetailVC.entry = entry
+            entryDetailVC.entryController = entryController
+        default:
+            break
+        }
     }
     
 
