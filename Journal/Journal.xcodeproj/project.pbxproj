@@ -15,6 +15,10 @@
 		E3667FAB23A81D3500E8D25E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E3667FA923A81D3500E8D25E /* LaunchScreen.storyboard */; };
 		E3667FB323A81E1700E8D25E /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3667FB223A81E1700E8D25E /* EntriesTableViewController.swift */; };
 		E3667FB523A81F0C00E8D25E /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3667FB423A81F0C00E8D25E /* EntryTableViewCell.swift */; };
+		E3667FB823A8230C00E8D25E /* Entry.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E3667FB623A8230C00E8D25E /* Entry.xcdatamodeld */; };
+		E3667FBA23A823D200E8D25E /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3667FB923A823D200E8D25E /* Entry+Convenience.swift */; };
+		E3667FBC23A8255800E8D25E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3667FBB23A8255800E8D25E /* CoreDataStack.swift */; };
+		E3667FBE23A828A900E8D25E /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3667FBD23A828A900E8D25E /* EntryController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +32,10 @@
 		E3667FAC23A81D3500E8D25E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E3667FB223A81E1700E8D25E /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 		E3667FB423A81F0C00E8D25E /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
+		E3667FB723A8230C00E8D25E /* Entry.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Entry.xcdatamodel; sourceTree = "<group>"; };
+		E3667FB923A823D200E8D25E /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
+		E3667FBB23A8255800E8D25E /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		E3667FBD23A828A900E8D25E /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,12 +71,16 @@
 				E3667F9E23A81D3200E8D25E /* AppDelegate.swift */,
 				E3667FA023A81D3200E8D25E /* SceneDelegate.swift */,
 				E3667FA223A81D3200E8D25E /* EntryDetialViewController.swift */,
+				E3667FB623A8230C00E8D25E /* Entry.xcdatamodeld */,
 				E3667FA423A81D3200E8D25E /* Main.storyboard */,
 				E3667FB423A81F0C00E8D25E /* EntryTableViewCell.swift */,
 				E3667FB223A81E1700E8D25E /* EntriesTableViewController.swift */,
 				E3667FA723A81D3500E8D25E /* Assets.xcassets */,
 				E3667FA923A81D3500E8D25E /* LaunchScreen.storyboard */,
 				E3667FAC23A81D3500E8D25E /* Info.plist */,
+				E3667FB923A823D200E8D25E /* Entry+Convenience.swift */,
+				E3667FBD23A828A900E8D25E /* EntryController.swift */,
+				E3667FBB23A8255800E8D25E /* CoreDataStack.swift */,
 			);
 			path = Journal;
 			sourceTree = "<group>";
@@ -144,11 +156,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3667FB823A8230C00E8D25E /* Entry.xcdatamodeld in Sources */,
 				E3667FB323A81E1700E8D25E /* EntriesTableViewController.swift in Sources */,
 				E3667FB523A81F0C00E8D25E /* EntryTableViewCell.swift in Sources */,
+				E3667FBE23A828A900E8D25E /* EntryController.swift in Sources */,
 				E3667FA323A81D3200E8D25E /* EntryDetialViewController.swift in Sources */,
 				E3667F9F23A81D3200E8D25E /* AppDelegate.swift in Sources */,
 				E3667FA123A81D3200E8D25E /* SceneDelegate.swift in Sources */,
+				E3667FBA23A823D200E8D25E /* Entry+Convenience.swift in Sources */,
+				E3667FBC23A8255800E8D25E /* CoreDataStack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,6 +360,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		E3667FB623A8230C00E8D25E /* Entry.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				E3667FB723A8230C00E8D25E /* Entry.xcdatamodel */,
+			);
+			currentVersion = E3667FB723A8230C00E8D25E /* Entry.xcdatamodel */;
+			path = Entry.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = E3667F9323A81D3200E8D25E /* Project object */;
 }
