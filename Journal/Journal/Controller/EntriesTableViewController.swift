@@ -1,5 +1,5 @@
 //
-//  JournalTableViewController.swift
+//  EntriesTableViewController.swift
 //  Journal
 //
 //  Created by Chad Rutherford on 12/16/19.
@@ -9,7 +9,7 @@
 import SwiftUI
 import UIKit
 
-class JournalTableViewController: UITableViewController {
+class EntriesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,8 +19,8 @@ class JournalTableViewController: UITableViewController {
     }
     
     @objc private func handleAddTapped() {
-        let journalDetailVC = JournalDetailViewController()
-        navigationController?.pushViewController(journalDetailVC, animated: true)
+        let entryDetailVC = EntryDetailViewController()
+        navigationController?.pushViewController(entryDetailVC, animated: true)
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -48,7 +48,7 @@ struct JournalPreview: PreviewProvider {
         }
         
         func makeUIViewController(context: UIViewControllerRepresentableContext<JournalPreview.ContainerView>) -> UIViewController {
-            return UINavigationController(rootViewController: JournalTableViewController())
+            return UINavigationController(rootViewController: EntriesTableViewController())
         }
     }
 }
