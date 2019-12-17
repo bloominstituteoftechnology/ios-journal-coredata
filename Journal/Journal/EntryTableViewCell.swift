@@ -18,7 +18,13 @@ class EntryTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
-
+    var entry: Entry?
+    
+    private func updateViews() {
+        title.text = entry?.title ?? "Create Task"
+        bodyText.text = entry?.bodyText
+        
+    }
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

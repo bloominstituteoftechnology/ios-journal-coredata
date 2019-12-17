@@ -16,6 +16,10 @@
 		D5A9A85A23A811DE0056D1AE /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A9A85923A811DE0056D1AE /* EntriesTableViewController.swift */; };
 		D5A9A85C23A813320056D1AE /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A9A85B23A813320056D1AE /* EntryTableViewCell.swift */; };
 		D5A9A85E23A820180056D1AE /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A9A85D23A820180056D1AE /* EntryDetailViewController.swift */; };
+		D5A9A86323A822DD0056D1AE /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A9A86223A822DD0056D1AE /* CoreDataStack.swift */; };
+		D5A9A86623A823430056D1AE /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D5A9A86423A823430056D1AE /* Journal.xcdatamodeld */; };
+		D5A9A86823A823C00056D1AE /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A9A86723A823C00056D1AE /* Entry+Convenience.swift */; };
+		D5A9A86D23A827750056D1AE /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5A9A86C23A827750056D1AE /* EntryController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +34,10 @@
 		D5A9A85923A811DE0056D1AE /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 		D5A9A85B23A813320056D1AE /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
 		D5A9A85D23A820180056D1AE /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
+		D5A9A86223A822DD0056D1AE /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		D5A9A86523A823430056D1AE /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
+		D5A9A86723A823C00056D1AE /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
+		D5A9A86C23A827750056D1AE /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +76,10 @@
 				D5A9A84B23A810AC0056D1AE /* Main.storyboard */,
 				D5A9A85D23A820180056D1AE /* EntryDetailViewController.swift */,
 				D5A9A85B23A813320056D1AE /* EntryTableViewCell.swift */,
+				D5A9A86223A822DD0056D1AE /* CoreDataStack.swift */,
+				D5A9A86423A823430056D1AE /* Journal.xcdatamodeld */,
+				D5A9A86C23A827750056D1AE /* EntryController.swift */,
+				D5A9A86723A823C00056D1AE /* Entry+Convenience.swift */,
 				D5A9A85923A811DE0056D1AE /* EntriesTableViewController.swift */,
 				D5A9A84E23A810AE0056D1AE /* Assets.xcassets */,
 				D5A9A85023A810AE0056D1AE /* LaunchScreen.storyboard */,
@@ -147,12 +159,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5A9A86323A822DD0056D1AE /* CoreDataStack.swift in Sources */,
+				D5A9A86823A823C00056D1AE /* Entry+Convenience.swift in Sources */,
+				D5A9A86D23A827750056D1AE /* EntryController.swift in Sources */,
 				D5A9A85A23A811DE0056D1AE /* EntriesTableViewController.swift in Sources */,
 				D5A9A85C23A813320056D1AE /* EntryTableViewCell.swift in Sources */,
 				D5A9A84A23A810AC0056D1AE /* ViewController.swift in Sources */,
 				D5A9A84623A810AC0056D1AE /* AppDelegate.swift in Sources */,
 				D5A9A85E23A820180056D1AE /* EntryDetailViewController.swift in Sources */,
 				D5A9A84823A810AC0056D1AE /* SceneDelegate.swift in Sources */,
+				D5A9A86623A823430056D1AE /* Journal.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,6 +364,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D5A9A86423A823430056D1AE /* Journal.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D5A9A86523A823430056D1AE /* Journal.xcdatamodel */,
+			);
+			currentVersion = D5A9A86523A823430056D1AE /* Journal.xcdatamodel */;
+			path = Journal.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = D5A9A83A23A810AB0056D1AE /* Project object */;
 }
