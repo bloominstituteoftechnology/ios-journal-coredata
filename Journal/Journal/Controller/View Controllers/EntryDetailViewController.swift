@@ -73,15 +73,24 @@ class EntryDetailViewController: UIViewController {
         guard let entry = entry, self.isViewLoaded else { return }
         titleTextField.text = entry.title
         bodyTextView.text = entry.bodyText
+        let mood: EntryMood
+        if let entryMood = entry.mood {
+            mood = EntryMood(rawValue: entryMood)!
+        } else {
+            mood = .happy
+        }
+        moodSegmentedControl.selectedSegmentIndex = EntryMood.allMoods.firstIndex(of: mood) ?? 0
     }
     
     @objc private func handleSaveTapped() {
         guard let title = titleTextField.text, !title.isEmpty, let bodyText = bodyTextView.text, !bodyText.isEmpty else { return }
+        let moodIndex = moodSegmentedControl.selectedSegmentIndex
+        let mood = EntryMood.allMoods[moodIndex]
         if let entry = entry {
-            entryController?.update(entry: entry, title: title, bodyText: bodyText)
+            entryController?.update(entry: entry, title: title, bodyText: bodyText, mood: mood.rawValue)
             navigationController?.popViewController(animated: true)
         } else {
-            entryController?.createEntry(title: title, bodyText: bodyText)
+            entryController?.createEntry(title: title, bodyText: bodyText, mood: mood.rawValue)
             navigationController?.popViewController(animated: true)
         }
     }
