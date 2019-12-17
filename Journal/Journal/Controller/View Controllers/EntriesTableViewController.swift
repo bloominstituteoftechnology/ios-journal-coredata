@@ -23,6 +23,8 @@ class EntriesTableViewController: UITableViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAddTapped))
         tableView.register(EntryTableViewCell.self, forCellReuseIdentifier: Cells.journalCell)
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 85.0
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,6 +75,10 @@ class EntriesTableViewController: UITableViewController {
         entryDetailVC.entryController = entryController
         entryDetailVC.entry = entry
         navigationController?.pushViewController(entryDetailVC, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
 }
 

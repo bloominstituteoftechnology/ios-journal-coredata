@@ -36,6 +36,7 @@ class EntryTableViewCell: UITableViewCell {
         sv.translatesAutoresizingMaskIntoConstraints = false
         sv.axis = .vertical
         sv.distribution = .fill
+        sv.spacing = 10
         return sv
     }()
     
@@ -76,10 +77,10 @@ class EntryTableViewCell: UITableViewCell {
         outerView.addArrangedSubview(innerView)
         outerView.addArrangedSubview(bodyTextLabel)
         NSLayoutConstraint.activate([
-            outerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            outerView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            outerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            outerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            outerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            outerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            outerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            outerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
         ])
     }
     

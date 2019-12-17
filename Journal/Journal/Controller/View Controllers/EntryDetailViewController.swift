@@ -10,10 +10,20 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
     
-    let titleTextField: UITextField = {
-        let tf = UITextField()
+    let moodSegmentedControl: UISegmentedControl = {
+        let sc = UISegmentedControl(items: ["😀", "☹️", "🎅🏽"])
+        sc.translatesAutoresizingMaskIntoConstraints = false
+        sc.selectedSegmentIndex = 0
+        return sc
+    }()
+    
+    let titleTextField: TitleTextField = {
+        let tf = TitleTextField()
         tf.translatesAutoresizingMaskIntoConstraints = false
         tf.placeholder = "Enter a title:"
+        tf.backgroundColor = .systemBackground
+        tf.layer.cornerRadius = 5
+        tf.layer.masksToBounds = true
         return tf
     }()
     
@@ -40,12 +50,17 @@ class EntryDetailViewController: UIViewController {
     
     private func setupSubviews() {
         view.backgroundColor = .opaqueSeparator
+        view.addSubview(moodSegmentedControl)
         view.addSubview(titleTextField)
         view.addSubview(bodyTextView)
         NSLayoutConstraint.activate([
+            moodSegmentedControl.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            moodSegmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            moodSegmentedControl.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             titleTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            titleTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            titleTextField.topAnchor.constraint(equalTo: moodSegmentedControl.bottomAnchor, constant: 8),
             titleTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            titleTextField.heightAnchor.constraint(equalToConstant: 44),
             bodyTextView.leadingAnchor.constraint(equalTo: titleTextField.leadingAnchor),
             bodyTextView.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 8),
             bodyTextView.trailingAnchor.constraint(equalTo: titleTextField.trailingAnchor),
