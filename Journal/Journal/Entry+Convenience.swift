@@ -9,13 +9,25 @@
 import CoreData
 import Foundation
 
+enum EntryMood: String {
+    case happy = "😃"
+    case netural = "😐"
+    case sad = "🙁"
+    
+    static var allMoods: [EntryMood] {
+        return [.happy, .netural, .sad]
+    }
+}
+
 extension Entry {
-   convenience init(title: String, bodyText: String? = nil , timestamp: Date = Date(), identifier: String = UUID().uuidString , context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init(title: String, bodyText: String? = nil , timestamp: Date = Date(), identifier: String = UUID().uuidString ,mood: String = "😃", context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(context: context)
         self.title = title
         self.bodytext = bodyText
         self.timestamp = timestamp
         self.identifier = identifier
+        self.mood = mood
     }
 }
+ 
