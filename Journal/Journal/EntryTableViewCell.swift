@@ -6,6 +6,7 @@
 //  Copyright © 2019 Lambda_School_Loaner_218. All rights reserved.
 //
 
+// commit 
 import UIKit
 
 class EntryTableViewCell: UITableViewCell {
