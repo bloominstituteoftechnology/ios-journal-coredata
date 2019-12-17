@@ -11,27 +11,12 @@ import Foundation
 
 class EntryController {
     
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
-    
     private func saveToPersistentStore() {
         let moc = CoreDataStack.shared.mainContext
         do {
             try moc.save()
         } catch let saveError {
             print("Error saving entries: \(saveError.localizedDescription)")
-        }
-    }
-    
-    private func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch let loadError {
-            print("Error loading entries: \(loadError.localizedDescription)")
-            return []
         }
     }
     
