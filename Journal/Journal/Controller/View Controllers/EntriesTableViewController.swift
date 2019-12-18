@@ -38,12 +38,12 @@ class EntriesTableViewController: UITableViewController {
         tableView.register(EntryTableViewCell.self, forCellReuseIdentifier: Cells.journalCell)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 85.0
+        self.refreshControl = UIRefreshControl()
+        refreshControl?.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl?.addTarget(self, action: #selector(refresh(_:)), for: .valueChanged)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.reloadData()
-    }
+    
     
     // --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
     // MARK: - Actions
@@ -51,6 +51,12 @@ class EntriesTableViewController: UITableViewController {
         let entryDetailVC = EntryDetailViewController()
         entryDetailVC.entryController = entryController
         navigationController?.pushViewController(entryDetailVC, animated: true)
+    }
+    
+    @objc func refresh(_ sender: Any) {
+        entryController.fetchEntriesFromServer { _ in
+            self.refreshControl?.endRefreshing()
+        }
     }
     
     // --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
