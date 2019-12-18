@@ -21,6 +21,10 @@ class EntryController {
     typealias CompletionHandler = (Error?) -> Void
     private let baseURL = URL(string: "https://journal-dca4e.firebaseio.com/")
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         let identifire = entry.identifier ?? UUID().uuidString
         guard let requestURL = baseURL?.appendingPathComponent(identifire).appendingPathExtension("json") else { return }
@@ -56,34 +60,15 @@ class EntryController {
         }.resume()
     }
     
-    var entries: [Entry] {
-       return loadFromPersistentStore()
-    }
-    
-    func saveToPersistentStore() {
+    func saveToPersistentStore() throws {
         let moc = CoreDataStack.shared.mainContext
-        do {
-            try moc.save()
-        } catch let saveError {
-            print("Error saving entries: \(saveError.localizedDescription)")
-        }
-    }
-    
-    func loadFromPersistentStore() ->[Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch let loadError {
-            print("Error loading entries: \(loadError.localizedDescription)")
-            return []
-        }
+        try moc.save()
     }
     
     func createEntry(title: String, bodyText: String, mood:String) {
         let entry = Entry(title: title, bodyText: bodyText, mood: mood)
         put(entry: entry)
-        saveToPersistentStore()
+        try? saveToPersistentStore()
     }
     
     func update(entry: Entry, title: String, bodyText: String, mood: String) {
@@ -92,7 +77,7 @@ class EntryController {
         entry.timestamp = Date()
         entry.mood = mood
         put(entry: entry)
-        saveToPersistentStore()
+        try? saveToPersistentStore()
     }
     
     func delete(entry: Entry) {
@@ -124,5 +109,75 @@ class EntryController {
                 completion(nil)
             }
         }.resume()
+    }
+    
+    private func update(entry: Entry, with representation: EntryRepresentation) {
+        entry.title = representation.title
+        entry.bodytext = representation.bodyText
+        entry.identifier = representation.identifier
+        entry.mood = representation.mood
+    }
+    
+    private func updateEntries(with repersentations: [EntryRepresentation]) throws {
+        let entriesWithID = repersentations.filter { $0.identifier != "" }
+        let iddentifiersToFetch = entriesWithID.compactMap { $0.identifier }
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(iddentifiersToFetch,entriesWithID))
+        var entriesToCreate = representationsByID
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", iddentifiersToFetch)
+        let moc = CoreDataStack.shared.mainContext
+        do {
+            let exsistingEntries = try moc.fetch(fetchRequest)
+            
+            for entry in exsistingEntries {
+                guard let id = entry.identifier,
+                    let representation = representationsByID[id] else { continue }
+                self.update(entry: entry, with: representation)
+                entriesToCreate.removeValue(forKey: id)
+               try? saveToPersistentStore()
+            }
+            
+            for representation in entriesToCreate.values {
+                Entry(entryRepresentation: representation, context: moc)
+                try saveToPersistentStore()
+            }
+        } catch let fetchError {
+            print("Error fetching entries for identifiers: \(fetchError.localizedDescription)")
+        }
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = {_ in }) {
+        guard let url = baseURL?.appendingPathExtension("json") else { return }
+        URLSession.shared.dataTask(with: url) { (data, _, error) in
+            if let error = error {
+                print("Error fetching entries: \(error.localizedDescription)")
+                DispatchQueue.main.async {
+                    completion(error)
+                }
+                return
+            }
+            guard let data = data else {
+                print("No data returned by data task")
+                DispatchQueue.main.async {
+                    completion(NSError())
+                }
+                return
+            }
+            let decoder = JSONDecoder()
+            do {
+                let entryRepresentations = Array(try decoder.decode([String: EntryRepresentation].self, from: data).values)
+                try self.updateEntries(with: entryRepresentations)
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+            } catch let decoderError {
+                print("Error decoding entry representations \(decoderError.localizedDescription)")
+                DispatchQueue.main.async {
+                    completion(decoderError)
+                }
+                return
+            }
+        }.resume()
+        
     }
 }
