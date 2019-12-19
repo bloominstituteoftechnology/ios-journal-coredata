@@ -40,7 +40,7 @@ class EntryController {
             
             representation.identifier = identifier
             entry.identifier = identifier
-            try saveToPersistentStore()
+            try CoreDataStack.shared.save()
             request.httpBody = try encoder.encode(representation)
         } catch let encodeError {
             print("Error encoding entry: \(encodeError.localizedDescription)")
@@ -66,7 +66,7 @@ class EntryController {
     func createEntry(title: String, bodyText: String, mood: String) {
         let entry = Entry(title: title, bodyText: bodyText, mood: mood)
         put(entry: entry)
-        try? saveToPersistentStore()
+        try? CoreDataStack.shared.save()
     }
     
     func update(entry: Entry, title: String, bodyText: String, mood: String) {
@@ -75,7 +75,7 @@ class EntryController {
         entry.mood = mood
         entry.timestamp = Date()
         put(entry: entry)
-        try? saveToPersistentStore()
+        try? CoreDataStack.shared.save()
     }
     
     func delete(entry: Entry) {
@@ -125,25 +125,27 @@ class EntryController {
         var entriesToCreate = representationsByID
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
-        let moc = CoreDataStack.shared.mainContext
-        do {
-            let existingEntries = try moc.fetch(fetchRequest)
-            
-            for entry in existingEntries {
-                guard let id = entry.identifier,
-                    let representation = representationsByID[id] else { continue }
-                self.update(entry: entry, with: representation)
-                entriesToCreate.removeValue(forKey: id)
-                try saveToPersistentStore()
+        let moc = CoreDataStack.shared.container.newBackgroundContext()
+        
+        moc.perform {
+            do {
+                let existingEntries = try moc.fetch(fetchRequest)
+                
+                for entry in existingEntries {
+                    guard let id = entry.identifier,
+                        let representation = representationsByID[id] else { continue }
+                    self.update(entry: entry, with: representation)
+                    entriesToCreate.removeValue(forKey: id)
+                }
+                
+                for representation in entriesToCreate.values {
+                    Entry(entryRepresentation: representation, context: moc)
+                }
+            } catch let fetchError {
+                print("Error fetching entries for identifiers: \(fetchError.localizedDescription)")
             }
-            
-            for representation in entriesToCreate.values {
-                Entry(entryRepresentation: representation, context: moc)
-                try saveToPersistentStore()
-            }
-        } catch let fetchError {
-            print("Error fetching entries for identifiers: \(fetchError.localizedDescription)")
         }
+        try CoreDataStack.shared.save(context: moc)
     }
     
     func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
