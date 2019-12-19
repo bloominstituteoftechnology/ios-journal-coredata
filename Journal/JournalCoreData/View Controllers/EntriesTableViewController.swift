@@ -18,7 +18,7 @@ class EntriesTableViewController: UITableViewController {
            let moc = CoreDataStack.shared.mainContext
            let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
            frc.delegate = self
-           try! frc.performFetch()
+           try? frc.performFetch()
            return frc
        }()
 
@@ -29,7 +29,9 @@ class EntriesTableViewController: UITableViewController {
     }
     
     // MARK: - Table view data source
-    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return fetchedResultsController.sections?[section].name
+    }
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
     }
@@ -43,7 +45,8 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
         
-        cell.titleLabel?.text = fetchedResultsController.object(at: indexPath).title
+        let entry = fetchedResultsController.object(at: indexPath)
+        cell.entry = entry
         return cell
     }
     

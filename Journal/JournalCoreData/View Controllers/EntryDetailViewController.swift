@@ -10,6 +10,8 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
     @IBOutlet weak var moodControl: UISegmentedControl!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         updateViews()
@@ -26,6 +28,7 @@ class EntryDetailViewController: UIViewController {
         
         if let entry = entry {
             entryController?.update(entry: entry, title: title, bodyText: bodyText, mood: mood.rawValue)
+            //(entry: entry, title: title, bodyText: bodyText, mood: mood.rawValue)
         } else {
             entryController?.createEntry(with: title, bodyText: bodyText, mood: mood.rawValue)
         }
