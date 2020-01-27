@@ -14,25 +14,35 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var entryTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
     
+    var entryController: EntryController?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        updateViews()
     }
     
     @IBAction func saveEntry(_ sender: Any) {
+        guard let title = entryTextField.text,
+            let bodyText = entryTextView.text else { return }
+            
+        if let entry = entry {
+            entryController?.update(entry: entry, called: title, bodyText: bodyText, timeStamp: entry.timeStamp ?? Date(), identifier: entry.identifier ?? "" )
+        } else {
+            entryController?.createEntry(called: title, bodyText: bodyText, timeStamp: Date(), identifier: "")
+        }
+        navigationController?.popViewController(animated: true)
     }
     
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func updateViews() {
+        guard isViewLoaded else { return }
+        
+        title = entry?.title ?? "Create Entry"
+        entryTextField.text = entry?.title
+        entryTextView.text = entry?.bodyText
     }
-    */
-
 }

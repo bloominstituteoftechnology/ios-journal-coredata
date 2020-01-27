@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="063-wz-jw7" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" id="063-wz-jw7" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="063-wz-jw7" id="jvr-cW-fiE">
@@ -70,7 +70,7 @@
                                     <outlet property="bodyLabel" destination="TgD-Wr-oHT" id="UHz-03-8tT"/>
                                     <outlet property="dateLabel" destination="p2E-CE-VHP" id="umk-Lt-GRI"/>
                                     <outlet property="entryTitleLabel" destination="I9X-AL-fSP" id="pGJ-Pa-lw6"/>
-                                    <segue destination="g8B-5d-0Le" kind="show" identifier="EntreyDetailShowSegue" id="0x2-2A-Uql"/>
+                                    <segue destination="g8B-5d-0Le" kind="show" identifier="EntryDetailShowSegue" id="0x2-2A-Uql"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -112,7 +112,7 @@
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" white="0.8689890125570775" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="lMS-yr-Kgv" firstAttribute="leading" secondItem="hqI-4l-v99" secondAttribute="leading" constant="20" id="0qk-c8-4Vt"/>
                             <constraint firstItem="kZh-IJ-D6a" firstAttribute="top" secondItem="hqI-4l-v99" secondAttribute="top" constant="10" id="2O9-Jk-IiP"/>
@@ -158,6 +158,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="YPj-Da-04o"/>
+        <segue reference="0x2-2A-Uql"/>
     </inferredMetricsTieBreakers>
 </document>
