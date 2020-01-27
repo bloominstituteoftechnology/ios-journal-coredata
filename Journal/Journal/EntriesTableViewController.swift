@@ -10,34 +10,41 @@ import UIKit
 
 class EntriesTableViewController: UITableViewController {
 
+    // MARK: - Properties
+    
+    let entryController = EntryController()
+    
+    var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return entryController.entries.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? EntryTableViewCell else {return UITableViewCell()}
 
-        // Configure the cell...
-
+        let entry = entryController.entries[indexPath.row]
+        cell.titleLabel.text = entry.title
+        cell.bodyLabel.text = entry.bodyText
+        cell.timeLabel.text = "\(dateFormatter.string(from: entry.timestamp!))"
+       
         return cell
     }
     
@@ -50,7 +57,9 @@ class EntriesTableViewController: UITableViewController {
     }
     */
 
-    /*
+    /* ADD LATER
+     Implement the commit editingStyle UITableViewDataSource method to allow the user to swipe to delete entries. You don't have to handle the editingStyle being .insert, just .delete.
+     */
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -60,7 +69,7 @@ class EntriesTableViewController: UITableViewController {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.
@@ -76,15 +85,26 @@ class EntriesTableViewController: UITableViewController {
         return true
     }
     */
-
-    /*
+    
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "AddEntrySegue" {
+            print("AddEntrySegue")
+            if let detailVC = segue.destination as? EntryDetailViewController {
+                detailVC.entryController = entryController
+            }
+            
+        }
+        
+        if segue.identifier == "DetailSegue" {
+            print("DetailSegue")
+            if let detailVC = segue.destination as? EntryDetailViewController, let indexPath = tableView.indexPathForSelectedRow {
+                detailVC.entryController = entryController
+                detailVC.entry = entryController.entries[indexPath.row]
+            }
+        }
     }
-    */
+    
 
 }

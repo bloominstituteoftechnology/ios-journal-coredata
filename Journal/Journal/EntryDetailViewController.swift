@@ -10,29 +10,44 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
 
+    // MARK: - Properties
+    
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var textView: UITextView!
     
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    var entryController: EntryController?
+    
     @IBAction func saveTapped(_ sender: UIBarButtonItem) {
         print("save tapped")
+        guard let title = textField.text, let body = textView.text, !title.isEmpty, !body.isEmpty else {return}
+        print("title and body text exist")
+        if let entry = entry {
+            entryController?.update(title: title, bodyText: body, entry: entry)
+        } else {
+            entryController?.createEntry(title: title,
+                                         bodyText: body,
+                                         timestamp: Date(),
+                                         identifier: "\(Int.random(in: 1...690))")
+        }
         navigationController?.popViewController(animated: true)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        updateViews()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func updateViews() {
+        guard isViewLoaded else {return}
+        
+        title = entry?.title ?? "Create Entry"
+        textField.text = entry?.title ?? ""
+        textView.text = entry?.bodyText ?? ""
     }
-    */
-
 }

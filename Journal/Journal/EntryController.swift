@@ -44,7 +44,7 @@ class EntryController {
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = Date()
-        print("UPDATED ENTRY: \(entry.title), \(entry.bodyText), \(entry.timestamp)")
+        //print("UPDATED ENTRY: \(entry.title), \(entry.bodyText), \(entry.timestamp)")
         saveToPersistentStore()
     }
     
