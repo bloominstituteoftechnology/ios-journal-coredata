@@ -19,16 +19,8 @@ class EntryTableViewCell: UITableViewCell {
         guard let entry = entry else {return}
         titleLabel.text = entry.title
         bodyTextLabel.text = entry.bodyText
-        formatDate()
-    }
-    
-    func formatDate() {
-        guard let timestamp = entry?.timestamp else {return}
-        let df = DateFormatter()
-        df.dateStyle = .short
-        df.timeStyle = .short
-        let dateString = df.string(from: timestamp)
-        dateLabel.text = dateString
+        guard let timestamp = entry.timestamp else{return}
+        dateLabel.text = Utility.formattedDate(date: timestamp)
     }
 
 }

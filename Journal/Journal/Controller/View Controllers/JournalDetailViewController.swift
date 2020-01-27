@@ -28,15 +28,18 @@ class JournalDetailViewController: UIViewController {
             !bodyText.isEmpty
         else {return}
         journalEntry?.title = title
+        journalEntry?.bodyText = bodyText
+        journalEntry?.timestamp = Date()
         #warning("implement identifier")
+        //context here
         let _ = Entry(title: title, bodyText: bodyText, timestamp: Date(), identifier: "")
-        
-        do {
-            try CoreDataStack.shared.mainContext.save()
-            navigationController?.dismiss(animated: true, completion: nil)
-        } catch {
-            NSLog("Saving Task failed with error: \(error)")
-        }
+        //context -> coordinator -> persistent store here
+        //entryController.saveToPersistentStore
+        dismissView()
+    }
+    
+    @objc func dismissView() {
+        navigationController?.dismiss(animated: true, completion: nil)
     }
     
     private func updateViews() {
@@ -44,6 +47,12 @@ class JournalDetailViewController: UIViewController {
         title = journalEntry?.title ?? "New Entry"
         titleTextField.text = journalEntry?.title ?? ""
         bodyTextView.text = journalEntry?.bodyText ?? ""
+        if journalEntry == nil {
+            //save Button
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveTask))
+            //cancel Button
+            navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissView))
+        }
     }
 
 
