@@ -20,6 +20,7 @@ class EntryDetailViewController: UIViewController {
     
     @IBOutlet weak var entryTitleTextField: UITextField!
     @IBOutlet weak var entryBodyTextView: UITextView!
+    @IBOutlet weak var moodControl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,10 +30,21 @@ class EntryDetailViewController: UIViewController {
 
     @IBAction func saveEntry(_ sender: Any) {
         guard let title = entryTitleTextField.text, let bodyText = entryBodyTextView.text else { return }
+        var mood: Mood = .neutral
+        switch moodControl.selectedSegmentIndex {
+        case 0:
+            mood = .sad
+        case 1:
+            mood = .neutral
+        case 2:
+            mood = .happy
+        default:
+            mood = .neutral
+        }
         if let entry = entry {
-            entryController?.updateEntry(for: entry, title: title, bodyText: bodyText)
+            entryController?.updateEntry(for: entry, title: title, bodyText: bodyText, mood: mood.rawValue)
         } else {
-            entryController?.createEntry(title: title, bodyText: bodyText)
+            entryController?.createEntry(title: title, bodyText: bodyText, mood: mood.rawValue)
         }
         navigationController?.popViewController(animated: true)
     }
@@ -54,5 +66,15 @@ class EntryDetailViewController: UIViewController {
         title = entry?.title ?? "Create Entry"
         entryTitleTextField.text = entry?.title
         entryBodyTextView.text = entry?.bodyText
+        switch entry?.mood {
+        case Mood.sad.rawValue:
+            moodControl.selectedSegmentIndex = 0
+        case Mood.neutral.rawValue:
+            moodControl.selectedSegmentIndex = 1
+        case Mood.happy.rawValue:
+            moodControl.selectedSegmentIndex = 2
+        default:
+            moodControl.selectedSegmentIndex = 1
+        }
     }
 }

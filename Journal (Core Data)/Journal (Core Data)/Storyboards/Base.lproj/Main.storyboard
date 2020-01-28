@@ -88,15 +88,23 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0O6-Lj-iVG">
-                                <rect key="frame" x="20" y="160" width="374" height="34"/>
+                                <rect key="frame" x="20" y="211" width="374" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Ev6-hy-SzI">
+                                <rect key="frame" x="20" y="160" width="374" height="32"/>
+                                <segments>
+                                    <segment title="🙁"/>
+                                    <segment title="😐"/>
+                                    <segment title="🙂"/>
+                                </segments>
+                            </segmentedControl>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="1bR-O3-uU7">
-                                <rect key="frame" x="20" y="214" width="374" height="374"/>
+                                <rect key="frame" x="20" y="265" width="374" height="374"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="374" id="ymN-Pd-aBI"/>
+                                    <constraint firstAttribute="height" constant="374" id="n9e-dt-dJg"/>
                                 </constraints>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -105,12 +113,15 @@
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="1bR-O3-uU7" firstAttribute="top" secondItem="0O6-Lj-iVG" secondAttribute="bottom" constant="20" id="91p-cs-0gR"/>
-                            <constraint firstItem="hTv-8U-z0f" firstAttribute="trailing" secondItem="1bR-O3-uU7" secondAttribute="trailing" constant="20" id="Cde-HQ-ar7"/>
-                            <constraint firstItem="1bR-O3-uU7" firstAttribute="leading" secondItem="hTv-8U-z0f" secondAttribute="leading" constant="20" id="HgX-fj-PGS"/>
-                            <constraint firstItem="0O6-Lj-iVG" firstAttribute="leading" secondItem="hTv-8U-z0f" secondAttribute="leading" constant="20" id="IDJ-ou-mHE"/>
-                            <constraint firstItem="0O6-Lj-iVG" firstAttribute="top" secondItem="hTv-8U-z0f" secondAttribute="top" constant="20" id="Zd2-gy-Yku"/>
-                            <constraint firstItem="hTv-8U-z0f" firstAttribute="trailing" secondItem="0O6-Lj-iVG" secondAttribute="trailing" constant="20" id="dAD-Gt-zzu"/>
+                            <constraint firstItem="hTv-8U-z0f" firstAttribute="trailing" secondItem="0O6-Lj-iVG" secondAttribute="trailing" constant="20" id="DUD-37-H04"/>
+                            <constraint firstItem="0O6-Lj-iVG" firstAttribute="top" secondItem="Ev6-hy-SzI" secondAttribute="bottom" constant="20" id="JLE-3B-4c2"/>
+                            <constraint firstItem="Ev6-hy-SzI" firstAttribute="top" secondItem="hTv-8U-z0f" secondAttribute="top" constant="20" id="M8D-yw-0t3"/>
+                            <constraint firstItem="0O6-Lj-iVG" firstAttribute="leading" secondItem="hTv-8U-z0f" secondAttribute="leading" constant="20" id="QsR-aE-Sim"/>
+                            <constraint firstItem="hTv-8U-z0f" firstAttribute="trailing" secondItem="Ev6-hy-SzI" secondAttribute="trailing" constant="20" id="Smg-6V-9Tx"/>
+                            <constraint firstItem="1bR-O3-uU7" firstAttribute="top" secondItem="0O6-Lj-iVG" secondAttribute="bottom" constant="20" id="XoS-6y-qUd"/>
+                            <constraint firstItem="1bR-O3-uU7" firstAttribute="leading" secondItem="hTv-8U-z0f" secondAttribute="leading" constant="20" id="Z6S-wK-MpN"/>
+                            <constraint firstItem="hTv-8U-z0f" firstAttribute="trailing" secondItem="1bR-O3-uU7" secondAttribute="trailing" constant="20" id="rnD-UU-GKF"/>
+                            <constraint firstItem="Ev6-hy-SzI" firstAttribute="leading" secondItem="hTv-8U-z0f" secondAttribute="leading" constant="20" id="uUW-3f-t0e"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hTv-8U-z0f"/>
                     </view>
@@ -124,11 +135,12 @@
                     <connections>
                         <outlet property="entryBodyTextView" destination="1bR-O3-uU7" id="2MB-jE-mID"/>
                         <outlet property="entryTitleTextField" destination="0O6-Lj-iVG" id="gXd-HY-4YN"/>
+                        <outlet property="moodControl" destination="Ev6-hy-SzI" id="zd4-BN-iIa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vgu-R6-7kw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2084" y="205"/>
+            <point key="canvasLocation" x="2082.608695652174" y="204.91071428571428"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="dtu-Lh-5lV">

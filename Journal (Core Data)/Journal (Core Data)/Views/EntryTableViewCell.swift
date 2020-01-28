@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EntryTableViewCell: UITableViewCell {
+class EntryTableViewCell: UITableViewCell  {
 
     var entry: Entry? {
         didSet {
