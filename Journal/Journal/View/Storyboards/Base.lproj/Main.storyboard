@@ -7,16 +7,16 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
+        <!--Detail Navigation Controller-->
         <scene sceneID="tj3-Ea-6kV">
             <objects>
-                <navigationController modalPresentationStyle="fullScreen" id="8yA-Pg-NGw" sceneMemberID="viewController">
+                <navigationController modalPresentationStyle="fullScreen" id="8yA-Pg-NGw" customClass="DetailNavigationController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="2MW-ql-fYA">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="NB8-b5-QWb"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" destinationCreationSelector="DetailNavigationSegue" id="NB8-b5-QWb"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2zm-Lj-D9e" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -61,16 +61,15 @@
                                             </label>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="bIU-Fh-GtG">
                                                 <rect key="frame" x="0.0" y="45.5" width="374" height="589.5"/>
-                                                <color key="backgroundColor" systemColor="systemGreenColor" red="0.20392156859999999" green="0.78039215689999997" blue="0.34901960780000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="350" id="97p-dG-Wax"/>
-                                                </constraints>
-                                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="bIU-Fh-GtG" secondAttribute="trailing" id="G67-D0-t94"/>
+                                            <constraint firstItem="bIU-Fh-GtG" firstAttribute="leading" secondItem="hiN-QV-lEv" secondAttribute="leading" id="ui7-e8-0sU"/>
+                                        </constraints>
                                     </stackView>
                                 </subviews>
                             </stackView>
@@ -187,6 +186,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="MYJ-xE-wUS"/>
+        <segue reference="NB8-b5-QWb"/>
     </inferredMetricsTieBreakers>
 </document>

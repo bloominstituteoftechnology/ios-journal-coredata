@@ -34,6 +34,7 @@ class JournalTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
+            entryController.deleteEntry(entry: entryController.entries[indexPath.row])
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
@@ -41,7 +42,18 @@ class JournalTableViewController: UITableViewController {
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        
+        if segue.identifier == ADDENTRYSEGUE {
+            if let destination = segue.destination as? UINavigationController {
+                let destinationController = destination.topViewController as! JournalDetailViewController
+                destinationController.entryController = entryController
+            }
+        } else if segue.identifier == ENTRYDETAILSEGUE {
+            guard let indexPath = tableView.indexPathForSelectedRow,
+                let destination = segue.destination as? JournalDetailViewController
+            else {return}
+            destination.journalEntry = entryController.entries[indexPath.row]
+            destination.entryController = entryController
+        }
     }
 
 }
