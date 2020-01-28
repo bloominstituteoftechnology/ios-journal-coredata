@@ -93,29 +93,41 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IFZ-ht-Frc">
-                                <rect key="frame" x="20" y="140" width="374" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="C5w-kX-28q">
-                                <rect key="frame" x="20" y="182" width="374" height="680"/>
+                                <rect key="frame" x="20" y="221" width="374" height="641"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="EaL-xh-pZ7">
+                                <rect key="frame" x="20" y="140" width="374" height="32"/>
+                                <segments>
+                                    <segment title="☹️"/>
+                                    <segment title="😐"/>
+                                    <segment title="😃"/>
+                                </segments>
+                            </segmentedControl>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IFZ-ht-Frc">
+                                <rect key="frame" x="20" y="179" width="374" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="IFZ-ht-Frc" firstAttribute="leading" secondItem="CVV-fK-bcs" secondAttribute="leading" constant="20" id="3zS-CO-thC"/>
-                            <constraint firstItem="CVV-fK-bcs" firstAttribute="trailing" secondItem="C5w-kX-28q" secondAttribute="trailing" constant="20" id="Ced-5s-TPU"/>
-                            <constraint firstItem="C5w-kX-28q" firstAttribute="bottom" secondItem="CVV-fK-bcs" secondAttribute="bottom" id="D91-b1-DxQ"/>
-                            <constraint firstItem="C5w-kX-28q" firstAttribute="leading" secondItem="CVV-fK-bcs" secondAttribute="leading" constant="20" id="Lnm-T0-Uqp"/>
-                            <constraint firstItem="C5w-kX-28q" firstAttribute="top" secondItem="IFZ-ht-Frc" secondAttribute="bottom" constant="8" id="Vlv-CL-m3E"/>
-                            <constraint firstItem="CVV-fK-bcs" firstAttribute="trailing" secondItem="IFZ-ht-Frc" secondAttribute="trailing" constant="20" id="ium-Th-hcx"/>
-                            <constraint firstItem="C5w-kX-28q" firstAttribute="top" secondItem="IFZ-ht-Frc" secondAttribute="bottom" constant="8" id="nzp-GY-8kA"/>
-                            <constraint firstItem="IFZ-ht-Frc" firstAttribute="top" secondItem="CVV-fK-bcs" secondAttribute="top" id="sPx-sH-6Mt"/>
+                            <constraint firstItem="CVV-fK-bcs" firstAttribute="trailing" secondItem="IFZ-ht-Frc" secondAttribute="trailing" constant="20" id="7Jo-8v-DrO"/>
+                            <constraint firstItem="C5w-kX-28q" firstAttribute="top" secondItem="IFZ-ht-Frc" secondAttribute="bottom" constant="8" id="BmZ-db-Zn7"/>
+                            <constraint firstItem="EaL-xh-pZ7" firstAttribute="leading" secondItem="CVV-fK-bcs" secondAttribute="leading" constant="20" id="CuC-RX-6TO"/>
+                            <constraint firstItem="EaL-xh-pZ7" firstAttribute="top" secondItem="CVV-fK-bcs" secondAttribute="top" id="Gj6-Ra-xwF"/>
+                            <constraint firstItem="IFZ-ht-Frc" firstAttribute="top" secondItem="EaL-xh-pZ7" secondAttribute="bottom" constant="8" id="JcS-XI-DcI"/>
+                            <constraint firstItem="C5w-kX-28q" firstAttribute="top" secondItem="IFZ-ht-Frc" secondAttribute="bottom" constant="8" id="c3p-W2-aSi"/>
+                            <constraint firstItem="C5w-kX-28q" firstAttribute="leading" secondItem="CVV-fK-bcs" secondAttribute="leading" constant="20" id="kZh-Ad-RWW"/>
+                            <constraint firstItem="IFZ-ht-Frc" firstAttribute="leading" secondItem="CVV-fK-bcs" secondAttribute="leading" constant="20" id="lFM-0i-Wck"/>
+                            <constraint firstItem="CVV-fK-bcs" firstAttribute="trailing" secondItem="EaL-xh-pZ7" secondAttribute="trailing" constant="20" id="ljl-nV-8kd"/>
+                            <constraint firstItem="IFZ-ht-Frc" firstAttribute="top" secondItem="EaL-xh-pZ7" secondAttribute="bottom" constant="8" id="qhj-aE-7UF"/>
+                            <constraint firstItem="CVV-fK-bcs" firstAttribute="trailing" secondItem="C5w-kX-28q" secondAttribute="trailing" constant="20" id="w4b-pH-szM"/>
+                            <constraint firstItem="C5w-kX-28q" firstAttribute="bottom" secondItem="CVV-fK-bcs" secondAttribute="bottom" id="xkF-rV-dzy"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="CVV-fK-bcs"/>
                     </view>
@@ -127,6 +139,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="moodControl" destination="EaL-xh-pZ7" id="2g2-Ji-5IF"/>
                         <outlet property="textField" destination="IFZ-ht-Frc" id="Lvf-AO-s4Z"/>
                         <outlet property="textView" destination="C5w-kX-28q" id="YRa-R1-huW"/>
                     </connections>
