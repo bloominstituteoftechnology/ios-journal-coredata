@@ -199,18 +199,6 @@ class EntryController {
         // Save to persistent store
     }
     
-//    func delete(entry: Entry) {
-//
-//        deleteEntryFromServer(entry: entry)
-//        CoreDataStack.shared.mainContext.delete(entry)
-//
-//        do {
-//            try self.saveToPersistentStore()
-//        } catch {
-//            print("Some error message here:")
-//        }
-//    }
-    
 }
 
 
