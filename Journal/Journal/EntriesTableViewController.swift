@@ -23,6 +23,8 @@ class EntriesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(entryController.entries[0].mood)
+        print(entryController.entries[1].mood)
     }
     
     override func viewWillAppear(_ animated: Bool) {

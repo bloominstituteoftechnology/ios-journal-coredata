@@ -28,13 +28,18 @@ class EntryDetailViewController: UIViewController {
         print("save tapped")
         guard let title = textField.text, let body = textView.text, !title.isEmpty, !body.isEmpty else {return}
         print("title and body text exist")
+        
+        let moodIndex = moodControl.selectedSegmentIndex
+        let selectedMood = Mood.allMoods[moodIndex]
+        
         if let entry = entry {
-            entryController?.update(title: title, bodyText: body, entry: entry)
+            entryController?.update(title: title, bodyText: body, mood: selectedMood, entry: entry)
         } else {
             entryController?.createEntry(title: title,
                                          bodyText: body,
                                          timestamp: Date(),
-                                         identifier: "\(Int.random(in: 1...690))")
+                                         identifier: "\(Int.random(in: 1...690))",
+                                         mood: selectedMood)
         }
         navigationController?.popViewController(animated: true)
     }
@@ -50,5 +55,14 @@ class EntryDetailViewController: UIViewController {
         title = entry?.title ?? "Create Entry"
         textField.text = entry?.title ?? ""
         textView.text = entry?.bodyText ?? ""
+        
+        let selectedMood: Mood
+        if let unwrappedMood = entry?.mood {
+            selectedMood = Mood(rawValue: unwrappedMood)!
+        } else {
+            selectedMood = .neutral
+        }
+        moodControl.selectedSegmentIndex = Mood.allMoods.firstIndex(of: selectedMood) ?? 1
+        
     }
 }
