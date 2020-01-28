@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" destinationCreationSelector="DetailNavigationSegue" id="NB8-b5-QWb"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="NB8-b5-QWb"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2zm-Lj-D9e" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -31,27 +31,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="40" translatesAutoresizingMaskIntoConstraints="NO" id="Mo9-9m-HGU">
-                                <rect key="frame" x="20" y="113" width="374" height="709"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Mo9-9m-HGU">
+                                <rect key="frame" x="20" y="145.5" width="374" height="676.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="W3e-q5-skj">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="34"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="33.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IAS-I0-aeq">
-                                                <rect key="frame" x="0.0" y="0.0" width="60" height="34"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="60" height="33.5"/>
                                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wrf-7O-60K">
-                                                <rect key="frame" x="72" y="0.0" width="302" height="34"/>
+                                                <rect key="frame" x="72" y="0.0" width="302" height="33.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="hiN-QV-lEv">
-                                        <rect key="frame" x="0.0" y="74" width="374" height="635"/>
+                                        <rect key="frame" x="0.0" y="41.5" width="374" height="635"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Body:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nu1-YS-Tzk">
                                                 <rect key="frame" x="0.0" y="0.0" width="70" height="33.5"/>
@@ -73,19 +73,30 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="iky-ld-lM1">
+                                <rect key="frame" x="150.5" y="100" width="113" height="26.5"/>
+                                <segments>
+                                    <segment title="😢"/>
+                                    <segment title="😑"/>
+                                    <segment title="🤣"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="iky-ld-lM1" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="12" id="3j7-rN-OE1"/>
+                            <constraint firstItem="iky-ld-lM1" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="6SZ-fj-2Hb"/>
                             <constraint firstItem="Mo9-9m-HGU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="SEc-RY-k5m"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Mo9-9m-HGU" secondAttribute="bottom" constant="40" id="drl-AI-02p"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Mo9-9m-HGU" secondAttribute="trailing" constant="20" id="kJj-zB-uS6"/>
-                            <constraint firstItem="Mo9-9m-HGU" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="25" id="kau-64-ezO"/>
+                            <constraint firstItem="Mo9-9m-HGU" firstAttribute="top" secondItem="iky-ld-lM1" secondAttribute="bottom" constant="20" id="mLX-c5-QU4"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="S4l-U6-kcy"/>
                     <connections>
                         <outlet property="bodyTextView" destination="bIU-Fh-GtG" id="YjR-UW-5LP"/>
+                        <outlet property="segmentedControl" destination="iky-ld-lM1" id="GlD-Zv-ycL"/>
                         <outlet property="titleTextField" destination="wrf-7O-60K" id="Izu-WS-zDg"/>
                     </connections>
                 </viewController>
@@ -186,6 +197,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="MYJ-xE-wUS"/>
+        <segue reference="NB8-b5-QWb"/>
     </inferredMetricsTieBreakers>
 </document>

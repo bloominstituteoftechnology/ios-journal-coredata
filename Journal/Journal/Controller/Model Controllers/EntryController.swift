@@ -14,12 +14,17 @@ class EntryController {
     var entries: [Entry] {
         return loadFromPersistentStore()
     }
+    
+    let save = {
+        CoreDataStack.shared.saveToPersistentStore()
+    }
+    
     let context = CoreDataStack.shared.mainContext
     
     //MARK: Create
     func createEntry(title: String, bodyText: String) {
         let _ = Entry(title: title, bodyText: bodyText, timestamp: Date(), identifier: UUID())
-        saveToPersistentStore()
+        save()
     }
     
     //MARK: Read
@@ -37,29 +42,17 @@ class EntryController {
         }
     }
     
-    //MARK: Update
-    /**
-     Saves whatever changes are in the mainContext
-     */
-    func saveToPersistentStore() {
-           do {
-               try CoreDataStack.shared.mainContext.save()
-           } catch {
-               NSLog("Saving Task failed with error: \(error)")
-           }
-    }
-    
     func updateEntry(newTitle: String, newBodyText: String, entry: Entry) {
         entry.title = newTitle
         entry.bodyText = newBodyText
         entry.timestamp = Date()
-        saveToPersistentStore()
+        save()
     }
     
     //MARK: Delete
     func deleteEntry(entry: Entry) {
         context.delete(entry)
-        saveToPersistentStore()
+        save()
     }
     
 }

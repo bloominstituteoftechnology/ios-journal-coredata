@@ -12,6 +12,7 @@ class JournalDetailViewController: UIViewController {
     //MARK: Outlets
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     //MARK: Properties
     var journalEntry: Entry?
@@ -37,6 +38,12 @@ class JournalDetailViewController: UIViewController {
         } else {
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Update", style: .done, target: self, action: #selector(updateEntry))
         }
+    }
+    
+    #warning("check if used at time of PR")
+    @objc func cancelEdit() {
+        CoreDataStack.shared.mainContext.reset()
+        dismissView()
     }
     
     @objc func dismissView() {
