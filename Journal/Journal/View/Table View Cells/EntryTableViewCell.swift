@@ -13,7 +13,11 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var bodyTextLabel: UILabel!
     
-    var entry: Entry?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
     
     func updateViews() {
         guard let entry = entry else {return}

@@ -9,11 +9,12 @@
 import Foundation
 
 //MARK: CoreData
-let MODELNAME = "Entry"
+let MODELNAME = "Journal"
 
 
 //MARK: Segues
-let JOURNALDETAILSEGUE = "ShowJournalDetail"
+let ENTRYDETAILSEGUE = "ShowJournalDetail"
+let ADDENTRYSEGUE = "AddEntryModalSegue"
 
 //MARK: TableView Cells
 let ENTRYCELLIDENTIFIER = "EntryCell"

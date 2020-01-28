@@ -15,6 +15,7 @@ class JournalDetailViewController: UIViewController {
     
     
     var journalEntry: Entry?
+    var entryController: EntryController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,11 +31,8 @@ class JournalDetailViewController: UIViewController {
         journalEntry?.title = title
         journalEntry?.bodyText = bodyText
         journalEntry?.timestamp = Date()
-        #warning("implement identifier")
-        //context here
-        let _ = Entry(title: title, bodyText: bodyText, timestamp: Date(), identifier: "")
-        //context -> coordinator -> persistent store here
-        //entryController.saveToPersistentStore
+        journalEntry?.identifier = UUID()
+        entryController?.createEntry(title: title, bodyText: bodyText)
         dismissView()
     }
     

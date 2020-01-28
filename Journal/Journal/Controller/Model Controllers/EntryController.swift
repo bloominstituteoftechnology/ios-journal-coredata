@@ -10,12 +10,36 @@ import Foundation
 import CoreData
 
 class EntryController {
+    //MARK: Properties
     var entries: [Entry] {
         return loadFromPersistentStore()
     }
+    let context = CoreDataStack.shared.mainContext
     
+    //MARK: Create
+    func createEntry(title: String, bodyText: String) {
+        let _ = Entry(title: title, bodyText: bodyText, timestamp: Date(), identifier: UUID())
+        saveToPersistentStore()
+    }
+    
+    //MARK: Read
     /**
-     This method saves whatever changes are in the mainContext
+     Loads all Journal Entries from Persistent Store
+     */
+    func loadFromPersistentStore() -> [Entry] {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        
+        do {
+            return try context.fetch(fetchRequest)
+        } catch {
+            NSLog("Error fetching entries: \(error)")
+            return []
+        }
+    }
+    
+    //MARK: Update
+    /**
+     Saves whatever changes are in the mainContext
      */
     func saveToPersistentStore() {
            do {
@@ -25,14 +49,21 @@ class EntryController {
            }
     }
     
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let context = CoreDataStack.shared.mainContext
-        do {
-            return try context.fetch(fetchRequest)
-        } catch {
-            NSLog("Error fetching tasks: \(error)")
-            return []
+    func updateEntry(newTitle: String, newBodyText: String, entry: Entry) {
+        guard let index = entries.firstIndex(of: entry) else {
+            print("no match found")
+            return
         }
+        let updatedEntry = entries[index]
+        updatedEntry.title = newTitle
+        updatedEntry.bodyText = newBodyText
+        saveToPersistentStore()
     }
+    
+    //MARK: Delete
+    func deleteEntry(entry: Entry) {
+        context.delete(entry)
+        saveToPersistentStore()
+    }
+    
 }
