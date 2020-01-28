@@ -27,7 +27,7 @@ class EntryTableViewCell: UITableViewCell {
         bodyLabel.text = entry.bodyText
         
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd-MM-yy, H:MM a"
+        formatter.dateFormat = "dd-MM-yy, hh:mm a"
         if let date = entry.timeStamp {
             dateLabel.text = formatter.string(from: date)
         }
