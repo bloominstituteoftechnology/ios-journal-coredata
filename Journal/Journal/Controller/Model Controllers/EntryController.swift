@@ -9,6 +9,16 @@
 import Foundation
 import CoreData
 
+enum MoodType: String {
+    case neutral = "😑"
+    case happy = "🤣"
+    case sad = "😢"
+    
+    static var allMoods: [MoodType] {
+        return [.neutral, .happy, .sad]
+    }
+}
+
 class EntryController {
     //MARK: Properties
     var entries: [Entry] {
@@ -22,8 +32,8 @@ class EntryController {
     let context = CoreDataStack.shared.mainContext
     
     //MARK: Create
-    func createEntry(title: String, bodyText: String) {
-        let _ = Entry(title: title, bodyText: bodyText, timestamp: Date(), identifier: UUID())
+    func createEntry(title: String, bodyText: String, mood: MoodType) {
+        let _ = Entry(title: title, bodyText: bodyText, timestamp: Date(), identifier: UUID(), mood: mood.rawValue)
         save()
     }
     
@@ -42,10 +52,11 @@ class EntryController {
         }
     }
     
-    func updateEntry(newTitle: String, newBodyText: String, entry: Entry) {
+    func updateEntry(newTitle: String, newBodyText: String, entry: Entry, mood: MoodType) {
         entry.title = newTitle
         entry.bodyText = newBodyText
         entry.timestamp = Date()
+        entry.mood = mood.rawValue
         save()
     }
     

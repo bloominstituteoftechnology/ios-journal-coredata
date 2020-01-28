@@ -61,11 +61,12 @@ class JournalDetailViewController: UIViewController {
             let bodyText = bodyTextView.text,
             !bodyText.isEmpty
         else {return}
+        let moodType = MoodType.allMoods[segmentedControl.selectedSegmentIndex]
 //        journalEntry?.title = title
 //        journalEntry?.bodyText = bodyText
 //        journalEntry?.timestamp = Date()
 //        journalEntry?.identifier = UUID()
-        entryController?.createEntry(title: title, bodyText: bodyText)
+        entryController?.createEntry(title: title, bodyText: bodyText, mood: moodType)
         dismissView()
     }
     
@@ -76,7 +77,7 @@ class JournalDetailViewController: UIViewController {
             let newBodyText = bodyTextView.text,
             !newBodyText.isEmpty
         else {return}
-        entryController?.updateEntry(newTitle: newTitle, newBodyText: newBodyText, entry: entry)
+        entryController?.updateEntry(newTitle: newTitle, newBodyText: newBodyText, entry: entry, mood: MoodType.allMoods[segmentedControl.selectedSegmentIndex])
         dismissView()
     }
     
