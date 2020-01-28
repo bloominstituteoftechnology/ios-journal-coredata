@@ -8,6 +8,9 @@
 
 import UIKit
 
+/**
+ passthrough to get entryController to DetailViewController
+ */
 class DetailNavigationController: UINavigationController {
-
+    
 }

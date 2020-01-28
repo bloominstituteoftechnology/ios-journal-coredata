@@ -9,15 +9,15 @@
 import UIKit
 
 class JournalTableViewController: UITableViewController {
-    
+    //MARK: Properties
     let entryController = EntryController()
 
+    //MARK: View Lifecycle
     override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
     }
 
     // MARK: - Table view data source
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return entryController.entries.count
@@ -30,7 +30,8 @@ class JournalTableViewController: UITableViewController {
 
         return cell
     }
-    // Override to support editing the table view.
+    
+    //MARK: Delete TableView Rows
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source

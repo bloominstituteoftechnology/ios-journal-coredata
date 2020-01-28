@@ -9,6 +9,7 @@
 import UIKit
 
 class EntryTableViewCell: UITableViewCell {
+    //MARK: Properties
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var bodyTextLabel: UILabel!
@@ -19,7 +20,8 @@ class EntryTableViewCell: UITableViewCell {
         }
     }
     
-    func updateViews() {
+    //MARK: view methods
+    private func updateViews() {
         guard let entry = entry else {return}
         titleLabel.text = entry.title
         bodyTextLabel.text = entry.bodyText
