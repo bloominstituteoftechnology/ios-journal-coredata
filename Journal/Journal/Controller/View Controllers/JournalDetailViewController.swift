@@ -26,10 +26,6 @@ class JournalDetailViewController: UIViewController {
     
     private func updateViews() {
         guard isViewLoaded else { return }
-        bodyTextView.backgroundColor = .systemBackground
-        title = journalEntry?.title ?? "New Entry"
-        titleTextField.text = journalEntry?.title ?? ""
-        bodyTextView.text = journalEntry?.bodyText ?? ""
         if journalEntry == nil {
             //save Button
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEntry))
@@ -38,6 +34,13 @@ class JournalDetailViewController: UIViewController {
         } else {
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Update", style: .done, target: self, action: #selector(updateEntry))
         }
+        bodyTextView.backgroundColor = .systemBackground
+        title = journalEntry?.title ?? "New Entry"
+        titleTextField.text = journalEntry?.title ?? ""
+        bodyTextView.text = journalEntry?.bodyText ?? ""
+        guard let moodIndex = MoodType.allMoods.firstIndex(of: MoodType(rawValue: journalEntry?.mood ?? "😑") ?? .neutral) else {return}
+        segmentedControl.selectedSegmentIndex = moodIndex
+       
     }
     
     #warning("check if used at time of PR")

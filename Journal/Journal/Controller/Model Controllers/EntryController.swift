@@ -10,12 +10,11 @@ import Foundation
 import CoreData
 
 enum MoodType: String {
+    case sad = "😢"
     case neutral = "😑"
     case happy = "🤣"
-    case sad = "😢"
-    
     static var allMoods: [MoodType] {
-        return [.neutral, .happy, .sad]
+        return [.sad, .neutral, .happy]
     }
 }
 

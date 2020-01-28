@@ -15,6 +15,9 @@ class JournalTableViewController: UITableViewController {
     //MARK: View Lifecycle
     override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
+        for entry in entryController.entries {
+            print(entry.mood)
+        }
     }
 
     // MARK: - Table view data source
