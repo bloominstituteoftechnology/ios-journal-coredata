@@ -11,21 +11,20 @@ import CoreData
 
 class EntryController {
     
-    var entries: [Entry] {
-       loadFromPersistentStore()
-    }
-    
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let context = CoreDataStack.shared.mainContext
-            do {
-                return try context.fetch(fetchRequest)
-            } catch {
-                NSLog("Error fetching data: \(error)")
-                return []
-            }
-    }
-    
+//    var entries: [Entry] {
+//       loadFromPersistentStore()
+//    }
+//
+//    func loadFromPersistentStore() -> [Entry] {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let context = CoreDataStack.shared.mainContext
+//            do {
+//                return try context.fetch(fetchRequest)
+//            } catch {
+//                NSLog("Error fetching data: \(error)")
+//                return []
+//            }
+//    }
     
     func saveToPersistentStore() {
         do {
@@ -36,21 +35,22 @@ class EntryController {
         }
     }
     
-    @discardableResult func createEntry(with title: String, timestamp: Date, bodyText: String, identifier: String) -> Entry {
+    @discardableResult func createEntry(with title: String, timestamp: Date, bodyText: String, identifier: String, mood: String) -> Entry {
         
-        let entry = Entry(title: title, timestamp: timestamp, bodyText: bodyText, identifier: identifier, context: CoreDataStack.shared.mainContext)
+        let entry = Entry(title: title, timestamp: timestamp, bodyText: bodyText, identifier: identifier, mood: mood, context: CoreDataStack.shared.mainContext)
         
         saveToPersistentStore()
         
         return entry
     }
     
-    func updateEntry(entry: Entry, with title: String, timestamp: Date, bodyText: String, identifier: String) {
+    func updateEntry(entry: Entry, with title: String, timestamp: Date, bodyText: String, identifier: String, mood: String) {
         
         entry.title = title
         entry.timestamp = Date()
         entry.bodyText = bodyText
         entry.identifier = identifier
+        entry.mood = mood
         
         saveToPersistentStore()
     }

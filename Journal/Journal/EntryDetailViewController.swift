@@ -13,6 +13,8 @@ class EntryDetailViewController: UIViewController {
 // MARK: - Outlets
     @IBOutlet weak var titleTF: UITextField!
     @IBOutlet weak var bodyTV: UITextView!
+    @IBOutlet weak var moodSC: UISegmentedControl!
+    
 // MARK: - Properties
     var entry: Entry? {
         didSet {
@@ -20,6 +22,7 @@ class EntryDetailViewController: UIViewController {
         }
     }
     var entryController = EntryController()
+    
 // MARK: - View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,10 +32,12 @@ class EntryDetailViewController: UIViewController {
     @IBAction func save(_ sender: Any) {
         guard let title = titleTF.text, let bodyText = bodyTV.text, !title.isEmpty else { return }
         
+        let mood = EntryMood.allCases[moodSC.selectedSegmentIndex]
+        
         if let entry = entry {
-            entryController.updateEntry(entry: entry, with: title, timestamp: entry.timestamp ?? Date(), bodyText: bodyText, identifier: entry.identifier ?? "")
+            entryController.updateEntry(entry: entry, with: title, timestamp: entry.timestamp ?? Date(), bodyText: bodyText, identifier: entry.identifier ?? "", mood: mood.rawValue)
         } else {
-            entryController.createEntry(with: title, timestamp: Date(), bodyText: bodyText, identifier: "")
+            entryController.createEntry(with: title, timestamp: Date(), bodyText: bodyText, identifier: "", mood: "🤪")
         }
         navigationController?.popViewController(animated: true)
         
@@ -43,6 +48,11 @@ class EntryDetailViewController: UIViewController {
         title = entry?.title ?? "Create Entry"
         titleTF.text = entry?.title
         bodyTV.text = entry?.bodyText
+        
+        if let entryMood = entry?.mood,
+            let mood = EntryMood(rawValue: entryMood) {
+            moodSC.selectedSegmentIndex = EntryMood.allCases.firstIndex(of: mood) ?? 2
+        }
     }
     
 
