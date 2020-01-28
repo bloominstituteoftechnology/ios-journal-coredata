@@ -12,6 +12,7 @@ class EntryDetailViewController: UIViewController {
     
     @IBOutlet weak var entryTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     var entryController: EntryController?
     var entry: Entry? {
@@ -28,11 +29,14 @@ class EntryDetailViewController: UIViewController {
     @IBAction func saveEntry(_ sender: Any) {
         guard let title = entryTextField.text,
             let bodyText = entryTextView.text else { return }
+        
+        let index = segmentedControl.selectedSegmentIndex
+        let mood = Mood.allCases[index]
             
         if let entry = entry {
-            entryController?.update(entry: entry, called: title, bodyText: bodyText, timeStamp: entry.timeStamp ?? Date(), identifier: entry.identifier ?? "" )
+            entryController?.update(entry: entry, called: title, bodyText: bodyText, timeStamp: entry.timeStamp ?? Date(), identifier: entry.identifier ?? "", mood: mood.rawValue)
         } else {
-            entryController?.createEntry(called: title, bodyText: bodyText, timeStamp: Date(), identifier: "")
+            entryController?.createEntry(called: title, bodyText: bodyText, timeStamp: Date(), identifier: "", mood: mood)
         }
         navigationController?.popViewController(animated: true)
     }
@@ -41,7 +45,15 @@ class EntryDetailViewController: UIViewController {
         guard isViewLoaded else { return }
         
         title = entry?.title ?? "Create Entry"
+        
         entryTextField.text = entry?.title
         entryTextView.text = entry?.bodyText
+        
+        if let moodString = entry?.mood {
+            if let mood = Mood(rawValue: moodString) {
+                let index = Mood.allCases.firstIndex(of: mood) ?? 1
+                segmentedControl.selectedSegmentIndex = index
+            }
+        }
     }
 }
