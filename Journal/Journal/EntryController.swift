@@ -48,7 +48,7 @@ class EntryController {
     func updateEntry(entry: Entry, with title: String, timestamp: Date, bodyText: String, identifier: String) {
         
         entry.title = title
-        entry.timestamp = timestamp
+        entry.timestamp = Date()
         entry.bodyText = bodyText
         entry.identifier = identifier
         
