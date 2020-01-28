@@ -16,7 +16,7 @@ class JournalDetailViewController: UIViewController {
     //MARK: Properties
     var journalEntry: Entry?
     var entryController: EntryController?
-
+    
     //MARK: View Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +25,7 @@ class JournalDetailViewController: UIViewController {
     
     private func updateViews() {
         guard isViewLoaded else { return }
+        bodyTextView.backgroundColor = .systemBackground
         title = journalEntry?.title ?? "New Entry"
         titleTextField.text = journalEntry?.title ?? ""
         bodyTextView.text = journalEntry?.bodyText ?? ""
