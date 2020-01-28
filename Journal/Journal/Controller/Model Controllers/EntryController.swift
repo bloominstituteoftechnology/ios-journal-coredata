@@ -50,13 +50,9 @@ class EntryController {
     }
     
     func updateEntry(newTitle: String, newBodyText: String, entry: Entry) {
-        guard let index = entries.firstIndex(of: entry) else {
-            print("no match found")
-            return
-        }
-        let updatedEntry = entries[index]
-        updatedEntry.title = newTitle
-        updatedEntry.bodyText = newBodyText
+        entry.bodyText = newBodyText
+        entry.title = newTitle
+        entry.timestamp = Date()
         saveToPersistentStore()
     }
     

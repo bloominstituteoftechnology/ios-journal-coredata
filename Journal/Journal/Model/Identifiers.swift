@@ -11,7 +11,6 @@ import Foundation
 //MARK: CoreData
 let MODELNAME = "Journal"
 
-
 //MARK: Segues
 let ENTRYDETAILSEGUE = "ShowJournalDetail"
 let ADDENTRYSEGUE = "AddEntryModalSegue"
