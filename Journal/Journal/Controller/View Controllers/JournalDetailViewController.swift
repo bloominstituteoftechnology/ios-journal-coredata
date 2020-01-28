@@ -33,11 +33,17 @@ class JournalDetailViewController: UIViewController {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEntry))
             //cancel Button
             navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(dismissView))
+        } else {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Update", style: .done, target: self, action: #selector(updateEntry))
         }
     }
     
     @objc func dismissView() {
-        navigationController?.dismiss(animated: true, completion: nil)
+        if journalEntry == nil {
+            navigationController?.dismiss(animated: true, completion: nil)
+        } else {
+            navigationController?.popViewController(animated: true)
+        }
     }
     
     //MARK: Create/Save
@@ -47,11 +53,22 @@ class JournalDetailViewController: UIViewController {
             let bodyText = bodyTextView.text,
             !bodyText.isEmpty
         else {return}
-        journalEntry?.title = title
-        journalEntry?.bodyText = bodyText
-        journalEntry?.timestamp = Date()
-        journalEntry?.identifier = UUID()
+//        journalEntry?.title = title
+//        journalEntry?.bodyText = bodyText
+//        journalEntry?.timestamp = Date()
+//        journalEntry?.identifier = UUID()
         entryController?.createEntry(title: title, bodyText: bodyText)
+        dismissView()
+    }
+    
+    @objc func updateEntry() {
+        guard let entry = journalEntry,
+            let newTitle = titleTextField.text,
+            !newTitle.isEmpty,
+            let newBodyText = bodyTextView.text,
+            !newBodyText.isEmpty
+        else {return}
+        entryController?.updateEntry(newTitle: newTitle, newBodyText: newBodyText, entry: entry)
         dismissView()
     }
     
