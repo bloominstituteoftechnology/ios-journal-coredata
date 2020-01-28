@@ -15,7 +15,7 @@ class JournalTableViewController: UITableViewController {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [
             NSSortDescriptor(key: "mood", ascending: true),
-            NSSortDescriptor(key: "timestamp", ascending: true)
+            NSSortDescriptor(key: "timestamp", ascending: false)
         ]
         let context = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "mood", cacheName: nil)
