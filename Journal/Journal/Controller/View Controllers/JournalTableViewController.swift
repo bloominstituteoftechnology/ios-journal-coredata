@@ -24,11 +24,14 @@ class JournalTableViewController: UITableViewController {
         return frc
     }()
     
+    private let entryDetailSegue = "ShowJournalDetail"
+    private let addEntrySegue = "AddEntryModalSegue"
+    private let entryCellIdentifier = "EntryCell"
     let entryController = EntryController()
 
     //MARK: View Lifecycle
     override func viewWillAppear(_ animated: Bool) {
-        tableView.reloadData()
+        //tableView.reloadData()
     }
 
     // MARK: - Table view data source
@@ -49,7 +52,7 @@ class JournalTableViewController: UITableViewController {
 
    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ENTRYCELLIDENTIFIER, for: indexPath) as? EntryTableViewCell else {return UITableViewCell()}
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: entryCellIdentifier, for: indexPath) as? EntryTableViewCell else {return UITableViewCell()}
         let entry = fetchedResultsController.object(at: indexPath)
         cell.entry = entry
         return cell
@@ -67,12 +70,12 @@ class JournalTableViewController: UITableViewController {
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == ADDENTRYSEGUE {
+        if segue.identifier == addEntrySegue {
             if let destination = segue.destination as? UINavigationController {
                 let destinationController = destination.topViewController as! JournalDetailViewController
                 destinationController.entryController = entryController
             }
-        } else if segue.identifier == ENTRYDETAILSEGUE {
+        } else if segue.identifier == entryDetailSegue {
             guard let indexPath = tableView.indexPathForSelectedRow,
                 let destination = segue.destination as? JournalDetailViewController
             else {return}

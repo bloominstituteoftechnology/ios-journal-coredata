@@ -43,12 +43,6 @@ class JournalDetailViewController: UIViewController {
        
     }
     
-    #warning("check if used at time of PR")
-    @objc func cancelEdit() {
-        CoreDataStack.shared.mainContext.reset()
-        dismissView()
-    }
-    
     @objc func dismissView() {
         if journalEntry == nil {
             navigationController?.dismiss(animated: true, completion: nil)
@@ -84,8 +78,5 @@ class JournalDetailViewController: UIViewController {
         dismissView()
     }
     
-    
-
-
 }
 
