@@ -34,9 +34,9 @@ class EntryDetailViewController: UIViewController {
         let mood = Mood.allCases[index]
             
         if let entry = entry {
-            entryController?.update(entry: entry, called: title, bodyText: bodyText, timeStamp: entry.timeStamp ?? Date(), identifier: entry.identifier ?? "", mood: mood.rawValue)
+            entryController?.update(entry: entry, called: title, bodyText: bodyText, timeStamp: entry.timeStamp ?? Date(), mood: mood.rawValue)
         } else {
-            entryController?.createEntry(called: title, bodyText: bodyText, timeStamp: Date(), identifier: "", mood: mood)
+            entryController?.createEntry(called: title, bodyText: bodyText, timeStamp: Date(), mood: mood)
         }
         navigationController?.popViewController(animated: true)
     }
@@ -45,7 +45,6 @@ class EntryDetailViewController: UIViewController {
         guard isViewLoaded else { return }
         
         title = entry?.title ?? "Create Entry"
-        
         entryTextField.text = entry?.title
         entryTextView.text = entry?.bodyText
         

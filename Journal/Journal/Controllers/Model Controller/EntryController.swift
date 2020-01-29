@@ -20,13 +20,13 @@ class EntryController {
         }
     }
     
-    @discardableResult func createEntry(called title: String, bodyText: String, timeStamp: Date, identifier: String, mood: Mood) -> Entry {
+    @discardableResult func createEntry(called title: String, bodyText: String, timeStamp: Date, identifier: UUID = UUID(), mood: Mood) -> Entry {
         let entry = Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, identifier: identifier, mood: mood, context: CoreDataTask.shared.mainContext)
         saveToPersistentStore()
         return entry
     }
     
-    func update(entry: Entry, called title: String, bodyText: String, timeStamp: Date, identifier: String, mood: String) {
+    func update(entry: Entry, called title: String, bodyText: String, timeStamp: Date, identifier: UUID = UUID(), mood: String) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timeStamp = timeStamp

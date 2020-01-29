@@ -16,12 +16,34 @@ enum Mood: String, CaseIterable {
 }
 
 extension Entry {
-    convenience init(title: String, bodyText: String, timeStamp: Date, identifier: String, mood: Mood = .neutral, context: NSManagedObjectContext) {
+    var entryRepresentation: EntryRepresentation? {
+        guard let title = title,
+            let timeStamp = timeStamp,
+            let mood = mood,
+            let identifier = identifier?.uuidString,
+            let bodyText = bodyText else { return nil }
+        
+        return EntryRepresentation(title: title, timeStamp: timeStamp, mood: mood, identifier: identifier, bodyText: bodyText)
+    }
+    
+    convenience init(title: String, bodyText: String, timeStamp: Date, identifier: UUID = UUID(), mood: Mood = .neutral, context: NSManagedObjectContext) {
         self.init(context: context)
         self.title = title
         self.bodyText = bodyText
         self.timeStamp = timeStamp
         self.mood = mood.rawValue
         self.identifier = identifier
+    }
+    
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext) {
+        guard let identifier = UUID(uuidString: entryRepresentation.identifier),
+            let mood = Mood(rawValue: entryRepresentation.mood) else { return nil }
+        
+        self.init(title: entryRepresentation.title,
+                  bodyText: entryRepresentation.bodyText,
+                  timeStamp: entryRepresentation.timeStamp,
+                  identifier: identifier,
+                  mood: mood,
+                  context: context)
     }
 }
