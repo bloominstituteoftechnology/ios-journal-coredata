@@ -38,7 +38,7 @@ class EntryDetailViewController: UIViewController {
             entryController?.createEntry(title: title,
                                          bodyText: body,
                                          timestamp: Date(),
-                                         identifier: "\(Int.random(in: 1...690))",
+                                         identifier: "delete later",
                                          mood: selectedMood)
         }
         navigationController?.popViewController(animated: true)
