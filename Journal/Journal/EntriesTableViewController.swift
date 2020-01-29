@@ -9,6 +9,12 @@
 import UIKit
 import CoreData
 
+/*
+ warning in console
+ 2020-01-29 07:57:05.042333-0800 Journal[56173:5287707] [TableView] Warning once only: UITableView was told to layout its visible cells and other contents without being in the view hierarchy (the table view or one of its superviews has not been added to a window). This may cause bugs by forcing views inside the table view to load and perform layout without accurate information (e.g. table view bounds, trait collection, layout margins, safe area insets, etc), and will also cause unnecessary performance overhead due to extra layout passes. Make a symbolic breakpoint at UITableViewAlertForLayoutOutsideViewHierarchy to catch this in the debugger and see what caused this to occur, so you can avoid this action altogether if possible, or defer it until the table view has been added to a window. Table view: <UITableView: 0x7f9afb023000; frame = (0 0; 414 896); clipsToBounds = YES; autoresize = W+H; gestureRecognizers = <NSArray: 0x600000fa65e0>; layer = <CALayer: 0x600000199b80>; contentOffset: {0, -140}; contentSize: {414, 291}; adjustedContentInset: {140, 0, 34, 0}; dataSource: <Journal.EntriesTableViewController: 0x7f9af9f05340>>
+
+ */
+
 class EntriesTableViewController: UITableViewController {
 
     // MARK: - Properties
