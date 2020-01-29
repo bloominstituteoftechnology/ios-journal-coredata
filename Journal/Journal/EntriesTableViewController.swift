@@ -18,7 +18,7 @@ class EntriesTableViewController: UITableViewController {
     lazy var fetchResultsController: NSFetchedResultsController<Entry> = {
         
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),NSSortDescriptor(key: "timestamp", ascending: true)]
         // You must make the decriptor with the same key path as the sectionNameKeyPath be the first sort descriptors in this array
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: CoreDataStack.shared.mainContext,
@@ -71,7 +71,7 @@ class EntriesTableViewController: UITableViewController {
         if editingStyle == .delete {
             let entry = fetchResultsController.object(at: indexPath)
             entryController.delete(entry: entry)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            //tableView.deleteRows(at: [indexPath], with: .fade)
             
         }
     }
