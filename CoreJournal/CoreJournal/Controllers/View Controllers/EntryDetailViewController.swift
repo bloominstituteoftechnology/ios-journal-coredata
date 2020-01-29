@@ -26,7 +26,9 @@ class EntryDetailViewController: UIViewController {
             let body = textView.text,
             !title.isEmpty else { return }
         if let entry = entry {
-            entryController?.update(title: title, bodyText: body, entry: entry)
+            entryController?.update(title: title,
+                                    bodyText: body,
+                                    entry: entry)
         } else {
             entryController?.createEntry(title: title,
                                          bodyText: body,
@@ -42,7 +44,5 @@ class EntryDetailViewController: UIViewController {
         textField.text = entry?.title ?? ""
         textView.text = entry?.bodyText ?? ""
     }
-    
-
 }
 

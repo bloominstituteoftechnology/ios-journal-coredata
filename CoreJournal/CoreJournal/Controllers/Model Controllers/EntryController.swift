@@ -48,6 +48,6 @@ class EntryController {
     }
     
     func delete(entry: Entry) {
-        
+        // TODO DELETE ENTRY
     }
 }

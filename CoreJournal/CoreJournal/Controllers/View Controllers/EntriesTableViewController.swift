@@ -53,7 +53,7 @@ class EntriesTableViewController: UITableViewController {
     // MARK: - Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "CreateEntrySegue" {
+        if segue.identifier == "CreateJournalSegue" {
             if let detailVC = segue.destination as? EntryDetailViewController {
                 detailVC.entryController = entryController
             }
