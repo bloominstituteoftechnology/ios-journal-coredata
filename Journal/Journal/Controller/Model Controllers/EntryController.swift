@@ -20,10 +20,11 @@ enum MoodType: String {
 
 class EntryController {
     //MARK: Properties
+    typealias CompletionHandler = (Error?) -> ()
     let save = {
         CoreDataStack.shared.saveToPersistentStore()
     }
-    
+    private let baseURL = "https://lambda-journal-f748d.firebaseio.com/"
     let context = CoreDataStack.shared.mainContext
     
     //MARK: Create
@@ -31,7 +32,12 @@ class EntryController {
         let _ = Entry(title: title, bodyText: bodyText, timestamp: Date(), identifier: UUID(), mood: mood.rawValue)
         save()
     }
+    
+    func put(entry: Entry, complete: CompletionHandler) {
         
+    }
+        
+    //MARK: Update
     func updateEntry(newTitle: String, newBodyText: String, entry: Entry, mood: MoodType) {
         entry.title = newTitle
         entry.bodyText = newBodyText

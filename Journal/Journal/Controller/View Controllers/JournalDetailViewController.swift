@@ -59,10 +59,7 @@ class JournalDetailViewController: UIViewController {
             !bodyText.isEmpty
         else {return}
         let moodType = MoodType.allMoods[segmentedControl.selectedSegmentIndex]
-//        journalEntry?.title = title
-//        journalEntry?.bodyText = bodyText
-//        journalEntry?.timestamp = Date()
-//        journalEntry?.identifier = UUID()
+        entryController?.createEntry(title: title, bodyText: bodyText, mood: moodType)
         entryController?.createEntry(title: title, bodyText: bodyText, mood: moodType)
         dismissView()
     }
