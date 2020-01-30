@@ -74,7 +74,20 @@ class EntriesTableViewController: UITableViewController {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
             CoreDataStack.shared.mainContext.delete(entry)
-            entryController.saveToPersistentStore()
+            entryController.deleteEntryFromServer(entry: entry) {
+                error in
+                if let error = error {
+                    NSLog("Error deleting task from server: \(error)")
+                    return
+                }
+                CoreDataStack.shared.mainContext.delete(entry)
+                do {
+                    try CoreDataStack.shared.mainContext.save()
+                } catch {
+                    CoreDataStack.shared.mainContext.reset()
+                    NSLog("Error saving managed object context: \(error)")
+                }
+            }
 //            entryController.deleteEntry(for: entryController.entries[indexPath.row])
 //            tableView.deleteRows(at: [indexPath], with: .fade)
         }

@@ -34,7 +34,7 @@ extension Entry {
                                    mood: mood)
     }
     
-    @discardableResult convenience init(title: String, bodyText: String, timestamp: Date? = Date(), identifier: String? = "", mood: Mood = .neutral, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    @discardableResult convenience init(title: String, bodyText: String, timestamp: Date? = Date(), identifier: String? = UUID().uuidString, mood: Mood = .neutral, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.title = title
         self.bodyText = bodyText
@@ -53,6 +53,7 @@ extension Entry {
                   bodyText: entryRepresentation.bodyText,
                   timestamp: entryRepresentation.timestamp,
                   identifier: entryRepresentation.identifier,
-                  mood: mood)
+                  mood: mood,
+                  context: context)
     }
 }
