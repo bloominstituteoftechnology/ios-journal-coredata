@@ -46,6 +46,13 @@ class EntriesTableViewController: UITableViewController {
         return formatter
     }
     
+//    // MARK: - Actions
+//    @IBAction func refresh(_ sender: Any) {
+//        entryController.fetchEntriesFromServer { _ in
+//            self.refreshControl?.endRefreshing()
+//        }
+//    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }

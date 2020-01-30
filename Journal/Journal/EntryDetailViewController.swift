@@ -35,10 +35,11 @@ class EntryDetailViewController: UIViewController {
         if let entry = entry {
             entryController?.update(title: title, bodyText: body, mood: selectedMood, entry: entry)
         } else {
+            // changed on Day3
             entryController?.createEntry(title: title,
                                          bodyText: body,
                                          timestamp: Date(),
-                                         identifier: "delete later",
+                                         identifier: UUID(),
                                          mood: selectedMood)
         }
         navigationController?.popViewController(animated: true)

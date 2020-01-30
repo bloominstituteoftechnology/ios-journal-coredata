@@ -20,10 +20,17 @@ enum Mood: String {
 }
 
 extension Entry {
+    
+    var entryRepresentation: EntryRepresentation? {
+        guard let title = title, let mood = mood, let bodyText = bodyText else {return nil}
+        
+        return EntryRepresentation(title: title, bodyText: bodyText, mood: mood, timestamp: timestamp!, identifier: identifier?.uuidString)
+    }
+    
     convenience init(title: String,
                      bodyText: String,
                      timestamp: Date = Date(),
-                     identifier: String = "6",
+                     identifier: UUID = UUID(),
                      mood: Mood = .neutral,
                      context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
@@ -32,5 +39,16 @@ extension Entry {
         self.timestamp = timestamp
         self.identifier = identifier
         self.mood = mood.rawValue
+    }
+    
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation,
+                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        guard let mood = Mood(rawValue: entryRepresentation.mood!), let identifierString = entryRepresentation.identifier, let identifier = UUID(uuidString: identifierString) else {return nil}
+        
+        self.init(title: entryRepresentation.title,
+                  bodyText: entryRepresentation.bodyText,
+                  identifier: identifier,
+                  mood: mood,
+                  context: context)
     }
 }
