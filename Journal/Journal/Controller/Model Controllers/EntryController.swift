@@ -31,27 +31,27 @@ class EntryController {
     func createEntry(title: String, bodyText: String, mood: MoodType) {
         let entry = Entry(title: title, bodyText: bodyText, timestamp: Date(), identifier: UUID(), mood: mood.rawValue)
         put(entry: entry) { (_) in
-            self.save()
+            
         }
-        
+        self.save()
     }
     
     func put(entry: Entry, complete: @escaping CompletionHandler) {
-        let entryURL = baseURL.appendingPathComponent(entry.identifier?.uuidString ?? "")
-        let postURL = entryURL.appendingPathExtension("json")
-        guard let request = NetworkService.createRequest(url: postURL, method: .post, headerType: .contentType, headerValue: .json) else {
+        let postURL = baseURL.appendingPathComponent(entry.identifier?.uuidString ?? UUID().uuidString).appendingPathExtension("json")
+        guard let request = NetworkService.createRequest(url: postURL, method: .put, headerType: .contentType, headerValue: .json) else {
             complete(NSError(domain: "PutRequestError", code: 400, userInfo: nil))
             return
         }
+        //construct representation of Entry for firebase server
         guard var rep = entry.entryRepresentation,
             let id = entry.identifier else {
             complete(NSError(domain: "EntryRepresentationConversion", code: 1))
             return
         }
-        
         rep.identifier = id.uuidString
-        let encodingStatus = NetworkService.encode(from: rep, request: request)
         
+        //encode
+        let encodingStatus = NetworkService.encode(from: rep, request: request)
         if let error = encodingStatus.error {
             print("error encoding: \(error)")
             complete(error)
@@ -68,7 +68,7 @@ class EntryController {
                     complete(error)
                     return
                 }
-                 print("JSON String: \(String(data: data!, encoding: .utf8))")
+                 print("Firebase response: \(String(data: data!, encoding: .utf8))")
                 complete(nil)
             }.resume()
         }
@@ -84,7 +84,31 @@ class EntryController {
     }
     
     //MARK: Delete
+    func deleteEntryFromServer(entry: Entry, complete: @escaping CompletionHandler = { _ in }) {
+        let url = baseURL.appendingPathComponent(entry.identifier!.uuidString).appendingPathExtension("json")
+        guard let request = NetworkService.createRequest(url: url, method: .delete) else {
+            complete(NSError(domain: "badRequest", code: 400, userInfo: nil))
+            return
+        }
+        URLSession.shared.dataTask(with: request) { _,response,error in
+            if let error = error {
+                print("error deleting entry: \(error)")
+                complete(error)
+                return
+            }
+            if let response = response as? HTTPURLResponse,
+                response.statusCode != 200 {
+                   print("Bad response code")
+                   complete(NSError(domain: "APIStatusNotOK", code: response.statusCode, userInfo: nil))
+                   return
+            } else {
+                complete(nil)
+            }
+        }.resume()
+    }
+    
     func deleteEntry(entry: Entry) {
+        deleteEntryFromServer(entry: entry)
         context.delete(entry)
         save()
     }

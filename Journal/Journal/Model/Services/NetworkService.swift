@@ -13,6 +13,7 @@ class NetworkService {
     enum HttpMethod: String {
         case get = "GET"
         case post = "POST"
+        case put = "PUT"
         case delete = "DELETE"
     }
 
@@ -32,21 +33,27 @@ class NetworkService {
     /**
      Create a request given a URL and requestMethod (get, post, create, etc...)
      */
-    class func createRequest(url: URL?, method: HttpMethod, headerType: HttpHeaderType, headerValue: HttpHeaderValue) -> URLRequest? {
+    class func createRequest(url: URL?, method: HttpMethod, headerType: HttpHeaderType? = nil, headerValue: HttpHeaderValue? = nil) -> URLRequest? {
         guard let requestUrl = url else {
             NSLog("request URL is nil")
             return nil
         }
         var request = URLRequest(url: requestUrl)
         request.httpMethod = method.rawValue
-        request.setValue(headerValue.rawValue, forHTTPHeaderField: headerType.rawValue)
+        if let headerType = headerType,
+            let headerValue = headerValue {
+            request.setValue(headerValue.rawValue, forHTTPHeaderField: headerType.rawValue)
+        }
         return request
     }
     
     class func encode(from type: Any?, request: URLRequest) -> EncodingStatus {
         var localRequest = request
         let jsonEncoder = JSONEncoder()
-        jsonEncoder.dateEncodingStrategy = .iso8601
+        let df = DateFormatter()
+        df.dateStyle = .short
+        df.timeStyle = .short
+        jsonEncoder.dateEncodingStrategy = .formatted(df)
         do {
             switch type {
             case is EntryRepresentation:
