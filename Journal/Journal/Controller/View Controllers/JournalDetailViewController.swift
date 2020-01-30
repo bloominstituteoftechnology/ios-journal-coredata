@@ -60,7 +60,6 @@ class JournalDetailViewController: UIViewController {
         else {return}
         let moodType = MoodType.allMoods[segmentedControl.selectedSegmentIndex]
         entryController?.createEntry(title: title, bodyText: bodyText, mood: moodType)
-        entryController?.createEntry(title: title, bodyText: bodyText, mood: moodType)
         dismissView()
     }
     

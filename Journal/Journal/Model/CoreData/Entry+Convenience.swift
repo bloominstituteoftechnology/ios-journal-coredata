@@ -19,7 +19,7 @@ extension Entry {
         return EntryRepresentation(bodyText: bodyText, identifier: identifier.uuidString, mood: mood, timestamp: timestamp, title: title)
     }
     
-    convenience init(title: String, bodyText: String, timestamp: Date, identifier: UUID, mood: String = "😑", context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    @discardableResult convenience init(title: String, bodyText: String, timestamp: Date, identifier: UUID, mood: String = "😑", context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.title = title
         self.bodyText = bodyText
