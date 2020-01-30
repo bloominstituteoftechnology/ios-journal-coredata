@@ -30,6 +30,13 @@ class NetworkService {
         let error: Error?
     }
     
+    static var df: DateFormatter {
+        let df = DateFormatter()
+        df.dateStyle = .short
+        df.timeStyle = .short
+        return df
+    }
+    
     /**
      Create a request given a URL and requestMethod (get, post, create, etc...)
      */
@@ -50,9 +57,7 @@ class NetworkService {
     class func encode(from type: Any?, request: URLRequest) -> EncodingStatus {
         var localRequest = request
         let jsonEncoder = JSONEncoder()
-        let df = DateFormatter()
-        df.dateStyle = .short
-        df.timeStyle = .short
+        
         jsonEncoder.dateEncodingStrategy = .formatted(df)
         do {
             switch type {
@@ -65,5 +70,25 @@ class NetworkService {
             return EncodingStatus(request: nil, error: error)
         }
         return EncodingStatus(request: localRequest, error: nil)
+    }
+    
+    class func decode(to type: Any?, data: Data) -> [String:EntryRepresentation]? {
+        let decoder = JSONDecoder()
+        let df = DateFormatter()
+        df.dateStyle = .short
+        df.timeStyle = .short
+        decoder.dateDecodingStrategy = .formatted(df)
+        
+        do {
+            switch type {
+            case is [String:EntryRepresentation].Type:
+                let entries = try decoder.decode([String:EntryRepresentation].self, from: data)
+                return entries
+            default: fatalError("type \(String(describing: type)) is not defined locally in decode function")
+            }
+        } catch {
+            print("Error Decoding JSON into \(String(describing: type)) Object \(error)")
+            return nil
+        }
     }
 }

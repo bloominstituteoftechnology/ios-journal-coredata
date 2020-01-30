@@ -28,7 +28,7 @@ extension Entry {
         self.mood = mood
     }
     
-    convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(title: entryRepresentation.title, bodyText: entryRepresentation.bodyText, timestamp: entryRepresentation.timestamp, identifier: UUID(uuidString: entryRepresentation.identifier)!, mood: entryRepresentation.mood ?? "😑") //no reason UUID should fail. it comes from a UUID to begin with
     }
     

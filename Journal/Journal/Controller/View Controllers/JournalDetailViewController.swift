@@ -68,9 +68,12 @@ class JournalDetailViewController: UIViewController {
             let newTitle = titleTextField.text,
             !newTitle.isEmpty,
             let newBodyText = bodyTextView.text,
-            !newBodyText.isEmpty
+            !newBodyText.isEmpty,
+            let id = entry.identifier,
+            let mood = entry.mood
         else {return}
-        entryController?.updateEntry(newTitle: newTitle, newBodyText: newBodyText, entry: entry, mood: MoodType.allMoods[segmentedControl.selectedSegmentIndex])
+        let rep = EntryRepresentation(bodyText: newTitle, identifier: id.uuidString, mood: mood, timestamp: Date(), title: newTitle)
+        entryController?.updateEntry(entry: entry, entryRep: rep)
         dismissView()
     }
     
