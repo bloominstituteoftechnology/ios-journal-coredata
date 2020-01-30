@@ -35,19 +35,21 @@ class EntryController {
     }
     
     // MARK: - CRUD
-    func createEntry(title: String, bodyText: String, timestamp: Date, identifier: String) {
-        let _ = Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier)
+    func createEntry(title: String, bodyText: String, mood: String) {
+        let _ = Entry(title: title, bodyText: bodyText, mood: Mood(rawValue: mood) ?? .neutral)
         saveToPersistentStore()
     }
     
-    func update(title: String, bodyText: String, entry: Entry) {
+    func update(for entry: Entry, title: String, bodyText: String, mood: String) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = Date()
+        entry.mood = mood
         saveToPersistentStore()
     }
     
     func delete(entry: Entry) {
-        // TODO DELETE ENTRY
+        CoreDataStack.shared.mainContext.delete(entry)
+        saveToPersistentStore()
     }
 }
