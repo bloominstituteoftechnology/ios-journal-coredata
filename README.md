@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Journal (Core Data) Day 2
 
 ## Introduction
@@ -86,17 +87,19 @@ Now you will change the `UITableViewDataSource` methods to look to the fetched r
 ### Part 1 - Storyboard Layout
 =======
 # Journal (Core Data) Day 3
+=======
+# Journal (Core Data) Day 4
+>>>>>>> ee35911f8b7c78cf68ad2369aeff1d126f3c7c5e
 
 ## Introduction
 
-Today's project will continue to add more functionality to the Journal project. You will add syncing between Core Data and a server. In this case, Firebase will be used as the server. Since we have already set up an `NSFetchedResultsController` to update the table view when the persistent store's managed objects change, you will only need to do work on the model and model controller layers. This is a good example of adding functionality without having to tear up your entire application.
+For today's project, you will update Journal to update its Core Data data from the server in the background. This will allow you to practice more complex Core Data scenarios using multiple managed object contexts, as well as using concurrency with Core Data. You will be modifying an existing codebase to be more performant and correct. To prepare for many of these changes, you'll [_refactor_](https://en.wikipedia.org/wiki/Code_refactoring) your code, meaning you'll restructure it so that it's functionality can be updated without compromising its readability and maintainability.
 
-Please look at the screen recording below to know what the finished project should look like:
-
-![](https://user-images.githubusercontent.com/16965587/44161634-2a8b6480-a07b-11e8-948d-0c7e7c43bc78.gif)
+The instructions for this project are intentionally somewhat less detailed that previous instructions this week. This project will require you to think about and understand how to architect your app to use multiple contexts and concurrency correctly. As always, follow the 20-minute rule, but don't be afraid to ask for help as you work.
 
 ## Instructions
 
+<<<<<<< HEAD
 Use the Journal project you made yesterday. Create a new branch called `day3`. When you finish today's instructions and go to make a pull request, be sure to select the original repository's `day3` branch as the base branch, and your own `day3` branch as the compare branch.
 
 ### Part 1 - PUTting and deleting Entries
@@ -117,9 +120,17 @@ The way to prevent this is to create an intermediate data type between the JSON 
 3. Add a property in this struct for each attribute in the `Entry` model. Their names should match exactly or else the JSON from Firebase will not decode into this struct properly.
 4. In the "Entry+Convenience.swift" file, add a new convenience initializer. This initializer should be failable. It should take in an `EntryRepresentation` parameter and an `NSManagedObjectContext`. This should simply pass the values from the entry representation to the convenience initializer you made earlier in the project. 
 5. In the `Entry` extension, create a `var entryRepresentation: EntryRepresentation` computed property. It should simply return an `EntryRepresentation` object that is initialized from the values of the `Entry`.
+=======
+Use the Journal project you made yesterday. Create a new branch called `day4`. When you finish today's instructions and go to make a pull request, be sure to select the original repository's `day4` branch as the base branch, and your own `day4` branch as the compare branch.
 
-#### EntryController
+### Part 0 - Troubleshooting
 
+Before starting, run your app with the `-com.apple.CoreData.ConcurrencyDebug 1` launch argument. Excercise all functions of the app and note whether any Core Data concurrency assertions are triggered. Were any triggered (ie. did the app crash)? If so, why? Today you'll fix these problems while simultaneously improving the overall performance of the app.
+>>>>>>> ee35911f8b7c78cf68ad2369aeff1d126f3c7c5e
+
+### Part 1 - Refactor to Prepare for Multiple Contexts
+
+<<<<<<< HEAD
 <<<<<<< HEAD
 1. Create a Swift file called "EntryController.swift". Make a class called `EntryController`.
 2. Create a function called `saveToPersistentStore()`. This method should save your core data stack's `mainContext`. Remember that this will bundle the changes in the context, pass them to the persistent store coordinator who will then put those changes in the persistent store.
@@ -195,20 +206,38 @@ Back in the `EntryDetailViewController`:
     - Create a `URLRequest` object, and set its HTTP method to DELETE.
     - Perform a `URLSessionDataTask` with the request and handle any errors. Call completion and don't forget to resume the data task.
 5. Call the `deleteEntryFromServer` method in your `delete(entry: ...)` method.
+=======
+Start by refactoring some of your code to be better prepared to switch to using a separate managed object context for syncing operations.
+>>>>>>> ee35911f8b7c78cf68ad2369aeff1d126f3c7c5e
 
-Test the app at this point. You should be able to both create and update entries and they will be sent to Firebase as well as to the `NSPersistentStore` on the device. You should also be able to delete entries from Firebase also.
+1. Change your convenience initalizer for creating an `Entry` from an `EntryRepresentation` to accept a context in which to create the new `Entry`.
+2. Remove the `EntryController`'s `saveToPersistentStore` method and instead create a `save(context: NSManagedObjectContext)` method in your `CoreDataStack`. This should call `.performAndWait` on the context that is passed in, then save the same context. Handle any potential errors.
 
-#### Part 2 - Syncing Databases
+### Part 2 - Use Concurrency APIs to Ensure Correctness
 
+<<<<<<< HEAD
 #### Back to EntryController
+=======
+Even though you haven't yet updated your code to use multiple contexts, you can prepare for that by using Core Data's concurrency APIs to ensure that regardless of context, your code is concurrency-safe. Core Data is designed in such a way that you can write concurrency-correct code without having to keep track of and maintain the dispatch queues that each context has yourself.
 
-The goal when fetching the entries from Firebase is to go through each fetched entry and check a couple things:
-- **Is there a corresponding entry in the device's persistent store?**
-    - No, so create a new `Entry` object. (This would happen if someone else created an entry on their device and you don't have it on your device yet)
-    - Yes. Are its values different from the entry fetched from Firebase? If so, then update the entry in the persistent store with the new values from the entry from Firebase.
+Remember that **any** use of managed objects or a managed object context must be done in a `perform` or `performAndWait` call for non-main-queue contexts. Even for main-queue contexts, it is safe and valid to use `perform` or `performAndWait`.
 
-You'll use the `EntryRepresentation` to do this. It will let you decode the JSON as `EntryRepresentation`s, perform these checks and either create an actual `Entry` if one doesn't exist on the device or update an existing one with its decoded values.
+1. Go through each function that deals with managed objects. Decide whether it should ensure concurrency correctness itself, or whether responsibility for correctness should be left up to its caller. 
+2. Update each function to do its work using `perform()` or `performAndWait()` on the main context for now.
+3. Run your app with the `-com.apple.CoreData.ConcurrencyDebug 1` launch argument. Exercise all functions of the app and verify that no Core Data concurrency assertions are triggered (i.e. the app shouldn't crash). 
 
+### Part 3 - Use a Background Context for Syncing
+
+While the app shouldn't crash anymore, it's still using the main context for operations that could potentially take a long time and block the main queue. In order to fix this:
+>>>>>>> ee35911f8b7c78cf68ad2369aeff1d126f3c7c5e
+
+1. Update your `updateEntries(with representations: ...)` method so that it creates a new background context, and does all Core Data work on this context. It should update/create tasks from the fetched data on this context.
+2. Save the context only after the update/creation process is complete. Remember that `save()` itself must be called on the context's private queue using `perform()` or `performAndWait()`. (You already made a function to do this earlier that you can call to do this)
+3. In your `CoreDataStack`, after creating the container, set its `viewContext`'s `automaticallyMergesChangesFromParent` property to true. This is required for the `viewContext` (ie. the main context) to be updated with changes saved in a background context. In this case, the `viewContext`'s parent is the persistent store coordinator, **not** another context. This will ensure that the viewContext gets the changes you made on a background context so the fetched results controller can see those changes and update the table view automatically.
+
+### Part 4 - Testing
+
+<<<<<<< HEAD
 Back in the `EntryController`, you will make a couple methods that will help when fetching the entries from Firebase. 
 
 1. Create a new "Update" function called `update`. It should take in an `Entry` whose values should be updated, and an `EntryRepresentation` to take the values from. This should simply set each of the `Entry`'s values to the `EntryRepresentation`'s corresponding values. **DO NOT** call `saveToPersistentStore` in this method. It will be explained why later on.
@@ -244,11 +273,22 @@ The app should be working at this point. Test it by going to the Firebase Databa
 **NOTE: The app will not automatically fetch posts when you change or add posts in the database.** At this point you must trigger the fetch manually, the simplest way being to relaunch the application. If you want, you could look up how to implement a refresh control on a table view controller which would allow you to drag down on the table view to refresh the table view and allow you to re-fetch the entries.
 
 >>>>>>> 785a6c4f1ef9fcba0406a52f34f1e7df72ec1bc8
+=======
+Thoroughly test your app to be sure that all features continue to function correctly. From an end user perspective, the app should behave **exactly** as it did yesterday. While you're testing the app, be sure the `-com.apple.CoreData.ConcurrencyDebug 1` launch argument is set. Verify that no Core Data multithreading assertions are triggered.
+
+If the app behaves correctly and doesn't trigger any assertions, you're done! Submit your pull request. If you have time left, try the suggestions in the Go Further section below.
+>>>>>>> ee35911f8b7c78cf68ad2369aeff1d126f3c7c5e
 
 ## Go Further
 
+If you'd like a further challenge, try using a separate managed object context in the detail view controller. This managed object context can be used a scratchpad, so that operations on the task being created/edited occur in it, and are only saved to the main context after the user taps the Save button. You can make the detail view controller's context a child of the main context. You can also use one of the other multiple managed object context setups. Because you can not "switch" which context an object instance is in, you'll need to use `NSManagedObjectID` and related APIs to communicate to the detail view controller which task it should be displaying/editing.
+
 Just like yesterday, try to solidify today's concepts by starting over and rewriting the project from where you started today. Or even better, try to write the entire project with both today and yesterday's content from scratch. Use these instructions as sparingly as possible to help you practice recall.
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 
 >>>>>>> 785a6c4f1ef9fcba0406a52f34f1e7df72ec1bc8
+=======
+
+>>>>>>> ee35911f8b7c78cf68ad2369aeff1d126f3c7c5e
