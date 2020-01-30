@@ -20,6 +20,10 @@ let baseURL = URL(string: "https://journal-50083.firebaseio.com/")!
 
 class EntryController {
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     typealias CompletionHandler = (Error?) -> Void
     
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in })  {
@@ -119,7 +123,41 @@ class EntryController {
         } catch {
             NSLog("Error fetching entries from persistent stores: \(error)")
         }
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
         
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching entries: \(error)")
+                DispatchQueue.main.async {
+                    completion(error)
+                }
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data return from data task")
+                completion(error)
+                return
+            }
+            
+            do {
+                let decoder = JSONDecoder()
+                let taskRepresentations = try decoder.decode([String: EntryRepresentation].self, from: data).map({ $0.value })
+                self.updateEntries(with: taskRepresentations)
+                DispatchQueue.main.async {
+                    completion(error)
+                }
+            } catch {
+                NSLog("Error decoding or storing entry representations: \(error)")
+                DispatchQueue.main.async {
+                    completion(error)
+                }
+            }
+            completion(nil)
+        }.resume()
     }
     
     func saveToPersistentStore() {
@@ -131,18 +169,17 @@ class EntryController {
         }
     }
     
-    @discardableResult func createEntry(called title: String, bodyText: String, timeStamp: Date, identifier: String = UUID().uuidString, mood: Mood) -> Entry {
-        let entry = Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, identifier: identifier, mood: mood, context: CoreDataTask.shared.mainContext)
+    @discardableResult func createEntry(called title: String, bodyText: String, timeStamp: Date, mood: Mood) -> Entry {
+        let entry = Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, mood: mood, context: CoreDataTask.shared.mainContext)
         put(entry: entry)
         saveToPersistentStore()
         return entry
     }
     
-    func update(entry: Entry, called title: String, bodyText: String, timeStamp: Date, identifier: String = UUID().uuidString, mood: String) {
+    func update(entry: Entry, called title: String, bodyText: String, timeStamp: Date, mood: String) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timeStamp = timeStamp
-        entry.identifier = identifier
         entry.mood = mood
         put(entry: entry)
         saveToPersistentStore()
