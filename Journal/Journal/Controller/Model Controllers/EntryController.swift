@@ -21,9 +21,6 @@ enum MoodType: String {
 class EntryController {
     //MARK: Properties
     typealias CompletionHandler = (Error?) -> ()
-    let save = {
-        CoreDataStack.shared.save()
-    }
     private let baseURL = URL(string:"https://lambda-journal-f748d.firebaseio.com/")!
     let context = CoreDataStack.shared.mainContext
     
@@ -36,7 +33,7 @@ class EntryController {
     func createEntry(title: String, bodyText: String, mood: MoodType) {
         let entry = Entry(title: title, bodyText: bodyText, timestamp: Date(), identifier: UUID(), mood: mood.rawValue)
         put(entry: entry)
-        self.save()
+        CoreDataStack.shared.save()
     }
     
     func put(entry: Entry, complete: @escaping CompletionHandler = {_ in }) {
@@ -127,7 +124,7 @@ class EntryController {
         
         var repDict = Dictionary(uniqueKeysWithValues: zip(identifiers, representations))
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiers)
-        let context = CoreDataStack.shared.mainContext
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         context.perform {
             do {
                 let entries = try context.fetch(fetchRequest)
@@ -137,16 +134,15 @@ class EntryController {
                     else {continue}
                     self.updateEntry(entry: entry, entryRep: representation)
                     repDict.removeValue(forKey: id)
-                    self.save()
                 }
                 for rep in repDict.values {
                     Entry(entryRepresentation: rep)
-                    self.save()
                 }
             } catch {
                 print(error)
             }
         }
+        CoreDataStack.shared.save(context: context)
     }
     
     //MARK: Delete
@@ -173,10 +169,12 @@ class EntryController {
         }.resume()
     }
     
-    func deleteEntry(entry: Entry) {
+    func deleteEntry(entry: Entry, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         deleteEntryFromServer(entry: entry)
-        context.delete(entry)
-        save()
+        context.perform {
+            context.delete(entry)
+            CoreDataStack.shared.save(context: context)
+        }
     }
     
 }
