@@ -131,24 +131,25 @@ class EntryController {
         var repDict = Dictionary(uniqueKeysWithValues: zip(identifiers, representations))
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiers)
         let context = CoreDataStack.shared.mainContext
-        do {
-            let entries = try context.fetch(fetchRequest)
-            for entry in entries {
-                guard let id = entry.identifier,
-                    let representation = repDict[id]
-                else {continue}
-                self.updateEntry(entry: entry, entryRep: representation)
-                repDict.removeValue(forKey: id)
-                save()
+        context.perform {
+            do {
+                let entries = try context.fetch(fetchRequest)
+                for entry in entries {
+                    guard let id = entry.identifier,
+                        let representation = repDict[id]
+                    else {continue}
+                    self.updateEntry(entry: entry, entryRep: representation)
+                    repDict.removeValue(forKey: id)
+                    self.save()
+                }
+                for rep in repDict.values {
+                    Entry(entryRepresentation: rep)
+                    self.save()
+                }
+            } catch {
+                print(error)
             }
-            for rep in repDict.values {
-                Entry(entryRepresentation: rep)
-                save()
-            }
-        } catch {
-            print(error)
         }
-        
     }
     
     //MARK: Delete
