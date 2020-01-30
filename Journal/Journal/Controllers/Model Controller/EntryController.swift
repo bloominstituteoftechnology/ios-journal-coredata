@@ -58,6 +58,37 @@ class EntryController {
         }.resume()
     }
     
+    func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        guard let identifier = entry.identifier else {
+            completion(NSError())
+            return
+        }
+        
+        let requestURL = baseURL
+            .appendingPathComponent(identifier)
+            .appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        
+        URLSession.shared.dataTask(with: request) { (_, response, error) in
+            if response != nil {
+                NSLog("No response from Firebase")
+                completion(error)
+                return
+            }
+            
+            if let error = error {
+                NSLog("Error deleting entry \(entry): \(error)")
+                completion(error)
+                return
+            }
+            DispatchQueue.main.async {
+                completion(nil)
+            }
+        }.resume()
+    }
+    
     func saveToPersistentStore() {
         do {
             try CoreDataTask.shared.mainContext.save()
@@ -86,6 +117,7 @@ class EntryController {
     
     func delete(entry: Entry) {
         CoreDataTask.shared.mainContext.delete(entry)
+        deleteEntryFromServer(entry: entry)
         saveToPersistentStore()
     }
 }
