@@ -44,7 +44,6 @@ While the app shouldn't crash anymore, it's still using the main context for ope
 Thoroughly test your app to be sure that all features continue to function correctly. From an end user perspective, the app should behave **exactly** as it did yesterday. While you're testing the app, be sure the `-com.apple.CoreData.ConcurrencyDebug 1` launch argument is set. Verify that no Core Data multithreading assertions are triggered.
 
 If the app behaves correctly and doesn't trigger any assertions, you're done! Submit your pull request. If you have time left, try the suggestions in the Go Further section below.
->>>>>>> ee35911f8b7c78cf68ad2369aeff1d126f3c7c5e
 
 ## Go Further
 
