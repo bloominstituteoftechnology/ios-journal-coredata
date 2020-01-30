@@ -62,7 +62,7 @@ class EntryController {
         
         // creates a new UUID based on the identifier of the task we're looking at (and it exists)
         // compactMap returns an array after it transforms
-        let identifiersToFetch = tasksWithID.compactMap { UUID(uuidString: $0.identifier!) }
+        let identifiersToFetch = tasksWithID.compactMap { $0.identifier!}
         
         // zip interweaves elements
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, tasksWithID))
@@ -110,7 +110,7 @@ class EntryController {
         }
     }
     
-    func createEntry(title: String, bodyText: String, timestamp: Date, identifier: UUID, mood: Mood) {
+    func createEntry(title: String, bodyText: String, timestamp: Date, identifier: String, mood: Mood) {
         // ?
         let _ = Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier, mood: mood)
         saveToPersistentStore()

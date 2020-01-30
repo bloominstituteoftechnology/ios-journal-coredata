@@ -39,7 +39,7 @@ class EntryDetailViewController: UIViewController {
             entryController?.createEntry(title: title,
                                          bodyText: body,
                                          timestamp: Date(),
-                                         identifier: UUID(),
+                                         identifier: UUID().uuidString,
                                          mood: selectedMood)
         }
         navigationController?.popViewController(animated: true)
