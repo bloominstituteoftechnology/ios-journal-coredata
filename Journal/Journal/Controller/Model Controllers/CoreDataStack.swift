@@ -31,13 +31,14 @@ class CoreDataStack {
     /**
      Saves whatever changes are in the mainContext
      */
-    func saveToPersistentStore() {
-        do {
-            try mainContext.save()
-        } catch {
-            mainContext.reset()
-            NSLog("Saving Task failed with error: \(error)")
+    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        context.performAndWait {
+            do {
+                try context.save()
+            } catch {
+                context.reset()
+                NSLog("Saving Task failed with error: \(error)")
+            }
         }
     }
-    
 }

@@ -22,7 +22,7 @@ class EntryController {
     //MARK: Properties
     typealias CompletionHandler = (Error?) -> ()
     let save = {
-        CoreDataStack.shared.saveToPersistentStore()
+        CoreDataStack.shared.save()
     }
     private let baseURL = URL(string:"https://lambda-journal-f748d.firebaseio.com/")!
     let context = CoreDataStack.shared.mainContext
@@ -35,13 +35,11 @@ class EntryController {
     //MARK: Create
     func createEntry(title: String, bodyText: String, mood: MoodType) {
         let entry = Entry(title: title, bodyText: bodyText, timestamp: Date(), identifier: UUID(), mood: mood.rawValue)
-        put(entry: entry) { (_) in
-            
-        }
+        put(entry: entry)
         self.save()
     }
     
-    func put(entry: Entry, complete: @escaping CompletionHandler) {
+    func put(entry: Entry, complete: @escaping CompletionHandler = {_ in }) {
         let postURL = baseURL.appendingPathComponent(entry.identifier?.uuidString ?? UUID().uuidString).appendingPathExtension("json")
         guard let request = NetworkService.createRequest(url: postURL, method: .put, headerType: .contentType, headerValue: .json) else {
             complete(NSError(domain: "PutRequestError", code: 400, userInfo: nil))
@@ -106,7 +104,7 @@ class EntryController {
                 return
             }
             var entryReps = [EntryRepresentation]()
-            for (identifier, representation) in optionalEntryReps {
+            for (_, representation) in optionalEntryReps {
                 entryReps.append(representation)
             }
             self.updateEntries(with: entryReps)
@@ -119,8 +117,7 @@ class EntryController {
     func updateEntry(entry: Entry, entryRep: EntryRepresentation) {
         entry.title = entryRep.title
         entry.bodyText = entryRep.bodyText
-        #warning("shouldnt this be Date()")
-        entry.timestamp = entryRep.timestamp
+        entry.timestamp = Date()
         entry.mood = entryRep.mood
     }
     
