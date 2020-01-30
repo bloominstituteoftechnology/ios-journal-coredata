@@ -57,7 +57,6 @@ class NetworkService {
     class func encode(from type: Any?, request: URLRequest) -> EncodingStatus {
         var localRequest = request
         let jsonEncoder = JSONEncoder()
-        
         jsonEncoder.dateEncodingStrategy = .formatted(df)
         do {
             switch type {
@@ -74,9 +73,6 @@ class NetworkService {
     
     class func decode(to type: Any?, data: Data) -> [String:EntryRepresentation]? {
         let decoder = JSONDecoder()
-        let df = DateFormatter()
-        df.dateStyle = .short
-        df.timeStyle = .short
         decoder.dateDecodingStrategy = .formatted(df)
         
         do {

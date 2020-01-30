@@ -99,7 +99,6 @@ class EntryController {
                 complete(error)
                 return
             }
-            var repDict = [String:EntryRepresentation]()
             guard let optionalEntryReps = NetworkService.decode(to: [String: EntryRepresentation].self, data: data) else {
                 let error = NSError(domain: "EntryController.fetchEntriesFromServer.DECODE_ERROR", code: 0, userInfo: nil)
                 print(error)
@@ -107,7 +106,7 @@ class EntryController {
                 return
             }
             var entryReps = [EntryRepresentation]()
-            for (identifier, representation) in repDict {
+            for (identifier, representation) in optionalEntryReps {
                 entryReps.append(representation)
             }
             self.updateEntries(with: entryReps)
