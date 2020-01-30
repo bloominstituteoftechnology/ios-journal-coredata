@@ -19,11 +19,18 @@ class EntryTableViewCell: UITableViewCell {
             updateViews()
         }
     }
+
+    let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter
+    }()
     
     func updateViews() {
         guard let entry = entry else { return }
         titleLabel.text = entry.title
-        timeStampLabel.text = "\(entry.timestamp ?? Date())"
+        timeStampLabel.text = dateFormatter.string(from: entry.timestamp ?? Date())
         bodyLabel.text = entry.bodyText
     }
 

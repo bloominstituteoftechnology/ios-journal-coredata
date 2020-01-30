@@ -11,6 +11,7 @@ import Foundation
 struct EntryRep: Codable {
     var identifier: String?
     var title: String
-    var bodyText: String?
+    var timestamp: Date?
+    var bodyText: String
     var mood: String
 }

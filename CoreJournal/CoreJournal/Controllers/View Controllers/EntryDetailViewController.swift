@@ -71,7 +71,7 @@ class EntryDetailViewController: UIViewController {
             mood = .neutral
         }
         if let entry = entry {
-            entryController?.update(for: entry, title: title, bodyText: bodyText, mood: mood.rawValue)
+            entryController?.updateEntry(for: entry, title: title, bodyText: bodyText, mood: mood.rawValue)
         } else {
             entryController?.createEntry(title: title, bodyText: bodyText, mood: mood.rawValue)
         }
