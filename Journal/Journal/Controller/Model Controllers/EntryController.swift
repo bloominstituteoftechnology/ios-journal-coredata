@@ -106,7 +106,7 @@ class EntryController {
                 return
             }
             var entryReps = [EntryRepresentation]()
-            for (identifier, representation) in optionalEntryReps {
+            for (_, representation) in optionalEntryReps {
                 entryReps.append(representation)
             }
             self.updateEntries(with: entryReps)
