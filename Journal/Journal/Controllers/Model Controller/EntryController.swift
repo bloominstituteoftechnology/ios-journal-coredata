@@ -89,6 +89,39 @@ class EntryController {
         }.resume()
     }
     
+    func updateEntries(with representations: [EntryRepresentation]) {
+        let identifiersToFetch = representations.compactMap({ $0.identifier })
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+        var entriesToCreate = representationsByID
+        
+        let context = CoreDataTask.shared.mainContext
+        
+        do {
+            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+            let existingEntries = try context.fetch(fetchRequest)
+            
+            for entry in existingEntries {
+                guard let identifier = entry.identifier,
+                    let representation = representationsByID[identifier] else { return }
+                entry.title = representation.title
+                entry.bodyText = representation.bodyText
+                entry.timeStamp = representation.timeStamp
+                entry.mood = representation.mood
+                
+                entriesToCreate.removeValue(forKey: identifier)
+                
+                for representation in entriesToCreate.values {
+                    Entry(entryRepresentation: representation, context: context)
+                }
+                saveToPersistentStore()
+            }
+        } catch {
+            NSLog("Error fetching entries from persistent stores: \(error)")
+        }
+        
+    }
+    
     func saveToPersistentStore() {
         do {
             try CoreDataTask.shared.mainContext.save()
