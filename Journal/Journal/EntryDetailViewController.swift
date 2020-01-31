@@ -35,9 +35,10 @@ class EntryDetailViewController: UIViewController {
         let mood = EntryMood.allCases[moodSC.selectedSegmentIndex]
         
         if let entry = entry {
-            entryController.updateEntry(entry: entry, with: title, timestamp: entry.timestamp ?? Date(), bodyText: bodyText, mood: mood.rawValue)
+            entryController.updateEntry(entry: entry, with: title, timestamp: entry.timestamp ?? Date(), bodyText: bodyText, mood: mood)
+
         } else {
-            entryController.createEntry(with: title, timestamp: Date(), bodyText: bodyText, mood: "🤪")
+            entryController.createEntry(with: title, timestamp: Date(), bodyText: bodyText, mood: mood)
         }
         navigationController?.popViewController(animated: true)
         

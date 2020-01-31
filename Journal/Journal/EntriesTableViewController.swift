@@ -71,6 +71,8 @@ class EntriesTableViewController: UITableViewController {
         if editingStyle == .delete {
             let entry = fetchResultsController.object(at: indexPath)
             entryController.delete(entry: entry)
+            CoreDataStack.shared.mainContext.delete(entry)
+            CoreDataStack.shared.save()
             //tableView.deleteRows(at: [indexPath], with: .fade)
             
         }
