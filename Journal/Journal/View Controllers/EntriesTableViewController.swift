@@ -9,20 +9,39 @@
 import UIKit
 import CoreData
 
-class EntriesTableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class EntriesTableViewController: UITableViewController, UICollectionViewDelegate, UICollectionViewDataSource, NSFetchedResultsControllerDelegate {
+    
+    
+    
+    // MARK: - IBOutlets and Variables
+    @IBOutlet var yearsCollectionContainerView: UIView!
+    @IBOutlet var yearsCollectionView: UICollectionView!
 
     var entryController = EntryController()
+    
+    var years: Int? = 0
+    var selectedYear: String? = nil
+    var numberOfSections: Int? = 0
+    var months: [String] = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    var sectionsToDisplay: [String] = []
+    var currentYear: String? = nil
+    
+    var dateFormatter = DateFormatter()
+    
+    
+    // MARK: - NSFetchedResultsController
     
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
-        let moodDescripter = NSSortDescriptor(key: "mood", ascending: true)
-        let dateDescriptor = NSSortDescriptor(key: "timeStamp", ascending: false)
+//        let moodDescripter = NSSortDescriptor(key: "mood", ascending: true)
+        let yearDescriptor = NSSortDescriptor(key: "year", ascending: true)
+        let monthDescriptor = NSSortDescriptor(key: "month", ascending: false)
         
-        fetchRequest.sortDescriptors = [moodDescripter, dateDescriptor]
+        fetchRequest.sortDescriptors = [yearDescriptor]
         let moc = CoreDataStack.shared.mainContext
         
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "year", cacheName: nil)
         
         frc.delegate = self
         
@@ -34,32 +53,270 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
         return frc
     }()
     
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        do {
+           try fetchedResultsController.performFetch()
+       } catch {
+           print("An error occurred")
+       }
         self.navigationController?.navigationBar.prefersLargeTitles = true
+        yearsCollectionView.dataSource = self
+        yearsCollectionView.delegate = self
+        
+        currentYear = determineCurrentYear()
+        selectedYear = currentYear
         
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        entryController.fetchEntriesFromServer()
+        
+        selectedYear = currentYear
+//        tableView.reloadData()
+        
+        
+//        entryController.fetchEntriesFromServer()
     }
+    
+    // MARK: - Year Collection View data source
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        
+        if let datesToSort = fetchedResultsController.fetchedObjects {
+        let formatter = DateFormatter()
+        formatter.timeStyle = .short
+        formatter.dateStyle = .short
+        formatter.dateFormat = "yyyy"
+
+
+
+            for y in datesToSort {
+                print(y)
+            }
+        }
+        
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+//        var yearsInCollectionView = years
+        
+        
+        return UICollectionViewCell()
+        
+    }
+    
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        <#code#>
+//    }
+    
+    
+    // MARK: - CRUD methods
+    
+    func determineCurrentYear() -> String {
+        
+        dateFormatter.timeStyle = .short
+        dateFormatter.dateStyle = .short
+        dateFormatter.dateFormat = "yyyy"
+        
+        let date = Date()
+        
+        let currentYear = dateFormatter.string(from: date)
+
+        return currentYear
+    }
+    
+    func selectYear(date: Date) -> String {
+        dateFormatter.timeStyle = .short
+        dateFormatter.dateStyle = .short
+        dateFormatter.dateFormat = "yyyy"
+        
+        let currentYear = dateFormatter.string(from: date)
+
+        return currentYear
+        
+    }
+    
+    func getMonth(date: Date) -> String {
+        
+        dateFormatter.timeStyle = .short
+        dateFormatter.dateStyle = .short
+        dateFormatter.dateFormat = "MMMM"
+        
+        let dateString = dateFormatter.string(from: date)
+        
+        return dateString
+    }
+    
+    func fetchEntries() -> [Entry]? {
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            print("error fetching entries")
+        }
+        
+        guard var entries = fetchedResultsController.fetchedObjects else { return nil }
+        
+        return entries
+        
+    }
+    
+    
+
+
 
     // MARK: - Table view data source
     
+    // core data error in one of the sections methods
+    
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return fetchedResultsController.sections?.count ?? 0
+        
+        // 1. Divide sections by year and month
+        // 2. Return the number of sections that apply.
+        
+//        guard let sectionInfo = fetchedResultsController.sections?.description else { return 0 }
+//              let formatter = DateFormatter()
+//              formatter.timeStyle = .short
+//              formatter.dateStyle = .short
+//              formatter.dateFormat = "MMMM yyyy"
+//              let formattedDate = formatter.date(from: sectionInfo) ?? Date()
+//              let dateString = formatter.string(from: formattedDate)
+//              var sectionsToReturn: Int? = 0
+//              
+//              if dateString.contains("January") {
+//                  sectionsToReturn
+//              }
+        
+        guard var entries = fetchEntries()?.filter({ $0.year == selectedYear }) else { return 0 }
+        
+        var monthsToDisplay: [String] = []
+        var monthCount: Int = 0
+        
+        for x in entries {
+            
+            if let month = x.month {
+            
+                if !monthsToDisplay.contains(month) {
+                    monthsToDisplay.append(month)
+                    monthCount += 1
+                }
+            }
+            
+        }
+        
+//        if let currentSection = entries[section].month {
+//            for x in entries {
+//                if currentSection == x.month {
+//                    rowsForSection += 1
+//                }
+//            }
+//        }
+        
+        let sectionsToReturn = monthsToDisplay.count
+        
+         return monthCount
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
+        // Not counting entries in month properly
+        
+        guard var entries = fetchEntries()?.filter({ $0.year == selectedYear }) else { return 0 }
+        
+        print(entries.count)
+        
+        var rowsForSection: Int = 0
+        
+        
+        
+        if let currentSection = entries[section].month {
+            for x in entries {
+                if currentSection == x.month {
+                    rowsForSection += 1
+                }
+            }
+        }
+        
+        
+        
+        return rowsForSection
+        
+//        return currentSection?.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
-        return sectionInfo.name.capitalized
+        
+        var sectionHeaders: [String] = []
+        
+        guard var entries = fetchEntries() else { return nil }
+        
+        
+        
+        for x in entries {
+            
+            if let month = x.month {
+            
+                if !sectionHeaders.contains(month) {
+                    sectionHeaders.append(month)
+                }
+            }
+            
+        }
+        var nameOfSection: String = ""
+        
+        for e in sectionHeaders {
+            nameOfSection = e
+        }
+        
+        sectionHeaders = sectionsToDisplay
+
+        return nameOfSection
+        
+//        var sectionHeaders: [String] = []
+//
+//        guard var entries = fetchEntries() else { return nil }
+//
+//
+//        for x in entries {
+//
+//            guard let dateToFormat = x.timeStamp else { return nil }
+//
+//            let dateString = getMonth(date: dateToFormat)
+//
+//            if !months.contains(dateString) {
+//
+//            } else if months.contains(dateString) {
+//                if !sectionHeaders.contains(dateString) {
+//                 sectionHeaders.append(dateString)
+//                }
+//
+//            }
+//
+//            numberOfSections = sectionHeaders.count
+//
+//        }
+//
+//        var nameOfSection: String = ""
+//
+//        for e in sectionHeaders {
+//            nameOfSection = e
+//        }
+//
+//
+//        return nameOfSection
     }
     
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
@@ -69,7 +326,13 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as! EntryTableViewCell
         
-        let entry = fetchedResultsController.object(at: indexPath)
+        guard var entries = fetchEntries()?.filter({ $0.year == selectedYear }) else { return UITableViewCell() }
+        
+        
+        
+        let entry = entries[indexPath.row]
+        
+        
         cell.entry = entry
 
         return cell

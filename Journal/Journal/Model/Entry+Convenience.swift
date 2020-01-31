@@ -19,7 +19,7 @@ enum Mood: String, CaseIterable {
 
 extension Entry {
     
-    @discardableResult convenience init(title: String, bodyText: String? = nil, timeStamp: Date? = Date(), identifier: String? = UUID().uuidString, mood: Mood, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    @discardableResult convenience init(title: String, bodyText: String? = nil, timeStamp: Date? = Date(), identifier: String? = UUID().uuidString, month: String, year: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(context: context)
         
@@ -27,7 +27,9 @@ extension Entry {
         self.bodyText = bodyText
         self.timeStamp = timeStamp
         self.identifier = identifier
-        self.mood = mood.rawValue
+        self.month = month
+        self.year = year
+//        self.mood = mood.rawValue
         
     }
     
@@ -39,12 +41,14 @@ extension Entry {
         self.bodyText = entryRepresentation.bodyText
         self.timeStamp = entryRepresentation.timeStamp
         self.identifier = entryRepresentation.identifier
-        self.mood = entryRepresentation.mood
+        self.month = entryRepresentation.month
+        self.year = entryRepresentation.year
+//        self.mood = entryRepresentation.mood
         
     }
     
     var entryRepresentation: EntryRepresentation {
-        return EntryRepresentation(title: title, bodyText: bodyText, timeStamp: timeStamp, identifier: identifier, mood: mood)
+        return EntryRepresentation(title: title, bodyText: bodyText, timeStamp: timeStamp, identifier: identifier, month: month, year: year)
     }
     
     

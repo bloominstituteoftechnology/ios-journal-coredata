@@ -13,7 +13,7 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet var titleTextField: UITextField!
     @IBOutlet var bodyTextView: UITextView!
     @IBOutlet var saveButton: UIBarButtonItem!
-    @IBOutlet var moodControl: UISegmentedControl!
+    
 
     
     var entry: Entry? {
@@ -51,22 +51,21 @@ class EntryDetailViewController: UIViewController {
                 self.present(alert, animated: true, completion: nil)
                 return }
         
-        let mood = Mood.allCases[moodControl.selectedSegmentIndex]
+//        let mood = Mood.allCases[moodControl.selectedSegmentIndex]
         
         
         if saveButton.title == "Edit" {
             titleTextField.isEnabled = true
             bodyTextView.isEditable = true
-            moodControl.isEnabled = true
             
             bodyTextView.becomeFirstResponder()
             saveButton.title = "Save"
                 
         } else {
             if let entry = entry {
-                self.entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText, mood: mood)
+                self.entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText)
             } else {
-                self.entryController?.createEntry(title: title, bodyText: bodyText, mood: mood)
+                self.entryController?.createEntry(title: title, bodyText: bodyText)
         }
             navigationController?.popViewController(animated: true)
         }
@@ -94,21 +93,21 @@ class EntryDetailViewController: UIViewController {
             if saveButton.title == "Edit" {
                 titleTextField.isEnabled = false
                 bodyTextView.isEditable = false
-                moodControl.isEnabled = false
+                
             }
         }
         
-        let mood: Mood
-        
-        if let entryMood = entry?.mood {
-            mood = Mood(rawValue: entryMood)!
-        } else {
-            mood = .😐
-        }
-        
-        let moodIndex = Mood.allCases.firstIndex(of: mood)!
-        
-        moodControl.selectedSegmentIndex = moodIndex
+//        let mood: Mood
+//
+//        if let entryMood = entry?.mood {
+//            mood = Mood(rawValue: entryMood)!
+//        } else {
+//            mood = .😐
+//        }
+//
+//        let moodIndex = Mood.allCases.firstIndex(of: mood)!
+//
+//        moodControl.selectedSegmentIndex = moodIndex
         
         
         titleTextField.text = entry?.title

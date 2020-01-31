@@ -13,7 +13,9 @@ struct EntryRepresentation: Codable, Equatable {
     var bodyText: String?
     var timeStamp: Date?
     var identifier: String?
-    var mood: String?
+    var month: String?
+    var year: String?
+//    var mood: String?
 }
 
 func == (lhs: EntryRepresentation, rhs: Entry) -> Bool {

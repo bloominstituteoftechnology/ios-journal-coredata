@@ -15,37 +15,73 @@ class EntryController {
     
     let formatter = DateFormatter()
     
-    func createEntry(title: String, bodyText: String? = nil, mood: Mood) {
-        let entry = Entry(title: title, bodyText: bodyText, mood: mood)
-        do {
-            try CoreDataStack.shared.save()
-        } catch {
-            NSLog("Error saving context: \(error)")
-        }
-        put(entry: entry)
+    func getYear(date: Date) -> String {
+        formatter.timeStyle = .short
+        formatter.dateStyle = .short
+        formatter.dateFormat = "yyyy"
+        
+        let date = Date()
+        
+        let currentYear = formatter.string(from: date)
+
+        return currentYear
+        
     }
     
-    func updateEntry(entry: Entry, title: String, bodyText: String, mood: Mood) {
+    func getMonth(date: Date) -> String {
+        
+        formatter.timeStyle = .short
+        formatter.dateStyle = .short
+        formatter.dateFormat = "MMMM"
+        
+        let dateString = formatter.string(from: date)
+        
+        return dateString
+    }
+    
+    func createEntry(title: String, bodyText: String? = nil, timeStamp: Date? = Date()) {
+        
+        let month = getMonth(date: timeStamp ?? Date())
+        let year = getYear(date: timeStamp ?? Date())
+        
+        DispatchQueue.main.async {
+            
+            let entry = Entry(title: title, bodyText: bodyText, month: month, year: year)
+            do {
+                try CoreDataStack.shared.save()
+            } catch {
+                NSLog("Error saving context: \(error)")
+            }
+        }
+//        put(entry: entry)
+    }
+    
+    func updateEntry(entry: Entry, title: String, bodyText: String) {
         
         let currentDateTime = Date()
+        
+        let month = getMonth(date: currentDateTime ?? Date())
+        let year = getYear(date: currentDateTime ?? Date())
         
         entry.title = title
         entry.bodyText = bodyText
         entry.timeStamp = currentDateTime
-        entry.mood = mood.rawValue
+        entry.month = month
+        entry.year = year
+//        entry.mood = mood.rawValue
         
         do {
             try CoreDataStack.shared.save()
         } catch {
             NSLog("Error saving context: \(error)")
         }
-        put(entry: entry)
+//        put(entry: entry)
     }
     
     func deleteEntry(entry: Entry) {
             let moc = CoreDataStack.shared.mainContext
             moc.delete(entry)
-            deleteEntryFromServer(entry)
+//            deleteEntryFromServer(entry)
         do {
             try CoreDataStack.shared.save()
         } catch {
@@ -151,11 +187,12 @@ class EntryController {
     private func update(entry: Entry, with representation: EntryRepresentation) {
         entry.title = representation.title
         entry.bodyText = representation.bodyText
-        entry.mood = representation.mood
         entry.timeStamp = representation.timeStamp
         entry.identifier = representation.identifier
+        entry.month = representation.month
+        entry.year = representation.year
     }
-    
+
     func fetchSingleEntryFromStore(UUID uuid: String) -> Entry? {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid)
@@ -186,7 +223,7 @@ class EntryController {
         } catch {
             NSLog("Error fetching task with UUID: \(uuid): \(error)")
             
-        }
+            }
         }
         return result
     }
