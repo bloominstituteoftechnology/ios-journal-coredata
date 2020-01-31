@@ -41,6 +41,7 @@ class EntryDetailViewController: UIViewController {
                                          timestamp: Date(),
                                          identifier: UUID().uuidString,
                                          mood: selectedMood)
+            
         }
         navigationController?.popViewController(animated: true)
     }

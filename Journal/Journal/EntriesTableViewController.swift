@@ -104,13 +104,29 @@ class EntriesTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            // Old way
+//            CoreDataStack.shared.mainContext.delete(entry)
+//            do {
+//                try CoreDataStack.shared.mainContext.save()
+//            } catch {
+//                CoreDataStack.shared.mainContext.reset() // UN-deletes
+//                NSLog("Error saving managed object context: \(error)")
+//            }
             let entry = fetchedResultsController.object(at: indexPath)
-            CoreDataStack.shared.mainContext.delete(entry)
-            do {
-                try CoreDataStack.shared.mainContext.save()
-            } catch {
-                CoreDataStack.shared.mainContext.reset() // UN-deletes
-                NSLog("Error saving managed object context: \(error)")
+            // delete from server before we do local deletion
+            entryController.deleteEntryFromServer(entry: entry) { error in
+                if let error = error {
+                    print("Error deleting entry from server: \(error)")
+                    return
+                }
+                
+                CoreDataStack.shared.mainContext.delete(entry)
+                do {
+                    try CoreDataStack.shared.mainContext.save()
+                } catch {
+                    CoreDataStack.shared.mainContext.reset() // UN-deletes
+                    NSLog("Error saving managed object context: \(error)")
+                }
             }
         }
     }
@@ -137,7 +153,7 @@ class EntriesTableViewController: UITableViewController {
         if segue.identifier == "AddEntrySegue" {
             print("AddEntrySegue")
             if let detailVC = segue.destination as? EntryDetailViewController {
-                detailVC.entryController = entryController
+                detailVC.entryController = self.entryController
             }
             
         }
@@ -145,7 +161,7 @@ class EntriesTableViewController: UITableViewController {
         if segue.identifier == "DetailSegue" {
             print("DetailSegue")
             if let detailVC = segue.destination as? EntryDetailViewController, let indexPath = tableView.indexPathForSelectedRow {
-                detailVC.entryController = entryController
+                detailVC.entryController = self.entryController
                 detailVC.entry = fetchedResultsController.object(at: indexPath)
         }
     }

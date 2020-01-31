@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-let baseURL = URL(string: "https://journalgp-41898.firebaseio.com/")!
+let baseURL = URL(string: "https://journal-f843e.firebaseio.com/")!
 
 class EntryController {
     
@@ -72,26 +72,32 @@ class EntryController {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
         
-        let context = CoreDataStack.shared.mainContext
+        // Create private queue context
+        // Used to say let context = CoreDataStack.shared.mainContext
         
-        do {
-            let existingEntries = try context.fetch(fetchRequest)
-            
-            for entry in existingEntries {
-                // continue skips next iteration of for loop
-                guard let id = entry.identifier, let representation = representationsByID[id] else {continue}
-                self.update(entry: entry, with: representation)
-                entriesToCreate.removeValue(forKey: id)
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        
+        context.perform {
+            do {
+                let existingEntries = try context.fetch(fetchRequest)
+                
+                for entry in existingEntries {
+                    // continue skips next iteration of for loop
+                    guard let id = entry.identifier, let representation = representationsByID[id] else {continue}
+                    self.update(entry: entry, with: representation)
+                    entriesToCreate.removeValue(forKey: id)
+                }
+                
+                for representation in entriesToCreate.values {
+                    Entry(entryRepresentation: representation)
+                }
+            } catch {
+                print("Error fetching entries for UUIDs: \(error)")
             }
-            
-            for representation in entriesToCreate.values {
-                Entry(entryRepresentation: representation)
-            }
-        } catch {
-            print("Error fetching entries for UUIDs: \(error)")
         }
         
-        self.saveToPersistentStore()
+        // used to say self.saveToPersistentStore()
+        try CoreDataStack.shared.save(context: context)
     }
     
     // updates local with data from the remote
@@ -112,7 +118,8 @@ class EntryController {
     
     func createEntry(title: String, bodyText: String, timestamp: Date, identifier: String, mood: Mood) {
         // ?
-        let _ = Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier, mood: mood)
+        let entry = Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier, mood: mood)
+        sendEntryToServer(entry: entry)
         saveToPersistentStore()
     }
     
@@ -123,15 +130,75 @@ class EntryController {
         entry.mood = mood.rawValue
         
         //print("UPDATED ENTRY: \(entry.title), \(entry.bodyText), \(entry.timestamp)")
+        sendEntryToServer(entry: entry)
         saveToPersistentStore()
+    
     }
     
-    func delete(entry: Entry) {
-        print("DELETE")
-        /*
-        -Take an an Entry object to delete
-        -Delete the Entry from the core data stack's mainContext
-        -Save this deletion to the persistent store.
-        */
+    // PUT when we make new tasks. Sends to firebase
+    func sendEntryToServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        let uuid = entry.identifier ?? UUID().uuidString // if it doesn't have one, make one
+        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT" // post ADDS to db (can add copies), "put" also finds recored and overrides it, or just adds
+        
+        // encode our data
+        do {
+            guard var representation = entry.entryRepresentation else {
+                completion(NSError())
+                return
+            }
+            // both version have same id
+            representation.identifier = uuid
+            entry.identifier = uuid
+            try CoreDataStack.shared.save()
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            print("Error encoding entry \(entry): \(error)")
+            DispatchQueue.main.async {
+                completion(error)
+            }
+            return
+        }
+        
+        // ready to be sent to the server
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            // check for error
+            if let error = error {
+                NSLog("error putting entry to server: \(error)")
+                DispatchQueue.main.async {
+                    completion(error)
+                }
+                return
+            }
+            
+            // then it works (success)
+            DispatchQueue.main.async {
+                completion(nil)
+            }
+            
+        }.resume()
+    }
+    
+    // DELETE from server if it can, then delete locally
+    func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        // NEEDS to have ID
+        guard let uuid = entry.identifier else {
+            completion(NSError())
+            return
+        }
+        
+        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json") // json type payload
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        // just for us to debug, want to if let error and if let response
+        URLSession.shared.dataTask(with: request) { (_, response, error) in
+            print(response!) // 200 or error code
+            
+            DispatchQueue.main.async {
+                completion(error)
+            }
+        }.resume()
     }
 }
