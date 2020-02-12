@@ -20,13 +20,13 @@ class EntryController {
     // MARK: - CRUD Methods
 
     // Create Entry
-    private func createEntry(withTitle title: String, bodyText: String) {
+    func createEntry(withTitle title: String, bodyText: String) {
         entries.append(Entry(title: title, bodyText: bodyText))
         saveToPersistentStore()
     }
     
     // Update Entry
-    private func updateEntry(_ entry: Entry, updatedTitle: String, updatedBodyText: String) {
+    func updateEntry(_ entry: Entry, updatedTitle: String, updatedBodyText: String) {
         let updatedTimestamp = Date()
         entry.title = updatedTitle
         entry.bodyText = updatedBodyText
@@ -45,7 +45,7 @@ class EntryController {
     }
     
     // Delete Entry
-    private func deleteEntry(_ entry: Entry) {
+    func deleteEntry(_ entry: Entry) {
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
         saveToPersistentStore()
