@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		E03577CC23F4EDF000D55418 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03577CB23F4EDF000D55418 /* AppDelegate.swift */; };
 		E03577CE23F4EDF000D55418 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03577CD23F4EDF000D55418 /* SceneDelegate.swift */; };
-		E03577D023F4EDF000D55418 /* DetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03577CF23F4EDF000D55418 /* DetailsViewController.swift */; };
+		E03577D023F4EDF000D55418 /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03577CF23F4EDF000D55418 /* EntryDetailViewController.swift */; };
 		E03577D323F4EDF000D55418 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E03577D123F4EDF000D55418 /* Main.storyboard */; };
 		E03577D523F4EDF400D55418 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E03577D423F4EDF400D55418 /* Assets.xcassets */; };
 		E03577D823F4EDF400D55418 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E03577D623F4EDF400D55418 /* LaunchScreen.storyboard */; };
@@ -18,13 +18,14 @@
 		E03577E423F4F85100D55418 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03577E323F4F85100D55418 /* CoreDataStack.swift */; };
 		E03577EE23F4FAC400D55418 /* Entries.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E03577EC23F4FAC400D55418 /* Entries.xcdatamodeld */; };
 		E03577F023F4FC7900D55418 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03577EF23F4FC7900D55418 /* Entry+Convenience.swift */; };
+		E03577F223F4FEA900D55418 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03577F123F4FEA900D55418 /* EntryController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		E03577C823F4EDF000D55418 /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E03577CB23F4EDF000D55418 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E03577CD23F4EDF000D55418 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		E03577CF23F4EDF000D55418 /* DetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsViewController.swift; sourceTree = "<group>"; };
+		E03577CF23F4EDF000D55418 /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
 		E03577D223F4EDF000D55418 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E03577D423F4EDF400D55418 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E03577D723F4EDF400D55418 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -34,6 +35,7 @@
 		E03577E323F4F85100D55418 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		E03577ED23F4FAC400D55418 /* Entries.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Entries.xcdatamodel; sourceTree = "<group>"; };
 		E03577EF23F4FC7900D55418 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
+		E03577F123F4FEA900D55418 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +82,7 @@
 		E03577E523F4F85D00D55418 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				E03577CF23F4EDF000D55418 /* DetailsViewController.swift */,
+				E03577CF23F4EDF000D55418 /* EntryDetailViewController.swift */,
 				E03577DF23F4EF1500D55418 /* EntiresTableViewController.swift */,
 			);
 			path = "View Controllers";
@@ -102,6 +104,7 @@
 				E03577E323F4F85100D55418 /* CoreDataStack.swift */,
 				E03577EC23F4FAC400D55418 /* Entries.xcdatamodeld */,
 				E03577EF23F4FC7900D55418 /* Entry+Convenience.swift */,
+				E03577F123F4FEA900D55418 /* EntryController.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -186,11 +189,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				E03577E023F4EF1500D55418 /* EntiresTableViewController.swift in Sources */,
-				E03577D023F4EDF000D55418 /* DetailsViewController.swift in Sources */,
+				E03577D023F4EDF000D55418 /* EntryDetailViewController.swift in Sources */,
 				E03577E223F4EF5200D55418 /* EntryTableViewCell.swift in Sources */,
 				E03577EE23F4FAC400D55418 /* Entries.xcdatamodeld in Sources */,
 				E03577F023F4FC7900D55418 /* Entry+Convenience.swift in Sources */,
 				E03577E423F4F85100D55418 /* CoreDataStack.swift in Sources */,
+				E03577F223F4FEA900D55418 /* EntryController.swift in Sources */,
 				E03577CC23F4EDF000D55418 /* AppDelegate.swift in Sources */,
 				E03577CE23F4EDF000D55418 /* SceneDelegate.swift in Sources */,
 			);

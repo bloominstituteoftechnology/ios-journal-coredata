@@ -1,5 +1,5 @@
 //
-//  DetailsViewController.swift
+//  EntryDetailViewController.swift
 //  Journal
 //
 //  Created by Sal Amer on 2/12/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DetailsViewController: UIViewController {
+class EntryDetailViewController: UIViewController {
     
     //MARK - Outlets
     @IBOutlet weak var titleEntryLbl: UITextField!
