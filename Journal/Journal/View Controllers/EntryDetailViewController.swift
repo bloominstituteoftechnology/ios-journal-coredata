@@ -32,9 +32,18 @@ class EntryDetailViewController: UIViewController {
     // MARK - Actions
     
     @IBAction func saveBtnPressed(_ sender: UIBarButtonItem) {
+        print("save tapped")
         guard let title = titleEntryLbl.text,
             !title.isEmpty else { return }
-        let descript = descriptionLbl.text
+       guard let descript = descriptionLbl.text,
+        !descript.isEmpty else { return }
+        
+        if let entry = entry {
+            entryController?.Update(entry: entry, newTitle: title, newBodyText: descript)
+        } else {
+            entryController?.CreateEntry(title: title, bodytext: descript, timestamp: Date(), identifier: "\(Int.random(in: 1...1000))")
+        
+        }
         navigationController?.popViewController(animated: true)
     }
     

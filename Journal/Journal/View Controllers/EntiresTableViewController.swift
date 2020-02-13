@@ -44,7 +44,8 @@ class EntiresTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "JournalCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
         
-        let entry = entryController.entries[indexPath.row]
+       let entry = entryController.entries[indexPath.row]
+        
         //how to automatically populate using custom cell?
         cell.titleLabel.text = entry.title
         cell.descriptionLbl.text = entry.bodytext

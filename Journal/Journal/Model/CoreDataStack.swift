@@ -11,7 +11,7 @@ import CoreData
 
 
 class CoreDataStack {
-    static let shared = CoreDataStack()  //create singleton
+    static let shared = CoreDataStack()  //create singleton - managed object
     
     private init() {}
     
