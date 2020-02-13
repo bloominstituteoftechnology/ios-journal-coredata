@@ -7,10 +7,17 @@
 //
 
 import UIKit
+import CoreData
 
 class EntriesTableViewController: UITableViewController {
     // MARK: - Properties
     let entryController = EntryController()
+    var dateFormatter: DateFormatter {
+         let formatter = DateFormatter()
+         formatter.dateStyle = .short
+         formatter.timeStyle = .short
+         return formatter
+     }
 
     
     override func viewDidLoad() {
@@ -31,9 +38,12 @@ class EntriesTableViewController: UITableViewController {
 
   
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else {return UITableViewCell()}
 
-         cell.entry = entryController.entries[indexPath.row]
+         let entry = entryController.entries[indexPath.row]
+         cell.titleLabel.text = entry.title
+         cell.bodyLabel.text = entry.bodyText
+         cell.timestampLabel.text = "\(dateFormatter.string(from: entry.timestamp!))"
 
          return cell
 
@@ -51,16 +61,21 @@ class EntriesTableViewController: UITableViewController {
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "AddJournalSegue" {
-            if let addVC = segue.destination as? EntryDetailViewController {
-                addVC.entryController = entryController
-            }
-        } else if segue.identifier == "ShowJournalSegue" {
-            if let indexPath = tableView.indexPathForSelectedRow,
-                let DetailVC = segue.destination as? EntryDetailViewController {
-                DetailVC.entry = entryController.entries[indexPath.row]
-                DetailVC.entryController = entryController
-            }
-        }
-    }
+
+         if segue.identifier == "ShowJournalSegue" {
+             if let detailVC = segue.destination as?
+             EntryDetailViewController,
+                 let indexPath = tableView.indexPathForSelectedRow {
+
+                 detailVC.entryController = entryController
+                 detailVC.entry = entryController.entries[indexPath.row]
+             }
+         } else if segue.identifier == "AddJournalSegue" {
+             if let detailVC = segue.destination as?
+                 EntryDetailViewController {
+                 detailVC.entryController = entryController
+             }
+         }
+     }
+
 }

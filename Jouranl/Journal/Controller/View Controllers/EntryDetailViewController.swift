@@ -15,19 +15,43 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var entryTextView: UITextView!
     
     // MARK: - Properties
-    var entry: Entry?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
     var entryController: EntryController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        updateViews()
+        
         // Do any additional setup after loading the view.
     }
+    // MARK: - Functions
+    func updateViews() {
+        guard isViewLoaded else { return }
+        
+        self.title = entry?.title ?? "Create Entry"
+        titleTextField.text = entry?.title
+        entryTextView.text = entry?.bodyText
+    }
     
-
-// MARK: - IBActions
+    
+    // MARK: - IBActions
     
     @IBAction func saveButton(_ sender: Any) {
+        guard let title = titleTextField.text,
+            !title.isEmpty else { return }
+        let bodyText = entryTextView.text
+        
+        if let entry = entry {
+            entryController?.update(entry: entry, newTitle: title, newDescription: description)
+        } else {
+            entryController?.create(title: title, timestamp: Date(), bodyText: bodyText, identifier: "")
+        }
+        navigationController?.popViewController(animated: true)
     }
     
 }
