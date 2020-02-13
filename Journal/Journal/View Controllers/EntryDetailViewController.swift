@@ -10,6 +10,15 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
     
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    var entryController: EntryController?
+    
+    
+    
     //MARK - Outlets
     @IBOutlet weak var titleEntryLbl: UITextField!
     @IBOutlet weak var descriptionLbl: UITextView!
@@ -17,12 +26,23 @@ class EntryDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        updateViews()
     }
 
     // MARK - Actions
     
     @IBAction func saveBtnPressed(_ sender: UIBarButtonItem) {
+        guard let title = titleEntryLbl.text,
+            !title.isEmpty else { return }
+        let descript = descriptionLbl.text
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func updateViews() {
+        guard isViewLoaded else { return }
+        title = entry?.title ?? "Create Entry"
+        titleEntryLbl.text = entry?.title
+        descriptionLbl.text = entry?.description
     }
     
 
