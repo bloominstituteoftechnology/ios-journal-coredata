@@ -28,7 +28,7 @@ class EntryTableViewCell: UITableViewCell {
     
     private func updateViews() {
         guard let entry = entry,
-            let timeStamp = entry.timeStamp else { return }
+        let timeStamp = entry.timeStamp else { return }
         let timeString = dateFormatter.string(from: timeStamp)
         titleLabel.text = entry.title
         bodyTextLabel.text = entry.bodyText
