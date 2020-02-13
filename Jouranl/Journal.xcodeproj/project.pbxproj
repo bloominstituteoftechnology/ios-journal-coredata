@@ -15,6 +15,9 @@
 		42F0E43623F4E13A003F9D53 /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F0E43523F4E13A003F9D53 /* EntriesTableViewController.swift */; };
 		42F0E43923F4E275003F9D53 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F0E43823F4E275003F9D53 /* EntryTableViewCell.swift */; };
 		42F0E43B23F4E411003F9D53 /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F0E43A23F4E411003F9D53 /* EntryDetailViewController.swift */; };
+		42F0E43E23F4E57D003F9D53 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F0E43D23F4E57D003F9D53 /* CoreDataStack.swift */; };
+		42F0E44123F4E5A1003F9D53 /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 42F0E43F23F4E5A1003F9D53 /* Journal.xcdatamodeld */; };
+		42F0E44323F4E645003F9D53 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42F0E44223F4E645003F9D53 /* Entry+Convenience.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +31,9 @@
 		42F0E43523F4E13A003F9D53 /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 		42F0E43823F4E275003F9D53 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
 		42F0E43A23F4E411003F9D53 /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
+		42F0E43D23F4E57D003F9D53 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		42F0E44023F4E5A1003F9D53 /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
+		42F0E44223F4E645003F9D53 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +75,9 @@
 				42F0E42A23F4DED2003F9D53 /* Assets.xcassets */,
 				42F0E42C23F4DED2003F9D53 /* LaunchScreen.storyboard */,
 				42F0E42723F4DECE003F9D53 /* Main.storyboard */,
+				42F0E43D23F4E57D003F9D53 /* CoreDataStack.swift */,
+				42F0E43F23F4E5A1003F9D53 /* Journal.xcdatamodeld */,
+				42F0E44223F4E645003F9D53 /* Entry+Convenience.swift */,
 			);
 			path = Journal;
 			sourceTree = "<group>";
@@ -144,9 +153,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				42F0E44123F4E5A1003F9D53 /* Journal.xcdatamodeld in Sources */,
 				42F0E43623F4E13A003F9D53 /* EntriesTableViewController.swift in Sources */,
 				42F0E43923F4E275003F9D53 /* EntryTableViewCell.swift in Sources */,
 				42F0E42223F4DECE003F9D53 /* AppDelegate.swift in Sources */,
+				42F0E44323F4E645003F9D53 /* Entry+Convenience.swift in Sources */,
+				42F0E43E23F4E57D003F9D53 /* CoreDataStack.swift in Sources */,
 				42F0E43B23F4E411003F9D53 /* EntryDetailViewController.swift in Sources */,
 				42F0E42423F4DECE003F9D53 /* SceneDelegate.swift in Sources */,
 			);
@@ -293,7 +305,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = Jouranl/Info.plist;
+				INFOPLIST_FILE = Journal/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -310,7 +322,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = Jouranl/Info.plist;
+				INFOPLIST_FILE = Journal/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -344,6 +356,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		42F0E43F23F4E5A1003F9D53 /* Journal.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				42F0E44023F4E5A1003F9D53 /* Journal.xcdatamodel */,
+			);
+			currentVersion = 42F0E44023F4E5A1003F9D53 /* Journal.xcdatamodel */;
+			path = Journal.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 42F0E41623F4DECE003F9D53 /* Project object */;
 }
