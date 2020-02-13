@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="84" id="Cyz-xa-EKf" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="84" id="Cyz-xa-EKf" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="84"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Cyz-xa-EKf" id="GNT-FD-Cj7">
@@ -25,7 +25,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Asf-oH-r02">
-                                            <rect key="frame" x="8" y="10" width="76" height="64"/>
+                                            <rect key="frame" x="8" y="10" width="298" height="64"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yEf-zU-6CJ">
                                                     <rect key="frame" x="0.0" y="0.0" width="52.5" height="35.5"/>
@@ -45,7 +45,7 @@
                                             </subviews>
                                         </stackView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time Stamp" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8Ap-Su-jJl">
-                                            <rect key="frame" x="314" y="32" width="92" height="20.5"/>
+                                            <rect key="frame" x="314" y="10" width="92" height="36.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -53,11 +53,12 @@
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="Asf-oH-r02" firstAttribute="leading" secondItem="GNT-FD-Cj7" secondAttribute="leading" constant="8" id="QwR-26-MWm"/>
-                                        <constraint firstAttribute="bottom" secondItem="8Ap-Su-jJl" secondAttribute="bottom" constant="31.5" id="VN9-Bb-NL4"/>
+                                        <constraint firstAttribute="bottom" secondItem="8Ap-Su-jJl" secondAttribute="bottom" constant="37.5" id="VN9-Bb-NL4"/>
                                         <constraint firstItem="Asf-oH-r02" firstAttribute="top" secondItem="GNT-FD-Cj7" secondAttribute="top" constant="10" id="WiG-yF-hs4"/>
                                         <constraint firstAttribute="trailing" secondItem="8Ap-Su-jJl" secondAttribute="trailing" constant="8" id="ZLh-39-SCc"/>
                                         <constraint firstAttribute="bottom" secondItem="Asf-oH-r02" secondAttribute="bottom" constant="10" id="bgc-wW-TfQ"/>
-                                        <constraint firstItem="8Ap-Su-jJl" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Asf-oH-r02" secondAttribute="trailing" constant="8" id="das-Xb-Lpv"/>
+                                        <constraint firstItem="8Ap-Su-jJl" firstAttribute="top" secondItem="Asf-oH-r02" secondAttribute="top" id="dK7-5y-RpF"/>
+                                        <constraint firstItem="8Ap-Su-jJl" firstAttribute="leading" relation="lessThanOrEqual" secondItem="Asf-oH-r02" secondAttribute="trailing" constant="8" id="f40-On-gIu"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -76,7 +77,7 @@
                     <navigationItem key="navigationItem" title="Journal" id="IxW-sd-M4x">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="1fO-6a-yzU">
                             <connections>
-                                <segue destination="k2e-i5-ElD" kind="show" identifier="ShowCreateEntrySegue" id="vcx-9N-kM8"/>
+                                <segue destination="k2e-i5-ElD" kind="show" identifier="ShowAddEntrySegue" id="vcx-9N-kM8"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -156,6 +157,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="rae-Ms-NqO"/>
+        <segue reference="vcx-9N-kM8"/>
     </inferredMetricsTieBreakers>
 </document>
