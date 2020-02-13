@@ -40,9 +40,9 @@ class EntryController {
         saveToPersistentStore()
     }
 
-    func update(entry: Entry, newTitle: String, newDescription: String) {
+    func update(entry: Entry, newTitle: String, newBodyText: String) {
         entry.title = newTitle
-        entry.bodyText = newDescription
+        entry.bodyText = newBodyText
         entry.timestamp = Date()
         saveToPersistentStore()
     }
