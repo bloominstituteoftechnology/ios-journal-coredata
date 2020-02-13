@@ -24,7 +24,6 @@ class EntriesTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return entryController.entries.count
     }
 
@@ -50,12 +49,11 @@ class EntriesTableViewController: UITableViewController {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let detailVC = segue.destination as? EntryDetailViewController else { return }
-        guard let indexPath = tableView.indexPathForSelectedRow else { return }
-        
-        let entry = entryController.entries[indexPath.row]
         
         if segue.identifier == "ShowEntryDetailSegue" {
-            detailVC.entry = entry
+            guard let indexPath = tableView.indexPathForSelectedRow else { return }
+            let selectedEntry = entryController.entries[indexPath.row]
+            detailVC.entry = selectedEntry
             detailVC.entryController = entryController
             
         } else if segue.identifier == "ShowCreateEntrySegue" {

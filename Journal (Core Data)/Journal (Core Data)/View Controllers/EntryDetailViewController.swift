@@ -18,7 +18,7 @@ class EntryDetailViewController: UIViewController {
         }
     }
     
-    var entryController: EntryController?
+    var entryController: EntryController!
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
@@ -38,9 +38,9 @@ class EntryDetailViewController: UIViewController {
             !bodyText.isEmpty else { return }
         
         if let entry = entry {
-            entryController?.updateEntry(entry, updatedTitle: title, updatedBodyText: bodyText)
+            entryController.updateEntry(entry, updatedTitle: title, updatedBodyText: bodyText)
         } else {
-            entryController?.createEntry(withTitle: title, bodyText: bodyText)
+            entryController.createEntry(withTitle: title, bodyText: bodyText)
         }
         
         navigationController?.popViewController(animated: true)

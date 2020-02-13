@@ -80,7 +80,7 @@
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="120.53571428571428"/>
         </scene>
-        <!--Title-->
+        <!--Create Entry-->
         <scene sceneID="Alv-c1-ACO">
             <objects>
                 <viewController id="ZWc-Le-xzf" customClass="EntryDetailViewController" customModule="Journal__Core_Data_" customModuleProvider="target" sceneMemberID="viewController">
@@ -94,26 +94,29 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="3Yk-IJ-JOE">
-                                <rect key="frame" x="16" y="206" width="343" height="556"/>
+                                <rect key="frame" x="16" y="206" width="343" height="300"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" priority="750" constant="300" id="Kqa-XO-Nun"/>
+                                </constraints>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" red="0.92156862750000001" green="0.92156862750000001" blue="0.92156862750000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="93p-RH-fQf" firstAttribute="top" secondItem="Z1v-ye-McU" secondAttribute="top" constant="16" id="FWP-8k-zE7"/>
                             <constraint firstItem="93p-RH-fQf" firstAttribute="leading" secondItem="Z1v-ye-McU" secondAttribute="leading" constant="16" id="NYZ-kI-m3i"/>
                             <constraint firstItem="3Yk-IJ-JOE" firstAttribute="top" secondItem="93p-RH-fQf" secondAttribute="bottom" constant="16" id="RuP-7D-Km5"/>
                             <constraint firstItem="3Yk-IJ-JOE" firstAttribute="leading" secondItem="Z1v-ye-McU" secondAttribute="leading" constant="16" id="ScH-OL-iBT"/>
                             <constraint firstItem="Z1v-ye-McU" firstAttribute="trailing" secondItem="3Yk-IJ-JOE" secondAttribute="trailing" constant="16" id="Y5p-ng-94H"/>
-                            <constraint firstItem="Z1v-ye-McU" firstAttribute="bottom" secondItem="3Yk-IJ-JOE" secondAttribute="bottom" constant="16" id="b6v-nj-zJN"/>
+                            <constraint firstItem="Z1v-ye-McU" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="3Yk-IJ-JOE" secondAttribute="bottom" constant="16" id="b6v-nj-zJN"/>
                             <constraint firstItem="Z1v-ye-McU" firstAttribute="trailing" secondItem="93p-RH-fQf" secondAttribute="trailing" constant="16" id="mkd-fz-vdx"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Z1v-ye-McU"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Title" id="syo-eu-bsh">
+                    <navigationItem key="navigationItem" title="Create Entry" id="syo-eu-bsh">
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="mmF-sa-TZs">
                             <connections>
                                 <action selector="saveButtonTapped:" destination="ZWc-Le-xzf" id="TwZ-x3-5I7"/>
