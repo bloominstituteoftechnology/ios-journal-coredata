@@ -85,21 +85,57 @@
             </objects>
             <point key="canvasLocation" x="984.05797101449286" y="124.55357142857142"/>
         </scene>
-        <!--View Controller-->
+        <!--Create Entry-->
         <scene sceneID="igQ-Iv-7dw">
             <objects>
-                <viewController id="NdL-ph-Q3F" sceneMemberID="viewController">
+                <viewController id="NdL-ph-Q3F" customClass="DetailsViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aie-AQ-Cil">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="vfI-YE-Dzh">
+                                <rect key="frame" x="20" y="141" width="374" height="435"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="33D-xn-0GY">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Ytv-Jr-zCC">
+                                        <rect key="frame" x="0.0" y="44" width="374" height="391"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="vfI-YE-Dzh" firstAttribute="top" secondItem="VhP-4z-J3E" secondAttribute="top" constant="1" id="7ty-6G-poc"/>
+                            <constraint firstItem="vfI-YE-Dzh" firstAttribute="leading" secondItem="VhP-4z-J3E" secondAttribute="leading" constant="20" id="8NX-ic-xTq"/>
+                            <constraint firstItem="VhP-4z-J3E" firstAttribute="trailing" secondItem="vfI-YE-Dzh" secondAttribute="trailing" constant="20" id="yvA-B7-Nu7"/>
+                            <constraint firstItem="VhP-4z-J3E" firstAttribute="bottom" secondItem="vfI-YE-Dzh" secondAttribute="bottom" constant="286" id="zKf-uR-3xu"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="VhP-4z-J3E"/>
                     </view>
-                    <navigationItem key="navigationItem" id="wdF-Hl-JId"/>
+                    <navigationItem key="navigationItem" title="Create Entry" id="wdF-Hl-JId">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="BiS-h3-5Fl">
+                            <connections>
+                                <action selector="saveBtnPressed:" destination="NdL-ph-Q3F" id="1kl-iE-voQ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="descriptionLbl" destination="Ytv-Jr-zCC" id="M5s-UN-eBv"/>
+                        <outlet property="titleEntryLbl" destination="33D-xn-0GY" id="6OI-zB-PeP"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pd6-VA-4EJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1842" y="48"/>
+            <point key="canvasLocation" x="1840.5797101449277" y="47.544642857142854"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="0Hq-Ps-ZLi">
