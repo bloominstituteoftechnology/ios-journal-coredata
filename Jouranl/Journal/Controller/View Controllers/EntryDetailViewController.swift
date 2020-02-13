@@ -47,7 +47,7 @@ class EntryDetailViewController: UIViewController {
         let bodyText = entryTextView.text
         
         if let entry = entry {
-            entryController?.update(entry: entry, newTitle: title, newBodyText: description)
+            entryController?.update(entry: entry, newTitle: title, newBodyText: bodyText ?? "")
         } else {
             entryController?.create(title: title, timestamp: Date(), bodyText: bodyText, identifier: "")
         }
