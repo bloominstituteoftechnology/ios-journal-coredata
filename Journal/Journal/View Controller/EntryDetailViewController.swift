@@ -31,9 +31,15 @@ class EntryDetailViewController: UIViewController {
     
     func updateViews() {
         guard isViewLoaded else { return }
-        navigationItem.title = entry?.title ?? "Create Entry"
-        titleTextField.text = entry?.title
-        textView.text = entry?.bodyText
+       
+        if let entry = entry {
+            navigationItem.title = entry.title
+            
+            titleTextField.text = entry.title
+            textView.text = entry.bodyText
+        } else {
+            navigationItem.title = entry?.title ?? "Create Entry"
+        }
     }
     
     @IBAction func saveEntry(_ sender: UIBarButtonItem) {

@@ -12,10 +12,11 @@ import CoreData
 class EntryController {
     
     
-    var entries: [Entry] {
+    lazy var entries: [Entry] = {
         loadFromPersistentStore()
-    }
+    }()
     
+    // MARK: - Persistence
     func saveToPersistentStore() {
         do {
             //managed object context
@@ -40,8 +41,10 @@ class EntryController {
         
     }
     
+    // MARK: - CRUD
     func createEntry(title: String, bodyText: String, timestamp: Date, identifier: String) {
         let _ = Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier)
+        
         saveToPersistentStore()
     }
     
