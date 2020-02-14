@@ -21,7 +21,7 @@ class EntryTableViewCell: UITableViewCell {
     }
     
     // MARK: - Methods
-
+    
     func updateViews() {
         guard let entry = entry,
             let timestamp = entry.timestamp else { return }
@@ -34,5 +34,5 @@ class EntryTableViewCell: UITableViewCell {
         bodyTextLabel.text = entry.bodyText
         timeStamp.text = formatter.string(from: timestamp)
     }
-
+    
 }

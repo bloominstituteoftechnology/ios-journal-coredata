@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Journal-->
+        <!--Journal - Day 2-->
         <scene sceneID="Ree-xm-ThE">
             <objects>
                 <tableViewController id="M45-1r-QHr" customClass="EntriesTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
@@ -74,7 +74,7 @@
                             <outlet property="delegate" destination="M45-1r-QHr" id="fUB-lb-GyH"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Journal" id="IxW-sd-M4x">
+                    <navigationItem key="navigationItem" title="Journal - Day 2" id="IxW-sd-M4x">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="1fO-6a-yzU">
                             <connections>
                                 <segue destination="k2e-i5-ElD" kind="show" identifier="ShowAddEntrySegue" id="vcx-9N-kM8"/>
@@ -97,13 +97,21 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="UOo-Iu-mEj">
                                 <rect key="frame" x="16" y="160" width="382" height="302"/>
                                 <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="oVr-xD-ET0">
+                                        <rect key="frame" x="0.0" y="0.0" width="382" height="32"/>
+                                        <segments>
+                                            <segment title="☹️"/>
+                                            <segment title="😐"/>
+                                            <segment title="🙂"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mFe-nc-he1">
-                                        <rect key="frame" x="0.0" y="0.0" width="382" height="34"/>
+                                        <rect key="frame" x="0.0" y="39" width="382" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="W3c-VN-DCP">
-                                        <rect key="frame" x="0.0" y="42" width="382" height="260"/>
+                                        <rect key="frame" x="0.0" y="81" width="382" height="221"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>

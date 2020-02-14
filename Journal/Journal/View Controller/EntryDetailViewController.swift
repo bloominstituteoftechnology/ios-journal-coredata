@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class EntryDetailViewController: UIViewController {
-
+    
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var textView: UITextView!
     
@@ -26,13 +26,13 @@ class EntryDetailViewController: UIViewController {
         super.viewDidLoad()
         updateViews()
         titleTextField.becomeFirstResponder()
-
+        
         // Do any additional setup after loading the view.
     }
     
     func updateViews() {
         guard isViewLoaded else { return }
-       
+        
         if let entry = entry {
             title = entry.title
             titleTextField.text = entry.title
