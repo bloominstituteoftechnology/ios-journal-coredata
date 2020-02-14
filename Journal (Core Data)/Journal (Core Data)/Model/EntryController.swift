@@ -13,15 +13,15 @@ class EntryController {
     
     // MARK: - Properties
 
-    lazy private(set) var entries: [Entry] = {
-        return loadFromPersistantStore()
-    }()
+//    lazy private(set) var entries: [Entry] = {
+//        return loadFromPersistantStore()
+//    }()
     
     // MARK: - CRUD Methods
 
     // Create Entry
     func createEntry(withTitle title: String, bodyText: String, mood: String) {
-        entries.append(Entry(title: title, bodyText: bodyText, mood: mood))
+//        entries.append(Entry(title: title, bodyText: bodyText, mood: mood))
         saveToPersistentStore()
     }
     
@@ -35,14 +35,14 @@ class EntryController {
         saveToPersistentStore()
         
         // Update Entry in entries array
-        guard let index = entries.firstIndex(of: entry) else {
-            print("WARNING: Could not update entry in EntryController.entries using updateEntry(:Entry, updatedTitle: \"\(updatedTitle)\", updatedBodyText: \"\(updatedBodyText)\"). No entry was found for identifier: \"\(entry.identifier ?? "nil")\".")
-            return
-        }
-        
-        entries[index].title = updatedTitle
-        entries[index].bodyText = updatedBodyText
-        entries[index].timestamp = updatedTimestamp
+//        guard let index = entries.firstIndex(of: entry) else {
+//            print("WARNING: Could not update entry in EntryController.entries using updateEntry(:Entry, updatedTitle: \"\(updatedTitle)\", updatedBodyText: \"\(updatedBodyText)\"). No entry was found for identifier: \"\(entry.identifier ?? "nil")\".")
+//            return
+//        }
+//
+//        entries[index].title = updatedTitle
+//        entries[index].bodyText = updatedBodyText
+//        entries[index].timestamp = updatedTimestamp
     }
     
     // Delete Entry
@@ -52,12 +52,12 @@ class EntryController {
         saveToPersistentStore()
         
         // Delete Entry from entries array
-        guard let index = entries.firstIndex(of: entry) else {
-            print("WARNING: Could not delete entry from EntryController.entries using deleteEntry(:Entry). No entry was found for identifier: \"\(entry.identifier ?? "nil")\".")
-            return
-        }
-        
-        entries.remove(at: index)
+//        guard let index = entries.firstIndex(of: entry) else {
+//            print("WARNING: Could not delete entry from EntryController.entries using deleteEntry(:Entry). No entry was found for identifier: \"\(entry.identifier ?? "nil")\".")
+//            return
+//        }
+//
+//        entries.remove(at: index)
     }
     
     // MARK: - Persistence
@@ -71,15 +71,15 @@ class EntryController {
         }
     }
     
-    private func loadFromPersistantStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext // Managed Object Context
-        
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            print("Error fetching entries: \(error)")
-            return []
-        }
-    }
+//    private func loadFromPersistantStore() -> [Entry] {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let moc = CoreDataStack.shared.mainContext // Managed Object Context
+//        
+//        do {
+//            return try moc.fetch(fetchRequest)
+//        } catch {
+//            print("Error fetching entries: \(error)")
+//            return []
+//        }
+//    }
 }
