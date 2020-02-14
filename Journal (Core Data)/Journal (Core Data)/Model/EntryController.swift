@@ -20,17 +20,18 @@ class EntryController {
     // MARK: - CRUD Methods
 
     // Create Entry
-    func createEntry(withTitle title: String, bodyText: String) {
-        entries.append(Entry(title: title, bodyText: bodyText))
+    func createEntry(withTitle title: String, bodyText: String, mood: String) {
+        entries.append(Entry(title: title, bodyText: bodyText, mood: mood))
         saveToPersistentStore()
     }
     
     // Update Entry
-    func updateEntry(_ entry: Entry, updatedTitle: String, updatedBodyText: String) {
+    func updateEntry(_ entry: Entry, updatedTitle: String, updatedBodyText: String, updatedMood: String) {
         let updatedTimestamp = Date()
         entry.title = updatedTitle
         entry.bodyText = updatedBodyText
         entry.timestamp = updatedTimestamp
+        entry.mood = updatedMood
         saveToPersistentStore()
         
         // Update Entry in entries array

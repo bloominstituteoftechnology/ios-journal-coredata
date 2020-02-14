@@ -8,6 +8,20 @@
 
 import UIKit
 
+enum Mood: String {
+    case sad = "☹️"
+    case neutral = "😐"
+    case happy = "🙂"
+    
+    static var allMoods: [Mood] {
+        return [.sad, .neutral, .happy]
+    }
+    
+    static var allRawValues: [String] {
+        return allMoods.map { $0.rawValue }
+    }
+}
+
 class EntryDetailViewController: UIViewController {
 
     // MARK: - Properties
@@ -40,10 +54,15 @@ class EntryDetailViewController: UIViewController {
         guard let bodyText = bodyTextView.text,
             !bodyText.isEmpty else { return }
         
+        let mood = Mood.allMoods[moodSegmentedControl.selectedSegmentIndex].rawValue
+        
         if let entry = entry {
-            entryController.updateEntry(entry, updatedTitle: title, updatedBodyText: bodyText)
+            entryController.updateEntry(entry,
+                                        updatedTitle: title,
+                                        updatedBodyText: bodyText,
+                                        updatedMood: mood)
         } else {
-            entryController.createEntry(withTitle: title, bodyText: bodyText)
+            entryController.createEntry(withTitle: title, bodyText: bodyText, mood: mood)
         }
         
         navigationController?.popViewController(animated: true)
@@ -56,8 +75,16 @@ class EntryDetailViewController: UIViewController {
             title = entry.title
             titleTextField.text = entry.title
             bodyTextView.text = entry.bodyText
+            if let moodString = entry.mood,
+                let moodIndex = Mood.allRawValues.firstIndex(of: moodString) {
+                moodSegmentedControl.selectedSegmentIndex = moodIndex
+            } else {
+                moodSegmentedControl.selectedSegmentIndex = 1
+            }
         } else {
             title = entry?.title ?? "Create Entry"
         }
+        
+        
     }
 }
