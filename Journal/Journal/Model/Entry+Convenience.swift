@@ -17,7 +17,7 @@ extension Entry {
         self.bodytext = bodytext
         self.identifier = identifier
         self.timestamp = timestamp
-        //NS Date? do i need to initialize
+        //NS Date? do i need to initialize - not here 
         //Consider giving default values to the timestamp - How ?
     }
 }

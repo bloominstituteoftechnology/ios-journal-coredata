@@ -22,8 +22,8 @@ class EntryDetailViewController: UIViewController {
     //MARK - Outlets
     @IBOutlet weak var titleEntryLbl: UITextField!
     @IBOutlet weak var descriptionLbl: UITextView!
+    @IBOutlet weak var emojiStatusControl: UISegmentedControl!
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         updateViews()

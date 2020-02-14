@@ -14,6 +14,8 @@ class EntryController {
     var entries: [Entry] {
         loadFromPersistentStore()
     }
+    
+    // save to PersistentStore
 
     func saveToPersistentStore() {
         do {
@@ -38,11 +40,6 @@ class EntryController {
     
     // create Entry
     
-//    func createEntry(withTitle title: String, bodyText: String) {
-//           e.append(
-//           saveToPersistentStore()
-//       }
-    
     func CreateEntry(title: String, bodytext: String, timestamp: Date, identifier: String) {
         let _ = Entry(title: title, bodytext: bodytext, timestamp: timestamp, identifier: identifier)
         saveToPersistentStore()
@@ -55,15 +52,9 @@ class EntryController {
         entry.timestamp = updatedTimeStamp
         saveToPersistentStore()
         
-//        //updte in array
-//        guard let index = entries.firstIndex(of: entry) else {
-//            print("Unable to update Entrycontroller using updat")
-//            return
-//        }
-//        entries[index].title = newTitle
-//        entries[index].bodytext = newBodyText
-//        entries[index].timestamp = updatedTimeStamp
     }
+    
+    //delete Entry
     
     func Delete(entry: Entry) {
         let moc = CoreDataStack.shared.mainContext
