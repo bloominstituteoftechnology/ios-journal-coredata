@@ -20,17 +20,15 @@ class EntryTableViewCell: UITableViewCell {
         }
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
+    // MARK: - Methods
 
     func updateViews() {
         guard let entry = entry,
             let timestamp = entry.timestamp else { return }
         
         let formatter = DateFormatter()
-       formatter.dateFormat = "MM/dd/yyyy"
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
         
         entryTitleLabel.text = entry.title
         bodyTextLabel.text = entry.bodyText

@@ -11,8 +11,9 @@ import CoreData
 
 class EntryController {
     
+    //MARK: - Properties
     
-    lazy var entries: [Entry] = {
+    lazy private (set) var entries: [Entry] = {
         loadFromPersistentStore()
     }()
     
@@ -42,26 +43,41 @@ class EntryController {
     }
     
     // MARK: - CRUD
-    func createEntry(title: String, bodyText: String, timestamp: Date, identifier: String) {
-        let _ = Entry(title: title, bodyText: bodyText, timestamp: timestamp, identifier: identifier)
+    
+    func createEntry(title: String, bodyText: String) {
+        entries.append(Entry(title: title, bodyText: bodyText))
         
         saveToPersistentStore()
     }
     
-    func updateEntry(entry: Entry, newTitle: String, newbodyText: String) {
+    func updateEntry(_ entry: Entry, newTitle: String, newbodyText: String) {
+        let updatedTimestamp = Date()
         entry.title = newTitle
         entry.bodyText = newbodyText
-        entry.timestamp = Date()
+        entry.timestamp = updatedTimestamp
         saveToPersistentStore()
+        
+        guard let index = entries.firstIndex(of: entry) else { return }
+        
+        entries[index].title = newTitle
+        entries[index].bodyText = newbodyText
+        entries[index].timestamp = updatedTimestamp
     }
     
-    func deleteEntry(entry: Entry) {
+    func deleteEntry(_ entry: Entry) {
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
+        saveToPersistentStore()
+        guard let index = entries.firstIndex(of: entry) else { return }
+        entries.remove(at: index)
         do {
             try moc.save()
         } catch {
+            moc.reset()
             print("Error saving managed object context: \(error)")
         }
+        
     }
+    
+  
 }

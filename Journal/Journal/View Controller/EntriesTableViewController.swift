@@ -14,22 +14,15 @@ class EntriesTableViewController: UITableViewController {
     //MARK: Properties
     let entryController = EntryController()
     
-    var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .short
-        return formatter
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         
     }
 
       override func viewWillAppear(_ animated: Bool) {
           super.viewWillAppear(animated)
-          
           tableView.reloadData()
       }
     // MARK: - Table view data source
@@ -41,42 +34,30 @@ class EntriesTableViewController: UITableViewController {
         return entryController.entries.count
     }
 
-  
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
+        guard indexPath.row < entryController.entries.count else { return UITableViewCell() }
         
-       let entry = entryController.entries[indexPath.row]
-        cell.entryTitleLabel.text = entry.title
-        cell.bodyTextLabel.text = entry.bodyText
-        cell.timeStamp.text = "\(dateFormatter.string(from: entry.timestamp!))"
-
-        
+        cell.entry = entryController.entries[indexPath.row]
 
         return cell
+
+
     }
  
-
-  
-
    
     // Override to support editing the table view.
-   override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            //fetch getting called again. Very enfficient
-            let entry = entryController.entries[indexPath.row]
-            let moc = CoreDataStack.shared.mainContext
-            moc.delete(entry)
-            do {
-                try moc.save()
-                tableView.reloadData()
-            } catch {
-                moc.reset()
-                print("Error saving managed object context: \(error)")
-            }
-            
-        }
-    }
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+          if editingStyle == .delete {
+              // Delete the row from the data source
+              let entry = entryController.entries[indexPath.row]
+              entryController.deleteEntry(entry)
+              tableView.deleteRows(at: [indexPath], with: .fade)
+          } else if editingStyle == .insert {
+            entryController.updateEntry(entryController.entries[indexPath.row], newTitle: entryController.entries[indexPath.row].title ?? "", newbodyText: entryController.entries[indexPath.row].bodyText ?? "")
+                
+          }
+      }
 
 
         // MARK: - Navigation

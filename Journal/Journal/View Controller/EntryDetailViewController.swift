@@ -25,6 +25,7 @@ class EntryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         updateViews()
+        titleTextField.becomeFirstResponder()
 
         // Do any additional setup after loading the view.
     }
@@ -33,12 +34,11 @@ class EntryDetailViewController: UIViewController {
         guard isViewLoaded else { return }
        
         if let entry = entry {
-            navigationItem.title = entry.title
-            
+            title = entry.title
             titleTextField.text = entry.title
             textView.text = entry.bodyText
         } else {
-            navigationItem.title = entry?.title ?? "Create Entry"
+            title = entry?.title ?? "Create Entry"
         }
     }
     
@@ -46,12 +46,13 @@ class EntryDetailViewController: UIViewController {
         
         guard let title = titleTextField.text,
             !title.isEmpty else { return }
-        let bodyText = textView.text
+        guard let bodyText = textView.text,
+            !bodyText.isEmpty else { return }
         
         if let entry = entry {
-            entryController?.updateEntry(entry: entry, newTitle: title, newbodyText: bodyText ?? "")
+            entryController?.updateEntry(entry, newTitle: title, newbodyText: bodyText)
         } else {
-            entryController?.createEntry(title: title, bodyText: bodyText ?? "", timestamp: Date(), identifier: "")
+            entryController?.createEntry(title: title, bodyText: bodyText)
             
         }
         
