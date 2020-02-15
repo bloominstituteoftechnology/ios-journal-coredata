@@ -32,16 +32,19 @@ class EntryDetailViewController: UIViewController {
     // MARK - Actions
     
     @IBAction func saveBtnPressed(_ sender: UIBarButtonItem) {
-        print("save tapped")
+//        print("save tapped")
         guard let title = titleEntryLbl.text,
             !title.isEmpty else { return }
        guard let descript = descriptionLbl.text,
         !descript.isEmpty else { return }
         
+        let moodStatusIndex = emojiStatusControl.selectedSegmentIndex
+        let currentMood = MoodStatus.allMoods[moodStatusIndex]
+        
         if let entry = entry {
-            entryController?.Update(entry: entry, newTitle: title, newBodyText: descript)
+            entryController?.Update(entry: entry, newTitle: title, newMood: currentMood.rawValue, newBodyText: descript)
         } else {
-            entryController?.CreateEntry(title: title, bodytext: descript, timestamp: Date(), identifier: "\(Int.random(in: 1...1000))")
+            entryController?.CreateEntry(title: title, bodytext: descript,mood: currentMood, timestamp: Date(), identifier: "\(Int.random(in: 1...1000))")
         
         }
         navigationController?.popViewController(animated: true)
@@ -52,8 +55,15 @@ class EntryDetailViewController: UIViewController {
         title = entry?.title ?? "Create Entry"
         titleEntryLbl.text = entry?.title
         descriptionLbl.text = entry?.description
+        
+        let mood: MoodStatus
+        if let moodStatus = entry?.mood {
+            mood = MoodStatus(rawValue: moodStatus)!
+        } else {
+            mood = .😐
+        }
+        emojiStatusControl.selectedSegmentIndex =
+            MoodStatus.allMoods.firstIndex(of: mood) ?? 1
     }
-    
-
 }
 

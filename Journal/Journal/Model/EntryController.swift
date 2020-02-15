@@ -11,12 +11,26 @@ import CoreData
 
 class EntryController {
     
-    var entries: [Entry] {
-        loadFromPersistentStore()
-    }
+    // Old method not efficent
     
-    // save to PersistentStore
-
+//    var entries: [Entry] {
+//         loadFromPersistentStore()
+//     }
+//    func loadFromPersistentStore() -> [Entry] {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let moc = CoreDataStack.shared.mainContext
+//
+//        do {
+//            return try moc.fetch(fetchRequest)
+//        } catch {
+//            print("Error Fetching Entries: \(error)")
+//            return []
+//        }
+//    }
+    
+    
+    // save to PersistentStore - DO I NEED ?
+//
     func saveToPersistentStore() {
         do {
             let moc = CoreDataStack.shared.mainContext
@@ -26,30 +40,19 @@ class EntryController {
         }
     }
     
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
-        
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            print("Error Fetching Entries: \(error)")
-            return []
-        }
-    }
-    
     // create Entry
     
-    func CreateEntry(title: String, bodytext: String, timestamp: Date, identifier: String) {
-        let _ = Entry(title: title, bodytext: bodytext, timestamp: timestamp, identifier: identifier)
+    func CreateEntry(title: String, bodytext: String, mood: MoodStatus = .😐, timestamp: Date, identifier: String) {
+        let _ = Entry(title: title, bodytext: bodytext, mood: mood, timestamp: timestamp, identifier: identifier)
         saveToPersistentStore()
     }
     
-    func Update(entry: Entry, newTitle: String, newBodyText: String) {
+    func Update(entry: Entry, newTitle: String, newMood: String, newBodyText: String) {
         let updatedTimeStamp = Date()
         entry.title = newTitle
         entry.bodytext = newBodyText
         entry.timestamp = updatedTimeStamp
+        entry.mood = newMood
         saveToPersistentStore()
         
     }
@@ -69,3 +72,5 @@ class EntryController {
     }
 
 }
+
+ 
