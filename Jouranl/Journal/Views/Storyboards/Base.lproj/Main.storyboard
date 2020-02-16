@@ -93,28 +93,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Creative title here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Nbl-nc-qQp">
-                                <rect key="frame" x="20" y="160" width="374" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Omb-5s-l14">
-                                <rect key="frame" x="20" y="214" width="374" height="668"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="o5f-Xr-lbO">
+                                <rect key="frame" x="20" y="160" width="374" height="716"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="NHG-AZ-G0g">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="32"/>
+                                        <segments>
+                                            <segment title="☹️"/>
+                                            <segment title="😐"/>
+                                            <segment title="😀"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Creative title here" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Nbl-nc-qQp">
+                                        <rect key="frame" x="0.0" y="47" width="374" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Omb-5s-l14">
+                                        <rect key="frame" x="0.0" y="97" width="374" height="619"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="Omb-5s-l14" firstAttribute="top" secondItem="Nbl-nc-qQp" secondAttribute="bottom" constant="20" id="H15-Yg-Ek7"/>
-                            <constraint firstItem="Nbl-nc-qQp" firstAttribute="leading" secondItem="amA-C4-Avy" secondAttribute="leading" constant="20" id="Kmn-QI-3Cu"/>
-                            <constraint firstItem="Omb-5s-l14" firstAttribute="bottom" secondItem="amA-C4-Avy" secondAttribute="bottom" constant="20" id="X55-rl-3Oa"/>
-                            <constraint firstItem="amA-C4-Avy" firstAttribute="trailing" secondItem="Omb-5s-l14" secondAttribute="trailing" constant="20" id="XQx-Uc-2Bk"/>
-                            <constraint firstItem="Omb-5s-l14" firstAttribute="leading" secondItem="amA-C4-Avy" secondAttribute="leading" constant="20" id="teA-t8-TfN"/>
-                            <constraint firstItem="Nbl-nc-qQp" firstAttribute="top" secondItem="amA-C4-Avy" secondAttribute="top" constant="20" id="tr2-3N-09U"/>
-                            <constraint firstItem="amA-C4-Avy" firstAttribute="trailing" secondItem="Nbl-nc-qQp" secondAttribute="trailing" constant="20" id="vQ9-gI-tkX"/>
+                            <constraint firstItem="o5f-Xr-lbO" firstAttribute="top" secondItem="amA-C4-Avy" secondAttribute="top" constant="20" id="MtC-W1-4DM"/>
+                            <constraint firstItem="o5f-Xr-lbO" firstAttribute="leading" secondItem="amA-C4-Avy" secondAttribute="leading" constant="20" id="PGw-Su-hpr"/>
+                            <constraint firstAttribute="bottom" secondItem="o5f-Xr-lbO" secondAttribute="bottom" constant="20" id="cqh-nd-UEz"/>
+                            <constraint firstItem="amA-C4-Avy" firstAttribute="trailing" secondItem="o5f-Xr-lbO" secondAttribute="trailing" constant="20" id="zYC-xv-fL4"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="amA-C4-Avy"/>
                     </view>
@@ -127,6 +137,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="entryTextView" destination="Omb-5s-l14" id="9ao-zp-bgY"/>
+                        <outlet property="segmentControl" destination="NHG-AZ-G0g" id="noW-nZ-iyV"/>
                         <outlet property="titleTextField" destination="Nbl-nc-qQp" id="v5G-NR-VLl"/>
                     </connections>
                 </viewController>
