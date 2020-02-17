@@ -9,6 +9,12 @@
 import UIKit
 import CoreData
 
+enum Mood: String, CaseIterable {
+    case happy = "😀"
+    case neutral = "😐"
+    case sad = "☹️"
+}
+
 extension Entry {
     convenience init(title: String, bodyText: String?, timestamp: Date, identifer: String, mood: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)

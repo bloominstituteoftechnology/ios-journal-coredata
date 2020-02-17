@@ -37,6 +37,13 @@ class EntryDetailViewController: UIViewController {
         self.title = entry?.title ?? "Create Entry"
         titleTextField.text = entry?.title
         entryTextView.text = entry?.bodyText
+        
+        if let moodString = entry?.mood {
+            if let mood = Mood(rawValue: moodString) {
+                let index = Mood.allCases.firstIndex(of: mood) ?? 1
+                segmentControl.selectedSegmentIndex = index
+            }
+        }
     }
     
     
@@ -47,10 +54,13 @@ class EntryDetailViewController: UIViewController {
             !title.isEmpty else { return }
         let bodyText = entryTextView.text
         
+        let index = segmentControl.selectedSegmentIndex
+        let mood = Mood.allCases[index]
+        
         if let entry = entry {
-            entryController?.update(entry: entry, newTitle: title, newBodyText: bodyText ?? "")
+            entryController?.update(entry: entry, newTitle: title, newBodyText: bodyText ?? "", newMood: mood.rawValue)
         } else {
-            entryController?.create(title: title, timestamp: Date(), bodyText: bodyText, identifier: "")
+            entryController?.create(title: title, timestamp: Date(), bodyText: bodyText, identifier: "", mood: mood.rawValue)
         }
         navigationController?.popViewController(animated: true)
     }
