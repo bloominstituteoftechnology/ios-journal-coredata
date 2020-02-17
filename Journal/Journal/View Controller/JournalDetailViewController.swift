@@ -38,13 +38,16 @@ class JournalDetailViewController: UIViewController {
         }
         
         let notes = notesTextView.text
+        let moodIndex = moodSegmentedControl.selectedSegmentIndex
+        let mood = moodSegmentedControl.titleForSegment(at: moodIndex)
         
         if let entry = entry {
             entry.name = name
             entry.notes = notes
             entry.date = Date()
+            entry.mood = mood
         } else {
-            Entry(name: name, notes: notes, context: CoreDataStack.shared.mainContext)
+            Entry(name: name, notes: notes, mood: mood ?? "😐", context: CoreDataStack.shared.mainContext)
         }
         
         do {

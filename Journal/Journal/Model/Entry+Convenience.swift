@@ -12,11 +12,12 @@ import CoreData
 extension Entry {
     
     @discardableResult
-    convenience init(name: String, notes: String? = "", date: Date = Date(), context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init(name: String, notes: String? = "", date: Date = Date(), mood: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.name = name
         self.notes = notes
         self.date = date
+        self.mood = mood
     }
     
 }
