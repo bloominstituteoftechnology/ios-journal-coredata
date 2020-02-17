@@ -9,13 +9,13 @@
 import Foundation
 import CoreData
 
-// Step 1: Create Managed Object Model
+// Create Managed Object Model
 class CoreDataStack {
     static let shared = CoreDataStack()
     
     private init() {}
     
-    // Step 2: Create Persistent Store Manager and Persistent Store
+    // Create Persistent Store Manager and Persistent Store
     lazy var container: NSPersistentContainer = {
         let newContainer = NSPersistentContainer(name: "Journal (Core Data)")
         newContainer.loadPersistentStores { (_, error) in
@@ -26,7 +26,7 @@ class CoreDataStack {
         return newContainer
     }()
     
-    // Step 3: Create Managed Object Context
+    // Create Managed Object Context
     var mainContext: NSManagedObjectContext {
         return container.viewContext
     }

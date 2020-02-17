@@ -22,7 +22,7 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var bodyTextLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     
-    // MARK: - Methods
+    // MARK: - UpdateViews
 
     private func updateViews() {
         guard let entry = entry,

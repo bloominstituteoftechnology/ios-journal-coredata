@@ -8,6 +8,8 @@
 
 import UIKit
 
+// MARK: - Mood enum
+
 enum Mood: String {
     case sad = "☹️"
     case neutral = "😐"
@@ -21,6 +23,8 @@ enum Mood: String {
         return allMoods.map { $0.rawValue }
     }
 }
+
+// MARK: - Class Definition
 
 class EntryDetailViewController: UIViewController {
 
@@ -46,7 +50,7 @@ class EntryDetailViewController: UIViewController {
         updateViews()
     }
     
-    // MARK: - Actions
+    // MARK: - IBActions
 
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
         guard let title = titleTextField.text,
@@ -67,6 +71,8 @@ class EntryDetailViewController: UIViewController {
         
         navigationController?.popViewController(animated: true)
     }
+    
+    // MARK: - UpdateViews
     
     private func updateViews() {
         guard isViewLoaded else { return }
