@@ -58,7 +58,7 @@ class EntryDetailViewController: UIViewController {
         let mood = Mood.allCases[index]
         
         if let entry = entry {
-            entryController?.update(entry: entry, newTitle: title, newBodyText: bodyText ?? "", newMood: mood.rawValue)
+            entryController?.update(entry: entry, newTitle: title, timestamp: entry.timestamp ?? Date(), newBodyText: bodyText ?? "", newMood: mood.rawValue)
         } else {
             entryController?.create(title: title, timestamp: Date(), bodyText: bodyText, identifier: "", mood: mood.rawValue)
         }

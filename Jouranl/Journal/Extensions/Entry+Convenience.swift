@@ -23,5 +23,6 @@ extension Entry {
         self.timestamp = timestamp
         self.identifier = identifier
         self.mood = mood
+
     }
 }
