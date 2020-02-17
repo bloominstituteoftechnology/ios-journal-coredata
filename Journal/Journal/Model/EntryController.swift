@@ -14,9 +14,9 @@ class EntryController {
     static var shared = EntryController()
     
     //MARK: - Properties
-    var entries: [Entry] {
+    /*var entries: [Entry] {
         return loadFromPersistentStore()
-    }
+    }*/
     
     
     //MARK: - Public Functions
@@ -30,7 +30,7 @@ class EntryController {
         }
     }
     
-    func loadFromPersistentStore() -> [Entry] {
+    /*func loadFromPersistentStore() -> [Entry] {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         let moc = CoreDataStack.shared.mainContext
         
@@ -40,7 +40,7 @@ class EntryController {
            print("Error retrieving data from persistent store: \(error)")
             return []
         }
-    }
+    }*/
     
     func createEntry(with name: String, notes: String?, date: Date = Date(), mood: String) {
         let _ = Entry(name: name, notes: notes, date: date, mood: mood)
