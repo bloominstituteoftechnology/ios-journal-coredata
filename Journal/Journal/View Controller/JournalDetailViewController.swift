@@ -18,6 +18,8 @@ class JournalDetailViewController: UIViewController {
     @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     
     //MARK: - Properties
+    let entryController = EntryController.shared
+    
     var entry: Entry? {
         didSet {
             updateViews()
@@ -39,22 +41,12 @@ class JournalDetailViewController: UIViewController {
         
         let notes = notesTextView.text
         let moodIndex = moodSegmentedControl.selectedSegmentIndex
-        let mood = moodSegmentedControl.titleForSegment(at: moodIndex)
+        guard let mood = moodSegmentedControl.titleForSegment(at: moodIndex) else { return }
         
         if let entry = entry {
-            entry.name = name
-            entry.notes = notes
-            entry.date = Date()
-            entry.mood = mood
+            entryController.updateEntry(for: entry, with: name, notes: notes, date: Date(), mood: mood)
         } else {
-            Entry(name: name, notes: notes, mood: mood ?? "😐", context: CoreDataStack.shared.mainContext)
-        }
-        
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            try moc.save()
-        } catch {
-            print("Error saving data to persistent store: \(error)")
+            entryController.createEntry(with: name, notes: notes, date: Date(), mood: mood)
         }
         
         navigationController?.popViewController(animated: true)
@@ -70,9 +62,24 @@ class JournalDetailViewController: UIViewController {
             title = entry.name
             nameTextField.text = entry.name
             notesTextView.text = entry.notes
+            
+            let mood = entry.mood
+            
+            switch mood {
+            case "😔":
+                moodSegmentedControl.selectedSegmentIndex = 0
+            case "😐":
+                moodSegmentedControl.selectedSegmentIndex = 1
+            case "☺️":
+                moodSegmentedControl.selectedSegmentIndex = 2
+            default:
+                moodSegmentedControl.selectedSegmentIndex = 1
+            }
+            
         } else {
             saveButton.isEnabled = false
         }
+        
     }
     
     //MARK: - IBActions
