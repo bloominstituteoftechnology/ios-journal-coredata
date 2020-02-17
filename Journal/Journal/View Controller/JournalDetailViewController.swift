@@ -15,6 +15,7 @@ class JournalDetailViewController: UIViewController {
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var notesTextView: UITextView!
     @IBOutlet weak var saveButton: UIBarButtonItem!
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     
     //MARK: - Properties
     var entry: Entry? {
