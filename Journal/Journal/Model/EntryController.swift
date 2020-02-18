@@ -13,9 +13,7 @@ class EntryController {
     
     // Old method not efficent
     
-//    var entries: [Entry] {
-//         loadFromPersistentStore()
-//     }
+//    var entries: [Entry]
 //    func loadFromPersistentStore() -> [Entry] {
 //        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
 //        let moc = CoreDataStack.shared.mainContext
@@ -28,8 +26,6 @@ class EntryController {
 //        }
 //    }
     
-    
-    // save to PersistentStore - DO I NEED ?
 //
     func saveToPersistentStore() {
         do {
@@ -40,14 +36,15 @@ class EntryController {
         }
     }
     
+    // - CRUD
     // create Entry
-    
-    func CreateEntry(title: String, bodytext: String, mood: MoodStatus = .😐, timestamp: Date, identifier: String) {
+    func CreateEntry(title: String, bodytext: String, mood: String, timestamp: Date, identifier: String) {
         let _ = Entry(title: title, bodytext: bodytext, mood: mood, timestamp: timestamp, identifier: identifier)
         saveToPersistentStore()
     }
     
-    func Update(entry: Entry, newTitle: String, newMood: String, newBodyText: String) {
+    //Update Entry
+    func Update(entry: Entry, newTitle: String, newMood: String, newBodyText: String, updatedTimeStamp: Date) {
         let updatedTimeStamp = Date()
         entry.title = newTitle
         entry.bodytext = newBodyText
@@ -56,8 +53,8 @@ class EntryController {
         saveToPersistentStore()
         
     }
-    
-    //delete Entry
+        
+    //Delete Entry
     
     func Delete(entry: Entry) {
         let moc = CoreDataStack.shared.mainContext

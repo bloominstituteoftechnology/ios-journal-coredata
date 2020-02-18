@@ -71,6 +71,11 @@ class EntiresTableViewController: UITableViewController {
         cell.dateTimeLbl.text = "\(dateFormatter.string(from: entry.timestamp!))"
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let sectionInfo = fetchedResultsController.sections?[section]
+        return sectionInfo?.name.capitalized
+    }
  
 
     // Override to support editing the table view.
@@ -101,6 +106,7 @@ class EntiresTableViewController: UITableViewController {
             guard let detailVC = segue.destination as? EntryDetailViewController else { return }
             guard let indexPath = tableView.indexPathForSelectedRow else { return }
             detailVC.entry = fetchedResultsController.object(at: indexPath)
+            detailVC.entryController = entryController
         } else if segue.identifier == "CreateJournalEntrySegue" {
             if let detailVC = segue.destination as? EntryDetailViewController {
                 detailVC.entryController = entryController

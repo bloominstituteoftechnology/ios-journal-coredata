@@ -39,25 +39,26 @@ class EntryDetailViewController: UIViewController {
         !descript.isEmpty else { return }
         
         let moodStatusIndex = emojiStatusControl.selectedSegmentIndex
-        let currentMood = MoodStatus.allMoods[moodStatusIndex]
+        let mood = MoodStatus.allMoods[moodStatusIndex]
         
         if let entry = entry {
-            entryController?.Update(entry: entry, newTitle: title, newMood: currentMood.rawValue, newBodyText: descript)
+            entryController?.Update(entry: entry, newTitle: title, newMood: mood.rawValue, newBodyText: descript, updatedTimeStamp: Date())
         } else {
-            entryController?.CreateEntry(title: title, bodytext: descript,mood: currentMood, timestamp: Date(), identifier: "\(Int.random(in: 1...1000))")
+            entryController?.CreateEntry(title: title, bodytext: descript,mood: mood.rawValue, timestamp: Date(), identifier: "\(Int.random(in: 1...1000))")
         
         }
         navigationController?.popViewController(animated: true)
     }
     
     func updateViews() {
-        guard isViewLoaded else { return }
-        title = entry?.title ?? "Create Entry"
-        titleEntryLbl.text = entry?.title
-        descriptionLbl.text = entry?.description
+        guard let entry = entry,
+        isViewLoaded else { return }
+        title = entry.title ?? "Create Entry"
+        titleEntryLbl.text = entry.title
+        descriptionLbl.text = entry.bodytext
         
         let mood: MoodStatus
-        if let moodStatus = entry?.mood {
+        if let moodStatus = entry.mood {
             mood = MoodStatus(rawValue: moodStatus)!
         } else {
             mood = .😐
@@ -65,5 +66,7 @@ class EntryDetailViewController: UIViewController {
         emojiStatusControl.selectedSegmentIndex =
             MoodStatus.allMoods.firstIndex(of: mood) ?? 1
     }
+    
+
 }
 
