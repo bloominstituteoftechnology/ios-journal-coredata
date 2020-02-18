@@ -31,6 +31,13 @@ class EntriesTableViewController: UITableViewController {
         return frc
     }()
     
+    @IBAction func refresh(_ sender: UIRefreshControl) {
+        entryController.fetchEntriesFromServer { (_) in
+            self.refreshControl?.endRefreshing()
+        }
+    }
+    
+    
     // MARK: - View Lifecycle
     
     override func viewWillAppear(_ animated: Bool) {
