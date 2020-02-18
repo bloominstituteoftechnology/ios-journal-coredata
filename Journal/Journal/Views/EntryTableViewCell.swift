@@ -24,7 +24,9 @@ class EntryTableViewCell: UITableViewCell {
     
     func updateViews() {
         guard let entry = entry,
-            let timestamp = entry.timestamp else { return }
+            let timestamp = entry.timestamp,
+            let mood = entry.mood else { return }
+        
         
         let formatter = DateFormatter()
         formatter.dateStyle = .short

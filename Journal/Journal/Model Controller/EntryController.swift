@@ -9,6 +9,7 @@
 import Foundation
 import CoreData
 
+
 class EntryController {
     
     //MARK: - Properties
@@ -19,11 +20,13 @@ class EntryController {
     
     // MARK: - Persistence
     func saveToPersistentStore() {
+         let moc = CoreDataStack.shared.mainContext
         do {
             //managed object context
-            let moc = CoreDataStack.shared.mainContext
+           
             try moc.save()
         } catch {
+            moc.reset()
             print("Error saving entry: \(error)")
         }
         
@@ -44,38 +47,29 @@ class EntryController {
     
     // MARK: - CRUD
     
-    func createEntry(title: String, bodyText: String) {
-        entries.append(Entry(title: title, bodyText: bodyText))
+    func createEntry(title: String, bodyText: String, mood: String) {
+        Entry(title: title, bodyText: bodyText, mood: mood)
         
         saveToPersistentStore()
     }
     
-    func updateEntry(_ entry: Entry, newTitle: String, newbodyText: String) {
+    func updateEntry(_ entry: Entry, newTitle: String, newbodyText: String, updatedMood: String) {
         let updatedTimestamp = Date()
+        let updatedMood = updatedMood
+        entry.mood = updatedMood
         entry.title = newTitle
         entry.bodyText = newbodyText
         entry.timestamp = updatedTimestamp
         saveToPersistentStore()
         
-        guard let index = entries.firstIndex(of: entry) else { return }
-        
-        entries[index].title = newTitle
-        entries[index].bodyText = newbodyText
-        entries[index].timestamp = updatedTimestamp
+    
     }
     
     func deleteEntry(_ entry: Entry) {
         let moc = CoreDataStack.shared.mainContext
         moc.delete(entry)
         saveToPersistentStore()
-        guard let index = entries.firstIndex(of: entry) else { return }
-        entries.remove(at: index)
-        do {
-            try moc.save()
-        } catch {
-            moc.reset()
-            print("Error saving managed object context: \(error)")
-        }
+
         
     }
     
