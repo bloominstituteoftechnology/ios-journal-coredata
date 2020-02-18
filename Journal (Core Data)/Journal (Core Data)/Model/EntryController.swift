@@ -15,7 +15,7 @@ class EntryController {
 
     // Create Entry
     func createEntry(withTitle title: String, bodyText: String, mood: String) {
-        _ = Entry(title: title, bodyText: bodyText, mood: mood)
+        Entry(title: title, bodyText: bodyText, mood: mood)
         saveToPersistentStore()
     }
     
@@ -39,10 +39,11 @@ class EntryController {
     // MARK: - Persistence
 
     private func saveToPersistentStore() {
+        let moc = CoreDataStack.shared.mainContext
         do {
-            let moc = CoreDataStack.shared.mainContext
             try moc.save()
         } catch {
+            moc.reset()
             print("Error saving to persistent store: \(error)")
         }
     }
