@@ -9,8 +9,19 @@
 import Foundation
 import CoreData
 
+let baseURL = URL(string: "https://journal-693f9.firebaseio.com/")!
+
 class EntryController {
         
+    enum HTTPMethod: String {
+        case get = "GET"
+        case put = "PUT"
+        case post = "POST"
+        case delete = "DELETE"
+    }
+    
+    typealias CompletionHandler = (Error?) -> Void
+    
     // MARK: - CRUD Methods
 
     // Create Entry
