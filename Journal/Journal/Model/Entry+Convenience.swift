@@ -21,17 +21,19 @@ enum MoodStatus: String {
 
 extension Entry {
     
+    
+    // Encode Model oject into JSON - with computed Variabel
     var entryRepresentation: EntryRepresentation? {
         guard let title = title,
             let bodytext = bodytext,
             let identifier = identifier,
             let mood = mood else { return nil }
-            return EntryRepresentation(title: title, timestamp: timestamp,mood: mood, identifier: identifier, bodytext: bodytext)
+        return EntryRepresentation(title: title, timestamp: timestamp,mood: mood, identifier: identifier.uuidString , bodytext: bodytext)
     }
     
     
     @discardableResult
-    convenience init(title: String, bodytext: String, mood: String, timestamp: Date, identifier: String = UUID().uuidString, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    convenience init(title: String, bodytext: String, mood: String, timestamp: Date, identifier: UUID = UUID(), context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.title = title
         self.bodytext = bodytext
@@ -41,11 +43,15 @@ extension Entry {
         //NS Date? do i need to initialize - not here 
         //Consider giving default values to the timestamp - How ?
     }
+    
+    // ENTRY REPRESENTATION OF JSON OBJECT into FIREBASE
+    
     @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         guard let mood = MoodStatus(rawValue: entryRepresentation.mood),
+            let identifierString = entryRepresentation.identifier,
+            let identifier = UUID(uuidString: identifierString),
             let title = entryRepresentation.title,
             let bodytext = entryRepresentation.bodytext,
-            let identifier = entryRepresentation.identifier,
             let timestamp = entryRepresentation.timestamp else { return nil }
         self.init(title: title,
                   bodytext: bodytext,

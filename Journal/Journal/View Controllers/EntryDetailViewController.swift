@@ -44,7 +44,7 @@ class EntryDetailViewController: UIViewController {
         if let entry = entry {
             entryController?.Update(entry: entry, newTitle: title, newMood: mood.rawValue, newBodyText: descript, updatedTimeStamp: Date())
         } else {
-            entryController?.CreateEntry(title: title, bodytext: descript,mood: mood.rawValue, timestamp: Date(), identifier: "\(Int.random(in: 1...1000))")
+            entryController?.CreateEntry(title: title, bodytext: descript,mood: mood.rawValue, timestamp: Date(), identifier: UUID())
         
         }
         navigationController?.popViewController(animated: true)

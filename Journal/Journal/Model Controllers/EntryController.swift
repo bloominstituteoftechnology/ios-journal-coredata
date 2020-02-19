@@ -24,6 +24,10 @@ class EntryController {
     // type alias - sort of shortcut for function - put outsude class to use throughout class.
     typealias CompletionHandler = (Error?) -> Void
     
+    init() {
+        fetchEntriesfromServer()
+    }
+    
     // Old Basic method not efficient
 //    var entries: [Entry]
 //    func loadFromPersistentStore() -> [Entry] {
@@ -37,10 +41,11 @@ class EntryController {
 //            return []
 //        }
 //    }
+
     
     // Fetch Tasks from Firebase server
     func fetchEntriesfromServer(completion: @escaping CompletionHandler =  { _ in }) {
-        let requestURL = baseURL.appendingPathComponent("json")
+        let requestURL = baseURL.appendingPathExtension("json")
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
             guard error == nil else { // guard against error right away
                 print("Error fetching taks: \(error!)")
@@ -56,14 +61,69 @@ class EntryController {
                 }
                 return
             }
-            
+            do {
+                // decode data ,,in form of dictonary
+                let entryRepresentations = Array(try JSONDecoder().decode([String: EntryRepresentation].self, from: data).values)
+                // UPDATE ENTRIES TO SERVER
+                try self.updateEntries(with: entryRepresentations)
+                
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+            } catch {
+                print("Error decoding task representations: \(error)")
+                DispatchQueue.main.async {
+                    completion(error)
+                }
+            }
+        }.resume()
     }
+   
+    
+         // Update Entry on Firebase
+        func updateEntries(with representations: [EntryRepresentation]) throws {
+            let entriesWithID = representations.filter { $0.identifier != nil }
+            let identifiersToFetch = entriesWithID.compactMap { UUID(uuidString: $0.identifier!) }
+            // in Firebase the Key is the UUID and the Value is the Entry Object
+            let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
+            var entriesToCreate = representationsByID
+            
+            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+            // Grab entries from Firebase
+            let context = CoreDataStack.shared.mainContext
+            
+            do {
+                let existingEntries = try context.fetch(fetchRequest)
+                for entry in existingEntries {
+                    guard let id = entry.identifier,
+                    let representation = representationsByID[id] else { continue }
+                    self.update(entry: entry, with: representation)
+                    entriesToCreate.removeValue(forKey: id)
+                 }
+                //for anything left over crete new task
+                for representation in entriesToCreate.values {
+                    Entry(entryRepresentation: representation, context: context)
+                }
+            } catch {
+                print("Error fetching task for UUIDs: \(error)")
+            }
+            try self.saveToPersistentStore()
+        }
+    
+    // update Entry for Firebase
+    private func update(entry: Entry, with representation: EntryRepresentation) {
+        entry.title = representation.title
+        entry.bodytext = representation.bodytext
+        entry.mood = representation.mood
+        entry.timestamp = representation.timestamp
+        // DONT NEED to add identifier - Already checked earlier in update entires.
     }
     
-    // PUT - send tasks to server
+    // PUT - send Entries to Firebase
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
-        guard let identifier = entry.identifier else { return }
-        entry.identifier = identifier
+        guard let identifier = entry.identifier?.uuidString else { return }
+//        entry.identifier = identifier.u
         let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.put.rawValue
@@ -101,7 +161,7 @@ class EntryController {
             completion(NSError())
             return
         }
-        let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        let requestURL = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.delete.rawValue
         
@@ -120,7 +180,7 @@ class EntryController {
         
     }
     
-    
+    // Save to Persostent Store
     
     func saveToPersistentStore() {
         do {
@@ -133,7 +193,7 @@ class EntryController {
     
     // - CRUD
     // create Entry
-    func CreateEntry(title: String, bodytext: String, mood: String, timestamp: Date, identifier: String) {
+    func CreateEntry(title: String, bodytext: String, mood: String, timestamp: Date, identifier: UUID) {
         let entry = Entry(title: title, bodytext: bodytext, mood: mood, timestamp: timestamp, identifier: identifier)
         put(entry: entry)
         saveToPersistentStore()
@@ -151,30 +211,7 @@ class EntryController {
         
     }
     
-     // Update Entry on server
-    func updateEntries(with representations: [EntryRepresentation]) throws {
-        let entriesWithID = representations.filter { $0.identifier != nil }
-        let identifierToFetch = entriesWithID.compactMap { $0.identifier! }
-        let representationsById = Dictionary(uniqueKeysWithValues: zip(identifierToFetch, entriesWithID))
-        var entriesToCreate = representationsById
-        
-         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifierToFetch)
-        let context = CoreDataStack.shared.mainContext
-        
-        do {
-            let existingEntries = try context.fetch(fetchRequest)
-            for entry in existingEntries {
-                guard let id = entry.identifier,
-                let representation = representationsById[id] else { continue }
-//                self.Update(entry: entry, with: representation)
-                entriesToCreate.removeValue(forKey: id)
-             }
-        } catch {
-            
-        }
-        
-    }
+
         
     //Delete Entry
     
