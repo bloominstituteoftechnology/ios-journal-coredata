@@ -89,6 +89,7 @@ class EntryController {
         let context = CoreDataStack.shared.mainContext
         
         do {
+            #warning("concurrency assertion triggered on next line")
             let existingEntries = try context.fetch(fetchRequest)
             
             for entry in existingEntries {
