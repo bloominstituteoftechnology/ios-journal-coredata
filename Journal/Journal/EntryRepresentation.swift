@@ -14,7 +14,7 @@ struct EntryRepresentation: Codable {
     var title: String?
     var timestamp: Date?
     var mood: String
-    var identifier: String?
+    var identifier: String? // should be string.. firebase doesnt like UUID
     var bodytext: String?
 }
 

@@ -22,10 +22,9 @@ let baseURL = URL(string: "https://journalapp-12797.firebaseio.com/")!
 class EntryController {
     
     // type alias - sort of shortcut for function - put outsude class to use throughout class.
-    typealias CompletionHandler = ((Error?) -> Void)
+    typealias CompletionHandler = (Error?) -> Void
     
-    // Old method not efficent
-    
+    // Old Basic method not efficient
 //    var entries: [Entry]
 //    func loadFromPersistentStore() -> [Entry] {
 //        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -39,8 +38,29 @@ class EntryController {
 //        }
 //    }
     
-    // PUT - send tasks to server
+    // Fetch Tasks from Firebase server
+    func fetchEntriesfromServer(completion: @escaping CompletionHandler =  { _ in }) {
+        let requestURL = baseURL.appendingPathComponent("json")
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            guard error == nil else { // guard against error right away
+                print("Error fetching taks: \(error!)")
+                DispatchQueue.main.async {
+                    completion(error)
+                }
+                return
+            }
+            guard let data = data else {
+                print("No Data Returned by Data Task")
+                DispatchQueue.main.async {
+                    completion(NSError())
+                }
+                return
+            }
+            
+    }
+    }
     
+    // PUT - send tasks to server
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         guard let identifier = entry.identifier else { return }
         entry.identifier = identifier
@@ -128,6 +148,31 @@ class EntryController {
         entry.mood = newMood
         put(entry: entry)
         saveToPersistentStore()
+        
+    }
+    
+     // Update Entry on server
+    func updateEntries(with representations: [EntryRepresentation]) throws {
+        let entriesWithID = representations.filter { $0.identifier != nil }
+        let identifierToFetch = entriesWithID.compactMap { $0.identifier! }
+        let representationsById = Dictionary(uniqueKeysWithValues: zip(identifierToFetch, entriesWithID))
+        var entriesToCreate = representationsById
+        
+         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifierToFetch)
+        let context = CoreDataStack.shared.mainContext
+        
+        do {
+            let existingEntries = try context.fetch(fetchRequest)
+            for entry in existingEntries {
+                guard let id = entry.identifier,
+                let representation = representationsById[id] else { continue }
+//                self.Update(entry: entry, with: representation)
+                entriesToCreate.removeValue(forKey: id)
+             }
+        } catch {
+            
+        }
         
     }
         
