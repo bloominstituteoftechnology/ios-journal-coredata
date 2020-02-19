@@ -17,17 +17,31 @@ class CoreDataStack {
     
     // Create Persistent Store Manager and Persistent Store
     lazy var container: NSPersistentContainer = {
-        let newContainer = NSPersistentContainer(name: "Journal (Core Data)")
-        newContainer.loadPersistentStores { (_, error) in
+        let container = NSPersistentContainer(name: "Journal (Core Data)")
+        container.loadPersistentStores { (_, error) in
             if let error = error {
                 fatalError("Failed to load persistent stores: \(error)")
             }
         }
-        return newContainer
+        return container
     }()
     
     // Create Managed Object Context
     var mainContext: NSManagedObjectContext {
         return container.viewContext
+    }
+    
+    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
+        var error: Error?
+        
+        context.performAndWait {
+            do {
+                try context.save()
+            } catch let saveError {
+                error = saveError
+            }
+        }
+        
+        if let error = error { throw error }
     }
 }

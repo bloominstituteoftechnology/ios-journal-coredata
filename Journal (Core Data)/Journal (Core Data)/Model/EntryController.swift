@@ -52,11 +52,8 @@ class EntryController {
             jsonDecoder.dateDecodingStrategy = .iso8601
             do {
                 let entryRepresentations = Array(try jsonDecoder.decode([String : EntryRepresentation].self, from: data).values)
-//                var entryRepresentations: [EntryRepresentation] = []
-//                let entryRepresentationsByID = try jsonDecoder.decode([String : EntryRepresentation].self, from: data)
-//                entryRepresentations = entryRepresentationsByID.map { $0.value }
                 
-                self.updateEntries(with: entryRepresentations)
+                try self.updateEntries(with: entryRepresentations)
                 DispatchQueue.main.async {
                     completion(nil)
                 }
@@ -69,47 +66,6 @@ class EntryController {
         }.resume()
     }
     
-    private func update(entry: Entry, with entryRepresentation: EntryRepresentation) {
-        entry.title = entryRepresentation.title
-        entry.bodyText = entryRepresentation.bodyText
-        entry.timestamp = entryRepresentation.timestamp
-        entry.identifier = entryRepresentation.identifier
-        entry.mood = entryRepresentation.mood
-    }
-    
-    private func updateEntries(with representations: [EntryRepresentation]) {
-        let entriesWithID = representations.filter { $0.identifier != nil }
-        let identifiersToFetch = entriesWithID.compactMap { $0.identifier! }
-        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
-        var entriesToCreate = representationsByID
-        
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
-        
-        let context = CoreDataStack.shared.mainContext
-        
-        do {
-            #warning("concurrency assertion triggered on next line")
-            let existingEntries = try context.fetch(fetchRequest)
-            
-            for entry in existingEntries {
-                guard let id = entry.identifier,
-                    let representation = representationsByID[id] else { continue }
-                
-                self.update(entry: entry, with: representation)
-                entriesToCreate.removeValue(forKey: id)
-            }
-            
-            for representation in entriesToCreate.values {
-                Entry(entryRepresentation: representation, context: context)
-            }
-        } catch {
-            print("Error fetching entries for UUIDs: \(error)")
-        }
-        
-        saveToPersistentStore()
-    }
-    
     private func putEntryToServer(_ entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         let uuidString = entry.identifier ?? UUID().uuidString
         let requestURL = baseURL.appendingPathComponent(uuidString).appendingPathExtension("json")
@@ -119,13 +75,13 @@ class EntryController {
         let jsonEncoder = JSONEncoder()
         jsonEncoder.dateEncodingStrategy = .iso8601
         do {
-        guard var representation = entry.entryRepresentation else {
+            guard var representation = entry.entryRepresentation else {
                 completion(NSError())
                 return
             }
             representation.identifier = uuidString
             entry.identifier = uuidString
-            saveToPersistentStore()
+            try CoreDataStack.shared.save()
             request.httpBody = try jsonEncoder.encode(representation)
         } catch {
             print("Error encoding entry: \(error)")
@@ -173,7 +129,51 @@ class EntryController {
         }.resume()
     }
     
-    // MARK: - CRUD Methods
+    // MARK: - Private Methods
+
+    private func updateEntries(with representations: [EntryRepresentation]) throws {
+        let entriesWithID = representations.filter { $0.identifier != nil }
+        let identifiersToFetch = entriesWithID.compactMap { $0.identifier! }
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
+        var entriesToCreate = representationsByID
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let context = CoreDataStack.shared.mainContext
+        
+        context.perform {
+            do {
+                let existingEntries = try context.fetch(fetchRequest)
+                
+                for entry in existingEntries {
+                    guard let id = entry.identifier,
+                        let representation = representationsByID[id] else { continue }
+                    
+                    self.update(entry: entry, with: representation)
+                    entriesToCreate.removeValue(forKey: id)
+                }
+                
+                for representation in entriesToCreate.values {
+                    Entry(entryRepresentation: representation, context: context)
+                }
+            } catch {
+                print("Error fetching entries for UUIDs: \(error)")
+            }
+        }
+        
+        try CoreDataStack.shared.save(context: context)
+    }
+    
+    private func update(entry: Entry, with entryRepresentation: EntryRepresentation) {
+        entry.title = entryRepresentation.title
+        entry.bodyText = entryRepresentation.bodyText
+        entry.timestamp = entryRepresentation.timestamp
+        entry.identifier = entryRepresentation.identifier
+        entry.mood = entryRepresentation.mood
+    }
+    
+    // MARK: - Public CRUD Methods
 
     // Create Entry
     func createEntry(withTitle title: String, bodyText: String, mood: String) {
@@ -200,21 +200,28 @@ class EntryController {
             }
             
             let moc = CoreDataStack.shared.mainContext
-            moc.delete(entry)
             
-            self.saveToPersistentStore()
+            moc.perform {
+                do {
+                    moc.delete(entry)
+                    try CoreDataStack.shared.save(context: moc)
+                } catch {
+                    moc.reset()
+                    print("Error deleting entry from managed object context: \(error)")
+                }
+            }
         }
     }
     
     // MARK: - Persistence
 
-    private func saveToPersistentStore() {
-        let moc = CoreDataStack.shared.mainContext
-        do {
-            try moc.save()
-        } catch {
-            moc.reset()
-            print("Error saving to persistent store: \(error)")
-        }
-    }
+//    private func saveToPersistentStore() {
+//        let moc = CoreDataStack.shared.mainContext
+//        do {
+//            try moc.save()
+//        } catch {
+//            moc.reset()
+//            print("Error saving to persistent store: \(error)")
+//        }
+//    }
 }
