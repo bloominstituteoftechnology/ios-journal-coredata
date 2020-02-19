@@ -9,6 +9,8 @@
 import UIKit
 import CoreData
 
+let baseURL = URL(string: "https://journalapp-12797.firebaseio.com/")!
+
 class EntryController {
     
     // Old method not efficent
