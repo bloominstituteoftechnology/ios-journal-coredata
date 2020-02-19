@@ -140,7 +140,7 @@ class EntryController {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
         
-        let context = CoreDataStack.shared.mainContext
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         
         context.perform {
             do {
