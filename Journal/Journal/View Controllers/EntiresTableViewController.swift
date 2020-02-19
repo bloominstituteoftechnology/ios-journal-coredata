@@ -48,6 +48,15 @@ class EntiresTableViewController: UITableViewController {
         tableView.reloadData()
     }
 
+    // Pull to refresh method
+    
+    @IBAction func pullToRefreshTableview(_ sender: UIRefreshControl) {
+        entryController.fetchEntriesfromServer { (_) in
+            self.refreshControl?.endRefreshing()
+        }
+    }
+    
+    
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {

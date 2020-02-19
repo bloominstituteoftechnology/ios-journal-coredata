@@ -79,7 +79,6 @@ class EntryController {
         }.resume()
     }
    
-    
          // Update Entry on Firebase
         func updateEntries(with representations: [EntryRepresentation]) throws {
             let entriesWithID = representations.filter { $0.identifier != nil }
@@ -123,7 +122,6 @@ class EntryController {
     // PUT - send Entries to Firebase
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         guard let identifier = entry.identifier?.uuidString else { return }
-//        entry.identifier = identifier.u
         let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.put.rawValue
