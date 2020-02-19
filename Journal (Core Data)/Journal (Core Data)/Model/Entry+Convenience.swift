@@ -40,10 +40,8 @@ extension Entry {
                       context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         guard let title = entryRepresentation.title,
             let bodyText = entryRepresentation.bodyText,
-//            let timestampString = entryRepresentation.timestamp,
             let timestamp = entryRepresentation.timestamp,
             let identifierString = entryRepresentation.identifier else { return nil }
-//            let identifier = UUID(uuidString: identifierString) else { return nil }
         
         self.init(title: title,
                   bodyText: bodyText,

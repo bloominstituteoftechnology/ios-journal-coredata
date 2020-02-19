@@ -144,6 +144,15 @@ class EntryController {
         
         context.perform {
             do {
+                // Delete existing entries not found in server database
+                let allExistingEntries = try context.fetch(Entry.fetchRequest()) as? [Entry]
+                let entriesToDelete = allExistingEntries!.filter { !identifiersToFetch.contains($0.identifier!) }
+                
+                for entry in entriesToDelete {
+                    context.delete(entry)
+                }
+                
+                // Update existing entries found in server database
                 let existingEntries = try context.fetch(fetchRequest)
                 
                 for entry in existingEntries {
@@ -154,6 +163,7 @@ class EntryController {
                     entriesToCreate.removeValue(forKey: id)
                 }
                 
+                // Create new entries found in server database
                 for representation in entriesToCreate.values {
                     Entry(entryRepresentation: representation, context: context)
                 }
@@ -212,16 +222,4 @@ class EntryController {
             }
         }
     }
-    
-    // MARK: - Persistence
-
-//    private func saveToPersistentStore() {
-//        let moc = CoreDataStack.shared.mainContext
-//        do {
-//            try moc.save()
-//        } catch {
-//            moc.reset()
-//            print("Error saving to persistent store: \(error)")
-//        }
-//    }
 }
