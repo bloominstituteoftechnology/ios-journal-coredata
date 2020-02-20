@@ -60,13 +60,15 @@ class EntryDetailViewController: UIViewController {
         
         let mood = Mood.allMoods[moodSegmentedControl.selectedSegmentIndex].rawValue
         
-        if let entry = entry {
-            entryController.updateEntry(entry,
-                                        updatedTitle: title,
-                                        updatedBodyText: bodyText,
-                                        updatedMood: mood)
-        } else {
-            entryController.createEntry(withTitle: title, bodyText: bodyText, mood: mood)
+        CoreDataStack.shared.mainContext.perform {
+            if let entry = self.entry {
+                self.entryController.updateEntry(entry,
+                                            updatedTitle: title,
+                                            updatedBodyText: bodyText,
+                                            updatedMood: mood)
+            } else {
+                self.entryController.createEntry(withTitle: title, bodyText: bodyText, mood: mood)
+            }
         }
         
         navigationController?.popViewController(animated: true)
@@ -77,20 +79,20 @@ class EntryDetailViewController: UIViewController {
     private func updateViews() {
         guard isViewLoaded else { return }
         
-        if let entry = entry {
-            title = entry.title
-            titleTextField.text = entry.title
-            bodyTextView.text = entry.bodyText
-            if let moodString = entry.mood,
-                let moodIndex = Mood.allRawValues.firstIndex(of: moodString) {
-                moodSegmentedControl.selectedSegmentIndex = moodIndex
+        CoreDataStack.shared.mainContext.perform {
+            if let entry = self.entry {
+                self.title = entry.title
+                self.titleTextField.text = entry.title
+                self.bodyTextView.text = entry.bodyText
+                if let moodString = entry.mood,
+                    let moodIndex = Mood.allRawValues.firstIndex(of: moodString) {
+                    self.moodSegmentedControl.selectedSegmentIndex = moodIndex
+                } else {
+                    self.moodSegmentedControl.selectedSegmentIndex = 1
+                }
             } else {
-                moodSegmentedControl.selectedSegmentIndex = 1
+                self.title = self.entry?.title ?? "Create Entry"
             }
-        } else {
-            title = entry?.title ?? "Create Entry"
         }
-        
-        
     }
 }

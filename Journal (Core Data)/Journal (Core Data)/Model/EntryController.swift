@@ -26,7 +26,47 @@ class EntryController {
         fetchEntriesFromServer()
     }
     
-    // MARK: - Server API Methods
+    // MARK: - Public CRUD Methods
+
+    // Create Entry
+    func createEntry(withTitle title: String, bodyText: String, mood: String) {
+        let entry = Entry(title: title, bodyText: bodyText, mood: mood)
+        putEntryToServer(entry)
+    }
+    
+    // Update Entry
+    func updateEntry(_ entry: Entry, updatedTitle: String, updatedBodyText: String, updatedMood: String) {
+        let updatedTimestamp = Date()
+        entry.title = updatedTitle
+        entry.bodyText = updatedBodyText
+        entry.timestamp = updatedTimestamp
+        entry.mood = updatedMood
+        putEntryToServer(entry)
+    }
+    
+    // Delete Entry
+    func deleteEntry(_ entry: Entry) {
+        deleteEntryFromServer(entry) { (error) in
+            guard error == nil else {
+                print("Error deleting entry from server: \(error!)")
+                return
+            }
+            
+            let moc = CoreDataStack.shared.mainContext
+            
+            moc.perform {
+                do {
+                    moc.delete(entry)
+                    try CoreDataStack.shared.save(context: moc)
+                } catch {
+                    moc.reset()
+                    print("Error deleting entry from managed object context: \(error)")
+                }
+            }
+        }
+    }
+    
+    // MARK: - Public Server API Methods
     
     func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in  }) {
         let requestURL = baseURL.appendingPathExtension("json")
@@ -65,6 +105,8 @@ class EntryController {
             }
         }.resume()
     }
+    
+    // MARK: - Private Server API Methods
     
     private func putEntryToServer(_ entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         let uuidString = entry.identifier ?? UUID().uuidString
@@ -105,28 +147,30 @@ class EntryController {
     }
     
     private func deleteEntryFromServer(_ entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
-        guard let uuidString = entry.identifier else {
-            completion(NSError())
-            return
-        }
-        
-        let requestURL = baseURL.appendingPathComponent(uuidString).appendingPathExtension("json")
-        var request = URLRequest(url: requestURL)
-        request.httpMethod = HTTPMethod.delete.rawValue
-        
-        URLSession.shared.dataTask(with: request) { (_, _, error) in
-            guard error == nil else {
-                print("Error deleting entry: \(error!)")
-                DispatchQueue.main.async {
-                    completion(error)
-                }
+        CoreDataStack.shared.mainContext.perform {
+            guard let uuidString = entry.identifier else {
+                completion(NSError())
                 return
             }
             
-            DispatchQueue.main.async {
-                completion(nil)
-            }
-        }.resume()
+            let requestURL = baseURL.appendingPathComponent(uuidString).appendingPathExtension("json")
+            var request = URLRequest(url: requestURL)
+            request.httpMethod = HTTPMethod.delete.rawValue
+            
+            URLSession.shared.dataTask(with: request) { (_, _, error) in
+                guard error == nil else {
+                    print("Error deleting entry: \(error!)")
+                    DispatchQueue.main.async {
+                        completion(error)
+                    }
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
+            }.resume()
+        }
     }
     
     // MARK: - Private Methods
@@ -181,45 +225,5 @@ class EntryController {
         entry.timestamp = entryRepresentation.timestamp
         entry.identifier = entryRepresentation.identifier
         entry.mood = entryRepresentation.mood
-    }
-    
-    // MARK: - Public CRUD Methods
-
-    // Create Entry
-    func createEntry(withTitle title: String, bodyText: String, mood: String) {
-        let entry = Entry(title: title, bodyText: bodyText, mood: mood)
-        putEntryToServer(entry)
-    }
-    
-    // Update Entry
-    func updateEntry(_ entry: Entry, updatedTitle: String, updatedBodyText: String, updatedMood: String) {
-        let updatedTimestamp = Date()
-        entry.title = updatedTitle
-        entry.bodyText = updatedBodyText
-        entry.timestamp = updatedTimestamp
-        entry.mood = updatedMood
-        putEntryToServer(entry)
-    }
-    
-    // Delete Entry
-    func deleteEntry(_ entry: Entry) {
-        deleteEntryFromServer(entry) { (error) in
-            guard error == nil else {
-                print("Error deleting entry from server: \(error!)")
-                return
-            }
-            
-            let moc = CoreDataStack.shared.mainContext
-            
-            moc.perform {
-                do {
-                    moc.delete(entry)
-                    try CoreDataStack.shared.save(context: moc)
-                } catch {
-                    moc.reset()
-                    print("Error deleting entry from managed object context: \(error)")
-                }
-            }
-        }
     }
 }

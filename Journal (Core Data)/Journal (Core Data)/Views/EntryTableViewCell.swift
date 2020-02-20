@@ -25,16 +25,18 @@ class EntryTableViewCell: UITableViewCell {
     // MARK: - UpdateViews
 
     private func updateViews() {
-        guard let entry = entry,
-            let timestamp = entry.timestamp else { return }
-        
-        titleLabel.text = entry.title
-        bodyTextLabel.text = entry.bodyText
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .short
-        timestampLabel.text = dateFormatter.string(from: timestamp)
+        CoreDataStack.shared.mainContext.perform {
+            guard let entry = self.entry,
+                let timestamp = entry.timestamp else { return }
+            
+            self.titleLabel.text = entry.title
+            self.bodyTextLabel.text = entry.bodyText
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateStyle = .short
+            dateFormatter.timeStyle = .short
+            self.timestampLabel.text = dateFormatter.string(from: timestamp)
+        }
     }
 
 }
