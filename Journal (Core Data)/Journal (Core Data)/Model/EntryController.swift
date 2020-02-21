@@ -52,7 +52,8 @@ class EntryController {
                 return
             }
             
-            let moc = CoreDataStack.shared.mainContext
+            //let moc = CoreDataStack.shared.mainContext
+            guard let moc = entry.managedObjectContext else { return }
             
             moc.perform {
                 do {
@@ -109,26 +110,36 @@ class EntryController {
     // MARK: - Private Server API Methods
     
     private func putEntryToServer(_ entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
-        let uuidString = entry.identifier ?? UUID().uuidString
+        guard let moc = entry.managedObjectContext else { return }
+        
+        var uuidString = ""
+        
+        moc.perform {
+            uuidString = entry.identifier ?? UUID().uuidString
+        }
+        
         let requestURL = baseURL.appendingPathComponent(uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.put.rawValue
         
         let jsonEncoder = JSONEncoder()
         jsonEncoder.dateEncodingStrategy = .iso8601
-        do {
-            guard var representation = entry.entryRepresentation else {
-                completion(NSError())
+        
+        moc.perform {
+            do {
+                guard var representation = entry.entryRepresentation else {
+                    completion(NSError())
+                    return
+                }
+                representation.identifier = uuidString
+                entry.identifier = uuidString
+                try CoreDataStack.shared.save()
+                request.httpBody = try jsonEncoder.encode(representation)
+            } catch {
+                print("Error encoding entry: \(error)")
+                completion(error)
                 return
             }
-            representation.identifier = uuidString
-            entry.identifier = uuidString
-            try CoreDataStack.shared.save()
-            request.httpBody = try jsonEncoder.encode(representation)
-        } catch {
-            print("Error encoding entry: \(error)")
-            completion(error)
-            return
         }
         
         URLSession.shared.dataTask(with: request) { (data, _, error) in
@@ -147,7 +158,9 @@ class EntryController {
     }
     
     private func deleteEntryFromServer(_ entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
-        CoreDataStack.shared.mainContext.perform {
+        guard let moc = entry.managedObjectContext else { return }
+        
+        moc.perform {
             guard let uuidString = entry.identifier else {
                 completion(NSError())
                 return
@@ -172,13 +185,13 @@ class EntryController {
             }.resume()
         }
     }
-    
+        
     // MARK: - Private Methods
 
     private func updateEntries(with representations: [EntryRepresentation]) throws {
-        let entriesWithID = representations.filter { $0.identifier != nil }
-        let identifiersToFetch = entriesWithID.compactMap { $0.identifier! }
-        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
+        let representationsWithID = representations.filter { $0.identifier != nil }
+        let identifiersToFetch = representationsWithID.compactMap { $0.identifier! }
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representationsWithID))
         var entriesToCreate = representationsByID
         
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
