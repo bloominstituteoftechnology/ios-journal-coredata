@@ -90,24 +90,32 @@ class EntryController {
             let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
             // Grab entries from Firebase
-            let context = CoreDataStack.shared.mainContext
-            
-            do {
-                let existingEntries = try context.fetch(fetchRequest)
-                for entry in existingEntries {
-                    guard let id = entry.identifier,
-                    let representation = representationsByID[id] else { continue }
-                    self.update(entry: entry, with: representation)
-                    entriesToCreate.removeValue(forKey: id)
-                 }
-                //for anything left over crete new task
-                for representation in entriesToCreate.values {
-                    Entry(entryRepresentation: representation, context: context)
+//            let context = CoreDataStack.shared.mainContext - Remove Duplicate of below
+            let context = CoreDataStack.shared.container.newBackgroundContext()
+            context.performAndWait {
+                do {
+                    
+                    let existingEntries = try context.fetch(fetchRequest)
+                    for entry in existingEntries {
+                        guard let id = entry.identifier,
+                        let representation = representationsByID[id] else { continue }
+                        self.update(entry: entry, with: representation)
+                        entriesToCreate.removeValue(forKey: id)
+                     }
+                    //for anything left over crete new task
+                    for representation in entriesToCreate.values {
+                        Entry(entryRepresentation: representation, context: context)
+                    }
+                } catch {
+                    print("Error fetching task for UUIDs: \(error)")
                 }
-            } catch {
-                print("Error fetching task for UUIDs: \(error)")
-            }
-            try self.saveToPersistentStore()
+                do {
+                   try CoreDataStack.shared.save(context: context)
+                } catch {
+                    print(NSError())
+                }
+                }
+//            try self.saveToPersistentStore() -- old way
         }
     
     // update Entry for Firebase
@@ -119,8 +127,8 @@ class EntryController {
         // DONT NEED to add identifier - Already checked earlier in update entires.
     }
     
-    // PUT - send Entries to Firebase
-    func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+    // PUT - send Entries to Firebase -- Changed name of function from "put" to "sendTasksToServer"
+    func sendTasksToServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         guard let identifier = entry.identifier?.uuidString else { return }
         let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
@@ -130,7 +138,8 @@ class EntryController {
             guard var representation = entry.entryRepresentation else { completion(NSError())
             return }
             representation.identifier = identifier
-            try saveToPersistentStore()
+//            try saveToPersistentStore() - OLD
+            try CoreDataStack.shared.save(context: CoreDataStack.shared.mainContext)
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
             print("Error encoding entry \(entry): \(error)")
@@ -178,23 +187,24 @@ class EntryController {
         
     }
     
-    // Save to Persostent Store
+    // Save to Persostent Store == Removed to allow concurrency
     
-    func saveToPersistentStore() {
-        do {
-            let moc = CoreDataStack.shared.mainContext
-            try moc.save()
-        } catch {
-            print("Error Saving Task: \(error)")
-        }
-    }
+//    func saveToPersistentStore() {
+//        do {
+//            let moc = CoreDataStack.shared.mainContext
+//            try moc.save()
+//        } catch {
+//            print("Error Saving Task: \(error)")
+//        }
+//    }
     
     // - CRUD
     // create Entry
     func CreateEntry(title: String, bodytext: String, mood: String, timestamp: Date, identifier: UUID) {
         let entry = Entry(title: title, bodytext: bodytext, mood: mood, timestamp: timestamp, identifier: identifier)
-        put(entry: entry)
-        saveToPersistentStore()
+        sendTasksToServer(entry: entry)
+//        saveToPersistentStore()
+        
     }
     
     //Update Entry
@@ -204,8 +214,8 @@ class EntryController {
         entry.bodytext = newBodyText
         entry.timestamp = updatedTimeStamp
         entry.mood = newMood
-        put(entry: entry)
-        saveToPersistentStore()
+        sendTasksToServer(entry: entry)
+//        saveToPersistentStore()
         
     }
     
