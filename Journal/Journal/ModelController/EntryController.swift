@@ -18,18 +18,18 @@ class EntryController {
     
     // MARK: - Methods
     
-    private func createEntry(title: String, bodyText: String) {
+    func createEntry(title: String, bodyText: String) {
         
         let newEntry = Entry(title: title,
                              bodyText: bodyText,
                              timestamp: Date(),
-                             identifier: String((entries.count + 1)))
+                             identifier: String((entries.count)))
         entries.append(newEntry)
         saveToPersistence()
         
     }
     
-    private func updateEntry(entry: Entry, title: String, bodyText: String) {
+    func updateEntry(entry: Entry, title: String, bodyText: String) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = Date()
@@ -43,7 +43,7 @@ class EntryController {
     
     // MARK: - Persistence
     
-    private func saveToPersistence() {
+    func saveToPersistence() {
         do{
             try CoreDataStack.shared.mainContext.save()
         } catch {

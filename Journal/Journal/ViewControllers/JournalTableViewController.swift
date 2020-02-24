@@ -12,7 +12,7 @@ class EntriesTableViewController: UITableViewController {
     
     // MARK: - Propeties
     
-    let entries: [Entry] = []
+    let entryController = EntryController()
     
     
     // MARK: - Outlets
@@ -22,9 +22,11 @@ class EntriesTableViewController: UITableViewController {
     @IBOutlet var entryTextLabel: UILabel!
     
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    // MARK: - View Lifecycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
     
     // MARK: - Table view data source
@@ -34,28 +36,44 @@ class EntriesTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return entryController.entries.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.entryCellName, for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
-        if entries.count > 0 {
-        cell.entryTitleLabel.text = entries[indexPath.row].title
-        cell.entryDescriptionText.text = entries[indexPath.row].bodyText
-        cell.timeStamp.text = CustomDateFormatter.dateFormat(date: entries[indexPath.row].timestamp!,
-                                                             format: "DD MMM YY")
-        return cell
-        } else { return UITableViewCell()}
-        
+        if entryController.entries.count > 0 {
+            cell.entryTitleLabel.text = entryController.entries[indexPath.row].title
+            cell.entryDescriptionText.text = entryController.entries[indexPath.row].bodyText
+            cell.timeStamp.text = CustomDateFormatter.dateFormat(date: entryController.entries[indexPath.row].timestamp!,
+                                                                 format: "DD MMM YY")
+            return cell
+        } else {
+            return UITableViewCell()
+        }
     }
     
-    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            entryController.entries.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath],
+                                 with: .fade)
+            entryController.saveToPersistence()
+        }
+    }
     
     // MARK: - Navigation
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == Keys.addEntrySegue {
+            if let addEntryVC = segue.destination as? EntryDetailViewController {
+                addEntryVC.entryController = entryController
+            }
+        }
+        if segue.identifier == Keys.viewEditEntrySegue {
+            guard let indexPath = tableView.indexPathForSelectedRow,
+                let editEntryVC = segue.destination as? EntryDetailViewController else { return }
+            editEntryVC.entryController = entryController
+            editEntryVC.entry = entryController.entries[indexPath.row]
+        }
     }
 }

@@ -9,7 +9,7 @@
 import Foundation
 
 struct Keys{
-    static let addEntrySegue: String = "AddJoutnalEntrySegue"
+    static let addEntrySegue: String = "AddJournalEntrySegue"
     static let viewEditEntrySegue: String = "JournalDetailSegue"
     
     static let entryCellName: String = "EntryTableViewCell"
