@@ -107,7 +107,11 @@
                         <viewLayoutGuide key="safeArea" id="BZk-dl-0G1"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Entry" id="CyT-gk-zYw">
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="7yM-wr-n1k"/>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="7yM-wr-n1k">
+                            <connections>
+                                <action selector="saveEntry:" destination="Uc8-sY-D1x" id="HuF-SP-FJd"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="textViewField" destination="XyN-bN-S6p" id="Tcz-nI-lHu"/>
