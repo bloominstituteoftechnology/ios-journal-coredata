@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="69" id="ytQ-2B-PHR" customClass="EntryTableViewCell" customModule="JournalCoreData" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="69" id="ytQ-2B-PHR" customClass="EntryTableViewCell" customModule="JournalCoreData" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="69"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ytQ-2B-PHR" id="Vrz-W1-NsW">
@@ -59,7 +59,7 @@
                     <navigationItem key="navigationItem" title="Journal" id="cBW-ln-zgP">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="aYA-t4-LcR">
                             <connections>
-                                <segue destination="oFA-Ci-N4H" kind="presentation" identifier="AddEntryModalSegue" id="hmb-aA-kQ8"/>
+                                <segue destination="oFA-Ci-N4H" kind="show" identifier="AddEntryModalSegue" id="hmb-aA-kQ8"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -68,21 +68,65 @@
             </objects>
             <point key="canvasLocation" x="1237.68115942029" y="146.65178571428569"/>
         </scene>
-        <!--View Controller-->
+        <!--Entry Detail View Controller-->
         <scene sceneID="H0P-7c-f94">
             <objects>
-                <viewController id="oFA-Ci-N4H" sceneMemberID="viewController">
+                <viewController id="oFA-Ci-N4H" customClass="EntryDetailViewController" customModule="JournalCoreData" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JR0-NG-cgr">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XRe-Qs-C9d">
+                                <rect key="frame" x="20" y="224" width="374" height="311"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="311" id="kgc-Fx-tCs"/>
+                                </constraints>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="8"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </textView>
+                            <textField contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="t5b-1i-aia">
+                                <rect key="frame" x="20" y="160" width="374" height="44"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="SxL-yM-3HV"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="0.95184075342465757" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="2gf-Hq-saF" firstAttribute="trailing" secondItem="XRe-Qs-C9d" secondAttribute="trailing" constant="20" id="36R-gW-0fQ"/>
+                            <constraint firstItem="XRe-Qs-C9d" firstAttribute="leading" secondItem="2gf-Hq-saF" secondAttribute="leading" constant="20" id="4WD-nb-eZG"/>
+                            <constraint firstItem="2gf-Hq-saF" firstAttribute="trailing" secondItem="t5b-1i-aia" secondAttribute="trailing" constant="20" id="5Px-Cy-PfM"/>
+                            <constraint firstItem="t5b-1i-aia" firstAttribute="top" secondItem="2gf-Hq-saF" secondAttribute="top" constant="20" id="Fno-Ug-5KD"/>
+                            <constraint firstItem="t5b-1i-aia" firstAttribute="leading" secondItem="2gf-Hq-saF" secondAttribute="leading" constant="20" id="cAp-1X-awp"/>
+                            <constraint firstItem="XRe-Qs-C9d" firstAttribute="top" secondItem="t5b-1i-aia" secondAttribute="bottom" constant="20" id="ltJ-in-VCK"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="2gf-Hq-saF"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Ufh-Kq-pCW"/>
+                    <navigationItem key="navigationItem" id="Ufh-Kq-pCW">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="i0f-rm-kYq">
+                            <connections>
+                                <action selector="saveTapped:" destination="oFA-Ci-N4H" id="fAy-v9-H6R"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="bodyTextView" destination="XRe-Qs-C9d" id="WfY-tF-raC"/>
+                        <outlet property="titleTextField" destination="t5b-1i-aia" id="YO5-of-cth"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kdZ-Yh-e7J" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2206" y="155"/>
+            <point key="canvasLocation" x="2205.7971014492755" y="154.6875"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="cZ8-OT-AJF">
