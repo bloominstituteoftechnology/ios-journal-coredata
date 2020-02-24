@@ -14,6 +14,16 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var bodyTextField: UILabel!
     @IBOutlet weak var timestampTextField: UILabel!
     
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    private func updateViews() {
+    
+    }
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
