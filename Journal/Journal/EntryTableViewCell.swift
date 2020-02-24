@@ -12,7 +12,11 @@ class EntryTableViewCell: UITableViewCell {
     
     // MARK: - Properties
     
-    var entry: Entry?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
     
     
     // MARK: - Outlets
@@ -29,7 +33,7 @@ class EntryTableViewCell: UITableViewCell {
         return f
     }
     
-    func updateViews() {
+   private func updateViews() {
         guard let entry = entry,
             let timeStamp = entry.timeStamp else { return }
         let timeString = dateFormatter.string(from: timeStamp)
@@ -38,17 +42,6 @@ class EntryTableViewCell: UITableViewCell {
         timeStampLabel.text = timeString
         body.text = entry.bodyText
     }
-    
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
+ 
 
 }

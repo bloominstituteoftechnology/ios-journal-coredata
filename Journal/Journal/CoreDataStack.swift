@@ -15,13 +15,13 @@ class CoreDataStack {
     
     lazy var container: NSPersistentContainer = {
         // The name below should match the filename of the xcdatamodeld file exactly (minus the extension)
-        let container = NSPersistentContainer(name: "Journal")
-        container.loadPersistentStores { _, error in
-            if let error = error {
-                fatalError("Failed to load persistent stores: \(error)")
+        let ncontainer = NSPersistentContainer(name: "Journal")
+        ncontainer.loadPersistentStores { _, error in
+            guard error == nil else {
+                fatalError("Error! Can't Load from Persistent Stores: \(error!)!")
             }
         }
-        return container
+        return ncontainer
     }()
     
     var mainContext: NSManagedObjectContext {
