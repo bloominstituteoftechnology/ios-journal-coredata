@@ -18,30 +18,46 @@ class EntryDetailViewController: UIViewController {
     // MARK: - Properties
     
     var entryController: EntryController?
-    var entry: Entry?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
     
     // MARK: - View Lifecycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        updateViews()
     }
     
     // MARK: - Actions
     
     @IBAction func save(_ sender: Any) {
+        guard let title = titleTextField.text,
+            let bodyText = bodyTextView.text,
+            !title.isEmpty,
+            !bodyText.isEmpty else { return }
         
+        if let entry = entry {
+            entryController?.update(entry: entry, title: title, bodyText: bodyText)
+        } else {
+            entryController?.createEntry(called: title, bodyText: bodyText, timeStamp: Date(), identifier: "")
+        }
+
+        navigationController?.popViewController(animated: true)
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    private func updateViews() {
+        guard isViewLoaded else { return }
+        
+        if let entry = entry {
+            title = entry.title
+            titleTextField.text = entry.title
+            bodyTextView.text = entry.bodyText
+        } else {
+            title = "Create Entry"
+            bodyTextView.text = ""
+        }
     }
-    */
-
 }
