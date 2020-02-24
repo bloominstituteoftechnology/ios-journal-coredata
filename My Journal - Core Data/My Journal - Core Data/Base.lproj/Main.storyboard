@@ -73,7 +73,7 @@
                     <navigationItem key="navigationItem" title="Journal" id="kaV-RO-e2q">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="ld1-R9-5eQ">
                             <connections>
-                                <segue destination="GCL-FU-jDO" kind="presentation" identifier="NewEntrySegue" modalPresentationStyle="automatic" id="il9-fT-4GJ"/>
+                                <segue destination="GCL-FU-jDO" kind="show" identifier="NewEntrySegue" id="il9-fT-4GJ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -82,10 +82,10 @@
             </objects>
             <point key="canvasLocation" x="1305.7971014492755" y="-258.48214285714283"/>
         </scene>
-        <!--View Controller-->
+        <!--Entry Detail View Controller-->
         <scene sceneID="qf3-2l-CBF">
             <objects>
-                <viewController id="GCL-FU-jDO" sceneMemberID="viewController">
+                <viewController id="GCL-FU-jDO" customClass="EntryDetailViewController" customModule="My_Journal___Core_Data" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aLD-fX-a8u">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -118,6 +118,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="8Fi-aH-mmz"/>
+        <segue reference="il9-fT-4GJ"/>
     </inferredMetricsTieBreakers>
 </document>
