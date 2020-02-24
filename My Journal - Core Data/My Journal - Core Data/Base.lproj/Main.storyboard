@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="HaJ-pF-9rg">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Table View Controller-->
+        <!--Journal-->
         <scene sceneID="EqZ-XE-emE">
             <objects>
-                <tableViewController id="FZQ-19-bxQ" sceneMemberID="viewController">
+                <tableViewController id="FZQ-19-bxQ" customClass="EntriesTableViewController" customModule="My_Journal___Core_Data" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="mCO-Rk-BB4">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -22,6 +23,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="GCL-FU-jDO" kind="show" identifier="CellEntrySegue" id="8Fi-aH-mmz"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -29,11 +33,33 @@
                             <outlet property="delegate" destination="FZQ-19-bxQ" id="xqN-ue-wDm"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="kaV-RO-e2q"/>
+                    <navigationItem key="navigationItem" title="Journal" id="kaV-RO-e2q">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ld1-R9-5eQ">
+                            <connections>
+                                <segue destination="GCL-FU-jDO" kind="presentation" identifier="NewEntrySegue" modalPresentationStyle="automatic" id="il9-fT-4GJ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vcO-TB-35K" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1305.7971014492755" y="-258.48214285714283"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="qf3-2l-CBF">
+            <objects>
+                <viewController id="GCL-FU-jDO" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aLD-fX-a8u">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="YP1-cL-KVf"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="FQm-th-VPO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jiZ-yg-yeQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2400" y="-258"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rjm-Ek-PSO">
@@ -54,4 +80,7 @@
             <point key="canvasLocation" x="395.6521739130435" y="-258.48214285714283"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="8Fi-aH-mmz"/>
+    </inferredMetricsTieBreakers>
 </document>
