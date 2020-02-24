@@ -15,7 +15,11 @@ class EntryDetailViewController: UIViewController
     
     // MARK: - Properties
     
-    var entry: Entry?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
     var entryController: EntryController?
     
     
@@ -42,6 +46,7 @@ class EntryDetailViewController: UIViewController
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        updateViews()
         configureNavBar()
         setUpSubviews()
         layoutSubviews()
@@ -52,21 +57,39 @@ class EntryDetailViewController: UIViewController
     // MARK: - Methods
     
     private func configureNavBar() {
-        title = "Create Entry"
-       
+      
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveTapped))
     }
     
     @objc private func saveTapped() {
-        print("Hello")
+        guard let title = entryTextField.text, let bodyText = entryTextView.text else { return }
+        
+        if let entry = entry {
+            entryController?.update(with: title, bodyText: bodyText, entry: entry)
+        } else {
+            entryController?.create(title: title, bodyText: bodyText, identifier: title, date: Date())
+        }
+        navigationController?.popViewController(animated: true)
     }
     
+    private func updateViews() {
+        if let entry = entry {
+            entryTextField.text = entry.title
+            entryTextView.text = entry.bodyText
+            title = entry.title
+        } else {
+            title = "Create Entry"
+        }
+
+             
+    }
     
     private func setUpSubviews() {
         view.addSubview(entryTextField)
         view.addSubview(entryTextView)
     }
     
+ // MARK: - Constraint everything
     
     private func layoutSubviews() {
         NSLayoutConstraint.activate([

@@ -11,7 +11,7 @@ import UIKit
 class EntriesTableViewController: UITableViewController
 {
 
-    let entryController = EntryController()
+    private let entryController = EntryController()
     
     
     
@@ -52,5 +52,23 @@ class EntriesTableViewController: UITableViewController
         }
     }
  
-
+// MARK: - Segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        switch segue.identifier {
+            case Helper.addSegue:
+                guard let destVC = segue.destination as? EntryDetailViewController else { return }
+                destVC.entryController = entryController
+            case Helper.cellSegue:
+                guard let destVC = segue.destination as? EntryDetailViewController else { return }
+                
+                if let index = tableView.indexPathForSelectedRow {
+                    destVC.entry = entryController.entries[index.row]
+                    destVC.entryController = entryController
+            }
+            
+                
+            default:
+            break
+        }
+    }
 }
