@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  EntriesTableViewController.swift
 //  My Journal - Core Data
 //
 //  Created by Nick Nguyen on 2/24/20.
@@ -8,13 +8,25 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class EntriesTableViewController: UITableViewController
+{
 
+    
+    
+    
+    
+    
+    
+    // MARK: - View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+
+      
     }
 
+    // MARK: - Table view data source
+
+ 
 
 }
-
