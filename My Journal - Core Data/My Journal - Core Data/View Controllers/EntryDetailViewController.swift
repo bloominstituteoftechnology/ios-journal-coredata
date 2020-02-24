@@ -14,6 +14,11 @@ class EntryDetailViewController: UIViewController
     
     
     // MARK: - Properties
+    
+    var entry: Entry?
+    var entryController: EntryController?
+    
+    
     private var entryTextField : UITextField = {
         let textField = UITextField()
         textField.placeholder = "Enter a title"

@@ -10,7 +10,26 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell
 {
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
     
+    lazy var dateFormatter: DateFormatter = {
+        let dm = DateFormatter()
+        dm.dateStyle = .short
+        dm.calendar = .current
+        return dm
+    }()
+    
+    private func updateViews() {
+        if let entry = entry {
+            entryTitleLabel.text = entry.title
+            entryBodyLabel.text = entry.bodyText
+            timeStampLabel.text = dateFormatter.string(from: entry.timestamp ?? Date())
+        }
+    }
     
     // MARK: - IBOutlets
     
