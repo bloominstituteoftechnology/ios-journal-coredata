@@ -18,7 +18,7 @@ class EntryTableViewCell: UITableViewCell
         }
     }
     
-    lazy var dateFormatter: DateFormatter = {
+    lazy private var dateFormatter: DateFormatter = {
         let dm = DateFormatter()
         dm.dateFormat = "MM-dd-yyyy HH:mm"
         dm.calendar = .current
