@@ -27,6 +27,7 @@ class EntryDetailViewController: UIViewController
         let textView = UITextView()
         textView.text = ""
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.backgroundColor = .green
         textView.autocapitalizationType = .words
         return textView
     }()
@@ -37,7 +38,8 @@ class EntryDetailViewController: UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavBar()
-           setUpSubviews()
+        setUpSubviews()
+        layoutSubviews()
     }
 
 
@@ -46,6 +48,7 @@ class EntryDetailViewController: UIViewController
     
     private func configureNavBar() {
         title = "Create Entry"
+       
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveTapped))
     }
     
@@ -62,9 +65,37 @@ class EntryDetailViewController: UIViewController
     
     private func layoutSubviews() {
         NSLayoutConstraint.activate([
+            entryTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            entryTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            entryTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 16),
+            entryTextField.heightAnchor.constraint(equalToConstant: 50),
         
-        
+            entryTextView.leadingAnchor.constraint(equalTo: entryTextField.leadingAnchor),
+            entryTextView.trailingAnchor.constraint(equalTo: entryTextField.trailingAnchor),
+            entryTextView.topAnchor.constraint(equalTo: entryTextField.bottomAnchor, constant: 32),
+            entryTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -32)
+            
         ])
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
 
