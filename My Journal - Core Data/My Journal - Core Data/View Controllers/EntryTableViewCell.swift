@@ -10,6 +10,8 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell
 {
+    // MARK: - Properties
+    
     var entry: Entry? {
         didSet {
             updateViews()
@@ -22,6 +24,8 @@ class EntryTableViewCell: UITableViewCell
         dm.calendar = .current
         return dm
     }()
+    
+    // MARK: - Methods
     
     private func updateViews() {
         if let entry = entry {

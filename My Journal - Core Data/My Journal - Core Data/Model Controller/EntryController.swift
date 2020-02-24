@@ -12,12 +12,16 @@ import CoreData
 class EntryController 
 {
     
+    // MARK: - Computed Property
     var entries: [Entry] {
             loadFromPersistentStore()
      
        }
        
     
+    
+    
+   // MARK: - CRUD methods
     
     func saveToPersistentStore() {
         do {
@@ -53,9 +57,7 @@ class EntryController
         saveToPersistentStore()
     
     }
-    
-    
-    
+   
     func delete(entry: Entry) {
         CoreDataStack.shared.mainContext.delete(entry)
         saveToPersistentStore()
