@@ -9,13 +9,12 @@
 import UIKit
 
 class EntryDetailViewController: UIViewController {
-
+    var entryController: EntryController?
     var entry: Entry? {
         didSet {
             updateViews()
         }
     }
-    var entryController: EntryController?
     
     @IBOutlet weak var titleTextField: UITextField!
      @IBOutlet weak var textViewField: UITextView!
@@ -24,6 +23,7 @@ class EntryDetailViewController: UIViewController {
         super.viewDidLoad()
         updateViews()
     }
+    
     @IBAction func saveEntry(_ sender: Any ) {
       guard let entryController = entryController,
             let entryTitle = titleTextField.text,
@@ -35,9 +35,8 @@ class EntryDetailViewController: UIViewController {
         } else {
             entryController.create(title: entryTitle, timeStamp: Date(), bodyText: bodyText, identifier: "")
         }
-            navigationController?.popViewController(animated: true)
-    }
-    
+    navigationController?.popViewController(animated: true)
+}
     func updateViews() {
       guard isViewLoaded else { return }
         title = entry?.title ?? "Create Entry"
