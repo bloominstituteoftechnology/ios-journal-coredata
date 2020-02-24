@@ -71,21 +71,52 @@
             </objects>
             <point key="canvasLocation" x="725" y="102"/>
         </scene>
-        <!--View Controller-->
+        <!--Create Entry-->
         <scene sceneID="Gm5-pj-EqO">
             <objects>
-                <viewController id="Uc8-sY-D1x" sceneMemberID="viewController">
+                <viewController id="Uc8-sY-D1x" customClass="EntryDetailViewController" customModule="Journal_CoreData" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bAg-Vb-aLZ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="31" translatesAutoresizingMaskIntoConstraints="NO" id="2zA-Cp-auE">
+                                <rect key="frame" x="20" y="108" width="374" height="307"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a Title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="d0d-5C-c5b">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="44"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XyN-bN-S6p">
+                                        <rect key="frame" x="0.0" y="75" width="374" height="232"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="BZk-dl-0G1" firstAttribute="trailing" secondItem="2zA-Cp-auE" secondAttribute="trailing" constant="20" id="HgX-SW-pvN"/>
+                            <constraint firstItem="2zA-Cp-auE" firstAttribute="leading" secondItem="BZk-dl-0G1" secondAttribute="leading" constant="20" id="QFg-58-dtw"/>
+                            <constraint firstItem="2zA-Cp-auE" firstAttribute="top" secondItem="BZk-dl-0G1" secondAttribute="top" constant="20" id="d2k-LO-whK"/>
+                            <constraint firstItem="BZk-dl-0G1" firstAttribute="bottom" secondItem="2zA-Cp-auE" secondAttribute="bottom" constant="447" id="fbQ-J0-3zf"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="BZk-dl-0G1"/>
                     </view>
-                    <navigationItem key="navigationItem" id="y7M-qm-y4T"/>
+                    <navigationItem key="navigationItem" title="Create Entry" id="CyT-gk-zYw">
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="7yM-wr-n1k"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="textViewField" destination="XyN-bN-S6p" id="Tcz-nI-lHu"/>
+                        <outlet property="titleTextField" destination="d0d-5C-c5b" id="ncr-1j-9Xv"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hKI-n3-yVU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1662" y="102"/>
+            <point key="canvasLocation" x="1660.8695652173915" y="101.78571428571428"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="nmB-8d-NSf">
