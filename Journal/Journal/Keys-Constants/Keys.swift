@@ -13,5 +13,7 @@ struct Keys{
     static let viewEditEntrySegue: String = "JournalDetailSegue"
     
     static let entryCellName: String = "EntryTableViewCell"
+    
+    static let persistentContainerName: String = "Journal"
 }
 
