@@ -43,7 +43,7 @@ class EntriesTableViewController: UITableViewController
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            entryController.entries.remove(at: indexPath.row)
+            entryController.delete(entry: entryController.entries[indexPath.row])
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }

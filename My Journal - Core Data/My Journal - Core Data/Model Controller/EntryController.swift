@@ -13,13 +13,8 @@ class EntryController
 {
     
     var entries: [Entry] {
-        get {
             loadFromPersistentStore()
-        }
-        set {
-            self.entries = newValue
-        }
-       
+     
        }
        
     
