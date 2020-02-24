@@ -71,21 +71,50 @@
             </objects>
             <point key="canvasLocation" x="1005.7971014492755" y="158.70535714285714"/>
         </scene>
-        <!--View Controller-->
+        <!--Create Entry-->
         <scene sceneID="DAF-8u-WcA">
             <objects>
-                <viewController id="BUd-MB-wGD" sceneMemberID="viewController">
+                <viewController id="BUd-MB-wGD" customClass="EntryDetailViewController" customModule="JournalCoreData" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UfJ-Ia-1Dh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="JmP-sY-CMc">
+                                <rect key="frame" x="20" y="144" width="374" height="718"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Idq-3r-NM2">
+                                <rect key="frame" x="20" y="102" width="374" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Idq-3r-NM2" firstAttribute="leading" secondItem="Nof-zl-is9" secondAttribute="leading" constant="20" id="BTa-k3-Hzh"/>
+                            <constraint firstItem="Nof-zl-is9" firstAttribute="trailing" secondItem="Idq-3r-NM2" secondAttribute="trailing" constant="20" id="cgb-cB-hLj"/>
+                            <constraint firstItem="JmP-sY-CMc" firstAttribute="top" secondItem="Idq-3r-NM2" secondAttribute="bottom" constant="8" id="fVk-D6-bYi"/>
+                            <constraint firstItem="Idq-3r-NM2" firstAttribute="top" secondItem="Nof-zl-is9" secondAttribute="top" constant="14" id="hV5-E0-XMA"/>
+                            <constraint firstItem="JmP-sY-CMc" firstAttribute="leading" secondItem="Nof-zl-is9" secondAttribute="leading" constant="20" id="ivF-pt-ffv"/>
+                            <constraint firstItem="JmP-sY-CMc" firstAttribute="bottom" secondItem="Nof-zl-is9" secondAttribute="bottom" id="nLV-CZ-ucz"/>
+                            <constraint firstItem="Nof-zl-is9" firstAttribute="trailing" secondItem="JmP-sY-CMc" secondAttribute="trailing" constant="20" id="v6a-16-4nS"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="Nof-zl-is9"/>
                     </view>
-                    <navigationItem key="navigationItem" id="R4u-AY-bDg"/>
+                    <navigationItem key="navigationItem" title="Create Entry" id="IKE-6K-vaZ">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="i87-rr-9Nd">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="BUd-MB-wGD" id="ZG3-z2-9OF"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8vh-Ck-TDQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1826" y="159"/>
+            <point key="canvasLocation" x="1824.6376811594205" y="158.70535714285714"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jIg-2z-pSI">
