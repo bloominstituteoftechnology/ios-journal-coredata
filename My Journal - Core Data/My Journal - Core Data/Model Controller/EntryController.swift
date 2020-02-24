@@ -9,16 +9,17 @@
 import UIKit
 import CoreData
 
-class EntryController
+class EntryController 
 {
     
     var entries: [Entry] {
         get {
-             loadFromPersistentStore()
-        } set {
+            loadFromPersistentStore()
+        }
+        set {
             self.entries = newValue
         }
-          
+       
        }
        
     
@@ -50,15 +51,12 @@ class EntryController
     }
     
     
-    func update(with title : String, bodyText: String, entry: Entry) {
-        guard let index = entries.firstIndex(of: entry) else { return }
-        
-      
-        entry.title = title
+    func update(with newTitle : String, bodyText: String, entry: Entry) {
+        entry.title = newTitle
         entry.bodyText = bodyText
-        
-        entries.remove(at: index)
-        entries.insert(entry, at: index)
+        entry.timestamp = Date()
+        saveToPersistentStore()
+    
     }
     
     
@@ -67,34 +65,6 @@ class EntryController
         CoreDataStack.shared.mainContext.delete(entry)
         saveToPersistentStore()
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     
 }

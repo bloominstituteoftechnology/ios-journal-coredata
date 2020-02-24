@@ -14,10 +14,6 @@ class EntriesTableViewController: UITableViewController
     private let entryController = EntryController()
     
     
-    
-    
-    
-    
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {

@@ -34,9 +34,10 @@ class EntryDetailViewController: UIViewController
     
     private var entryTextView: UITextView = {
         let textView = UITextView()
-        textView.text = ""
+        textView.text = "Type something here..."
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.autocapitalizationType = .words
+        
         return textView
     }()
     
