@@ -51,9 +51,12 @@ class EntryController
     
     
     func update(with newTitle : String, bodyText: String, entry: Entry) {
-        entry.title = newTitle
-        entry.bodyText = bodyText
-        entry.timestamp = Date()
+        DispatchQueue.main.async {
+            entry.title = newTitle
+            entry.bodyText = bodyText
+            entry.timestamp = Date()
+        }
+      
         saveToPersistentStore()
     
     }
