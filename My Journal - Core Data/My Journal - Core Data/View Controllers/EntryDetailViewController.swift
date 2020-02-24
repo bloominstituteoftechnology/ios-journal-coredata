@@ -15,7 +15,7 @@ class EntryDetailViewController: UIViewController
     
     // MARK: - Properties
     
-    var entry: Entry? {
+     var entry: Entry? {
         didSet {
             updateViews()
         }
@@ -36,7 +36,6 @@ class EntryDetailViewController: UIViewController
         let textView = UITextView()
         textView.text = ""
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.backgroundColor = .green
         textView.autocapitalizationType = .words
         return textView
     }()
