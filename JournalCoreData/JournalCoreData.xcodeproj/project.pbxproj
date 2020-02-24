@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		5CFCCF1224046D7B001511FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFCCF1124046D7B001511FA /* AppDelegate.swift */; };
 		5CFCCF1424046D7B001511FA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFCCF1324046D7B001511FA /* SceneDelegate.swift */; };
-		5CFCCF1624046D7B001511FA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFCCF1524046D7B001511FA /* ViewController.swift */; };
 		5CFCCF1924046D7B001511FA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5CFCCF1724046D7B001511FA /* Main.storyboard */; };
 		5CFCCF1B24046D7C001511FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CFCCF1A24046D7C001511FA /* Assets.xcassets */; };
 		5CFCCF1E24046D7C001511FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5CFCCF1C24046D7C001511FA /* LaunchScreen.storyboard */; };
@@ -17,13 +16,14 @@
 		5CFCCF282404733A001511FA /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFCCF272404733A001511FA /* EntryTableViewCell.swift */; };
 		5CFCCF2A24047BE2001511FA /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFCCF2924047BE2001511FA /* EntryDetailViewController.swift */; };
 		5CFCCF2C24048283001511FA /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFCCF2B24048283001511FA /* CoreDataStack.swift */; };
+		5CFCCF2F24048569001511FA /* JournalCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5CFCCF2D24048569001511FA /* JournalCoreData.xcdatamodeld */; };
+		5CFCCF31240487F1001511FA /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CFCCF30240487F1001511FA /* Entry+Convenience.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5CFCCF0E24046D7B001511FA /* JournalCoreData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JournalCoreData.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5CFCCF1124046D7B001511FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5CFCCF1324046D7B001511FA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		5CFCCF1524046D7B001511FA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		5CFCCF1824046D7B001511FA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5CFCCF1A24046D7C001511FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5CFCCF1D24046D7C001511FA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -32,6 +32,8 @@
 		5CFCCF272404733A001511FA /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
 		5CFCCF2924047BE2001511FA /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
 		5CFCCF2B24048283001511FA /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		5CFCCF2E24048569001511FA /* JournalCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = JournalCoreData.xcdatamodel; sourceTree = "<group>"; };
+		5CFCCF30240487F1001511FA /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,17 +68,26 @@
 			children = (
 				5CFCCF1124046D7B001511FA /* AppDelegate.swift */,
 				5CFCCF1324046D7B001511FA /* SceneDelegate.swift */,
-				5CFCCF1524046D7B001511FA /* ViewController.swift */,
 				5CFCCF1724046D7B001511FA /* Main.storyboard */,
-				5CFCCF2524047329001511FA /* EntriesTableViewController.swift */,
+				5CFCCF3224048EB3001511FA /* View Controllers */,
 				5CFCCF2B24048283001511FA /* CoreDataStack.swift */,
 				5CFCCF272404733A001511FA /* EntryTableViewCell.swift */,
-				5CFCCF2924047BE2001511FA /* EntryDetailViewController.swift */,
 				5CFCCF1A24046D7C001511FA /* Assets.xcassets */,
 				5CFCCF1C24046D7C001511FA /* LaunchScreen.storyboard */,
 				5CFCCF1F24046D7C001511FA /* Info.plist */,
+				5CFCCF2D24048569001511FA /* JournalCoreData.xcdatamodeld */,
+				5CFCCF30240487F1001511FA /* Entry+Convenience.swift */,
 			);
 			path = JournalCoreData;
+			sourceTree = "<group>";
+		};
+		5CFCCF3224048EB3001511FA /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				5CFCCF2524047329001511FA /* EntriesTableViewController.swift */,
+				5CFCCF2924047BE2001511FA /* EntryDetailViewController.swift */,
+			);
+			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,9 +162,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				5CFCCF2C24048283001511FA /* CoreDataStack.swift in Sources */,
+				5CFCCF31240487F1001511FA /* Entry+Convenience.swift in Sources */,
 				5CFCCF2624047329001511FA /* EntriesTableViewController.swift in Sources */,
+				5CFCCF2F24048569001511FA /* JournalCoreData.xcdatamodeld in Sources */,
 				5CFCCF282404733A001511FA /* EntryTableViewCell.swift in Sources */,
-				5CFCCF1624046D7B001511FA /* ViewController.swift in Sources */,
 				5CFCCF1224046D7B001511FA /* AppDelegate.swift in Sources */,
 				5CFCCF2A24047BE2001511FA /* EntryDetailViewController.swift in Sources */,
 				5CFCCF1424046D7B001511FA /* SceneDelegate.swift in Sources */,
@@ -354,6 +366,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		5CFCCF2D24048569001511FA /* JournalCoreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				5CFCCF2E24048569001511FA /* JournalCoreData.xcdatamodel */,
+			);
+			currentVersion = 5CFCCF2E24048569001511FA /* JournalCoreData.xcdatamodel */;
+			path = JournalCoreData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 5CFCCF0624046D7B001511FA /* Project object */;
 }
