@@ -15,6 +15,11 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
     
+    // MARK: - Properties
+    
+    var entryController: EntryController?
+    var entry: Entry?
+    
     // MARK: - View Lifecycle
 
     override func viewDidLoad() {
