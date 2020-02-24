@@ -43,7 +43,7 @@ import UIKit
 //                entryController.updateEntry(entry: entry, newTitle: title, newBody: body, newMood: )
                 entryController.updateEntry(entry: entry, newTitle: title, newBody: body, newMood: mood)
             } else {
-                entryController.createEntry(mood: .😐, title: title, body: body)
+                entryController.createEntry(mood: mood, title: title, body: body)
             }
             
             navigationController?.popViewController(animated: true)

@@ -33,7 +33,8 @@ class JournalTableViewCell: UITableViewCell {
             guard let entry = entry else { return }
             
             let formatter = DateFormatter()
-            formatter.dateFormat = "mm/dd/yy, hh:mm a"
+//            formatter.dateFormat = "mm/dd/yy, hh:mm a"
+            formatter.dateFormat = "MM/dd/yyyy"
             titleLabel.text = entry.title
             detailLabel.text = entry.bodyText
             dateLabel.text = formatter.string(from: entry.timestamp ?? Date())
