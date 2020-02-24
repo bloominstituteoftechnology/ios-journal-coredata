@@ -19,33 +19,32 @@ class EntryController {
 
     func saveToPersistentStore() {
 
-        var container: NSPersistentContainer = {
-             
-        let container = NSPersistentContainer(name: "Tasks")
-               container.loadPersistentStores { _, error in
-        if let error = error {
+    var container: NSPersistentContainer = {
+
+    let container = NSPersistentContainer(name: "Tasks")
+                    container.loadPersistentStores { _, error in
+    if let error = error {
         fatalError("Failed to load persistent stores:  \(error)")
     }
 }
-        return container
+    return container
     }()
-        var mainContext: NSManagedObjectContext {
+    var mainContext: NSManagedObjectContext {
         return container.viewContext
     }
-  }
+}
     func loadFromPersistentStore() -> [Entry] {
 
     let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
     let moc = CoreDataStack.shared.mainContext
-        
-    do {
-            let entries = try moc.fetch(fetchRequest)
-        return entries
+      do {
+        let entries = try moc.fetch(fetchRequest)
+     return entries
     } catch {
-        NSLog("Error fetching entries: \(error)")
+       NSLog("Error fetching entries: \(error)")
         return []
     }
-  }
+}
     // MARK: - CRUD Methods
     
     // Create

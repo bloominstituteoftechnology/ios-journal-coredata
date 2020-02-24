@@ -15,7 +15,7 @@ class CoreDataStack {
     static let shared = CoreDataStack()
     lazy var container: NSPersistentContainer = {
         //the name below shouldmatch the filename of the xcdatamodeld file exactly (minus the extentsion)
-     let container = NSPersistentContainer(name: "Journal")
+     let container = NSPersistentContainer(name: "Journal.CoreData")
         container.loadPersistentStores { _, error in
             if let error = error {
                 fatalError("Failed to load persistent stores: \(error)")
