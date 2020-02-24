@@ -19,6 +19,8 @@
 		7267B77C2404707E001876E5 /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7267B77A2404707E001876E5 /* Journal.xcdatamodeld */; };
 		7267B77F240470F5001876E5 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267B77E240470F5001876E5 /* Entry+Convenience.swift */; };
 		7267B782240472AE001876E5 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267B781240472AE001876E5 /* CoreDataStack.swift */; };
+		7267B78524047646001876E5 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267B78424047646001876E5 /* EntryController.swift */; };
+		7267B78824047A03001876E5 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267B78724047A03001876E5 /* DateFormatter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +38,8 @@
 		7267B77B2404707E001876E5 /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
 		7267B77E240470F5001876E5 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
 		7267B781240472AE001876E5 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		7267B78424047646001876E5 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
+		7267B78724047A03001876E5 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +72,8 @@
 		7267B75624046853001876E5 /* Journal */ = {
 			isa = PBXGroup;
 			children = (
+				7267B786240479F4001876E5 /* Helpers */,
+				7267B78324047631001876E5 /* ModelController */,
 				7267B78024047290001876E5 /* Model */,
 				7267B77D240470DE001876E5 /* Extensions */,
 				7267B77624047041001876E5 /* CoreData */,
@@ -131,6 +137,22 @@
 				7267B77A2404707E001876E5 /* Journal.xcdatamodeld */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		7267B78324047631001876E5 /* ModelController */ = {
+			isa = PBXGroup;
+			children = (
+				7267B78424047646001876E5 /* EntryController.swift */,
+			);
+			path = ModelController;
+			sourceTree = "<group>";
+		};
+		7267B786240479F4001876E5 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				7267B78724047A03001876E5 /* DateFormatter.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -206,8 +228,10 @@
 			files = (
 				7267B77C2404707E001876E5 /* Journal.xcdatamodeld in Sources */,
 				7267B77024046B1C001876E5 /* EntryTableViewCell.swift in Sources */,
+				7267B78524047646001876E5 /* EntryController.swift in Sources */,
 				7267B75824046853001876E5 /* AppDelegate.swift in Sources */,
 				7267B782240472AE001876E5 /* CoreDataStack.swift in Sources */,
+				7267B78824047A03001876E5 /* DateFormatter.swift in Sources */,
 				7267B76C24046A2C001876E5 /* JournalTableViewController.swift in Sources */,
 				7267B77F240470F5001876E5 /* Entry+Convenience.swift in Sources */,
 				7267B75A24046853001876E5 /* SceneDelegate.swift in Sources */,
