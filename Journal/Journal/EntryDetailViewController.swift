@@ -10,15 +10,12 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
 
-    // MARK: - Outlets
+
+    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var descriptionTextField: UITextView!
     
-    @IBOutlet var entryTitleLabel: UITextField!
-    @IBOutlet var entryDescriptionText: UITextView!
-    
-    @IBAction func saveTapped (_ sender: UIBarButtonItem){
-        
+    @IBAction func saveTapped(_ sender: Any) {
     }
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()

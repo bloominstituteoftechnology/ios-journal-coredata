@@ -54,6 +54,9 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="entryDescriptionText" destination="FEX-2P-aN8" id="UxD-SM-PQ2"/>
+                                    <outlet property="entryTitleLabel" destination="3F9-ve-46K" id="Mct-zx-0Rp"/>
+                                    <outlet property="timeStamp" destination="m4L-ra-VI1" id="AUW-ii-AtY"/>
                                     <segue destination="fVo-05-3q6" kind="show" identifier="JournalDetailSegue" id="OfB-7j-wpR"/>
                                 </connections>
                             </tableViewCell>
@@ -70,11 +73,6 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <outlet property="entryTextLabel" destination="FEX-2P-aN8" id="nLD-cS-ZD1"/>
-                        <outlet property="timestampLabel" destination="m4L-ra-VI1" id="oEH-xW-Cyr"/>
-                        <outlet property="titleLabel" destination="3F9-ve-46K" id="xWg-kY-pl9"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F9U-H2-mFj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -116,13 +114,15 @@
                     <navigationItem key="navigationItem" id="V6e-rF-uZC">
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="Bud-lJ-6uv">
                             <connections>
-                                <action selector="saveTapped:" destination="fVo-05-3q6" id="PPg-VS-OxF"/>
+                                <action selector="saveTapped:" destination="fVo-05-3q6" id="5aw-Tw-d2Z"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="descriptionTextField" destination="9Fa-jU-OvI" id="XPu-3O-9M9"/>
                         <outlet property="entryDescriptionText" destination="9Fa-jU-OvI" id="7Hh-v1-rrw"/>
                         <outlet property="entryTitleLabel" destination="0BZ-7I-zUh" id="ySo-i4-T8O"/>
+                        <outlet property="titleTextField" destination="0BZ-7I-zUh" id="8tk-an-QFl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hpd-6g-cTF" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
