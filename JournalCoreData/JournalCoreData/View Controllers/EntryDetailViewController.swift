@@ -12,6 +12,10 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
     
+    var entry: Entry?
+    var entryController: EntryController?
+    
+    
     @IBAction func saveTapped(_ sender: Any) {
     }
 }

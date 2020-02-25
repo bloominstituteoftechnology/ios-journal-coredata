@@ -13,5 +13,26 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var bodyLabel: UILabel!
     
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    var entryController: EntryController?
+    let dateFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.dateStyle = .short
+        df.timeStyle = .short
+        return df
+    }()
+    
+    
+    func updateViews() {
+        if let entry = entry {
+            titleLabel.text = entry.title
+            timestampLabel.text = dateFormatter.string(from: entry.timestamp!)
+            bodyLabel.text = entry.bodyText
+        }
+    }
     
 }
