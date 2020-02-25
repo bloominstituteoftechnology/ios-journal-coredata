@@ -42,7 +42,20 @@ class EntryDetailViewController: UIViewController
         return textView
     }()
     
+    private var segmentControl: UISegmentedControl = {
+        let emojis = ["🙀","😸","😿"]
+        let sc = UISegmentedControl(items: emojis)
+        sc.setTitleTextAttributes([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 30) ], for: .normal)
+        sc.selectedSegmentIndex = 0
+        sc.translatesAutoresizingMaskIntoConstraints = false
+        sc.selectedSegmentTintColor = #colorLiteral(red: 0.697096169, green: 0.5818155408, blue: 0.7320093513, alpha: 1)
+        sc.addTarget(self, action: #selector(handleSegment), for: .valueChanged)
+        return sc
+    }()
     
+    @objc private func handleSegment(_ segmentControl: UISegmentedControl) {
+        print(segmentControl.selectedSegmentIndex)
+    }
     // MARK: - View Life Cycle
     
     override func viewDidLoad() {
@@ -88,6 +101,7 @@ class EntryDetailViewController: UIViewController
     private func setUpSubviews() {
         view.addSubview(entryTextField)
         view.addSubview(entryTextView)
+        view.addSubview(segmentControl)
     }
     
  // MARK: - Constraint everything
@@ -96,13 +110,18 @@ class EntryDetailViewController: UIViewController
         NSLayoutConstraint.activate([
             entryTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             entryTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            entryTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 100),
+            entryTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 50),
             entryTextField.heightAnchor.constraint(equalToConstant: 50),
         
             entryTextView.leadingAnchor.constraint(equalTo: entryTextField.leadingAnchor),
             entryTextView.trailingAnchor.constraint(equalTo: entryTextField.trailingAnchor),
             entryTextView.topAnchor.constraint(equalTo: entryTextField.bottomAnchor, constant: 32),
-            entryTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -32)
+            entryTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -32),
+            
+            segmentControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            segmentControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            segmentControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            segmentControl.heightAnchor.constraint(equalToConstant: 40)
             
         ])
     }
