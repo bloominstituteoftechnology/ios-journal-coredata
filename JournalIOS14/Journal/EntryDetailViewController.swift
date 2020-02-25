@@ -11,6 +11,7 @@ import UIKit
 class EntryDetailViewController: UIViewController {
     
     @IBOutlet weak var titleTF: UITextField!
+    @IBOutlet weak var moodSC: UISegmentedControl!
     @IBOutlet weak var bodyTV: UITextView!
 
     // MARK: - Properties
@@ -24,28 +25,39 @@ class EntryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        updateViews()
         // Do any additional setup after loading the view.
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        if entry == nil {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(save))
-        }
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//
+//        if let entry = entry {
+//            title = entry.title
+//            titleTF.text = entry.title
+//            bodyTV.text = entry.bodyText
+//        } else {
+//            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(save))
+//        }
+//    }
     
-    @objc func save() {
+    @IBAction func saveTapped(_ sender: Any) {
         guard let title = titleTF.text, let bodyText = bodyTV.text, !title.isEmpty else { return }
         
+        let mood = EntryMood.allCases[moodSC.selectedSegmentIndex]
+        
         if let entry = entry {
-            entryController.update(entry: entry, with: title, timestamp: entry.timestamp ?? Date(), bodyText: bodyText)
+            entryController.update(entry: entry, with: title, timestamp: entry.timestamp ?? Date(), bodyText: bodyText, mood: mood)
 
         } else {
-            entryController.create(with: title, timestamp: Date(), bodyText: bodyText, id: "")
+            entryController.create(with: title, timestamp: Date(), bodyText: bodyText, mood: mood, id: "")
         }
-        navigationController?.popViewController(animated: true)
+        navigationController?.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    @objc func save() {
+        
 
     }
     
@@ -55,6 +67,10 @@ class EntryDetailViewController: UIViewController {
         titleTF.text = entry?.title
         bodyTV.text = entry?.bodyText
         
+        if let entryMood = entry?.mood,
+            let mood = EntryMood(rawValue: entryMood) {
+            moodSC.selectedSegmentIndex = EntryMood.allCases.firstIndex(of: mood) ?? 2
+        }
     }
 
     /*

@@ -10,34 +10,35 @@ import Foundation
 import CoreData
 
 class EntryController {
-
+    
     var entries: [Entry] {
-       loadFromPersistentStore()
+        loadFromPersistentStore()
     }
-
+    
     func loadFromPersistentStore() -> [Entry] {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         let context = CoreDataStack.shared.mainContext
-            do {
-                return try context.fetch(fetchRequest)
-            } catch {
-                NSLog("Error fetching data: \(error)")
-                return []
-            }
+        do {
+            return try context.fetch(fetchRequest)
+        } catch {
+            NSLog("Error fetching data: \(error)")
+            return []
+        }
     }
     
     // MARK: - CRUD
     
-    func create(with title: String, timestamp: Date, bodyText: String, id: String) -> Entry {
-        let entry = Entry(title: title, timestamp: timestamp, bodyText: bodyText, id: id, context: CoreDataStack.shared.mainContext)
+    @discardableResult func create(with title: String, timestamp: Date, bodyText: String, mood: EntryMood, id: String) -> Entry {
+        let entry = Entry(title: title, timestamp: timestamp, bodyText: bodyText, mood: mood, id: id, context: CoreDataStack.shared.mainContext)
         CoreDataStack.shared.save()
         return entry
     }
     
-    func update(entry: Entry, with title: String, timestamp: Date, bodyText: String) -> Entry {
+    @discardableResult func update(entry: Entry, with title: String, timestamp: Date, bodyText: String, mood: EntryMood) -> Entry {
         entry.title = title
         entry.timestamp = Date()
         entry.bodyText = bodyText
+        entry.mood = mood.rawValue
         //entry.identifier = identifier
         
         CoreDataStack.shared.save()
