@@ -12,14 +12,6 @@ import CoreData
 class EntryController 
 {
     
-    // MARK: - Computed Property
-    var entries: [Entry] {
-            loadFromPersistentStore()
-     
-       }
-       
-    
-    
     
    // MARK: - CRUD methods
     
@@ -29,18 +21,6 @@ class EntryController
         } catch let error as NSError {
             print(error.localizedDescription)
         }
-    }
-    
-    
-    
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest:  NSFetchRequest<Entry> = Entry.fetchRequest()
-               do {
-                   return try CoreDataStack.shared.mainContext.fetch(fetchRequest)
-               } catch {
-                   NSLog("Error fetching tasks: \(error)")
-                   return []
-               }
     }
     
    
