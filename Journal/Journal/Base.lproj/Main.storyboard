@@ -69,7 +69,7 @@
                     <navigationItem key="navigationItem" title="Journal" largeTitleDisplayMode="always" id="jWk-jN-Xn7">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="zn9-rC-Z64">
                             <connections>
-                                <segue destination="fVo-05-3q6" kind="presentation" identifier="AddJournalEntrySegue" modalPresentationStyle="fullScreen" id="bvE-FM-7SJ"/>
+                                <segue destination="fVo-05-3q6" kind="show" identifier="AddJournalEntrySegue" id="bvE-FM-7SJ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -87,12 +87,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0BZ-7I-zUh">
-                                <rect key="frame" x="20" y="44" width="374" height="49"/>
+                                <rect key="frame" x="20" y="96" width="374" height="49"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="9Fa-jU-OvI">
-                                <rect key="frame" x="20" y="101" width="374" height="712"/>
+                                <rect key="frame" x="20" y="153" width="374" height="660"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -103,7 +103,7 @@
                         <constraints>
                             <constraint firstItem="dX5-rS-frT" firstAttribute="trailing" secondItem="0BZ-7I-zUh" secondAttribute="trailing" constant="20" id="4jg-nf-OLA"/>
                             <constraint firstItem="9Fa-jU-OvI" firstAttribute="leading" secondItem="dX5-rS-frT" secondAttribute="leading" constant="20" id="D0e-pJ-5rC"/>
-                            <constraint firstItem="0BZ-7I-zUh" firstAttribute="top" secondItem="dX5-rS-frT" secondAttribute="top" id="q47-eG-L43"/>
+                            <constraint firstItem="0BZ-7I-zUh" firstAttribute="top" secondItem="dX5-rS-frT" secondAttribute="top" constant="8" id="q47-eG-L43"/>
                             <constraint firstItem="9Fa-jU-OvI" firstAttribute="top" secondItem="0BZ-7I-zUh" secondAttribute="bottom" constant="8" id="qWx-AE-oU0"/>
                             <constraint firstItem="9Fa-jU-OvI" firstAttribute="bottom" secondItem="dX5-rS-frT" secondAttribute="bottom" id="qXy-32-zEi"/>
                             <constraint firstItem="dX5-rS-frT" firstAttribute="trailing" secondItem="9Fa-jU-OvI" secondAttribute="trailing" constant="20" id="woK-4A-puy"/>
@@ -111,14 +111,14 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="dX5-rS-frT"/>
                     </view>
-                    <toolbarItems>
-                        <barButtonItem systemItem="save" id="gEd-LF-IGe">
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Title" id="Xbt-Rf-gNC">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="gEd-LF-IGe">
                             <connections>
                                 <action selector="saveTapped:" destination="fVo-05-3q6" id="TyI-bh-pzz"/>
                             </connections>
                         </barButtonItem>
-                    </toolbarItems>
-                    <navigationItem key="navigationItem" title="Title" id="hOz-vK-ttp"/>
+                    </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="descriptionTextField" destination="9Fa-jU-OvI" id="XPu-3O-9M9"/>

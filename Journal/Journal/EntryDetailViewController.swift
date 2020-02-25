@@ -42,6 +42,7 @@ class EntryDetailViewController: UIViewController {
             entryController.createEntry(title: titleTextField,
                                         bodyText: descriptionTextField)
         }
+        navigationController?.popViewController(animated: true)
     }
     
     
