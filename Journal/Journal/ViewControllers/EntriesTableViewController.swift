@@ -17,14 +17,14 @@ class EntriesTableViewController: UITableViewController {
     
     lazy var fetchedResultController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp",
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood",
                                                          ascending: true),
-                                        NSSortDescriptor(key: "title",
+                                        NSSortDescriptor(key: "timestamp",
                                                          ascending: true)]
         let context = CoreDataStack.shared.mainContext
         let fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: context,
-                                             sectionNameKeyPath: "timestamp",
+                                             sectionNameKeyPath: "mood",
                                              cacheName: nil)
         fetchResultsController.delegate = self
         try? fetchResultsController.performFetch()
@@ -37,6 +37,7 @@ class EntriesTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+        view.backgroundColor = UIColor.white.withAlphaComponent(0.90)
     }
     
     // MARK: - Table view data source
@@ -54,6 +55,8 @@ class EntriesTableViewController: UITableViewController {
                             cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.entryCellName, for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
         cell.entry = fetchedResultController.object(at: indexPath)
+        cell.layer.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.5).cgColor
+        cell.layer.cornerRadius = 10
             return cell
     }
     
@@ -62,8 +65,20 @@ class EntriesTableViewController: UITableViewController {
         guard let sectionInfo = fetchedResultController.sections?[section] else {
             return nil
         }
-    
+        
         return sectionInfo.name
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 60
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let header = view as? UITableViewHeaderFooterView  else { return }
+        header.contentView.backgroundColor = UIColor.blue.withAlphaComponent(0.5)
+        if let textLabel = header.textLabel {
+            textLabel.font = textLabel.font.withSize(30)
+        }
     }
     
     override func tableView(_ tableView: UITableView,
@@ -74,8 +89,6 @@ class EntriesTableViewController: UITableViewController {
             CoreDataStack.shared.mainContext.delete(entry)
             do {
                 try CoreDataStack.shared.mainContext.save()
-                tableView.deleteRows(at: [indexPath],
-                                     with: .automatic)
             } catch {
                 CoreDataStack.shared.mainContext.reset()
             }

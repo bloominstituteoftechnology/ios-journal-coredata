@@ -31,6 +31,6 @@ class EntryTableViewCell: UITableViewCell {
         entryTitleLabel.text = entry.title
         entryDescriptionText.text = entry.bodyText
         timeStamp.text = CustomDateFormatter.dateFormat(date: entry.timestamp!,
-                                                        format: "MMM d, YY")
+                                                        format: "MMM d, YYYY")
     }
 }

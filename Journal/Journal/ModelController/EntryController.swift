@@ -36,10 +36,6 @@ class EntryController {
         saveToPersistence()
     }
     
-//    private func deleteEntry(entry: Entry){
-//        CoreDataStack.shared.mainContext.delete(entry)
-//        saveToPersistence()
-//    }
     
     // MARK: - Persistence
     

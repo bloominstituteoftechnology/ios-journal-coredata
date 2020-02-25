@@ -33,11 +33,11 @@ class EntryDetailViewController: UIViewController {
         
         switch moodSegmentedControl.selectedSegmentIndex {
         case 0:
-            selectedMood = MoodEmojis.happy.rawValue
+            selectedMood = MoodEmojis.angry.rawValue
         case 1:
             selectedMood = MoodEmojis.blah.rawValue
         case 2:
-            selectedMood = MoodEmojis.angry.rawValue
+            selectedMood = MoodEmojis.happy.rawValue
         default:
             selectedMood = MoodEmojis.blah.rawValue
         }
@@ -65,6 +65,7 @@ class EntryDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupViews()
         updateViews()
     }
 
@@ -86,5 +87,27 @@ class EntryDetailViewController: UIViewController {
             mood = .blah
         }
         moodSegmentedControl.selectedSegmentIndex = MoodEmojis.allCases.firstIndex(of: mood) ?? 1
+    }
+    
+    private func setupViews(){
+        
+        let segmentedFont = UIFont.systemFont(ofSize: 30)
+        moodSegmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: segmentedFont],
+                                                    for: .normal)
+        
+        descriptionTextField.backgroundColor = UIColor.systemGray.withAlphaComponent(0.8)
+        descriptionTextField.layer.cornerRadius = 20
+      
+        moodSegmentedControl.backgroundColor = UIColor.white.withAlphaComponent(0.8)
+        moodSegmentedControl.selectedSegmentTintColor = UIColor.gray
+     
+        
+        titleTextField.layer.cornerRadius = 15
+        titleTextField.alpha = 0.8
+        titleTextField.layer.borderColor = UIColor.black.withAlphaComponent(0.9).cgColor
+        titleTextField.layer.borderWidth = 1
+        titleTextField.clipsToBounds = true
+        
+        
     }
 }
