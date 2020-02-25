@@ -14,17 +14,19 @@ class EntryController {
     
     // MARK: - Properties
     
-    var entries: [Entry] {
+    let MC = CoreDataStack.shared.mainContext
+    
+    /*
+     var entries: [Entry] {
         loadFromPersistentStore()
     }
-    
+    */
     
 
     
     // MARK: - Methods
     
     func saveToPersistentStore() {
-    let MC = CoreDataStack.shared.mainContext
     do {
         try MC.save()
     } catch {
@@ -32,8 +34,8 @@ class EntryController {
         }
     }
     
-    func loadFromPersistentStore() -> [Entry] {
-        let MC = CoreDataStack.shared.mainContext
+    /*
+     func loadFromPersistentStore() -> [Entry] {
         let fetch: NSFetchRequest<Entry> = Entry.fetchRequest()
         do{
             return try MC.fetch(fetch)
@@ -42,32 +44,29 @@ class EntryController {
             return []
         }
     }
+   */
     
     // MARK: - CRUD
     
     // CREATE
-    func create(title: String, timeStamp: Date, identifier: String, bodyText: String) {
-       let  _ = Entry(title: title, timeStamp: timeStamp, identifier: identifier, bodyText: bodyText)
+    func create(title: String, mood: Mood, timeStamp: Date, identifier: String, bodyText: String) {
+        let  _ = Entry(title: title, timeStamp: timeStamp, identifier: identifier, bodyText: bodyText, mood: mood)
         saveToPersistentStore()
     }
     
     // UPDATE
-    func update(entry: Entry, title: String, bodyText: String) {
+    func update(entry: Entry, title: String, bodyText: String, mood: Mood) {
         
-        guard let entryIndex = entries.firstIndex(of: entry) else { return }
-        
-        entries[entryIndex].title = title
-        entries[entryIndex].bodyText = bodyText
-        entries[entryIndex].timeStamp = Date()
+        entry.title = title
+        entry.bodyText = bodyText
+        entry.mood = mood.rawValue
         saveToPersistentStore()
     }
     
     // DELETE
     
     func delete(for entry: Entry) {
-        let MC = CoreDataStack.shared.mainContext
-        guard let entryIndex = entries.firstIndex(of: entry) else { return }
-        MC.delete(entries[entryIndex])
+        MC.delete(entry)
         saveToPersistentStore()
     }
 }
