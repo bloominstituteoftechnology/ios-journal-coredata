@@ -79,28 +79,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="JmP-sY-CMc">
-                                <rect key="frame" x="20" y="144" width="374" height="718"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Idq-3r-NM2">
-                                <rect key="frame" x="20" y="102" width="374" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="22" translatesAutoresizingMaskIntoConstraints="NO" id="aJd-vD-21t">
+                                <rect key="frame" x="20" y="102" width="374" height="760"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Nzb-IH-zew">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="32"/>
+                                        <segments>
+                                            <segment title="☹️"/>
+                                            <segment title="😐"/>
+                                            <segment title="😄"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Idq-3r-NM2">
+                                        <rect key="frame" x="0.0" y="53" width="374" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="JmP-sY-CMc">
+                                        <rect key="frame" x="0.0" y="109" width="374" height="651"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Idq-3r-NM2" firstAttribute="leading" secondItem="Nof-zl-is9" secondAttribute="leading" constant="20" id="BTa-k3-Hzh"/>
-                            <constraint firstItem="Nof-zl-is9" firstAttribute="trailing" secondItem="Idq-3r-NM2" secondAttribute="trailing" constant="20" id="cgb-cB-hLj"/>
-                            <constraint firstItem="JmP-sY-CMc" firstAttribute="top" secondItem="Idq-3r-NM2" secondAttribute="bottom" constant="8" id="fVk-D6-bYi"/>
-                            <constraint firstItem="Idq-3r-NM2" firstAttribute="top" secondItem="Nof-zl-is9" secondAttribute="top" constant="14" id="hV5-E0-XMA"/>
-                            <constraint firstItem="JmP-sY-CMc" firstAttribute="leading" secondItem="Nof-zl-is9" secondAttribute="leading" constant="20" id="ivF-pt-ffv"/>
-                            <constraint firstItem="JmP-sY-CMc" firstAttribute="bottom" secondItem="Nof-zl-is9" secondAttribute="bottom" id="nLV-CZ-ucz"/>
-                            <constraint firstItem="Nof-zl-is9" firstAttribute="trailing" secondItem="JmP-sY-CMc" secondAttribute="trailing" constant="20" id="v6a-16-4nS"/>
+                            <constraint firstItem="aJd-vD-21t" firstAttribute="leading" secondItem="Nof-zl-is9" secondAttribute="leading" constant="20" id="KBi-iD-UVD"/>
+                            <constraint firstItem="aJd-vD-21t" firstAttribute="top" secondItem="Nof-zl-is9" secondAttribute="top" constant="14" id="WAf-Ku-Z2t"/>
+                            <constraint firstItem="Nof-zl-is9" firstAttribute="trailing" secondItem="aJd-vD-21t" secondAttribute="trailing" constant="20" id="ePP-Aw-qx4"/>
+                            <constraint firstItem="aJd-vD-21t" firstAttribute="bottom" secondItem="Nof-zl-is9" secondAttribute="bottom" id="hdv-gm-rUG"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Nof-zl-is9"/>
                     </view>
@@ -113,6 +123,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bodyTextView" destination="JmP-sY-CMc" id="hhb-Gi-pWC"/>
+                        <outlet property="moodSegmentedControl" destination="Nzb-IH-zew" id="ted-18-bPO"/>
                         <outlet property="titleTextField" destination="Idq-3r-NM2" id="EuK-YV-n1x"/>
                     </connections>
                 </viewController>

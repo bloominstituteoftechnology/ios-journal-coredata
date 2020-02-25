@@ -49,6 +49,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5C906BAF2405C02500DADDF8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				5CFCCF2B24048283001511FA /* CoreDataStack.swift */,
+				5CFCCF2D24048569001511FA /* JournalCoreData.xcdatamodeld */,
+				5CFCCF30240487F1001511FA /* Entry+Convenience.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		5C906BB02405C03600DADDF8 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				5CFCCF1124046D7B001511FA /* AppDelegate.swift */,
+				5CFCCF1324046D7B001511FA /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		5C906BB12405C8B200DADDF8 /* Storyboard */ = {
+			isa = PBXGroup;
+			children = (
+				5CFCCF1724046D7B001511FA /* Main.storyboard */,
+				5CFCCF1C24046D7C001511FA /* LaunchScreen.storyboard */,
+			);
+			path = Storyboard;
+			sourceTree = "<group>";
+		};
 		5CE25DAF240493AA00D5F295 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -76,18 +104,14 @@
 		5CFCCF1024046D7B001511FA /* JournalCoreData */ = {
 			isa = PBXGroup;
 			children = (
+				5C906BB02405C03600DADDF8 /* Application */,
 				5CE25DAF240493AA00D5F295 /* Controller */,
 				5CFCCF3224048EB3001511FA /* View Controllers */,
-				5CFCCF1124046D7B001511FA /* AppDelegate.swift */,
-				5CFCCF1324046D7B001511FA /* SceneDelegate.swift */,
-				5CFCCF1724046D7B001511FA /* Main.storyboard */,
+				5C906BAF2405C02500DADDF8 /* Model */,
+				5C906BB12405C8B200DADDF8 /* Storyboard */,
 				5CFCCF272404733A001511FA /* EntryTableViewCell.swift */,
-				5CFCCF2B24048283001511FA /* CoreDataStack.swift */,
 				5CFCCF1A24046D7C001511FA /* Assets.xcassets */,
-				5CFCCF1C24046D7C001511FA /* LaunchScreen.storyboard */,
 				5CFCCF1F24046D7C001511FA /* Info.plist */,
-				5CFCCF2D24048569001511FA /* JournalCoreData.xcdatamodeld */,
-				5CFCCF30240487F1001511FA /* Entry+Convenience.swift */,
 			);
 			path = JournalCoreData;
 			sourceTree = "<group>";
