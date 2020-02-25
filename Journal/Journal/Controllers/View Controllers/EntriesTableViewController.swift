@@ -7,10 +7,35 @@
 //
 
 import UIKit
+import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
+    // MARK: - Properties
+    
     let entryController = EntryController()
+    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
+                                        NSSortDescriptor(key: "timeStamp", ascending: true)]
+        
+        let context = CoreDataTask.shared.mainContext
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                             managedObjectContext: context,
+                                             sectionNameKeyPath: "mood",
+                                             cacheName: nil)
+        frc.delegate = self
+        
+        do {
+            try frc.performFetch()
+        } catch {
+            fatalError("Error performing fetch from frc: \(error)")
+        }
+        
+        return frc
+    }()
+    
+    // MARK: - View Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +69,6 @@ class EntriesTableViewController: UITableViewController {
         }
     }
 
-
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -62,4 +86,8 @@ class EntriesTableViewController: UITableViewController {
             }
         }
     }
+}
+
+extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
+    
 }

@@ -10,9 +10,13 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
     
+    // MARK: - Outlets
+    
     @IBOutlet weak var entryTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
     @IBOutlet weak var moodSegmentControl: UISegmentedControl!
+    
+    // MARK: - Properties
     
     var entryController: EntryController?
     var entry: Entry? {
@@ -21,10 +25,14 @@ class EntryDetailViewController: UIViewController {
         }
     }
     
+    // MARK: - View Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         updateViews()
     }
+    
+    // MARK: - Actions
     
     @IBAction func saveEntry(_ sender: Any) {
         guard let title = entryTextField.text,
@@ -34,7 +42,7 @@ class EntryDetailViewController: UIViewController {
         let mood = Mood.allCases[index]
             
         if let entry = entry {
-            entryController?.update(entry: entry, called: title, bodyText: bodyText, timeStamp: entry.timeStamp ?? Date(), identifier: entry.identifier ?? "", mood: entry.mood ?? "😐" )
+            entryController?.update(entry: entry, called: title, bodyText: bodyText, timeStamp: entry.timeStamp ?? Date(), identifier: entry.identifier ?? "", mood: mood.rawValue)
         } else {
             entryController?.createEntry(called: title, bodyText: bodyText, timeStamp: Date(), identifier: "", mood: mood.rawValue)
         }

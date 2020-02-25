@@ -11,10 +11,6 @@ import CoreData
 
 class EntryController {
     
-    var entries: [Entry] {
-        loadFromPersistenStore()
-    }
-    
     func saveToPersistentStore() {
         do {
             try CoreDataTask.shared.mainContext.save()
@@ -24,19 +20,8 @@ class EntryController {
         }
     }
     
-    func loadFromPersistenStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
-        do {
-            let entries = try CoreDataTask.shared.mainContext.fetch(fetchRequest)
-            return entries
-        } catch {
-            NSLog("Error fetching entries: \(error)")
-            return []
-        }
-    }
-    
-    @discardableResult func createEntry(called title: String, bodyText: String, timeStamp: Date, identifier: String, mood: String) -> Entry {
+    @discardableResult
+    func createEntry(called title: String, bodyText: String, timeStamp: Date, identifier: String, mood: String) -> Entry {
         let entry = Entry(title: title,
                           bodyText: bodyText,
                           timeStamp: timeStamp,
