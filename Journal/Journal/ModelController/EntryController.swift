@@ -18,27 +18,28 @@ class EntryController {
     
     // MARK: - Methods
     
-    func createEntry(title: String, bodyText: String) {
+    func createEntry(title: String, bodyText: String, mood: String) {
         
         let newEntry = Entry(title: title,
                              bodyText: bodyText,
-                             timestamp: Date())
+                             timestamp: Date(),
+                             mood: mood)
         entries.append(newEntry)
         saveToPersistence()
-        
     }
     
-    func updateEntry(entry: Entry, title: String, bodyText: String) {
+    func updateEntry(entry: Entry, title: String, bodyText: String, mood: String) {
         entry.title = title
         entry.bodyText = bodyText
+        entry.mood = mood
         entry.timestamp = Date()
         saveToPersistence()
     }
     
-    private func deleteEntry(entry: Entry){
-        CoreDataStack.shared.mainContext.delete(entry)
-        saveToPersistence()
-    }
+//    private func deleteEntry(entry: Entry){
+//        CoreDataStack.shared.mainContext.delete(entry)
+//        saveToPersistence()
+//    }
     
     // MARK: - Persistence
     

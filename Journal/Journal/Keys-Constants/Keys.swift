@@ -17,3 +17,9 @@ struct Keys{
     static let persistentContainerName: String = "Journal"
 }
 
+enum MoodEmojis: String, CaseIterable {
+    case happy = "🥳"
+    case blah = "🤨"
+    case angry = "🤬"
+}
+
