@@ -44,16 +44,17 @@ class EntryController
     }
     
    
-    func create(title:String,bodyText:String,identifier: String, date: Date) {
-        let _ = Entry(title: title, bodyText: bodyText, timestamp: date, identifier: identifier, context: CoreDataStack.shared.mainContext)
+    func create(title:String,bodyText:String,identifier: String, mood:String, date: Date) {
+        let _ = Entry(title: title, bodyText: bodyText, timestamp: date, identifier: identifier,context: CoreDataStack.shared.mainContext, mood: mood)
         saveToPersistentStore()
     }
     
     
-    func update(with newTitle : String, bodyText: String, entry: Entry) {
+    func update(with newTitle : String, bodyText: String,mood: String, entry: Entry) {
         DispatchQueue.main.async {
             entry.title = newTitle
             entry.bodyText = bodyText
+            entry.mood = mood
             entry.timestamp = Date()
         }
       

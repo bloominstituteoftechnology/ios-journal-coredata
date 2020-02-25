@@ -8,6 +8,13 @@
 
 import UIKit
 
+
+private enum MoodCase : String,CaseIterable {
+    case low = "🙀"
+    case medium = "😸"
+    case high = "😿"
+}
+
 class EntryDetailViewController: UIViewController
 {
 
@@ -21,7 +28,7 @@ class EntryDetailViewController: UIViewController
         }
     }
     var entryController: EntryController?
-    
+    private var mood = ""
     
     private var entryTextField : UITextField = {
         let textField = UITextField()
@@ -54,7 +61,17 @@ class EntryDetailViewController: UIViewController
     }()
     
     @objc private func handleSegment(_ segmentControl: UISegmentedControl) {
-        print(segmentControl.selectedSegmentIndex)
+       
+        switch segmentControl.selectedSegmentIndex {
+            case 0:
+                mood =  MoodCase.low.rawValue
+            case 1:
+                mood =  MoodCase.medium.rawValue
+            case 2:
+                mood =  MoodCase.high.rawValue
+            default:
+                break
+        }
     }
     // MARK: - View Life Cycle
     
@@ -66,7 +83,6 @@ class EntryDetailViewController: UIViewController
         layoutSubviews()
     }
 
-
     
     // MARK: - Methods
     
@@ -77,20 +93,32 @@ class EntryDetailViewController: UIViewController
     
     @objc private func saveTapped() {
         guard let title = entryTextField.text, let bodyText = entryTextView.text else { return }
-        
+            
         if let entry = entry {
-            entryController?.update(with: title, bodyText: bodyText, entry: entry)
+            entryController?.update(with: title, bodyText: bodyText, mood: mood, entry: entry)
         } else {
-            entryController?.create(title: title, bodyText: bodyText, identifier: title, date: Date())
+            entryController?.create(title: title, bodyText: bodyText, identifier: title, mood: mood, date: Date())
         }
         navigationController?.popViewController(animated: true)
     }
     
     private func updateViews() {
+        
+        
+        let currentMood: MoodCase
+        if let mood = entry?.mood {
+            currentMood = MoodCase(rawValue: mood)!
+        } else {
+            currentMood = .low
+        }
+        
+
         if let entry = entry {
             entryTextField.text = entry.title
             entryTextView.text = entry.bodyText
+             segmentControl.selectedSegmentIndex = MoodCase.allCases.firstIndex(of: currentMood) ?? 1
             title = entry.title
+            
         } else {
             title = "Create Entry"
         }
