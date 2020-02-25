@@ -16,37 +16,46 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="69" id="ytQ-2B-PHR" customClass="EntryTableViewCell" customModule="JournalCoreData" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="69"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="74" id="ytQ-2B-PHR" customClass="EntryTableViewCell" customModule="JournalCoreData" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="74"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ytQ-2B-PHR" id="Vrz-W1-NsW">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="69"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="74"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q7o-HT-mWo">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="q7o-HT-mWo">
                                             <rect key="frame" x="20" y="11" width="46" height="27"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="22"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MtU-wr-CCL">
-                                            <rect key="frame" x="20" y="37" width="42" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MtU-wr-CCL">
+                                            <rect key="frame" x="20" y="42.5" width="42" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uAL-XJ-g3o">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uAL-XJ-g3o">
                                             <rect key="frame" x="352" y="14" width="42" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="uAL-XJ-g3o" firstAttribute="trailing" secondItem="Vrz-W1-NsW" secondAttribute="trailingMargin" id="03G-wB-DkS"/>
+                                        <constraint firstItem="uAL-XJ-g3o" firstAttribute="top" secondItem="Vrz-W1-NsW" secondAttribute="topMargin" constant="3" id="21R-cm-1D2"/>
+                                        <constraint firstItem="MtU-wr-CCL" firstAttribute="leading" secondItem="Vrz-W1-NsW" secondAttribute="leadingMargin" id="5Uh-dd-Q6l"/>
+                                        <constraint firstItem="q7o-HT-mWo" firstAttribute="leading" secondItem="Vrz-W1-NsW" secondAttribute="leadingMargin" id="KFM-s9-HAe"/>
+                                        <constraint firstItem="MtU-wr-CCL" firstAttribute="bottom" secondItem="Vrz-W1-NsW" secondAttribute="bottomMargin" id="O13-J3-y7x"/>
+                                        <constraint firstItem="MtU-wr-CCL" firstAttribute="top" secondItem="q7o-HT-mWo" secondAttribute="bottom" constant="4.5" id="vPL-ZK-hT3"/>
+                                        <constraint firstItem="q7o-HT-mWo" firstAttribute="top" secondItem="Vrz-W1-NsW" secondAttribute="topMargin" id="znf-Qq-TJp"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="bodyLabel" destination="MtU-wr-CCL" id="vxt-aY-69y"/>
+                                    <outlet property="timestampLabel" destination="uAL-XJ-g3o" id="TfB-Ht-llI"/>
+                                    <outlet property="titleLabel" destination="q7o-HT-mWo" id="neN-nN-TxM"/>
                                     <segue destination="oFA-Ci-N4H" kind="show" identifier="ShowEntrySegue" id="H6T-M9-No3"/>
                                 </connections>
                             </tableViewCell>
@@ -148,6 +157,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="hmb-aA-kQ8"/>
+        <segue reference="H6T-M9-No3"/>
     </inferredMetricsTieBreakers>
 </document>

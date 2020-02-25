@@ -26,7 +26,7 @@ class EntriesTableViewController: UITableViewController {
         return cell
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+   override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
