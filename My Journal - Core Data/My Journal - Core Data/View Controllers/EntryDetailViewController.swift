@@ -96,7 +96,7 @@ class EntryDetailViewController: UIViewController
         NSLayoutConstraint.activate([
             entryTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             entryTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            entryTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 16),
+            entryTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 100),
             entryTextField.heightAnchor.constraint(equalToConstant: 50),
         
             entryTextView.leadingAnchor.constraint(equalTo: entryTextField.leadingAnchor),
