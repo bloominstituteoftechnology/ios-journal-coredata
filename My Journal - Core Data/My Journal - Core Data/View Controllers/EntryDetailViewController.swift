@@ -9,7 +9,7 @@
 import UIKit
 
 
-private enum MoodCase : String,CaseIterable {
+ enum MoodCase : String,CaseIterable {
     case low = "🙀"
     case medium = "😸"
     case high = "😿"
@@ -28,7 +28,7 @@ class EntryDetailViewController: UIViewController
         }
     }
     var entryController: EntryController?
-    private var mood = ""
+    private var mood = "🙀"
     
     private var entryTextField : UITextField = {
         let textField = UITextField()
@@ -45,7 +45,7 @@ class EntryDetailViewController: UIViewController
         textView.font = UIFont.systemFont(ofSize: 20)
         textView.textColor = .white
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.autocapitalizationType = .words
+        textView.autocapitalizationType = .sentences
         textView.backgroundColor = #colorLiteral(red: 0.697096169, green: 0.5818155408, blue: 0.7320093513, alpha: 1)
         textView.alpha = 0.6
         textView.layer.cornerRadius = 20

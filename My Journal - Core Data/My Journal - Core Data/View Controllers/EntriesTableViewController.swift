@@ -42,7 +42,7 @@ class EntriesTableViewController: UITableViewController
         tableView.reloadData()
     }
 
-    // MARK: - Table view data source
+    // MARK: - Table View Data Source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
     }
@@ -57,8 +57,26 @@ class EntriesTableViewController: UITableViewController
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 50
+    }
+// MARK: - Size and Color for header
+    
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+      
+        guard  let header = view as? UITableViewHeaderFooterView else { return }
+        header.contentView.backgroundColor = (section % 2 == 0 ) ? #colorLiteral(red: 0.5790472627, green: 0.9850887656, blue: 0.8092169166, alpha: 1) : UIColor.yellow
+        header.contentView.alpha = 0.8
+        if let textlabel = header.textLabel {
+            textlabel.font = textlabel.font.withSize(38)
+            textlabel.textAlignment = .center
+        
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+      
         return sectionInfo.name.capitalized
     }
     
@@ -96,6 +114,8 @@ class EntriesTableViewController: UITableViewController
         }
     }
 }
+// MARK: - NSFetchedResultsControllerDelegate
+
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
