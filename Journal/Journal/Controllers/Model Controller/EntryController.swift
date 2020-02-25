@@ -21,7 +21,8 @@ class EntryController {
     }
     
     @discardableResult
-    func createEntry(called title: String, bodyText: String, timeStamp: Date, identifier: String, mood: String) -> Entry {
+    func createEntry(called title: String, bodyText: String, timeStamp: Date, identifier: String, mood: Mood) -> Entry {
+        
         let entry = Entry(title: title,
                           bodyText: bodyText,
                           timeStamp: timeStamp,

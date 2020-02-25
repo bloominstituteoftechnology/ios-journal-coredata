@@ -23,7 +23,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="Ymg-iF-wrf">
+                                        <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="Ymg-iF-wrf">
                                             <rect key="frame" x="20" y="11" width="44.5" height="58"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I9X-AL-fSP">
@@ -50,7 +50,7 @@
                                                 <constraint firstItem="I9X-AL-fSP" firstAttribute="top" secondItem="Ymg-iF-wrf" secondAttribute="top" id="Miz-cV-2zi"/>
                                             </constraints>
                                         </stackView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p2E-CE-VHP">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Date" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p2E-CE-VHP">
                                             <rect key="frame" x="358" y="19" width="36" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -60,10 +60,10 @@
                                     <constraints>
                                         <constraint firstItem="Ymg-iF-wrf" firstAttribute="top" secondItem="jvr-cW-fiE" secondAttribute="topMargin" id="3Cb-Lu-p1f"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="Ymg-iF-wrf" secondAttribute="bottom" id="3Rr-j1-0FJ"/>
+                                        <constraint firstItem="p2E-CE-VHP" firstAttribute="leading" relation="lessThanOrEqual" secondItem="Ymg-iF-wrf" secondAttribute="trailing" constant="293.5" id="E4T-s1-qFd"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="p2E-CE-VHP" secondAttribute="trailing" id="JWZ-J4-MjY"/>
                                         <constraint firstItem="Ymg-iF-wrf" firstAttribute="leading" secondItem="jvr-cW-fiE" secondAttribute="leadingMargin" id="Pwb-NO-5KI"/>
                                         <constraint firstItem="p2E-CE-VHP" firstAttribute="top" secondItem="jvr-cW-fiE" secondAttribute="topMargin" constant="8" id="V9a-Kd-5N6"/>
-                                        <constraint firstItem="p2E-CE-VHP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ymg-iF-wrf" secondAttribute="trailing" constant="8" id="nJY-Hg-w94"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>

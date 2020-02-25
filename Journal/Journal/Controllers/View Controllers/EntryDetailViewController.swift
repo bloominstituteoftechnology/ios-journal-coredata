@@ -40,11 +40,11 @@ class EntryDetailViewController: UIViewController {
         
         let index = moodSegmentControl.selectedSegmentIndex
         let mood = Mood.allCases[index]
-            
+        
         if let entry = entry {
             entryController?.update(entry: entry, called: title, bodyText: bodyText, timeStamp: entry.timeStamp ?? Date(), identifier: entry.identifier ?? "", mood: mood.rawValue)
         } else {
-            entryController?.createEntry(called: title, bodyText: bodyText, timeStamp: Date(), identifier: "", mood: mood.rawValue)
+            entryController?.createEntry(called: title, bodyText: bodyText, timeStamp: Date(), identifier: "", mood: mood)
         }
         navigationController?.popViewController(animated: true)
     }
@@ -56,10 +56,11 @@ class EntryDetailViewController: UIViewController {
         entryTextField.text = entry?.title
         entryTextView.text = entry?.bodyText
         
-        if let moodString = entry?.mood,
-            let mood = Mood(rawValue: moodString) {
-            let index = Mood.allCases.firstIndex(of: mood) ?? 1
-            moodSegmentControl.selectedSegmentIndex = index
+        if let moodString = entry?.mood {
+            if let mood = Mood(rawValue: moodString) {
+                let index = Mood.allCases.firstIndex(of: mood) ?? 1
+                moodSegmentControl.selectedSegmentIndex = index
+            }
         }
     }
 }
