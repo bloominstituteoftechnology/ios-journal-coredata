@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="PuZ-yn-jdg" customClass="EntryTableViewCell" customModule="JournalCoreData" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" id="PuZ-yn-jdg" customClass="EntryTableViewCell" customModule="JournalCoreData" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PuZ-yn-jdg" id="rRc-fR-TG9">
@@ -50,7 +50,7 @@
                                     <outlet property="bodyTextLabel" destination="UQl-Qm-8ym" id="V29-9p-Evg"/>
                                     <outlet property="timestampLabel" destination="fis-e3-PZp" id="JaM-MV-YCX"/>
                                     <outlet property="titleLabel" destination="iBY-0J-9ww" id="6qK-do-VV9"/>
-                                    <segue destination="BUd-MB-wGD" kind="show" id="0gL-ME-lNn"/>
+                                    <segue destination="BUd-MB-wGD" kind="show" identifier="ShowEntrySegue" id="0gL-ME-lNn"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -62,7 +62,7 @@
                     <navigationItem key="navigationItem" title="Journal" id="AqM-N5-zkv">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Tqx-1l-d4a">
                             <connections>
-                                <segue destination="BUd-MB-wGD" kind="show" id="HPk-jb-nRn"/>
+                                <segue destination="BUd-MB-wGD" kind="show" identifier="AddEntrySegue" id="HPk-jb-nRn"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

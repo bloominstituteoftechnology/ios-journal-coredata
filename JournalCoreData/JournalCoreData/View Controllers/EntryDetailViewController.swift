@@ -10,8 +10,13 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
 
+    //MARK: - IBAction
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
     }
+    
+    //MARK: - Properties
+    var entry: Entry?
+    var entryController: EntryController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
