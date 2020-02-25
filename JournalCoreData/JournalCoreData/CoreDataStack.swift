@@ -12,6 +12,7 @@ import CoreData
 class CoreDataStack {
     
     static let shared = CoreDataStack()
+    
     lazy var container: NSPersistentContainer = {
         // The name below should match the filename of the xcdatamodeld file exactly (minus the extension)
         let container = NSPersistentContainer(name: "JournalCoreData")

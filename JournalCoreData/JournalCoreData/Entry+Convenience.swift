@@ -13,8 +13,6 @@ extension Entry {
     convenience init(title: String, timestamp: Date = Date(), identifier: String = "", bodyText: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.title = title
-        self.timestamp = timestamp
-        self.identifier = identifier
         self.bodyText = bodyText
     }
 }
