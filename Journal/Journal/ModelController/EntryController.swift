@@ -22,8 +22,7 @@ class EntryController {
         
         let newEntry = Entry(title: title,
                              bodyText: bodyText,
-                             timestamp: Date(),
-                             identifier: String((entries.count)))
+                             timestamp: Date())
         entries.append(newEntry)
         saveToPersistence()
         

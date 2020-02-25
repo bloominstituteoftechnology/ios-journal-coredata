@@ -14,14 +14,6 @@ class EntriesTableViewController: UITableViewController {
     
     let entryController = EntryController()
     
-    
-    // MARK: - Outlets
-    
-    @IBOutlet var titleLabel: UILabel!
-    @IBOutlet var timestampLabel: UILabel!
-    @IBOutlet var entryTextLabel: UILabel!
-    
-    
     // MARK: - View Lifecycle
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,10 +34,8 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: Keys.entryCellName, for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
         if entryController.entries.count > 0 {
-            cell.entryTitleLabel.text = entryController.entries[indexPath.row].title
-            cell.entryDescriptionText.text = entryController.entries[indexPath.row].bodyText
-            cell.timeStamp.text = CustomDateFormatter.dateFormat(date: entryController.entries[indexPath.row].timestamp!,
-                                                                 format: "DD MMM YY")
+            let entry = entryController.entries[indexPath.row]
+            cell.entry = entry
             return cell
         } else {
             return UITableViewCell()

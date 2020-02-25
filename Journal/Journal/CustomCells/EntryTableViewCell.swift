@@ -24,12 +24,13 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var entryDescriptionText: UILabel!
     @IBOutlet weak var timeStamp: UILabel!
     
+    // MARK: - Methods
+    
     private func updateViews(){
         guard let entry = entry else { return }
         entryTitleLabel.text = entry.title
         entryDescriptionText.text = entry.bodyText
         timeStamp.text = CustomDateFormatter.dateFormat(date: entry.timestamp!,
-                                                        format: "DD MMM YY")
+                                                        format: "MMM d, YY")
     }
-    
 }

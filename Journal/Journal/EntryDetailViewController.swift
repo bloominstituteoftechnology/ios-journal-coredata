@@ -24,15 +24,15 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descriptionTextField: UITextView!
     
-    // MARK: - Properties
+    // MARK: - Action
     
     @IBAction func saveTapped(_ sender: Any) {
         guard let entryController = entryController,
-        let titleTextField = titleTextField.text,
-        !titleTextField.isEmpty,
-        let descriptionTextField = descriptionTextField.text,
-        !descriptionTextField.isEmpty else { return }
-
+            let titleTextField = titleTextField.text,
+            !titleTextField.isEmpty,
+            let descriptionTextField = descriptionTextField.text,
+            !descriptionTextField.isEmpty else { return }
+        
         if let entry = entry {
             
             entryController.updateEntry(entry: entry,
@@ -45,22 +45,24 @@ class EntryDetailViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    
-    // MARK: - View Lifecycle
-    
+//     MARK: - View Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         updateViews()
     }
-    
+
     private func updateViews(){
-        if let entry = entry {
-            self.title = entry.title
-            titleTextField.text = entry.title
-            descriptionTextField.text = entry.bodyText
-        } else {
+        
+        
+        guard let entry = entry,
+        isViewLoaded else {
             self.title = "Create Entry"
+            return
         }
+        self.title = entry.title
+        titleTextField.text = entry.title
+        descriptionTextField.text = entry.bodyText
     }
     
 }

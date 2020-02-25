@@ -14,7 +14,7 @@ extension Entry {
     convenience init(title: String,
                      bodyText: String,
                      timestamp: Date,
-                     identifier: String,
+                     identifier: String = UUID().uuidString,
                      context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.title = title
@@ -22,5 +22,4 @@ extension Entry {
         self.timestamp = timestamp
         self.identifier = identifier
     }
-    
 }
