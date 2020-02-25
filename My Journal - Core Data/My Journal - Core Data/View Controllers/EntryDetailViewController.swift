@@ -43,9 +43,12 @@ class EntryDetailViewController: UIViewController
         let textView = UITextView()
         textView.text = "Type something here..."
         textView.font = UIFont.systemFont(ofSize: 20)
+        textView.textColor = .white
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.autocapitalizationType = .words
-        
+        textView.backgroundColor = #colorLiteral(red: 0.697096169, green: 0.5818155408, blue: 0.7320093513, alpha: 1)
+        textView.alpha = 0.6
+        textView.layer.cornerRadius = 20
         return textView
     }()
     
@@ -103,20 +106,12 @@ class EntryDetailViewController: UIViewController
     }
     
     private func updateViews() {
-        
-        
-        let currentMood: MoodCase
-        if let mood = entry?.mood {
-            currentMood = MoodCase(rawValue: mood)!
-        } else {
-            currentMood = .low
-        }
-        
-
+    
         if let entry = entry {
             entryTextField.text = entry.title
             entryTextView.text = entry.bodyText
-             segmentControl.selectedSegmentIndex = MoodCase.allCases.firstIndex(of: currentMood) ?? 1
+            guard let currentMood = entry.mood else { return }
+            segmentControl.selectedSegmentIndex = MoodCase.allCases.firstIndex(of: MoodCase(rawValue:currentMood) ?? MoodCase.low ) ?? 1
             title = entry.title
             
         } else {
