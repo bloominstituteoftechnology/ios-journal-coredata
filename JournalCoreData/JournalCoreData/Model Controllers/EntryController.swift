@@ -40,10 +40,9 @@ class EntryController {
     }
     
     func update(entry: Entry, title: String, body: String) {
-        if let id = entry.identifier {
-           let _ = Entry(title: title, bodyText: body, timestamp: Date(), identifier: id)
-            saveToPersistentStore()
-        }
+        entry.title = title
+        entry.bodyText = body
+        saveToPersistentStore()
     }
     
     func delete(entry: Entry) {
