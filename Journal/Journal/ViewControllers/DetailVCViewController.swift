@@ -41,9 +41,9 @@ import UIKit
             
             if let entry = entry {
 //                entryController.updateEntry(entry: entry, newTitle: title, newBody: body, newMood: )
-                entryController.updateEntry(entry: entry, newTitle: title, newBody: body, newMood: mood)
+                entryController.updateEntry(entry, updatedTitle: title, updatedBodyText: body, updatedMood: mood.rawValue)
             } else {
-                entryController.createEntry(mood: mood, title: title, body: body)
+                entryController.createEntry(withTitle: title, bodyText: body, mood: mood.rawValue)
             }
             
             navigationController?.popViewController(animated: true)
