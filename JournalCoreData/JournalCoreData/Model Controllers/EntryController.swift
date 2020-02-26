@@ -11,6 +11,8 @@ import CoreData
 
 class EntryController {
     
+    let baseURL = URL(string: "https://journal-core-data-6cb21.firebaseio.com")!
+    
 //    var entries: [Entry] {
 //        return loadFromPersistentStore()
 //    }
@@ -35,8 +37,13 @@ class EntryController {
 //    }
     
     func createEntry(title: String, body: String, mood: String) {
-        let _ = Entry(title: title, bodyText: body, timestamp: Date(), mood: mood, identifier: UUID().uuidString)
+        let entry = Entry(title: title, bodyText: body, timestamp: Date(), mood: mood, identifier: UUID().uuidString)
         saveToPersistentStore()
+        if let entryRepresentation = entry.entryRepresentation {
+            put(entry: entryRepresentation)
+        }
+        
+        
     }
     
     func update(entry: Entry, title: String, body: String, mood: String) {
@@ -44,11 +51,72 @@ class EntryController {
         entry.bodyText = body
         entry.mood = mood
         saveToPersistentStore()
+        if let entryRepresentation = entry.entryRepresentation {
+            put(entry: entryRepresentation)
+        }
     }
     
     func delete(entry: Entry) {
         CoreDataStack.shared.mainContext.delete(entry)
+        if let entryRepresentation = entry.entryRepresentation {
+            deleteEntryFromServer(entry: entryRepresentation)
+        }
         saveToPersistentStore()
+        
+    }
+    
+    func put(entry: EntryRepresentation, completion: @escaping (Error?) -> Void = { _ in }) {
+        let requestURL = baseURL.appendingPathComponent(entry.identifier).appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        do {
+            let json = try JSONEncoder().encode(entry)
+            request.httpBody = json
+        } catch {
+            NSLog("Error Encoding json from entry: \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                NSLog("Network error putting entry: \(error)")
+                completion(error)
+                return
+            }
+            
+            if let response = response as? HTTPURLResponse, response.statusCode == 200 {
+                // we have a successful response
+                completion(nil)
+            }
+            
+        }.resume()
+        
+    }
+    
+    func deleteEntryFromServer(entry: EntryRepresentation, completion: @escaping (Error?) -> Void = { _ in }) {
+        let requestURL = baseURL.appendingPathComponent(entry.identifier).appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                NSLog("Network error putting entry: \(error)")
+                completion(error)
+                return
+            }
+            
+            if let response = response as? HTTPURLResponse, response.statusCode == 200 {
+                // we have a successful response
+                completion(nil)
+            }
+            
+        }.resume()
+        
+        
     }
     
     
