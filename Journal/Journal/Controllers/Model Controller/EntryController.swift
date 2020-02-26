@@ -61,6 +61,27 @@ class EntryController {
         }.resume()
     }
     
+    func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        guard let identifier = entry.identifier else { return }
+        
+        let requestURL = baseURL
+        .appendingPathComponent(identifier)
+        .appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error deleting entry from server: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }.resume()
+    }
+    
     // MARK: - Core Data Methods
     
     func saveToPersistentStore() {
@@ -98,6 +119,7 @@ class EntryController {
     
     func delete(entry: Entry) {
         CoreDataTask.shared.mainContext.delete(entry)
+        deleteEntryFromServer(entry: entry)
         saveToPersistentStore()
     }
 }
