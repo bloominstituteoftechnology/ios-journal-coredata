@@ -36,10 +36,30 @@ class EntryController {
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
         
-        do  {
-            let encoder = JSON
+        guard let entryRepresentation = entry.entryRepresentation else {
+            NSLog("No entry, Entry == nil")
+            completion(nil)
+            return
         }
         
+        do  {
+            let encoder = JSONEncoder()
+            request.httpBody = try encoder.encode(entryRepresentation)
+        
+        } catch {
+            NSLog("Can't encode entry representation")
+            completion(error)
+            return
+        }
+        URLSession.shared.dataTask(with: requestURL) { (_, _, error) in
+            if let error = error {
+                NSLog("Error fetching tasks from Firebase: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+
+        }.resume()
     }
     
     func saveToPersistentStore() {
