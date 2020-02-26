@@ -9,13 +9,13 @@
 import UIKit
 import CoreData
 class EntriesTableViewController: UITableViewController {
-
+    
     //MARK: - Properties
     var entryController = EntryController()
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
-        NSSortDescriptor(key: "timestamp", ascending: true)]
+                                        NSSortDescriptor(key: "timestamp", ascending: true)]
         let context = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "mood", cacheName: nil)
         frc.delegate = self
@@ -33,7 +33,7 @@ class EntriesTableViewController: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
     }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
@@ -47,13 +47,7 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
-            CoreDataStack.shared.mainContext.delete(entry)
-            do {
-                try CoreDataStack.shared.mainContext.save()
-            } catch {
-                CoreDataStack.shared.mainContext.reset()
-                NSLog("Error saving managed object context: \(error)")
-            }
+            entryController.deleteEntry(for: entry)
         }
     }
     
@@ -76,6 +70,7 @@ class EntriesTableViewController: UITableViewController {
     }
 }
 
+//MARK: - Extension
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
@@ -90,7 +85,7 @@ extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
         case .insert:
             tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
         case .delete:
-            tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
         default:
             break
         }
