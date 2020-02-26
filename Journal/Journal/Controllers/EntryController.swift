@@ -28,6 +28,29 @@ class EntryController {
     
     // MARK: - Methods
     
+    func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = {_ in }) {
+        
+        guard let identifier = entry.identifier else {
+            completion(NSError())
+            return
+        }
+        
+        let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            guard error == nil  else {
+                print("Error deleting entry")
+                
+            }
+        }
+       
+        
+    }
+    
     func put(entry: Entry, completion: @escaping CompletionHandler = {_ in }) {
         guard let identifier = entry.identifier else { return }
         entry.identifier = identifier
@@ -51,7 +74,7 @@ class EntryController {
             completion(error)
             return
         }
-        URLSession.shared.dataTask(with: requestURL) { (_, _, error) in
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
             if let error = error {
                 NSLog("Error fetching tasks from Firebase: \(error)")
                 completion(error)
@@ -86,7 +109,8 @@ class EntryController {
     
     // CREATE
     func create(title: String, mood: Mood, timeStamp: Date, identifier: String, bodyText: String) {
-        let  _ = Entry(title: title, timeStamp: timeStamp, identifier: identifier, bodyText: bodyText, mood: mood)
+        let  entry = Entry(title: title, timeStamp: timeStamp, identifier: identifier, bodyText: bodyText, mood: mood)
+        put(entry: entry)
         saveToPersistentStore()
     }
     
@@ -96,6 +120,7 @@ class EntryController {
         entry.title = title
         entry.bodyText = bodyText
         entry.mood = mood.rawValue
+        put(entry: entry)
         saveToPersistentStore()
     }
     
