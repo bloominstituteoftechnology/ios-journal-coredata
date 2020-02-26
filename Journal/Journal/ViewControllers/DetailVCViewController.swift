@@ -5,7 +5,7 @@
 //  Created by Joseph Rogers on 12/4/19.
 //  Copyright © 2019 Moka Apps. All rights reserved.
 //
-
+//updated to Day-2 Standards. Found Few Flaws and errors. Thank you Jonalynn Masters for your help
 import UIKit
 
 
