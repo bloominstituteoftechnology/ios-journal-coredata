@@ -14,9 +14,7 @@ class EntriesTableViewController: UITableViewController {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         //must have SORT DESCRIPTORS. this is where we start to make things conform for sections
         fetchRequest.sortDescriptors = [
-        NSSortDescriptor(key: "timestamp", ascending: false)
-        
-        ]
+        NSSortDescriptor(key: "timestamp", ascending: false)]
         let moc = CoreDataStack.shared.mainContext
         let fetchResultsController = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                                 managedObjectContext: moc,
@@ -59,7 +57,7 @@ class EntriesTableViewController: UITableViewController {
             return UITableViewCell()
         }
         
-        cell.entry = entryController.entries[indexPath.row]
+        cell.entry = fetchedResultsController.object(at: indexPath)
         return cell
     }
 
@@ -68,7 +66,8 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            let entry = entryController.entries[indexPath.row]
+            let entry = fetchedResultsController.object(at: indexPath)
+
             entryController.deleteEntry(entry: entry)
             tableView.reloadData()
         }
@@ -84,7 +83,8 @@ class EntriesTableViewController: UITableViewController {
             else {
                 return
             }
-            vc.entry = entryController.entries[indexPath.row]
+            vc.entry = fetchedResultsController.object(at: indexPath)
+
             vc.entryController = entryController
         } else if segue.identifier == "segueAddJournalEntry" {
             guard let vc = segue.destination as? EntryDetailViewController else { return }
