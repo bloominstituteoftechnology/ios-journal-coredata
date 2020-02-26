@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7261786824070D2B00CFCA95 /* EntryRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7261786724070D2B00CFCA95 /* EntryRepresentation.swift */; };
 		7267B75824046853001876E5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267B75724046853001876E5 /* AppDelegate.swift */; };
 		7267B75A24046853001876E5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7267B75924046853001876E5 /* SceneDelegate.swift */; };
 		7267B75F24046853001876E5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7267B75D24046853001876E5 /* Main.storyboard */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7261786724070D2B00CFCA95 /* EntryRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EntryRepresentation.swift; path = Journal/API/EntryRepresentation.swift; sourceTree = SOURCE_ROOT; };
 		726403A62405BB2700A1574C /* Journal 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Journal 2.xcdatamodel"; sourceTree = "<group>"; };
 		7267B75424046853001876E5 /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7267B75724046853001876E5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -54,6 +56,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7261786624070B7F00CFCA95 /* API */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		7267B74B24046853001876E5 = {
 			isa = PBXGroup;
 			children = (
@@ -73,6 +82,7 @@
 		7267B75624046853001876E5 /* Journal */ = {
 			isa = PBXGroup;
 			children = (
+				7261786624070B7F00CFCA95 /* API */,
 				7267B786240479F4001876E5 /* Helpers */,
 				7267B78324047631001876E5 /* ModelController */,
 				7267B78024047290001876E5 /* Model */,
@@ -135,6 +145,7 @@
 		7267B78024047290001876E5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7261786724070D2B00CFCA95 /* EntryRepresentation.swift */,
 				7267B77A2404707E001876E5 /* Journal.xcdatamodeld */,
 			);
 			path = Model;
@@ -228,6 +239,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7267B77C2404707E001876E5 /* Journal.xcdatamodeld in Sources */,
+				7261786824070D2B00CFCA95 /* EntryRepresentation.swift in Sources */,
 				7267B77024046B1C001876E5 /* EntryTableViewCell.swift in Sources */,
 				7267B78524047646001876E5 /* EntryController.swift in Sources */,
 				7267B75824046853001876E5 /* AppDelegate.swift in Sources */,
