@@ -20,7 +20,18 @@ enum MoodPriority: String {
 }
 
 extension Entry {
-    convenience init(mood: MoodPriority = .😐,
+    
+    var entryRepresentation: EntryRepresentation? {
+        guard let mood = mood else { return nil }
+        
+        return EntryRepresentation(bodyText: bodyText ?? "",
+                                   identifier: identifier,
+                                   mood: mood,
+                                   timestamp: timestamp,
+                                   title: title ?? "")
+    }
+    
+   @discardableResult convenience init(mood: MoodPriority = .😐,
                      title: String,
                      bodyText: String,
                      timestamp: Date = Date(),
@@ -32,6 +43,22 @@ extension Entry {
         self.bodyText = bodyText
         self.timestamp = timestamp
     }
+    
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation,
+                                        context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        guard let moodPriority = MoodPriority(rawValue: entryRepresentation.mood),
+            let date = entryRepresentation.timestamp  else {
+                      return nil
+              }
+        
+        self.init(mood: moodPriority,
+                  title: entryRepresentation.title,
+                  bodyText: entryRepresentation.bodyText ?? "",
+                  timestamp: date,
+                  identifier: entryRepresentation.identifier ?? "")
+    }
 }
+
+
 
 
