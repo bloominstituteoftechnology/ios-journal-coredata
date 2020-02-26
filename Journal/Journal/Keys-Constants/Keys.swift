@@ -15,6 +15,8 @@ struct Keys{
     static let entryCellName: String = "EntryTableViewCell"
     
     static let persistentContainerName: String = "Journal"
+    
+    static let firebaseURL: String = "https://journal-a0ca0.firebaseio.com/"
 }
 
 enum MoodEmojis: String, CaseIterable {
