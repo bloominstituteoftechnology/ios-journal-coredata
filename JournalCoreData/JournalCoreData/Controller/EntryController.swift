@@ -67,6 +67,27 @@ class EntryController {
         }.resume()
     }
     
+    func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        guard let uuidString = entry.identifier else {
+            completion(NSError())
+            return
+        }
+        
+        let requestURL = baseURL.appendingPathComponent(uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error deleting entry: \(error)")
+                return
+            }
+            DispatchQueue.main.async {
+                completion(nil)
+            }
+        }.resume()
+    }
+    
     //MARK: - CRUD Methods
     
     // Create Method
@@ -87,14 +108,16 @@ class EntryController {
     }
     
     // Delete Method
-    func deleteEntry(for entry: Entry) {
-        let moc = CoreDataStack.shared.mainContext
-        moc.delete(entry)
-        do {
-            try moc.save()
-        } catch {
-            moc.reset()
-            NSLog("Error saving managed object context: \(error)")
+    func deleteEntry(_ entry: Entry) {
+        deleteEntryFromServer(entry: entry) { (error) in
+            if let error = error {
+                NSLog("Error deleting entry: \(error)")
+                return
+            }
+            let moc = CoreDataStack.shared.mainContext
+            moc.delete(entry)
+            
+            self.saveToPersistentStore()
         }
     }
     
