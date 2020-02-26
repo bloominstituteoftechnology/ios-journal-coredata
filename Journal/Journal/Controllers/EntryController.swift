@@ -10,10 +10,12 @@ import Foundation
 import CoreData
 
 class EntryController {
+    
+    typealias CompletionHandler = (Error?) -> Void
    
     
     // MARK: - Properties
-    
+    let baseURL: URL  = URL(string: "https://journal-coredata-knopp.firebaseio.com/")!
     let MC = CoreDataStack.shared.mainContext
     
     /*
@@ -25,6 +27,20 @@ class EntryController {
 
     
     // MARK: - Methods
+    
+    func put(entry: Entry, completion: @escaping CompletionHandler = {_ in }) {
+        guard let identifier = entry.identifier else { return }
+        entry.identifier = identifier
+        
+        let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do  {
+            let encoder = JSON
+        }
+        
+    }
     
     func saveToPersistentStore() {
     do {
