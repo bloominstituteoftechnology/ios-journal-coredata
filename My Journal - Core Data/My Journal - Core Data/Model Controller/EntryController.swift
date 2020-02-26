@@ -12,6 +12,13 @@ import CoreData
 class EntryController 
 {
     
+    let baseURL = URL(string: "https://my-journal-core-data.firebaseio.com/")!
+    
+    typealias CompletionHandler = (Error?) -> Void
+    
+    init() {
+        
+    }
     
    // MARK: - CRUD methods
     
