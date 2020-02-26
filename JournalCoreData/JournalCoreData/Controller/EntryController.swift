@@ -12,25 +12,15 @@ import CoreData
 class EntryController {
     
     //MARK: - Properties
-    var entries: [Entry] {
-       return loadFromPersistentStore()
-    }
+//    var entries: [Entry] {
+//       return loadFromPersistentStore()
+//    }
     
     func saveToPersistentStore() {
         do {
             try CoreDataStack.shared.mainContext.save()
         } catch {
             NSLog("Error saving managed object context: \(error)")
-        }
-    }
-    
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        do {
-            return try CoreDataStack.shared.mainContext.fetch(fetchRequest)
-        } catch {
-            NSLog("Error fetching entry: \(error)")
-            return []
         }
     }
     
@@ -44,19 +34,22 @@ class EntryController {
     
     // Update Method
     func updateEntry(entry: Entry, title: String, bodyText: String, mood: String) {
-        guard let index = entries.firstIndex(of: entry) else { return }
-        entries[index].title = title
-        entries[index].bodyText = bodyText
-        entries[index].timestamp = Date()
-        entries[index].mood = mood
+        entry.title = title
+        entry.bodyText = bodyText
+        entry.mood = mood
+        entry.timestamp = Date()
         saveToPersistentStore()
     }
     
     // Delete Method
     func deleteEntry(for entry: Entry) {
-        guard let index = entries.firstIndex(of: entry) else { return }
         let moc = CoreDataStack.shared.mainContext
-        moc.delete(entries[index])
-        saveToPersistentStore()
+        moc.delete(entry)
+        do {
+            try moc.save()
+        } catch {
+            moc.reset()
+            NSLog("Error saving managed object context: \(error)")
+        }
     }
 }

@@ -16,7 +16,7 @@ enum Mood: String, CaseIterable {
 }
 
 extension Entry {
-    convenience init(title: String, timestamp: Date = Date(), identifier: String = "", bodyText: String, mood: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    @discardableResult convenience init(title: String, timestamp: Date = Date(), identifier: String = "", bodyText: String, mood: String, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.title = title
         self.bodyText = bodyText
