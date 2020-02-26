@@ -17,7 +17,7 @@ class EntryController
     typealias CompletionHandler = (Error?) -> Void
     
     init() {
-        
+        fetchEntriesFromSever()
     }
     
    // MARK: - CRUD methods
@@ -42,7 +42,7 @@ class EntryController
     }
     
     
-    func update(with newTitle : String, bodyText: String,mood: String,identifier: UUID, entry: Entry) {
+    func updateEntry(with newTitle : String, bodyText: String,mood: String,identifier: UUID, entry: Entry) {
         DispatchQueue.main.async {
             entry.title = newTitle
             entry.bodyText = bodyText
@@ -59,6 +59,7 @@ class EntryController
         CoreDataStack.shared.mainContext.delete(entry)
         saveToPersistentStore()
     }
+    // MARK: - PUT
     
     func put(entry: Entry,completion: @escaping CompletionHandler = {_ in } ) {
         var newURL = baseURL.appendingPathExtension("json")
@@ -82,12 +83,12 @@ class EntryController
             }
             
             
-            guard let data = data else {
+            guard let _ = data else {
                 NSLog("No data ")
                 completion(NSError())
                 return
             }
-            guard let response = response else { return }
+            guard let _ = response else { return }
             
             do {
               // TODO
@@ -100,6 +101,7 @@ class EntryController
         }.resume()
         
     }
+  //MARK: - DELETE
     
     func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = {_ in  }) {
         var newURL = baseURL.appendingPathExtension("json")
@@ -114,63 +116,97 @@ class EntryController
                 return
             }
             
-            
             guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { return }
             
-            guard let data = data else {
+            guard let _ = data else {
                 completion(NSError())
                 return
             }
- //TODO
+              //TODO
         }.resume()
         
+    
+    }
+    //MARK: - GET
+    
+    func fetchEntriesFromSever(completion: @escaping CompletionHandler = { _ in }) {
+           let requestURL = baseURL.appendingPathExtension("json")
+           
+           URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+               if let error = error {
+                   NSLog("Error fetching entries from Firebase: \(error)")
+                   completion(error)
+                   return
+               }
+               
+               guard let data = data else {
+                   NSLog("No data returned from Firebase")
+                   completion(NSError())
+                   return
+               }
+               
+               do {
+                   let entriesRepresentation = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
+                   try self.updateEntries(with: entriesRepresentation)
+                   completion(nil)
+               } catch {
+                   NSLog("Error decoding entries representations from Firebase: \(error)")
+                   completion(error)
+               }
+           }.resume()
+       }
+    
+    // MARK: - Update Entries
+    
+    
+   private func updateEntries(with representations: [EntryRepresentation]) throws {
+    
+        let entriesWithID = representations.filter { $0.identifier != nil }
+    
+        let identifiersToFetch = entriesWithID.compactMap { UUID(uuidString: $0.identifier!) }
+    
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
+    
+        var entriesToCreate = representationsByID
         
+        // fetch all? tasks from Core Data
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
         
+        do {
+            let existingEntries = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
+            
+            // Match the managed tasks with the Firebase tasks
+            for entry in existingEntries{
+                
+                guard let id = entry.identifier,
+                    let representation = representationsByID[id] else { continue }
+                
+                self.update(entry: entry, with: representation)
+                entriesToCreate.removeValue(forKey: id)
+                saveToPersistentStore()
+            }
+            
+            // For nonmatched (new tasks from Firebase), create managed objects
+            for representation in entriesToCreate.values {
+             Entry(entryRepresentation: representation)
+                saveToPersistentStore()
+            }
+        } catch {
+            NSLog("Error fetching tasks for UUIDs: \(error)")
+        }
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        // Save all this in CD
+     saveToPersistentStore()
     }
     
+    private func update(entry: Entry, with representation: EntryRepresentation) {
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        entry.title = representation.title
+        entry.bodyText = representation.bodyText
+        entry.timestamp = representation.timestamp
+        entry.mood = representation.mood
+    }
     
     
     
