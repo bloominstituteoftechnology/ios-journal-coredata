@@ -13,13 +13,13 @@ import CoreData
     
     var entryRepresentation : EntryRepresentation? {
         guard let timestamp = timestamp else { return nil }
-        return EntryRepresentation(title: title, bodyText: bodyText, mood: mood, identifier: identifier, timestamp: timestamp)
+        return EntryRepresentation(title: title, bodyText: bodyText, mood: mood, identifier: identifier?.uuidString, timestamp: timestamp)
     }
     
      convenience init(title: String,
                       bodyText: String ,
                       timestamp: Date = Date(),
-                      identifier : String = "",
+                      identifier : UUID = UUID(),
                       context: NSManagedObjectContext = CoreDataStack.shared.mainContext,
                       mood: String)
      {
@@ -42,7 +42,7 @@ import CoreData
         self.init(title:title
                    ,bodyText:bodyText
                    ,timestamp:entryRepresentation.timestamp,
-                   identifier:identifier,
+                    identifier:UUID(uuidString: identifier) ?? UUID(),
                    context:context,
                      mood:mood)
     }

@@ -98,9 +98,9 @@ class EntryDetailViewController: UIViewController
         guard let title = entryTextField.text, let bodyText = entryTextView.text else { return }
             
         if let entry = entry {
-            entryController?.update(with: title, bodyText: bodyText, mood: mood, entry: entry)
+            entryController?.update(with: title, bodyText: bodyText, mood: mood, identifier: UUID(), entry: entry)
         } else {
-            entryController?.create(title: title, bodyText: bodyText, identifier: title, mood: mood, date: Date())
+            entryController?.create(title: title, bodyText: bodyText, identifier: UUID(), mood: mood, date: Date())
         }
         navigationController?.popViewController(animated: true)
     }
