@@ -29,13 +29,15 @@ class EntryDetailViewController: UIViewController {
     @IBAction func saveTapped(_ sender: Any) {
         guard let title = titleTextField.text, !title.isEmpty,
             let body = bodyTextView.text, !body.isEmpty else { return }
+        let moodIndex = moodSegmentedControl.selectedSegmentIndex
+        let mood = Mood.allCases[moodIndex]
         if let entry = entry {
             if let entryController = entryController {
-                entryController.update(entry: entry, title: title, body: body)
+                entryController.update(entry: entry, title: title, body: body, mood: mood.rawValue)
             }
         } else {
             if let entryController = entryController {
-                entryController.createEntry(title: title, body: body)
+                entryController.createEntry(title: title, body: body, mood: mood.rawValue)
             }
         }
         
@@ -49,10 +51,16 @@ class EntryDetailViewController: UIViewController {
             title = entry.title
             titleTextField.text = entry.title
             bodyTextView.text = entry.bodyText
+            let mood = Mood(rawValue: entry.mood!)
+            if let moodIndex = Mood.allCases.firstIndex(of: mood!) {
+               moodSegmentedControl.selectedSegmentIndex = moodIndex
+            }
+            
         } else {
             title = "Create Entry"
             titleTextField.text = ""
             bodyTextView.text = ""
+            moodSegmentedControl.selectedSegmentIndex = 1
         }
         
     }
