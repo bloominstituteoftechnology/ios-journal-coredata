@@ -32,12 +32,13 @@ class EntryController
     
    
     func create(title:String,bodyText:String,identifier: UUID, mood:String, date: Date) {
-        let _ = Entry(title: title,
+        let entry = Entry(title: title,
                       bodyText: bodyText,
                       timestamp: date,
                       identifier: UUID() ,
                       context: CoreDataStack.shared.mainContext,
                       mood: mood)
+        put(entry: entry)
                     saveToPersistentStore()
     }
     
@@ -50,7 +51,7 @@ class EntryController
             entry.identifier = UUID()
             entry.timestamp = Date()
         }
-      
+      put(entry: entry)
         saveToPersistentStore()
     
     }
@@ -62,41 +63,42 @@ class EntryController
     // MARK: - PUT
     
     func put(entry: Entry,completion: @escaping CompletionHandler = {_ in } ) {
-        var newURL = baseURL.appendingPathExtension("json")
-        newURL.appendPathComponent(entry.identifier!.uuidString)
-        var requestURL = URLRequest(url:newURL )
+        let identifier = entry.identifier ?? UUID()
+        entry.identifier = identifier
+        
+        
+        
+        let  putURL = baseURL
+            .appendingPathExtension("json")
+            .appendingPathComponent(identifier.uuidString)
+      
+        
+        var requestURL = URLRequest(url:putURL )
         requestURL.httpMethod = "PUT"
         
-        let jsonEncoder = JSONEncoder()
+        guard let entryRepresentation = entry.entryRepresentation else {
+            NSLog("Entry Representation is nil")
+            completion(nil)
+            return
+        }
+        
+     
         do {
-              requestURL.httpBody = try jsonEncoder.encode(entry.entryRepresentation)
+              requestURL.httpBody = try JSONEncoder().encode(entryRepresentation)
             
         } catch let error as NSError {
             print(error.localizedDescription)
+            completion(nil)
+            return
         }
   
-        URLSession.shared.dataTask(with: requestURL) { (data, response, error) in
+        URLSession.shared.dataTask(with: requestURL) { (_, _, error) in
             if let error = error {
                 NSLog("Error sending data to sever: \(error)")
                 completion(error)
                 return
             }
-            
-            
-            guard let _ = data else {
-                NSLog("No data ")
-                completion(NSError())
-                return
-            }
-            guard let _ = response else { return }
-            
-            do {
-              // TODO
-            } catch let error as NSError {
-                NSLog("Error sending data to sever:\(error)")
-                completion(error)
-            }
-            
+                completion(nil)
             
         }.resume()
         
