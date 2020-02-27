@@ -82,6 +82,44 @@ class EntryController {
         }.resume()
     }
     
+    func update(entry: Entry, with representation: EntryRepresentation) {
+        entry.title = representation.title
+        entry.bodyText = representation.bodyText
+        entry.timeStamp = representation.timeStamp
+        entry.mood = representation.mood
+        entry.identifier = representation.identifier
+    }
+    
+    func updateEntries(with representations: [EntryRepresentation]) {
+        let identifiersToFetch = representations.compactMap{ $0.identifier }
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+        var entriesToCreate = representationsByID
+        
+        do {
+            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+            
+            let context = CoreDataTask.shared.mainContext
+            let existingEntries = try context.fetch(fetchRequest)
+            
+            for entry in existingEntries {
+                guard let identifier = entry.identifier,
+                    let representation = representationsByID[identifier] else { return }
+                update(entry: entry, with: representation)
+                saveToPersistentStore()
+                
+                entriesToCreate.removeValue(forKey: identifier)
+                
+                for representation in entriesToCreate.values {
+                    Entry(entryRepresentation: representation)
+                    saveToPersistentStore()
+                }
+            }
+        } catch {
+            NSLog("Error fetching entries from server: \(error)")
+        }
+    }
+    
     // MARK: - Core Data Methods
     
     func saveToPersistentStore() {
@@ -107,7 +145,7 @@ class EntryController {
         return entry
     }
     
-    func update(entry: Entry, called title: String, bodyText: String, timeStamp: Date, identifier: String, mood: String) {
+    func updateEntry(entry: Entry, called title: String, bodyText: String, timeStamp: Date, identifier: String, mood: String) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timeStamp = timeStamp
