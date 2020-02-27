@@ -27,15 +27,6 @@ class EntryController {
         fetchEntriesFromServer()
     }
     
-    //MARK: - SaveToPersistentStore
-    func saveToPersistentStore() {
-        do {
-            try CoreDataStack.shared.mainContext.save()
-        } catch {
-            NSLog("Error saving managed object context: \(error)")
-        }
-    }
-    
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         let uuidString = entry.identifier ?? UUID().uuidString
         let requestURL = baseURL.appendingPathComponent(uuidString).appendingPathExtension("json")
@@ -52,7 +43,6 @@ class EntryController {
             }
             representation.identifier = uuidString
             entry.identifier = uuidString
-            saveToPersistentStore()
             request.httpBody = try jsonEncoder.encode(representation)
         } catch {
             NSLog("Error encoding entry: \(error)")
@@ -125,7 +115,6 @@ class EntryController {
         } catch {
             NSLog("Error fetching entries: \(error)")
         }
-        saveToPersistentStore()
     }
     
     //MARK: - Fetch Entries Method
@@ -161,7 +150,6 @@ class EntryController {
     func createEntry(title: String, bodyText: String, mood: String) {
         let entry = Entry(title: title, bodyText: bodyText, mood: mood)
         put(entry: entry)
-        saveToPersistentStore()
     }
     
     // Update Method
@@ -171,7 +159,6 @@ class EntryController {
         entry.mood = mood
         entry.timestamp = Date()
         put(entry: entry)
-        saveToPersistentStore()
     }
     
     // Delete Method
@@ -183,10 +170,6 @@ class EntryController {
             }
             let moc = CoreDataStack.shared.mainContext
             moc.delete(entry)
-            
-            self.saveToPersistentStore()
         }
     }
-    
-    
 }
