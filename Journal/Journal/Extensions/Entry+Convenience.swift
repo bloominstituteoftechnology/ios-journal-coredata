@@ -19,7 +19,7 @@ extension Entry {
             let mood = mood,
             let timestamp = timestamp else { return nil}
         
-        return EntryRepresenation(identifier: identifier.uuidString,
+        return EntryRepresenation(identifier: identifier,
                                   title: title,
                                   bodyText: bodyText,
                                   mood: mood,
@@ -36,7 +36,7 @@ extension Entry {
         self.title = title
         self.bodyText = bodyText
         self.timestamp = timestamp
-        self.identifier = identifier
+        self.identifier = identifier.uuidString
         self.mood = mood
     }
     

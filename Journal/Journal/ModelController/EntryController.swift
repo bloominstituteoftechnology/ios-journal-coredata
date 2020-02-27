@@ -47,6 +47,7 @@ class EntryController {
         let newEntry = Entry(title: title,
                              bodyText: bodyText,
                              timestamp: Date(),
+                             identifier: UUID(),
                              mood: mood)
         entries.append(newEntry)
         saveToPersistence()
@@ -65,22 +66,23 @@ class EntryController {
         entry.bodyText = representation.bodyText
         entry.mood = representation.mood
         entry.timestamp = representation.timestamp
-        entry.identifier = UUID(uuidString: representation.identifier)
+        entry.identifier = representation.identifier
     }
     
     // MARK: - API Methods
     
         func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
             
-            let identifier = entry.identifier ?? UUID()
+            let identifier = entry.identifier
             entry.identifier = identifier
             
             let requestURL = fireBaseURL
-                .appendingPathComponent(identifier.uuidString)
+                .appendingPathComponent(identifier!)
                 .appendingPathExtension(pathExtension)
     
             var request = URLRequest(url: requestURL)
             request.httpMethod = HTTPMethods.put.rawValue
+            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
             
             guard let entryRepresentation = entry.entryRepresentation else {
                 NSLog("Entry representation is nil")
@@ -102,7 +104,7 @@ class EntryController {
                     completion(APIErrors.otherError)
                     return
                 }
-            }
+            }.resume()
         }
     
     private func updateEntries(with representations: [EntryRepresenation]) throws {
