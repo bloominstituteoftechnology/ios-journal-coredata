@@ -27,7 +27,7 @@ class EntryController {
         fetchEntriesFromServer()
     }
     
-    //MARK: - Functions
+    //MARK: - SaveToPersistentStore
     func saveToPersistentStore() {
         do {
             try CoreDataStack.shared.mainContext.save()
@@ -92,6 +92,7 @@ class EntryController {
         }.resume()
     }
     
+    //MARK: - Update Methods
     func update(entry: Entry, entryRepresentation: EntryRepresentation) {
         entry.title = entryRepresentation.title
         entry.bodyText = entryRepresentation.bodyText
@@ -127,6 +128,7 @@ class EntryController {
         saveToPersistentStore()
     }
     
+    //MARK: - Fetch Entries Method
     func fetchEntriesFromServer(completion: @escaping CompletionHandler = {_ in } ) {
         let requestURL = baseURL.appendingPathExtension("json")
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
