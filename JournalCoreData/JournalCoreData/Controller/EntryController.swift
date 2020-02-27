@@ -88,6 +88,41 @@ class EntryController {
         }.resume()
     }
     
+    func update(entry: Entry, entryRepresentation: EntryRepresentation) {
+        entry.title = entryRepresentation.title
+        entry.bodyText = entryRepresentation.bodyText
+        entry.timestamp = entryRepresentation.timestamp
+        entry.identifier = entryRepresentation.identifier
+        entry.mood = entryRepresentation.mood
+    }
+    
+    func updateEntries(with representations: [EntryRepresentation]) {
+        let entriesWithID = representations.filter { $0.identifier != nil }
+        let identifiersToFetch = entriesWithID.compactMap { $0.identifier! }
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
+        var entriesToCreate = representationsByID
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let context = CoreDataStack.shared.mainContext
+        
+        do {
+            let existingEntries = try context.fetch(fetchRequest)
+            for entry in existingEntries {
+                guard let id = entry.identifier, let representation = representationsByID[id] else { continue }
+                self.update(entry: entry, entryRepresentation: representation)
+                entriesToCreate.removeValue(forKey: id)
+            }
+            for representation in entriesToCreate.values {
+                Entry(entryRepresentation: representation, context: context)
+            }
+        } catch {
+            NSLog("Error fetching entries: \(error)")
+        }
+        saveToPersistentStore()
+    }
+    
     //MARK: - CRUD Methods
     
     // Create Method
