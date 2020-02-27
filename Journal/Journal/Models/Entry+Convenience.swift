@@ -19,9 +19,9 @@ extension Entry {
     var entryRepresentation: EntryRepresentation? {
         guard let title = title,
             let bodyText = bodyText,
-        let timeStamp = timeStamp,
-        let mood = mood,
-        let identifier = identifier else { return nil }
+            let timeStamp = timeStamp,
+            let mood = mood,
+            let identifier = identifier else { return nil }
         
         return EntryRepresentation(title: title, bodyText: bodyText, timeStamp: timeStamp, mood: mood, identifier: identifier)
     }
@@ -29,7 +29,7 @@ extension Entry {
     convenience init(title: String,
                      bodyText: String,
                      timeStamp: Date,
-                     identifier: String,
+                     identifier: String = UUID().uuidString,
                      mood: Mood = .neutral,
                      context: NSManagedObjectContext = CoreDataTask.shared.mainContext) {
         self.init(context: context)
@@ -42,11 +42,10 @@ extension Entry {
     
     @discardableResult convenience init?(entryRepresentation: EntryRepresentation,
                                          context: NSManagedObjectContext = CoreDataTask.shared.mainContext) {
-        guard let mood = Mood(rawValue: entryRepresentation.mood),
-            let bodyText = entryRepresentation.bodyText else { return nil }
+        guard let mood = Mood(rawValue: entryRepresentation.mood) else { return nil }
         
         self.init(title: entryRepresentation.title,
-                  bodyText: bodyText,
+                  bodyText: entryRepresentation.bodyText,
                   timeStamp: entryRepresentation.timeStamp,
                   identifier: entryRepresentation.identifier,
                   mood: mood,

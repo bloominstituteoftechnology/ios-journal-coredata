@@ -18,6 +18,10 @@ enum HTTPMethod: String {
 
 class EntryController {
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     let baseURL = URL(string: "https://journal-ios14.firebaseio.com/")!
     
     typealias CompletionHandler = (Error?) -> Void
@@ -65,8 +69,8 @@ class EntryController {
         guard let identifier = entry.identifier else { return }
         
         let requestURL = baseURL
-        .appendingPathComponent(identifier)
-        .appendingPathExtension("json")
+            .appendingPathComponent(identifier)
+            .appendingPathExtension("json")
         
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethod.delete.rawValue
@@ -87,7 +91,6 @@ class EntryController {
         entry.bodyText = representation.bodyText
         entry.timeStamp = representation.timeStamp
         entry.mood = representation.mood
-        entry.identifier = representation.identifier
     }
     
     func updateEntries(with representations: [EntryRepresentation]) {
@@ -118,6 +121,34 @@ class EntryController {
         } catch {
             NSLog("Error fetching entries from server: \(error)")
         }
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { data, _, error in
+            if let error = error {
+                NSLog("Error fetching entries from Firebase: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data received")
+                completion(NSError())
+                return
+            }
+            
+            do {
+                let entryRepresentations = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
+                self.updateEntries(with: entryRepresentations)
+                completion(nil)
+            } catch {
+                NSLog("Error decoding entry representations: \(error)")
+                completion(error)
+            }
+            
+        }.resume()
     }
     
     // MARK: - Core Data Methods

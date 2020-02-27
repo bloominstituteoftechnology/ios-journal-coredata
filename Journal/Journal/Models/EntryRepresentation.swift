@@ -10,7 +10,7 @@ import Foundation
 
 struct EntryRepresentation: Codable {
     var title: String
-    var bodyText: String?
+    var bodyText: String
     var timeStamp: Date
     var mood: String
     var identifier: String
