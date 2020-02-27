@@ -41,7 +41,7 @@ import CoreData
         
         self.init(title:title
                    ,bodyText:bodyText
-                   ,timestamp:entryRepresentation.timestamp,
+            ,timestamp:entryRepresentation.timestamp,
                     identifier:UUID(uuidString: identifier) ?? UUID(),
                    context:context,
                      mood:mood)

@@ -18,7 +18,7 @@ enum HTTPMethod : String {
 class EntryController 
 {
     
-    let baseURL = URL(string: "https://my-journal-core-data.firebaseio.com")!
+    let baseURL = URL(string: "https://my-journal-core-data.firebaseio.com/")!
     
     typealias CompletionHandler = (Error?) -> Void
     
@@ -139,6 +139,7 @@ class EntryController
     
     func fetchEntriesFromSever(completion: @escaping CompletionHandler = { _ in }) {
            let requestURL = baseURL.appendingPathExtension("json")
+        print(requestURL)
            
            URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
                if let error = error {
@@ -154,7 +155,9 @@ class EntryController
                }
                
                do {
-                   let entriesRepresentation = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
+                let jsonDecoder = JSONDecoder()
+                      jsonDecoder.dateDecodingStrategy = .iso8601
+                   let entriesRepresentation = Array(try jsonDecoder.decode([String : EntryRepresentation].self, from: data).values)
                    try self.updateEntries(with: entriesRepresentation)
                    completion(nil)
                } catch {

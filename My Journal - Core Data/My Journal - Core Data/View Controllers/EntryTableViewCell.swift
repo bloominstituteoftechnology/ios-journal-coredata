@@ -20,7 +20,7 @@ class EntryTableViewCell: UITableViewCell
     
     lazy private var dateFormatter: DateFormatter = {
         let dm = DateFormatter()
-        dm.dateFormat = "MM-dd-yyyy HH:mm"
+        dm.dateFormat = "MM-dd-yyyy h:mm a"
         dm.calendar = .current
         return dm
     }()
