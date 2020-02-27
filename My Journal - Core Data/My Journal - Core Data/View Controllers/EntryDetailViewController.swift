@@ -98,7 +98,7 @@ class EntryDetailViewController: UIViewController
         guard let title = entryTextField.text, let bodyText = entryTextView.text else { return }
             
         if let entry = entry {
-            entryController?.updateEntry(with: title, bodyText: bodyText, mood: mood, identifier: UUID(), entry: entry)
+            entryController?.updateEntry(with: title, bodyText: bodyText, mood: mood, entry: entry)
         } else {
             entryController?.create(title: title, bodyText: bodyText, identifier: UUID(), mood: mood, date: Date())
         }

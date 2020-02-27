@@ -9,10 +9,16 @@
 import UIKit
 import CoreData
 
+enum HTTPMethod : String {
+    case PUT = "PUT"
+    case GET = "GET"
+    case POST = "POST"
+    case DELETE = "DELETE"
+}
 class EntryController 
 {
     
-    let baseURL = URL(string: "https://my-journal-core-data.firebaseio.com/")!
+    let baseURL = URL(string: "https://my-journal-core-data.firebaseio.com")!
     
     typealias CompletionHandler = (Error?) -> Void
     
@@ -33,27 +39,28 @@ class EntryController
    
     func create(title:String,bodyText:String,identifier: UUID, mood:String, date: Date) {
         let entry = Entry(title: title,
-                      bodyText: bodyText,
-                      timestamp: date,
-                      identifier: UUID() ,
-                      context: CoreDataStack.shared.mainContext,
-                      mood: mood)
-        put(entry: entry)
-                    saveToPersistentStore()
+                          bodyText: bodyText,
+                          timestamp: date,
+                          identifier: UUID() ,
+                          context: CoreDataStack.shared.mainContext,
+                          mood: mood)
+     
+        saveToPersistentStore()
+           put(entry: entry)
     }
     
     
-    func updateEntry(with newTitle : String, bodyText: String,mood: String,identifier: UUID, entry: Entry) {
-        DispatchQueue.main.async {
+    func updateEntry(with newTitle : String, bodyText: String,mood: String, entry: Entry) {
+       
             entry.title = newTitle
             entry.bodyText = bodyText
             entry.mood = mood
-            entry.identifier = UUID()
+            
             entry.timestamp = Date()
-        }
-      put(entry: entry)
+        
+        put(entry: entry)
         saveToPersistentStore()
-    
+        
     }
    
     func delete(entry: Entry) {
@@ -66,25 +73,24 @@ class EntryController
         let identifier = entry.identifier ?? UUID()
         entry.identifier = identifier
         
-        
-        
-        let  putURL = baseURL
-            .appendingPathExtension("json")
-            .appendingPathComponent(identifier.uuidString)
-      
-        
+        let  putURL = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+            
         var requestURL = URLRequest(url:putURL )
-        requestURL.httpMethod = "PUT"
-        
-        guard let entryRepresentation = entry.entryRepresentation else {
-            NSLog("Entry Representation is nil")
-            completion(nil)
-            return
-        }
-        
-     
+        requestURL.httpMethod = HTTPMethod.PUT.rawValue
+        requestURL.addValue("application/json", forHTTPHeaderField: "Content-Type")
+       
+        let jsonEncoder = JSONEncoder()
+        jsonEncoder.dateEncodingStrategy = .iso8601
         do {
-              requestURL.httpBody = try JSONEncoder().encode(entryRepresentation)
+            guard var entryRepresentation = entry.entryRepresentation else {
+                       NSLog("Entry Representation is nil")
+                       completion(nil)
+                       return
+                   }
+            entryRepresentation.identifier = identifier.uuidString
+            entry.identifier = identifier
+            saveToPersistentStore()
+              requestURL.httpBody = try jsonEncoder.encode(entryRepresentation)
             
         } catch let error as NSError {
             print(error.localizedDescription)
@@ -173,7 +179,7 @@ class EntryController
         
         // fetch all? tasks from Core Data
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@",identifiersToFetch)
         
         do {
             let existingEntries = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
