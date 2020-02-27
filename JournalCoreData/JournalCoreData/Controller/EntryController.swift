@@ -91,30 +91,33 @@ class EntryController {
         entry.mood = entryRepresentation.mood
     }
     
-    func updateEntries(with representations: [EntryRepresentation]) {
+    func updateEntries(with representations: [EntryRepresentation]) throws {
         let entriesWithID = representations.filter { $0.identifier != nil }
         let identifiersToFetch = entriesWithID.compactMap { $0.identifier! }
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
         var entriesToCreate = representationsByID
         
+        // Fetch all? entries from Core Data
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
         
-        let context = CoreDataStack.shared.mainContext
-        
-        do {
-            let existingEntries = try context.fetch(fetchRequest)
-            for entry in existingEntries {
-                guard let id = entry.identifier, let representation = representationsByID[id] else { continue }
-                self.update(entry: entry, entryRepresentation: representation)
-                entriesToCreate.removeValue(forKey: id)
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        context.performAndWait {
+            do {
+                let existingEntries = try context.fetch(fetchRequest)
+                for entry in existingEntries {
+                    guard let id = entry.identifier, let representation = representationsByID[id] else { continue }
+                    self.update(entry: entry, entryRepresentation: representation)
+                    entriesToCreate.removeValue(forKey: id)
+                }
+                for representation in entriesToCreate.values {
+                    Entry(entryRepresentation: representation, context: context)
+                }
+            } catch {
+                NSLog("Error fetching tasks: \(error)")
             }
-            for representation in entriesToCreate.values {
-                Entry(entryRepresentation: representation, context: context)
-            }
-        } catch {
-            NSLog("Error fetching entries: \(error)")
         }
+        try CoreDataStack.shared.save(context: context)
     }
     
     //MARK: - Fetch Entries Method
@@ -135,7 +138,7 @@ class EntryController {
             jsonDecoder.dateDecodingStrategy = .iso8601
             do {
                 let entryRepresentations = Array(try jsonDecoder.decode([String: EntryRepresentation].self, from: data).values)
-                self.updateEntries(with: entryRepresentations)
+                try self.updateEntries(with: entryRepresentations)
                 completion(nil)
             } catch {
                 NSLog("Error decoding entry: \(error)")
@@ -168,8 +171,16 @@ class EntryController {
                 NSLog("Error deleting entry: \(error)")
                 return
             }
-            let moc = CoreDataStack.shared.mainContext
-            moc.delete(entry)
+            guard let moc = entry.managedObjectContext else { return }
+            moc.perform {
+                do {
+                    moc.delete(entry)
+                    try CoreDataStack.shared.save(context: moc)
+                } catch {
+                    moc.reset()
+                    NSLog("Error deleting entry: \(error)")
+                }
+            }
         }
     }
 }
