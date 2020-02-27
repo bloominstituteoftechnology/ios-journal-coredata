@@ -37,9 +37,9 @@ class EntryDetailViewController: UIViewController {
         guard let entryController = entryController, let entryTextView = entryTextView.text,
             let titleTextField = titleTextField.text else { return }
         if let entry = entry {
-            entryController.update(entry: entry, title: titleTextField, bodyText: entryTextView, mood: mood)
+            entryController.updateEntry(entry: entry, title: titleTextField, bodyText: entryTextView, mood: mood)
         } else {
-            entryController.create(title: titleTextField, mood: mood, timeStamp: Date(), identifier: "", bodyText: entryTextView)
+            entryController.createEntry(title: titleTextField, mood: mood, timeStamp: Date(), identifier: "", bodyText: entryTextView)
         }
         navigationController?.popViewController(animated: true)
         

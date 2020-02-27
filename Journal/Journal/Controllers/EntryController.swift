@@ -11,6 +11,12 @@ import CoreData
 
 class EntryController {
     
+    // MARK: - INITIALIZER
+    
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     typealias CompletionHandler = (Error?) -> Void
    
     
@@ -28,6 +34,89 @@ class EntryController {
     
     // MARK: - Methods
     
+   func update(entry: Entry, with entryRepresentation: EntryRepresentation) {
+        entry.title = entryRepresentation.title
+        entry.bodyText = entryRepresentation.bodyText
+        entry.timeStamp = entryRepresentation.timeStamp
+        entry.identifier = entryRepresentation.identifier
+        entry.mood = entryRepresentation.mood
+    }
+    
+    // MARK: - SERVER METHODS
+    
+     func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in  }) {
+            let requestURL = baseURL.appendingPathExtension("json")
+
+            URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+                guard error == nil else {
+                    print("Error fetching entries from server: \(error!)")
+                    DispatchQueue.main.async {
+                        completion(error)
+                    }
+                    return
+                }
+
+                guard let data = data else {
+                    print("No data returned by data task.")
+                    DispatchQueue.main.async {
+                        completion(NSError())
+                    }
+                    return
+                }
+
+                let jsonDecoder = JSONDecoder()
+                jsonDecoder.dateDecodingStrategy = .iso8601
+                do {
+                    let entryRepresentations = Array(try jsonDecoder.decode([String : EntryRepresentation].self, from: data).values)
+
+                    self.updateEntries(with: entryRepresentations)
+                    DispatchQueue.main.async {
+                        completion(nil)
+                    }
+                } catch {
+                    print("Error decoding entry representations: \(error)")
+                    DispatchQueue.main.async {
+                        completion(error)
+                    }
+                }
+            }.resume()
+        }
+    func updateEntries(with representations: [EntryRepresentation]) {
+        
+        let entriesWithID = representations.filter { $0.identifier != nil }
+        let identifiersToFetch = entriesWithID.compactMap { $0.identifier }
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesWithID))
+        
+        // Dictionary that can be mutated
+        var entriesToCreate = representationsByID
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "Indentifiers IN %@", identifiersToFetch)
+        
+        let context = CoreDataStack.shared.mainContext
+                do {
+                    let existingEntries = try context.fetch(fetchRequest)
+                    
+                    // Match the managed tasks with the Firebase tasks
+                    for entry in existingEntries {
+                        guard let id = entry.identifier,
+                            let representation = representationsByID[id] else { continue }
+                        
+                        self.update(entry: entry, with: representation)
+                        entriesToCreate.removeValue(forKey: id)
+                    }
+                    
+                    // For nonmatched (new tasks from Firebase), create managed objects
+                    for representation in entriesToCreate.values {
+                        Entry(entryRepresentation: representation, context: context)
+                    }
+                    } catch {
+                    NSLog("Error fetching tasks for UUIDs: \(error)")
+                }
+            saveToPersistentStore()
+        }
+        
+    
     func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = {_ in }) {
         
         guard let identifier = entry.identifier else {
@@ -43,13 +132,22 @@ class EntryController {
         
         URLSession.shared.dataTask(with: request) { (_, _, error) in
             guard error == nil  else {
-                print("Error deleting entry")
-                
+                print("Error deleting entry: \(String(describing: error))")
+                DispatchQueue.main.async {
+                    completion(error)
+                }
+                return
             }
+            DispatchQueue.main.async {
+                completion(nil)
+            }
+                
+        }.resume()
+            
         }
        
-        
-    }
+    
+    
     
     func put(entry: Entry, completion: @escaping CompletionHandler = {_ in }) {
         guard let identifier = entry.identifier else { return }
@@ -93,6 +191,8 @@ class EntryController {
         }
     }
     
+    
+    
     /*
      func loadFromPersistentStore() -> [Entry] {
         let fetch: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -108,14 +208,14 @@ class EntryController {
     // MARK: - CRUD
     
     // CREATE
-    func create(title: String, mood: Mood, timeStamp: Date, identifier: String, bodyText: String) {
+    func createEntry(title: String, mood: Mood, timeStamp: Date, identifier: String, bodyText: String) {
         let  entry = Entry(title: title, timeStamp: timeStamp, identifier: identifier, bodyText: bodyText, mood: mood)
         put(entry: entry)
         saveToPersistentStore()
     }
     
     // UPDATE
-    func update(entry: Entry, title: String, bodyText: String, mood: Mood) {
+    func updateEntry(entry: Entry, title: String, bodyText: String, mood: Mood) {
         
         entry.title = title
         entry.bodyText = bodyText
@@ -126,9 +226,19 @@ class EntryController {
     
     // DELETE
     
-    func delete(for entry: Entry) {
-        MC.delete(entry)
-        saveToPersistentStore()
+    func deleteEntry(for entry: Entry) {
+        deleteEntryFromServer(entry: entry) { (error) in
+            guard error == nil else {
+                print("Error deleting entry from server: \(String(describing: error))")
+                return
+            }
+        
+        
+            self.MC.delete(entry)
+            self.saveToPersistentStore()
+        }
     }
-}
 
+
+
+}
