@@ -22,6 +22,12 @@ class EntryController {
     let baseURL = URL(string: "https://journalcoredata-f0c16.firebaseio.com/")!
     typealias CompletionHandler = (Error?) -> Void
     
+    //MARK: - Initializers
+    init() {
+        fetchEntriesFromServer()
+    }
+    
+    //MARK: - Functions
     func saveToPersistentStore() {
         do {
             try CoreDataStack.shared.mainContext.save()
@@ -29,8 +35,6 @@ class EntryController {
             NSLog("Error saving managed object context: \(error)")
         }
     }
-    
-    //MARK: - Functions
     
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         let uuidString = entry.identifier ?? UUID().uuidString
@@ -121,6 +125,32 @@ class EntryController {
             NSLog("Error fetching entries: \(error)")
         }
         saveToPersistentStore()
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = {_ in } ) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching entries from server: \(error)")
+                return
+            }
+            
+            guard let data = data else {
+                completion(NSError())
+                return
+            }
+            
+            let jsonDecoder = JSONDecoder()
+            jsonDecoder.dateDecodingStrategy = .iso8601
+            do {
+                let entryRepresentations = Array(try jsonDecoder.decode([String: EntryRepresentation].self, from: data).values)
+                self.updateEntries(with: entryRepresentations)
+                completion(nil)
+            } catch {
+                NSLog("Error decoding entry: \(error)")
+                completion(error)
+            }
+        }.resume()
     }
     
     //MARK: - CRUD Methods
