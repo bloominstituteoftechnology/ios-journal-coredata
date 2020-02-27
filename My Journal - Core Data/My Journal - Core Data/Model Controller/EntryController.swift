@@ -28,14 +28,14 @@ class EntryController
     
    // MARK: - CRUD methods
     
-    func saveToPersistentStore() {
-        do {
-            try CoreDataStack.shared.mainContext.save()
-        } catch let error as NSError {
-            print(error.localizedDescription)
-        }
-    }
-    
+//    func saveToPersistentStore() {
+//        do {
+//            try CoreDataStack.shared.mainContext.save()
+//        } catch let error as NSError {
+//            print(error.localizedDescription)
+//        }
+//    }
+//    
    
     func create(title:String,bodyText:String,identifier: UUID, mood:String, date: Date) {
         let entry = Entry(title: title,
