@@ -29,11 +29,11 @@ class EntryTableViewCell: UITableViewCell
     
     private func updateViews() {
         if let entry = entry {
-            DispatchQueue.main.async {
+        
                 self.entryTitleLabel.text = entry.title
                 self.entryBodyLabel.text = entry.bodyText
                 self.timeStampLabel.text = self.dateFormatter.string(from: entry.timestamp ?? Date())
-            }
+            
          
         }
     }

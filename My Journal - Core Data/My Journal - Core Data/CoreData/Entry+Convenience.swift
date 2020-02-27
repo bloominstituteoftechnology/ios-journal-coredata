@@ -31,7 +31,7 @@ import CoreData
         self.timestamp = timestamp
     }
     
-    @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext ) {
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext ) {
         
         guard  let title = entryRepresentation.title,
                   let mood = entryRepresentation.mood,
