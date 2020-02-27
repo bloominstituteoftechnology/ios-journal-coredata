@@ -13,36 +13,18 @@ class EntryController {
     
     let baseURL = URL(string: "https://journal-core-data-6cb21.firebaseio.com/")!
     
-//    var entries: [Entry] {
-//        return loadFromPersistentStore()
-//    }
-    
-    func saveToPersistentStore() {
-        do {
-            try CoreDataStack.shared.mainContext.save()
-        } catch {
-            NSLog("Error save managed ibject context: \(error)")
-        }
-    }
-    
-//    func loadFromPersistentStore() -> [Entry] {
-//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//        do {
-//            return try CoreDataStack.shared.mainContext.fetch(fetchRequest)
-//        } catch {
-//            NSLog("Error fetching Entries: \(error)")
-//            return []
-//        }
-//        
-//    }
-    
     init() {
         fetchEntriesFromServer()
     }
     
     func createEntry(title: String, body: String, mood: String) {
         let entry = Entry(title: title, bodyText: body, timestamp: Date(), mood: mood, identifier: UUID().uuidString)
-        saveToPersistentStore()
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            NSLog("Error saving managed object context from create entry: \(error)")
+            return
+        }
         if let entryRepresentation = entry.entryRepresentation {
             put(entry: entryRepresentation)
         }
@@ -54,18 +36,29 @@ class EntryController {
         entry.title = title
         entry.bodyText = body
         entry.mood = mood
-        saveToPersistentStore()
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            NSLog("Error saving managed object context from update entry: \(error)")
+            return
+        }
         if let entryRepresentation = entry.entryRepresentation {
             put(entry: entryRepresentation)
         }
     }
     
     func delete(entry: Entry) {
-        CoreDataStack.shared.mainContext.delete(entry)
+        
         if let entryRepresentation = entry.entryRepresentation {
             deleteEntryFromServer(entry: entryRepresentation)
         }
-        saveToPersistentStore()
+        do {
+            CoreDataStack.shared.mainContext.delete(entry)
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            NSLog("Error saving managed object context from delete entry: \(error)")
+            return
+        }
         
     }
     
@@ -122,8 +115,8 @@ class EntryController {
         
     }
     
-    func update(entry: Entry, entryRepresentation: EntryRepresentation) {
-        Entry(entryRepresentation: entryRepresentation)
+    func update(entry: Entry, entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        Entry(entryRepresentation: entryRepresentation, context: context)
         
     }
     
@@ -136,24 +129,32 @@ class EntryController {
         var entriesToCreate = representationsByID
         
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
-        do {
-            let existingEntries = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
-            
-            // match the managed entries with the firebase entries
-            for entry in existingEntries {
-                guard let id = entry.identifier, let representation = representationsByID[id] else { continue }
-                self.update(entry: entry, entryRepresentation: representation)
-                entriesToCreate.removeValue(forKey: id)
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+            context.performAndWait {
+            do {
+                let existingEntries = try context.fetch(fetchRequest)
+                
+                // match the managed entries with the firebase entries
+                for entry in existingEntries {
+                    guard let id = entry.identifier, let representation = representationsByID[id] else { continue }
+                    self.update(entry: entry, entryRepresentation: representation, context: context)
+                    entriesToCreate.removeValue(forKey: id)
+                }
+                
+                for representation in entriesToCreate.values {
+                    Entry(entryRepresentation: representation, context: context)
+                }
+                
+                do {
+                    try CoreDataStack.shared.save(context: context)
+                } catch {
+                    NSLog("Error saving managed object context from update entries: \(error)")
+                    return
+                }
+                
+            } catch {
+                NSLog("Error fetching entries for UUIS's: \(error)")
             }
-            
-            for representation in entriesToCreate.values {
-                Entry(entryRepresentation: representation)
-            }
-            
-            saveToPersistentStore()
-            
-        } catch {
-            NSLog("Error fetching entries for UUIS's: \(error)")
         }
         
     }

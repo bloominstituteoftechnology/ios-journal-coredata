@@ -38,5 +38,7 @@ extension Entry {
         self.timestamp = entryRepresentation.timestamp
         self.identifier = entryRepresentation.identifier
         self.mood = entryRepresentation.mood
+        
     }
+    
 }
