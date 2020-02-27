@@ -96,4 +96,3 @@ The app should be working at this point. Test it by going to the Firebase Databa
 ## Go Further
 
 Just like yesterday, try to solidify today's concepts by starting over and rewriting the project from where you started today. Or even better, try to write the entire project with both today and yesterday's content from scratch. Use these instructions as sparingly as possible to help you practice recall.
-
