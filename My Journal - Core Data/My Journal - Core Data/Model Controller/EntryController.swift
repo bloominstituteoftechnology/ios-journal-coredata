@@ -45,7 +45,7 @@ class EntryController
                           context: CoreDataStack.shared.mainContext,
                           mood: mood)
      
-        saveToPersistentStore()
+//        saveToPersistentStore()
            put(entry: entry)
     }
     
@@ -59,13 +59,14 @@ class EntryController
             entry.timestamp = Date()
         
         put(entry: entry)
-        saveToPersistentStore()
+//        saveToPersistentStore()
         
     }
    
     func delete(entry: Entry) {
         CoreDataStack.shared.mainContext.delete(entry)
-        saveToPersistentStore()
+        
+//        saveToPersistentStore()
     }
     // MARK: - PUT
     
@@ -77,7 +78,7 @@ class EntryController
             
         var requestURL = URLRequest(url:putURL )
         requestURL.httpMethod = HTTPMethod.PUT.rawValue
-        requestURL.addValue("application/json", forHTTPHeaderField: "Content-Type")
+       
        
         let jsonEncoder = JSONEncoder()
         jsonEncoder.dateEncodingStrategy = .iso8601
@@ -89,8 +90,7 @@ class EntryController
                    }
             entryRepresentation.identifier = identifier.uuidString
             entry.identifier = identifier
-            saveToPersistentStore()
-              requestURL.httpBody = try jsonEncoder.encode(entryRepresentation)
+            requestURL.httpBody = try jsonEncoder.encode(entryRepresentation)
             
         } catch let error as NSError {
             print(error.localizedDescription)
@@ -120,7 +120,10 @@ class EntryController
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
         
-        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            print(response!)
+            completion(error)
+        }.resume()
         
     
     }
@@ -170,11 +173,14 @@ class EntryController
         var entriesToCreate = representationsByID
         
         // fetch all? tasks from Core Data
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identifier IN %@",identifiersToFetch)
-        
+    let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+    fetchRequest.predicate = NSPredicate(format: "identifier IN %@",identifiersToFetch)
+    
+    let context = CoreDataStack.shared.container.newBackgroundContext()
+    
+    context.performAndWait {
         do {
-            let existingEntries = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
+            let existingEntries = try context.fetch(fetchRequest)
             
             // Match the managed tasks with the Firebase tasks
             for entry in existingEntries{
@@ -184,20 +190,23 @@ class EntryController
                 
                 self.update(entry: entry, with: representation)
                 entriesToCreate.removeValue(forKey: id)
-                saveToPersistentStore()
+                //                saveToPersistentStore()
             }
             
             // For nonmatched (new tasks from Firebase), create managed objects
             for representation in entriesToCreate.values {
-             Entry(entryRepresentation: representation)
-                saveToPersistentStore()
+                Entry(entryRepresentation: representation,context: context)
+                //                saveToPersistentStore()
             }
         } catch {
             NSLog("Error fetching tasks for UUIDs: \(error)")
         }
         
+    }
+                
         // Save all this in CD
-     saveToPersistentStore()
+    try CoreDataStack.shared.save(context: context)
+//     saveToPersistentStore()
     }
     
     private func update(entry: Entry, with representation: EntryRepresentation) {

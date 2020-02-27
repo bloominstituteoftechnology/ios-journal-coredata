@@ -39,7 +39,10 @@ class EntriesTableViewController: UITableViewController
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+      
     }
 
     // MARK: - Table View Data Source
@@ -82,14 +85,26 @@ class EntriesTableViewController: UITableViewController
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            
             let entry = fetchedResultsController.object(at: indexPath)
-            CoreDataStack.shared.mainContext.delete(entry)
-            do {
-                try CoreDataStack.shared.mainContext.save()
-            } catch let error as NSError {
-                CoreDataStack.shared.mainContext.reset()
-                print(error.localizedDescription)
+            entryController.deleteEntryFromServer(entry: entry) { error in
+                if let error = error {
+                    NSLog("Error deleting entry from Firebase : \(error)")
+                    return
+                }
+                DispatchQueue.main.async {
+                    CoreDataStack.shared.mainContext.delete(entry)
+                    do {
+                        try CoreDataStack.shared.save()
+                    } catch {
+                        CoreDataStack.shared.mainContext.reset()
+                        NSLog("Error saving managed object context: \(error)")
+                    }
+                }
+                
+                
             }
+        
           
         }
     }

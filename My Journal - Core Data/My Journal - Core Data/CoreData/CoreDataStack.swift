@@ -22,6 +22,7 @@ class CoreDataStack
                 fatalError("Failed to load container : \(error)")
             }
         }
+        container.viewContext.automaticallyMergesChangesFromParent = true 
         return container
     }()
     
@@ -57,4 +58,4 @@ class CoreDataStack
     
     
     
-}
+

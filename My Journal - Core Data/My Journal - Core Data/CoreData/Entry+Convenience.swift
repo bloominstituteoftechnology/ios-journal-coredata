@@ -20,7 +20,7 @@ import CoreData
                       bodyText: String ,
                       timestamp: Date = Date(),
                       identifier : UUID = UUID(),
-                      context: NSManagedObjectContext = CoreDataStack.shared.mainContext,
+                      context: NSManagedObjectContext ,
                       mood: String)
      {
         self.init(context:context)
@@ -31,7 +31,7 @@ import CoreData
         self.timestamp = timestamp
     }
     
-    @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext ) {
         
         guard  let title = entryRepresentation.title,
                   let mood = entryRepresentation.mood,

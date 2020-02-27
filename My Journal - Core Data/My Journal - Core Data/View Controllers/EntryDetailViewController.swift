@@ -108,11 +108,14 @@ class EntryDetailViewController: UIViewController
     private func updateViews() {
     
         if let entry = entry {
-            entryTextField.text = entry.title
-            entryTextView.text = entry.bodyText
-            guard let currentMood = entry.mood else { return }
-            segmentControl.selectedSegmentIndex = MoodCase.allCases.firstIndex(of: MoodCase(rawValue:currentMood) ?? MoodCase.low ) ?? 1
-            title = entry.title
+            DispatchQueue.main.async {
+                self.entryTextField.text = entry.title
+                self.entryTextView.text = entry.bodyText
+                guard let currentMood = entry.mood else { return }
+                self.segmentControl.selectedSegmentIndex = MoodCase.allCases.firstIndex(of: MoodCase(rawValue:currentMood) ?? MoodCase.low ) ?? 1
+                self.title = entry.title
+            }
+            
             
         } else {
             title = "Create Entry"
