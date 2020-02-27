@@ -50,7 +50,8 @@ class EntryController {
                              identifier: UUID(),
                              mood: mood)
         entries.append(newEntry)
-        saveToPersistence()
+//        saveToPersistence()
+        
     }
     
     func updateEntry(entry: Entry, title: String, bodyText: String, mood: String) {
@@ -58,7 +59,7 @@ class EntryController {
         entry.bodyText = bodyText
         entry.mood = mood
         entry.timestamp = Date()
-        saveToPersistence()
+        save
     }
     
     func update(entry: Entry, representation: EntryRepresenation) {
@@ -121,26 +122,31 @@ class EntryController {
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@",
                                              identifiersToFetch)
         
-        do{
-            let existingEntries = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
-            
-            for entry in existingEntries {
-                guard let id = UUID(uuidString: "\(entry.identifier!)"),
-                    let representation = representationByID[id] else {
-                        continue
-                }
-                self.update(entry: entry,
-                            representation: representation)
-                entriesToCreate.removeValue(forKey: id)
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        
+        context.performAndWait {
+            do{
+                let existingEntries = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
                 
+                for entry in existingEntries {
+                    guard let id = UUID(uuidString: "\(entry.identifier!)"),
+                        let representation = representationByID[id] else {
+                            continue
+                    }
+                    self.update(entry: entry,
+                                representation: representation)
+                    entriesToCreate.removeValue(forKey: id)
+                    
+                }
+                for representation in entriesToCreate.values {
+                    Entry(representation: representation)
+                }
+            } catch {
+                NSLog("Error fetching entries: \(error)")
             }
-            for representation in entriesToCreate.values {
-                Entry(representation: representation)
-            }
-        } catch {
-            NSLog("Error fetching entries: \(error)")
         }
-        saveToPersistence()
+        
+        try CoreDataStack.shared.save(context: context)
     }
     
     // why have the syntax after CompletionHander?
@@ -180,20 +186,4 @@ class EntryController {
         }.resume()
     }
     
-    
-    // MARK: - Persistence
-    
-    
-    private func loadFromPersistence() {
-        
-        var entries: [Entry]{
-            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-            do {
-                return try CoreDataStack.shared.mainContext.fetch(fetchRequest)
-            } catch {
-                NSLog("Error fetching entries: \(error)")
-                return []
-            }
-        }
-    }
 }

@@ -86,12 +86,20 @@ class EntriesTableViewController: UITableViewController {
                             forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let entry = fetchedResultController.object(at: indexPath)
-            CoreDataStack.shared.mainContext.delete(entry)
-            do {
-                try CoreDataStack.shared.mainContext.save()
-            } catch {
-                CoreDataStack.shared.mainContext.reset()
+            
+            let context = CoreDataStack.shared.mainContext
+            context.perform {
+                //            DispatchQueue.main.async {
+                            CoreDataStack.shared.mainContext.delete(entry)
+                            do {
+                                try CoreDataStack.shared.mainContext.save()
+                            } catch {
+                                CoreDataStack.shared.mainContext.reset()
+                            }
+                
+                //            }
             }
+
         }
     }
     
