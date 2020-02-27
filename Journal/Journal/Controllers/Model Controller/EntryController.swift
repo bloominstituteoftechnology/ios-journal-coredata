@@ -29,11 +29,13 @@ class EntryController {
     // MARK: - Networking Methods
     
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
-        guard let identifier = entry.identifier else { return }
-        entry.identifier = identifier
+        guard let identifierString = entry.identifier else { return }
+        let identifier = UUID(uuidString: identifierString) ?? UUID()
+        entry.identifier = identifier.uuidString
+        
         
         let requestURL = baseURL
-            .appendingPathComponent(identifier)
+            .appendingPathComponent(identifier.uuidString)
             .appendingPathExtension("json")
         
         var request = URLRequest(url: requestURL)
@@ -109,15 +111,15 @@ class EntryController {
                 guard let identifier = entry.identifier,
                     let representation = representationsByID[identifier] else { return }
                 update(entry: entry, with: representation)
-                saveToPersistentStore()
                 
                 entriesToCreate.removeValue(forKey: identifier)
+            }
                 
                 for representation in entriesToCreate.values {
                     Entry(entryRepresentation: representation)
-                    saveToPersistentStore()
                 }
-            }
+            
+            saveToPersistentStore()
         } catch {
             NSLog("Error fetching entries from server: \(error)")
         }
