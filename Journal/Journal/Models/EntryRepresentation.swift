@@ -10,9 +10,11 @@ import Foundation
 
 
 struct EntryRepresentation: Codable {
-    var bodyText: String
-    var identifier: String
+    var title: String?
+    var bodyText: String?
+    var timeStamp: Date?
+    var identifier: String?
     var mood: String
-    var timeStamp: Date
-    var title: String
+    
+    
 }

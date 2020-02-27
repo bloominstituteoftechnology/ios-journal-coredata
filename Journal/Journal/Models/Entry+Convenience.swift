@@ -22,7 +22,7 @@ extension Entry {
         let bodyText = bodyText,
         let mood = mood
             else { return nil }
-        return EntryRepresentation(bodyText: bodyText, identifier: identifier ?? UUID().uuidString, mood: mood, timeStamp: timeStamp ?? Date(), title: title)
+        return EntryRepresentation(title: title, bodyText: bodyText, timeStamp: timeStamp ?? Date(), identifier: identifier ?? UUID().uuidString, mood: mood)
     }
     
     
@@ -42,15 +42,15 @@ extension Entry {
     }
     
     @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        guard let mood = Mood(rawValue: entryRepresentation.mood) else {
+        guard let title = entryRepresentation.title, let timestamp = entryRepresentation.timeStamp, let identifier = entryRepresentation.identifier, let bodyText = entryRepresentation.bodyText  else {
             return nil
         }
         self.init(
-            title: entryRepresentation.title,
-            timeStamp: entryRepresentation.timeStamp,
-            identifier: entryRepresentation.identifier,
-            bodyText: entryRepresentation.bodyText,
-            mood: mood)
+            title: title,
+            timeStamp: timestamp,
+            identifier: identifier,
+            bodyText: bodyText,
+            mood: .😅)
         
         
         

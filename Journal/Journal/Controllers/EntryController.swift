@@ -33,8 +33,7 @@ class EntryController {
 
     
     // MARK: - Methods
-    
-   func update(entry: Entry, with entryRepresentation: EntryRepresentation) {
+    func update(entry: Entry, with entryRepresentation: EntryRepresentation) {
         entry.title = entryRepresentation.title
         entry.bodyText = entryRepresentation.bodyText
         entry.timeStamp = entryRepresentation.timeStamp
@@ -42,45 +41,49 @@ class EntryController {
         entry.mood = entryRepresentation.mood
     }
     
+    
+    
+    /*
+ func saveToPersistentStore() {
+        do {
+            try MC.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
+    }
+    */
+    
     // MARK: - SERVER METHODS
     
-     func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in  }) {
-            let requestURL = baseURL.appendingPathExtension("json")
-
-            URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
-                guard error == nil else {
-                    print("Error fetching entries from server: \(error!)")
-                    DispatchQueue.main.async {
-                        completion(error)
-                    }
-                    return
-                }
-
-                guard let data = data else {
-                    print("No data returned by data task.")
-                    DispatchQueue.main.async {
-                        completion(NSError())
-                    }
-                    return
-                }
-
-                let jsonDecoder = JSONDecoder()
-                jsonDecoder.dateDecodingStrategy = .iso8601
-                do {
-                    let entryRepresentations = Array(try jsonDecoder.decode([String : EntryRepresentation].self, from: data).values)
-
-                    self.updateEntries(with: entryRepresentations)
-                    DispatchQueue.main.async {
-                        completion(nil)
-                    }
-                } catch {
-                    print("Error decoding entry representations: \(error)")
-                    DispatchQueue.main.async {
-                        completion(error)
-                    }
-                }
-            }.resume()
-        }
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in  }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+               
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+                   if let error = error {
+                       NSLog("Error fetching tasks from Firebase: \(error)")
+                       completion(error)
+                       return
+                    
+            }
+                   
+            guard let data = data else {
+                NSLog("No data returned from Firebase")
+                completion(NSError())
+                return
+            }
+                   
+            let jsonDecoder = JSONDecoder()
+            do {
+                let entryRepresenations = Array(try jsonDecoder.decode([String : EntryRepresentation].self, from: data).values)
+                       try self.updateEntries(with: entryRepresenations)
+                       completion(nil)
+                   } catch {
+                       NSLog("Error decoding task representations from Firebase: \(error)")
+                       completion(error)
+                   }
+               }.resume()
+    }
+    
     func updateEntries(with representations: [EntryRepresentation]) {
         
         let entriesWithID = representations.filter { $0.identifier != nil }
@@ -94,7 +97,9 @@ class EntryController {
         fetchRequest.predicate = NSPredicate(format: "Indentifiers IN %@", identifiersToFetch)
         
         let context = CoreDataStack.shared.mainContext
-                do {
+        context.performAndWait {
+            
+        do {
                     let existingEntries = try context.fetch(fetchRequest)
                     
                     // Match the managed tasks with the Firebase tasks
@@ -113,7 +118,9 @@ class EntryController {
                     } catch {
                     NSLog("Error fetching tasks for UUIDs: \(error)")
                 }
-            saveToPersistentStore()
+        }
+        try CoreDataStack.shared.save(context: context)
+        
         }
         
     
@@ -146,27 +153,24 @@ class EntryController {
             
         }
        
-    
-    
-    
     func put(entry: Entry, completion: @escaping CompletionHandler = {_ in }) {
         guard let identifier = entry.identifier else { return }
         entry.identifier = identifier
-        
+    
         let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
-        
+    
         guard let entryRepresentation = entry.entryRepresentation else {
             NSLog("No entry, Entry == nil")
             completion(nil)
             return
         }
-        
+    
         do  {
             let encoder = JSONEncoder()
             request.httpBody = try encoder.encode(entryRepresentation)
-        
+    
         } catch {
             NSLog("Can't encode entry representation")
             completion(error)
@@ -183,13 +187,6 @@ class EntryController {
         }.resume()
     }
     
-    func saveToPersistentStore() {
-    do {
-        try MC.save()
-    } catch {
-        NSLog("Error saving managed object context: \(error)")
-        }
-    }
     
     
     
