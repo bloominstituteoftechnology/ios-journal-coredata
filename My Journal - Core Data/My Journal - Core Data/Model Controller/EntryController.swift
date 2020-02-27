@@ -10,10 +10,10 @@ import UIKit
 import CoreData
 
 enum HTTPMethod : String {
-    case PUT = "PUT"
-    case GET = "GET"
-    case POST = "POST"
-    case DELETE = "DELETE"
+    case PUT
+    case GET
+    case POST
+    case DELETE 
 }
 class EntryController 
 {
@@ -112,26 +112,15 @@ class EntryController
   //MARK: - DELETE
     
     func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = {_ in  }) {
-        var newURL = baseURL.appendingPathExtension("json")
-              newURL.appendPathComponent(entry.identifier!.uuidString)
-              var requestURL = URLRequest(url:newURL )
-              requestURL.httpMethod = "DELETE"
+        guard let uuid = entry.identifier else {
+            completion(NSError())
+            return
+        }
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
         
         
-        URLSession.shared.dataTask(with: requestURL) { (data, response, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            
-            guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { return }
-            
-            guard let _ = data else {
-                completion(NSError())
-                return
-            }
-              //TODO
-        }.resume()
         
     
     }
