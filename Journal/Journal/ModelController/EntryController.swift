@@ -181,17 +181,8 @@ class EntryController {
     }
     
     
-    
-    
     // MARK: - Persistence
     
-    func saveToPersistence() {
-        do{
-            try CoreDataStack.shared.mainContext.save()
-        } catch {
-            NSLog("Error saving managed object context: \(error)")
-        }
-    }
     
     private func loadFromPersistence() {
         
