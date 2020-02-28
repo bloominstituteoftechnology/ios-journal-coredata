@@ -41,7 +41,9 @@ class EntriesTableViewController: UITableViewController {
     
     @IBAction func refresh(_ sender: Any) {
           entryController.fetchEntriesFromServer { _ in
-              self.refreshControl?.endRefreshing()
+            DispatchQueue.main.async {
+                   self.refreshControl?.endRefreshing()
+            }
           }
       }
     
