@@ -55,7 +55,8 @@ extension Entry {
                   title: entryRepresentation.title,
                   bodyText: entryRepresentation.bodyText ?? "",
                   timestamp: date,
-                  identifier: entryRepresentation.identifier ?? "")
+                  identifier: entryRepresentation.identifier ?? "",
+                  context: context)
     }
 }
 
