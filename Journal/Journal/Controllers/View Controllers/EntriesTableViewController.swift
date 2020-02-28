@@ -50,7 +50,10 @@ class EntriesTableViewController: UITableViewController {
     
     @IBAction func refresh(_ sender: Any) {
         entryController.fetchEntriesFromServer { _ in
-            self.refreshControl?.endRefreshing()
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+                
+            }
         }
     }
     
@@ -80,7 +83,16 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
-            entryController.delete(entry: entry)
+            entryController.deleteEntryFromServer(entry: entry) { error in
+                if let error = error {
+                    NSLog("Error deleting entry from Firebase: \(error)")
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.entryController.delete(entry: entry)
+                }
+            }
         }
     }
     

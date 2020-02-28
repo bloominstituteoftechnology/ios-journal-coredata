@@ -27,4 +27,15 @@ class CoreDataTask {
     var mainContext: NSManagedObjectContext {
         return container.viewContext
     }
+    
+    func save(context: NSManagedObjectContext = CoreDataTask.shared.mainContext) {
+        context.performAndWait {
+            do {
+                try context.save()
+            } catch {
+                NSLog("Error saving to persistent stores: \(error)")
+                context.reset()
+            }
+        }
+    }
 }
