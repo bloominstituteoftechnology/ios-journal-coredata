@@ -21,7 +21,7 @@ class EntryDetailViewController: UIViewController {
         }
     }
     
-    var entryController = EntryController()
+    var entryController: EntryController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,18 +47,12 @@ class EntryDetailViewController: UIViewController {
         let mood = EntryMood.allCases[moodSC.selectedSegmentIndex]
         
         if let entry = entry {
-            entryController.update(entry: entry, with: title, timestamp: entry.timestamp ?? Date(), bodyText: bodyText, mood: mood)
+            entryController?.update(entry: entry, with: title, timestamp: entry.timestamp ?? Date(), bodyText: bodyText, mood: mood)
 
         } else {
-            entryController.create(with: title, timestamp: Date(), bodyText: bodyText, mood: mood, id: "")
+            entryController?.create(with: title, timestamp: Date(), bodyText: bodyText, mood: mood, id: "")
         }
         navigationController?.dismiss(animated: true, completion: nil)
-    }
-    
-    
-    @objc func save() {
-        
-
     }
     
     private func updateViews() {

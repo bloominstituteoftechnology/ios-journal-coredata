@@ -118,7 +118,7 @@ class EntriesTableViewController: UITableViewController {
         if segue.identifier == "ShowEntrySegue" {
             guard let detailVC = segue.destination as? EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow else { return }
-            detailVC.entry = entryController.entries[indexPath.row]
+            detailVC.entry = fetchResultsController.object(at: indexPath)
             detailVC.entryController = entryController
         } else if segue.identifier == "AddEntrySegue" {
             guard let detailVC = segue.destination as? EntryDetailViewController else { return }
