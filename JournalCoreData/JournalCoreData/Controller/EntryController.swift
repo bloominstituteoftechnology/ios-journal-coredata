@@ -105,11 +105,14 @@ class EntryController {
         context.performAndWait {
             do {
                 let existingEntries = try context.fetch(fetchRequest)
+                
+                // Match the managed entries with the Firebase entries
                 for entry in existingEntries {
                     guard let id = entry.identifier, let representation = representationsByID[id] else { continue }
                     self.update(entry: entry, entryRepresentation: representation)
                     entriesToCreate.removeValue(forKey: id)
                 }
+                // For nonmatched (new entries from Firebase) create managed objects
                 for representation in entriesToCreate.values {
                     Entry(entryRepresentation: representation, context: context)
                 }
@@ -117,6 +120,7 @@ class EntryController {
                 NSLog("Error fetching tasks: \(error)")
             }
         }
+        // Save all this in CoreData
         try CoreDataStack.shared.save(context: context)
     }
     
