@@ -12,6 +12,7 @@ import CoreData
 enum HTTPMethods: String {
     case put = "PUT"
     case get = "GET"
+    case delete = "DELETE"
 }
 
 enum APIErrors: Error {
@@ -50,7 +51,8 @@ class EntryController {
                              identifier: UUID(),
                              mood: mood)
         entries.append(newEntry)
-//        saveToPersistence()
+        put(entry: newEntry)
+        saveToPersistence()
         
     }
     
@@ -59,7 +61,8 @@ class EntryController {
         entry.bodyText = bodyText
         entry.mood = mood
         entry.timestamp = Date()
-        save
+        put(entry: entry)
+        saveToPersistence()
     }
     
     func update(entry: Entry, representation: EntryRepresenation) {
@@ -68,50 +71,52 @@ class EntryController {
         entry.mood = representation.mood
         entry.timestamp = representation.timestamp
         entry.identifier = representation.identifier
+        self.put(entry: entry)
     }
     
     // MARK: - API Methods
     
-        func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
-            
-            let identifier = entry.identifier
-            entry.identifier = identifier
-            
-            let requestURL = fireBaseURL
-                .appendingPathComponent(identifier!)
-                .appendingPathExtension(pathExtension)
-    
-            var request = URLRequest(url: requestURL)
-            request.httpMethod = HTTPMethods.put.rawValue
-            request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-            
-            guard let entryRepresentation = entry.entryRepresentation else {
-                NSLog("Entry representation is nil")
+    func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        
+        let identifier = entry.identifier!
+        entry.identifier = identifier
+        
+        let requestURL = fireBaseURL
+            .appendingPathComponent(identifier)
+            .appendingPathExtension(pathExtension)
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethods.put.rawValue
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        guard let entryRepresentation = entry.entryRepresentation else {
+            NSLog("Entry representation is nil")
+            completion(APIErrors.otherError)
+            return
+        }
+        
+        do{
+            request.httpBody = try JSONEncoder().encode(entryRepresentation)
+        } catch {
+            NSLog("Error encoding entry represenation: \(error)")
+            completion(APIErrors.encodeError)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error PUTting entry: \(error)")
                 completion(APIErrors.otherError)
                 return
             }
-            
-            do{
-                request.httpBody = try JSONEncoder().encode(entryRepresentation)
-            } catch {
-                NSLog("Error encoding entry represenation: \(error)")
-                completion(APIErrors.encodeError)
-                return
-            }
-            
-            URLSession.shared.dataTask(with: request) { (_, _, error) in
-                if let error = error {
-                    NSLog("Error PUTting entry: \(error)")
-                    completion(APIErrors.otherError)
-                    return
-                }
-            }.resume()
-        }
+        }.resume()
+    }
     
     private func updateEntries(with representations: [EntryRepresenation]) throws {
         
-        let identifiersToFetch = representations.compactMap {
-            UUID(uuidString: $0.identifier)
+        let entriesWithID = representations.filter({ $0.identifier != nil })
+        let identifiersToFetch = entriesWithID.compactMap {
+            UUID(uuidString: $0.identifier!)
         }
         
         let representationByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch,
@@ -126,7 +131,7 @@ class EntryController {
         
         context.performAndWait {
             do{
-                let existingEntries = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
+                let existingEntries = try context.fetch(fetchRequest)
                 
                 for entry in existingEntries {
                     guard let id = UUID(uuidString: "\(entry.identifier!)"),
@@ -157,7 +162,7 @@ class EntryController {
         var request = URLRequest(url: requestURL)
         request.httpMethod = HTTPMethods.get.rawValue
         
-        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
             if let error = error {
                 
                 
@@ -167,12 +172,13 @@ class EntryController {
             }
             guard let data = data else {
                 completion(APIErrors.badData)
-//                NSLog("Bad data: \(error)")
+                //                NSLog("Bad data: \(error)")
                 return
             }
             
+            var representationArray: [EntryRepresenation] = []
             do{
-                var representationArray: [EntryRepresenation] = []
+                
                 let newEntry = try JSONDecoder().decode([String: EntryRepresenation].self,
                                                         from: data)
                 for representation in newEntry{
@@ -182,8 +188,30 @@ class EntryController {
                 try self.updateEntries(with: representationArray)
                 completion(nil)
             } catch {
+                
+                NSLog("Error decoding \(error)")
             }
+            
         }.resume()
     }
     
+    func saveToPersistence() {
+        do{
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
+    }
+    
+    func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = fireBaseURL.appendingPathComponent(entry.identifier!).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethods.delete.rawValue
+        
+        // is this closure suppose to automatically present itself?
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            print(response!)
+            completion(error)
+        }.resume()
+    }
 }

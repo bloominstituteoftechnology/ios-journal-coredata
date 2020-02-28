@@ -42,10 +42,16 @@ extension Entry {
     
     @discardableResult convenience init?(representation: EntryRepresenation,
                                          context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-        self.init(title: representation.title,
-                  bodyText: representation.bodyText,
-                  timestamp: representation.timestamp,
-                  identifier: UUID(uuidString: representation.identifier)!,
-                  mood: representation.mood)
+        guard let title = representation.title,
+        let bodyText = representation.bodyText,
+        let mood = representation.mood,
+        let timestamp = representation.timestamp,
+        let identifier = representation.identifier else { return nil }
+        
+        self.init(title: title,
+                  bodyText: bodyText,
+                  timestamp: timestamp,
+                  identifier: UUID(uuidString: identifier)!,
+                  mood: mood)
     }
 }

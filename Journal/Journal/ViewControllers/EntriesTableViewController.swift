@@ -87,19 +87,23 @@ class EntriesTableViewController: UITableViewController {
         if editingStyle == .delete {
             let entry = fetchedResultController.object(at: indexPath)
             
-            let context = CoreDataStack.shared.mainContext
-            context.perform {
-                //            DispatchQueue.main.async {
-                            CoreDataStack.shared.mainContext.delete(entry)
-                            do {
-                                try CoreDataStack.shared.mainContext.save()
-                            } catch {
-                                CoreDataStack.shared.mainContext.reset()
-                            }
-                
-                //            }
+            // is this error suppose to automatically present the closure?
+            entryController.deleteEntryFromServer(entry: entry) { (error) in
+                if let error = error {
+                    NSLog("Error deleting entry: \(error)")
+                    return
+                }
+                DispatchQueue.main.async {
+                    CoreDataStack.shared.mainContext.delete(entry)
+                    do{
+                        try CoreDataStack.shared.mainContext.save()
+                    } catch {
+                        CoreDataStack.shared.mainContext.reset()
+                        NSLog("Error saving managed object context: \(error)")
+                    }
+                }
             }
-
+            
         }
     }
     
