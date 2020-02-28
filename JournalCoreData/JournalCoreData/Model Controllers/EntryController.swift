@@ -20,7 +20,7 @@ class EntryController {
     func createEntry(title: String, body: String, mood: String) {
         let entry = Entry(title: title, bodyText: body, timestamp: Date(), mood: mood, identifier: UUID().uuidString)
         do {
-            try CoreDataStack.shared.mainContext.save()
+            try CoreDataStack.shared.save()
         } catch {
             NSLog("Error saving managed object context from create entry: \(error)")
             return
@@ -37,7 +37,7 @@ class EntryController {
         entry.bodyText = body
         entry.mood = mood
         do {
-            try CoreDataStack.shared.mainContext.save()
+            try CoreDataStack.shared.save()
         } catch {
             NSLog("Error saving managed object context from update entry: \(error)")
             return
@@ -116,6 +116,11 @@ class EntryController {
     }
     
     func update(entry: Entry, entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+//        entry.title = entryRepresentation.title
+//        entry.bodyText = entryRepresentation.bodyText
+//        entry.timestamp = entryRepresentation.timestamp
+//        entry.identifier = entryRepresentation.identifier
+//        entry.mood = entryRepresentation.mood
         Entry(entryRepresentation: entryRepresentation, context: context)
         
     }
