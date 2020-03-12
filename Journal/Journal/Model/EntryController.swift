@@ -12,6 +12,7 @@ import CoreData
 class EntryController {
     
     typealias CompletionHandler = (Error?) -> Void
+    
     private let baseURL = URL(string: "https://journal-c0a50.firebaseio.com/")!
     
     init() {
@@ -54,6 +55,7 @@ class EntryController {
         let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
+        
         do {
             guard var representation = entry.entryRepresentation else {
                 completion()
