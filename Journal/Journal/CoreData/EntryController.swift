@@ -13,11 +13,31 @@ class EntryController {
     
     // MARK: - CRUD
     
+    var entries: [Entry] {
+        loadFromPersistentStore()
+    }
+    
+    func createEntry(title: String, bodyText: String) {
+        Entry(title: title, bodyText: bodyText)
+        saveToPersistentStore()
+    }
+    
+    func update(entry: Entry, title: String, bodyText: String) {
+        entry.title = title
+        entry.bodyText = bodyText
+        entry.timestamp = Date()
+        saveToPersistentStore()
+    }
+    
+    func delete(entry: Entry) {
+        CoreDataStack.shared.mainContext.delete(entry)
+        saveToPersistentStore()
+    }
     
     
     // MARK: - Persistence
     
-    func loadFromPersistentStore() -> [Entry] {
+    private func loadFromPersistentStore() -> [Entry] {
         let request: NSFetchRequest<Entry> = Entry.fetchRequest()
         
         do {
@@ -29,15 +49,11 @@ class EntryController {
         }
     }
     
-    func saveToPersistentStore() {
+    private func saveToPersistentStore() {
         do {
             try CoreDataStack.shared.mainContext.save()
         } catch {
             NSLog("Error saving core data main context: \(error)")
         }
     }
-    
-    
-    
-    
 }
