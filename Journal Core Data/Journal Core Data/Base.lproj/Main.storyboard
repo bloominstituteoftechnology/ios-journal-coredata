@@ -60,7 +60,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="thJ-ur-CO1" kind="show" identifier="SavedEntryModalSegue" id="kQ0-Em-OS2"/>
+                                    <segue destination="thJ-ur-CO1" kind="presentation" identifier="SavedEntryModalSegue" modalPresentationStyle="fullScreen" id="kQ0-Em-OS2"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -129,9 +129,21 @@
                         <viewLayoutGuide key="safeArea" id="NNh-lp-N9B"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Entry" id="bB4-Yt-SUG">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="r2t-yp-Ijy"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Gna-fZ-Mno"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="r2t-yp-Ijy">
+                            <connections>
+                                <action selector="cancelEntry:" destination="thJ-ur-CO1" id="oyO-Xf-K3l"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Gna-fZ-Mno">
+                            <connections>
+                                <action selector="saveEntry:" destination="thJ-ur-CO1" id="1Hf-P3-mUv"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="entryTextField" destination="QVc-Xc-UFq" id="21K-Y3-dly"/>
+                        <outlet property="entryTextView" destination="UGl-Du-Ui1" id="HMI-NN-jSs"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xLR-5f-iiO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -176,6 +188,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="kQ0-Em-OS2"/>
+        <segue reference="sMa-3G-QYf"/>
     </inferredMetricsTieBreakers>
 </document>

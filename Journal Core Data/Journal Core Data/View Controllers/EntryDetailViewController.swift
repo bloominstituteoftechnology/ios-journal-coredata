@@ -9,14 +9,20 @@
 import UIKit
 
 class EntryDetailViewController: UIViewController {
-
+    @IBOutlet weak var entryTextField: UITextField!
+    
+    @IBOutlet weak var entryTextView: UITextView!
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
+    @IBAction func cancelEntry(_ sender: UIBarButtonItem) {
+    }
     
-
+    @IBAction func saveEntry(_ sender: UIBarButtonItem) {
+    }
+    
     /*
     // MARK: - Navigation
 
