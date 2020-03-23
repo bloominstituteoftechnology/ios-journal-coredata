@@ -60,6 +60,8 @@ class EntryDetailViewController: UIViewController {
     }
     
     private func updateViews() {
+        guard isViewLoaded else { return }
+        
         if let entry = entry {
             title = entry.title
             titleTextField.text = entry.title
