@@ -71,28 +71,61 @@
             </objects>
             <point key="canvasLocation" x="-480" y="-111"/>
         </scene>
-        <!--View Controller-->
+        <!--Creative Title Here-->
         <scene sceneID="ugi-Q1-cDQ">
             <objects>
-                <viewController id="DGw-Sw-ei1" sceneMemberID="viewController">
+                <viewController id="DGw-Sw-ei1" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hSN-og-KKB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8A8-zK-9TX">
+                                <rect key="frame" x="20" y="160" width="374" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="1gL-bo-Yx5">
+                                <rect key="frame" x="20" y="223" width="374" height="211"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="1gL-bo-Yx5" firstAttribute="top" secondItem="8A8-zK-9TX" secondAttribute="bottom" constant="20" id="3jR-16-x3c"/>
+                            <constraint firstItem="1gL-bo-Yx5" firstAttribute="leading" secondItem="797-Jk-xcG" secondAttribute="leading" constant="20" id="44d-5P-V5z"/>
+                            <constraint firstItem="8A8-zK-9TX" firstAttribute="leading" secondItem="797-Jk-xcG" secondAttribute="leading" constant="20" id="Okr-4L-Myc"/>
+                            <constraint firstItem="797-Jk-xcG" firstAttribute="trailing" secondItem="1gL-bo-Yx5" secondAttribute="trailing" constant="20" id="R2h-YT-OO3"/>
+                            <constraint firstItem="8A8-zK-9TX" firstAttribute="top" secondItem="797-Jk-xcG" secondAttribute="top" constant="20" id="kBS-Yi-D7O"/>
+                            <constraint firstItem="797-Jk-xcG" firstAttribute="trailing" secondItem="8A8-zK-9TX" secondAttribute="trailing" constant="20" id="tZ9-Ug-Mg3"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="797-Jk-xcG"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Yot-so-Wpb"/>
+                    <navigationItem key="navigationItem" title="Creative Title Here" id="Yot-so-Wpb">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="d3q-Ee-bJ5">
+                            <connections>
+                                <action selector="save:" destination="DGw-Sw-ei1" id="6YI-6a-etS"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="entryTextView" destination="1gL-bo-Yx5" id="zAi-RV-YNM"/>
+                        <outlet property="titleTextField" destination="8A8-zK-9TX" id="vpO-c3-r3m"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5tZ-xK-6gv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="288" y="-111"/>
+            <point key="canvasLocation" x="286.95652173913044" y="-111.16071428571428"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="1fo-79-R2a">
             <objects>
                 <navigationController id="ADM-XD-n3X" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="qAJ-ZI-cOb">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="qAJ-ZI-cOb">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>

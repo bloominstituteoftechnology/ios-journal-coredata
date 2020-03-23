@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		92B9284E242956CF0012FC7A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B9284D242956CF0012FC7A /* AppDelegate.swift */; };
 		92B92850242956CF0012FC7A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B9284F242956CF0012FC7A /* SceneDelegate.swift */; };
-		92B92852242956CF0012FC7A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B92851242956CF0012FC7A /* ViewController.swift */; };
+		92B92852242956CF0012FC7A /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92B92851242956CF0012FC7A /* EntryDetailViewController.swift */; };
 		92B92855242956CF0012FC7A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 92B92853242956CF0012FC7A /* Main.storyboard */; };
 		92B92857242956D20012FC7A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 92B92856242956D20012FC7A /* Assets.xcassets */; };
 		92B9285A242956D20012FC7A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 92B92858242956D20012FC7A /* LaunchScreen.storyboard */; };
@@ -21,7 +21,7 @@
 		92B9284A242956CF0012FC7A /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		92B9284D242956CF0012FC7A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		92B9284F242956CF0012FC7A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		92B92851242956CF0012FC7A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		92B92851242956CF0012FC7A /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
 		92B92854242956CF0012FC7A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		92B92856242956D20012FC7A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		92B92859242956D20012FC7A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -60,11 +60,10 @@
 		92B9284C242956CF0012FC7A /* Journal */ = {
 			isa = PBXGroup;
 			children = (
-				92B92865242963760012FC7A /* EntriesTableViewController.swift */,
+				92B92867242963EB0012FC7A /* EntryTableViewCell.swift */,
 				92B92861242956DF0012FC7A /* Resources */,
 				92B92862242956E80012FC7A /* Storyboards */,
-				92B92851242956CF0012FC7A /* ViewController.swift */,
-				92B92867242963EB0012FC7A /* EntryTableViewCell.swift */,
+				92B9286924296F7A0012FC7A /* View Controllers */,
 			);
 			path = Journal;
 			sourceTree = "<group>";
@@ -87,6 +86,15 @@
 				92B92853242956CF0012FC7A /* Main.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		92B9286924296F7A0012FC7A /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				92B92865242963760012FC7A /* EntriesTableViewController.swift */,
+				92B92851242956CF0012FC7A /* EntryDetailViewController.swift */,
+			);
+			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -162,7 +170,7 @@
 			files = (
 				92B92866242963760012FC7A /* EntriesTableViewController.swift in Sources */,
 				92B92868242963EB0012FC7A /* EntryTableViewCell.swift in Sources */,
-				92B92852242956CF0012FC7A /* ViewController.swift in Sources */,
+				92B92852242956CF0012FC7A /* EntryDetailViewController.swift in Sources */,
 				92B9284E242956CF0012FC7A /* AppDelegate.swift in Sources */,
 				92B92850242956CF0012FC7A /* SceneDelegate.swift in Sources */,
 			);
