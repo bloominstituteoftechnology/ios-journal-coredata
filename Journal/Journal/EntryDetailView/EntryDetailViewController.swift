@@ -12,6 +12,8 @@ class EntryDetailViewController: UIViewController {
     
     // MARK: - Properties
     
+    var entry: Entry?
+    var entryController: EntryController?
     
     // MARK: - IBOutlets
     
