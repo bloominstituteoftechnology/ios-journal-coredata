@@ -15,6 +15,7 @@
 		9CE9ABBD24294C960078B0C5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9CE9ABBB24294C960078B0C5 /* LaunchScreen.storyboard */; };
 		9CE9ABC524294DF50078B0C5 /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE9ABC424294DF50078B0C5 /* EntriesTableViewController.swift */; };
 		9CE9ABC724294E860078B0C5 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE9ABC624294E860078B0C5 /* EntryTableViewCell.swift */; };
+		9CE9ABCE2429528F0078B0C5 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CE9ABCD2429528F0078B0C5 /* CoreDataStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		9CE9ABBE24294C960078B0C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9CE9ABC424294DF50078B0C5 /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 		9CE9ABC624294E860078B0C5 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
+		9CE9ABCD2429528F0078B0C5 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,17 +62,58 @@
 		9CE9ABAF24294C940078B0C5 /* journal-coredata */ = {
 			isa = PBXGroup;
 			children = (
-				9CE9ABB024294C940078B0C5 /* AppDelegate.swift */,
-				9CE9ABB224294C940078B0C5 /* SceneDelegate.swift */,
-				9CE9ABB424294C940078B0C5 /* EntryDetailViewController.swift */,
-				9CE9ABB624294C940078B0C5 /* Main.storyboard */,
-				9CE9ABC624294E860078B0C5 /* EntryTableViewCell.swift */,
-				9CE9ABC424294DF50078B0C5 /* EntriesTableViewController.swift */,
+				9CE9ABCC242952830078B0C5 /* Models */,
+				9CE9ABC82429523B0078B0C5 /* Application */,
+				9CE9ABCB2429526E0078B0C5 /* View Controllers */,
+				9CE9ABC9242952550078B0C5 /* Storyboards */,
+				9CE9ABCA242952640078B0C5 /* Views */,
 				9CE9ABB924294C960078B0C5 /* Assets.xcassets */,
-				9CE9ABBB24294C960078B0C5 /* LaunchScreen.storyboard */,
 				9CE9ABBE24294C960078B0C5 /* Info.plist */,
 			);
 			path = "journal-coredata";
+			sourceTree = "<group>";
+		};
+		9CE9ABC82429523B0078B0C5 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				9CE9ABB024294C940078B0C5 /* AppDelegate.swift */,
+				9CE9ABB224294C940078B0C5 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		9CE9ABC9242952550078B0C5 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				9CE9ABB624294C940078B0C5 /* Main.storyboard */,
+				9CE9ABBB24294C960078B0C5 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		9CE9ABCA242952640078B0C5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				9CE9ABC624294E860078B0C5 /* EntryTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		9CE9ABCB2429526E0078B0C5 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9CE9ABB424294C940078B0C5 /* EntryDetailViewController.swift */,
+				9CE9ABC424294DF50078B0C5 /* EntriesTableViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		9CE9ABCC242952830078B0C5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9CE9ABCD2429528F0078B0C5 /* CoreDataStack.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -147,6 +190,7 @@
 				9CE9ABC524294DF50078B0C5 /* EntriesTableViewController.swift in Sources */,
 				9CE9ABC724294E860078B0C5 /* EntryTableViewCell.swift in Sources */,
 				9CE9ABB524294C940078B0C5 /* EntryDetailViewController.swift in Sources */,
+				9CE9ABCE2429528F0078B0C5 /* CoreDataStack.swift in Sources */,
 				9CE9ABB124294C940078B0C5 /* AppDelegate.swift in Sources */,
 				9CE9ABB324294C940078B0C5 /* SceneDelegate.swift in Sources */,
 			);
