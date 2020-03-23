@@ -1,5 +1,5 @@
 //
-//  CreateEntryViewController.swift
+//  EntryDetailViewController.swift
 //  Journal
 //
 //  Created by Lambda_School_Loaner_259 on 3/23/20.
@@ -8,11 +8,16 @@
 
 import UIKit
 
-class CreateEntryViewController: UIViewController {
+class EntryDetailViewController: UIViewController {
     
     // MARK: - Properties
     
-    var date = Date()
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    var timestamp = Date()
     
     // MARK: - IBOutlets
     
@@ -21,22 +26,34 @@ class CreateEntryViewController: UIViewController {
     
     // MARK: - View Lifecycle
     
+    func updateViews() {
+        if let entry = entry {
+            title = entry.title
+            entryTitleTextField.text = entry.title
+            entryTextView.text = entry.bodyText
+        } else {
+            title = "Create Entry"
+        }
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         entryTitleTextField.becomeFirstResponder()
+        
+        updateViews()
     }
         
     // MARK: - Actions
     
     @IBAction func save(_ sender: UIBarButtonItem) {
         guard let title = entryTitleTextField.text,
-            !title.isEmpty else {
+            !title.isEmpty, let bodyText = entryTextView.text else {
                 return
         }
         
-        let entryText = entryTextView.text
-        Journal(title: title, entry: entryText, date: date, context: CoreDataStack.shared.mainContext)
+        Entry(title: title, bodyText: bodyText, timestamp: timestamp, context: CoreDataStack.shared.mainContext)
         do {
             try CoreDataStack.shared.mainContext.save()
             navigationController?.dismiss(animated: true, completion: nil)

@@ -1,5 +1,5 @@
 //
-//  Journal+Convenience.swift
+//  Entry+Convenience.swift
 //  Journal
 //
 //  Created by Lambda_School_Loaner_259 on 3/23/20.
@@ -9,17 +9,17 @@
 import Foundation
 import CoreData
 
-extension Journal {
+extension Entry {
     @discardableResult convenience init(identifier: UUID = UUID(),
                      title: String,
-                     entry: String?,
-                     date: Date,
+                     bodyText: String?,
+                     timestamp: Date = Date(),
                      context: NSManagedObjectContext) {
         self.init(context: context)
         self.identifier = identifier
         self.title = title
-        self.entry = entry
-        self.date = date 
+        self.bodyText = bodyText
+        self.timestamp = Date()
     }
     
 }

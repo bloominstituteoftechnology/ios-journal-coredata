@@ -12,12 +12,13 @@
 		BB5D81AD2429546400662F4F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB5D81AB2429546400662F4F /* Main.storyboard */; };
 		BB5D81AF2429546A00662F4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BB5D81AE2429546A00662F4F /* Assets.xcassets */; };
 		BB5D81B22429546A00662F4F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BB5D81B02429546A00662F4F /* LaunchScreen.storyboard */; };
-		BB5D81C024295A6B00662F4F /* CreateEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5D81BF24295A6B00662F4F /* CreateEntryViewController.swift */; };
+		BB5D81C024295A6B00662F4F /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5D81BF24295A6B00662F4F /* EntryDetailViewController.swift */; };
 		BB5D81C224295A8F00662F4F /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5D81C124295A8F00662F4F /* EntriesTableViewController.swift */; };
 		BB5D81C424295AAC00662F4F /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5D81C324295AAC00662F4F /* EntryTableViewCell.swift */; };
 		BB5D81C624295B4A00662F4F /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5D81C524295B4A00662F4F /* CoreDataStack.swift */; };
 		BB5D81C924295B6100662F4F /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BB5D81C724295B6100662F4F /* Journal.xcdatamodeld */; };
 		BB5D81CB24295BA000662F4F /* Journal+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5D81CA24295BA000662F4F /* Journal+Convenience.swift */; };
+		BB5D81CD242962ED00662F4F /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5D81CC242962ED00662F4F /* EntryController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,12 +29,13 @@
 		BB5D81AE2429546A00662F4F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BB5D81B12429546A00662F4F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BB5D81B32429546A00662F4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BB5D81BF24295A6B00662F4F /* CreateEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEntryViewController.swift; sourceTree = "<group>"; };
+		BB5D81BF24295A6B00662F4F /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
 		BB5D81C124295A8F00662F4F /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 		BB5D81C324295AAC00662F4F /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
 		BB5D81C524295B4A00662F4F /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		BB5D81C824295B6100662F4F /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
 		BB5D81CA24295BA000662F4F /* Journal+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Journal+Convenience.swift"; sourceTree = "<group>"; };
+		BB5D81CC242962ED00662F4F /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +101,7 @@
 		BB5D81BB242954B700662F4F /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				BB5D81CC242962ED00662F4F /* EntryController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -106,7 +109,7 @@
 		BB5D81BC242954BF00662F4F /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				BB5D81BF24295A6B00662F4F /* CreateEntryViewController.swift */,
+				BB5D81BF24295A6B00662F4F /* EntryDetailViewController.swift */,
 				BB5D81C124295A8F00662F4F /* EntriesTableViewController.swift */,
 			);
 			path = "View Controllers";
@@ -204,9 +207,10 @@
 				BB5D81C924295B6100662F4F /* Journal.xcdatamodeld in Sources */,
 				BB5D81C224295A8F00662F4F /* EntriesTableViewController.swift in Sources */,
 				BB5D81C424295AAC00662F4F /* EntryTableViewCell.swift in Sources */,
+				BB5D81CD242962ED00662F4F /* EntryController.swift in Sources */,
 				BB5D81A62429546400662F4F /* AppDelegate.swift in Sources */,
 				BB5D81C624295B4A00662F4F /* CoreDataStack.swift in Sources */,
-				BB5D81C024295A6B00662F4F /* CreateEntryViewController.swift in Sources */,
+				BB5D81C024295A6B00662F4F /* EntryDetailViewController.swift in Sources */,
 				BB5D81A82429546400662F4F /* SceneDelegate.swift in Sources */,
 				BB5D81CB24295BA000662F4F /* Journal+Convenience.swift in Sources */,
 			);

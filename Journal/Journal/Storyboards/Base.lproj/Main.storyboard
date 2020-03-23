@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="96" id="FNl-Ng-01n" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="96" id="FNl-Ng-01n" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="96"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="FNl-Ng-01n" id="JWZ-d4-6cw">
@@ -53,6 +53,12 @@
                                         <constraint firstAttribute="trailing" secondItem="YQ1-D4-Xzh" secondAttribute="trailing" id="w8d-xS-vQo"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="entryBodyLabel" destination="YQ1-D4-Xzh" id="RiF-dK-zCi"/>
+                                    <outlet property="entryTitleLabel" destination="eDR-ny-2tC" id="TPX-Is-aC8"/>
+                                    <outlet property="entyDateLabel" destination="l4Z-jM-Zdy" id="yOj-gs-cRa"/>
+                                    <segue destination="fob-Q6-qBa" kind="show" identifier="ViewEntryShowSegue" id="Oi9-hC-zx7"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -62,7 +68,11 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Journal" id="Sf4-AY-vVk">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ngz-BD-rQp"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="ngz-BD-rQp">
+                            <connections>
+                                <segue destination="fob-Q6-qBa" kind="presentation" identifier="CreateJournalModalSegue" modalPresentationStyle="fullScreen" id="KyS-tm-5cC"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
@@ -89,7 +99,7 @@
         <!--Create Entry-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="CreateEntryViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -97,7 +107,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="b4t-Fu-Yzh">
                                 <rect key="frame" x="20" y="160" width="374" height="358.5"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Creative title here:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7Uz-gw-zTL">
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7Uz-gw-zTL">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -122,8 +132,16 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Entry" id="Bht-Fj-aDq">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Znq-eC-mn3"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Znq-eC-mn3">
+                            <connections>
+                                <action selector="save:" destination="BYZ-38-t0r" id="lQj-yj-QWV"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="entryTextView" destination="HKM-sY-RQX" id="wB2-xQ-kSo"/>
+                        <outlet property="entryTitleTextField" destination="7Uz-gw-zTL" id="L2e-hZ-ILd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -134,6 +152,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fob-Q6-qBa" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="LHz-Dz-cLl"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="YMY-0o-pzY">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -148,4 +167,7 @@
             <point key="canvasLocation" x="131.8840579710145" y="112.5"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Oi9-hC-zx7"/>
+    </inferredMetricsTieBreakers>
 </document>

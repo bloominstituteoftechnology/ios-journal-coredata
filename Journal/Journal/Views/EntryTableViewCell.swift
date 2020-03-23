@@ -10,9 +10,31 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
     
+    // MARK: - Properties
+    
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    // MARK: - IBOutlets
+    
     @IBOutlet weak var entryTitleLabel: UILabel!
-    @IBOutlet weak var entryTextLabel: UILabel!
-    @IBOutlet weak var entyDateLabel: UILabel!
+    @IBOutlet weak var entryBodyLabel: UILabel!
+    @IBOutlet weak var entryDateLabel: UILabel!
+    
+    
+    // MARK: - View Lifecycle
+    
+    
+    func updateViews() {
+        guard let entry = entry else { return }
+        entryTitleLabel.text = entry.title
+        entryBodyLabel.text = entry.bodyText
+        guard let timestamp = entry.timestamp else { return }
+        entryDateLabel.text = "\(timestamp)"
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
