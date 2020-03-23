@@ -11,12 +11,14 @@ import CoreData
 
 /// Because we choose class define in Tasks.xcdaatamodeld, Task gets generated behind the scenes
 extension Entry {
-    @discardableResult convenience init(indetifier: String,
+    @discardableResult convenience init(identifier: String,
                      title: String,
                      bodyText: String? = nil,
                      timestamp: Date? = nil,
                      context: NSManagedObjectContext) {
+        /// Magic happens here
         self.init(context: context)
+        
         self.identifier = identifier
         self.title = title
         self.bodyText = bodyText
