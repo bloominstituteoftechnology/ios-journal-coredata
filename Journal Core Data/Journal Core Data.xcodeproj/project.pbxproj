@@ -9,20 +9,19 @@
 /* Begin PBXBuildFile section */
 		3F273E1E2429459D008633CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F273E1D2429459D008633CF /* AppDelegate.swift */; };
 		3F273E202429459D008633CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F273E1F2429459D008633CF /* SceneDelegate.swift */; };
-		3F273E222429459D008633CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F273E212429459D008633CF /* ViewController.swift */; };
 		3F273E252429459D008633CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F273E232429459D008633CF /* Main.storyboard */; };
 		3F273E27242945A1008633CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F273E26242945A1008633CF /* Assets.xcassets */; };
 		3F273E2A242945A1008633CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F273E28242945A1008633CF /* LaunchScreen.storyboard */; };
 		3F273E322429485D008633CF /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F273E312429485D008633CF /* EntriesTableViewController.swift */; };
 		3F273E3424294879008633CF /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F273E3324294879008633CF /* EntryTableViewCell.swift */; };
 		3F273E3624294EE6008633CF /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F273E3524294EE6008633CF /* EntryDetailViewController.swift */; };
+		3F273E392429543F008633CF /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F273E382429543F008633CF /* CoreDataStack.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3F273E1A2429459D008633CF /* Journal Core Data.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Journal Core Data.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F273E1D2429459D008633CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F273E1F2429459D008633CF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		3F273E212429459D008633CF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		3F273E242429459D008633CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3F273E26242945A1008633CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3F273E29242945A1008633CF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -30,6 +29,7 @@
 		3F273E312429485D008633CF /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 		3F273E3324294879008633CF /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
 		3F273E3524294EE6008633CF /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
+		3F273E382429543F008633CF /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,14 +62,13 @@
 		3F273E1C2429459D008633CF /* Journal Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				3F273E1D2429459D008633CF /* AppDelegate.swift */,
-				3F273E1F2429459D008633CF /* SceneDelegate.swift */,
-				3F273E212429459D008633CF /* ViewController.swift */,
-				3F273E232429459D008633CF /* Main.storyboard */,
+				3F273E3C24295484008633CF /* Applications */,
+				3F273E3B24295465008633CF /* Models */,
 				3F273E3724294EF7008633CF /* View Controllers */,
-				3F273E26242945A1008633CF /* Assets.xcassets */,
-				3F273E28242945A1008633CF /* LaunchScreen.storyboard */,
+				3F273E3D24295490008633CF /* Views */,
+				3F273E3A24295454008633CF /* Storyboards */,
 				3F273E2B242945A1008633CF /* Info.plist */,
+				3F273E26242945A1008633CF /* Assets.xcassets */,
 			);
 			path = "Journal Core Data";
 			sourceTree = "<group>";
@@ -79,9 +78,42 @@
 			children = (
 				3F273E3524294EE6008633CF /* EntryDetailViewController.swift */,
 				3F273E312429485D008633CF /* EntriesTableViewController.swift */,
-				3F273E3324294879008633CF /* EntryTableViewCell.swift */,
 			);
 			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		3F273E3A24295454008633CF /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				3F273E232429459D008633CF /* Main.storyboard */,
+				3F273E28242945A1008633CF /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		3F273E3B24295465008633CF /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3F273E382429543F008633CF /* CoreDataStack.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		3F273E3C24295484008633CF /* Applications */ = {
+			isa = PBXGroup;
+			children = (
+				3F273E1D2429459D008633CF /* AppDelegate.swift */,
+				3F273E1F2429459D008633CF /* SceneDelegate.swift */,
+			);
+			path = Applications;
+			sourceTree = "<group>";
+		};
+		3F273E3D24295490008633CF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3F273E3324294879008633CF /* EntryTableViewCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -155,9 +187,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F273E392429543F008633CF /* CoreDataStack.swift in Sources */,
 				3F273E322429485D008633CF /* EntriesTableViewController.swift in Sources */,
 				3F273E3424294879008633CF /* EntryTableViewCell.swift in Sources */,
-				3F273E222429459D008633CF /* ViewController.swift in Sources */,
 				3F273E1E2429459D008633CF /* AppDelegate.swift in Sources */,
 				3F273E3624294EE6008633CF /* EntryDetailViewController.swift in Sources */,
 				3F273E202429459D008633CF /* SceneDelegate.swift in Sources */,
