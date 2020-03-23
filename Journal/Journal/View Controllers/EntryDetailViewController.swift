@@ -22,6 +22,8 @@ class EntryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        titleTextField.layer.cornerRadius = 8
+        descriptionTextView.layer.cornerRadius = 8
         updateViews()
     }
     

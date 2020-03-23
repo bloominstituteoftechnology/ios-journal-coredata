@@ -19,23 +19,13 @@ class EntryTableViewCell: UITableViewCell {
             updateViews()
         }
     }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
 
     func updateViews() {
         guard let entry = entry else { return }
         titleLabel.text = entry.title
         descriptionLabel.text = entry.bodyText
         timeStampLabel.text = "\(entry.timestamp)"
+        #warning("will need to be formatted")
     }
     
 }
