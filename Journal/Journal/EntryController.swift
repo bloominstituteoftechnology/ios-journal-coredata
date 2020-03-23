@@ -34,8 +34,7 @@ class EntryController {
 
     private func saveToPersistentStore() {
         do {
-            try CoreDataStack.shared.save()
-            navigationController?.dismiss(animated: true, completion: nil)
+            try CoreDataStack.shared.mainContext.save()
         } catch {
             NSLog("Error saving managed error context: \(error)")
         }
@@ -47,5 +46,28 @@ class EntryController {
     }
 
     // Update
+    private func update(entry: Entry,
+                        title: String,
+                        bodyText: String? = nil) {
+
+        entry.title = title
+        entry.bodyText = bodyText
+        entry.timestamp = Date()
+        
+        Entry(identifier: entry.identifier ?? "",
+              title: entry.title ?? "",
+              bodyText: entry.bodyText,
+              timestamp: entry.timestamp,
+              context: CoreDataStack.shared.mainContext)
+        
+        saveToPersistentStore()
+    }
+
     // Delete
+    private func delete(entry: Entry) {
+
+        // FIXME: Delete the object.
+        
+        saveToPersistentStore()
+    }
 }
