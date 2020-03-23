@@ -18,7 +18,7 @@ extension Entry {
         self.init(context: context)
         self.identifier = identifier
         self.title = title
-        self.bodyText = bodyText
+        self.bodyText = bodyText ?? ""
         self.timestamp = timestamp
     }
 }

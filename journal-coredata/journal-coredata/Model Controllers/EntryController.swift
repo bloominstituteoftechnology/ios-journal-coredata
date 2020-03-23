@@ -11,7 +11,19 @@ import CoreData
 
 class EntryController {
     
-    // MARK: - Methods
+    // MARK: - CRUD Methodfs
+    
+    func create(title: String, bodyText: String?) {
+        Entry(title: title, bodyText: bodyText, context: CoreDataStack.shared.mainContext)
+        saveToPersistentStore()
+    }
+    
+    func update(for entry: Entry, title: String, bodyText: String?) {
+        entry.title = title
+        entry.bodyText = bodyText ?? ""
+    }
+    
+    // MARK: - Peristence Methods
     
     func saveToPersistentStore() {
         do {
@@ -19,5 +31,9 @@ class EntryController {
         } catch {
             NSLog("Error saving managed object context: \(error)")
         }
+    }
+    
+    func loadFromPersistentStore() /*-> [Entry]*/ {
+        
     }
 }
