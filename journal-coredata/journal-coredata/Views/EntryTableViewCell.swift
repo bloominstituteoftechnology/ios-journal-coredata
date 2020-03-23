@@ -10,12 +10,22 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
     
+    // MARK: - Properties
+    
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
     // MARK: - Outlets
     
     @IBOutlet weak var entryTitleLabel: UILabel!
     @IBOutlet weak var entryTimestamp: UILabel!
     @IBOutlet weak var entryText: UILabel!
 
+    // MARK: - Lifecycle
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -27,4 +37,18 @@ class EntryTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    
+    // MARK: - Private methods
+    
+    private func updateViews() {
+        guard let entry = entry else { return }
+        entryTitleLabel.text = entry.title
+        entryText.text = entry.bodyText
+        
+        // Format date
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "M/d/yy, hh:mm a"
+        
+        entryTimestamp.text = dateFormatter.string(from: entry.timestamp!)
+    }
 }
