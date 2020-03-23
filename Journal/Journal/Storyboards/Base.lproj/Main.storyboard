@@ -16,11 +16,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="63" id="paN-jt-tM9" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="63"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="65" id="paN-jt-tM9" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="65"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="paN-jt-tM9" id="HTN-YM-Pt1">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="63"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="65"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UyS-0o-94W">
@@ -36,7 +36,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3TC-Qm-tDc">
-                                            <rect key="frame" x="20" y="31.5" width="42" height="20.5"/>
+                                            <rect key="frame" x="20" y="33.5" width="374" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -45,7 +45,10 @@
                                     <constraints>
                                         <constraint firstItem="UyS-0o-94W" firstAttribute="top" secondItem="HTN-YM-Pt1" secondAttribute="topMargin" id="2C7-SX-MAB"/>
                                         <constraint firstItem="3TC-Qm-tDc" firstAttribute="leading" secondItem="HTN-YM-Pt1" secondAttribute="leadingMargin" id="CpP-zt-2eh"/>
+                                        <constraint firstItem="wyH-gN-r57" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="UyS-0o-94W" secondAttribute="trailing" constant="8" id="Fue-zR-Icu"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="3TC-Qm-tDc" secondAttribute="trailing" id="LPg-Ix-gqT"/>
                                         <constraint firstItem="wyH-gN-r57" firstAttribute="trailing" secondItem="HTN-YM-Pt1" secondAttribute="trailingMargin" id="UCc-c2-GjB"/>
+                                        <constraint firstItem="3TC-Qm-tDc" firstAttribute="top" secondItem="UyS-0o-94W" secondAttribute="bottom" constant="1.5" id="bA4-1v-qrz"/>
                                         <constraint firstItem="UyS-0o-94W" firstAttribute="leading" secondItem="HTN-YM-Pt1" secondAttribute="leadingMargin" id="nAC-9Z-Sv3"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="3TC-Qm-tDc" secondAttribute="bottom" id="v2f-Wm-aaA"/>
                                         <constraint firstItem="wyH-gN-r57" firstAttribute="top" secondItem="HTN-YM-Pt1" secondAttribute="topMargin" id="yDh-b1-bSP"/>
@@ -55,7 +58,7 @@
                                     <outlet property="descriptionLabel" destination="3TC-Qm-tDc" id="wZy-5S-Mdd"/>
                                     <outlet property="timeStampLabel" destination="wyH-gN-r57" id="I45-3c-Cal"/>
                                     <outlet property="titleLabel" destination="UyS-0o-94W" id="y9E-3u-2h8"/>
-                                    <segue destination="iTg-nj-4jm" kind="presentation" identifier="EntryDetailModalSugue" trigger="accessoryAction" modalPresentationStyle="fullScreen" id="x3r-NY-IgP"/>
+                                    <segue destination="iTg-nj-4jm" kind="presentation" identifier="EntryDetailModalSegue" trigger="accessoryAction" modalPresentationStyle="fullScreen" id="x3r-NY-IgP"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
