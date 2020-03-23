@@ -26,7 +26,9 @@ class EntryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         titleTextField.becomeFirstResponder()
+        titleTextField.delegate = self
         setBorder(for: titleTextField, bodyTextView)
         updateViews()
     }
@@ -69,6 +71,13 @@ class EntryDetailViewController: UIViewController {
         } else {
             title = "Create Entry"
         }
+    }
+}
+
+extension EntryDetailViewController: UITextFieldDelegate, UITextViewDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        bodyTextView.becomeFirstResponder()
+        return true
     }
 }
 

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04408DCC24295C74006F3647 /* DateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04408DCB24295C74006F3647 /* DateExtensions.swift */; };
+		04953F9F24296027006C0184 /* UIView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04953F9E24296027006C0184 /* UIView+Layout.swift */; };
 		04A09908242942FB00D82635 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A09907242942FB00D82635 /* AppDelegate.swift */; };
 		04A0990A242942FB00D82635 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A09909242942FB00D82635 /* SceneDelegate.swift */; };
 		04A0990C242942FB00D82635 /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A0990B242942FB00D82635 /* EntryDetailViewController.swift */; };
@@ -22,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04408DCB24295C74006F3647 /* DateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensions.swift; sourceTree = "<group>"; };
+		04953F9E24296027006C0184 /* UIView+Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Layout.swift"; sourceTree = "<group>"; };
 		04A09904242942FB00D82635 /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04A09907242942FB00D82635 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04A09909242942FB00D82635 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,6 +53,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04408DCD24295C82006F3647 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				04408DCB24295C74006F3647 /* DateExtensions.swift */,
+				04953F9E24296027006C0184 /* UIView+Layout.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		04A098FB242942FA00D82635 = {
 			isa = PBXGroup;
 			children = (
@@ -69,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				04A0992524294D6900D82635 /* Resources */,
+				04408DCD24295C82006F3647 /* Extensions */,
 				04A0992424294D5100D82635 /* Model */,
 				04A0992724294D9E00D82635 /* EntryDetailView */,
 				04A0992624294D8B00D82635 /* EntriesTableView */,
@@ -189,10 +203,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				04A0992324294C8900D82635 /* CoreDataStack.swift in Sources */,
+				04408DCC24295C74006F3647 /* DateExtensions.swift in Sources */,
 				04A0991C2429440F00D82635 /* EntryTableViewCell.swift in Sources */,
 				04A0990C242942FB00D82635 /* EntryDetailViewController.swift in Sources */,
 				04A0992B24294F4900D82635 /* EntryController.swift in Sources */,
 				04A09908242942FB00D82635 /* AppDelegate.swift in Sources */,
+				04953F9F24296027006C0184 /* UIView+Layout.swift in Sources */,
 				04A0992924294DD100D82635 /* Entry+Convenience.swift in Sources */,
 				04A0992124294C7A00D82635 /* Journal.xcdatamodeld in Sources */,
 				04A0990A242942FB00D82635 /* SceneDelegate.swift in Sources */,

@@ -30,18 +30,3 @@ class EntryTableViewCell: UITableViewCell {
         timestampLabel.text = entry.timestamp?.shortString
     }
 }
-
-extension Date {
-    var shortString: String {
-        return DateFormatter.shortFormatter.string(from: self)
-    }
-}
-
-extension DateFormatter {
-    static var shortFormatter: DateFormatter {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .short
-        dateFormatter.timeStyle = .short
-        return dateFormatter
-    }
-}
