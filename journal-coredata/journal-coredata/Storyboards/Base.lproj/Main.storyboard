@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="89" id="MTE-dw-zLW">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="89" id="MTE-dw-zLW" customClass="EntryTableViewCell" customModule="journal_coredata" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="89"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MTE-dw-zLW" id="ZeC-qg-ykf" customClass="EntryTableViewCell" customModule="journal_coredata" customModuleProvider="target">
@@ -45,13 +45,11 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <connections>
-                                        <outlet property="entryText" destination="geb-3Q-wtZ" id="Vwb-Da-hg2"/>
-                                        <outlet property="entryTimestamp" destination="LIY-g0-Ejy" id="lmb-wM-sRB"/>
-                                        <outlet property="entryTitleLabel" destination="xPr-Ni-qgj" id="Kc5-ud-TdH"/>
-                                    </connections>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="entryText" destination="geb-3Q-wtZ" id="kRG-LJ-wJv"/>
+                                    <outlet property="entryTimestamp" destination="LIY-g0-Ejy" id="cK6-gI-GRX"/>
+                                    <outlet property="entryTitleLabel" destination="xPr-Ni-qgj" id="hsw-zW-VzP"/>
                                     <segue destination="Gyg-Lt-hoJ" kind="show" identifier="EditEntryShowSegue" id="95f-f5-3Kb"/>
                                 </connections>
                             </tableViewCell>
