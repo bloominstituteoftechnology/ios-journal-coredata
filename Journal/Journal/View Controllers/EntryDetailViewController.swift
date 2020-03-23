@@ -13,7 +13,6 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
