@@ -9,12 +9,18 @@
 /* Begin PBXBuildFile section */
 		C4DF1BA82429417100354C07 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DF1BA72429417100354C07 /* AppDelegate.swift */; };
 		C4DF1BAA2429417100354C07 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DF1BA92429417100354C07 /* SceneDelegate.swift */; };
-		C4DF1BAC2429417100354C07 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DF1BAB2429417100354C07 /* ViewController.swift */; };
+		C4DF1BAC2429417100354C07 /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DF1BAB2429417100354C07 /* EntryDetailViewController.swift */; };
 		C4DF1BAF2429417100354C07 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4DF1BAD2429417100354C07 /* Main.storyboard */; };
 		C4DF1BB12429417400354C07 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4DF1BB02429417400354C07 /* Assets.xcassets */; };
 		C4DF1BB42429417400354C07 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4DF1BB22429417400354C07 /* LaunchScreen.storyboard */; };
 		C4DF1BBF2429417400354C07 /* JournalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DF1BBE2429417400354C07 /* JournalTests.swift */; };
 		C4DF1BCA2429417400354C07 /* JournalUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DF1BC92429417400354C07 /* JournalUITests.swift */; };
+		C4DF1BD9242944EF00354C07 /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DF1BD8242944EF00354C07 /* EntriesTableViewController.swift */; };
+		C4DF1BDC2429453500354C07 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DF1BDB2429453500354C07 /* EntryTableViewCell.swift */; };
+		C4DF1BDF24294F5F00354C07 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DF1BDE24294F5F00354C07 /* CoreDataStack.swift */; };
+		C4DF1BE124294FB900354C07 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DF1BE024294FB900354C07 /* Entry+Convenience.swift */; };
+		C4DF1BE72429504100354C07 /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C4DF1BE52429504100354C07 /* Journal.xcdatamodeld */; };
+		C4DF1BE9242955F800354C07 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DF1BE8242955F800354C07 /* EntryController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,7 +44,7 @@
 		C4DF1BA42429417100354C07 /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4DF1BA72429417100354C07 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C4DF1BA92429417100354C07 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C4DF1BAB2429417100354C07 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C4DF1BAB2429417100354C07 /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
 		C4DF1BAE2429417100354C07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C4DF1BB02429417400354C07 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C4DF1BB32429417400354C07 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -49,6 +55,12 @@
 		C4DF1BC52429417400354C07 /* JournalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JournalUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4DF1BC92429417400354C07 /* JournalUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalUITests.swift; sourceTree = "<group>"; };
 		C4DF1BCB2429417400354C07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C4DF1BD8242944EF00354C07 /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
+		C4DF1BDB2429453500354C07 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
+		C4DF1BDE24294F5F00354C07 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		C4DF1BE024294FB900354C07 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
+		C4DF1BE62429504100354C07 /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
+		C4DF1BE8242955F800354C07 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,9 +111,12 @@
 		C4DF1BA62429417100354C07 /* Journal */ = {
 			isa = PBXGroup;
 			children = (
+				C4DF1BEA2429560800354C07 /* Controller */,
+				C4DF1BDD24294F4700354C07 /* Models */,
+				C4DF1BDA2429451A00354C07 /* Views */,
+				C4DF1BD7242944CD00354C07 /* ViewControllers */,
 				C4DF1BA72429417100354C07 /* AppDelegate.swift */,
 				C4DF1BA92429417100354C07 /* SceneDelegate.swift */,
-				C4DF1BAB2429417100354C07 /* ViewController.swift */,
 				C4DF1BAD2429417100354C07 /* Main.storyboard */,
 				C4DF1BB02429417400354C07 /* Assets.xcassets */,
 				C4DF1BB22429417400354C07 /* LaunchScreen.storyboard */,
@@ -126,6 +141,41 @@
 				C4DF1BCB2429417400354C07 /* Info.plist */,
 			);
 			path = JournalUITests;
+			sourceTree = "<group>";
+		};
+		C4DF1BD7242944CD00354C07 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				C4DF1BAB2429417100354C07 /* EntryDetailViewController.swift */,
+				C4DF1BD8242944EF00354C07 /* EntriesTableViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		C4DF1BDA2429451A00354C07 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C4DF1BDB2429453500354C07 /* EntryTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C4DF1BDD24294F4700354C07 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				C4DF1BDE24294F5F00354C07 /* CoreDataStack.swift */,
+				C4DF1BE024294FB900354C07 /* Entry+Convenience.swift */,
+				C4DF1BE52429504100354C07 /* Journal.xcdatamodeld */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C4DF1BEA2429560800354C07 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C4DF1BE8242955F800354C07 /* EntryController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,9 +309,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4DF1BAC2429417100354C07 /* ViewController.swift in Sources */,
+				C4DF1BD9242944EF00354C07 /* EntriesTableViewController.swift in Sources */,
+				C4DF1BDC2429453500354C07 /* EntryTableViewCell.swift in Sources */,
+				C4DF1BAC2429417100354C07 /* EntryDetailViewController.swift in Sources */,
+				C4DF1BE9242955F800354C07 /* EntryController.swift in Sources */,
+				C4DF1BDF24294F5F00354C07 /* CoreDataStack.swift in Sources */,
 				C4DF1BA82429417100354C07 /* AppDelegate.swift in Sources */,
 				C4DF1BAA2429417100354C07 /* SceneDelegate.swift in Sources */,
+				C4DF1BE124294FB900354C07 /* Entry+Convenience.swift in Sources */,
+				C4DF1BE72429504100354C07 /* Journal.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -590,6 +646,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		C4DF1BE52429504100354C07 /* Journal.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				C4DF1BE62429504100354C07 /* Journal.xcdatamodel */,
+			);
+			currentVersion = C4DF1BE62429504100354C07 /* Journal.xcdatamodel */;
+			path = Journal.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = C4DF1B9C2429417100354C07 /* Project object */;
 }
