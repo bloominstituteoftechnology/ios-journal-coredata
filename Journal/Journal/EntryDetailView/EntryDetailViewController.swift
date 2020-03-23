@@ -12,8 +12,9 @@ class EntryDetailViewController: UIViewController {
     
     // MARK: - Properties
     
-    var entry: Entry?
+    var entry: Entry? { didSet { updateViews() }}
     var entryController: EntryController?
+    
     
     // MARK: - IBOutlets
     
@@ -27,15 +28,26 @@ class EntryDetailViewController: UIViewController {
         super.viewDidLoad()
         titleTextField.becomeFirstResponder()
         setBorder(for: titleTextField, bodyTextView)
-       
-        
+        updateViews()
     }
+    
     
     // MARK: - IBActions
     
     @IBAction func saveButtonTapped(_ sender: Any) {
+        guard let entryController = entryController,
+            let title = titleTextField.text else { return }
+        let body = bodyTextView.text
         
+        if let entry = entry {
+            entryController.update(entry: entry, title: title, bodyText: body)
+        } else {
+            entryController.createEntry(title: title, bodyText: body)
+        }
+        
+        self.navigationController?.popViewController(animated: true)
     }
+    
     
     // MARK: - Private
     
@@ -46,7 +58,15 @@ class EntryDetailViewController: UIViewController {
             $0.layer.cornerRadius = 6.0
         }
     }
-
-
+    
+    private func updateViews() {
+        if let entry = entry {
+            title = entry.title
+            titleTextField.text = entry.title
+            bodyTextView.text = entry.bodyText
+        } else {
+            title = "Create Entry"
+        }
+    }
 }
 

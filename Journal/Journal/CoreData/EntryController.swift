@@ -17,12 +17,12 @@ class EntryController {
         loadFromPersistentStore()
     }
     
-    func createEntry(title: String, bodyText: String) {
+    func createEntry(title: String, bodyText: String?) {
         Entry(title: title, bodyText: bodyText)
         saveToPersistentStore()
     }
     
-    func update(entry: Entry, title: String, bodyText: String) {
+    func update(entry: Entry, title: String, bodyText: String?) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = Date()
