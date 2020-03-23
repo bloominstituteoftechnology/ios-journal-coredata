@@ -12,7 +12,11 @@ class EntryDetailViewController: UIViewController {
     
     // MARK: - Properties
     
-    var entry: Entry?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
     var entryController: EntryController?
     
     // MARK: -  Outlets
@@ -23,6 +27,7 @@ class EntryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        updateViews()
     }
 
     
@@ -30,6 +35,20 @@ class EntryDetailViewController: UIViewController {
     
     @IBAction func save(_ sender: UIBarButtonItem) {
         
+    }
+    
+    // MARK: - Private Method
+    
+    private func updateViews() {
+        if isViewLoaded {
+            if let entry = entry {
+                title = entry.title
+                titleField.text = entry.title
+                textView.text = entry.bodyText
+            } else {
+                title = "Create Entry"
+            }
+        }
     }
 
 }
