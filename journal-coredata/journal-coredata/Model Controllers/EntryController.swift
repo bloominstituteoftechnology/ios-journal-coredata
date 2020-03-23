@@ -11,6 +11,12 @@ import CoreData
 
 class EntryController {
     
+    // MARK: - Properties
+    
+    var entries: [Entry] {
+        loadFromPersistentStore()
+    }
+    
     // MARK: - CRUD Methodfs
     
     func create(title: String, bodyText: String?) {
@@ -21,6 +27,13 @@ class EntryController {
     func update(for entry: Entry, title: String, bodyText: String?) {
         entry.title = title
         entry.bodyText = bodyText ?? ""
+        entry.timestamp = Date()
+        saveToPersistentStore()
+    }
+    
+    func delete(at entry: Entry) {
+        CoreDataStack.shared.mainContext.delete(entry)
+        saveToPersistentStore() 
     }
     
     // MARK: - Peristence Methods
@@ -33,7 +46,13 @@ class EntryController {
         }
     }
     
-    func loadFromPersistentStore() /*-> [Entry]*/ {
-        
+    func loadFromPersistentStore() -> [Entry] {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        do {
+            return try CoreDataStack.shared.mainContext.fetch(fetchRequest)
+        } catch {
+            NSLog("Error fetching entries: \(error)")
+            return []
+        }
     }
 }
