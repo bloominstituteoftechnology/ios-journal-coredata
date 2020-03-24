@@ -75,7 +75,12 @@ class EntryController {
     // Delete
     func delete(entry: Entry) {
 
-        // FIXME: Delete the object.
+        CoreDataStack.shared.mainContext.delete(entry)
+
+        // TODO: ? Compare with this code
+//        if let moc = person.managedObjectContext {
+//            moc.delete(person)
+//        }
         
         saveToPersistentStore()
     }
