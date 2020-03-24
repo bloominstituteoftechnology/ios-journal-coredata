@@ -16,7 +16,7 @@ class EntriesTableViewController: UITableViewController {
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
-                                        NSSortDescriptor(key: "timeStamp", ascending: true)]
+                                        NSSortDescriptor(key: "timeStamp", ascending: false)]
         let context = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "mood", cacheName: nil)
         frc.delegate = self
@@ -98,7 +98,7 @@ class EntriesTableViewController: UITableViewController {
                 let targetController = destVC.topViewController as? EntryDetailViewController {
                 targetController.entryController = entryController
                 if let indexPath = tableView.indexPathForSelectedRow {
-                    targetController.entry = entryController.entries[indexPath.row]
+                    targetController.entry = fetchedResultsController.object(at: indexPath)
                 }
             }
         }
