@@ -10,7 +10,11 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
     
-    var entry: Entry?
+    var entry: Entry?{
+        didSet {
+            updateViews()
+        }
+    }
     var entryController: EntryController?
     
     @IBOutlet weak var entryTextField: UITextField!
@@ -53,9 +57,21 @@ class EntryDetailViewController: UIViewController {
             NSLog("error saving managed obejct context: \(error)")
             
         }
-
-        
+      
     }
+    
+    func updateViews() {
+              guard let entry = entry else { return }
+              entryTextField.text = entry.title
+              entryTextView.text = entry.bodyText
+              title = entry.title
+              
+              let setMood = EntryMood(rawValue: entry.mood ?? "")
+              guard let moodIndex = EntryMood.allCases.firstIndex(of: setMood!),
+                  moodControl.selectedSegmentIndex == moodIndex
+                  else {
+                      return title = "Create Entry" }
+          }
 //     add
     /*
     // MARK: - Navigation
