@@ -21,9 +21,9 @@ class EntryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
+        
+        entryTextView.becomeFirstResponder()
+        }
     
     
     @IBAction func cancelEntry(_ sender: UIBarButtonItem) {
@@ -36,9 +36,9 @@ class EntryDetailViewController: UIViewController {
                        return
                }
         let moodIndex = moodControl.selectedSegmentIndex
-        let mood
+        let mood = EntryMood.allCases[moodIndex]
         guard let notes = entryTextView.text else { return }
-        Entry(title: name, bodyText: notes, timeStamp: Date(), context: CoreDataStack.shared.mainContext)
+        Entry(title: name, bodyText: notes, timeStamp: Date(), mood: mood, context: CoreDataStack.shared.mainContext)
         do {
             try CoreDataStack.shared.mainContext.save()
             navigationController?.dismiss(animated: true, completion: nil)
