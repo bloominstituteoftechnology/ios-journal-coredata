@@ -19,7 +19,7 @@
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" id="MTE-dw-zLW" customClass="EntryTableViewCell" customModule="journal_coredata" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MTE-dw-zLW" id="ZeC-qg-ykf" customClass="EntryTableViewCell" customModule="journal_coredata" customModuleProvider="target">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="MTE-dw-zLW" id="ZeC-qg-ykf">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
@@ -79,30 +79,39 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="78R-eI-Adr">
-                                <rect key="frame" x="20" y="108" width="374" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wF9-3r-UJ8">
-                                <rect key="frame" x="20" y="162" width="374" height="179"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="17" translatesAutoresizingMaskIntoConstraints="NO" id="FWl-Md-6dm">
+                                <rect key="frame" x="20" y="108" width="374" height="269"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="nil-pH-976">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="32"/>
+                                        <segments>
+                                            <segment title="☹️"/>
+                                            <segment title="😐"/>
+                                            <segment title="🙂"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="78R-eI-Adr">
+                                        <rect key="frame" x="0.0" y="48" width="374" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="wF9-3r-UJ8">
+                                        <rect key="frame" x="0.0" y="99" width="374" height="170"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="wF9-3r-UJ8" firstAttribute="leading" secondItem="un0-RQ-ndA" secondAttribute="leading" constant="20" id="Aih-oK-360"/>
-                            <constraint firstItem="un0-RQ-ndA" firstAttribute="trailing" secondItem="78R-eI-Adr" secondAttribute="trailing" constant="20" id="C0c-hO-QC6"/>
-                            <constraint firstItem="wF9-3r-UJ8" firstAttribute="centerX" secondItem="Df5-y7-IWl" secondAttribute="centerX" id="CUN-Mc-4c9"/>
-                            <constraint firstItem="78R-eI-Adr" firstAttribute="leading" secondItem="un0-RQ-ndA" secondAttribute="leading" constant="20" id="SPa-Oa-BcA"/>
-                            <constraint firstItem="78R-eI-Adr" firstAttribute="centerX" secondItem="Df5-y7-IWl" secondAttribute="centerX" id="fCx-ao-j2L"/>
-                            <constraint firstItem="wF9-3r-UJ8" firstAttribute="top" secondItem="78R-eI-Adr" secondAttribute="bottom" constant="20" id="gEb-ud-nlx"/>
-                            <constraint firstItem="wF9-3r-UJ8" firstAttribute="height" secondItem="Df5-y7-IWl" secondAttribute="height" multiplier="0.2" id="sa3-dH-MPb"/>
-                            <constraint firstItem="un0-RQ-ndA" firstAttribute="trailing" secondItem="wF9-3r-UJ8" secondAttribute="trailing" constant="20" id="uMf-C7-qrX"/>
-                            <constraint firstItem="78R-eI-Adr" firstAttribute="top" secondItem="un0-RQ-ndA" secondAttribute="top" constant="20" id="upQ-UY-BbQ"/>
+                            <constraint firstItem="un0-RQ-ndA" firstAttribute="trailing" secondItem="FWl-Md-6dm" secondAttribute="trailing" constant="20" id="CKW-5y-94e"/>
+                            <constraint firstItem="FWl-Md-6dm" firstAttribute="top" secondItem="un0-RQ-ndA" secondAttribute="top" constant="20" id="Hfn-KE-CjQ"/>
+                            <constraint firstItem="FWl-Md-6dm" firstAttribute="height" secondItem="Df5-y7-IWl" secondAttribute="height" multiplier="0.3" id="t1t-X8-ndt"/>
+                            <constraint firstItem="FWl-Md-6dm" firstAttribute="centerX" secondItem="Df5-y7-IWl" secondAttribute="centerX" id="vYq-Jc-OSj"/>
+                            <constraint firstItem="FWl-Md-6dm" firstAttribute="leading" secondItem="un0-RQ-ndA" secondAttribute="leading" constant="20" id="zT1-1U-vC7"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="un0-RQ-ndA"/>
                     </view>

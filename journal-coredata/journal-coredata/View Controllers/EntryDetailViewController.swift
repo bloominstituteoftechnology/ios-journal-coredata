@@ -37,13 +37,14 @@ class EntryDetailViewController: UIViewController {
         guard let title = titleField.text,
             !title.isEmpty,
             let bodyText = textView.text else { return }
+        
         guard let entry = entry else {
             entryController?.create(title: title, bodyText: bodyText)
-            dismiss(animated: true, completion: nil)
+            navigationController?.popViewController(animated: true)
             return
         }
         entryController?.update(for: entry, title: title, bodyText: bodyText)
-        dismiss(animated: true, completion: nil)
+        navigationController?.popViewController(animated: true)
     }
     
     // MARK: - Private Method
