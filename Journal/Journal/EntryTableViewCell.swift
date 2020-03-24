@@ -11,12 +11,17 @@ import UIKit
 class EntryTableViewCell: UITableViewCell {
 
     // MARK: - Properities
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
     
     // MARK: - Outlets
     
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var bodyLabel: UILabel!
+    @IBOutlet weak var timestampLabel: UILabel!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -27,6 +32,14 @@ class EntryTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    private func updateViews() {
+        guard let entry = entry else { return }
+        
+        titleLabel.text = entry.title
+        bodyLabel.text = entry.bodyText
+        timestampLabel.text = "NaN" // FIXME: entry.timestamp
     }
 
 }

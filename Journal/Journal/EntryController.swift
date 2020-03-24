@@ -11,7 +11,8 @@ import Foundation
 class EntryController {
     
     // MARK: - Properities
-    private var entries: [Entry] {
+    // TODO: ? Why can't I use a private(set)
+    var entries: [Entry] {
         loadFromPersistentStore()
     }
     
@@ -64,7 +65,7 @@ class EntryController {
     }
 
     // Delete
-    private func delete(entry: Entry) {
+    func delete(entry: Entry) {
 
         // FIXME: Delete the object.
         
