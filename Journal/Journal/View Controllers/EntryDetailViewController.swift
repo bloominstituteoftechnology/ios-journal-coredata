@@ -18,6 +18,7 @@ class EntryDetailViewController: UIViewController {
         }
     }
     var timestamp = Date()
+    var entryController: EntryController?
     
     // MARK: - IBOutlets
     
@@ -52,14 +53,8 @@ class EntryDetailViewController: UIViewController {
             !title.isEmpty, let bodyText = entryTextView.text else {
                 return
         }
-        
-        Entry(title: title, bodyText: bodyText, timestamp: timestamp, context: CoreDataStack.shared.mainContext)
-        do {
-            try CoreDataStack.shared.mainContext.save()
-            navigationController?.dismiss(animated: true, completion: nil)
-        } catch {
-            NSLog("Error saving managed object context: \(error)")
-        }
+        entryController?.createEntry(title: title, bodyText: bodyText, timestamp: timestamp, context: CoreDataStack.shared.mainContext)
+        entryController?.saveToPersistentStore()
     }
 
 }
