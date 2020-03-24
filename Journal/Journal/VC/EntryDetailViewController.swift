@@ -11,6 +11,8 @@ import UIKit
 class EntryDetailViewController: UIViewController {
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var textBody: UITextView!
+    @IBOutlet weak var segmentBar: UISegmentedControl!
+    
     
     var entry: Entry? {
         didSet {
@@ -26,16 +28,27 @@ class EntryDetailViewController: UIViewController {
     }
     
     func updateView() {
-        guard textField.text != nil else {return}
-        if let entry = entry {
-            title = entry.title
-            textField.text = entry.title
-            textBody.text = entry.bodyText
-        } else {
+        guard isViewLoaded else {return}
+        guard let entry = entry else {
             title = "Create a New Journal"
             textField.text = " "
             textBody.text = " "
+            segmentBar.selectedSegmentIndex = 0
             
+            return
+        }
+        title = entry.title
+        textField.text = entry.title
+        textBody.text = entry.bodyText
+        
+            
+        switch entry.mood {
+        case Mood.sad.rawValue:
+            segmentBar.selectedSegmentIndex = 2
+        case Mood.neutral.rawValue:
+            segmentBar.selectedSegmentIndex = 1
+        default:
+            segmentBar.selectedSegmentIndex = 0
         }
     }
     @IBAction func save(_ sender: Any) {
@@ -44,11 +57,11 @@ class EntryDetailViewController: UIViewController {
             !title.isEmpty, !body.isEmpty else {
                 return
         }
-        
+        let mood = Mood.allMoods[segmentBar.selectedSegmentIndex]
         if let entry = entry, let entryController = entryController {
-            entryController.update(entry: entry, title: title, bodyText: body)
+            entryController.update(entry: entry, title: title, bodyText: body, mood: Mood(rawValue: mood.rawValue)!)
         } else if let entryController = entryController {
-            entryController.create(title: title, bodyText: body)
+            entryController.create(title: title, bodyText: body, mood: mood)
         }
         
         navigationController?.popViewController(animated: true)
