@@ -22,7 +22,7 @@ class EntryController {
         saveToPersistentStore()
     }
     
-    func update(entry: Entry, title: String, bodyText: String?, mood: Mood) {
+    func update(_ entry: Entry, title: String, bodyText: String?, mood: Mood) {
         entry.title = title
         entry.bodyText = bodyText
         entry.mood = mood
@@ -30,9 +30,9 @@ class EntryController {
         saveToPersistentStore()
     }
     
-    func delete(entry: Entry) {
+    func delete(_ entry: Entry) -> Error? {
         CoreDataStack.shared.mainContext.delete(entry)
-        saveToPersistentStore()
+        return saveToPersistentStore()
     }
     
     
@@ -50,11 +50,14 @@ class EntryController {
         }
     }
     
-    private func saveToPersistentStore() {
+    @discardableResult
+    private func saveToPersistentStore() -> Error? {
         do {
             try CoreDataStack.shared.mainContext.save()
+            return nil
         } catch {
             NSLog("Error saving core data main context: \(error)")
+            return error
         }
     }
 }

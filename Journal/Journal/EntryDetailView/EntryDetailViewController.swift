@@ -45,7 +45,7 @@ class EntryDetailViewController: UIViewController {
         let mood = Mood.allCases[moodIndex]
         
         if let entry = entry {
-            entryController.update(entry: entry, title: title, bodyText: body, mood: mood)
+            entryController.update(entry, title: title, bodyText: body, mood: mood)
         } else {
             entryController.createEntry(title: title, bodyText: body, mood: mood)
         }

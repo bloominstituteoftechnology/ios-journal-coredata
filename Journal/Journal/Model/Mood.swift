@@ -10,4 +10,15 @@ import Foundation
 
 enum Mood: String, CaseIterable {
     case sad, neutral, happy
+    
+    var emoji: String {
+        switch self {
+        case .sad:
+            return "🙁"
+        case .neutral:
+            return "😐"
+        case .happy:
+            return "😀"
+        }
+    }
 }
