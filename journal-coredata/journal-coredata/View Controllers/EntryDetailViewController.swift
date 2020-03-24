@@ -35,16 +35,24 @@ class EntryDetailViewController: UIViewController {
     // MARK: - Button Action
     
     @IBAction func save(_ sender: UIBarButtonItem) {
+        // Check that there's a title and unwrap the body text.
         guard let title = titleField.text,
             !title.isEmpty,
             let bodyText = textView.text else { return }
         
+        // Get segment index and convert it to mood
+        let mood = Mood.allCases[moodPicker.selectedSegmentIndex]
+        
+        // Check if an entry was passed in when entering this view
         guard let entry = entry else {
-            entryController?.create(title: title, bodyText: bodyText)
+            // No entry = create new entry
+            entryController?.create(title: title, bodyText: bodyText, mood: mood)
             navigationController?.popViewController(animated: true)
             return
         }
-        entryController?.update(for: entry, title: title, bodyText: bodyText)
+        
+        // Find an entry = we're making changes.
+        entryController?.update(for: entry, title: title, bodyText: bodyText, mood: mood)
         navigationController?.popViewController(animated: true)
     }
     
@@ -56,6 +64,9 @@ class EntryDetailViewController: UIViewController {
                 title = entry.title
                 titleField.text = entry.title
                 textView.text = entry.bodyText
+                guard let moodIndex = Mood.allCases.firstIndex(where: {$0.rawValue == entry.mood }) else { return }
+                moodPicker.selectedSegmentIndex = moodIndex
+                print("moodIndex: \(moodIndex) and mood: \(entry.mood)")
             } else {
                 title = "Create Entry"
             }
