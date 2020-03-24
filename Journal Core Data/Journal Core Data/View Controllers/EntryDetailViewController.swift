@@ -22,9 +22,25 @@ class EntryDetailViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     @IBAction func cancelEntry(_ sender: UIBarButtonItem) {
+        navigationController?.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func saveEntry(_ sender: UIBarButtonItem) {
+        guard let name = entryTextView.text,
+                   !name.isEmpty else {
+                       return
+               }
+        guard let notes = entryTextView.text else { return }
+        Entry(title: name, bodyText: notes, timeStamp: Date(), context: CoreDataStack.shared.mainContext)
+        do {
+            try CoreDataStack.shared.mainContext.save()
+            navigationController?.dismiss(animated: true, completion: nil)
+        } catch {
+            NSLog("error saving managed obejct context: \(error)")
+            
+        }
+
+        
     }
     
     /*
