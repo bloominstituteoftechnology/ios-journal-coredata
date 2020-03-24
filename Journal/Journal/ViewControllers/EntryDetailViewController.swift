@@ -11,14 +11,18 @@ import UIKit
 class EntryDetailViewController: UIViewController {
 
     var entryController: EntryController?
-    var entry: Entry?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
     
     @IBOutlet var textField: UITextField!
     @IBOutlet var textView: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        updateViews()
     }
 
     @IBAction func save(_ sender: Any) {
@@ -30,8 +34,12 @@ class EntryDetailViewController: UIViewController {
             else {
                 return
         }
+        if let entry = entry {
+            entryController?.update(entry: entry, title: title, bodyText: desc)
+        } else {
+            entryController?.create(title: title, bodyText: desc)
+        }
         
-        entryController?.create(title: title, bodyText: desc)
         dismiss(animated: true, completion: nil)
     }
     
@@ -39,6 +47,16 @@ class EntryDetailViewController: UIViewController {
         navigationController?.dismiss(animated: true, completion: nil)
     }
     
+    func updateViews() {
+        
+        guard let _ = textField, let _ = textView else {return}
+        
+        if let entry = entry {
+            self.title = entry.title
+            textField.text = entry.title
+            textView.text = entry.bodyText
+        }
+    }
     
 }
 

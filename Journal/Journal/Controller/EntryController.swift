@@ -12,7 +12,6 @@ import CoreData
 class EntryController {
     
     var entries: [Entry] {
-        print("it's loading")
         return loadFromPersistentStore()
     }
     

@@ -25,7 +25,10 @@ class EntryTableViewCell: UITableViewCell {
         
         titleLabel.text = entry.title
         descriptionLabel.text = entry.bodyText
-        dateLabel.text = "\(entry.timeStamp)"
+        
+        if let date = entry.timeStamp {
+            dateLabel.text = DateFormatter.shortFormatter.string(from: date)
+        }
     }
     
     override func awakeFromNib() {
