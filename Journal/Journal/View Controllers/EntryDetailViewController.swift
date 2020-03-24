@@ -60,6 +60,19 @@ class EntryDetailViewController: UIViewController {
                 title = entry.title
                 titleTextField.text = entry.title
                 descriptionTextView.text = entry.bodyText
+                
+                let mood = entry.mood
+                switch mood {
+                case Mood.🙂.rawValue:
+                    moodControl.selectedSegmentIndex = 0
+                case Mood.😐.rawValue:
+                    moodControl.selectedSegmentIndex = 1
+                case Mood.🙁.rawValue:
+                    moodControl.selectedSegmentIndex = 2
+                default:
+                    moodControl.selectedSegmentIndex = 1
+                }
+                
             } else {
                 title = "Create Entry"
             }
