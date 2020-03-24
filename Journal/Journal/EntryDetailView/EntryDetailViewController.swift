@@ -20,6 +20,7 @@ class EntryDetailViewController: UIViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var moodSelector: UISegmentedControl!
     
     
     // MARK: - View Lifecycle
@@ -40,11 +41,13 @@ class EntryDetailViewController: UIViewController {
         guard let entryController = entryController,
             let title = titleTextField.text else { return }
         let body = bodyTextView.text
+        let moodIndex = moodSelector.selectedSegmentIndex
+        let mood = Mood.allCases[moodIndex]
         
         if let entry = entry {
-            entryController.update(entry: entry, title: title, bodyText: body)
+            entryController.update(entry: entry, title: title, bodyText: body, mood: mood)
         } else {
-            entryController.createEntry(title: title, bodyText: body)
+            entryController.createEntry(title: title, bodyText: body, mood: mood)
         }
         
         self.navigationController?.popViewController(animated: true)
@@ -68,6 +71,9 @@ class EntryDetailViewController: UIViewController {
             title = entry.title
             titleTextField.text = entry.title
             bodyTextView.text = entry.bodyText
+            
+            let index = Mood.allCases.firstIndex(of: entry.mood)
+            moodSelector.selectedSegmentIndex = index ?? 1
         } else {
             title = "Create Entry"
         }
