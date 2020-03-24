@@ -16,8 +16,6 @@ class EntriesTableViewController: UITableViewController {
     
     
     // MARK: - View Lifecycle
-    
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +46,8 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let index = indexPath.row
-            entryController.entries.remove(at: index)
+            let entry = entryController.entries[index]
+            entryController.deleteEntry(entry: entry)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
