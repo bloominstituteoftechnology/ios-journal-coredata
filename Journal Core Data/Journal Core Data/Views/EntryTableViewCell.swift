@@ -10,6 +10,7 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
 
+    var entryController: EntryController?
     var entry: Entry? {
         didSet {
             updateViews()
@@ -31,10 +32,6 @@ class EntryTableViewCell: UITableViewCell {
     
     @IBOutlet weak var timeStampLabel: UILabel!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
 
    
 

@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Entries" rowHeight="56" id="iwY-O5-yZ6" customClass="r">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntriesCell" rowHeight="56" id="iwY-O5-yZ6" customClass="EntryTableViewCell" customModule="Journal_Core_Data" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="56"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" tag="-1" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iwY-O5-yZ6" id="pcj-q8-fk1">
@@ -60,9 +60,9 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="bodyTextLabel" destination="KYF-2H-oLx" id="jeA-S0-QHP"/>
-                                    <outlet property="timeStampLabel" destination="iPv-0A-hwJ" id="0rn-oM-lJX"/>
-                                    <outlet property="titleLabel" destination="F1M-HT-fNP" id="hdV-QT-KY0"/>
+                                    <outlet property="bodyTextLabel" destination="KYF-2H-oLx" id="abQ-R8-hXz"/>
+                                    <outlet property="timeStampLabel" destination="iPv-0A-hwJ" id="vUQ-Xz-LCc"/>
+                                    <outlet property="titleLabel" destination="F1M-HT-fNP" id="mgr-5Y-hOt"/>
                                     <segue destination="thJ-ur-CO1" kind="show" identifier="SavedEntryModalSegue" id="kQ0-Em-OS2"/>
                                 </connections>
                             </tableViewCell>

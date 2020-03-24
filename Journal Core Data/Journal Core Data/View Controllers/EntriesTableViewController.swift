@@ -43,9 +43,9 @@ class EntriesTableViewController: UITableViewController {
 
   
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "indexPathCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
-        
-
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntriesCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
+        let entry = fetchedResultsController.object(at: indexPath)
+        cell.entry = entry
         return cell
     }
    
@@ -58,39 +58,37 @@ class EntriesTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+            let entry = fetchedResultsController.object(at: indexPath)
+            entryController.deleteEntry(entry: entry)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
-    */
+    
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
 
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+        if segue.identifier == "AddEntryModalSegue" {
+                   if let createEntryVC = segue.destination as? EntryDetailViewController {
+                       createEntryVC.entryController = entryController
+                   }
+                   
+               } else if segue.identifier == "SavedEntryModalSegue" {
+                   if let savedEntryVC = segue.destination as? EntryDetailViewController {
+                       savedEntryVC.entryController = entryController
+                       if let selectedIndex = tableView.indexPathForSelectedRow {
+                           savedEntryVC.entry = fetchedResultsController.object(at: selectedIndex)
+                       }
+                       
+                   }
+               }
     }
 
 

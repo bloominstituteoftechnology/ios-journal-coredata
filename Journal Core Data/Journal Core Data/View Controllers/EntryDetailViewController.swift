@@ -10,7 +10,7 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
     
-    var entry: Entry?{
+    var entry: Entry? {
         didSet {
             updateViews()
         }
@@ -46,8 +46,11 @@ class EntryDetailViewController: UIViewController {
             
             entryController?.updateEntry(entryTitle: name, bodyText: notes, entry: entry, mood: mood.rawValue)
         } else {
-            guard let entryController = entryController else { return }
+            if let entryController = entryController {
                 entryController.createEntry(identifier: UUID(), title: name, bodyText: notes, timeStamp: Date(), mood: mood.rawValue)
+            }
+             navigationController?.popViewController(animated: true)
+           
         }
         navigationController?.popViewController(animated: true)
         do {
