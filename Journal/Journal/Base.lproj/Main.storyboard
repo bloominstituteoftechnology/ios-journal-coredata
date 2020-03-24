@@ -50,7 +50,7 @@
                                     <outlet property="dateLabel" destination="sFe-tS-8L5" id="Von-Uw-82W"/>
                                     <outlet property="descriptionLabel" destination="bgF-7r-iY0" id="8Ua-tt-Lx9"/>
                                     <outlet property="titleLabel" destination="XFN-Ha-Sd8" id="XS3-qX-pQD"/>
-                                    <segue destination="iNI-Fy-2b2" kind="presentation" identifier="modifyEntry" modalPresentationStyle="fullScreen" id="NcD-96-ngE"/>
+                                    <segue destination="iNI-Fy-2b2" kind="show" identifier="modifyEntry" id="NcD-96-ngE"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -62,7 +62,7 @@
                     <navigationItem key="navigationItem" title="Journal" id="hSA-8U-As3">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="b7V-a0-a9B">
                             <connections>
-                                <segue destination="iNI-Fy-2b2" kind="presentation" identifier="createEntry" modalPresentationStyle="fullScreen" id="DG5-4k-POz"/>
+                                <segue destination="iNI-Fy-2b2" kind="show" identifier="createEntry" id="DG5-4k-POz"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -95,13 +95,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="krd-4w-8Qm">
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="krd-4w-8Qm">
                                 <rect key="frame" x="20" y="108" width="374" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XB3-rU-C9C">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XB3-rU-C9C">
                                 <rect key="frame" x="20" y="162" width="374" height="537.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -109,15 +111,6 @@
                             </textView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                        <constraints>
-                            <constraint firstItem="XB3-rU-C9C" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="0z0-RB-SyI"/>
-                            <constraint firstItem="XB3-rU-C9C" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.6" id="GfO-cw-eo4"/>
-                            <constraint firstItem="krd-4w-8Qm" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="Ml3-Ip-YTZ"/>
-                            <constraint firstItem="XB3-rU-C9C" firstAttribute="top" secondItem="krd-4w-8Qm" secondAttribute="bottom" constant="20" id="gkr-Qo-48F"/>
-                            <constraint firstItem="krd-4w-8Qm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="hPT-mo-byd"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="krd-4w-8Qm" secondAttribute="trailing" constant="20" id="oU5-5F-onj"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="XB3-rU-C9C" secondAttribute="trailing" constant="20" id="yQj-WG-qGr"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Entry" id="Nop-Jc-3Zn">
@@ -146,6 +139,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="iNI-Fy-2b2" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="4Sl-LL-j6k"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="8vJ-et-emJ">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

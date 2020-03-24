@@ -11,8 +11,8 @@ import CoreData
 
 class EntryController {
     
-    func saveToPersistentStore(title: String, bodyText = String) {
-        Entry(title: title, bodyText: bodyText, timeStamp: Date(), identifier: "\(UUID)")
+    func saveToPersistentStore(title: String, bodyText: String) {
+        Entry(title: title, bodyText: bodyText, timeStamp: Date(), context: CoreDataStack.shared.mainContext)
         do {
             try CoreDataStack.shared.mainContext.save()
         } catch {
