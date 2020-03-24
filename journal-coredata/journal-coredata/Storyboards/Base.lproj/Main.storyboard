@@ -23,28 +23,40 @@
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Entry Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LIY-g0-Ejy">
-                                            <rect key="frame" x="236" y="11" width="158" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entry Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LIY-g0-Ejy">
+                                            <rect key="frame" x="313.5" y="11" width="80.5" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" relation="lessThanOrEqual" constant="120" id="kxF-1h-oZr"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Entry Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="geb-3Q-wtZ">
-                                            <rect key="frame" x="20" y="45" width="374" height="44"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entry Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="geb-3Q-wtZ">
+                                            <rect key="frame" x="20" y="55" width="374" height="34"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" fixedFrame="YES" text="Entry Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xPr-Ni-qgj">
-                                            <rect key="frame" x="20" y="11" width="234" height="24"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="254" verticalCompressionResistancePriority="752" text="Entry Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xPr-Ni-qgj">
+                                            <rect key="frame" x="20" y="11" width="96.5" height="24"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="geb-3Q-wtZ" firstAttribute="centerX" secondItem="ZeC-qg-ykf" secondAttribute="centerX" id="4mn-qI-f0c"/>
+                                        <constraint firstItem="LIY-g0-Ejy" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xPr-Ni-qgj" secondAttribute="trailing" constant="40" id="CnC-qD-x1l"/>
+                                        <constraint firstItem="xPr-Ni-qgj" firstAttribute="leading" secondItem="ZeC-qg-ykf" secondAttribute="leadingMargin" id="Gky-Cc-brN"/>
+                                        <constraint firstItem="LIY-g0-Ejy" firstAttribute="trailing" secondItem="ZeC-qg-ykf" secondAttribute="trailingMargin" id="KWo-GO-Y24"/>
+                                        <constraint firstItem="geb-3Q-wtZ" firstAttribute="leading" secondItem="ZeC-qg-ykf" secondAttribute="leadingMargin" id="Ri2-5Q-rEd"/>
+                                        <constraint firstItem="geb-3Q-wtZ" firstAttribute="bottom" secondItem="ZeC-qg-ykf" secondAttribute="bottomMargin" id="RtB-wC-lkC"/>
+                                        <constraint firstItem="xPr-Ni-qgj" firstAttribute="top" secondItem="ZeC-qg-ykf" secondAttribute="topMargin" id="Zg9-Qg-vqz"/>
+                                        <constraint firstItem="geb-3Q-wtZ" firstAttribute="trailing" secondItem="ZeC-qg-ykf" secondAttribute="trailingMargin" id="gde-gf-0tA"/>
+                                        <constraint firstItem="LIY-g0-Ejy" firstAttribute="top" secondItem="ZeC-qg-ykf" secondAttribute="topMargin" id="l6M-oT-awg"/>
+                                        <constraint firstItem="geb-3Q-wtZ" firstAttribute="top" secondItem="xPr-Ni-qgj" secondAttribute="bottom" constant="20" id="nBl-Qs-E9k"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="entryText" destination="geb-3Q-wtZ" id="kRG-LJ-wJv"/>
