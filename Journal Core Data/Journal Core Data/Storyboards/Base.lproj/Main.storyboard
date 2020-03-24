@@ -63,7 +63,7 @@
                                     <outlet property="bodyTextLabel" destination="KYF-2H-oLx" id="jeA-S0-QHP"/>
                                     <outlet property="timeStampLabel" destination="iPv-0A-hwJ" id="0rn-oM-lJX"/>
                                     <outlet property="titleLabel" destination="F1M-HT-fNP" id="hdV-QT-KY0"/>
-                                    <segue destination="thJ-ur-CO1" kind="presentation" identifier="SavedEntryModalSegue" modalPresentationStyle="fullScreen" id="kQ0-Em-OS2"/>
+                                    <segue destination="thJ-ur-CO1" kind="show" identifier="SavedEntryModalSegue" id="kQ0-Em-OS2"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -75,7 +75,7 @@
                     <navigationItem key="navigationItem" title="Journal" id="eba-9e-AUs">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="uFj-Di-Kj3">
                             <connections>
-                                <segue destination="6Hf-qo-8BE" kind="presentation" identifier="NewEntryModalSegue" modalPresentationStyle="fullScreen" id="Y1k-Ev-Wut"/>
+                                <segue destination="thJ-ur-CO1" kind="show" identifier="AddEntryModalSegue" id="eBE-Xp-9wQ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -93,15 +93,23 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="19" translatesAutoresizingMaskIntoConstraints="NO" id="jkM-Rf-cbe">
-                                <rect key="frame" x="20" y="64" width="374" height="269"/>
+                                <rect key="frame" x="20" y="108" width="374" height="269"/>
                                 <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="uy4-oj-wNW">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="32"/>
+                                        <segments>
+                                            <segment title="🙁"/>
+                                            <segment title="😐"/>
+                                            <segment title="🙂"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter title here:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QVc-Xc-UFq">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="50.5"/>
+                                        <rect key="frame" x="0.0" y="50" width="374" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="PmT-3z-ZEU">
-                                        <rect key="frame" x="0.0" y="69.5" width="374" height="199.5"/>
+                                        <rect key="frame" x="0.0" y="103" width="374" height="166"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y8F-LT-90A">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="2"/>
@@ -111,7 +119,7 @@
                                                 </constraints>
                                             </view>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="UGl-Du-Ui1">
-                                                <rect key="frame" x="0.0" y="22" width="374" height="177.5"/>
+                                                <rect key="frame" x="0.0" y="22" width="374" height="144"/>
                                                 <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -132,11 +140,6 @@
                         <viewLayoutGuide key="safeArea" id="NNh-lp-N9B"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Entry" id="bB4-Yt-SUG">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="r2t-yp-Ijy">
-                            <connections>
-                                <action selector="cancelEntry:" destination="thJ-ur-CO1" id="oyO-Xf-K3l"/>
-                            </connections>
-                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="Gna-fZ-Mno">
                             <connections>
                                 <action selector="saveEntry:" destination="thJ-ur-CO1" id="1Hf-P3-mUv"/>
@@ -150,7 +153,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xLR-5f-iiO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="641" y="301"/>
+            <point key="canvasLocation" x="626" y="-460"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="QUx-hk-meA">
@@ -169,25 +172,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rR2-4J-D8A" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1210.144927536232" y="-460.04464285714283"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="n8l-li-2Bo">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6Hf-qo-8BE" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" id="jXK-Us-cvj"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="yiL-d1-B7V">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="thJ-ur-CO1" kind="relationship" relationship="rootViewController" id="sMa-3G-QYf"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Xaz-m2-BbZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="640.57971014492762" y="-460.04464285714283"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
