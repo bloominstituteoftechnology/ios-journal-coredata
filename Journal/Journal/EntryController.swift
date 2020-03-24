@@ -12,8 +12,10 @@ import CoreData
 class EntryController {
     
     // MARK: - Properities
-    // TODO: ? Why can't I use a private(set)
+    // TODO: ? Why can't I use a private(set).
     var entries: [Entry] {
+        // Gets loaded each time. This is a get.
+        // TODO: ? Is this a performance issue.
         loadFromPersistentStore()
     }
     
