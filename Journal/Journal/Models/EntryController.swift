@@ -11,9 +11,9 @@ import CoreData
 
 class EntryController {
     
-    var entries: [Entry] {
-        loadFromPersistentStore()
-    }
+//    var entries: [Entry] {
+//        loadFromPersistentStore()
+//    }
     
     func saveToPersistentStore() {
         do {
@@ -40,14 +40,14 @@ class EntryController {
         CoreDataStack.shared.mainContext.delete(entry)
     }
 
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        do {
-            return try CoreDataStack.shared.mainContext.fetch(fetchRequest)
-        } catch {
-            NSLog("Error saving managed object contect: \(error)")
-            return []
-        }
-    }
+//    func loadFromPersistentStore() -> [Entry] {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        do {
+//            return try CoreDataStack.shared.mainContext.fetch(fetchRequest)
+//        } catch {
+//            NSLog("Error saving managed object contect: \(error)")
+//            return []
+//        }
+//    }
     
 }
