@@ -35,6 +35,8 @@ class EntryDetailViewController: UIViewController {
                    !name.isEmpty else {
                        return
                }
+        let moodIndex = moodControl.selectedSegmentIndex
+        let mood
         guard let notes = entryTextView.text else { return }
         Entry(title: name, bodyText: notes, timeStamp: Date(), context: CoreDataStack.shared.mainContext)
         do {

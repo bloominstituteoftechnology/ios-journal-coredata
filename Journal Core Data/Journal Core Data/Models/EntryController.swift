@@ -35,8 +35,8 @@ class EntryController {
            return []
            }
        }
-    func createEntry(title: String, bodyText: String, timeStamp: Date, identifier: String) -> Entry {
-        let newEntry = Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, context: CoreDataStack.shared.mainContext)
+    func createEntry(title: String, bodyText: String, timeStamp: Date, mood: String, identifier: String) -> Entry {
+        let newEntry = Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, mood: mood,  context: CoreDataStack.shared.mainContext)
         return newEntry
     }
     
