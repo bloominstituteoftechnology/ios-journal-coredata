@@ -25,10 +25,15 @@ class EntryController {
                 bodyText: String? = nil,
                 timestamp: Date? = nil) {
         
+        var datetime = Date()
+        if timestamp != nil {
+            datetime = timestamp!
+        }
+        
         Entry(identifier: identifier,
               title: title,
               bodyText: bodyText,
-              timestamp: timestamp,
+              timestamp: datetime,
               context: CoreDataStack.shared.mainContext)
         
         saveToPersistentStore()

@@ -39,7 +39,15 @@ class EntryTableViewCell: UITableViewCell {
         
         titleLabel.text = entry.title
         bodyLabel.text = entry.bodyText
-        timestampLabel.text = "NaN" // FIXME: entry.timestamp
+
+        let df = DateFormatter()
+        df.dateStyle = .short
+        df.timeStyle = .short
+        if let ts = entry.timestamp {
+            timestampLabel.text = df.string(from: ts)
+        } else {
+            timestampLabel.text = "NaN"
+        }
     }
 
 }
