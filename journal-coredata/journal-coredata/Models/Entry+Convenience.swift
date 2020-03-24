@@ -9,6 +9,12 @@
 import Foundation
 import CoreData
 
+enum Mood: String, CaseIterable {
+    case sad = "☹️"
+    case neutral = "😐"
+    case happy = "🙂"
+}
+
 extension Entry {
     @discardableResult convenience init(identifier: String = UUID().uuidString,
                                         title: String,
