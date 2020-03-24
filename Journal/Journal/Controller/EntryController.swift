@@ -11,9 +11,9 @@ import CoreData
 
 class EntryController {
     
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
+//    var entries: [Entry] {
+//        return loadFromPersistentStore()
+//    }
     
     func saveToPersistentStore() {
         do {
@@ -29,30 +29,31 @@ class EntryController {
         saveToPersistentStore()
     }
     
-    func create(title: String, bodyText: String) {
-        Entry(title: title, bodyText: bodyText, timeStamp: Date(), context: CoreDataStack.shared.mainContext)
+    func create(title: String, bodyText: String, mood: FaceValue) {
+        Entry(title: title, bodyText: bodyText, timeStamp: Date(), mood: mood, context: CoreDataStack.shared.mainContext)
         saveToPersistentStore()
     }
     
-    func update(entry: Entry, title: String, bodyText: String) {
+    func update(entry: Entry, title: String, bodyText: String, mood: FaceValue) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timeStamp = Date()
+        entry.mood = mood.rawValue
         saveToPersistentStore()
     }
     
     
-    func loadFromPersistentStore() -> [Entry] {
-        var allEntries: [Entry] = []
-        let fetchRequest =
-          NSFetchRequest<NSManagedObject>(entityName: "Entry")
-        
-        do {
-            allEntries = try CoreDataStack.shared.mainContext.fetch(fetchRequest) as! [Entry]
-        } catch let error as NSError {
-          print("Could not fetch. \(error), \(error.userInfo)")
-        }
-        return allEntries
-    }
+//    func loadFromPersistentStore() -> [Entry] {
+//        var allEntries: [Entry] = []
+//        let fetchRequest =
+//          NSFetchRequest<NSManagedObject>(entityName: "Entry")
+//
+//        do {
+//            allEntries = try CoreDataStack.shared.mainContext.fetch(fetchRequest) as! [Entry]
+//        } catch let error as NSError {
+//          print("Could not fetch. \(error), \(error.userInfo)")
+//        }
+//        return allEntries
+//    }
     
 }
