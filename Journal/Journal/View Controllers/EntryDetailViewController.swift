@@ -60,6 +60,8 @@ class EntryDetailViewController: UIViewController {
         } else {
             ec.update(entry: entry!, title: title, bodyText: bodyText)
         }
+        navigationController?.popViewController(animated: true)
+//        navigationController?.dismiss(animated: true, completion: nil)
     }
 
 }
