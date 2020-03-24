@@ -42,7 +42,7 @@ class EntryDetailViewController: UIViewController {
 
         
     }
-    
+//     add
     /*
     // MARK: - Navigation
 
