@@ -47,12 +47,14 @@ class EntriesTableViewController: UITableViewController {
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "EntryDetailModalSegue" {
-            guard let EntryDetailVC = segue.destination as? EntryDetailViewController else { return }
+            guard let Nav = segue.destination as? UINavigationController else { return }
+            guard let EntryDetailVC = Nav.topViewController as? EntryDetailViewController else { return }
             guard let selected = tableView.indexPathForSelectedRow else { return }
             EntryDetailVC.entryController = entryController
             EntryDetailVC.entry = entryController.entries[selected.row]
         } else if segue.identifier == "NewEntryModalSegue" {
-            guard let NewEntryVC = segue.destination as? EntryDetailViewController else { return }
+            guard let Nav = segue.destination as? UINavigationController else { return }
+            guard let NewEntryVC = Nav.topViewController as? EntryDetailViewController else { return }
             NewEntryVC.entryController = entryController
         }
     }

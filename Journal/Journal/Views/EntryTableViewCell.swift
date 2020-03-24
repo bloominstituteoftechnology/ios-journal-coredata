@@ -20,15 +20,19 @@ class EntryTableViewCell: UITableViewCell {
         }
     }
     
-//    var numberFormater: NumberFormatter {
-//        
-//    }()
+    static let numberFormatter: DateFormatter = {
+      let dateFormatter = DateFormatter()
+      dateFormatter.dateStyle = .short
+      dateFormatter.timeStyle = .short
+      return dateFormatter
+    }()
 
     func updateViews() {
         guard let entry = entry else { return }
         titleLabel.text = entry.title
         descriptionLabel.text = entry.bodyText
-        timeStampLabel.text = "\(entry.timestamp)"
+        let date = EntryTableViewCell.numberFormatter.string(from: entry.timestamp!)
+        timeStampLabel.text = "\(date)"
     }
     
 }
