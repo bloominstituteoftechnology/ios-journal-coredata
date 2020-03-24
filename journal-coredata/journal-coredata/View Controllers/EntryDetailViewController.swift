@@ -23,6 +23,7 @@ class EntryDetailViewController: UIViewController {
     
     @IBOutlet weak var titleField: UITextField!
     @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak var moodPicker: UISegmentedControl!
 
     override func viewDidLoad() {
         super.viewDidLoad()
