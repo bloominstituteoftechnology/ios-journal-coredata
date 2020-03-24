@@ -15,29 +15,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8A8-zK-9TX">
-                                <rect key="frame" x="20" y="160" width="374" height="34"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="1gL-bo-Yx5">
-                                <rect key="frame" x="20" y="214" width="374" height="628"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="6dL-Ab-loM">
+                                <rect key="frame" x="20" y="160" width="374" height="733"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8A8-zK-9TX">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="lHT-k5-2Mq">
+                                        <rect key="frame" x="0.0" y="54" width="374" height="32"/>
+                                        <segments>
+                                            <segment title="😄"/>
+                                            <segment title="😐"/>
+                                            <segment title="☹️"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="1gL-bo-Yx5">
+                                        <rect key="frame" x="0.0" y="105" width="374" height="628"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="1gL-bo-Yx5" firstAttribute="top" secondItem="8A8-zK-9TX" secondAttribute="bottom" constant="20" id="3jR-16-x3c"/>
-                            <constraint firstItem="1gL-bo-Yx5" firstAttribute="leading" secondItem="797-Jk-xcG" secondAttribute="leading" constant="20" id="44d-5P-V5z"/>
-                            <constraint firstItem="8A8-zK-9TX" firstAttribute="leading" secondItem="797-Jk-xcG" secondAttribute="leading" constant="20" id="Okr-4L-Myc"/>
-                            <constraint firstItem="797-Jk-xcG" firstAttribute="trailing" secondItem="1gL-bo-Yx5" secondAttribute="trailing" constant="20" id="R2h-YT-OO3"/>
-                            <constraint firstItem="8A8-zK-9TX" firstAttribute="top" secondItem="797-Jk-xcG" secondAttribute="top" constant="20" id="kBS-Yi-D7O"/>
-                            <constraint firstItem="797-Jk-xcG" firstAttribute="trailing" secondItem="8A8-zK-9TX" secondAttribute="trailing" constant="20" id="tZ9-Ug-Mg3"/>
-                            <constraint firstItem="797-Jk-xcG" firstAttribute="bottom" secondItem="1gL-bo-Yx5" secondAttribute="bottom" constant="20" id="taW-ML-6d6"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="797-Jk-xcG"/>
                     </view>
                     <navigationItem key="navigationItem" title="Creative Title Here" id="Yot-so-Wpb">
@@ -49,6 +53,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="entryTextView" destination="1gL-bo-Yx5" id="zAi-RV-YNM"/>
+                        <outlet property="moodSegmentedControl" destination="lHT-k5-2Mq" id="NGW-Mt-u0B"/>
                         <outlet property="titleTextField" destination="8A8-zK-9TX" id="vpO-c3-r3m"/>
                     </connections>
                 </viewController>
