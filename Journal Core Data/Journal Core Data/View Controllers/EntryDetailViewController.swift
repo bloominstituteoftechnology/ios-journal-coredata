@@ -16,11 +16,16 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var entryTextField: UITextField!
     
     @IBOutlet weak var entryTextView: UITextView!
+    
+    @IBOutlet weak var moodControl: UISegmentedControl!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
     }
+    
+    
     @IBAction func cancelEntry(_ sender: UIBarButtonItem) {
         navigationController?.dismiss(animated: true, completion: nil)
     }
