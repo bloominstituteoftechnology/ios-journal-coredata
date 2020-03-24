@@ -35,10 +35,13 @@ class EntriesTableViewController: UITableViewController {
          return frc
           
     }()
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return fetchedResultsController.sections?.count ?? 1
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return fetchedResultsController.sections?[section].numberOfObjects ?? 1
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
   
@@ -58,9 +61,8 @@ class EntriesTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let entry = fetchedResultsController.object(at: indexPath)
-            entryController.deleteEntry(entry: entry)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            let entryIndex = fetchedResultsController.object(at: indexPath)
+            entryController.deleteEntry(entry: entryIndex)
         }
     }
     
@@ -68,25 +70,25 @@ class EntriesTableViewController: UITableViewController {
 
     
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "AddEntryModalSegue" {
-                   if let createEntryVC = segue.destination as? EntryDetailViewController {
-                       createEntryVC.entryController = entryController
-                   }
-                   
-               } else if segue.identifier == "SavedEntryModalSegue" {
-                   if let savedEntryVC = segue.destination as? EntryDetailViewController {
-                       savedEntryVC.entryController = entryController
-                       if let selectedIndex = tableView.indexPathForSelectedRow {
-                           savedEntryVC.entry = fetchedResultsController.object(at: selectedIndex)
-                       }
-                       
-                   }
-               }
+            if let createEntryVC = segue.destination as? EntryDetailViewController {
+                createEntryVC.entryController = entryController
+            }
+            
+        } else if segue.identifier == "SavedEntryModalSegue" {
+            if let savedEntryVC = segue.destination as? EntryDetailViewController {
+                savedEntryVC.entryController = entryController
+                if let selectedIndex = tableView.indexPathForSelectedRow {
+                    savedEntryVC.entry = fetchedResultsController.object(at: selectedIndex)
+                }
+                
+            }
+        }
     }
-
+    
 
 }
 

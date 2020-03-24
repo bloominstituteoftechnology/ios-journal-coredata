@@ -25,7 +25,7 @@ class EntryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        updateViews()
         entryTextView.becomeFirstResponder()
         }
     
@@ -36,7 +36,8 @@ class EntryDetailViewController: UIViewController {
     
     @IBAction func saveEntry(_ sender: UIBarButtonItem) {
         guard let name = entryTextView.text,
-                   !name.isEmpty else {
+                   !name.isEmpty,
+        let body = entryTextView.text, !body.isEmpty else {
                        return
                }
         let moodIndex = moodControl.selectedSegmentIndex
@@ -64,17 +65,19 @@ class EntryDetailViewController: UIViewController {
     }
     
     func updateViews() {
+        guard let entryTextField = entryTextField else { return }
               guard let entry = entry else { return }
               entryTextField.text = entry.title
               entryTextView.text = entry.bodyText
               title = entry.title
               
               let setMood = EntryMood(rawValue: entry.mood ?? "")
-              guard let moodIndex = EntryMood.allCases.firstIndex(of: setMood!),
-                  moodControl.selectedSegmentIndex == moodIndex
-                  else {
-                      return title = "Create Entry" }
+        if let  moodIndex = EntryMood.allCases.firstIndex(of: setMood!) {
+                  moodControl.selectedSegmentIndex = moodIndex
+        }  else {
+            title = "Create Entry" 
           }
+    }
 //     add
     /*
     // MARK: - Navigation
