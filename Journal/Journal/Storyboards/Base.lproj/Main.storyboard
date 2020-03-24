@@ -90,7 +90,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="YAk-8a-2pc">
                                 <rect key="frame" x="20" y="108" width="374" height="250"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="E2M-QF-7Dc">
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="E2M-QF-7Dc">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="50"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -100,12 +100,20 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="oCM-3K-358">
-                                        <rect key="frame" x="0.0" y="66" width="374" height="184"/>
+                                        <rect key="frame" x="0.0" y="66" width="374" height="137"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="OhY-lZ-ckA">
+                                        <rect key="frame" x="0.0" y="219" width="374" height="32"/>
+                                        <segments>
+                                            <segment title="🙂"/>
+                                            <segment title="😐"/>
+                                            <segment title="🙁"/>
+                                        </segments>
+                                    </segmentedControl>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="250" id="w57-F7-4mg"/>
@@ -121,6 +129,11 @@
                         <viewLayoutGuide key="safeArea" id="8iY-PQ-hsS"/>
                     </view>
                     <navigationItem key="navigationItem" id="fkV-9s-Cxb">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="lvZ-vp-v9y">
+                            <connections>
+                                <action selector="cancelButtonTapped:" destination="bOj-9n-f4V" id="rtU-ct-90H"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="Mi4-Oh-6Yq">
                             <connections>
                                 <action selector="saveButtonTapped:" destination="bOj-9n-f4V" id="yHG-CI-HVw"/>
@@ -129,6 +142,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="descriptionTextView" destination="oCM-3K-358" id="AQd-Kf-qOy"/>
+                        <outlet property="moodControl" destination="OhY-lZ-ckA" id="pVV-UN-95m"/>
                         <outlet property="titleTextField" destination="E2M-QF-7Dc" id="Pzx-uo-7j5"/>
                     </connections>
                 </viewController>

@@ -23,15 +23,16 @@ class EntryController {
         }
     }
     
-    func create(title: String, bodyText: String, timestamp: Date) {
-        Entry(title: title, bodyText: bodyText, timestamp: timestamp, context: CoreDataStack.shared.mainContext)
+    func create(title: String, bodyText: String, timestamp: Date, mood: String) {
+        Entry(title: title, bodyText: bodyText, timestamp: timestamp, mood: mood, context: CoreDataStack.shared.mainContext)
         saveToPersistentStore()
     }
     
-    func update(title: String, bodyText: String, entry: Entry) {
+    func update(title: String, bodyText: String, mood: String, entry: Entry) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = Date()
+        entry.mood = mood
         saveToPersistentStore()
     }
     
