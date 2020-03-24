@@ -25,7 +25,8 @@ class EntryController {
     func create(identifier: String,
                 title: String,
                 bodyText: String? = nil,
-                timestamp: Date? = nil) {
+                timestamp: Date? = nil,
+                mood: Mood = .neutral) {
         
         var datetime = Date()
         if timestamp != nil {
@@ -36,6 +37,7 @@ class EntryController {
               title: title,
               bodyText: bodyText,
               timestamp: datetime,
+              mood: mood,
               context: CoreDataStack.shared.mainContext)
         
         saveToPersistentStore()
@@ -64,17 +66,13 @@ class EntryController {
     // Update
     func update(entry: Entry,
                 title: String,
-                bodyText: String? = nil) {
+                bodyText: String? = nil,
+                mood: Mood = .neutral) {
 
         entry.title = title
         entry.bodyText = bodyText
         entry.timestamp = Date()
-        
-        Entry(identifier: entry.identifier ?? "",
-              title: entry.title ?? "",
-              bodyText: entry.bodyText,
-              timestamp: entry.timestamp,
-              context: CoreDataStack.shared.mainContext)
+        entry.mood = mood.rawValue
         
         saveToPersistentStore()
     }
