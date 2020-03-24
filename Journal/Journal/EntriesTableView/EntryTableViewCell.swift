@@ -14,6 +14,7 @@ class EntryTableViewCell: UITableViewCell {
     
     var entry: Entry? { didSet { updateViews() }}
     
+    
     // MARK: - IBOutlets
     
     @IBOutlet weak var titleLabel: UILabel!
