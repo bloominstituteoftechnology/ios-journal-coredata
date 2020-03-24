@@ -40,9 +40,12 @@ class EntriesTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return fetchedResultsController.sections?.count ?? 1
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return entryController.entries.count
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -50,14 +53,16 @@ class EntriesTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else { fatalError() }
         
         // Assign entry to cell
-        cell.entry = entryController.entries[indexPath.row]
+        cell.entry = fetchedResultsController.object(at: indexPath)
 
         return cell
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
         if editingStyle == .delete {
-            entryController.delete(at: entryController.entries[indexPath.row])
+            let entry = fetchedResultsController.object(at: indexPath)
+            entryController.delete(at: entry)
         }
     }
     
@@ -71,7 +76,7 @@ class EntriesTableViewController: UITableViewController {
             guard let entryDetailVC = segue.destination as? EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow else { return }
             entryDetailVC.entryController = self.entryController
-            entryDetailVC.entry = entryController.entries[indexPath.row]
+            entryDetailVC.entry = fetchedResultsController.object(at: indexPath)
         }
     }
 
