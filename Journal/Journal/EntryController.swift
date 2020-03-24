@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class EntryController {
     
@@ -43,6 +44,13 @@ class EntryController {
 
     // Read
     private func loadFromPersistentStore() -> [Entry] {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        
+        do {
+            return try CoreDataStack.shared.mainContext.fetch(fetchRequest)
+        } catch {
+            NSLog("Error fetching tasks: \(error)")
+        }
         return []
     }
 
