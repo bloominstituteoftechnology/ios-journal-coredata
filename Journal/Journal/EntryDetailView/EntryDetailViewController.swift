@@ -74,7 +74,10 @@ class EntryDetailViewController: UIViewController {
     }
 }
 
-extension EntryDetailViewController: UITextFieldDelegate, UITextViewDelegate {
+
+// MARK: - Text Field Delegate
+
+extension EntryDetailViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         bodyTextView.becomeFirstResponder()
         return true
