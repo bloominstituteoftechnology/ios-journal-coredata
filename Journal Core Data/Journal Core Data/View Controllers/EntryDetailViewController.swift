@@ -38,7 +38,14 @@ class EntryDetailViewController: UIViewController {
         let moodIndex = moodControl.selectedSegmentIndex
         let mood = EntryMood.allCases[moodIndex]
         guard let notes = entryTextView.text else { return }
-        Entry(title: name, bodyText: notes, timeStamp: Date(), mood: mood, context: CoreDataStack.shared.mainContext)
+        if let entry = entry {
+            
+            entryController?.updateEntry(entryTitle: name, bodyText: notes, entry: entry, mood: mood.rawValue)
+        } else {
+            guard let entryController = entryController else { return }
+                entryController.createEntry(identifier: UUID(), title: name, bodyText: notes, timeStamp: Date(), mood: mood.rawValue)
+        }
+        navigationController?.popViewController(animated: true)
         do {
             try CoreDataStack.shared.mainContext.save()
             navigationController?.dismiss(animated: true, completion: nil)
