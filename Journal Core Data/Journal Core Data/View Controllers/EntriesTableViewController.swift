@@ -29,7 +29,7 @@ class EntriesTableViewController: UITableViewController {
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
         NSSortDescriptor(key: "timeStamp", ascending: true)]
         let context = CoreDataStack.shared.mainContext
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "mood", cacheName: nil)  // we are gathering everything in this  featchrequest, manageobjejcrt contextr and everything from what we created in the constants.
+    let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "mood", cacheName: nil)  // we are gathering everything in this  featchrequest, manageobjejcrt contextr and everything from what we created in the constants.
         frc.delegate = self
         try! frc.performFetch()
          return frc
@@ -38,7 +38,7 @@ class EntriesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 1
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 1
     }
 
   
