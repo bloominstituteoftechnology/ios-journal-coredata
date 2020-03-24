@@ -15,10 +15,10 @@ extension Date {
 }
 
 extension DateFormatter {
-    static var shortFormatter: DateFormatter {
+    static var shortFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .short
         dateFormatter.timeStyle = .short
         return dateFormatter
-    }
+    }()
 }
