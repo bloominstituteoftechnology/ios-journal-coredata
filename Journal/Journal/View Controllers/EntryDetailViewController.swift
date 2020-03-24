@@ -11,7 +11,11 @@ import UIKit
 class EntryDetailViewController: UIViewController {
 
     // MARK: - Properities
-    var entry: Entry?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
     var entryController: EntryController?
     
     // MARK: - Outlets
@@ -24,11 +28,38 @@ class EntryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        updateViews()
     }
 
+    private func updateViews() {
+        // FIXME: ? Make sure the view is loaded.
+        
+        if let entry = entry {
+            title = entry.title
+            titleTextField?.text = entry.title
+            entryTextView?.text = entry.bodyText
+            
+        } else {
+            title = "Create Entry"
+        }
+    }
+    
     // MARK: - Actions
     
     @IBAction func save(_ sender: UIBarButtonItem) {
+        guard let ec = entryController,
+            let title = titleTextField.text,
+            !title.isEmpty,
+            let bodyText = entryTextView?.text else { return }
+        
+        if entry == nil {
+            ec.create(identifier: UUID().uuidString,
+                      title: title,
+                      bodyText: bodyText,
+                      timestamp: Date())
+        } else {
+            ec.update(entry: entry!, title: title, bodyText: bodyText)
+        }
     }
 
 }

@@ -19,10 +19,10 @@ class EntryController {
     // MARK: CRUD
     
     // Create
-    private func create(identifier: String,
-                        title: String,
-                        bodyText: String? = nil,
-                        timestamp: Date? = nil) {
+    func create(identifier: String,
+                title: String,
+                bodyText: String? = nil,
+                timestamp: Date? = nil) {
         
         Entry(identifier: identifier,
               title: title,
@@ -47,9 +47,9 @@ class EntryController {
     }
 
     // Update
-    private func update(entry: Entry,
-                        title: String,
-                        bodyText: String? = nil) {
+    func update(entry: Entry,
+                title: String,
+                bodyText: String? = nil) {
 
         entry.title = title
         entry.bodyText = bodyText
