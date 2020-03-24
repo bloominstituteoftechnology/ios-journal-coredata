@@ -10,7 +10,8 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
 
-    let entryController = EntryController()
+    var entryController: EntryController?
+    var entry: Entry?
     
     @IBOutlet var textField: UITextField!
     @IBOutlet var textView: UITextView!
@@ -18,7 +19,6 @@ class EntryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Do any additional setup after loading the view.
     }
 
     @IBAction func save(_ sender: Any) {
@@ -31,7 +31,8 @@ class EntryDetailViewController: UIViewController {
                 return
         }
         
-        entryController.saveToPersistentStore(title: title, bodyText: desc)
+        entryController?.create(title: title, bodyText: desc)
+        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func cancel(_ sender: Any) {

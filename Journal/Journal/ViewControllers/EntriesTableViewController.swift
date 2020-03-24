@@ -9,6 +9,8 @@
 import UIKit
 
 class EntriesTableViewController: UITableViewController {
+    
+    let entryController = EntryController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +20,13 @@ class EntriesTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        
+        
     }
 
     // MARK: - Table view data source
@@ -29,18 +38,22 @@ class EntriesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        print(entryController.entries.count)
+        return entryController.entries.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? EntryTableViewCell else {return UITableViewCell()}
+        let item = entryController.entries[indexPath.row]
+        
+             cell.entry = item
+        
         // Configure the cell...
 
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -77,14 +90,22 @@ class EntriesTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "createEntry" {
+            guard let vc = segue.destination as? EntryDetailViewController else {return}
+            vc.entryController = entryController
+        //    vc.navigationController = self.navigationController
+        }
+        if segue.identifier == "modifyEntry" {
+            guard let vc = segue.destination as? EntryDetailViewController else {return}
+            vc.entryController = entryController
+         //   vc.navigationController = navigationController
+        }
     }
-    */
+    
 
 }

@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="80" id="dUY-Xd-jQF" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="80" id="dUY-Xd-jQF" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dUY-Xd-jQF" id="jW4-sp-IG4">
@@ -95,22 +95,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="krd-4w-8Qm">
-                                <rect key="frame" x="20" y="108" width="374" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XB3-rU-C9C">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XB3-rU-C9C">
                                 <rect key="frame" x="20" y="162" width="374" height="537.5"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="K4r-Zc-TBK">
+                                <rect key="frame" x="20" y="105" width="374" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="K4r-Zc-TBK" secondAttribute="trailing" constant="20" id="EbC-Lh-sN3"/>
+                            <constraint firstItem="K4r-Zc-TBK" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="17" id="SGz-Hg-Kax"/>
+                            <constraint firstItem="XB3-rU-C9C" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.6" id="U9w-wg-Guq"/>
+                            <constraint firstItem="K4r-Zc-TBK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="XiA-id-WtN"/>
+                            <constraint firstItem="XB3-rU-C9C" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Zyz-D5-mWh"/>
+                            <constraint firstItem="XB3-rU-C9C" firstAttribute="top" secondItem="K4r-Zc-TBK" secondAttribute="bottom" constant="23" id="oco-pz-V0m"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="XB3-rU-C9C" secondAttribute="trailing" constant="20" id="vIe-X3-qWY"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Entry" id="Nop-Jc-3Zn">
@@ -126,7 +133,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="textField" destination="krd-4w-8Qm" id="VIW-ZI-Oab"/>
+                        <outlet property="textField" destination="K4r-Zc-TBK" id="FjJ-bB-KBl"/>
                         <outlet property="textView" destination="XB3-rU-C9C" id="Bk5-qv-wcl"/>
                     </connections>
                 </viewController>

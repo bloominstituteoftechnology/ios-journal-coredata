@@ -14,6 +14,19 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet var dateLabel: UILabel!
     @IBOutlet var descriptionLabel: UILabel!
     
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    func updateViews() {
+        guard let entry = entry else {return}
+        
+        titleLabel.text = entry.title
+        descriptionLabel.text = entry.bodyText
+        dateLabel.text = "\(entry.timeStamp)"
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
