@@ -24,6 +24,7 @@ class EntryDetailViewController: UIViewController {
         super.viewDidLoad()
         titleTextField.layer.cornerRadius = 8
         descriptionTextView.layer.cornerRadius = 8
+        titleTextField.becomeFirstResponder()
         updateViews()
     }
     
@@ -35,8 +36,7 @@ class EntryDetailViewController: UIViewController {
             entryController?.update(title: title, bodyText: body, entry: entry)
             navigationController?.dismiss(animated: true, completion: nil)
         } else {
-            entryController?.create(title: title, bodyText: body, timestamp: Date(), identifier: "1")
-            #warning("identifier")
+            entryController?.create(title: title, bodyText: body, timestamp: Date())
             navigationController?.dismiss(animated: true, completion: nil)
         }
     }

@@ -19,13 +19,16 @@ class EntryTableViewCell: UITableViewCell {
             updateViews()
         }
     }
+    
+//    var numberFormater: NumberFormatter {
+//        
+//    }()
 
     func updateViews() {
         guard let entry = entry else { return }
         titleLabel.text = entry.title
         descriptionLabel.text = entry.bodyText
         timeStampLabel.text = "\(entry.timestamp)"
-        #warning("will need to be formatted")
     }
     
 }
