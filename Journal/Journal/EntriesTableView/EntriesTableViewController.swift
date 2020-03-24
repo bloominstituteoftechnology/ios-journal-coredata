@@ -18,7 +18,7 @@ class EntriesTableViewController: UITableViewController {
         let request: NSFetchRequest<Entry> = Entry.fetchRequest()
         request.sortDescriptors = [
             .init(key: "moodString", ascending: true),
-            .init(key: "title", ascending: true),
+            .init(key: "title", ascending: true, selector: #selector(NSString.localizedStandardCompare(_:))),
         ]
         let context = CoreDataStack.shared.mainContext
         
