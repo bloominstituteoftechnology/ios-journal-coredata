@@ -20,11 +20,13 @@ extension Entry {
                                         title: String,
                                         bodyText: String? = nil,
                                         timestamp: Date = Date(),
+                                        mood: Mood = .neutral,
                                         context: NSManagedObjectContext) {
         self.init(context: context)
         self.identifier = identifier
         self.title = title
         self.bodyText = bodyText ?? ""
         self.timestamp = timestamp
+        self.mood = mood.rawValue
     }
 }
