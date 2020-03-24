@@ -29,13 +29,7 @@ class EntriesTableViewController: UITableViewController {
         return frc
     }()
     
-    // MARK: - View Lifecycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
 
-    
     // MARK: - Table View Data Source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -87,6 +81,9 @@ class EntriesTableViewController: UITableViewController {
         }
     }
 }
+
+
+// MARK: - Fetched Results Controller Delegate
 
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
