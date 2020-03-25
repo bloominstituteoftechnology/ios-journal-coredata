@@ -154,7 +154,32 @@ class EntryController {
         
     }
     
-    func fetchEntriesFromServer(completion: (Error?) -> () = { _ in }) {
+    func fetchEntriesFromServer(completion: @escaping (Error?) -> () = { _ in }) {
         let requestURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching entries from database: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("Error unwrapping data.")
+                completion(NSError())
+                return
+            }
+            
+            var represent: [EntryRepresentation] = []
+            
+            do {
+                represent = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
+                self.updateEntries(with: represent)
+                completion(nil)
+            } catch {
+                NSLog("Error decoding fetched data into representations: \(error)")
+                completion(error)
+            }
+        }.resume()
     }
 }
