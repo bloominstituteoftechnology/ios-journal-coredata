@@ -27,10 +27,14 @@ extension Entry {
     
     var mood: Mood {
         get {
-            return Mood(rawValue: self.moodString ?? "") ?? .neutral
+            return Mood(rawValue: self.moodString) ?? .neutral
         }
         set {
             self.moodString = newValue.rawValue
         }
+    }
+    
+    var representation: EntryRepresentation {
+        EntryRepresentation(title: title, bodyText: bodyText, moodString: moodString, timestamp: timestamp, identifier: identifier)
     }
 }

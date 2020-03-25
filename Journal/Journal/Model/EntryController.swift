@@ -9,7 +9,11 @@
 import Foundation
 import CoreData
 
+private let baseURL = URL(string: "https://journal-shawngee.firebaseio.com/")!
+
 class EntryController {
+    
+    typealias CompletionHandler = (Error?) -> Void
     
     // MARK: - CRUD
     
@@ -59,5 +63,30 @@ class EntryController {
             NSLog("Error saving core data main context: \(error)")
             return error
         }
+    }
+    
+    func sendEntryToServer(_ entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        let uuid = entry.identifier
+        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathComponent("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(entry.representation)
+        } catch {
+            NSLog("Error encoding JSON representation of entry: \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error PUTing task to server: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }.resume()
     }
 }
