@@ -27,7 +27,7 @@ class EntryDetailViewController: UIViewController {
         super.viewDidLoad()
         updateViews()
         entryTextView.becomeFirstResponder()
-        }
+    }
     
     
     @IBAction func cancelEntry(_ sender: UIBarButtonItem) {
@@ -35,11 +35,11 @@ class EntryDetailViewController: UIViewController {
     }
     
     @IBAction func saveEntry(_ sender: UIBarButtonItem) {
-        guard let name = entryTextView.text,
-                   !name.isEmpty,
-        let body = entryTextView.text, !body.isEmpty else {
-                       return
-               }
+        guard let name = entryTextField.text,
+            !name.isEmpty,
+            let body = entryTextView.text, !body.isEmpty else {
+                return
+        }
         let moodIndex = moodControl.selectedSegmentIndex
         let mood = EntryMood.allCases[moodIndex]
         guard let notes = entryTextView.text else { return }
@@ -50,8 +50,8 @@ class EntryDetailViewController: UIViewController {
             if let entryController = entryController {
                 entryController.createEntry(identifier: UUID(), title: name, bodyText: notes, timeStamp: Date(), mood: mood.rawValue)
             }
-             navigationController?.popViewController(animated: true)
-           
+            navigationController?.popViewController(animated: true)
+            
         }
         navigationController?.popViewController(animated: true)
         do {
@@ -61,22 +61,22 @@ class EntryDetailViewController: UIViewController {
             NSLog("error saving managed obejct context: \(error)")
             
         }
-      
+        
     }
     
     func updateViews() {
         guard let entryTextField = entryTextField else { return }
-              guard let entry = entry else { return }
-              entryTextField.text = entry.title
-              entryTextView.text = entry.bodyText
-              title = entry.title
-              
-              let setMood = EntryMood(rawValue: entry.mood ?? "")
+        guard let entry = entry else { return }
+        entryTextField.text = entry.title
+        entryTextView.text = entry.bodyText
+        title = entry.title
+        
+        let setMood = EntryMood(rawValue: entry.mood ?? "")
         if let  moodIndex = EntryMood.allCases.firstIndex(of: setMood!) {
-                  moodControl.selectedSegmentIndex = moodIndex
+            moodControl.selectedSegmentIndex = moodIndex
         }  else {
             title = "Create Entry" 
-          }
+        }
     }
 //     add
     /*
