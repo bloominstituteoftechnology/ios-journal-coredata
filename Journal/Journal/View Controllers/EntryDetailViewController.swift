@@ -29,10 +29,12 @@ class EntryDetailViewController: UIViewController {
     // MARK: - View Lifecycle
     
     func updateViews() {
+        guard isViewLoaded else { return }
         if let entry = entry,
             let title = entry.title,
             let bodyText = entry.bodyText,
             let mood = entry.mood {
+            
             entryTitleTextField.text = title
             entryTextView.text = bodyText
             
