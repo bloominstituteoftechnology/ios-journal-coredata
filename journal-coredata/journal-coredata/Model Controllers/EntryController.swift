@@ -22,7 +22,8 @@ class EntryController {
     // MARK: - CRUD Methodfs
     
     func create(title: String, bodyText: String?, mood: Mood) {
-        Entry(title: title, bodyText: bodyText, mood: mood, context: CoreDataStack.shared.mainContext)
+        let entry = Entry(title: title, bodyText: bodyText, mood: mood, context: CoreDataStack.shared.mainContext)
+        put(entry: entry)
         saveToPersistentStore()
     }
     
@@ -31,6 +32,7 @@ class EntryController {
         entry.bodyText = bodyText ?? ""
         entry.mood = mood.rawValue
         entry.timestamp = Date()
+        put(entry: entry)
         saveToPersistentStore()
     }
     
@@ -56,9 +58,19 @@ class EntryController {
             return
         }
         
-        URLSession.shared.dataTask(with: request) { (<#Data?#>, <#URLResponse?#>, <#Error?#>) in
-            <#code#>
-        }
+        URLSession.shared.dataTask(with: request) { _, _, error in
+            if let error = error {
+                NSLog("Error initiating request after encoding data: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }.resume()
+        
+    }
+    
+    func deleteEntryFromServer() {
         
     }
     
