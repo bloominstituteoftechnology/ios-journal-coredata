@@ -42,9 +42,26 @@ class EntryController {
     }
     
     func delete(entry: Entry) {
+        deleteEntryFromServer(entry: entry)
         CoreDataStack.shared.mainContext.delete(entry)
     }
 
+    func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        let uuid = entry.identifier ?? UUID()
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
+            if let error = error {
+                NSLog("Error PUTing task to server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
+        
+    }
     
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         let uuid = entry.identifier ?? UUID()

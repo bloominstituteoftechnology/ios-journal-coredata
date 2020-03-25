@@ -67,6 +67,7 @@ class EntriesTableViewController: UITableViewController {
             
             let entry = fetchedResultsController.object(at: indexPath)
             let context = CoreDataStack.shared.mainContext
+            entryController.deleteEntryFromServer(entry: entry)
             context.delete(entry)
             
             do {
@@ -75,7 +76,6 @@ class EntriesTableViewController: UITableViewController {
                 context.reset()
                 NSLog("Error saving managed object context. Could not delete record.\(error)")
             }
-            
             
             //tableView.deleteRows(at: [indexPath], with: .fade)
         }
