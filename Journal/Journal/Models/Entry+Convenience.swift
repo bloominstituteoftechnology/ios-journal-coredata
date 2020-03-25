@@ -15,6 +15,15 @@ enum Mood: String, CaseIterable {
     case happy = "😄"
     case neutral = "😐"
     case sad = "☹️"
+
+    static func index(_ mood: String) -> Int {
+        for (index, aMood) in Mood.allCases.enumerated() {
+            if mood == aMood.rawValue {
+                return index
+            }
+        }
+        fatalError("Unknow mood discovered: \(mood)")
+    }
 }
 
 /// Because we choose class define in Tasks.xcdaatamodeld, Task gets generated behind the scenes
@@ -33,14 +42,5 @@ extension Entry {
         self.bodyText = bodyText
         self.timestamp = timestamp
         self.mood = mood.rawValue
-    }
-
-    func moodIndex(_ mood: String) -> Int {
-        for (index, aMood) in Mood.allCases.enumerated() {
-            if mood == aMood.rawValue {
-                return index
-            }
-        }
-        fatalError("Unknow mood discovered: \(mood)")
     }
 }
