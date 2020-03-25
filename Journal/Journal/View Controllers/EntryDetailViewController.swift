@@ -29,15 +29,17 @@ class EntryDetailViewController: UIViewController {
     // MARK: - View Lifecycle
     
     func updateViews() {
-        if let entry = entry {
-            title = entry.title
-            entryTitleTextField.text = entry.title
-            entryTextView.text = entry.bodyText
+        if let entry = entry,
+            let title = entry.title,
+            let bodyText = entry.bodyText,
+            let mood = entry.mood {
+            entryTitleTextField.text = title
+            entryTextView.text = bodyText
             
             let moodIndex: Int
-            if entry.mood == Mood.happy.rawValue {
+            if mood == Mood.happy.rawValue {
                 moodIndex = 0
-            } else if entry.mood == Mood.neutral.rawValue {
+            } else if mood == Mood.neutral.rawValue {
                 moodIndex = 1
             } else {
                 moodIndex = 2

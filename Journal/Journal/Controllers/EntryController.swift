@@ -10,9 +10,13 @@ import Foundation
 import CoreData
 
 class EntryController {
-    var entries: [Entry] {
-        return loadFromPersistentStore()
-    }
+    
+    // MARK: - Properties
+//    var entries: [Entry] {
+//        return loadFromPersistentStore()
+//    }
+    
+
     
     
     // MARK: - Persistent Store
@@ -25,16 +29,16 @@ class EntryController {
         }
     }
     
-    func loadFromPersistentStore() -> [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let context = CoreDataStack.shared.mainContext
-        do {
-            return try context.fetch(fetchRequest)
-        } catch {
-            NSLog("Error loading journal entries from core Data: \(error)")
-            return []
-        }
-    }
+//    func loadFromPersistentStore() -> [Entry] {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let context = CoreDataStack.shared.mainContext
+//        do {
+//            return try context.fetch(fetchRequest)
+//        } catch {
+//            NSLog("Error loading journal entries from core Data: \(error)")
+//            return []
+//        }
+//    }
     
     // MARK: - CRUD
     func createEntry(title: String,
@@ -52,10 +56,12 @@ class EntryController {
     }
     
     func updateEntry(entry: Entry, title: String, bodyText: String, mood: String) {
-        guard let index = entries.firstIndex(of: entry) else { return }
-        entries[index].title = title
-        entries[index].bodyText = bodyText
-        entries[index].mood = mood
+        let context = CoreDataStack.shared.mainContext
+        context.delete(entry)
+        entry.title = title
+        entry.bodyText = bodyText
+        entry.mood = mood
+        context.insert(entry)
         saveToPersistentStore()
     }
     

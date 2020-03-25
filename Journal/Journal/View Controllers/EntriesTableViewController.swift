@@ -14,6 +14,17 @@ class EntriesTableViewController: UITableViewController {
     // MARK: - Properties
     let entryController = EntryController()
     
+    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
+                                        NSSortDescriptor(key: "timestamp", ascending: true)]
+        let context = CoreDataStack.shared.mainContext
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "mood", cacheName: nil)
+        frc.delegate = self
+        try! frc.performFetch()
+        
+        return frc
+    }()
     
     // MARK: - View Lifecycle
 
@@ -27,17 +38,26 @@ class EntriesTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return fetchedResultsController.sections?.count ?? 1
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return entryController.entries.count
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil}
+
+        return sectionInfo.name.capitalized
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
 
-        let index = indexPath.row
-        cell.entry = entryController.entries[index]
+        cell.entry = fetchedResultsController.object(at: indexPath)
 
         return cell
     }
@@ -45,8 +65,7 @@ class EntriesTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let index = indexPath.row
-            let entry = entryController.entries[index]
+            let entry = fetchedResultsController.object(at: indexPath)
             entryController.deleteEntry(entry: entry)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
@@ -62,8 +81,8 @@ class EntriesTableViewController: UITableViewController {
         } else if segue.identifier == "ViewEntryShowSegue" {
             let viewEntryVC = segue.destination as! EntryDetailViewController
             viewEntryVC.entryController = entryController
-            let index = tableView.indexPathForSelectedRow!.row
-            viewEntryVC.entry = entryController.entries[index]
+            let indexPath = tableView.indexPathForSelectedRow!
+            viewEntryVC.entry = fetchedResultsController.object(at: indexPath)
             
         }
     }
