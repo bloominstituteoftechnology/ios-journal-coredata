@@ -39,7 +39,7 @@ class EntryDetailViewController: UIViewController {
         let moodIndex = segmentControl.selectedSegmentIndex
         let mood = FaceValue.allCases[moodIndex]
         if let entry = entry {
-            entryController?.update(entry: entry, title: title, bodyText: desc, mood: mood)
+            entryController?.updater(entry: entry, title: title, bodyText: desc, mood: mood)
         } else {
             entryController?.create(title: title, bodyText: desc, mood: mood)
         }

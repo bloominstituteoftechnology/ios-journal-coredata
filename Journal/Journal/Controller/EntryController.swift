@@ -15,6 +15,10 @@ class EntryController {
     
     typealias CompletionHandler = (Error?) -> Void
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
 //    var entries: [Entry] {
 //        return loadFromPersistentStore()
 //    }
@@ -35,14 +39,14 @@ class EntryController {
             try CoreDataStack.shared.mainContext.save()
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
-            NSLog("Error encoding/saving task: \(error)")
+            NSLog("Error encoding/saving entry: \(error)")
             completion(error)
             return
         }
         
         URLSession.shared.dataTask(with: request) { _, _, error in
             if let error = error {
-                NSLog("Error PUTting task to server: \(error)")
+                NSLog("Error PUTting entry to server: \(error)")
                 completion(error)
                 return
             }
@@ -51,6 +55,65 @@ class EntryController {
         }.resume()
     }
     
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { data, _, error in
+            if let error = error {
+                NSLog("Error fetching entries: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned by data task")
+                completion(NSError())
+                return
+            }
+            
+            do {
+                let entryRepresentations = Array(try JSONDecoder().decode([String: EntryRepresentation].self, from: data).values)
+                try self.updateEntries(with: entryRepresentations)
+            } catch {
+                NSLog("Error decoding or saving data from Firebase: \(error)")
+                completion(error)
+            }
+        }.resume()
+        
+    }
+    
+    private func updateEntries(with representations: [EntryRepresentation]) throws {
+         let entriesByID = representations.filter { $0.identifier != nil}
+        let identifiersToFetch = entriesByID.compactMap { $0.identifier }
+         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesByID))
+         var entryToCreate = representationsByID
+         
+         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+         
+         let context = CoreDataStack.shared.mainContext
+         
+         do {
+             let existingEntries = try context.fetch(fetchRequest)
+             
+             for entry in existingEntries {
+                 guard let id = entry.identifier,
+                     let representation = representationsByID[id] else {continue}
+                 self.update(entry: entry, with: representation)
+                 entryToCreate.removeValue(forKey: id)
+             }
+             
+             for representation in entryToCreate.values {
+                 Entry(entryRepresentation: representation, context: context)
+             }
+         } catch {
+             NSLog("Error fetching entries for UUIDs: \(error)")
+         }
+         
+         try context.save()
+     }
+    
+    // DOES NOT WORK YET
     func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         let uuid = entry.identifier!
         let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
@@ -67,14 +130,14 @@ class EntryController {
             try CoreDataStack.shared.mainContext.save()
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
-            NSLog("Error encoding/saving task: \(error)")
+            NSLog("Error encoding/saving entry: \(error)")
             completion(error)
             return
         }
         
         URLSession.shared.dataTask(with: request) { _, _, error in
             if let error = error {
-                NSLog("Error PUTting task to server: \(error)")
+                NSLog("Error PUTting entry to server: \(error)")
                 completion(error)
                 return
             }
@@ -104,13 +167,20 @@ class EntryController {
         saveToPersistentStore()
     }
     
-    func update(entry: Entry, title: String, bodyText: String, mood: FaceValue) {
+    func updater(entry: Entry, title: String, bodyText: String, mood: FaceValue) {
         entry.title = title
         entry.bodyText = bodyText
         entry.timeStamp = Date()
         entry.mood = mood.rawValue
         put(entry: entry)
         saveToPersistentStore()
+    }
+    
+    private func update(entry: Entry, with representation: EntryRepresentation) {
+        entry.title = representation.title
+        entry.bodyText = representation.bodyText
+        entry.timeStamp = DateFormatter.shortFormatter.date(from: representation.timeStamp) ?? Date()
+        entry.mood = representation.mood
     }
     
     
