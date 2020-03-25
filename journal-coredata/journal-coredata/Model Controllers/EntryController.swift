@@ -13,6 +13,8 @@ class EntryController {
     
     // MARK: - Properties
     
+    let baseURL = URL(string: "https://journal-coredata-b58e9.firebaseio.com/")!
+    
 //    var entries: [Entry] {
 //        loadFromPersistentStore()
 //    }
@@ -35,6 +37,29 @@ class EntryController {
     func delete(at entry: Entry) {
         CoreDataStack.shared.mainContext.delete(entry)
         saveToPersistentStore() 
+    }
+    
+    // MARK: - Firebase methods
+    
+    func put(entry: Entry, completion: @escaping (Error?) -> Void = {_ in }) {
+        let uuid = entry.identifier ?? UUID().uuidString
+        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        
+        do {
+            request.httpBody = try JSONEncoder().encode(entry.entryRepresentation)
+        } catch {
+            NSLog("Error encoding data and assigning it to httpBody: \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (<#Data?#>, <#URLResponse?#>, <#Error?#>) in
+            <#code#>
+        }
+        
     }
     
     // MARK: - Peristence Methods

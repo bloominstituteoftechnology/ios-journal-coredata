@@ -20,7 +20,11 @@ extension Entry {
     var entryRepresentation: EntryRepresentation? {
         guard let identifier = identifier,
             let title = title else { return nil }
-        return EntryRepresentation(identifier: identifier, title: title, bodyText: bodyText, timestamp: timestamp ?? Date(), mood: mood ?? Mood.neutral.rawValue)
+        return EntryRepresentation(identifier: identifier,
+                                   title: title,
+                                   bodyText: bodyText,
+                                   timestamp: timestamp ?? Date(),
+                                   mood: mood ?? Mood.neutral.rawValue)
     }
     
     @discardableResult convenience init(identifier: String = UUID().uuidString,
