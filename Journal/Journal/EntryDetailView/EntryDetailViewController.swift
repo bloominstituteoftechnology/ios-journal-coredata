@@ -48,10 +48,8 @@ class EntryDetailViewController: UIViewController {
         if let entry = entry {
             entryController.update(entry, title: title, bodyText: body, mood: mood)
         } else {
-            entry = entryController.createEntry(title: title, bodyText: body, mood: mood)
+            entryController.createEntry(title: title, bodyText: body, mood: mood)
         }
-        
-        entryController.sendEntryToServer(entry!)
         
         self.navigationController?.popViewController(animated: true)
     }

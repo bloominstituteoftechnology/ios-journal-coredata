@@ -25,6 +25,17 @@ extension Entry {
         self.identifier = identifier
     }
     
+    @discardableResult
+    convenience init(_ representation: EntryRepresentation,
+                     context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        self.init(context: context)
+        self.title = representation.title
+        self.bodyText = representation.bodyText
+        self.moodString = representation.moodString
+        self.timestamp = representation.timestamp
+        self.identifier = representation.identifier
+    }
+    
     var mood: Mood {
         get {
             return Mood(rawValue: self.moodString) ?? .neutral
