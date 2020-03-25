@@ -28,6 +28,10 @@ class EntryController {
     //        loadFromPersistentStore()
     //    }
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     // MARK: CRUD
     
     // Create
