@@ -14,6 +14,11 @@ class EntryController {
 //    var entries: [Entry] {
 //        loadFromPersistentStore()
 //    }
+    
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     typealias CompletionHandler = (Error?) -> Void
     
     let baseURL = URL(string: "https://journal-83f39.firebaseio.com/")!
@@ -96,6 +101,87 @@ class EntryController {
             completion(nil)
         }.resume()
     }
+    
+    
+    
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching tasks: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned by data task")
+                completion(NSError())
+                return
+            }
+            
+            do {
+                //.values will return us just the values and ignore the String key
+                let entryRepresentation = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
+                 self.updateEntries(with: entryRepresentation)
+            } catch {
+                NSLog("Error decoding or saving data from Firebase: \(error)")
+                completion(error)
+            }
+        }.resume()
+    }
+    
+    
+    
+    func updateEntries(with representations: [EntryRepresentation]) {
+        let entriesByID = representations.filter { $0.identifier != nil }
+        let identifiersToFetch = entriesByID.compactMap { UUID(uuidString: $0.identifier) }
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, entriesByID))
+        var tasksToCreate = representationsByID
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let context = CoreDataStack.shared.mainContext
+        
+        do {
+            let existingTasks = try context.fetch(fetchRequest)
+            for entry in existingTasks {
+                guard let id = entry.identifier, let representation = representationsByID[id] else { continue }
+                
+                self.update(task: entry, with: representation)
+                tasksToCreate.removeValue(forKey: id)
+            }
+            
+            for representation in tasksToCreate.values {
+                Entry(entryRepresentation: representation)
+            }
+            
+            saveToPersistentStore()
+        } catch {
+            NSLog("Error fetching tasks for UUIDs: \(error)")
+        }
+        
+    }
+    
+    private func update(task: Entry, with representation: EntryRepresentation) {
+        task.title = representation.title
+        task.bodyText = representation.bodyText
+        task.mood = representation.mood
+        task.timestamp = representation.timestamp
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 }
 
