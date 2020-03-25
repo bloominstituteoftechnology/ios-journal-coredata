@@ -10,6 +10,12 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
     
+    // MARK: - IBOutlets
+    
+    @IBOutlet weak var entryTitleTextField: UITextField!
+    @IBOutlet weak var entryTextView: UITextView!
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
+    
     // MARK: - Properties
     
     var entry: Entry? {
@@ -19,12 +25,7 @@ class EntryDetailViewController: UIViewController {
     }
     var timestamp = Date()
     var entryController: EntryController?
-    
-    // MARK: - IBOutlets
-    
-    @IBOutlet weak var entryTitleTextField: UITextField!
-    @IBOutlet weak var entryTextView: UITextView!
-    
+
     // MARK: - View Lifecycle
     
     func updateViews() {
@@ -53,8 +54,12 @@ class EntryDetailViewController: UIViewController {
             !title.isEmpty, let bodyText = entryTextView.text else {
                 return
         }
-        entryController?.createEntry(title: title, bodyText: bodyText, timestamp: timestamp, context: CoreDataStack.shared.mainContext)
-        entryController?.saveToPersistentStore()
+        if let entry = entry {
+            entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText)
+        } else {
+            entryController?.createEntry(title: title, bodyText: bodyText, timestamp: timestamp, context: CoreDataStack.shared.mainContext)
+        }
+        navigationController?.popViewController(animated: true)
     }
 
 }
