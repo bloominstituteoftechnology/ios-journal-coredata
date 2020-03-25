@@ -42,7 +42,7 @@ class EntryController {
         saveToPersistentStore() 
     }
     
-    // MARK: - Firebase methods
+    // MARK: - Firebase methods.
     
     func put(entry: Entry, completion: @escaping (Error?) -> Void = {_ in }) {
         let uuid = entry.identifier ?? UUID().uuidString
