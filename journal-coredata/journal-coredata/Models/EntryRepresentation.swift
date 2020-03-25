@@ -14,4 +14,11 @@ struct EntryRepresentation: Codable {
     var bodyText: String?
     var timestamp: Date
     var mood: String
+    
+    func update(entry: Entry, entryRepresentation: EntryRepresentation) {
+        entry.title = entryRepresentation.title
+        entry.bodyText = entryRepresentation.bodyText ?? ""
+        entry.mood = entryRepresentation.mood
+        entry.timestamp = entryRepresentation.timestamp
+    }
 }
