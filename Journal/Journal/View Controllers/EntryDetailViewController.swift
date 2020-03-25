@@ -33,10 +33,20 @@ class EntryDetailViewController: UIViewController {
             title = entry.title
             entryTitleTextField.text = entry.title
             entryTextView.text = entry.bodyText
+            
+            let moodIndex: Int
+            if entry.mood == Mood.happy.rawValue {
+                moodIndex = 0
+            } else if entry.mood == Mood.neutral.rawValue {
+                moodIndex = 1
+            } else {
+                moodIndex = 2
+            }
+            moodSegmentedControl.selectedSegmentIndex = moodIndex
         } else {
             title = "Create Entry"
+            moodSegmentedControl.selectedSegmentIndex = 1
         }
-        
     }
     
     override func viewDidLoad() {
@@ -54,10 +64,12 @@ class EntryDetailViewController: UIViewController {
             !title.isEmpty, let bodyText = entryTextView.text else {
                 return
         }
+        let moodIndex = moodSegmentedControl.selectedSegmentIndex
+        let mood = Mood.allCases[moodIndex].rawValue
         if let entry = entry {
-            entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText)
+            entryController?.updateEntry(entry: entry, title: title, bodyText: bodyText, mood: mood)
         } else {
-            entryController?.createEntry(title: title, bodyText: bodyText, timestamp: timestamp, context: CoreDataStack.shared.mainContext)
+            entryController?.createEntry(title: title, bodyText: bodyText, timestamp: timestamp, mood: mood, context: CoreDataStack.shared.mainContext)
         }
         navigationController?.popViewController(animated: true)
     }

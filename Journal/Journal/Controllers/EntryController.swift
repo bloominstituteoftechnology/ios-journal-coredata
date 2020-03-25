@@ -37,16 +37,25 @@ class EntryController {
     }
     
     // MARK: - CRUD
-    func createEntry(title: String, bodyText: String, timestamp: Date, context: NSManagedObjectContext) {
-        let newEntry = Entry(title: title, bodyText: bodyText, timestamp: timestamp, context: CoreDataStack.shared.mainContext)
+    func createEntry(title: String,
+                     bodyText: String,
+                     timestamp: Date,
+                     mood: String,
+                     context: NSManagedObjectContext) {
+        let newEntry = Entry(title: title,
+                             bodyText: bodyText,
+                             timestamp: timestamp,
+                             mood: mood,
+                             context: CoreDataStack.shared.mainContext)
         context.insert(newEntry)
         saveToPersistentStore()
     }
     
-    func updateEntry(entry: Entry, title: String, bodyText: String) {
+    func updateEntry(entry: Entry, title: String, bodyText: String, mood: String) {
         guard let index = entries.firstIndex(of: entry) else { return }
         entries[index].title = title
         entries[index].bodyText = bodyText
+        entries[index].mood = mood
         saveToPersistentStore()
     }
     
