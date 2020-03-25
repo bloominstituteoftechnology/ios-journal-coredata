@@ -29,4 +29,13 @@ extension Entry {
         self.timestamp = timestamp
         self.mood = mood.rawValue
     }
+    
+    @discardableResult convenience init?(representation: EntryRepresentation, context: NSManagedObjectContext) {
+        self.init(identifier: representation.identifier,
+                  title: representation.title,
+                  bodyText: representation.bodyText ?? nil,
+                  timestamp: representation.timestamp,
+                  mood: Mood(rawValue: representation.mood) ?? .neutral,
+                  context: CoreDataStack.shared.mainContext)
+    }
 }
