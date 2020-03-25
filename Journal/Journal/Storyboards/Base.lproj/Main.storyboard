@@ -15,24 +15,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="6dL-Ab-loM">
-                                <rect key="frame" x="20" y="160" width="374" height="670"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="6dL-Ab-loM">
+                                <rect key="frame" x="20" y="160" width="374" height="682"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8A8-zK-9TX">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="34"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="46"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="lHT-k5-2Mq">
-                                        <rect key="frame" x="0.0" y="54" width="374" height="32"/>
+                                        <rect key="frame" x="0.0" y="66" width="374" height="32"/>
                                         <segments>
                                             <segment title="😄"/>
                                             <segment title="😐"/>
                                             <segment title="☹️"/>
                                         </segments>
                                     </segmentedControl>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="1gL-bo-Yx5">
-                                        <rect key="frame" x="0.0" y="105" width="374" height="565"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="1gL-bo-Yx5">
+                                        <rect key="frame" x="0.0" y="117" width="374" height="565"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -42,6 +42,12 @@
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" white="0.90000000000000002" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="6dL-Ab-loM" firstAttribute="leading" secondItem="797-Jk-xcG" secondAttribute="leading" constant="20" id="1kY-OR-edC"/>
+                            <constraint firstItem="6dL-Ab-loM" firstAttribute="top" secondItem="797-Jk-xcG" secondAttribute="top" constant="20" id="e1e-Qd-4gI"/>
+                            <constraint firstItem="797-Jk-xcG" firstAttribute="trailing" secondItem="6dL-Ab-loM" secondAttribute="trailing" constant="20" id="gOZ-wz-mLT"/>
+                            <constraint firstItem="797-Jk-xcG" firstAttribute="bottom" secondItem="6dL-Ab-loM" secondAttribute="bottom" constant="20" id="zmr-AL-bCh"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="797-Jk-xcG"/>
                     </view>
                     <navigationItem key="navigationItem" title="Creative Title Here" id="Yot-so-Wpb">

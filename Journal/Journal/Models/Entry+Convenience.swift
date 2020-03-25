@@ -34,4 +34,13 @@ extension Entry {
         self.timestamp = timestamp
         self.mood = mood.rawValue
     }
+
+    func moodIndex(_ mood: String) -> Int {
+        for (index, aMood) in Mood.allCases.enumerated() {
+            if mood == aMood.rawValue {
+                return index
+            }
+        }
+        fatalError("Unknow mood discovered: \(mood)")
+    }
 }

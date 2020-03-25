@@ -40,8 +40,11 @@ class EntryDetailViewController: UIViewController {
             titleTextField?.text = entry.title
             entryTextView?.text = entry.bodyText
             
+            moodSegmentedControl?.selectedSegmentIndex = entry.moodIndex(entry.mood!)
+            
         } else {
             title = "Create Entry"
+            moodSegmentedControl?.selectedSegmentIndex = 1
         }
     }
     
