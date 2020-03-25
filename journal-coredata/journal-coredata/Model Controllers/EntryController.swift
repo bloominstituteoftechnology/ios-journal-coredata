@@ -38,6 +38,7 @@ class EntryController {
     
     func delete(at entry: Entry) {
         CoreDataStack.shared.mainContext.delete(entry)
+        deleteEntryFromServer(entry: entry)
         saveToPersistentStore() 
     }
     
@@ -70,8 +71,21 @@ class EntryController {
         
     }
     
-    func deleteEntryFromServer() {
+    func deleteEntryFromServer(entry: Entry, completion: @escaping (Error?) -> Void = {_ in }) {
+        let uuid = entry.identifier ?? UUID().uuidString
+        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
         
+        URLSession.shared.dataTask(with: request) { _, _, error in
+            if let error = error {
+                NSLog("Error with delete request for entry: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }.resume()
     }
     
     // MARK: - Peristence Methods
