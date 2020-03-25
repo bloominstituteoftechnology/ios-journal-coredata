@@ -33,8 +33,6 @@ class EntryDetailViewController: UIViewController {
     }
 
     private func updateViews() {
-        // FIXME: ? Make sure the view is loaded.
-        
         if let entry = entry {
             title = entry.title
             titleTextField?.text = entry.title
