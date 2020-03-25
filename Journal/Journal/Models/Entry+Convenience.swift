@@ -16,6 +16,7 @@ enum FaceValue: String, CaseIterable {
 }
 
 extension Entry {
+    
     @discardableResult convenience init(identifier: String = UUID().uuidString,
                      title: String,
                      bodyText: String,
@@ -29,6 +30,10 @@ extension Entry {
         self.bodyText = bodyText
         self.timeStamp = timeStamp
         self.mood = mood.rawValue
+        
+    }
+    
+    @discardableResult convenience init?(taskRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
     }
 }

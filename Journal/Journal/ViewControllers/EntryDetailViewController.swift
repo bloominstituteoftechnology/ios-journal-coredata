@@ -62,7 +62,6 @@ class EntryDetailViewController: UIViewController {
             if let index = FaceValue.allCases.firstIndex(where: {$0.rawValue == entry.mood}) {
                 segmentControl.selectedSegmentIndex = index
             }
-            
         }
     }
     
