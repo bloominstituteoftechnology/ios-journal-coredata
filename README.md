@@ -18,6 +18,18 @@ First, you'll set up the ability to PUT entries to Firebase. Since the `Entry` e
 
 1. Create a new Firebase project for this application. Choose to use the "Realtime Database" and set it to testing mode so no authentication is required.
 
+<details><summary>Click to expand these step-by-step instructions if you need some further guidance setting up your database.</summary>
+
+1. Go to https://console.firebase.google.com
+    - sign in if you need to
+2. Click the big "Add Project" button. Give your project a name.
+    - For now you can disable Google Analytics.
+3. After you've created the project and it's finished instantiating, you should end up on the project dashboard. Click the "Database" option in the menu on the left.
+4. Scroll down until you find the section labeled "Realtime Database." Click the "Create database" button in this section.
+5. In the "Security rules" popup window, select "Start in test mode," and click "Enable."
+6. Your database is set up! Use the provided URL on this screen as your base URL.
+</details>
+
 #### EntryRepresentation
 
 Something to keep in mind when trying to sync multiple databases like we are in this case is that you need to make sure you don't duplicate data. For example, say you have an entry saved in your persistent store on the device, and on Firebase. If you were to go about fetching the entries from Firebase and decoding them into `Entry` objects like you've done previously before today, you would end up with a duplicate of the entry in your persistent store. This would occur every single time that you fetch the entry from Firebase. 
