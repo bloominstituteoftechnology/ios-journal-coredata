@@ -9,10 +9,18 @@
 import Foundation
 import CoreData
 
+enum HTTPMethod: String {
+    case get = "GET"
+    case post = "POST"
+    case put = "PUT"
+}
+
 class EntryController {
     
     // MARK: - Properities
-    
+    typealias CompletionHandler = (Error?) -> Void
+    let baseURL = URL(string: "https://journal-lambda-gerrior.firebaseio.com/")!
+
     // TODO: ? Why can't I use a private(set).
     //    var entries: [Entry] {
     //        // Gets loaded each time. This is a get.
@@ -34,14 +42,16 @@ class EntryController {
             datetime = timestamp!
         }
         
-        Entry(identifier: identifier,
-              title: title,
-              bodyText: bodyText,
-              timestamp: datetime,
-              mood: mood,
-              context: CoreDataStack.shared.mainContext)
+        let entry = Entry(identifier: identifier,
+                          title: title,
+                          bodyText: bodyText,
+                          timestamp: datetime,
+                          mood: mood,
+                          context: CoreDataStack.shared.mainContext)
         
         saveToPersistentStore()
+
+        put(entry: entry)
     }
 
     private func saveToPersistentStore() {
@@ -50,6 +60,38 @@ class EntryController {
         } catch {
             NSLog("Error saving managed error context: \(error)")
         }
+    }
+
+    func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        let uuid = entry.identifier ?? UUID().uuidString
+        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.put.rawValue
+        
+        do {
+            guard var representation = entry.entryRepresentation else {
+                completion(NSError())
+                return
+            }
+            representation.identifier = uuid
+            entry.identifier = uuid // TODO: ? What if it didn't change?
+            try CoreDataStack.shared.mainContext.save()
+            request.httpBody = try JSONEncoder().encode(representation)
+            
+        } catch {
+            NSLog("Error encoding/saving task: \(error)")
+            completion(error)
+        }
+        
+        URLSession.shared.dataTask(with: request) { _, _, error in
+            if let error = error {
+                NSLog("Error PUTing task to server \(error)")
+                completion(error)
+                return
+            }
+
+            completion(nil)
+        }.resume()
     }
 
     // Read
@@ -76,6 +118,8 @@ class EntryController {
         entry.mood = mood.rawValue
         
         saveToPersistentStore()
+
+        put(entry: entry)
     }
 
     // Delete
@@ -89,5 +133,7 @@ class EntryController {
 //        }
         
         saveToPersistentStore()
+        
+        // FIXME: Firebase delete
     }
 }
