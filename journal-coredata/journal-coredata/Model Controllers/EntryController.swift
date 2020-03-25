@@ -109,4 +109,52 @@ class EntryController {
 //            return []
 //        }
 //    }
+    
+    func update(entry: Entry, entryRepresentation: EntryRepresentation) {
+        entry.title = entryRepresentation.title
+        entry.bodyText = entryRepresentation.bodyText ?? ""
+        entry.mood = entryRepresentation.mood
+        entry.timestamp = entryRepresentation.timestamp
+    }
+    
+    func updateEntries(with representations: [EntryRepresentation]) {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        
+        // creating a brand new array that only consists of the identifiers from the passed in representations array
+        let representationsIdentifiers = representations.map { $0.identifier }
+        
+        var representationsById = Dictionary(uniqueKeysWithValues: zip(representationsIdentifiers, representations))
+        
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", representationsById)
+        
+        let context = CoreDataStack.shared.mainContext
+        
+        do {
+            
+            let existingEntries = try context.fetch(fetchRequest)
+            for entry in existingEntries {
+                guard let id = entry.identifier,
+                    let representation = representationsById[id] else { return }
+                update(entry: entry, entryRepresentation: representation)
+                representationsById.removeValue(forKey: id)
+            }
+            
+            for representation in representationsById.values {
+                Entry(representation: representation, context: CoreDataStack.shared.mainContext)
+            }
+            
+            try context.save()
+            
+        } catch {
+            NSLog("Error syncin database's entries with core data's entries: \(error)")
+            return
+        }
+        
+        
+        
+    }
+    
+    func fetchEntriesFromServer(completion: (Error?) -> () = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+    }
 }
