@@ -52,14 +52,17 @@ class EntryDetailViewController: UIViewController {
             let title = titleTextField.text,
             !title.isEmpty,
             let bodyText = entryTextView?.text else { return }
-        
+
+        let moodIndex = moodSegmentedControl.selectedSegmentIndex
+        let mood = Mood.allCases[moodIndex]
+
         if entry == nil {
             ec.create(identifier: UUID().uuidString,
                       title: title,
                       bodyText: bodyText,
-                      timestamp: Date())
+                      mood: mood)
         } else {
-            ec.update(entry: entry!, title: title, bodyText: bodyText)
+            ec.update(entry: entry!, title: title, bodyText: bodyText, mood: mood)
         }
         navigationController?.popViewController(animated: true)
 //        navigationController?.dismiss(animated: true, completion: nil)
