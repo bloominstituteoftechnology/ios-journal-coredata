@@ -19,6 +19,12 @@ class EntryController {
 //        loadFromPersistentStore()
 //    }
     
+    // MARK: - Initializer
+    
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     // MARK: - CRUD Methodfs
     
     func create(title: String, bodyText: String?, mood: Mood) {
