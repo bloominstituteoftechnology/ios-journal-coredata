@@ -175,6 +175,40 @@ class EntryController {
         try context.save() // Caller will handle
     }
     
+    private func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        // TODO: ? Where is the GET specified? Default?
+        URLSession.shared.dataTask(with: requestURL) { data, _, error in
+            /// Did the call complete without error?
+            if let error = error {
+                NSLog("Error fetching tasks: \(error)")
+                completion(error)
+                return
+            }
+            
+            /// Did we get anything?
+            guard let data = data else {
+                NSLog("No data returned by data task")
+                completion(NSError()) // Convert to ResultType
+                return
+            }
+            
+            /// Unwrap the data returned in the closure.
+            do {
+                var entryRepresentation: [EntryRepresentation] = []
+                entryRepresentation = Array(try JSONDecoder().decode([String: EntryRepresentation].self,
+                                                                      from: data).values)
+                try self.updateEntries(with: entryRepresentation)
+                completion(nil)
+
+            } catch {
+                NSLog("Error decoding or saving data from Firebase: \(error)")
+                completion(error)
+            }
+        }.resume()
+    }
+    
     // Delete
     func delete(entry: Entry) {
 
