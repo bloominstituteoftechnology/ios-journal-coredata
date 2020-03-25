@@ -26,12 +26,20 @@ struct EntryRepresentation: Codable {
     func updateEntries(with representations: [EntryRepresentation]) {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
-        // making sure every representation we're messing with has an identifier
-        let representationByIds = representations.filter { $0.identifier != nil}
-        // creating a brand new array that only consists of the identifiers from the previous thingies
-        let representationsIdentifiers = representationByIds.map { $0.identifier }
+        // creating a brand new array that only consists of the identifiers from the passed in representations array
+        let representationsIdentifiers = representations.map { $0.identifier }
         
-        let dic = Dictionary(uniqueKeysWithValues: zip(<#T##sequence1: Sequence##Sequence#>, <#T##sequence2: Sequence##Sequence#>))
+        let representationsById = Dictionary(uniqueKeysWithValues: zip(representationsIdentifiers, representations))
+        
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", representationsById)
+        
+        var context = CoreDataStack.shared.mainContext
+        
+        do {
+            let existingTasks = try context.fetch(fetchRequest)
+        } catch {
+            
+        }
         
         
     }
