@@ -44,11 +44,14 @@ class EntryDetailViewController: UIViewController {
         let moodIndex = moodSelector.selectedSegmentIndex
         let mood = Mood.allCases[moodIndex]
         
+        
         if let entry = entry {
             entryController.update(entry, title: title, bodyText: body, mood: mood)
         } else {
-            entryController.createEntry(title: title, bodyText: body, mood: mood)
+            entry = entryController.createEntry(title: title, bodyText: body, mood: mood)
         }
+        
+        entryController.sendEntryToServer(entry!)
         
         self.navigationController?.popViewController(animated: true)
     }

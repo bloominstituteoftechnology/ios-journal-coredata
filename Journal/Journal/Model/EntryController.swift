@@ -21,9 +21,11 @@ class EntryController {
         loadFromPersistentStore()
     }
     
-    func createEntry(title: String, bodyText: String?, mood: Mood) {
-        Entry(title: title, bodyText: bodyText, mood: mood)
+    @discardableResult
+    func createEntry(title: String, bodyText: String?, mood: Mood) -> Entry {
+        let entry = Entry(title: title, bodyText: bodyText, mood: mood)
         saveToPersistentStore()
+        return entry
     }
     
     func update(_ entry: Entry, title: String, bodyText: String?, mood: Mood) {
@@ -65,9 +67,12 @@ class EntryController {
         }
     }
     
+    
+    // MARK: - Networking
+    
     func sendEntryToServer(_ entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         let uuid = entry.identifier
-        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathComponent("json")
+        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
         
@@ -78,10 +83,27 @@ class EntryController {
             completion(error)
             return
         }
-        
-        URLSession.shared.dataTask(with: request) { (_, _, error) in
+
+        URLSession.shared.dataTask(with: request) { (_, response, error) in
             if let error = error {
-                NSLog("Error PUTing task to server: \(error)")
+                NSLog("Error PUTing entry to server: \(error)")
+                completion(error)
+                return
+            }
+            
+            completion(nil)
+        }.resume()
+    }
+    
+    func deleteEntryFromServer(_ entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        let uuid = entry.identifier
+        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+
+        URLSession.shared.dataTask(with: request) { (_, response, error) in
+            if let error = error {
+                NSLog("Error deleting entry from server: \(error)")
                 completion(error)
                 return
             }
