@@ -14,6 +14,9 @@ class EntryController {
 //    var entries: [Entry] {
 //        loadFromPersistentStore()
 //    }
+    typealias CompletionHandler = (Error?) -> Void
+    
+    let baseURL = URL(string: "https://journal-83f39.firebaseio.com/")!
     
     func saveToPersistentStore() {
         do {
@@ -24,7 +27,8 @@ class EntryController {
     }
     
     func create(title: String, bodyText: String, timestamp: Date, mood: String) {
-        Entry(title: title, bodyText: bodyText, timestamp: timestamp, mood: mood, context: CoreDataStack.shared.mainContext)
+        let entry = Entry(title: title, bodyText: bodyText, timestamp: timestamp, mood: mood, context: CoreDataStack.shared.mainContext)
+        put(entry: entry)
         saveToPersistentStore()
     }
     
@@ -33,12 +37,55 @@ class EntryController {
         entry.bodyText = bodyText
         entry.timestamp = Date()
         entry.mood = mood
+        put(entry: entry)
         saveToPersistentStore()
     }
     
     func delete(entry: Entry) {
         CoreDataStack.shared.mainContext.delete(entry)
     }
+
+    
+    func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        let uuid = entry.identifier ?? UUID()
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+
+        do {
+             guard var representation = entry.entryRepresentation else {
+                completion(NSError())
+                return
+            }
+            
+            representation.identifier = uuid.uuidString
+            entry.identifier = uuid
+            try CoreDataStack.shared.mainContext.save()
+            
+            let jsonEncoder = JSONEncoder()
+            request.httpBody = try jsonEncoder.encode(representation)
+        } catch {
+            NSLog("Error encoding/saving task: \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { (_, response, error) in
+            if let error = error {
+                NSLog("Error PUTing task to server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
+    }
+    
+}
+
+
+
+
+
 
 //    func loadFromPersistentStore() -> [Entry] {
 //        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -49,5 +96,3 @@ class EntryController {
 //            return []
 //        }
 //    }
-    
-}
