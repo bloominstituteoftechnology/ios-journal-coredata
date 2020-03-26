@@ -145,7 +145,7 @@ class EntryController {
                 }
                 
                 for representation in representationsById.values {
-                    Entry(representation: representation, context: CoreDataStack.shared.mainContext)
+                    Entry(representation: representation, context: context)
                 }
                 
             } catch {

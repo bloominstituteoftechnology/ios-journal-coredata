@@ -32,7 +32,7 @@ extension Entry {
                                         bodyText: String? = nil,
                                         timestamp: Date = Date(),
                                         mood: Mood = .neutral,
-                                        context: NSManagedObjectContext) {
+                                        context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.identifier = identifier
         self.title = title
