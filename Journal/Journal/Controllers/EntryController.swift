@@ -36,7 +36,7 @@ class EntryController {
             }
             representation.identifier = identifier.uuidString
             entry.identifier = identifier
-            try CoreDataStack.shared.mainContext.save()
+            try CoreDataStack.shared.save()
             urlRequest.httpBody = try JSONEncoder().encode(representation)
         } catch {
             NSLog("Error saving context or encoding entry representation: \(error)")
@@ -66,7 +66,10 @@ class EntryController {
                 completion(error)
                 return
             }
-            completion(nil)
+            DispatchQueue.main.async {
+                completion(nil)
+            }
+            
         }.resume()
     }
     
@@ -102,16 +105,6 @@ class EntryController {
         }.resume()
     }
     
-    // MARK: - Persistent Store
-    func saveToPersistentStore() {
-        do {
-            try CoreDataStack.shared.mainContext.save()
-        } catch {
-            CoreDataStack.shared.mainContext.reset()
-            NSLog("Error saving managed object context (saving to persistent store): \(error)")
-        }
-    }
-    
     // MARK: - CRUD
     func createEntry(title: String,
                      bodyText: String,
@@ -121,10 +114,8 @@ class EntryController {
         let newEntry = Entry(title: title,
                              bodyText: bodyText,
                              timestamp: timestamp,
-                             mood: mood,
-                             context: CoreDataStack.shared.mainContext)
+                             mood: mood)
         context.insert(newEntry)
-        saveToPersistentStore()
         put(entry: newEntry)
     }
     
@@ -134,7 +125,6 @@ class EntryController {
         let newEntry = Entry(identifier: identifier, title: title, bodyText: bodyText, timestamp: Date(), mood: mood, context: context)
         context.delete(entry)
         context.insert(newEntry)
-        saveToPersistentStore()
         put(entry: newEntry)
     }
     
@@ -146,7 +136,7 @@ class EntryController {
     }
     
     private func updateEntries(with representations: [EntryRepresentation]) throws {
-        let context = CoreDataStack.shared.mainContext
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         
         let entriesByID = representations.filter { $0.identifier != nil }
         let entriesToFetch = entriesByID.compactMap { UUID(uuidString: $0.identifier!) }
@@ -157,34 +147,33 @@ class EntryController {
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(entriesToFetch, entriesByID))
         var entriesToCreate = representationsByID
         
-        do {
-            let existingEntries = try context.fetch(fetchRequest)
-            
-            for entry in existingEntries {
-                guard let id = entry.identifier,
-                    let representation = representationsByID[id] else { continue }
-                self.update(entry: entry, with: representation)
-                entriesToCreate.removeValue(forKey: id)
+        context.performAndWait {
+            do {
+                let existingEntries = try context.fetch(fetchRequest)
+                
+                for entry in existingEntries {
+                    guard let id = entry.identifier,
+                        let representation = representationsByID[id] else { continue }
+                    self.update(entry: entry, with: representation)
+                    entriesToCreate.removeValue(forKey: id)
+                }
+                
+                for representation in entriesToCreate.values {
+                    Entry(entryRepresentation: representation, context: context)
+                }
+                
+            } catch {
+                NSLog("Error fetching entries for UUIDs: \(error)")
             }
-            saveToPersistentStore()
-            
-            for representation in entriesToCreate.values {
-                Entry(entryRepresentation: representation, context: context)
-            }
-            saveToPersistentStore()
-            
-        } catch {
-            NSLog("Error fetching entries for UUIDs: \(error)")
         }
         
-        try context.save()
+        try CoreDataStack.shared.save(context: context)
     }
     
     func deleteEntry(entry: Entry) {
         let context = CoreDataStack.shared.mainContext
         delete(entry: entry)
         context.delete(entry)
-        saveToPersistentStore()
     }
 }
 
