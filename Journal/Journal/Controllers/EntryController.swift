@@ -18,7 +18,7 @@ class EntryController {
     let baseURL: URL = URL(string: "https://journal-6ef05.firebaseio.com/")!
     typealias CompletionHandler = (Error?) -> Void
 
-    // MARK: - Methods
+    // MARK: - Database Methods
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         let identifier = entry.identifier ?? UUID()
         let fetchRequest = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
@@ -66,31 +66,7 @@ class EntryController {
         }.resume()
     }
     
-    func fetchTasksFromServer(completion: @escaping CompletionHandler = { _ in }) {
-        let requestURL = baseURL.appendingPathExtension("json")
-        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
-            if let error = error {
-                NSLog("Error fetching tasks \(error)")
-                completion(error)
-                return
-            }
-            
-            guard let data = data else {
-                NSLog("No data returned by data task")
-                completion(NSError())
-                return
-            }
-            
-            do {
-                let tasksDict = try JSONDecoder().decode([String : TaskRepresentation].self, from: data)
-                let taskRepresentations = Array(tasksDict.values)
-                try self.updateTasks(with: taskRepresentations)
-            } catch {
-                NSLog("Error decoding or saving data from Firebase: \(error)")
-                completion(error)
-            }
-        }.resume()
-    }
+    
     
     // MARK: - Persistent Store
     func saveToPersistentStore() {
@@ -128,11 +104,44 @@ class EntryController {
         put(entry: newEntry)
     }
     
-    func update(entry: Entry, entryRepresentation: EntryRepresentation) {
+    func update(entry: Entry, with entryRepresentation: EntryRepresentation) {
         entry.title = entryRepresentation.title
         entry.bodyText = entryRepresentation.bodyText
         entry.timestamp = entryRepresentation.timestamp
         entry.mood = entryRepresentation.mood
+    }
+    
+    private func updateEntries(with representations: [EntryRepresentation]) throws {
+        let context = CoreDataStack.shared.mainContext
+        
+        let entriesByID = representations.filter { $0.identifier != nil }
+        let entriesToFetch = entriesByID.compactMap { UUID(uuidString: $0.identifier!) }
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", entriesToFetch)
+        
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(entriesToFetch, entriesByID))
+        var entriesToCreate = representationsByID
+        
+        do {
+            let existingEntries = try context.fetch(fetchRequest)
+            
+            for entry in existingEntries {
+                guard let id = entry.identifier,
+                    let representation = representationsByID[id] else { continue }
+                self.update(entry: entry, with: representation)
+                entriesToCreate.removeValue(forKey: id)
+                
+            }
+            
+            for representation in entriesToCreate.values {
+                Entry(entryRepresentation: representation, context: context)
+            }
+        } catch {
+            NSLog("Error fetching entries for UUIDs: \(error)")
+        }
+        
+        try context.save()
     }
     
     func deleteEntry(entry: Entry) {
