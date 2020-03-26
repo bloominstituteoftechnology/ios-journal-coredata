@@ -96,15 +96,15 @@ class EntryController {
     
     // MARK: - Peristence Methods
     
-    func saveToPersistentStore() {
-        let context = CoreDataStack.shared.mainContext
-        do {
-            try CoreDataStack.shared.mainContext.save()
-        } catch {
-            NSLog("Error saving managed object context: \(error)")
-            context.reset()
-        }
-    }
+//    func saveToPersistentStore() {
+//        let context = CoreDataStack.shared.mainContext
+//        do {
+//            try CoreDataStack.shared.mainContext.save()
+//        } catch {
+//            NSLog("Error saving managed object context: \(error)")
+//            context.reset()
+//        }
+//    }
     
 //    func loadFromPersistentStore() -> [Entry] {
 //        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
