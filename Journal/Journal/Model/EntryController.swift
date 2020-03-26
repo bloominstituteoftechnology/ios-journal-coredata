@@ -10,8 +10,6 @@ import Foundation
 import CoreData
 
 class EntryController {
-
-    typealias CompletionHandler = (Error?) -> Void
     
     // MARK: - Init
     
@@ -77,6 +75,9 @@ class EntryController {
     
     // MARK: - Networking
     
+    typealias CompletionHandler = (Error?) -> Void
+    typealias IDString = String
+    
     private let baseURL = URL(string: "https://journal-shawngee.firebaseio.com/")!
     
     private func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
@@ -105,7 +106,7 @@ class EntryController {
             let decoder = JSONDecoder()
             
             do {
-                let entryRepresentations = try decoder.decode([String: EntryRepresentation].self, from: data)
+                let entryRepresentations = try decoder.decode([IDString: EntryRepresentation].self, from: data)
                 try self.updateEntries(representationsByID: entryRepresentations)
                 completion(nil)
             } catch {
@@ -171,7 +172,7 @@ class EntryController {
         }.resume()
     }
     
-    private func updateEntries(representationsByID: [String: EntryRepresentation]) throws {
+    private func updateEntries(representationsByID: [IDString: EntryRepresentation]) throws {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", Array(representationsByID.keys))
         let context = CoreDataStack.shared.mainContext
