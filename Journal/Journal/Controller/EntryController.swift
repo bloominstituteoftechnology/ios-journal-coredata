@@ -56,6 +56,7 @@ class EntryController {
     }
     
     func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        print("IT IS FETCHING")
         let requestURL = baseURL.appendingPathExtension("json")
         
         URLSession.shared.dataTask(with: requestURL) { data, _, error in
@@ -115,29 +116,15 @@ class EntryController {
     
     // DOES NOT WORK YET
     func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
-        let uuid = entry.identifier!
+        print("IT SHOULD BE DELETING")
+        let uuid = entry.identifier ?? UUID().uuidString
         let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
         
-        do {
-            guard var representation = entry.entryRepresentation else {
-                completion(NSError())
-                return
-            }
-            representation.identifier = uuid
-            entry.identifier = uuid
-            try CoreDataStack.shared.mainContext.save()
-            request.httpBody = try JSONEncoder().encode(representation)
-        } catch {
-            NSLog("Error encoding/saving entry: \(error)")
-            completion(error)
-            return
-        }
-        
         URLSession.shared.dataTask(with: request) { _, _, error in
             if let error = error {
-                NSLog("Error PUTting entry to server: \(error)")
+                NSLog("Error deleting entry from server: \(error)")
                 completion(error)
                 return
             }
@@ -156,8 +143,8 @@ class EntryController {
     
     func delete(entry: Entry) {
         
-        CoreDataStack.shared.mainContext.delete(entry)
         deleteEntryFromServer(entry: entry)
+        CoreDataStack.shared.mainContext.delete(entry)
         saveToPersistentStore()
     }
     
