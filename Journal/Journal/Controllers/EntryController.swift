@@ -17,6 +17,10 @@ class EntryController {
 //    }
     let baseURL: URL = URL(string: "https://journal-6ef05.firebaseio.com/")!
     typealias CompletionHandler = (Error?) -> Void
+    
+    init() {
+        fetchEntriesFromServer()
+    }
 
     // MARK: - Database Methods
     func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
@@ -42,7 +46,7 @@ class EntryController {
         
         URLSession.shared.dataTask(with: urlRequest) { _, _, error in
             if let error = error {
-                NSLog("Error sending (PUT) task to server: \(error)")
+                NSLog("Error sending (PUT) entry to server: \(error)")
                 completion(error)
                 return
             }
@@ -58,7 +62,7 @@ class EntryController {
         
         URLSession.shared.dataTask(with: urlRequest) { _, _, error in
             if let error = error {
-                NSLog("Error deleting (DELETE) task from server: \(error)")
+                NSLog("Error deleting (DELETE) entry from server: \(error)")
                 completion(error)
                 return
             }
@@ -66,7 +70,37 @@ class EntryController {
         }.resume()
     }
     
-    
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching entries \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned by dataTask")
+                completion(NSError())
+                return
+            }
+            
+            var representations: [EntryRepresentation] = []
+            do {
+                let entriesDict = try JSONDecoder().decode([String : EntryRepresentation].self, from: data)
+                
+                for entry in entriesDict {
+                    representations.append(entry.value)
+                }
+                
+                try self.updateEntries(with: representations)
+            } catch {
+                NSLog("Error decoding or saving data from Firebase: \(error)")
+                completion(error)
+            }
+            completion(nil)
+        }.resume()
+    }
     
     // MARK: - Persistent Store
     func saveToPersistentStore() {
@@ -131,12 +165,14 @@ class EntryController {
                     let representation = representationsByID[id] else { continue }
                 self.update(entry: entry, with: representation)
                 entriesToCreate.removeValue(forKey: id)
-                
             }
+            saveToPersistentStore()
             
             for representation in entriesToCreate.values {
                 Entry(entryRepresentation: representation, context: context)
             }
+            saveToPersistentStore()
+            
         } catch {
             NSLog("Error fetching entries for UUIDs: \(error)")
         }
