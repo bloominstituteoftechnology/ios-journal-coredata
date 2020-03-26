@@ -91,6 +91,7 @@ class EntriesTableViewController: UITableViewController {
 // MARK: - Extensions
 
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
+    
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
