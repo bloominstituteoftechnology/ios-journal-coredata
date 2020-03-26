@@ -36,7 +36,7 @@ class EntryController {
             }
             representation.identifier = uuid
             entry.identifier = uuid
-            try CoreDataStack.shared.mainContext.save()
+            try CoreDataStack.shared.save()
             request.httpBody = try JSONEncoder().encode(representation)
         } catch {
             NSLog("Error encoding/saving entry: \(error)")
@@ -112,7 +112,8 @@ class EntryController {
                 NSLog("Error fetching entries for UUIDs: \(error)")
             }
         }
-         try context.save()
+        
+        try CoreDataStack.shared.save(context: context)
      }
     
     // DOES NOT WORK YET
@@ -133,26 +134,35 @@ class EntryController {
             completion(nil)
         }.resume()
     }
-    
+    /*
     func saveToPersistentStore() {
         do {
-            try CoreDataStack.shared.mainContext.save()
+            try CoreDataStack.shared.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
+    }
+ */
+    
+    func delete(entry: Entry) {
+        
+        CoreDataStack.shared.mainContext.delete(entry)
+        deleteEntryFromServer(entry: entry)
+        do {
+            try CoreDataStack.shared.save()
         } catch {
             NSLog("Error saving managed object context: \(error)")
         }
     }
     
-    func delete(entry: Entry) {
-        
-        deleteEntryFromServer(entry: entry)
-        CoreDataStack.shared.mainContext.delete(entry)
-        saveToPersistentStore()
-    }
-    
     func create(title: String, bodyText: String, mood: FaceValue) {
         let entry = Entry(title: title, bodyText: bodyText, timeStamp: Date(), mood: mood, context: CoreDataStack.shared.mainContext)
         put(entry: entry)
-        saveToPersistentStore()
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
     }
     
     func updater(entry: Entry, title: String, bodyText: String, mood: FaceValue) {
@@ -161,7 +171,11 @@ class EntryController {
         entry.timeStamp = Date()
         entry.mood = mood.rawValue
         put(entry: entry)
-        saveToPersistentStore()
+        do {
+            try CoreDataStack.shared.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
     }
     
     private func update(entry: Entry, with representation: EntryRepresentation) {
