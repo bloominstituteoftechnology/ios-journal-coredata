@@ -122,7 +122,7 @@ class EntryController {
         entry.timestamp = entryRepresentation.timestamp
     }
     
-    func updateEntries(with representations: [EntryRepresentation]) {
+    func updateEntries(with representations: [EntryRepresentation]) throws {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
         // creating a brand new array that only consists of the identifiers from the passed in representations array
@@ -148,18 +148,12 @@ class EntryController {
                     Entry(representation: representation, context: CoreDataStack.shared.mainContext)
                 }
                 
-                try context.save()
-                
             } catch {
                 NSLog("Error syncin database's entries with core data's entries: \(error)")
                 return
             }
         }
-        
-        
-        
-        
-        
+        try CoreDataStack.shared.save(context: context)
     }
     
     func fetchEntriesFromServer(completion: @escaping (Error?) -> () = { _ in }) {
@@ -182,7 +176,7 @@ class EntryController {
             
             do {
                 represent = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
-                self.updateEntries(with: represent)
+                try self.updateEntries(with: represent)
                 completion(nil)
             } catch {
                 NSLog("Error decoding fetched data into representations: \(error)")
