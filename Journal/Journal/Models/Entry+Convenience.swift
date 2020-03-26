@@ -50,7 +50,12 @@ extension Entry {
             let mood = FaceValue(rawValue: entryRepresentation.mood)
         else {return nil}
         
-        self.init(identifier: entryRepresentation.identifier, title: entryRepresentation.title, bodyText: bText, timeStamp: date, mood: mood)
+        self.init(identifier: entryRepresentation.identifier,
+                  title: entryRepresentation.title,
+                  bodyText: bText,
+                  timeStamp: date,
+                  mood: mood,
+                  context: context)
         
     }
 }

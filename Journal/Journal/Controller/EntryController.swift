@@ -92,25 +92,26 @@ class EntryController {
          let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
          fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
          
-         let context = CoreDataStack.shared.mainContext
+        let context = CoreDataStack.shared.container.newBackgroundContext()
          
-         do {
-             let existingEntries = try context.fetch(fetchRequest)
-             
-             for entry in existingEntries {
-                 guard let id = entry.identifier,
-                     let representation = representationsByID[id] else {continue}
-                 self.update(entry: entry, with: representation)
-                 entryToCreate.removeValue(forKey: id)
-             }
-             
-             for representation in entryToCreate.values {
-                 Entry(entryRepresentation: representation, context: context)
-             }
-         } catch {
-             NSLog("Error fetching entries for UUIDs: \(error)")
-         }
-         
+        context.performAndWait {
+            do {
+                let existingEntries = try context.fetch(fetchRequest)
+                
+                for entry in existingEntries {
+                    guard let id = entry.identifier,
+                        let representation = representationsByID[id] else {continue}
+                    self.update(entry: entry, with: representation)
+                    entryToCreate.removeValue(forKey: id)
+                }
+                
+                for representation in entryToCreate.values {
+                    Entry(entryRepresentation: representation, context: context)
+                }
+            } catch {
+                NSLog("Error fetching entries for UUIDs: \(error)")
+            }
+        }
          try context.save()
      }
     
