@@ -59,18 +59,19 @@ class EntryDetailViewController: UIViewController {
     // MARK: - Private Method
     
     private func updateViews() {
-        if isViewLoaded {
-            if let entry = entry {
-                title = entry.title
-                titleField.text = entry.title
-                textView.text = entry.bodyText
-                guard let moodIndex = Mood.allCases.firstIndex(where: {$0.rawValue == entry.mood }) else { return }
-                moodPicker.selectedSegmentIndex = moodIndex
-                print("moodIndex: \(moodIndex) and mood: \(entry.mood)")
-            } else {
-                title = "Create Entry"
-            }
+        if isViewLoaded, let entry = entry {
+            title = entry.title
+            titleField.text = entry.title
+            textView.text = entry.bodyText
+            guard let moodIndex = Mood.allCases.firstIndex(where: {$0.rawValue == entry.mood }) else { return }
+            moodPicker.selectedSegmentIndex = moodIndex
+            print("moodIndex: \(moodIndex) and mood: \(entry.mood)")
+        } else {
+            title = "Create Entry"
         }
+        
+        
+        
     }
 
 }
