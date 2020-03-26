@@ -15,6 +15,18 @@ enum Mood: String, CaseIterable {
     case sad
 }
 extension Entry {
+    
+    var entryRepresentation: EntryRepresentation? {
+        guard let title = title,
+            let mood = mood, let bodyText = bodyText else { return nil }
+        
+        return EntryRepresentation(identifier: identifier?.uuidString,
+                                  title: title,
+                                  bodyText: bodyText,
+                                  timestamp: timestamp ?? Date(),
+                                  mood: mood)
+    }
+    
     @discardableResult convenience init(identifier: UUID = UUID(),
                      title: String,
                      bodyText: String?,

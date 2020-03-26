@@ -15,9 +15,56 @@ class EntryController {
 //    var entries: [Entry] {
 //        return loadFromPersistentStore()
 //    }
-    
+    let baseURL: URL = URL(string: "https://journal-6ef05.firebaseio.com/")!
+    typealias CompletionHandler = (Error?) -> Void
 
+    // MARK: - Methods
+    func put(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        let identifier = entry.identifier ?? UUID()
+        let fetchRequest = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var urlRequest = URLRequest(url: fetchRequest)
+        urlRequest.httpMethod = "PUT"
+        
+        do {
+            guard var representation = entry.entryRepresentation else {
+                completion(NSError())
+                return
+            }
+            representation.identifier = identifier.uuidString
+            entry.identifier = identifier
+            try CoreDataStack.shared.mainContext.save()
+            urlRequest.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            NSLog("Error saving context or encoding entry representation: \(error)")
+            completion(error)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: urlRequest) { _, _, error in
+            if let error = error {
+                NSLog("Error sending (PUT) task to server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
+    }
     
+    func delete(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        let identifier = entry.identifier ?? UUID()
+        let fetchRequest = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
+        var urlRequest = URLRequest(url: fetchRequest)
+        urlRequest.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: urlRequest) { _, _, error in
+            if let error = error {
+                NSLog("Error deleting (DELETE) task from server: \(error)")
+                completion(error)
+                return
+            }
+            completion(nil)
+        }.resume()
+    }
     
     // MARK: - Persistent Store
     func saveToPersistentStore() {
@@ -28,17 +75,6 @@ class EntryController {
             NSLog("Error saving managed object context (saving to persistent store): \(error)")
         }
     }
-    
-//    func loadFromPersistentStore() -> [Entry] {
-//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//        let context = CoreDataStack.shared.mainContext
-//        do {
-//            return try context.fetch(fetchRequest)
-//        } catch {
-//            NSLog("Error loading journal entries from core Data: \(error)")
-//            return []
-//        }
-//    }
     
     // MARK: - CRUD
     func createEntry(title: String,
@@ -53,20 +89,22 @@ class EntryController {
                              context: CoreDataStack.shared.mainContext)
         context.insert(newEntry)
         saveToPersistentStore()
+        put(entry: newEntry)
     }
     
     func updateEntry(entry: Entry, title: String, bodyText: String, mood: String) {
         let context = CoreDataStack.shared.mainContext
+        let identifier = entry.identifier ?? UUID()
+        let newEntry = Entry(identifier: identifier, title: title, bodyText: bodyText, timestamp: Date(), mood: mood, context: context)
         context.delete(entry)
-        entry.title = title
-        entry.bodyText = bodyText
-        entry.mood = mood
-        context.insert(entry)
+        context.insert(newEntry)
         saveToPersistentStore()
+        put(entry: newEntry)
     }
     
     func deleteEntry(entry: Entry) {
         let context = CoreDataStack.shared.mainContext
+        delete(entry: entry)
         context.delete(entry)
         saveToPersistentStore()
     }
