@@ -66,6 +66,32 @@ class EntryController {
         }.resume()
     }
     
+    func fetchTasksFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                NSLog("Error fetching tasks \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned by data task")
+                completion(NSError())
+                return
+            }
+            
+            do {
+                let tasksDict = try JSONDecoder().decode([String : TaskRepresentation].self, from: data)
+                let taskRepresentations = Array(tasksDict.values)
+                try self.updateTasks(with: taskRepresentations)
+            } catch {
+                NSLog("Error decoding or saving data from Firebase: \(error)")
+                completion(error)
+            }
+        }.resume()
+    }
+    
     // MARK: - Persistent Store
     func saveToPersistentStore() {
         do {
@@ -100,6 +126,13 @@ class EntryController {
         context.insert(newEntry)
         saveToPersistentStore()
         put(entry: newEntry)
+    }
+    
+    func update(entry: Entry, entryRepresentation: EntryRepresentation) {
+        entry.title = entryRepresentation.title
+        entry.bodyText = entryRepresentation.bodyText
+        entry.timestamp = entryRepresentation.timestamp
+        entry.mood = entryRepresentation.mood
     }
     
     func deleteEntry(entry: Entry) {
