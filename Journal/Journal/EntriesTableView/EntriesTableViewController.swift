@@ -29,6 +29,23 @@ class EntriesTableViewController: UITableViewController {
         return frc
     }()
     
+    // MARK: - View Lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        refreshControl = UIRefreshControl()
+        refreshControl?.addTarget(self, action: #selector(refresh), for: .valueChanged)
+    }
+    
+    // MARK: - Actions
+    
+    @objc private func refresh() {
+        entryController.fetchEntriesFromServer {
+            self.refreshControl?.endRefreshing()
+        }
+    }
+    
+    
 
     // MARK: - Table View Data Source
     

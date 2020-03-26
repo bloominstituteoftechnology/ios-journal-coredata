@@ -21,12 +21,20 @@ class EntryController {
     // MARK: - Init
     
     init() {
+        fetchEntriesFromServer()
+    }
+    
+    func fetchEntriesFromServer(completion: (() -> Void)? = nil) {
         firebaseClient.fetchEntriesFromServer { result in
             switch result {
             case .failure(let error):
                 print("Failed to fetch entries from server: \(error)")
             case .success(let representations):
                 try? self.updateEntries(with: representations)
+            }
+            
+            DispatchQueue.main.async {
+                completion?()
             }
         }
     }
@@ -96,13 +104,13 @@ class EntryController {
     // MARK: - Syncing
     
     private func updateEntries(with entryReps: EntryRepsByID) throws {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", Array(entryReps.keys))
+        let entriesOnServerRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        entriesOnServerRequest.predicate = NSPredicate(format: "identifier IN %@", Array(entryReps.keys))
         let context = CoreDataStack.shared.container.newBackgroundContext()
         
         context.performAndWait {
             do {
-                let existingEntries = try context.fetch(fetchRequest)
+                let existingEntries = try context.fetch(entriesOnServerRequest)
                 var entriesToCreate = entryReps
                 
                 for entry in existingEntries {
@@ -136,6 +144,21 @@ class EntryController {
         }
     
         try CoreDataStack.shared.save(context: context)
+        
+        // Send entries that aren't on server
+        let entriesNotOnServerRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        entriesOnServerRequest.predicate = NSPredicate(format: "!(identifier IN %@)", Array(entryReps.keys))
+        
+        context.perform {
+            do {
+                let entriesNotOnServer = try context.fetch(entriesNotOnServerRequest)
+                for entry in entriesNotOnServer {
+                    self.firebaseClient.sendEntryToServer(entry)
+                }
+            } catch {
+                NSLog("Unable to fetch entries not on server: \(error)")
+            }
+        }
     }
     
     private func update(_ entry: Entry, with representation: EntryRepresentation) {
