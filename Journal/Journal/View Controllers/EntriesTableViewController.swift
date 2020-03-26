@@ -47,12 +47,12 @@ class EntriesTableViewController: UITableViewController {
 
     override func numberOfSections(in tableView: UITableView) -> Int {
         let count = fetchedResultsController.sections?.count ?? 1
-        print(count)
         return count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
+        let count = fetchedResultsController.sections?[section].numberOfObjects ?? 0
+        return count
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -84,7 +84,9 @@ class EntriesTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             entryController.delete(entry: fetchedResultsController.object(at: indexPath))
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            /// Since the FRC handles removing the cell from the tableView after the object has been deleted from the context, you don't need to call ...
+            // tableView.deleteRows(at: [indexPath], with: .fade)
             
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
