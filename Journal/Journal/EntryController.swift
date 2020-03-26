@@ -10,9 +10,11 @@ import Foundation
 import CoreData
 
 enum HTTPMethod: String {
-    case get = "GET"
-    case post = "POST"
-    case put = "PUT"
+    case post   = "POST"   // Create
+    case get    = "GET"    // Read
+    case put    = "PUT"    // Update/Replace
+    case patch  = "PATCH"  // Update/Replace
+    case delete = "DELETE" // Delete
 }
 
 class EntryController {
@@ -83,13 +85,13 @@ class EntryController {
             request.httpBody = try JSONEncoder().encode(representation)
             
         } catch {
-            NSLog("Error encoding/saving task: \(error)")
+            NSLog("Error encoding/saving entry: \(error)")
             completion(error)
         }
         
         URLSession.shared.dataTask(with: request) { _, _, error in
             if let error = error {
-                NSLog("Error PUTing task to server \(error)")
+                NSLog("Error PUTing entry to server \(error)")
                 completion(error)
                 return
             }
@@ -105,7 +107,7 @@ class EntryController {
         do {
             return try CoreDataStack.shared.mainContext.fetch(fetchRequest)
         } catch {
-            NSLog("Error fetching tasks: \(error)")
+            NSLog("Error fetching entries: \(error)")
         }
         return []
     }
@@ -171,7 +173,7 @@ class EntryController {
             }
         } catch {
             /// Make sure you handle a potential error from the fetch method on your managed object context, as it is a throwing method.
-            NSLog("Error fetching tasks for UUIDs: \(error)")
+            NSLog("Error fetching entries for UUIDs: \(error)")
         }
         
         // TODO: ? This isn't under both loops. Concerned about saving too much
@@ -186,7 +188,7 @@ class EntryController {
         URLSession.shared.dataTask(with: requestURL) { data, _, error in
             /// Did the call complete without error?
             if let error = error {
-                NSLog("Error fetching tasks: \(error)")
+                NSLog("Error fetching entries: \(error)")
                 completion(error)
                 return
             }
@@ -223,8 +225,25 @@ class EntryController {
 //            moc.delete(person)
 //        }
         
+        delete(entry: entry) { _ in print("Deleted") }
+        
         saveToPersistentStore()
         
         // FIXME: Firebase delete. EntryController Step 4 and 5.
     }
-}
+
+    func delete(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = baseURL.appendingPathComponent(entry.identifier!).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = HTTPMethod.delete.rawValue
+        
+        URLSession.shared.dataTask(with: request) { _, _, error in
+            if let error = error {
+                NSLog("Error DELETEing entry from server \(error)")
+                completion(error)
+                return
+            }
+
+            completion(nil)
+        }.resume()
+    }}
