@@ -34,14 +34,13 @@ class EntryDetailViewController: UIViewController {
             textField.text = " "
             textBody.text = " "
             segmentBar.selectedSegmentIndex = 0
-            
+            textField.becomeFirstResponder()
             return
         }
         title = entry.title
         textField.text = entry.title
         textBody.text = entry.bodyText
         
-            
         switch entry.mood {
         case Mood.sad.rawValue:
             segmentBar.selectedSegmentIndex = 2
@@ -59,7 +58,7 @@ class EntryDetailViewController: UIViewController {
         }
         let mood = Mood.allMoods[segmentBar.selectedSegmentIndex]
         if let entry = entry, let entryController = entryController {
-            entryController.update(entry: entry, title: title, bodyText: body, mood: Mood(rawValue: mood.rawValue)!)
+            entryController.updateLocal(entry: entry, title: title, bodyText: body, mood: Mood(rawValue: mood.rawValue)!)
         } else if let entryController = entryController {
             entryController.create(title: title, bodyText: body, mood: mood)
         }

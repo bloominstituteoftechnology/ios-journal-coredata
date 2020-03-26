@@ -65,7 +65,6 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             entryController.delete(entry: fetchedResultsController.object(at: indexPath))
-            tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
     //NSFetchResultControllerDelegate:
@@ -126,13 +125,12 @@ class EntriesTableViewController: UITableViewController, NSFetchedResultsControl
             if let addVC = segue.destination as? EntryDetailViewController {
                 addVC.entryController = entryController
             }
-        if segue.identifier == "DetailSegue" {
+        } else if segue.identifier == "DetailSegue" {
             guard let detailVC = segue.destination as? EntryDetailViewController,
                 let index = tableView.indexPathForSelectedRow else {return}
             detailVC.entry = fetchedResultsController.object(at: index)
             detailVC.entryController = entryController
-                
-            }
+            
         }
     }
     
