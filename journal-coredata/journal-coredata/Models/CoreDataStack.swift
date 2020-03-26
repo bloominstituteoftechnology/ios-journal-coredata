@@ -19,6 +19,8 @@ class CoreDataStack {
                 NSLog("Error loading data: \(error)")
             }
         }
+        
+        container.viewContext.automaticallyMergesChangesFromParent = true
         return container
     }()
     

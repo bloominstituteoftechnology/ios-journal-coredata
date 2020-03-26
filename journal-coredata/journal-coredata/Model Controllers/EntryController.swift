@@ -45,7 +45,7 @@ class EntryController {
     func delete(at entry: Entry) {
         CoreDataStack.shared.mainContext.delete(entry)
         deleteEntryFromServer(entry: entry)
-        saveToPersistentStore() 
+        saveToPersistentStore()
     }
     
     // MARK: - Firebase methods.
@@ -96,15 +96,14 @@ class EntryController {
     
     // MARK: - Peristence Methods
     
-//    func saveToPersistentStore() {
-//        let context = CoreDataStack.shared.mainContext
-//        do {
-//            try CoreDataStack.shared.mainContext.save()
-//        } catch {
-//            NSLog("Error saving managed object context: \(error)")
-//            context.reset()
-//        }
-//    }
+    func saveToPersistentStore(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        do {
+            try CoreDataStack.shared.save(context: context)
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+            context.reset()
+        }
+    }
     
 //    func loadFromPersistentStore() -> [Entry] {
 //        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -133,28 +132,31 @@ class EntryController {
         
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", representationsById)
         
-        let context = CoreDataStack.shared.mainContext
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         
-        do {
-            
-            let existingEntries = try context.fetch(fetchRequest)
-            for entry in existingEntries {
-                guard let id = entry.identifier,
-                    let representation = representationsById[id] else { return }
-                update(entry: entry, entryRepresentation: representation)
-                representationsById.removeValue(forKey: id)
+        context.performAndWait {
+            do {
+                let existingEntries = try context.fetch(fetchRequest)
+                for entry in existingEntries {
+                    guard let id = entry.identifier,
+                        let representation = representationsById[id] else { return }
+                    update(entry: entry, entryRepresentation: representation)
+                    representationsById.removeValue(forKey: id)
+                }
+                
+                for representation in representationsById.values {
+                    Entry(representation: representation, context: CoreDataStack.shared.mainContext)
+                }
+                
+                try context.save()
+                
+            } catch {
+                NSLog("Error syncin database's entries with core data's entries: \(error)")
+                return
             }
-            
-            for representation in representationsById.values {
-                Entry(representation: representation, context: CoreDataStack.shared.mainContext)
-            }
-            
-            try context.save()
-            
-        } catch {
-            NSLog("Error syncin database's entries with core data's entries: \(error)")
-            return
         }
+        
+        
         
         
         
