@@ -37,7 +37,11 @@ class EntryController {
     @discardableResult
     func createEntry(title: String, bodyText: String?, mood: Mood) -> Entry {
         let entry = Entry(title: title, bodyText: bodyText, mood: mood)
-        firebaseClient.sendEntryToServer(entry)
+        firebaseClient.sendEntryToServer(entry) { error in
+            if let error = error {
+                NSLog("Error sending entry to server: \(error)")
+            }
+        }
         
         do {
             try CoreDataStack.shared.save()
@@ -53,7 +57,11 @@ class EntryController {
         entry.bodyText = bodyText
         entry.mood = mood
         entry.timestamp = Date()
-        firebaseClient.sendEntryToServer(entry)
+        firebaseClient.sendEntryToServer(entry) { error in
+            if let error = error {
+                NSLog("Error sending entry to server: \(error)")
+            }
+        }
         
         do {
             try CoreDataStack.shared.save()
@@ -78,7 +86,7 @@ class EntryController {
                 NSLog("Unable to delete entry from firebase: \(error)")
                 // What should we do if the entry isn't delted from the server?
                 // It would potentially be re-fetched from firebase...
-                // Maybe we could make a list of entries that have been deleted locally but not remotely
+                // Maybe we could make a list of entry ids that have been deleted locally but not remotely
                 // Then when we sync with firebase, we could reference that list to determine which entries need to be deleted from the server
             }
         }
@@ -100,7 +108,22 @@ class EntryController {
                 for entry in existingEntries {
                     let id = entry.identifier
                     guard let representation = entryReps[id] else { continue }
-                    update(entry, with: representation)
+                    
+                    // Check the timestamps for difference
+                    switch entry.timestamp.distance(to: representation.timestamp) {
+                    case ..<0:
+                        // If the representation is older, we should send the local entry to the server
+                        // We won't worry about if it doesn't succeed, though it should since we just fetched the entry reps
+                        firebaseClient.sendEntryToServer(entry)
+                    case 0:
+                        // If they have the same timestamp, maybe we should check to see if they are different
+                        // They shouldn't be though, unless the entry was modified without updating the timestamp...
+                        break
+                    default:
+                        // If the representation is newer, we should update our local entry
+                        update(entry, with: representation)
+                    }
+                    
                     entriesToCreate.removeValue(forKey: id)
                 }
                 
@@ -123,3 +146,4 @@ class EntryController {
         entry.identifier = representation.identifier
     }
 }
+
