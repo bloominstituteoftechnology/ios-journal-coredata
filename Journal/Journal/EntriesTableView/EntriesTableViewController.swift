@@ -60,10 +60,7 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
-            let error = entryController.delete(entry)
-            if error != nil {
-                CoreDataStack.shared.mainContext.reset()
-            }
+            entryController.delete(entry)
         }
     }
 
