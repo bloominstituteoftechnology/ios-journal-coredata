@@ -154,10 +154,10 @@ class EntryController {
                 }
                 
                 for representation in tasksToCreate.values {
-                    Entry(entryRepresentation: representation)
+                    Entry(entryRepresentation: representation, context: context)
                 }
                 
-                saveToPersistentStore()
+                try CoreDataStack.shared.save(context: context)
             } catch {
                 NSLog("Error fetching tasks for UUIDs: \(error)")
             }
