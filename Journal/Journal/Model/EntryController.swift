@@ -30,7 +30,7 @@ class EntryController {
             case .failure(let error):
                 print("Failed to fetch entries from server: \(error)")
             case .success(let representations):
-                try? self.updateEntries(with: representations)
+                try? self.syncEntries(with: representations)
             }
             
             DispatchQueue.main.async {
@@ -79,7 +79,8 @@ class EntryController {
     }
     
     func delete(_ entry: Entry) {
-        // We should always delete the entry locally, regardless of whether we are online
+        deleteFromServer(entry.identifier)
+        
         CoreDataStack.shared.mainContext.delete(entry)
         
         do {
@@ -87,15 +88,41 @@ class EntryController {
         } catch {
             NSLog("Error saving moc after deleting entry")
         }
-        
-        // Then we should attempt to delete from the server
-        firebaseClient.deleteEntryFromServer(entry) { error in
+    }
+    
+    
+    // MARK: - Private
+    
+    private func deleteFromServer(_ entryID: String) {
+        firebaseClient.deleteEntryWithID(entryID) { error in
             if let error = error {
                 NSLog("Unable to delete entry from firebase: \(error)")
-                // What should we do if the entry isn't delted from the server?
-                // It would potentially be re-fetched from firebase...
-                // Maybe we could make a list of entry ids that have been deleted locally but not remotely
-                // Then when we sync with firebase, we could reference that list to determine which entries need to be deleted from the server
+                self.deleteLog.append(entryID)
+            }
+        }
+    }
+    
+    private let deleteLogURL: URL = {
+        let documentsDirctory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        return documentsDirctory.appendingPathComponent("deleteLog")
+    }()
+    
+    private var deleteLog: [String] {
+        get {
+            do {
+                let deleteLogData = try Data(contentsOf: deleteLogURL)
+                let deleteLog = try JSONDecoder().decode([String].self, from: deleteLogData)
+                return deleteLog
+            } catch {
+                return [String]()
+            }
+        }
+        set {
+            do {
+                let newValueData = try JSONEncoder().encode(newValue)
+                try newValueData.write(to: deleteLogURL)
+            } catch {
+                NSLog("Unable to save delete log: \(error)")
             }
         }
     }
@@ -103,13 +130,14 @@ class EntryController {
     
     // MARK: - Syncing
     
-    private func updateEntries(with entryReps: EntryRepsByID) throws {
+    private func syncEntries(with entryReps: EntryRepsByID) throws {
         let entriesOnServerRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         entriesOnServerRequest.predicate = NSPredicate(format: "identifier IN %@", Array(entryReps.keys))
         let context = CoreDataStack.shared.container.newBackgroundContext()
         
         context.performAndWait {
             do {
+                // First check for existing local entries matching Firebase representations
                 let existingEntries = try context.fetch(entriesOnServerRequest)
                 var entriesToCreate = entryReps
                 
@@ -117,24 +145,28 @@ class EntryController {
                     let id = entry.identifier
                     guard let representation = entryReps[id] else { continue }
                     
-                    // Check the timestamps for difference
                     switch entry.timestamp.distance(to: representation.timestamp) {
                     case ..<0:
-                        // If the representation is older, we should send the local entry to the server
-                        // We won't worry about if it doesn't succeed, though it should since we just fetched the entry reps
+                        // If the Firebase representation is older, we should send the local entry to the server
                         firebaseClient.sendEntryToServer(entry)
                     case 0:
-                        // If they have the same timestamp, maybe we should check to see if they are different
-                        // They shouldn't be though, unless the entry was modified without updating the timestamp...
                         break
                     default:
-                        // If the representation is newer, we should update our local entry
+                        // If the Firebase representation is newer, we should update our local entry
                         update(entry, with: representation)
                     }
                     
                     entriesToCreate.removeValue(forKey: id)
                 }
                 
+                // Check to see if deleteLog has IDs of deleted entries that weren't propogated to Firebase
+                for id in deleteLog {
+                    entriesToCreate.removeValue(forKey: id)
+                    deleteFromServer(id)
+                }
+                deleteLog = []
+                
+                // Create new entries from remaining Firebase representations
                 for representation in entriesToCreate.values {
                     Entry(representation, context: context)
                 }
@@ -145,7 +177,7 @@ class EntryController {
     
         try CoreDataStack.shared.save(context: context)
         
-        // Send entries that aren't on server
+        // Send entries that aren't on server up to server
         let entriesNotOnServerRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         entriesOnServerRequest.predicate = NSPredicate(format: "!(identifier IN %@)", Array(entryReps.keys))
         

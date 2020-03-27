@@ -82,8 +82,7 @@ class FirebaseClient {
         }.resume()
     }
     
-    func deleteEntryFromServer(_ entry: Entry, completion: @escaping ErrorCompletion = { _ in }) {
-        let uuid = entry.identifier
+    func deleteEntryWithID(_ uuid: String, completion: @escaping ErrorCompletion = { _ in }) {
         let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"
