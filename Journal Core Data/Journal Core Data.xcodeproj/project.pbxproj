@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F19CC9A242D8C800052EC16 /* EntryRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F19CC99242D8C800052EC16 /* EntryRepresentation.swift */; };
 		3F273E1E2429459D008633CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F273E1D2429459D008633CF /* AppDelegate.swift */; };
 		3F273E202429459D008633CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F273E1F2429459D008633CF /* SceneDelegate.swift */; };
 		3F273E252429459D008633CF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3F273E232429459D008633CF /* Main.storyboard */; };
@@ -19,9 +20,11 @@
 		3F273E402429563D008633CF /* JournalCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3F273E3E2429563D008633CF /* JournalCoreData.xcdatamodeld */; };
 		3F273E422429588C008633CF /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F273E412429588C008633CF /* Entry+Convenience.swift */; };
 		3F273E4424295AB2008633CF /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F273E4324295AB2008633CF /* EntryController.swift */; };
+		3F660746242D042C00A68EEC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F660745242D042C00A68EEC /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3F19CC99242D8C800052EC16 /* EntryRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EntryRepresentation.swift; path = "Journal Core Data/Applications/EntryRepresentation.swift"; sourceTree = SOURCE_ROOT; };
 		3F273E1A2429459D008633CF /* Journal Core Data.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Journal Core Data.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F273E1D2429459D008633CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3F273E1F2429459D008633CF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -37,6 +40,7 @@
 		3F273E412429588C008633CF /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
 		3F273E4324295AB2008633CF /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
 		3F2ABBF1242AA85500A217FB /* JournalCoreData 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "JournalCoreData 2.xcdatamodel"; sourceTree = "<group>"; };
+		3F660745242D042C00A68EEC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +80,7 @@
 				3F273E3A24295454008633CF /* Storyboards */,
 				3F273E2B242945A1008633CF /* Info.plist */,
 				3F273E26242945A1008633CF /* Assets.xcassets */,
+				3F660745242D042C00A68EEC /* GoogleService-Info.plist */,
 			);
 			path = "Journal Core Data";
 			sourceTree = "<group>";
@@ -101,6 +106,7 @@
 		3F273E3B24295465008633CF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				3F19CC99242D8C800052EC16 /* EntryRepresentation.swift */,
 				3F273E382429543F008633CF /* CoreDataStack.swift */,
 				3F273E4324295AB2008633CF /* EntryController.swift */,
 				3F273E3E2429563D008633CF /* JournalCoreData.xcdatamodeld */,
@@ -185,6 +191,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F273E2A242945A1008633CF /* LaunchScreen.storyboard in Resources */,
+				3F660746242D042C00A68EEC /* GoogleService-Info.plist in Resources */,
 				3F273E27242945A1008633CF /* Assets.xcassets in Resources */,
 				3F273E252429459D008633CF /* Main.storyboard in Resources */,
 			);
@@ -198,6 +205,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F273E392429543F008633CF /* CoreDataStack.swift in Sources */,
+				3F19CC9A242D8C800052EC16 /* EntryRepresentation.swift in Sources */,
 				3F273E322429485D008633CF /* EntriesTableViewController.swift in Sources */,
 				3F273E3424294879008633CF /* EntryTableViewCell.swift in Sources */,
 				3F273E4424295AB2008633CF /* EntryController.swift in Sources */,

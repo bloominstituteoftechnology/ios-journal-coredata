@@ -27,4 +27,13 @@ extension Entry {
         self.bodyText = bodyText
         self.timeStamp = timeStamp
     }
+    convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        self.init(context: context)
+        self.identifier = entryRepresentation.identifier
+        self.title = entryRepresentation.title
+        self.mood = entryRepresentation.mood
+        self.bodyText = entryRepresentation.bodyText
+        self.timeStamp = entryRepresentation.timestamp
+    
+    }
 }
