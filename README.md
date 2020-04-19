@@ -23,12 +23,12 @@ Create a single view application called `Journal` in Xcode and do not check the 
 
 #### Storyboard Tasks
 
-2. Add a `UITableViewController` scene
-3. Embed each of the above scenes in their own navigation controllers
-4. Assign the nav controller attached to the table view scene as the initial view
-5. Create a bar button item in the upper right of the table view scene's nav bar.
-6. Connect that button to the nav controller for the create scene and use the _present modally_ kind. Change the presentation on the segue to _full screen_.
-7. See the below mockup images for design specs on the create entry view as as well as the table view. Try your best to recreate the design using Auto Layout, stack views, etc. (see today's guided project storyboard for help)
+1. Add a `UITableViewController` scene
+2. Embed each of the above scenes in their own navigation controllers
+3. Assign the nav controller attached to the table view scene as the initial view
+4. Create a bar button item in the upper right of the table view scene's nav bar.
+5. Connect that button to the nav controller for the create scene and use the _present modally_ kind. Change the presentation on the segue to _full screen_.
+6. See the below mockup images for design specs on the create entry view as as well as the table view. Try your best to recreate the design using Auto Layout, stack views, etc. (see today's guided project storyboard for help)
 
 ### Part 2 - Entry and EntryController Setup
 
