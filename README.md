@@ -80,5 +80,5 @@ In the `EntryTableViewController`:
 
 ### UI Mockups
 
-![Create entry view]()
-![Entries table view]()
+![Create entry view](https://raw.githubusercontent.com/LambdaSchool/ios-journal-coredata/master/CreateEntry-Blank.png)
+![Entries table view](https://raw.githubusercontent.com/LambdaSchool/ios-journal-coredata/master/Tableview-with-Entry.png)
