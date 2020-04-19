@@ -48,9 +48,9 @@ You will be using a model object called `Entry`.
     - An `identifier` string.
 
 In the file `Entry+Convenience.swift`: 
-    1. Import `CoreData` in this file.
-    2. Add an extension on `Entry`.
-    3. Create a convenience initializer that takes in values for each of the `Entry` entity's attributes, and an instance of `NSManagedObjectContext`. Consider giving default values to the timestamp and identifier parameters in this initializer. This initializer should:
+1. Import `CoreData` in this file.
+2. Add an extension on `Entry`.
+3. Create a convenience initializer that takes in values for each of the `Entry` entity's attributes, and an instance of `NSManagedObjectContext`. Consider giving default values to the timestamp and identifier parameters in this initializer. This initializer should:
     - Call the `Entry` class' initializer that takes in an `NSManagedObjectContext`
     - Set the value of attributes you defined in the data model using the parameters of the initializer.
     - Add the `@discardableResult` annotation to the beginning of the initializer's method signature so callers don't need to use the object returned.
