@@ -10,6 +10,8 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
     
+    static let reuseIdentifier = "EntryCell"
+    
     @IBOutlet weak var entryTitleLabel: UILabel!
     @IBOutlet weak var entryTextLabel: UILabel!
     @IBOutlet weak var timeStampLabel: UILabel!

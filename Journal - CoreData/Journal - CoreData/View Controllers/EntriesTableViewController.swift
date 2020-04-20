@@ -9,6 +9,8 @@
 import UIKit
 
 class EntriesTableViewController: UITableViewController {
+    
+    let entryController = EntryController()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,18 +31,20 @@ class EntriesTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0
+        return entryController.entries.count
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: EntryTableViewCell.reuseIdentifier, for: indexPath) as? EntryTableViewCell else { fatalError("Can't dequeue cell of type \(EntryTableViewCell.reuseIdentifier)")
+            
+        }
 
         // Configure the cell...
+        cell.entry = entryController.entries[indexPath.row]
 
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.
