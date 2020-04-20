@@ -32,6 +32,7 @@ class CreateEntryViewController: UIViewController {
             try CoreDataStack.shared.mainContext.save()
         } catch {
             print("Error saving managed object context: \(error)")
+            return
         }
         
         navigationController?.dismiss(animated: true, completion: nil)

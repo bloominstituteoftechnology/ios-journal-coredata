@@ -27,9 +27,10 @@ class EntryTableViewCell: UITableViewCell {
     //MARK: - Functions
     //Updates Views when entry is set
     func updateViews() {
-        titleLabel.text = entry?.title
-        dateLabel.text = entry?.timestamp?.description
-        textView.text = entry?.bodyText
+        guard let entry = entry else { return }
+        titleLabel.text = entry.title
+        dateLabel.text = entry.timestamp?.description
+        textView.text = entry.bodyText
     }
     
 }
