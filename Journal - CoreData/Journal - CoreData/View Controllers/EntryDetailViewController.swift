@@ -15,16 +15,36 @@ class EntryDetailViewController: UIViewController {
     
     // MARK: - Properties
     
-    var entry: Entry?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
     var entryController: EntryController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        updateViews()
+    }
+    
+    func updateViews() {
+        viewDidLoad()
+        
+        if ((entry?.title) != nil)  {
+        self.title = entry?.title
+        } else {
+            self.title = "Create Entry"
+        }
+        
+        if entry != nil {
+            titleTextField.text = entry?.title
+            entryTextView.text = entry?.bodyText
+        }
     }
     
     @IBAction func save(_ sender: UIBarButtonItem) {
+       
         
     }
     
