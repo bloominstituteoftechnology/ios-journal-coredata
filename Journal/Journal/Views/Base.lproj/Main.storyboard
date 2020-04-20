@@ -10,7 +10,7 @@
         <!--Add Journal Entry-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="CreateEntryViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -58,19 +58,19 @@
                     <navigationItem key="navigationItem" title="Add Journal Entry" id="Aek-sm-lAE">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="oqL-oF-giN">
                             <connections>
-                                <action selector="cancelButtonPressed:" destination="BYZ-38-t0r" id="3Zk-7J-aXO"/>
+                                <action selector="cancelButtonPressed:" destination="BYZ-38-t0r" id="Bl9-aZ-qny"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="GGW-rK-wfM">
                             <connections>
-                                <action selector="saveButtonPressed:" destination="BYZ-38-t0r" id="c7r-4O-4K9"/>
+                                <action selector="saveButtonPressed:" destination="BYZ-38-t0r" id="eWA-de-9Gd"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="bodyTextView" destination="KN2-2D-OAV" id="FbN-iA-Ysn"/>
-                        <outlet property="entryLabel" destination="JDz-RR-iWG" id="T7F-hL-M1x"/>
-                        <outlet property="titleTextField" destination="ddB-Da-bpa" id="nVF-ir-ylK"/>
+                        <outlet property="bodyTextView" destination="KN2-2D-OAV" id="Nq5-Ag-b7m"/>
+                        <outlet property="entryLabel" destination="JDz-RR-iWG" id="xhk-SE-VEz"/>
+                        <outlet property="titleTextField" destination="ddB-Da-bpa" id="Ucu-Ts-caV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
