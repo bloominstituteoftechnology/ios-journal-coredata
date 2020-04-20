@@ -32,5 +32,4 @@ class EntryTableViewCell: UITableViewCell {
         dateLabel.text = entry.timestamp?.description
         textView.text = entry.bodyText
     }
-    
 }

@@ -26,13 +26,19 @@ class CreateEntryViewController: UIViewController {
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
-        
         Entry(title: titleTextField.text!, bodyText: bodyTextView.text)
         do {
             try CoreDataStack.shared.mainContext.save()
         } catch {
             print("Error saving managed object context: \(error)")
             return
+        }
+        
+        if let viewController = presentingViewController as? EntriesTableViewController {
+            viewController.updateView()
+            print("Correct View Controller")
+        } else {
+            print("Incorrect View Controller")
         }
         
         navigationController?.dismiss(animated: true, completion: nil)

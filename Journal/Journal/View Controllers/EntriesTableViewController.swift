@@ -21,8 +21,9 @@ class EntriesTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    func updateView() {
         tableView.reloadData()
+        print("view updated")
     }
     
     //MARK: - Variables
@@ -49,7 +50,7 @@ class EntriesTableViewController: UITableViewController {
         guard let myCell = cell as? EntryTableViewCell else {
             fatalError("Error downcasting tableView cell as EntryTableViewCell")
         }
-
+        
         myCell.entry = entries[indexPath.row]
         
         return myCell
