@@ -44,7 +44,17 @@ class EntryDetailViewController: UIViewController {
     }
     
     @IBAction func save(_ sender: UIBarButtonItem) {
-       
+        guard let title = titleTextField.text,
+            !title.isEmpty else { return }
+        
+       guard let entryText = entryTextView.text,
+        !entryText.isEmpty else { return }
+        
+        if entry != nil {
+            entryController?.update(entry: entry!)
+        } else {
+            entryController?.create(entry: entry!)
+        }
         
     }
     
