@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="85" id="4JM-bZ-Ehb">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="85" id="4JM-bZ-Ehb" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="85"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4JM-bZ-Ehb" id="VgL-Ms-lt7">
@@ -58,6 +58,11 @@
                                         <constraint firstAttribute="trailingMargin" secondItem="Dkw-8w-wiS" secondAttribute="trailing" constant="3.5" id="Vcd-bk-UOI"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="entryLabel" destination="Suy-w7-jsi" id="TS1-Ff-EKe"/>
+                                    <outlet property="timestampLabel" destination="QJq-X8-6vv" id="9xJ-Ku-AW8"/>
+                                    <outlet property="titleLabel" destination="JE5-e1-FOh" id="dev-Nm-JzP"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -131,9 +136,21 @@
                         <viewLayoutGuide key="safeArea" id="9e4-Rm-nvW"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Entry" id="idY-Ta-ZWg">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="FnJ-aN-W2m"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="WZA-4y-Hyd"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="FnJ-aN-W2m">
+                            <connections>
+                                <action selector="cancel:" destination="fmc-O8-wzI" id="EQB-x8-Hdi"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="WZA-4y-Hyd">
+                            <connections>
+                                <action selector="save:" destination="fmc-O8-wzI" id="w19-0c-4tj"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="entryTextView" destination="Hd7-4d-3X0" id="xes-aE-LQF"/>
+                        <outlet property="titleTextField" destination="wDG-M9-6w2" id="wsJ-NL-fVu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hNh-5Y-iqi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
