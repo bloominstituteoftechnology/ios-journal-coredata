@@ -7,3 +7,23 @@
 //
 
 import Foundation
+import CoreData
+
+class CoreDataStack {
+    static let shared = CoreDataStack() // property is connected directly to the class.
+    
+    // when we add the lazy it will run the property when we need it or call it.
+   lazy var container: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "Journal")
+        container.loadPersistentStores { (_, error) in
+            if let error = error {
+                fatalError("Failed to load the persistent stores: \(error)")
+            }
+        }
+        return container
+    }()
+    
+    var mainContext: NSManagedObjectContext {
+        return container.viewContext
+    }
+}
