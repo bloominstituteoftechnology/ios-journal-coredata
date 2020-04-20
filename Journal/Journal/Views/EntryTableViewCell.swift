@@ -11,6 +11,13 @@ import UIKit
 class EntryTableViewCell: UITableViewCell {
     
     static let reuseIdentifier = "EntryCell"
+    
+    var dateFormatter: DateFormatter = {
+        var formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter
+    }()
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
@@ -23,10 +30,12 @@ class EntryTableViewCell: UITableViewCell {
     }
     
     private func updateViews() {
-        guard let entry = entry else { return }
+        guard let entry = entry,
+            let timestamp = entry.timestamp else { return }
         
         titleLabel.text = entry.title
-        // TODO: Format the date and put it into the timestamp label
         entryLabel.text = entry.bodyText
+        let entryTimestamp = dateFormatter.string(from: timestamp)
+        timestampLabel.text = entryTimestamp
     }
 }
