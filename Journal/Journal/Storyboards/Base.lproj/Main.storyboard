@@ -26,17 +26,17 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="VV3-Rs-pLE">
                                             <rect key="frame" x="20" y="11" width="374" height="52"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="158" translatesAutoresizingMaskIntoConstraints="NO" id="5yI-md-4dA">
+                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="5yI-md-4dA">
                                                     <rect key="frame" x="0.0" y="0.0" width="374" height="24"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entry Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c5s-Fa-Z3K">
-                                                            <rect key="frame" x="0.0" y="0.0" width="112" height="24"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="219.5" height="24"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Entry Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Awa-01-Etg">
-                                                            <rect key="frame" x="270" y="0.0" width="104" height="24"/>
+                                                            <rect key="frame" x="219.5" y="0.0" width="154.5" height="24"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -59,6 +59,11 @@
                                         <constraint firstItem="VV3-Rs-pLE" firstAttribute="top" secondItem="WWH-8T-IoT" secondAttribute="topMargin" id="hdb-2S-vXt"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="entryLabel" destination="r3P-FM-nyA" id="b2d-BY-DpT"/>
+                                    <outlet property="timestampLabel" destination="Awa-01-Etg" id="ait-Jv-pWD"/>
+                                    <outlet property="titleLabel" destination="c5s-Fa-Z3K" id="qFB-YT-4sf"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -148,9 +153,21 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Entry" id="qxE-Ei-IiX">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Uwk-fD-liw"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="03N-gW-xYZ"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Uwk-fD-liw">
+                            <connections>
+                                <action selector="cancel:" destination="BYZ-38-t0r" id="gvF-bx-5Yq"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="03N-gW-xYZ">
+                            <connections>
+                                <action selector="save:" destination="BYZ-38-t0r" id="SY6-2y-9rp"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="entryTextView" destination="Klu-rM-D9X" id="2YU-CV-fAN"/>
+                        <outlet property="titleTextField" destination="en3-uL-W0C" id="fUX-1j-sho"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
