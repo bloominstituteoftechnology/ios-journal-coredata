@@ -16,45 +16,47 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="72" id="ezu-51-6er" customClass="EntryTableViewCell" customModule="JournalCoreData" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="72"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="110" id="ezu-51-6er" customClass="EntryTableViewCell" customModule="JournalCoreData" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="110"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ezu-51-6er" id="KbB-qS-uKY">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="72"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="110"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Fod-6m-si9">
-                                            <rect key="frame" x="20" y="11.5" width="88" height="49"/>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Fod-6m-si9">
+                                            <rect key="frame" x="20" y="33" width="88" height="44"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QKX-TP-nYD">
-                                                    <rect key="frame" x="0.0" y="0.0" width="33.5" height="20.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QKX-TP-nYD">
+                                                    <rect key="frame" x="0.0" y="0.0" width="88" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Pc-i3-KIB">
-                                                    <rect key="frame" x="0.0" y="28.5" width="88" height="20.5"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" ambiguous="YES" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Pc-i3-KIB">
+                                                    <rect key="frame" x="0.0" y="28.5" width="88" height="15.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                         </stackView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sz1-kU-xTs">
-                                            <rect key="frame" x="322" y="26" width="84" height="20.5"/>
+                                            <rect key="frame" x="310" y="45" width="84" height="20.5"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <nil key="textColor"/>
+                                            <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="Fod-6m-si9" firstAttribute="leading" secondItem="KbB-qS-uKY" secondAttribute="leadingMargin" id="1re-93-0pA"/>
-                                        <constraint firstAttribute="trailing" secondItem="Sz1-kU-xTs" secondAttribute="trailing" constant="8" id="2gK-s4-los"/>
-                                        <constraint firstItem="Sz1-kU-xTs" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Fod-6m-si9" secondAttribute="trailing" constant="190" id="GdA-CG-6Vr"/>
+                                        <constraint firstItem="Fod-6m-si9" firstAttribute="height" secondItem="KbB-qS-uKY" secondAttribute="height" multiplier="0.4" id="9r5-IY-0ar"/>
                                         <constraint firstItem="Sz1-kU-xTs" firstAttribute="centerY" secondItem="Fod-6m-si9" secondAttribute="centerY" id="Src-gY-FER"/>
                                         <constraint firstItem="Fod-6m-si9" firstAttribute="centerY" secondItem="KbB-qS-uKY" secondAttribute="centerY" id="bwj-OT-mq4"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="Sz1-kU-xTs" secondAttribute="trailing" id="lBE-l2-2cV"/>
+                                        <constraint firstItem="Sz1-kU-xTs" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Fod-6m-si9" secondAttribute="trailing" constant="8" id="lMZ-H4-gay"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <color key="backgroundColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <outlet property="descriptionLabel" destination="5Pc-i3-KIB" id="Rqi-c7-9ep"/>
                                     <outlet property="entryTitleLabel" destination="QKX-TP-nYD" id="Gia-yf-6jA"/>
@@ -127,7 +129,6 @@
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="U5E-9S-ezh">
                                         <rect key="frame" x="0.0" y="74.5" width="374" height="299.5"/>
                                         <color key="backgroundColor" systemColor="systemGray3Color" red="0.78039215689999997" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
