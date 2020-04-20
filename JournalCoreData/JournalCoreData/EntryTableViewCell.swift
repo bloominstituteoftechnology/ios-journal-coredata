@@ -10,10 +10,17 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
 
+    static var reuseIdentifier = "EntryCell"
+    
     @IBOutlet weak var entryTitleLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
-    var entry: Entry?
+    
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
     
     var dateFormatter: DateFormatter = {
           let newDate = DateFormatter()
