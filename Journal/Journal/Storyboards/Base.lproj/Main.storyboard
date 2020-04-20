@@ -60,7 +60,13 @@
                             <outlet property="delegate" destination="qKa-Gl-WtL" id="zMJ-gM-KV1"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="gi2-R3-WrC"/>
+                    <navigationItem key="navigationItem" id="gi2-R3-WrC">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Nak-kG-0Mt">
+                            <connections>
+                                <segue destination="Lsy-C5-8W4" kind="presentation" modalPresentationStyle="fullScreen" id="0bL-Ac-NF6"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BDk-Li-Q4n" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
