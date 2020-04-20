@@ -128,9 +128,21 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Entry" id="ooD-li-PgL">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="qDC-or-MVI"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Wfo-FZ-eSQ"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="qDC-or-MVI">
+                            <connections>
+                                <action selector="cancel:" destination="BYZ-38-t0r" id="MYc-hc-lI6"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Wfo-FZ-eSQ">
+                            <connections>
+                                <action selector="save:" destination="BYZ-38-t0r" id="cnr-lq-1n6"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="bodyTextView" destination="fip-JR-3Oq" id="gnI-U8-wZa"/>
+                        <outlet property="titleTextField" destination="KTT-FT-2Ie" id="abL-HZ-ve3"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
