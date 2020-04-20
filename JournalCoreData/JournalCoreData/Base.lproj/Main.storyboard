@@ -55,6 +55,11 @@
                                         <constraint firstItem="Fod-6m-si9" firstAttribute="centerY" secondItem="KbB-qS-uKY" secondAttribute="centerY" id="bwj-OT-mq4"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="descriptionLabel" destination="5Pc-i3-KIB" id="Rqi-c7-9ep"/>
+                                    <outlet property="entryTitleLabel" destination="QKX-TP-nYD" id="Gia-yf-6jA"/>
+                                    <outlet property="timeLabel" destination="Sz1-kU-xTs" id="8Cd-Vd-vQp"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -142,9 +147,21 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Entry" id="tx4-f6-SaS">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="4Z7-Nc-N5o"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="UTE-nc-VLM"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="4Z7-Nc-N5o">
+                            <connections>
+                                <action selector="cancel:" destination="BYZ-38-t0r" id="MUj-Lw-MMD"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="UTE-nc-VLM">
+                            <connections>
+                                <action selector="save:" destination="BYZ-38-t0r" id="IiL-PF-F8V"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="descriptionTextView" destination="U5E-9S-ezh" id="cfg-Xk-qgW"/>
+                        <outlet property="entryTextField" destination="MNq-3T-h9p" id="BSQ-sq-G78"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
