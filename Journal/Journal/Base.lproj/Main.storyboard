@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Root View Controller-->
+        <!--Journal-->
         <scene sceneID="iBI-SQ-hnb">
             <objects>
                 <tableViewController id="eek-hG-6VY" sceneMemberID="viewController">
@@ -30,8 +30,8 @@
                             <outlet property="delegate" destination="eek-hG-6VY" id="sjN-z0-85I"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="9Jn-xt-RP0">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="c5N-xD-RST">
+                    <navigationItem key="navigationItem" title="Journal" id="9Jn-xt-RP0">
+                        <barButtonItem key="rightBarButtonItem" image="plus.app" catalog="system" id="c5N-xD-RST">
                             <connections>
                                 <segue destination="hFu-7v-MPX" kind="presentation" modalPresentationStyle="fullScreen" id="Od0-Jw-NtL"/>
                             </connections>
@@ -58,21 +58,52 @@
             </objects>
             <point key="canvasLocation" x="-1268" y="338"/>
         </scene>
-        <!--Create Entry View Controller-->
+        <!--Create Entry-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="CreateEntryViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Entry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hNr-PM-piz">
+                                <rect key="frame" x="54" y="251" width="40" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9bo-Qb-f6O">
+                                <rect key="frame" x="54" y="302" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fip-JR-3Oq">
+                                <rect key="frame" x="87" y="507" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Journal Entry Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KTT-FT-2Ie">
+                                <rect key="frame" x="54" y="181" width="142" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="ooD-li-PgL"/>
+                    <navigationItem key="navigationItem" title="Create Entry" id="ooD-li-PgL">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="qDC-or-MVI"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Wfo-FZ-eSQ"/>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1395.6521739130435" y="-342.1875"/>
+            <point key="canvasLocation" x="1394.2028985507247" y="-342.1875"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rU5-Qc-x21">
@@ -93,4 +124,7 @@
             <point key="canvasLocation" x="485.50724637681162" y="-342.1875"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="plus.app" catalog="system" width="128" height="114"/>
+    </resources>
 </document>
