@@ -90,6 +90,53 @@
                     <view key="view" contentMode="scaleToFill" id="EeR-18-wF6">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" id="6Ns-r6-4Xp">
+                                <rect key="frame" x="20" y="121" width="374" height="441.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="TxO-vG-DYa">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="32"/>
+                                        <segments>
+                                            <segment title="🙁"/>
+                                            <segment title="😐"/>
+                                            <segment title="😃"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Journal Entry Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nQJ-dV-w6Z">
+                                        <rect key="frame" x="0.0" y="46" width="374" height="22"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="oGp-wA-bbh">
+                                        <rect key="frame" x="0.0" y="83" width="374" height="358.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENTRY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TkR-yk-EYc">
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="14.5"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PG9-eg-1ux">
+                                                <rect key="frame" x="0.0" y="22.5" width="374" height="2"/>
+                                                <color key="backgroundColor" systemColor="systemGray3Color" red="0.78039215689999997" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="2" id="1ox-o9-VjA"/>
+                                                </constraints>
+                                            </view>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="q8c-dg-DrH">
+                                                <rect key="frame" x="0.0" y="32.5" width="374" height="326"/>
+                                                <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <viewLayoutGuide key="safeArea" id="fWU-Rb-WTp"/>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="fEY-jX-p3D"/>
                     </view>
@@ -129,9 +176,9 @@
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="axR-Q8-Rrl">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="32"/>
                                         <segments>
-                                            <segment title="" image="🙁"/>
-                                            <segment title="" image="😐"/>
-                                            <segment title="" image="😃"/>
+                                            <segment title="🙁"/>
+                                            <segment title="😐"/>
+                                            <segment title="😃"/>
                                         </segments>
                                     </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Journal Entry Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KTT-FT-2Ie">
@@ -218,8 +265,5 @@
     </scenes>
     <resources>
         <image name="plus.app" catalog="system" width="128" height="114"/>
-        <image name="😃" width="128" height="128"/>
-        <image name="😐" width="128" height="128"/>
-        <image name="🙁" width="128" height="128"/>
     </resources>
 </document>

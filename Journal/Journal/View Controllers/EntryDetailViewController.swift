@@ -10,21 +10,38 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
 
+      // MARK: - Properties
+    
+    var entry: Entry?
+
+    // MARK: - Outlets
+    
+    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var entryTextView: UITextView!
+    @IBOutlet weak var moodController: UISegmentedControl!
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        navigationItem.rightBarButtonItem = editButtonItem
+        updateViews()
     }
-    
 
-    /*
-    // MARK: - Navigation
+    private func updateViews() {
+        titleTextField.text = entry?.title
+        titleTextField.isUserInteractionEnabled = isEditing
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        entryTextView.text = entry?.bodyText
+        entryTextView.isUserInteractionEnabled = isEditing
+
+        let mood: EntryMood
+        if let entryMood = entry?.mood {
+            mood = EntryMood(rawValue: entryMood)!
+        } else {
+            mood = .😐
+        }
+        moodController.selectedSegmentIndex = EntryMood.allCases.firstIndex(of: mood) ?? 1
+        moodController.isUserInteractionEnabled = isEditing
     }
-    */
 
 }
