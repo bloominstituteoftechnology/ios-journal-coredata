@@ -10,6 +10,8 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
 
+    var entry: Entry?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
