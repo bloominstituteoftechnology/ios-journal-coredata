@@ -24,8 +24,15 @@ class EntryTableViewCell: UITableViewCell {
         guard let entry = entry else { return }
         
         titleLabel.text = entry.title
-//        dateLabel.text = "\(entry.timestamp)" // TODO: dateformatting
-        bodyTextLabel.text = entry.bodyText // FIXME: - <-- empty string if body is empty
+        
+        let dateFormatter: DateFormatter = {
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMM d, h:mm a"
+            return dateFormatter
+        }()
+        dateLabel.text = dateFormatter.string(from: entry.timestamp!) // TODO: dateformatting
+        
+        bodyTextLabel.text = entry.bodyText ?? "No Content" // FIXME: - <-- empty string if body is empty
     }
     
 }
