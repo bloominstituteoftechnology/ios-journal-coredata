@@ -13,6 +13,7 @@ class CreateEntryViewController: UIViewController {
     // MARK: - Outlets
     @IBOutlet weak var titleTextField: UITextField! // title
     @IBOutlet weak var bodyTextView: UITextView! // bodyText
+    @IBOutlet weak var moodControl: UISegmentedControl!
     
     
     override func viewDidLoad() {
@@ -22,11 +23,11 @@ class CreateEntryViewController: UIViewController {
 
     // MARK: - Actions
     
-    @IBAction func cancel(_ sender: Any) {
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
         navigationController?.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func save(_ sender: Any) {
+    @IBAction func save(_ sender: UIBarButtonItem) {
         guard let title = titleTextField.text,
             !title.isEmpty else  { return }
         
@@ -35,13 +36,16 @@ class CreateEntryViewController: UIViewController {
         
         let timestamp = Date()
         
-        Entry(title: title, bodyText: bodyText, timestamp: timestamp)
+        let moodIndex = moodControl.selectedSegmentIndex
+        let mood = EntryMood.allCases[moodIndex]
+        // Create
+        Entry(title: title, bodyText: bodyText, timestamp: timestamp, mood: mood)
         do {
             try CoreDataStack.shared.mainContext.save()
         } catch {
             NSLog("Error saving managed object context: \(error)")
+            return
         }
-        
         navigationController?.dismiss(animated: true, completion: nil)
     }
     

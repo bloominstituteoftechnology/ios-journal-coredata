@@ -11,6 +11,7 @@ import CoreData
 
 class CoreDataStack {
     
+    // Singleton
     static let shared = CoreDataStack()
     
     lazy var container: NSPersistentContainer = {   // data model 
