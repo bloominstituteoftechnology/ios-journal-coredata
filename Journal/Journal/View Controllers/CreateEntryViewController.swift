@@ -18,6 +18,7 @@ class CreateEntryViewController: UIViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
+    @IBOutlet weak var moodController: UISegmentedControl!
     
     // MARK: - View Lifecycle
 
@@ -38,7 +39,10 @@ class CreateEntryViewController: UIViewController {
         guard let title = titleTextField.text,
             !title.isEmpty else { return }
         
-        Entry(title: title, bodyText: entryTextView.text)
+        let moodIndex = moodController.selectedSegmentIndex
+        let mood = MoodProperties.allCases[moodIndex]
+        
+        Entry(title: title, bodyText: entryTextView.text, mood: mood)
         do {
             try CoreDataStack.shared.mainContext.save()
         } catch {

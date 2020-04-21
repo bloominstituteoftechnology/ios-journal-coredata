@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Entries-->
+        <!--Journal-->
         <scene sceneID="eXz-pX-PXP">
             <objects>
                 <tableViewController id="M2R-Gc-2mq" customClass="EntriesTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
@@ -29,14 +29,14 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="5yI-md-4dA">
                                                     <rect key="frame" x="0.0" y="0.0" width="374" height="24"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entry Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c5s-Fa-Z3K">
-                                                            <rect key="frame" x="0.0" y="0.0" width="219.5" height="24"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entry Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c5s-Fa-Z3K">
+                                                            <rect key="frame" x="0.0" y="0.0" width="306" height="24"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Entry Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Awa-01-Etg">
-                                                            <rect key="frame" x="219.5" y="0.0" width="154.5" height="24"/>
+                                                            <rect key="frame" x="306" y="0.0" width="68" height="24"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -71,8 +71,8 @@
                             <outlet property="delegate" destination="M2R-Gc-2mq" id="Yxf-eN-6Ll"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Entries" id="SMu-hR-EY3">
-                        <barButtonItem key="rightBarButtonItem" image="plus.circle" catalog="system" id="I47-Ky-eek">
+                    <navigationItem key="navigationItem" title="Journal" id="SMu-hR-EY3">
+                        <barButtonItem key="rightBarButtonItem" image="plus.app" catalog="system" id="I47-Ky-eek">
                             <connections>
                                 <segue destination="efl-05-Kiv" kind="presentation" modalPresentationStyle="fullScreen" id="K90-eg-Zph"/>
                             </connections>
@@ -110,13 +110,21 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="kfS-eb-tJ8">
                                 <rect key="frame" x="20" y="108" width="374" height="358.5"/>
                                 <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="uyC-VS-zod">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="32"/>
+                                        <segments>
+                                            <segment title="🙁"/>
+                                            <segment title="😐"/>
+                                            <segment title="🙂"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Journal Entry Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="en3-uL-W0C">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
+                                        <rect key="frame" x="0.0" y="46" width="374" height="22"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="T7L-AC-zOf">
-                                        <rect key="frame" x="0.0" y="37" width="374" height="321.5"/>
+                                        <rect key="frame" x="0.0" y="83" width="374" height="275.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UGq-Sk-ipC">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="14.5"/>
@@ -132,7 +140,7 @@
                                                 </constraints>
                                             </view>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Klu-rM-D9X">
-                                                <rect key="frame" x="0.0" y="32.5" width="374" height="289"/>
+                                                <rect key="frame" x="0.0" y="32.5" width="374" height="243"/>
                                                 <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -166,6 +174,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="entryTextView" destination="Klu-rM-D9X" id="2YU-CV-fAN"/>
+                        <outlet property="moodController" destination="uyC-VS-zod" id="AYi-ft-jU4"/>
                         <outlet property="titleTextField" destination="en3-uL-W0C" id="fUX-1j-sho"/>
                     </connections>
                 </viewController>
@@ -193,6 +202,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="plus.circle" catalog="system" width="128" height="121"/>
+        <image name="plus.app" catalog="system" width="128" height="114"/>
     </resources>
 </document>
