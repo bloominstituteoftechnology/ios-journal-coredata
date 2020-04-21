@@ -19,6 +19,7 @@ class CreateEntryViewController: UIViewController {
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var entryLabel: UILabel!
     @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     
     //MARK: - Actions
     @IBAction func cancelButtonPressed(_ sender: UIBarButtonItem) {
@@ -26,7 +27,8 @@ class CreateEntryViewController: UIViewController {
     }
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
-        Entry(title: titleTextField.text!, bodyText: bodyTextView.text)
+        let mood = MoodType.allCases[moodSegmentedControl.selectedSegmentIndex]
+        Entry(title: titleTextField.text!, bodyText: bodyTextView.text, mood: mood)
         do {
             try CoreDataStack.shared.mainContext.save()
         } catch {

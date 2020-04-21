@@ -15,8 +15,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="cb6-kv-Cu6">
-                                <rect key="frame" x="20" y="108" width="374" height="204.5"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="cb6-kv-Cu6">
+                                <rect key="frame" x="20" y="108" width="374" height="257.5"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="pJL-AP-eG0">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="32"/>
@@ -27,25 +27,25 @@
                                         </segments>
                                     </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Journal Entry Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ddB-Da-bpa">
-                                        <rect key="frame" x="0.0" y="39" width="374" height="34"/>
+                                        <rect key="frame" x="0.0" y="44" width="374" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JDz-RR-iWG">
-                                        <rect key="frame" x="0.0" y="81" width="374" height="14.5"/>
+                                        <rect key="frame" x="0.0" y="91" width="374" height="14.5"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rG2-d4-X6P">
-                                        <rect key="frame" x="0.0" y="103.5" width="374" height="4"/>
+                                        <rect key="frame" x="0.0" y="118.5" width="374" height="4"/>
                                         <color key="backgroundColor" systemColor="systemGray4Color" red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="4" id="TPX-pe-4lw"/>
                                         </constraints>
                                     </view>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="KN2-2D-OAV">
-                                        <rect key="frame" x="0.0" y="115.5" width="374" height="89"/>
+                                        <rect key="frame" x="0.0" y="135.5" width="374" height="122"/>
                                         <color key="backgroundColor" systemColor="systemGray5Color" red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -56,9 +56,9 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="cb6-kv-Cu6" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.287388" id="XrE-ru-FOM"/>
                             <constraint firstItem="cb6-kv-Cu6" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="Yge-hB-6Rx"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="cb6-kv-Cu6" secondAttribute="trailing" constant="20" id="fOc-5A-tRf"/>
-                            <constraint firstItem="cb6-kv-Cu6" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.228237" id="g65-0F-Kqy"/>
                             <constraint firstItem="cb6-kv-Cu6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="nnx-sh-Jmp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -78,12 +78,13 @@
                     <connections>
                         <outlet property="bodyTextView" destination="KN2-2D-OAV" id="Nq5-Ag-b7m"/>
                         <outlet property="entryLabel" destination="JDz-RR-iWG" id="xhk-SE-VEz"/>
+                        <outlet property="moodSegmentedControl" destination="pJL-AP-eG0" id="nAH-gx-ILC"/>
                         <outlet property="titleTextField" destination="ddB-Da-bpa" id="Ucu-Ts-caV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3209" y="-581"/>
+            <point key="canvasLocation" x="3208.6956521739135" y="-581.25"/>
         </scene>
         <!--Journal-->
         <scene sceneID="har-ai-R7W">
