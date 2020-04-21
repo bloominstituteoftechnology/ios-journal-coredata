@@ -18,7 +18,7 @@ class CoreDataStack {
     // lazy means the code isn't loaded until the first time it is accessed.  Saves computer resources particularly if you're not sure it will be accessed.
     
     lazy var container: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "Journal") // name of date model goes here.
+        let container = NSPersistentContainer(name: "Journal") // name of data model goes here.
         container.loadPersistentStores { (_, error) in
             if let error = error {
                 fatalError("Failed to load persistent stores: \(error)")

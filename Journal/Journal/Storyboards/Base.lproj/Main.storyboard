@@ -87,13 +87,21 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="BRI-Sn-h4B">
                                 <rect key="frame" x="20" y="108" width="374" height="212"/>
                                 <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="dR0-Hm-XEc">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="32"/>
+                                        <segments>
+                                            <segment title="sad"/>
+                                            <segment title="neutral"/>
+                                            <segment title="happy"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Journal Entry Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tt3-IZ-7Ag">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="34"/>
+                                        <rect key="frame" x="0.0" y="46" width="374" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="wca-W5-wGZ">
-                                        <rect key="frame" x="0.0" y="49" width="374" height="163"/>
+                                        <rect key="frame" x="0.0" y="95" width="374" height="117"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENTRY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z8g-bb-Giz">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="17"/>
@@ -109,7 +117,7 @@
                                                 </constraints>
                                             </view>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="OLG-gH-QS0">
-                                                <rect key="frame" x="0.0" y="35" width="374" height="128"/>
+                                                <rect key="frame" x="0.0" y="35" width="374" height="82"/>
                                                 <color key="backgroundColor" systemColor="systemGray5Color" red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -143,6 +151,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="entryTextView" destination="OLG-gH-QS0" id="giB-79-GNo"/>
+                        <outlet property="moodEmojiControl" destination="dR0-Hm-XEc" id="UCQ-rM-GK7"/>
                         <outlet property="titleTextField" destination="tt3-IZ-7Ag" id="bpb-1m-Sqp"/>
                     </connections>
                 </viewController>

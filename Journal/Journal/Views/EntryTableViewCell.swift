@@ -10,6 +10,12 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
     
+    // MARK: - Properties
+    
+    static let reuseIdentifier = "EntryCell"
+
+    // MARK: - Outlets
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
@@ -21,7 +27,7 @@ class EntryTableViewCell: UITableViewCell {
     }
     
     private func updateViews() {
-        
+
     }
 
     override func awakeFromNib() {

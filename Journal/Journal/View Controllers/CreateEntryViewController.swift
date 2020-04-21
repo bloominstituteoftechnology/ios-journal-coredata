@@ -12,12 +12,15 @@ class CreateEntryViewController: UIViewController {
     
     // MARK: - Properties
     
-//    static let identifier: String = String(describing: CreateEntryViewController.self)
+    var complete = false
     
     // MARK: - Outlets
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
+    @IBOutlet weak var moodEmojiControl: UISegmentedControl!
+    
+    // MARK: - View LifeCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +28,8 @@ class CreateEntryViewController: UIViewController {
         
         titleTextField.becomeFirstResponder()
     }
+    
+    // MARK: - Actions
     
     @IBAction func cancel(_ sender: UIBarButtonItem){
         navigationController?.dismiss(animated: true, completion: nil)
@@ -35,12 +40,12 @@ class CreateEntryViewController: UIViewController {
         
         guard let title = titleTextField.text,
             !title.isEmpty else { return }
-        
         guard let bodyText = entryTextView.text, !bodyText.isEmpty else { return }
-        
+        let moodIndex = moodEmojiControl.selectedSegmentIndex
+        let mood = MoodPriority.allCases[moodIndex]
         let timestamp = Date()
-
-        Entry(title: title, bodyText: bodyText, timestamp: timestamp)
+        
+        Entry(title: title, bodyText: bodyText, timestamp: timestamp, mood: mood)
         do {
             try CoreDataStack.shared.mainContext.save()
         } catch {
