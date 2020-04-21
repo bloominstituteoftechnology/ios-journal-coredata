@@ -34,13 +34,6 @@ class CreateEntryViewController: UIViewController {
             return
         }
         
-        if let viewController = presentingViewController as? EntriesTableViewController {
-            viewController.updateView()
-            print("Correct View Controller")
-        } else {
-            print("Incorrect View Controller")
-        }
-        
         navigationController?.dismiss(animated: true, completion: nil)
     }
     

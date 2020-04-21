@@ -21,6 +21,11 @@ class EntriesTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        
+        updateView()
+    }
+    
     func updateView() {
         tableView.reloadData()
         print("view updated")
