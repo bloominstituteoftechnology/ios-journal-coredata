@@ -10,35 +10,56 @@
         <!--Journal-->
         <scene sceneID="iBI-SQ-hnb">
             <objects>
-                <tableViewController id="eek-hG-6VY" sceneMemberID="viewController">
+                <tableViewController id="eek-hG-6VY" customClass="EntriesTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="JH4-VT-YT6">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="187" id="rOs-sI-xni">
-                                <rect key="frame" x="0.0" y="28" width="414" height="187"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="211" id="rOs-sI-xni" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="211"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="rOs-sI-xni" id="uGP-NQ-vRA">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="187"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="211"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="The Adventure of the Three Students" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G2f-el-10R">
-                                            <rect key="frame" x="20" y="11" width="361" height="70"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The Adventure of the  Three Students" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G2f-el-10R">
+                                            <rect key="frame" x="24" y="33" width="202" height="48"/>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="4/20/20, 12:39 PM " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ADJ-4D-4RN">
-                                            <rect key="frame" x="257" y="112" width="147" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7VN-Jh-oWt">
+                                            <rect key="frame" x="20" y="89" width="348" height="111"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="111" id="krS-f0-AGF"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="4/20/20, 12:39 PM " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ADJ-4D-4RN">
+                                            <rect key="frame" x="247" y="36" width="147" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="7VN-Jh-oWt" firstAttribute="bottom" secondItem="uGP-NQ-vRA" secondAttribute="bottomMargin" id="0gg-hs-yG7"/>
+                                        <constraint firstItem="7VN-Jh-oWt" firstAttribute="leading" secondItem="uGP-NQ-vRA" secondAttribute="leadingMargin" id="9z0-B5-sWF"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="7VN-Jh-oWt" secondAttribute="trailing" constant="26" id="LG2-LT-zAf"/>
+                                        <constraint firstItem="ADJ-4D-4RN" firstAttribute="top" secondItem="uGP-NQ-vRA" secondAttribute="top" constant="36" id="j40-Je-uMm"/>
+                                        <constraint firstItem="ADJ-4D-4RN" firstAttribute="leading" secondItem="G2f-el-10R" secondAttribute="trailing" constant="21" id="mWN-A0-q3e"/>
+                                        <constraint firstItem="7VN-Jh-oWt" firstAttribute="top" secondItem="G2f-el-10R" secondAttribute="bottom" constant="8" id="ohd-Q7-isJ"/>
+                                        <constraint firstItem="G2f-el-10R" firstAttribute="leading" secondItem="uGP-NQ-vRA" secondAttribute="leadingMargin" constant="4" id="x8Y-8Q-bn6"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="bodyTextLabel" destination="7VN-Jh-oWt" id="wiW-wy-HJR"/>
+                                    <outlet property="dateLabel" destination="ADJ-4D-4RN" id="MYt-Yw-sPc"/>
+                                    <outlet property="titleLabel" destination="G2f-el-10R" id="b0c-gv-zwA"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

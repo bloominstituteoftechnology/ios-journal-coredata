@@ -10,6 +10,10 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    // bodyTextLabel
+    @IBOutlet weak var bodyTextLabel: UILabel!
     
     static let reuseIdentifier = "EntryCell"
     
@@ -19,8 +23,19 @@ class EntryTableViewCell: UITableViewCell {
         }
     }
     
+    var dateFormatter: DateFormatter = {
+        let newDate = DateFormatter()
+        newDate.calendar = .current
+        newDate.dateFormat = "MM-dd-yyyy h:mm a"
+        return newDate
+    }()
+    
     func updateViews() {
         guard let entry = entry else { return }
+        
+        titleLabel.text = entry.title
+        dateLabel.text = dateFormatter.string(from: entry.timestamp!)
+        bodyTextLabel.text = entry.bodyText
     }
 
 }
