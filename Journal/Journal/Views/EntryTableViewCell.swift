@@ -13,13 +13,19 @@ class EntryTableViewCell: UITableViewCell {
     // MARK: - Properties
     
     static let reuseIdentifier = "EntryCell"
+    
+    var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "M/dd/yy h:mm:ss"
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        return formatter
+    }()
 
     // MARK: - Outlets
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var entryTextView: UITextView!
-
+    @IBOutlet weak var entryTextView: UILabel!
     
     var entry: Entry? {
         didSet {
@@ -29,14 +35,9 @@ class EntryTableViewCell: UITableViewCell {
     
     private func updateViews() {
         guard let entry = entry else {return}
-        
         titleLabel.text = entry.title
-//        dateLabel = entry.timestamp
-        
-
-
-        
-
+        entryTextView.text = entry.bodyText
+        dateLabel.text = dateFormatter.string(from: entry.timestamp!)  // what is the right way to do this?  Why do I need to unwrap again?
     }
 
     override func awakeFromNib() {

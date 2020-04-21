@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Entries Table View Controller-->
+        <!--Journal-->
         <scene sceneID="9KG-Mc-tEc">
             <objects>
-                <tableViewController id="qKa-Gl-WtL" customClass="EntriesTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController title="Journal" id="qKa-Gl-WtL" customClass="EntriesTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="TP7-G1-q4K">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -59,6 +59,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="dateLabel" destination="lF5-3Q-nQw" id="qIX-nX-3Uk"/>
+                                    <outlet property="entryTextView" destination="3da-hA-JUo" id="HMJ-2T-PKG"/>
                                     <outlet property="titleLabel" destination="qJI-MV-frk" id="dzu-6I-7zR"/>
                                     <segue destination="MdO-Od-4YG" kind="show" identifier="ShowDetailSegue" id="hm9-Zb-xAT"/>
                                 </connections>
@@ -69,7 +70,7 @@
                             <outlet property="delegate" destination="qKa-Gl-WtL" id="zMJ-gM-KV1"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="gi2-R3-WrC">
+                    <navigationItem key="navigationItem" title="Journal" id="gi2-R3-WrC">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Nak-kG-0Mt">
                             <connections>
                                 <segue destination="Lsy-C5-8W4" kind="presentation" modalPresentationStyle="fullScreen" id="0bL-Ac-NF6"/>
@@ -81,7 +82,7 @@
             </objects>
             <point key="canvasLocation" x="1134.7826086956522" y="-283.25892857142856"/>
         </scene>
-        <!--Detail View Controller-->
+        <!--Edit Journal Entry-->
         <scene sceneID="ne6-qQ-UPh">
             <objects>
                 <viewController id="MdO-Od-4YG" customClass="DetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
@@ -142,7 +143,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="CXI-dI-7wA"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Yec-Vt-mNy"/>
+                    <navigationItem key="navigationItem" title="Edit Journal Entry" id="Yec-Vt-mNy"/>
                     <connections>
                         <outlet property="entryTextView" destination="pBx-pK-GQg" id="bMn-g3-TtJ"/>
                         <outlet property="moodEmojiControl" destination="ryA-Qk-5b4" id="9Dk-Va-jcm"/>
@@ -153,7 +154,7 @@
             </objects>
             <point key="canvasLocation" x="3222" y="-263"/>
         </scene>
-        <!--Create Entry View Controller-->
+        <!--Add Journal Entry-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="CreateEntryViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
@@ -214,7 +215,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Uba-ef-KrX">
+                    <navigationItem key="navigationItem" title="Add Journal Entry" id="Uba-ef-KrX">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="7Sn-hO-Ew1">
                             <connections>
                                 <action selector="cancel:" destination="BYZ-38-t0r" id="Edx-ZK-LSm"/>
