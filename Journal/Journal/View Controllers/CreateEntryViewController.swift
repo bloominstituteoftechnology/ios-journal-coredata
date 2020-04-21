@@ -17,10 +17,11 @@ class CreateEntryViewController: UIViewController {
     // MARK: - Outlets
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
+    @IBOutlet weak var moodControl: UISegmentedControl!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
         titleTextField.becomeFirstResponder()
     }
     
@@ -31,8 +32,11 @@ class CreateEntryViewController: UIViewController {
     @IBAction func save(_ sender: UIBarButtonItem) {
         guard let title = titleTextField.text,
             !title.isEmpty else { return }
-
-        Entry(title: title, bodyText: entryTextView.text)
+        
+        let moodIndex = moodControl.selectedSegmentIndex
+        let mood = EntryMood.allCases[moodIndex]
+        
+        Entry(title: title, bodyText: entryTextView.text, mood: mood)
         do {
             try CoreDataStack.shared.mainContext.save()
         } catch {
