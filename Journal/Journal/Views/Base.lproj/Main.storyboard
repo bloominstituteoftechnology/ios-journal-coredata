@@ -61,9 +61,21 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Entry" id="1qw-ec-cVM">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="ndh-xU-eAd"/>
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="m8c-IR-4gv"/>
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="ndh-xU-eAd">
+                            <connections>
+                                <action selector="cancelButtonTapped:" destination="BYZ-38-t0r" id="qWf-N6-O14"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="m8c-IR-4gv">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="BYZ-38-t0r" id="leP-9O-Tk7"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="entryTextView" destination="sTG-3r-bbx" id="JMk-ik-5hC"/>
+                        <outlet property="titleTextField" destination="fBD-FG-dWV" id="zrW-bf-MRY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -78,7 +90,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="165" id="iDM-xW-0Pv">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="165" id="iDM-xW-0Pv" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="165"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="iDM-xW-0Pv" id="xrX-G6-LgE">
@@ -120,6 +132,11 @@
                                         <constraint firstItem="k0S-A0-ksW" firstAttribute="leading" secondItem="xrX-G6-LgE" secondAttribute="leading" constant="20" id="ZJ4-LN-MbN"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="entryDate" destination="uPQ-cg-TcM" id="QPp-xk-ge5"/>
+                                    <outlet property="entryText" destination="6pB-LL-jTb" id="ukN-im-eun"/>
+                                    <outlet property="entryTitle" destination="Jqw-aX-cN2" id="AkG-Da-FCU"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
