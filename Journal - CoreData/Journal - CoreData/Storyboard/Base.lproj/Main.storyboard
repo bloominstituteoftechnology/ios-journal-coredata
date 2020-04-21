@@ -79,13 +79,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="P6O-Yr-C4d">
+                                <rect key="frame" x="20" y="160" width="374" height="32"/>
+                                <segments>
+                                    <segment title="☹️"/>
+                                    <segment title="😐"/>
+                                    <segment title="🙂"/>
+                                </segments>
+                            </segmentedControl>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter a title:" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YRs-ba-A2G">
-                                <rect key="frame" x="20" y="160" width="374" height="34"/>
+                                <rect key="frame" x="20" y="211" width="374" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ERx-64-WoI">
-                                <rect key="frame" x="20" y="214" width="374" height="250"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ERx-64-WoI">
+                                <rect key="frame" x="20" y="262" width="374" height="250"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="250" id="TO7-mT-Ck4"/>
@@ -97,14 +105,14 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemGray5Color" red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="YRs-ba-A2G" firstAttribute="leading" secondItem="rPq-3S-bgM" secondAttribute="leading" id="4FY-dn-Hm6"/>
                             <constraint firstItem="rPq-3S-bgM" firstAttribute="trailing" secondItem="YRs-ba-A2G" secondAttribute="trailing" constant="20" id="BWe-cx-0P3"/>
-                            <constraint firstItem="YRs-ba-A2G" firstAttribute="top" secondItem="rPq-3S-bgM" secondAttribute="top" constant="20" id="PVh-Mm-bG1"/>
-                            <constraint firstItem="YRs-ba-A2G" firstAttribute="top" secondItem="rPq-3S-bgM" secondAttribute="top" constant="20" id="RRo-Vk-0Cy"/>
-                            <constraint firstItem="rPq-3S-bgM" firstAttribute="trailing" secondItem="YRs-ba-A2G" secondAttribute="trailing" id="YaB-DT-Rvh"/>
+                            <constraint firstItem="P6O-Yr-C4d" firstAttribute="leading" secondItem="rPq-3S-bgM" secondAttribute="leading" constant="20" id="N1T-Qx-H1b"/>
                             <constraint firstItem="ERx-64-WoI" firstAttribute="leading" secondItem="rPq-3S-bgM" secondAttribute="leading" constant="20" id="aeI-qp-dFX"/>
+                            <constraint firstItem="P6O-Yr-C4d" firstAttribute="top" secondItem="epj-U2-AA5" secondAttribute="topMargin" constant="20" id="cUW-i6-HVk"/>
+                            <constraint firstItem="rPq-3S-bgM" firstAttribute="trailing" secondItem="P6O-Yr-C4d" secondAttribute="trailing" constant="20" id="dzn-FL-0LQ"/>
                             <constraint firstItem="rPq-3S-bgM" firstAttribute="trailing" secondItem="ERx-64-WoI" secondAttribute="trailing" constant="20" id="fru-3u-1SR"/>
                             <constraint firstItem="YRs-ba-A2G" firstAttribute="leading" secondItem="rPq-3S-bgM" secondAttribute="leading" constant="20" id="gV7-PU-RV6"/>
+                            <constraint firstItem="YRs-ba-A2G" firstAttribute="top" secondItem="P6O-Yr-C4d" secondAttribute="bottom" constant="20" id="q8A-wQ-3rZ"/>
                             <constraint firstItem="ERx-64-WoI" firstAttribute="top" secondItem="YRs-ba-A2G" secondAttribute="bottom" constant="20" id="yzF-q7-Kca"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="rPq-3S-bgM"/>
@@ -118,6 +126,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="entryTextView" destination="ERx-64-WoI" id="fdF-ev-u6C"/>
+                        <outlet property="moodControl" destination="P6O-Yr-C4d" id="FDp-9x-5XU"/>
                         <outlet property="titleTextField" destination="YRs-ba-A2G" id="Fno-VO-A4n"/>
                     </connections>
                 </viewController>
