@@ -34,13 +34,14 @@ class EntryDetailViewController: UIViewController {
         entryTextView.text = entry?.bodyText
         entryTextView.isUserInteractionEnabled = isEditing
 
-        let mood: EntryMood
-        if let entryMood = entry?.mood {
-            mood = EntryMood(rawValue: entryMood)!
+        let mood: MoodPriority
+        
+        if let moodPriority = entry?.mood {
+            mood = MoodPriority(rawValue: moodPriority)!
         } else {
             mood = .😐
         }
-        moodController.selectedSegmentIndex = EntryMood.allCases.firstIndex(of: mood) ?? 1
+        moodController.selectedSegmentIndex = MoodPriority.allCases.firstIndex(of: mood) ?? 1
         moodController.isUserInteractionEnabled = isEditing
     }
 

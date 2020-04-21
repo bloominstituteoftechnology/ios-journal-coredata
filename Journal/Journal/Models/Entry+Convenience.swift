@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-enum EntryMood: String, CaseIterable {
+enum MoodPriority: String, CaseIterable {
     case 🙁
     case 😐
     case 😃
@@ -20,7 +20,7 @@ extension Entry {
                                         bodyText: String? = nil,
                                         timestamp: Date,
                                         identifier: String = String(),
-                                        mood: EntryMood = .😐,
+                                        mood: MoodPriority = .😐,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.title = title
