@@ -62,6 +62,7 @@
                                     <outlet property="bodyTextLabel" destination="t49-L6-oED" id="LuE-G6-jre"/>
                                     <outlet property="dateLabel" destination="ADJ-4D-4RN" id="MYt-Yw-sPc"/>
                                     <outlet property="titleLabel" destination="G2f-el-10R" id="b0c-gv-zwA"/>
+                                    <segue destination="0m7-IK-G72" kind="show" id="2oM-wa-OJf"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -80,7 +81,23 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vt1-o5-z2S" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-371.01449275362324" y="337.5"/>
+            <point key="canvasLocation" x="-301" y="338"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="sPg-Wr-D8u">
+            <objects>
+                <viewController id="0m7-IK-G72" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="EeR-18-wF6">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="fEY-jX-p3D"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="AR1-Gf-SXB"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OLd-fX-3gG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="696" y="356"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="R1n-Et-pPS">
@@ -107,15 +124,23 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="n4d-Xv-EzT">
-                                <rect key="frame" x="20" y="108" width="374" height="395.5"/>
+                                <rect key="frame" x="20" y="108" width="374" height="441.5"/>
                                 <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="axR-Q8-Rrl">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="32"/>
+                                        <segments>
+                                            <segment title="" image="🙁"/>
+                                            <segment title="" image="😐"/>
+                                            <segment title="" image="😃"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Journal Entry Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KTT-FT-2Ie">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
+                                        <rect key="frame" x="0.0" y="46" width="374" height="22"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="yhq-ww-TG2">
-                                        <rect key="frame" x="0.0" y="37" width="374" height="358.5"/>
+                                        <rect key="frame" x="0.0" y="83" width="374" height="358.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENTRY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hNr-PM-piz">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="14.5"/>
@@ -193,5 +218,8 @@
     </scenes>
     <resources>
         <image name="plus.app" catalog="system" width="128" height="114"/>
+        <image name="😃" width="128" height="128"/>
+        <image name="😐" width="128" height="128"/>
+        <image name="🙁" width="128" height="128"/>
     </resources>
 </document>
