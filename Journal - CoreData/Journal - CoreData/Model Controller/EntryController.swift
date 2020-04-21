@@ -11,7 +11,11 @@ import CoreData
 
 class EntryController {
     
+    var entry: Entry?
+    
     func saveToPersistentStore() {
+        guard entry != nil else { return }
+        
         do {
             try CoreDataStack.shared.mainContext.save()
         } catch {
@@ -36,14 +40,30 @@ class EntryController {
            loadFromPersistentStore()
           }
     
-    func create(entry: Entry) {
-        var entry = Entry()
+    func create(title: String, timestamp: Date, bodyText: String, mood: String) {
+     
+        let _ = Entry(title: title, timestamp: timestamp, mood: mood)
+        
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            NSLog("Error creating new managed object context: \(error)")
+        }
+        
         saveToPersistentStore()
     }
     
-    func update(entry: Entry) {
-        CoreDataStack.shared.mainContext.delete(entry)
+    func update(entryUpdated: Entry, title: String, timestamp: Date, bodyText: String, mood: String) {
+        
+        
+        
+        
         saveToPersistentStore()
+        
+    }
+    
+    func delete(entry: Entry) {
+        CoreDataStack.shared.mainContext.delete(entry)
         
     }
 }

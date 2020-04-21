@@ -54,7 +54,7 @@ class EntryDetailViewController: UIViewController {
         if entry != nil {
             entryController?.update(entry: entry!)
         } else {
-            entryController?.create(entry: entry!)
+            entryController?.create(title: title, timestamp: entry?.timestamp, bodyText: entryText, mood: <#T##String#>)
         }
         
     }
