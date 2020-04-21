@@ -18,7 +18,8 @@ class EntryTableViewCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
-    
+    @IBOutlet weak var entryTextView: UITextView!
+
     
     var entry: Entry? {
         didSet {
@@ -30,6 +31,9 @@ class EntryTableViewCell: UITableViewCell {
         guard let entry = entry else {return}
         
         titleLabel.text = entry.title
+//        dateLabel = entry.timestamp
+        
+
 
         
 
