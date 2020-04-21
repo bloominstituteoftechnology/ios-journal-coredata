@@ -27,6 +27,11 @@ class EntryTableViewCell: UITableViewCell {
     }
     
     private func updateViews() {
+        guard let entry = entry else {return}
+        
+        titleLabel.text = entry.title
+
+        
 
     }
 

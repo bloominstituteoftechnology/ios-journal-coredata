@@ -40,7 +40,7 @@ class CreateEntryViewController: UIViewController {
         
         guard let title = titleTextField.text,
             !title.isEmpty else { return }
-        guard let bodyText = entryTextView.text, !bodyText.isEmpty else { return }
+        let bodyText = entryTextView.text ?? ""
         let moodIndex = moodEmojiControl.selectedSegmentIndex
         let mood = MoodPriority.allCases[moodIndex]
         let timestamp = Date()
