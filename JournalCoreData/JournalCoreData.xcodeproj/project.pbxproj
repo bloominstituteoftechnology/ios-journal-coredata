@@ -66,20 +66,68 @@
 		3F38DBE8244E364F00C01DD5 /* JournalCoreData */ = {
 			isa = PBXGroup;
 			children = (
-				3F38DBE9244E364F00C01DD5 /* AppDelegate.swift */,
-				3F38DBEB244E364F00C01DD5 /* SceneDelegate.swift */,
-				3F38DBED244E364F00C01DD5 /* CreateEntryViewController.swift */,
-				3F38DBFD244E36C200C01DD5 /* EntriesTableViewController.swift */,
-				3F38DBFF244E36DE00C01DD5 /* EntryTableViewCell.swift */,
-				3F38DC01244E36F500C01DD5 /* CoreDataStack.swift */,
-				3F38DC03244E370C00C01DD5 /* Entry+Convenience.swift */,
-				3F38DC05244E372000C01DD5 /* Journal.xcdatamodeld */,
-				3F38DBEF244E364F00C01DD5 /* Main.storyboard */,
-				3F38DBF2244E365100C01DD5 /* Assets.xcassets */,
-				3F38DBF4244E365100C01DD5 /* LaunchScreen.storyboard */,
-				3F38DBF7244E365100C01DD5 /* Info.plist */,
+				3F9E4DB0244F437D00019615 /* Application */,
+				3F9E4DAE244F436000019615 /* ViewControllers */,
+				3F9E4DAF244F437300019615 /* Views */,
+				3F9E4DB1244F439600019615 /* Model */,
+				3F9E4DB2244F43B500019615 /* Storyboards */,
+				3F9E4DB3244F43C400019615 /* Resources */,
 			);
 			path = JournalCoreData;
+			sourceTree = "<group>";
+		};
+		3F9E4DAE244F436000019615 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				3F38DBED244E364F00C01DD5 /* CreateEntryViewController.swift */,
+				3F38DBFD244E36C200C01DD5 /* EntriesTableViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		3F9E4DAF244F437300019615 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3F38DBFF244E36DE00C01DD5 /* EntryTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		3F9E4DB0244F437D00019615 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				3F38DBE9244E364F00C01DD5 /* AppDelegate.swift */,
+				3F38DBEB244E364F00C01DD5 /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		3F9E4DB1244F439600019615 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3F38DC01244E36F500C01DD5 /* CoreDataStack.swift */,
+				3F38DC05244E372000C01DD5 /* Journal.xcdatamodeld */,
+				3F38DC03244E370C00C01DD5 /* Entry+Convenience.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		3F9E4DB2244F43B500019615 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				3F38DBEF244E364F00C01DD5 /* Main.storyboard */,
+				3F38DBF4244E365100C01DD5 /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		3F9E4DB3244F43C400019615 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3F38DBF2244E365100C01DD5 /* Assets.xcassets */,
+				3F38DBF7244E365100C01DD5 /* Info.plist */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -306,7 +354,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MFBD923VWU;
-				INFOPLIST_FILE = JournalCoreData/Info.plist;
+				INFOPLIST_FILE = JournalCoreData/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -324,7 +372,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MFBD923VWU;
-				INFOPLIST_FILE = JournalCoreData/Info.plist;
+				INFOPLIST_FILE = JournalCoreData/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
