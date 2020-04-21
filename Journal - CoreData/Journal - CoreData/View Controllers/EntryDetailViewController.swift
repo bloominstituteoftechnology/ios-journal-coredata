@@ -37,10 +37,13 @@ class EntryDetailViewController: UIViewController {
         } else {
             self.title = "Create Entry"
         }
+//        let moodIndex = moodControl.selectedSegmentIndex
+//        let mood = EntryMood.allCases[moodIndex].rawValue
         
         if entry != nil {
             titleTextField.text = entry?.title
             entryTextView.text = entry?.bodyText
+//            moodControl.selectedSegmentIndex = entry.mood
         }
     }
     
