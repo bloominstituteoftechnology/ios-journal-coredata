@@ -36,7 +36,7 @@ class EntryController {
            loadFromPersistentStore()
           }
     
-    func create() {
+    func create(entry: Entry) {
         var entry = Entry()
         saveToPersistentStore()
     }
