@@ -50,11 +50,13 @@ class EntryDetailViewController: UIViewController {
         
        guard let entryText = entryTextView.text,
         !entryText.isEmpty else { return }
+        let date = Date()
+        let mood = String(moodControl.selectedSegmentIndex)
         
         if entry != nil {
             entryController?.update(entry: entry!)
         } else {
-            entryController?.create(title: title, timestamp: entry?.timestamp, bodyText: entryText, mood: <#T##String#>)
+            entryController?.create(title: title, timestamp: date, bodyText: entryText, mood: mood)
         }
         
     }

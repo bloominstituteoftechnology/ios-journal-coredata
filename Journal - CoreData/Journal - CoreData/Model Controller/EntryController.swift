@@ -53,17 +53,27 @@ class EntryController {
         saveToPersistentStore()
     }
     
-    func update(entryUpdated: Entry, title: String, timestamp: Date, bodyText: String, mood: String) {
-        
-        
-        
+    func update(title: String, timestamp: Date, bodyText: String, mood: String) {
+               
+        entry?.title = title
+        entry?.bodyText = bodyText
+        let date = Date()
+        entry?.timestamp = date
+        entry?.mood = mood
         
         saveToPersistentStore()
         
     }
     
     func delete(entry: Entry) {
+        
         CoreDataStack.shared.mainContext.delete(entry)
         
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            NSLog("Error deleting the entry: \(error)")
+            return
+        }
     }
 }
