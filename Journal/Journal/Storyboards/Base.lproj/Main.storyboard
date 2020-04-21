@@ -64,6 +64,11 @@ relate befell us.</string>
                                         <constraint firstItem="dJ1-0d-20D" firstAttribute="leading" secondItem="14h-YL-yeY" secondAttribute="leadingMargin" id="ych-SY-wrb"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="bodyTextLabel" destination="dJ1-0d-20D" id="cWc-ix-UGS"/>
+                                    <outlet property="dateLabel" destination="QTA-Xx-C3z" id="HHc-c6-JOF"/>
+                                    <outlet property="titleLabel" destination="ogp-6t-2Gd" id="vfM-gX-t1b"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -140,9 +145,21 @@ relate befell us.</string>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Entry" id="Htd-LU-tPK">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Jly-A8-ya9"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="xWk-IL-Af4"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Jly-A8-ya9">
+                            <connections>
+                                <action selector="cancelButtonTapped:" destination="BYZ-38-t0r" id="g0I-d7-kHM"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="xWk-IL-Af4">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="BYZ-38-t0r" id="jq9-s1-C3X"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="bodyTextView" destination="VYK-Vk-c0C" id="GDu-WO-d5o"/>
+                        <outlet property="titleTextField" destination="k8J-qq-w0b" id="n9F-3V-Uhp"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
