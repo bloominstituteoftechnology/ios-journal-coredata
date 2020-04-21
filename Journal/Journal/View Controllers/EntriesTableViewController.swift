@@ -15,11 +15,13 @@ class EntriesTableViewController: UITableViewController {
     
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: false)]
+        // TODO: Organize the as Happy, Neutral, Sad
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: false),
+                                        NSSortDescriptor(key: "timestamp", ascending: false)]
         let context = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: context,
-                                             sectionNameKeyPath: nil,
+                                             sectionNameKeyPath: "mood",
                                              cacheName: nil)
         frc.delegate = self
         try! frc.performFetch()
@@ -27,9 +29,17 @@ class EntriesTableViewController: UITableViewController {
     }()
 
     // MARK: - Table view data source
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return fetchedResultsController.sections?.count ?? 1
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return fetchedResultsController.sections?[section].name
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
