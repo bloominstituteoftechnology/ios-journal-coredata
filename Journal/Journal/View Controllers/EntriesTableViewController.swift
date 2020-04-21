@@ -11,6 +11,7 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
 
+    // Computed property that fetches all entry entites from Core Data 
     var entrys: [Entry] {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         let context = CoreDataStack.shared.mainContext

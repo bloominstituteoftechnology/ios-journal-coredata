@@ -47,6 +47,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FEA0DE3C244E7A98006CE4F8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FEEF4741244E4519004F16FB /* Entry+Convenience.swift */,
+				FEA0DE3D244E7AA7006CE4F8 /* Core Data */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FEA0DE3D244E7AA7006CE4F8 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				FEEF473F244E44FC004F16FB /* CoreDataStack.swift */,
+				FEEF4743244E4529004F16FB /* Journal.xcdatamodeld */,
+			);
+			path = "Core Data";
+			sourceTree = "<group>";
+		};
+		FEA0DE3E244E7AC1006CE4F8 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				FEEF4727244E4467004F16FB /* AppDelegate.swift */,
+				FEEF4729244E4467004F16FB /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		FEA0DE3F244E7AD9006CE4F8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FEEF473D244E44ED004F16FB /* EntryTableViewCell.swift */,
+				FEEF472D244E4467004F16FB /* Main.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		FEA0DE40244E7AED006CE4F8 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				FEEF473B244E44B7004F16FB /* EntriesTableViewController.swift */,
+				FEEF472B244E4467004F16FB /* CreateEntryViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
 		FEEF471B244E4467004F16FB = {
 			isa = PBXGroup;
 			children = (
@@ -66,15 +111,10 @@
 		FEEF4726244E4467004F16FB /* Journal */ = {
 			isa = PBXGroup;
 			children = (
-				FEEF4727244E4467004F16FB /* AppDelegate.swift */,
-				FEEF473B244E44B7004F16FB /* EntriesTableViewController.swift */,
-				FEEF473D244E44ED004F16FB /* EntryTableViewCell.swift */,
-				FEEF473F244E44FC004F16FB /* CoreDataStack.swift */,
-				FEEF4741244E4519004F16FB /* Entry+Convenience.swift */,
-				FEEF4743244E4529004F16FB /* Journal.xcdatamodeld */,
-				FEEF4729244E4467004F16FB /* SceneDelegate.swift */,
-				FEEF472B244E4467004F16FB /* CreateEntryViewController.swift */,
-				FEEF472D244E4467004F16FB /* Main.storyboard */,
+				FEA0DE3E244E7AC1006CE4F8 /* Application */,
+				FEA0DE3C244E7A98006CE4F8 /* Models */,
+				FEA0DE40244E7AED006CE4F8 /* View Controllers */,
+				FEA0DE3F244E7AD9006CE4F8 /* Views */,
 				FEEF4730244E446A004F16FB /* Assets.xcassets */,
 				FEEF4732244E446A004F16FB /* LaunchScreen.storyboard */,
 				FEEF4735244E446A004F16FB /* Info.plist */,

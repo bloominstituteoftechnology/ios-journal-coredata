@@ -10,13 +10,15 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
 
+    // MARK: - Outlets
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
-    // bodyTextLabel
     @IBOutlet weak var bodyTextLabel: UILabel!
     
     static let reuseIdentifier = "EntryCell"
     
+    // Computed Property, setting the updateViews
     var entry: Entry? {
         didSet {
             updateViews()
