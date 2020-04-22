@@ -10,6 +10,11 @@ import UIKit
 
 class CreateEntryViewController: UIViewController {
 
+    // MARK: - Properties
+    
+    var entryController: EntryController?
+    
+    
     // MARK: - Outlets
     @IBOutlet weak var titleTextField: UITextField! // title
     @IBOutlet weak var bodyTextView: UITextView! // bodyText
@@ -39,9 +44,11 @@ class CreateEntryViewController: UIViewController {
         let moodIndex = moodControl.selectedSegmentIndex
         let mood = MoodPriority.allCases[moodIndex]
         // Create
-        Entry(title: title, bodyText: bodyText, timestamp: timestamp, mood: mood)
+        let entry = Entry(title: title, bodyText: bodyText, timestamp: timestamp, mood: mood)
         do {
             try CoreDataStack.shared.mainContext.save()
+            entryController?.sendTaskToServer(entry: entry)
+            
         } catch {
             NSLog("Error saving managed object context: \(error)")
             return

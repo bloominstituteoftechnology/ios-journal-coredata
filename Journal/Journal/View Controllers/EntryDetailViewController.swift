@@ -13,6 +13,8 @@ class EntryDetailViewController: UIViewController {
       // MARK: - Properties
     
     var entry: Entry?
+    var wasEdited = false
+    var entryController: EntryController?
 
     // MARK: - Outlets
     
@@ -27,6 +29,27 @@ class EntryDetailViewController: UIViewController {
         updateViews()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if wasEdited {
+            guard let title = titleTextField.text,
+                let entry = entry else { return }
+
+            entry.title = title
+            entry.bodyText = entryTextView.text
+            let moodIndex = moodController.selectedSegmentIndex
+            entry.mood = MoodPriority.allCases[moodIndex].rawValue
+
+            do {
+                try CoreDataStack.shared.mainContext.save()
+                entryController?.sendTaskToServer(entry: entry)
+            } catch {
+                NSLog("Error saving managed object context: \(error)")
+            }
+        }
+    }
+    
     private func updateViews() {
         titleTextField.text = entry?.title
         titleTextField.isUserInteractionEnabled = isEditing
