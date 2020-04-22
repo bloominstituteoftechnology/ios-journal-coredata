@@ -45,8 +45,6 @@ class EntriesTableViewController: UITableViewController {
         return cell
     }
     
-    
-    // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
@@ -63,8 +61,12 @@ class EntriesTableViewController: UITableViewController {
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "ShowTaskDetailSegue" {
+            if let entryDetailViewController = segue.destination as? EntryDetailViewController,
+                let indexPath = tableView.indexPathForSelectedRow {
+                entryDetailViewController.entry = fetchedResultsController.object(at: indexPath)
+            }
+        }
     }
     
 }
