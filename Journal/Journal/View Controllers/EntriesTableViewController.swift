@@ -77,7 +77,7 @@ class EntriesTableViewController: UITableViewController {
         if segue.identifier == "ShowEntryDetailSegue" {
             guard let detailVC = segue.destination as? EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow else { return }
-            
+            detailVC.entryController = entryController
             detailVC.entry = fetchedResultsController.object(at: indexPath)
         } else if segue.identifier == "ModalCreateEntrySegue" {
             if let navC = segue.destination as? UINavigationController,

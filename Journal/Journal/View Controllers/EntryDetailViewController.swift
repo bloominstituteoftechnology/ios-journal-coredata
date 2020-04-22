@@ -14,6 +14,7 @@ class EntryDetailViewController: UIViewController {
     
     var entry: Entry?
     var wasEdited = false
+    var entryController: EntryController?
     
     // MARK: - Outlets
     
@@ -45,6 +46,7 @@ class EntryDetailViewController: UIViewController {
             // entry.timestamp = Date()
             do {
                 try CoreDataStack.shared.mainContext.save()
+                entryController?.sendEntryToServer(entry: entry)
             } catch {
                 NSLog("Error saving managed object context: \(error)")
             }
