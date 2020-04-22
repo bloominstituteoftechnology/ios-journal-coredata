@@ -17,6 +17,7 @@ class CreateEntryViewController: UIViewController {
     
     
     var entry: Entry?
+    var entryController: EntryController?
     
     @IBAction func cancelButtonTapped(_ sender: Any) {
         navigationController?.dismiss(animated: true, completion: nil)
@@ -31,7 +32,8 @@ class CreateEntryViewController: UIViewController {
         let moodIndex = moodControl.selectedSegmentIndex
         let mood = Mood.allCases[moodIndex]
         
-        Entry(title: titleText, bodyText: entryText, timestamp: Date(), mood: mood)
+        let entry = Entry(title: titleText, bodyText: entryText, timestamp: Date(), mood: mood)
+        entryController?.sendEntryToServer(entry: entry)
         do {
             try CoreDataStack.shared.mainContext.save()
         } catch {

@@ -18,12 +18,14 @@ class EntryDetailViewController: UIViewController {
     
     var entry: Entry?
     var wasEdited: Bool = false
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         navigationItem.rightBarButtonItem = editButtonItem
+        
         updateViews()
-
+        
     }
     
     func updateViews() {
@@ -49,35 +51,52 @@ class EntryDetailViewController: UIViewController {
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         
-        if editing == true {
-            wasEdited = true
-            entryTextField.isUserInteractionEnabled = editing
-            entryTextView.isUserInteractionEnabled = editing
-            moodSegementedController.isUserInteractionEnabled = editing
-            
-            navigationItem.hidesBackButton = editing
-        }
+        if editing == true { wasEdited = true }
+        entryTextField.isUserInteractionEnabled = editing
+        entryTextView.isUserInteractionEnabled = editing
+        moodSegementedController.isUserInteractionEnabled = editing
+        
+        navigationItem.hidesBackButton = editing
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        if wasEdited == true {
+        if wasEdited {
+            guard let title = entryTextField.text,
+                !title.isEmpty,
+                let entry = entry else {
+                    return
+            }
             
-           guard let title = entryTextField?.text,
-            let body = entryTextView?.text else { return }
-            
+            entry.title = title
+            entry.bodyText = entryTextView.text
             let moodIndex = moodSegementedController.selectedSegmentIndex
-            let mood = Mood.allCases[moodIndex]
-            Entry(title: title, bodyText: body, timestamp: Date(), mood: mood)
+            entry.mood = Mood.allCases[moodIndex].rawValue
+            
             do {
                 try CoreDataStack.shared.mainContext.save()
             } catch {
                 NSLog("Error saving managed object context: \(error)")
-                return
             }
-            navigationController?.dismiss(animated: true, completion: nil)
         }
+        
+//        if wasEdited == true {
+//
+//            guard let title = entryTextField?.text,
+//                let body = entryTextView?.text else { return }
+//
+//            let moodIndex = moodSegementedController.selectedSegmentIndex
+//            let mood = Mood.allCases[moodIndex]
+//
+//            Entry(title: title, bodyText: body, timestamp: Date(), mood: mood)
+//            do {
+//                try CoreDataStack.shared.mainContext.save()
+//            } catch {
+//                NSLog("Error saving managed object context: \(error)")
+//                return
+//            }
+//        }
     }
-
+    
 }
