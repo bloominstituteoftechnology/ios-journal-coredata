@@ -29,14 +29,14 @@
                                                 <stackView opaque="NO" contentMode="scaleToFill" spacing="150" translatesAutoresizingMaskIntoConstraints="NO" id="td2-iM-WHU">
                                                     <rect key="frame" x="0.0" y="0.0" width="374" height="24"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JE5-e1-FOh">
-                                                            <rect key="frame" x="0.0" y="0.0" width="52" height="24"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JE5-e1-FOh">
+                                                            <rect key="frame" x="0.0" y="0.0" width="112" height="24"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QJq-X8-6vv">
-                                                            <rect key="frame" x="202" y="0.0" width="172" height="24"/>
+                                                            <rect key="frame" x="262" y="0.0" width="112" height="24"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="35.5" id="5oc-Pb-uoP"/>
                                                             </constraints>
@@ -78,7 +78,7 @@
                     <navigationItem key="navigationItem" title="Journal" id="4Na-Sr-LcK">
                         <barButtonItem key="rightBarButtonItem" image="plus.square" catalog="system" id="Smu-bv-5Ye">
                             <connections>
-                                <segue destination="7YD-P4-bgv" kind="presentation" modalPresentationStyle="fullScreen" id="16V-l0-RBm"/>
+                                <segue destination="7YD-P4-bgv" kind="presentation" identifier="CreateEntryModalSegue" modalPresentationStyle="fullScreen" id="16V-l0-RBm"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

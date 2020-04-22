@@ -13,6 +13,8 @@ class EntriesTableViewController: UITableViewController {
 
    // MARK: - Properties
     
+    let journalController = JournalController()
+    
    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
           let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
           fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
@@ -54,27 +56,37 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
-                    CoreDataStack.shared.mainContext.delete(entry)
-                    do {
-                        try CoreDataStack.shared.mainContext.save()
-                    } catch {
-                        CoreDataStack.shared.mainContext.reset()
-                        NSLog("Error saving managed object context: \(error)")
-                    }
+            journalController.deleteTaskFromServer(entry: entry) { result in
+                guard let _ = try? result.get() else {
+                    return
+                }
+                CoreDataStack.shared.mainContext.delete(entry)
+                do {
+                    try CoreDataStack.shared.mainContext.save()
+                } catch {
+                    CoreDataStack.shared.mainContext.reset()
+                    NSLog("Error saving managed object context: \(error)")
                 }
             }
+        }
+    }
 
    
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowEntryDetailSegue" {
-                   if let detailVC = segue.destination as? EntryDetailViewController,
-                       let indexPath = tableView.indexPathForSelectedRow {
-                       detailVC.entry = fetchedResultsController.object(at: indexPath)
-                   }
-               }
-           }
+            if let detailVC = segue.destination as? EntryDetailViewController,
+                let indexPath = tableView.indexPathForSelectedRow {
+                detailVC.entry = fetchedResultsController.object(at: indexPath)
+            }
+        }else if segue.identifier == "CreateEntryModalSegue" {
+            if let navC = segue.destination as? UINavigationController,
+                let createTaskVC = navC.viewControllers.first as? CreateEntryViewController {
+                createTaskVC.journalController = journalController
+            }
+        }
+    }
 }
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {

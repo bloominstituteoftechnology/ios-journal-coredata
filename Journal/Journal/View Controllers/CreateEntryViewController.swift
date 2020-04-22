@@ -12,7 +12,7 @@ class CreateEntryViewController: UIViewController {
     
     
     // MARK: - Properties
-    
+    var journalController: JournalController?
     
     // MARK: - Outlets
     @IBOutlet weak var titleTextField: UITextField!
@@ -36,7 +36,8 @@ class CreateEntryViewController: UIViewController {
         let moodIndex = moodControl.selectedSegmentIndex
         let mood = EntryMood.allCases[moodIndex]
             
-        Entry(title: title, bodyText: entryTextView.text, mood: mood)
+        let entry = Entry(title: title, bodyText: entryTextView.text, mood: mood)
+        journalController?.sendTaskToServer(entry: entry)
         do {
             try CoreDataStack.shared.mainContext.save()
         } catch {

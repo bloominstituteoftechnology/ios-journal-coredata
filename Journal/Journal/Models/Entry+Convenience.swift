@@ -17,6 +17,20 @@ enum EntryMood: String, CaseIterable {
 
 extension Entry {
     
+    var journalRepresentation: JournalRepresentation? {
+        guard let id = identifier,
+        let title = title,
+            let mood = mood else {
+                return nil
+        }
+        
+        return JournalRepresentation(identifier: id.uuidString,
+                                     title: title,
+                                     bodyText: bodyText,
+                                     mood: mood,
+                                     timestamp: Date())
+    }
+    
     @discardableResult convenience init(title: String,
                                         bodyText: String? = nil,
                                         timestamp: Date = Date(),
