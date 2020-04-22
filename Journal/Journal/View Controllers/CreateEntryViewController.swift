@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  CreateEntryViewController.swift
 //  Journal
 //
 //  Created by Matthew Martindale on 4/21/20.
@@ -8,8 +8,11 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CreateEntryViewController: UIViewController {
 
+    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var entryLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
