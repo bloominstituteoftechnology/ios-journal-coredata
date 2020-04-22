@@ -58,7 +58,8 @@ class CreateEntryViewController: UIViewController {
         
         let moodIndex = moodControl.selectedSegmentIndex
         let mood = EntryMood.allCases[moodIndex]
-        Entry(title: title, timestamp: date, mood: mood.rawValue)
+        let entry = Entry(title: title, timestamp: date, mood: mood)
+        entryController?.sendEntryToServer(entry: entry)
         
 //        if entry != nil {
 //            entryController?.update(title: title, timestamp: date, bodyText: entryText, mood: mood.rawValue)

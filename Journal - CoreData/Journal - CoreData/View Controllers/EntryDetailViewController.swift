@@ -14,8 +14,9 @@ class EntryDetailViewController: UIViewController {
     
     var entry: Entry?
     var wasEdited = false
+    var entryController: EntryController?
     
-     // MARK: - Outlets
+    // MARK: - Outlets
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
@@ -29,6 +30,35 @@ class EntryDetailViewController: UIViewController {
         
         navigationItem.rightBarButtonItem = editButtonItem
         updateViews()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if wasEdited {
+            guard let title = titleTextField.text,
+                !title.isEmpty,
+                let entry = entry else {
+                    return
+            }
+            
+            let bodyText = entryTextView.text
+            entry.title = title
+            entry.bodyText = bodyText
+            let today = Date()
+            entry.timestamp = today
+            let moodIndex = moodControl.selectedSegmentIndex
+            entry.mood = EntryMood.allCases[moodIndex].rawValue
+            
+            do {
+                try CoreDataStack.shared.mainContext.save()
+            } catch {
+                NSLog("Error saving managed object context: \(error)")
+                return
+            }
+//            let entry = Entry(title: title, timestamp: date, mood: mood)
+            entryController?.sendEntryToServer(entry: entry)
+        }
     }
     
     func updateViews() {
