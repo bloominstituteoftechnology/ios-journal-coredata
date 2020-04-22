@@ -89,7 +89,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="129" id="SWY-Ip-vUt">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="129" id="SWY-Ip-vUt" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="129"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SWY-Ip-vUt" id="wNQ-hN-ZRT">
@@ -132,6 +132,11 @@
                                         <constraint firstAttribute="bottom" secondItem="0Zi-2b-dnV" secondAttribute="bottom" constant="8" id="yDb-6O-jBX"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="dateLabel" destination="Vbc-iT-IlA" id="hyi-VP-Aeh"/>
+                                    <outlet property="entryLabel" destination="m9F-0r-ndE" id="7tg-hy-TAX"/>
+                                    <outlet property="titleLabel" destination="oTH-uJ-OAK" id="Uez-xl-j2O"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -142,7 +147,7 @@
                     <navigationItem key="navigationItem" title="Journal" id="3aQ-Nq-FGi">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="plus.square" catalog="system" id="mzK-iW-yQi">
                             <connections>
-                                <segue destination="m1m-cl-uzQ" kind="presentation" modalPresentationStyle="fullScreen" id="eTV-ZK-tE0"/>
+                                <segue destination="m1m-cl-uzQ" kind="presentation" identifier="JournalEntrySegue" modalPresentationStyle="fullScreen" id="eTV-ZK-tE0"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

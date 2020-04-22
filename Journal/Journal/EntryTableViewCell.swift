@@ -10,6 +10,10 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
     
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var entryLabel: UILabel!
+    
     var entry: Entry? {
         didSet {
             updateViews()
@@ -28,7 +32,10 @@ class EntryTableViewCell: UITableViewCell {
     }
     
     func updateViews() {
+        guard let entry = entry else { return }
         
+        titleLabel.text = entry.title
+        dateLabel.text = entry.title
+        entryLabel.text = entry.bodyText
     }
-
 }
