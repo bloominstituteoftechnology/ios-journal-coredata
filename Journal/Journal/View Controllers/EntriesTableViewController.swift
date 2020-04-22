@@ -25,10 +25,10 @@ class EntriesTableViewController: UITableViewController {
         return frc
     }()
     
-    
-    override func viewWillAppear(_ animated: Bool) {
-        tableView.reloadData()
-    }
+//    
+//    override func viewWillAppear(_ animated: Bool) {
+//        tableView.reloadData()
+//    }
 
     // MARK: - Table view data source
 
@@ -42,6 +42,7 @@ class EntriesTableViewController: UITableViewController {
 
  
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: EntryTableViewCell.reuseIdentifier, for: indexPath) as? EntryTableViewCell else {
             fatalError("Can't dequeue cell of type \(EntryTableViewCell.reuseIdentifier)")
         }
@@ -78,8 +79,10 @@ class EntriesTableViewController: UITableViewController {
         switch segue.identifier {
         
         case "ShowCreateEntrySegue":
-            guard let destinationVC = segue.destination as? EntryDetailViewController else { return }
-
+            guard let destinationVC = segue.destination as? CreateEntryViewController else { return }
+            guard let indexPath = tableView.indexPathForSelectedRow else { return }
+            destinationVC.entry = fetchedResultsController.object(at: indexPath)
+            
         case "ShowViewEntrySegue":
             guard let destinationVC = segue.destination as? EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow else { return }
@@ -96,6 +99,27 @@ class EntriesTableViewController: UITableViewController {
 }
 
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange sectionInfo: NSFetchedResultsSectionInfo,
+                    atSectionIndex sectionIndex: Int,
+                    for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert:
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
+        case .delete:
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
+        default:
+            break
+        }
+    }
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange anObject: Any,
                     at indexPath: IndexPath?,

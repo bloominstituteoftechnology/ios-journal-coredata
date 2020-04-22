@@ -170,13 +170,13 @@
         <!--Entry Details-->
         <scene sceneID="1ws-lf-JGN">
             <objects>
-                <viewController id="cHE-aJ-WWf" customClass="EntryDetailViewcontroller" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="cHE-aJ-WWf" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Khf-8w-MuK">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="SaZ-ze-k2z">
-                                <rect key="frame" x="20" y="179" width="374" height="223"/>
+                                <rect key="frame" x="20" y="179" width="374" height="358.5"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Journal Entry Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jEQ-o3-naq">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
@@ -184,7 +184,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="0Jc-fP-DJD">
-                                        <rect key="frame" x="0.0" y="37" width="374" height="186"/>
+                                        <rect key="frame" x="0.0" y="37" width="374" height="321.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENTRY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v2V-0U-h9M">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="17"/>
@@ -200,7 +200,7 @@
                                                 </constraints>
                                             </view>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5Xu-2H-2z3">
-                                                <rect key="frame" x="0.0" y="35" width="374" height="151"/>
+                                                <rect key="frame" x="0.0" y="35" width="374" height="286.5"/>
                                                 <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -221,7 +221,7 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="SaZ-ze-k2z" firstAttribute="height" secondItem="Khf-8w-MuK" secondAttribute="height" multiplier="0.248884" id="49Z-0k-9xt"/>
+                            <constraint firstItem="SaZ-ze-k2z" firstAttribute="height" secondItem="Khf-8w-MuK" secondAttribute="height" multiplier="0.4" id="49Z-0k-9xt"/>
                             <constraint firstItem="zCA-C3-iKt" firstAttribute="top" secondItem="B3u-et-Qvy" secondAttribute="top" id="GBs-c5-v3c"/>
                             <constraint firstItem="SaZ-ze-k2z" firstAttribute="leading" secondItem="B3u-et-Qvy" secondAttribute="leading" constant="20" id="IoY-cH-5pa"/>
                             <constraint firstItem="B3u-et-Qvy" firstAttribute="trailing" secondItem="zCA-C3-iKt" secondAttribute="trailing" constant="20" id="Jcd-ok-gyD"/>
@@ -232,6 +232,11 @@
                         <viewLayoutGuide key="safeArea" id="B3u-et-Qvy"/>
                     </view>
                     <navigationItem key="navigationItem" title="Entry Details" id="0s3-yq-omQ"/>
+                    <connections>
+                        <outlet property="entryTextField" destination="jEQ-o3-naq" id="MYu-l3-3rV"/>
+                        <outlet property="entryTextView" destination="5Xu-2H-2z3" id="PC2-AJ-aat"/>
+                        <outlet property="moodSegementedController" destination="zCA-C3-iKt" id="f3y-dX-HMb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A0z-Td-Ok2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

@@ -10,23 +10,74 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
     
+    @IBOutlet weak var moodSegementedController: UISegmentedControl!
+    @IBOutlet weak var entryTextField: UITextField!
+    @IBOutlet weak var entryTextView: UITextView!
+    
+    
+    
     var entry: Entry?
+    var wasEdited: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.rightBarButtonItem = editButtonItem
+        updateViews()
 
-        // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func updateViews() {
+        guard let entry = entry else { return }
+        
+        entryTextField.text = entry.title
+        entryTextField.isUserInteractionEnabled = isEditing
+        
+        entryTextView.text = entry.bodyText
+        entryTextView.isUserInteractionEnabled = isEditing
+        
+        let mood: Mood
+        if let chosenMood = entry.mood {
+            mood = Mood(rawValue: chosenMood)!
+        } else {
+            mood = .happy
+        }
+        
+        moodSegementedController.selectedSegmentIndex = Mood.allCases.firstIndex(of: mood) ?? 1
+        moodSegementedController.isUserInteractionEnabled = isEditing
     }
-    */
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        
+        if editing == true {
+            wasEdited = true
+            entryTextField.isUserInteractionEnabled = editing
+            entryTextView.isUserInteractionEnabled = editing
+            moodSegementedController.isUserInteractionEnabled = editing
+            
+            navigationItem.hidesBackButton = editing
+        }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if wasEdited == true {
+            
+           guard let title = entryTextField?.text,
+            let body = entryTextView?.text else { return }
+            
+            let moodIndex = moodSegementedController.selectedSegmentIndex
+            let mood = Mood.allCases[moodIndex]
+            Entry(title: title, bodyText: body, timestamp: Date(), mood: mood)
+            do {
+                try CoreDataStack.shared.mainContext.save()
+            } catch {
+                NSLog("Error saving managed object context: \(error)")
+                return
+            }
+            navigationController?.dismiss(animated: true, completion: nil)
+        }
+    }
 
 }
