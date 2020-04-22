@@ -27,7 +27,7 @@ extension Entry {
                                   timestamp: timestamp,
                                   identifier: id,
                                   mood: mood)
-    }
+    }//
     
     
     @discardableResult convenience init(title: String,
