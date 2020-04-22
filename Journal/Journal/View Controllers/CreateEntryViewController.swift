@@ -10,14 +10,18 @@ import UIKit
 
 class CreateEntryViewController: UIViewController {
     
+
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
     @IBOutlet weak var moodControl: UISegmentedControl!
     
     
+    var entry: Entry?
+    
     @IBAction func cancelButtonTapped(_ sender: Any) {
         navigationController?.dismiss(animated: true, completion: nil)
     }
+    
     @IBAction func saveButtonTapped(_ sender: Any) {
         guard let titleText = titleTextField.text,
             !titleText.isEmpty else { return }
@@ -36,7 +40,8 @@ class CreateEntryViewController: UIViewController {
         }
         navigationController?.dismiss(animated: true, completion: nil)
     }
-    
+
+
 
     override func viewDidLoad() {
         super.viewDidLoad()

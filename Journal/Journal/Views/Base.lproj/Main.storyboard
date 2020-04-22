@@ -76,13 +76,13 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Save" id="m8c-IR-4gv">
                             <connections>
-                                <action selector="saveButtonTapped:" destination="BYZ-38-t0r" id="leP-9O-Tk7"/>
+                                <action selector="saveButtonTapped:" destination="BYZ-38-t0r" id="RVK-tJ-1sC"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="entryTextView" destination="sTG-3r-bbx" id="JMk-ik-5hC"/>
-                        <outlet property="moodControl" destination="Ac7-wF-ZcN" id="LlW-QT-hhE"/>
+                        <outlet property="entryTextView" destination="sTG-3r-bbx" id="fhB-oZ-vbt"/>
+                        <outlet property="moodControl" destination="Ac7-wF-ZcN" id="r6c-j7-Utd"/>
                         <outlet property="titleTextField" destination="fBD-FG-dWV" id="zrW-bf-MRY"/>
                     </connections>
                 </viewController>
@@ -146,6 +146,7 @@
                                     <outlet property="entryDate" destination="uPQ-cg-TcM" id="QPp-xk-ge5"/>
                                     <outlet property="entryText" destination="6pB-LL-jTb" id="ukN-im-eun"/>
                                     <outlet property="entryTitle" destination="Jqw-aX-cN2" id="AkG-Da-FCU"/>
+                                    <segue destination="cHE-aJ-WWf" kind="show" identifier="ShowViewEntrySegue" id="exe-fq-IP5"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -157,7 +158,7 @@
                     <navigationItem key="navigationItem" title="Journal" id="wBy-U1-Cf0">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="plus.app" catalog="system" id="YKX-e8-RBI">
                             <connections>
-                                <segue destination="XSC-ke-yx6" kind="presentation" modalPresentationStyle="fullScreen" id="q5h-3Y-AWG"/>
+                                <segue destination="XSC-ke-yx6" kind="presentation" identifier="ShowCreateEntrySegue" modalPresentationStyle="fullScreen" id="q5h-3Y-AWG"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -165,6 +166,76 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jvb-XO-GBY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1582.608695652174" y="127.90178571428571"/>
+        </scene>
+        <!--Entry Details-->
+        <scene sceneID="1ws-lf-JGN">
+            <objects>
+                <viewController id="cHE-aJ-WWf" customClass="EntryDetailViewcontroller" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Khf-8w-MuK">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="SaZ-ze-k2z">
+                                <rect key="frame" x="20" y="179" width="374" height="223"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Journal Entry Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jEQ-o3-naq">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="0Jc-fP-DJD">
+                                        <rect key="frame" x="0.0" y="37" width="374" height="186"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENTRY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v2V-0U-h9M">
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mbw-ai-Gnw">
+                                                <rect key="frame" x="0.0" y="25" width="374" height="2"/>
+                                                <color key="backgroundColor" systemColor="systemGray2Color" red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="2" id="H8y-J8-Pf1"/>
+                                                </constraints>
+                                            </view>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5Xu-2H-2z3">
+                                                <rect key="frame" x="0.0" y="35" width="374" height="151"/>
+                                                <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="zCA-C3-iKt">
+                                <rect key="frame" x="20" y="140" width="374" height="32"/>
+                                <segments>
+                                    <segment title="☹️"/>
+                                    <segment title="😐"/>
+                                    <segment title="😊"/>
+                                </segments>
+                            </segmentedControl>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="SaZ-ze-k2z" firstAttribute="height" secondItem="Khf-8w-MuK" secondAttribute="height" multiplier="0.248884" id="49Z-0k-9xt"/>
+                            <constraint firstItem="zCA-C3-iKt" firstAttribute="top" secondItem="B3u-et-Qvy" secondAttribute="top" id="GBs-c5-v3c"/>
+                            <constraint firstItem="SaZ-ze-k2z" firstAttribute="leading" secondItem="B3u-et-Qvy" secondAttribute="leading" constant="20" id="IoY-cH-5pa"/>
+                            <constraint firstItem="B3u-et-Qvy" firstAttribute="trailing" secondItem="zCA-C3-iKt" secondAttribute="trailing" constant="20" id="Jcd-ok-gyD"/>
+                            <constraint firstItem="B3u-et-Qvy" firstAttribute="trailing" secondItem="SaZ-ze-k2z" secondAttribute="trailing" constant="20" id="iql-N1-yPb"/>
+                            <constraint firstItem="zCA-C3-iKt" firstAttribute="leading" secondItem="B3u-et-Qvy" secondAttribute="leading" constant="20" id="lOI-QF-lcp"/>
+                            <constraint firstItem="SaZ-ze-k2z" firstAttribute="top" secondItem="zCA-C3-iKt" secondAttribute="bottom" constant="8" id="xOY-Y8-34h"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="B3u-et-Qvy"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Entry Details" id="0s3-yq-omQ"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="A0z-Td-Ok2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2451" y="414"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rbX-Ag-osi">
