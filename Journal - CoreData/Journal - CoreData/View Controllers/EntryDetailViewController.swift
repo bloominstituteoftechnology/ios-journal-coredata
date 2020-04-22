@@ -22,9 +22,6 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var entryTextView: UITextView!
     @IBOutlet weak var moodControl: UISegmentedControl!
     
-    
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,6 +58,21 @@ class EntryDetailViewController: UIViewController {
         }
     }
     
+       // MARK: - Editing
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        
+        if editing { wasEdited = true }
+        
+        titleTextField.isUserInteractionEnabled = editing
+        entryTextView.isUserInteractionEnabled = editing
+        moodControl.isUserInteractionEnabled = editing
+        navigationItem.hidesBackButton = editing
+        
+        
+    }
+    
     func updateViews() {
         titleTextField.text = entry?.title
         titleTextField.isUserInteractionEnabled = isEditing
@@ -77,11 +89,6 @@ class EntryDetailViewController: UIViewController {
         
         moodControl.selectedSegmentIndex = EntryMood.allCases.firstIndex(of: mood) ?? 1
         moodControl.isUserInteractionEnabled = isEditing
-    }
-    
-    override func setEditing(_ editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: animated)
-        
     }
     
     
