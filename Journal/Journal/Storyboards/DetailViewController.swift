@@ -37,11 +37,12 @@ class DetailViewController: UIViewController {
         if wasEdited {
             guard let title = titleTextField.text,
                 !title.isEmpty,
+                let bodyText = entryTextView.text,
+                !bodyText.isEmpty,
                 let entry = entry else {
                     return
             }
-                        
-            let bodyText = entryTextView.text
+            
             entry.title = title
             entry.bodyText = bodyText
             entry.timestamp = Date()
