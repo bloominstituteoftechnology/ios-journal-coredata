@@ -4,10 +4,6 @@
 
 Today's project will continue to add more functionality to the Journal project. You will add syncing between Core Data and a server. In this case, Firebase will be used as the server. Since we have already set up an `NSFetchedResultsController` to update the table view when the persistent store's managed objects change, you will only need to do work on the model and model controller layers. This is a good example of adding functionality without having to tear up your entire application.
 
-Please look at the screen recording below to know what the finished project should look like:
-
-![](https://user-images.githubusercontent.com/16965587/44161634-2a8b6480-a07b-11e8-948d-0c7e7c43bc78.gif)
-
 ## Instructions
 
 Use the Journal project you made yesterday. Create a new branch called `day3`. When you finish today's instructions and go to make a pull request, be sure to select the original repository's `day3` branch as the base branch, and your own `day3` branch as the compare branch.
@@ -32,18 +28,19 @@ The way to prevent this is to create an intermediate data type between the JSON 
 
 #### EntryController
 
-1. In the `EntryController`, add a `baseURL: URL` constant that is the URL from the new Firebase database you created for this app.
-2. Create a function called `put`, that takes in an entry and has an escaping completion closure. The closure should return an optional error. Give this completion closure a default value of an empty closure. (e.g. `{ _ in }` ). This will allow you to use the completion closure if you want to do something when `completion` is called or just not worry about doing anything after knowing the data task has completed. This method should:
+1. Create an `EntryController` class for communicating with Firebase and Core Data.
+2. In the `EntryController`, add a `baseURL: URL` constant that is the URL from the new Firebase database you created for this app.
+3. Create a function called `sendEntryToServer` that takes in an entry and has an escaping completion closure. Give this completion closure a default value of an empty closure. (e.g. `{ _ in }` ). This will allow you to use the completion closure if you want to do something when `completion` is called or just not worry about doing anything after knowing the data task has completed. This method should:
     - Take the `baseURL` and append the identifier of the entry parameter to it. Add the `"json"` extension to the URL as well.
     - Create a `URLRequest` object. Set its HTTP method to PUT.
     - Using `JSONEncoder`, encode the entry's `entryRepresentation` into JSON data. Set the URL request's `httpBody` to this data.
     - Perform a `URLSessionDataTask` with the request, and handle any errors. Make sure to call completion and resume the data task.
-3. Call the `put` method in the `createEntry` and `update(entry: ...)` methods.
-4. Create a `deleteEntryFromServer` method. It should take in an entry, and a completion closure that returns an optional error. Again, give the closure a default value of an empty closure. This method should:
+4. Call this method from the `CreateEntryViewController`'s `save` method and the `EntryDetailViewController`'s `viewWillDisappear` method.
+5. Create a `deleteEntryFromServer` method. It should take in an entry, and a completion closure that returns an optional error. Again, give the closure a default value of an empty closure. This method should:
     - Create a URL from the `baseURL` and append the entry parameter's identifier to it. Also append the "json" extension to the URL as well. This URL should be formatted the same as the URL you would use to PUT an entry to Firebase.
     - Create a `URLRequest` object, and set its HTTP method to DELETE.
     - Perform a `URLSessionDataTask` with the request and handle any errors. Call completion and don't forget to resume the data task.
-5. Call the `deleteEntryFromServer` method in your `delete(entry: ...)` method.
+6. Call the `deleteEntryFromServer` method from the `EntriesTableViewController`'s `commitEditingStyle` method.
 
 Test the app at this point. You should be able to both create and update entries and they will be sent to Firebase as well as to the `NSPersistentStore` on the device. You should also be able to delete entries from Firebase also.
 
@@ -60,7 +57,7 @@ You'll use the `EntryRepresentation` to do this. It will let you decode the JSON
 
 Back in the `EntryController`, you will make a couple methods that will help when fetching the entries from Firebase. 
 
-1. Create a new "Update" function called `update`. It should take in an `Entry` whose values should be updated, and an `EntryRepresentation` to take the values from. This should simply set each of the `Entry`'s values to the `EntryRepresentation`'s corresponding values. **DO NOT** call `saveToPersistentStore` in this method. It will be explained why later on.
+1. Create a new function called `update`. It should take in an `Entry` whose values should be updated, and an `EntryRepresentation` to take the values from. This should simply set each of the `Entry`'s values to the `EntryRepresentation`'s corresponding values. **DO NOT** call `saveToPersistentStore` in this method. It will be explained why later on.
 2. Create a method called `updateEntries(with representations: [EntryRepresentation])`. This method's `representation` argument represents the EntryRepresentation objects that are fetched from Firebase. This method should:
     - Create a fetch request from `Entry` object. 
     - Create a dictionary with the identifiers of the `representations` as the keys, and the values as the `representations`. To accomplish making this dictionary you will need to create a separate array of just the entry representations identifiers. You can use the `zip` method to combine two arrays of items together into a dictionary.
@@ -76,7 +73,7 @@ Back in the `EntryController`, you will make a couple methods that will help whe
     - Then make a second loop through your dictionary's `values` property. This should create an entry for each of the values in that dictionary using the `Entry` initializer that takes in an `EntryRepresentation` and an `NSManagedObjectContext`
     - Under both loops, call `saveToPersistentStore()` to persist the changes and effectively synchronize the data in the device's persistent store with the data on the server.  Since you are using an `NSFetchedResultsController`, as soon as you save the managed object context, the fetched results controller will observe those changes and automatically update the table view with the updated entries.
     
-3. Create a function called `fetchEntriesFromServer`. It should have a completion closure that returns an optional error and its default value should be an empty closure. This method should:
+3. Create a function called `fetchEntriesFromServer`. It should have a completion closure that looks like the other closures you've used in this class and its default value should be an empty closure. This method should:
     - Take the `baseURL` and add the "json" extension to it. 
     - Perform a GET `URLSessionDataTask` with the url you just set up.
     - In the completion of the data task, check for errors
@@ -89,11 +86,3 @@ Back in the `EntryController`, you will make a couple methods that will help whe
 4. Write an initializer for the `EntryController`. It shouldn't take in any values. Inside of the initializer, call the `fetchEntriesFromServer` method. As soon as the app runs and initializes this model controller, it should fetch the entries from Firebase and update the persistent store.
 
 The app should be working at this point. Test it by going to the Firebase Database in a browser and changing some values in the entries saved there. The easiest thing to change is the mood. This will allow you to easily see if the table view will update according to the new changes. It may take a few seconds after the app launches, but you should see the cell(s) move to different sections if you changed the mood of some entries in Firebase.
-
-**NOTE: The app will not automatically fetch posts when you change or add posts in the database.** At this point you must trigger the fetch manually, the simplest way being to relaunch the application. If you want, you could look up how to implement a refresh control on a table view controller which would allow you to drag down on the table view to refresh the table view and allow you to re-fetch the entries.
-
-
-## Go Further
-
-Just like yesterday, try to solidify today's concepts by starting over and rewriting the project from where you started today. Or even better, try to write the entire project with both today and yesterday's content from scratch. Use these instructions as sparingly as possible to help you practice recall.
-
