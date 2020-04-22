@@ -16,6 +16,20 @@ enum MoodPriority: String, CaseIterable {
 }
 
 extension Entry {
+    var entryRepresentation: EntryRepresentation? {
+        guard let id = identifier,
+        let title = title,
+        let timestamp = timestamp,
+        let mood = mood else { return nil }
+        
+       return EntryRepresentation(title: title,
+                                  bodyText: bodyText,
+                                  timestamp: timestamp,
+                                  identifier: id,
+                                  mood: mood)
+    }
+    
+    
     @discardableResult convenience init(title: String,
                                         bodyText: String? = nil,
                                         timestamp: Date,
