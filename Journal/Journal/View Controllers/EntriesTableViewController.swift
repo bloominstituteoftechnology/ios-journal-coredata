@@ -11,6 +11,8 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
+    let entryController = EntryController()
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: false),
@@ -48,12 +50,17 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
-            CoreDataStack.shared.mainContext.delete(entry)
-            do {
-                try CoreDataStack.shared.mainContext.save()
-            } catch {
-                CoreDataStack.shared.mainContext.reset()
-                NSLog("Error saving managed object context: \(error)")
+            
+            entryController.deleteEntryFromServer(entry: entry) { result in
+                guard let _ = try? result.get() else { return }
+                
+                CoreDataStack.shared.mainContext.delete(entry)
+                do {
+                    try CoreDataStack.shared.mainContext.save()
+                } catch {
+                    CoreDataStack.shared.mainContext.reset()
+                    NSLog("Error saving managed object context: \(error)")
+                }
             }
         }
     }
@@ -65,6 +72,11 @@ class EntriesTableViewController: UITableViewController {
             if let entryDetailViewController = segue.destination as? EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow {
                 entryDetailViewController.entry = fetchedResultsController.object(at: indexPath)
+            } else if segue.identifier == "CreateSeg" {
+                if let navigationController = segue.destination as? UINavigationController,
+                    let createEntryViewController = navigationController.viewControllers.first as? CreateEntryViewController {
+                    createEntryViewController.entryController = entryController
+                }
             }
         }
     }
