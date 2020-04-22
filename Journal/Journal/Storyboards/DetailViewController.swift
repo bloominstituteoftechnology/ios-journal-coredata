@@ -14,13 +14,15 @@ class DetailViewController: UIViewController {
     
     var entry: Entry?
     var wasEdited = false
+    var entryController = EntryController()
     
+
     
     // MARK: - Outlets
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
     @IBOutlet weak var moodEmojiControl: UISegmentedControl!
-
+    
     
     // MARK: - View Lifecycle
     override func viewDidLoad() {
@@ -36,16 +38,17 @@ class DetailViewController: UIViewController {
             guard let title = titleTextField.text,
                 !title.isEmpty,
                 let entry = entry else {
-                return
+                    return
             }
-            
+                        
             let bodyText = entryTextView.text
             entry.title = title
             entry.bodyText = bodyText
-//            entry.timestamp = timestamp
+            entry.timestamp = Date()
             let moodPriority = moodEmojiControl.selectedSegmentIndex
             entry.mood = MoodPriority.allCases[moodPriority].rawValue
-            
+            entryController.sendEntryToServer(entry: entry)
+
             do {
                 try CoreDataStack.shared.mainContext.save()
             } catch {
@@ -86,6 +89,6 @@ class DetailViewController: UIViewController {
         }
         moodEmojiControl.selectedSegmentIndex = MoodPriority.allCases.firstIndex(of: mood) ?? 1
         moodEmojiControl.isUserInteractionEnabled = isEditing
-            
+        
     }
 }

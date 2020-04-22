@@ -67,7 +67,7 @@ class EntriesTableViewController: UITableViewController {
                 //  tableView.deleteRows(at: [indexPath], with: .fade)  // this can be removed because we added the delegate.
                 
             } catch {
-                CoreDataStack.shared.mainContext.reset()  // returns tasks to base state if delete is unsuccessful.  We avoid a "half" delete by doing this.
+                CoreDataStack.shared.mainContext.reset()  // returns entries to base state if delete is unsuccessful.  We avoid a "half" delete by doing this.
                 NSLog("Error saving managed object context: \(error)")
             }
         }
@@ -84,7 +84,7 @@ class EntriesTableViewController: UITableViewController {
             }
         } else if segue.identifier == "AddEntryModalSegue" {
             if let navC = segue.destination as? UINavigationController,
-                let createEntryVC = navC.navigationController as? CreateEntryViewController {
+            let createEntryVC = navC.viewControllers.first as? CreateEntryViewController {
                 createEntryVC.entryController = entryController
             }
         }
