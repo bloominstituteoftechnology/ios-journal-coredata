@@ -13,7 +13,6 @@ class DetailViewController: UIViewController {
     // MARK: Properties
     
     var entry: Entry?
-    
     var wasEdited = false
     
     
@@ -29,6 +28,46 @@ class DetailViewController: UIViewController {
         navigationItem.rightBarButtonItem = editButtonItem
         updateViews()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if wasEdited {
+            guard let title = titleTextField.text,
+                !title.isEmpty,
+                let entry = entry else {
+                return
+            }
+            
+            let bodyText = entryTextView.text
+            entry.title = title
+            entry.bodyText = bodyText
+//            entry.timestamp = timestamp
+            let moodPriority = moodEmojiControl.selectedSegmentIndex
+            entry.mood = MoodPriority.allCases[moodPriority].rawValue
+            
+            do {
+                try CoreDataStack.shared.mainContext.save()
+            } catch {
+                NSLog("error savng managed object context: \(error)")
+            }
+        }
+    }
+    
+    // MARK: - Editing
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        
+        if editing { wasEdited = true }
+        
+        titleTextField.isUserInteractionEnabled = editing
+        entryTextView.isUserInteractionEnabled = editing
+        moodEmojiControl.isUserInteractionEnabled = editing
+        
+        navigationItem.hidesBackButton = editing
+    }
+    
     
     private func updateViews() {
         titleTextField.text = entry?.title

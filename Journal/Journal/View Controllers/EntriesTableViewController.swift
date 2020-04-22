@@ -11,6 +11,10 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
+    // MARK: - Properties
+    
+    let entryController = EntryController()
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
@@ -51,36 +55,41 @@ class EntriesTableViewController: UITableViewController {
     
     
     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-         if editingStyle == .delete {
-             // Delete the row from the data source
-             let task = fetchedResultsController.object(at: indexPath)
-             CoreDataStack.shared.mainContext.delete(task)  // This marks it for deletion, but doesn't actually delete it until you do a commit AKA a save in CoreDate terminology.
-             do {
-                 try CoreDataStack.shared.mainContext.save()  // saves the current state.
-                 //                tableView.deleteRows(at: [indexPath], with: .fade)  // this can be removed because we added the delegate.
-                 
-             } catch {
-                 CoreDataStack.shared.mainContext.reset()  // returns tasks to base state if delete is unsuccessful.  We avoid a "half" delete by doing this.
-                 NSLog("Error saving managed object context: \(error)")
-             }
-         }
-     }
-     
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the row from the data source
+            let entry = fetchedResultsController.object(at: indexPath)
+            entryController.deleteEntryFromServer(entry: entry)
+            
+            CoreDataStack.shared.mainContext.delete(entry)  // This marks it for deletion, but doesn't actually delete it until you do a commit AKA a save in CoreData terminology.
+            do {
+                try CoreDataStack.shared.mainContext.save()  // saves the current state.
+                //  tableView.deleteRows(at: [indexPath], with: .fade)  // this can be removed because we added the delegate.
+                
+            } catch {
+                CoreDataStack.shared.mainContext.reset()  // returns tasks to base state if delete is unsuccessful.  We avoid a "half" delete by doing this.
+                NSLog("Error saving managed object context: \(error)")
+            }
+        }
+    }
+    
     
     // MARK: - Navigation
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        // Get the new view controller using segue.destination.
-//        guard let controller = segue.description as? CreateEntryViewController,
-//            let indexPath = tableView.indexPathForSelectedRow else { return }
-        
-        
-        // Pass the selected object to the new view controller.
-        
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowDetailSegue" {
+            if let detailVC = segue.destination as? DetailViewController,
+                let indexPath = tableView.indexPathForSelectedRow {
+                detailVC.entry = fetchedResultsController.object(at: indexPath)
+            }
+        } else if segue.identifier == "AddEntryModalSegue" {
+            if let navC = segue.destination as? UINavigationController,
+                let createEntryVC = navC.navigationController as? CreateEntryViewController {
+                createEntryVC.entryController = entryController
+            }
+        }
     }
-
+}
 
 // MARK: - Extensions
 

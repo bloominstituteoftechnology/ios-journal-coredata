@@ -9,13 +9,26 @@
 import Foundation
 import CoreData
 
-enum MoodPriority: String, CaseIterable {
+enum MoodPriority: String, CaseIterable {   
     case sad = "☹️"
     case neutral = "😐"
     case happy = "😀"
 }
 
 extension Entry {
+    
+    var entryRepresentation: EntryRepresentation? {
+        guard let id = identifier, let title = title,
+            let mood = mood, let timestamp = timestamp else { return nil
+                
+        }
+        
+        return EntryRepresentation(identifier: id,
+                                  title: title,
+                                  bodyText: bodyText,
+                                  mood: mood, timestamp: timestamp)
+    }
+    
     @discardableResult convenience init(identifier: String = String(),
                      title: String,
                      bodyText: String,

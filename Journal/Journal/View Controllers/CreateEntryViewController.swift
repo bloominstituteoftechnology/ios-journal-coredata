@@ -13,6 +13,7 @@ class CreateEntryViewController: UIViewController {
     // MARK: - Properties
     
     var complete = false
+    var entryController: EntryController?
     
     // MARK: - Outlets
     
@@ -29,6 +30,7 @@ class CreateEntryViewController: UIViewController {
         titleTextField.becomeFirstResponder()
     }
     
+    
     // MARK: - Actions
     
     @IBAction func cancel(_ sender: UIBarButtonItem){
@@ -40,12 +42,15 @@ class CreateEntryViewController: UIViewController {
         
         guard let title = titleTextField.text,
             !title.isEmpty else { return }
+        
         let bodyText = entryTextView.text ?? ""
         let moodIndex = moodEmojiControl.selectedSegmentIndex
         let mood = MoodPriority.allCases[moodIndex]
         let timestamp = Date()
         
-        Entry(title: title, bodyText: bodyText, timestamp: timestamp, mood: mood)
+        let entry = Entry(title: title, bodyText: bodyText, timestamp: timestamp, mood: mood)
+        entryController?.sendEntryToServer(entry: entry)
+        
         do {
             try CoreDataStack.shared.mainContext.save()
         } catch {
