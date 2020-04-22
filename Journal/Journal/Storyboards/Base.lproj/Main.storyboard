@@ -67,7 +67,7 @@
             </objects>
             <point key="canvasLocation" x="921.73913043478262" y="137.94642857142856"/>
         </scene>
-        <!--Entries Table View Controller-->
+        <!--Journal-->
         <scene sceneID="BTV-vO-9J7">
             <objects>
                 <tableViewController id="SYJ-TZ-tAx" customClass="EntriesTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
@@ -76,12 +76,49 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="fjj-bW-6eH" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="244" id="fjj-bW-6eH" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="244"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fjj-bW-6eH" id="xvA-Ri-PBw">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="244"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="R98-EB-RT6">
+                                            <rect key="frame" x="15" y="15" width="384" height="214"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="G1T-Ie-Qyq">
+                                                    <rect key="frame" x="0.0" y="0.0" width="384" height="48"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The Adventure of the Three Students" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Eat-nm-7G0">
+                                                            <rect key="frame" x="0.0" y="0.0" width="254" height="48"/>
+                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="4/19/20, 12:39 PM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1OH-mm-9tN">
+                                                            <rect key="frame" x="266" y="0.0" width="118" height="48"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WTZ-yv-09f">
+                                                    <rect key="frame" x="0.0" y="52" width="384" height="162"/>
+                                                    <string key="text">It was in the year '95 that a combination of events, into which I need not enter, caused Mr. Sherlock Holmes and myself to spend some weeks in one of our great University towns, and it was during this time that the small but instructive adventure which I am about to relate befell us.</string>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="R98-EB-RT6" firstAttribute="top" secondItem="xvA-Ri-PBw" secondAttribute="top" constant="15" id="1Qp-8M-68R"/>
+                                        <constraint firstItem="R98-EB-RT6" firstAttribute="leading" secondItem="xvA-Ri-PBw" secondAttribute="leading" constant="15" id="RRa-gc-k4E"/>
+                                        <constraint firstAttribute="trailing" secondItem="R98-EB-RT6" secondAttribute="trailing" constant="15" id="XaU-nK-TuM"/>
+                                        <constraint firstAttribute="bottom" secondItem="R98-EB-RT6" secondAttribute="bottom" constant="15" id="e7u-SE-zTx"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -90,8 +127,8 @@
                             <outlet property="delegate" destination="SYJ-TZ-tAx" id="ZGj-lU-n74"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="BTj-I5-5hW">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="c8W-i3-kER">
+                    <navigationItem key="navigationItem" title="Journal" id="BTj-I5-5hW">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="plus.app" catalog="system" id="c8W-i3-kER">
                             <connections>
                                 <segue destination="5oh-8O-9Wn" kind="presentation" modalPresentationStyle="fullScreen" id="q5j-mJ-Jmv"/>
                             </connections>
@@ -100,15 +137,15 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UpJ-Xe-DvD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-572" y="138"/>
+            <point key="canvasLocation" x="-572.46376811594212" y="137.94642857142856"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="hw6-9o-YfR">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Rfb-K1-qkK" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="EjW-5r-xVR">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="EjW-5r-xVR">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -139,4 +176,7 @@
             <point key="canvasLocation" x="217" y="138"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="plus.app" catalog="system" width="128" height="114"/>
+    </resources>
 </document>
