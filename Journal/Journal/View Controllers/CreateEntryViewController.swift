@@ -37,7 +37,7 @@ class CreateEntryViewController: UIViewController {
         let timestamp = Date()
         
         let moodIndex = moodControl.selectedSegmentIndex
-        let mood = EntryMood.allCases[moodIndex]
+        let mood = MoodPriority.allCases[moodIndex]
         // Create
         Entry(title: title, bodyText: bodyText, timestamp: timestamp, mood: mood)
         do {

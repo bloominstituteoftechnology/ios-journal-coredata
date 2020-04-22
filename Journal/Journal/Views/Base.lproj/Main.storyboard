@@ -62,7 +62,7 @@
                                     <outlet property="bodyTextLabel" destination="t49-L6-oED" id="LuE-G6-jre"/>
                                     <outlet property="dateLabel" destination="ADJ-4D-4RN" id="MYt-Yw-sPc"/>
                                     <outlet property="titleLabel" destination="G2f-el-10R" id="b0c-gv-zwA"/>
-                                    <segue destination="0m7-IK-G72" kind="show" id="2oM-wa-OJf"/>
+                                    <segue destination="0m7-IK-G72" kind="show" identifier="ShowEntryDetailSegue" id="2oM-wa-OJf"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -83,10 +83,10 @@
             </objects>
             <point key="canvasLocation" x="-301" y="338"/>
         </scene>
-        <!--View Controller-->
+        <!--Entry Detail View Controller-->
         <scene sceneID="sPg-Wr-D8u">
             <objects>
-                <viewController id="0m7-IK-G72" sceneMemberID="viewController">
+                <viewController id="0m7-IK-G72" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="EeR-18-wF6">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
