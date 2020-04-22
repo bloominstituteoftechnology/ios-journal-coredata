@@ -9,13 +9,12 @@
 /* Begin PBXBuildFile section */
 		15EF2374244E3962003F5946 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF2373244E3962003F5946 /* AppDelegate.swift */; };
 		15EF2376244E3962003F5946 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF2375244E3962003F5946 /* SceneDelegate.swift */; };
-		15EF2378244E3962003F5946 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF2377244E3962003F5946 /* ViewController.swift */; };
 		15EF237B244E3962003F5946 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15EF2379244E3962003F5946 /* Main.storyboard */; };
 		15EF237D244E3964003F5946 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 15EF237C244E3964003F5946 /* Assets.xcassets */; };
 		15EF2380244E3964003F5946 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 15EF237E244E3964003F5946 /* LaunchScreen.storyboard */; };
 		15EF238B244E3AE8003F5946 /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF238A244E3AE8003F5946 /* EntriesTableViewController.swift */; };
 		15EF238D244E3BAB003F5946 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF238C244E3BAB003F5946 /* EntryTableViewCell.swift */; };
-		15EF2391244E3E25003F5946 /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF2390244E3E25003F5946 /* EntryDetailViewController.swift */; };
+		15EF2391244E3E25003F5946 /* CreateEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF2390244E3E25003F5946 /* CreateEntryViewController.swift */; };
 		15EF2395244E3F13003F5946 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF2394244E3F13003F5946 /* CoreDataStack.swift */; };
 		15EF239C244E3FD6003F5946 /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 15EF239A244E3FD6003F5946 /* Journal.xcdatamodeld */; };
 		15EF239E244E4043003F5946 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EF239D244E4043003F5946 /* Entry+Convenience.swift */; };
@@ -27,14 +26,13 @@
 		15EF2370244E3962003F5946 /* Journal - CoreData.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Journal - CoreData.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		15EF2373244E3962003F5946 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		15EF2375244E3962003F5946 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		15EF2377244E3962003F5946 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		15EF237A244E3962003F5946 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		15EF237C244E3964003F5946 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		15EF237F244E3964003F5946 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		15EF2381244E3964003F5946 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		15EF238A244E3AE8003F5946 /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 		15EF238C244E3BAB003F5946 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
-		15EF2390244E3E25003F5946 /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
+		15EF2390244E3E25003F5946 /* CreateEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEntryViewController.swift; sourceTree = "<group>"; };
 		15EF2394244E3F13003F5946 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		15EF239B244E3FD6003F5946 /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
 		15EF239D244E4043003F5946 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
@@ -113,8 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				15EF238A244E3AE8003F5946 /* EntriesTableViewController.swift */,
-				15EF2390244E3E25003F5946 /* EntryDetailViewController.swift */,
-				15EF2377244E3962003F5946 /* ViewController.swift */,
+				15EF2390244E3E25003F5946 /* CreateEntryViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -229,9 +226,8 @@
 				15EF23A1244E4351003F5946 /* EntryController.swift in Sources */,
 				15EF238B244E3AE8003F5946 /* EntriesTableViewController.swift in Sources */,
 				15EF238D244E3BAB003F5946 /* EntryTableViewCell.swift in Sources */,
-				15EF2378244E3962003F5946 /* ViewController.swift in Sources */,
 				15EF2374244E3962003F5946 /* AppDelegate.swift in Sources */,
-				15EF2391244E3E25003F5946 /* EntryDetailViewController.swift in Sources */,
+				15EF2391244E3E25003F5946 /* CreateEntryViewController.swift in Sources */,
 				15EF2376244E3962003F5946 /* SceneDelegate.swift in Sources */,
 				15EF239C244E3FD6003F5946 /* Journal.xcdatamodeld in Sources */,
 			);

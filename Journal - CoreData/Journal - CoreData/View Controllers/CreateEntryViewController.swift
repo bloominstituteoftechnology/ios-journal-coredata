@@ -8,7 +8,7 @@
 
 import UIKit
 
-class EntryDetailViewController: UIViewController {
+class CreateEntryViewController: UIViewController {
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
@@ -30,20 +30,21 @@ class EntryDetailViewController: UIViewController {
     }
     
     func updateViews() {
-        viewDidLoad()
+//        viewDidLoad()
         
         if ((entry?.title) != nil)  {
         self.title = entry?.title
         } else {
             self.title = "Create Entry"
         }
-//        let moodIndex = moodControl.selectedSegmentIndex
-//        let mood = EntryMood.allCases[moodIndex].rawValue
+        
         
         if entry != nil {
             titleTextField.text = entry?.title
             entryTextView.text = entry?.bodyText
-//            moodControl.selectedSegmentIndex = entry.mood
+            let moodIndex = moodControl.selectedSegmentIndex
+            let mood = EntryMood.allCases[moodIndex].rawValue
+            entry?.mood = mood
         }
     }
     
@@ -57,12 +58,26 @@ class EntryDetailViewController: UIViewController {
         
         let moodIndex = moodControl.selectedSegmentIndex
         let mood = EntryMood.allCases[moodIndex]
+        Entry(title: title, timestamp: date, mood: mood.rawValue)
         
-        if entry != nil {
-            entryController?.update(title: title, timestamp: date, bodyText: entryText, mood: mood.rawValue)
-        } else {
-            entryController?.create(title: title, timestamp: date, bodyText: entryText, mood: mood.rawValue)
+//        if entry != nil {
+//            entryController?.update(title: title, timestamp: date, bodyText: entryText, mood: mood.rawValue)
+//        } else {
+//            entryController?.create(title: title, timestamp: date, bodyText: entryText, mood: mood.rawValue)
+//        }
+//
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+            return
         }
+        navigationController?.dismiss(animated: true, completion: nil)
+        
+    }
+    
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
+        navigationController?.dismiss(animated: true, completion: nil)
     }
     
 
