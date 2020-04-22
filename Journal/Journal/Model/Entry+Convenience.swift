@@ -21,12 +21,14 @@ extension Entry {
                                         title: String,
                                         timestamp: Date = Date(),
                                         bodyText: String? = nil,
-                                        context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+                                        context: NSManagedObjectContext = CoreDataStack.shared.mainContext,
+                                        mood: String = "😐") {
         
         self.init(context: context)
         self.identifier = identifier
         self.title = title
         self.timestamp = timestamp
         self.bodyText = bodyText
+        self.mood = mood
     }
 }

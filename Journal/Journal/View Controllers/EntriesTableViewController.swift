@@ -11,28 +11,28 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
-    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "priority", ascending: true),
-                                        NSSortDescriptor(key: "name", ascending: true)]
-        let context = CoreDataStack.shared.mainContext
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "priority", cacheName: nil)
-        fetchedResultsController.delegate = self
-        try! fetchedResultsController.performFetch()
-        return fetchedResultsController
-    }()
+//    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "priority", ascending: true),
+//                                        NSSortDescriptor(key: "name", ascending: true)]
+//        let context = CoreDataStack.shared.mainContext
+//        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "priority", cacheName: nil)
+//        fetchedResultsController.delegate = self
+//        try! fetchedResultsController.performFetch()
+//        return fetchedResultsController
+//    }()
     
     // MARK: - Table view data source
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        entries.count
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { 1
+//        entries.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryTableViewCell", for: indexPath) as? EntryTableViewCell else {
             fatalError("Could not dequeue cell as EntryTableViewCell")
         }
-        cell.entry = entries[indexPath.row]
+//        cell.entry = entries[indexPath.row]
         return cell
     }
     
