@@ -20,7 +20,7 @@ class EntriesTableViewController: UITableViewController {
         frc.delegate = self
         try! frc.performFetch()
         return frc
-    }
+    }()
     
     override func viewDidLoad() {
         self.tableView.rowHeight = 100
