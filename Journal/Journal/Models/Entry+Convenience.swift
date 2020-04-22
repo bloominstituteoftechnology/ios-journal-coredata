@@ -18,12 +18,12 @@ enum MoodPriority: String, CaseIterable {
 extension Entry {
     
     var entryRepresentation: EntryRepresentation? {
-        guard let id = identifier, let title = title,
+        guard let identifier = identifier, let title = title,
             let mood = mood, let timestamp = timestamp else { return nil
                 
         }
         
-        return EntryRepresentation(identifier: id,
+        return EntryRepresentation(identifier: identifier,
                                   title: title,
                                   bodyText: bodyText,
                                   mood: mood, timestamp: timestamp)

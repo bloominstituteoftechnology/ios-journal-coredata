@@ -35,15 +35,13 @@ class CreateEntryViewController: UIViewController {
     
     @IBAction func cancel(_ sender: UIBarButtonItem){
         navigationController?.dismiss(animated: true, completion: nil)
-        
     }
     
     @IBAction func save(_ sender: UIBarButtonItem){
         
         guard let title = titleTextField.text,
-            !title.isEmpty else { return }
+            !title.isEmpty, let bodyText = entryTextView.text else { return }
         
-        let bodyText = entryTextView.text ?? ""
         let moodIndex = moodEmojiControl.selectedSegmentIndex
         let mood = MoodPriority.allCases[moodIndex]
         let timestamp = Date()
