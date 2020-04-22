@@ -12,7 +12,7 @@ class CreateEntryViewController: UIViewController {
     
     // MARK: - Properties
     
-    
+    var entryController: EntryController?
     
     // MARK: - Outlets
     
@@ -42,9 +42,10 @@ class CreateEntryViewController: UIViewController {
         let moodIndex = moodController.selectedSegmentIndex
         let mood = MoodProperties.allCases[moodIndex]
         
-        Entry(title: title, bodyText: entryTextView.text, mood: mood)
+        let entry = Entry(title: title, bodyText: entryTextView.text, mood: mood)
         do {
             try CoreDataStack.shared.mainContext.save()
+            entryController?.sendEntryToServer(entry: entry)
         } catch {
             NSLog("Failed to save coredata context: \(error)")
             return
