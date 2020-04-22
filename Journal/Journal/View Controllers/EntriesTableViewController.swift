@@ -13,10 +13,10 @@ class EntriesTableViewController: UITableViewController {
     
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: false),
                                         NSSortDescriptor(key: "title", ascending: true)]
         let context = CoreDataStack.shared.mainContext
-        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "priority", cacheName: nil)
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "mood", cacheName: nil)
         fetchedResultsController.delegate = self
         try! fetchedResultsController.performFetch()
         return fetchedResultsController
@@ -61,7 +61,7 @@ class EntriesTableViewController: UITableViewController {
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ShowTaskDetailSegue" {
+        if segue.identifier == "ShowDetail" {
             if let entryDetailViewController = segue.destination as? EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow {
                 entryDetailViewController.entry = fetchedResultsController.object(at: indexPath)

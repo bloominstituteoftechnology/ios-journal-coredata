@@ -16,6 +16,7 @@ class CreateEntryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        moodSegmentedControl.selectedSegmentIndex = 1
         titleTextField.becomeFirstResponder()
     }
 
