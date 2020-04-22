@@ -24,7 +24,14 @@ class EntryDetailViewController: UIViewController {
     private func updateViews() {
         guard let entry = entry else { return }
         
-//        moodSegmentedControl.selectedSegmentIndex = entry. // TODO: show selected segment in detail view
+        let mood: EntryMood
+        if let entryMood = entry.mood {
+            mood = EntryMood(rawValue: entryMood)!
+        } else {
+            mood = .b
+        }
+        
+        moodSegmentedControl.selectedSegmentIndex = EntryMood.allCases.firstIndex(of: mood) ?? 1
         journalEntryTitleLabel.text = entry.title
         journalEntryBodyLabel.text = entry.bodyText
     }
