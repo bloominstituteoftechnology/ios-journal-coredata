@@ -27,6 +27,8 @@ class EntriesTableViewController: UITableViewController {
         try! frc.performFetch()
         return frc
     }()
+    
+    var entryController = EntryController()
 
     // MARK: - Table view data source
     
@@ -55,7 +57,11 @@ class EntriesTableViewController: UITableViewController {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
             CoreDataStack.shared.mainContext.delete(entry)
-            
+            entryController.deleteEntryFromServer(entry: entry) { result in
+                guard let _ = try? result.get() else {
+                    return
+                }
+            }
             do {
                 try CoreDataStack.shared.mainContext.save()
             } catch {
@@ -67,12 +73,19 @@ class EntriesTableViewController: UITableViewController {
 
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "ShowEntryDetailSegue" {
+            guard let detailVC = segue.destination as? EntryDetailViewController,
+                let indexPath = tableView.indexPathForSelectedRow else { return }
+            
+            detailVC.entry = fetchedResultsController.object(at: indexPath)
+        } else if segue.identifier == "ModalCreateEntrySegue" {
+            if let navC = segue.destination as? UINavigationController,
+                let createEntryVC = navC.viewControllers.first as? CreateEntryViewController {
+                createEntryVC.entryController = entryController
+            }
+        }
     }
-
 }
 
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {

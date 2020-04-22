@@ -63,7 +63,7 @@
                                     <outlet property="entryLabel" destination="r3P-FM-nyA" id="b2d-BY-DpT"/>
                                     <outlet property="timestampLabel" destination="Awa-01-Etg" id="ait-Jv-pWD"/>
                                     <outlet property="titleLabel" destination="c5s-Fa-Z3K" id="qFB-YT-4sf"/>
-                                    <segue destination="bye-aQ-55d" kind="show" id="vt6-jY-iJT"/>
+                                    <segue destination="bye-aQ-55d" kind="show" identifier="ShowEntryDetailSegue" id="vt6-jY-iJT"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -75,7 +75,7 @@
                     <navigationItem key="navigationItem" title="Journal" id="SMu-hR-EY3">
                         <barButtonItem key="rightBarButtonItem" image="plus.app" catalog="system" id="I47-Ky-eek">
                             <connections>
-                                <segue destination="efl-05-Kiv" kind="presentation" modalPresentationStyle="fullScreen" id="K90-eg-Zph"/>
+                                <segue destination="efl-05-Kiv" kind="presentation" identifier="ModalCreateEntrySegue" modalPresentationStyle="fullScreen" id="K90-eg-Zph"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

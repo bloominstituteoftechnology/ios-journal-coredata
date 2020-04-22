@@ -13,6 +13,7 @@ class EntryDetailViewController: UIViewController {
     // MARK: - Properties
     
     var entry: Entry?
+    var wasEdited = false
     
     // MARK: - Outlets
     
@@ -20,12 +21,51 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var entryTextView: UITextView!
     @IBOutlet weak var moodController: UISegmentedControl!
 
+    // MARK: - View Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationItem.rightBarButtonItem = editButtonItem
         updateViews()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if wasEdited {
+            guard let title = titleTextField.text,
+                let entry = entry else { return }
+            
+            entry.title = title
+            entry.bodyText = entryTextView.text
+            let moodIndex = moodController.selectedSegmentIndex
+            entry.mood = MoodProperties.allCases[moodIndex].rawValue
+            // Uncomment this if you want a "Last Edited" timestamp instead of inital creation timestamp
+            // entry.timestamp = Date()
+            do {
+                try CoreDataStack.shared.mainContext.save()
+            } catch {
+                NSLog("Error saving managed object context: \(error)")
+            }
+        }
+    }
+    
+    // MARK: - Editing
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        
+        if editing { wasEdited = true }
+        
+        titleTextField.isUserInteractionEnabled = editing
+        entryTextView.isUserInteractionEnabled = editing
+        moodController.isUserInteractionEnabled = editing
+        
+        navigationItem.hidesBackButton = editing
+    }
+    
+    // MARK: - Private functions
     
     private func updateViews() {
         titleTextField.text = entry?.title
