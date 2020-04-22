@@ -24,14 +24,7 @@ class EntryTableViewCell: UITableViewCell {
         guard let entry = entry else { return }
         
         titleLabel.text = entry.title
-        
-        let dateFormatter: DateFormatter = {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "MMM d, h:mm a"
-            return dateFormatter
-        }()
-        dateLabel.text = dateFormatter.string(from: entry.timestamp!)
-        
+        dateLabel.text = entry.timestamp
         bodyTextLabel.text = entry.bodyText
     }
     
