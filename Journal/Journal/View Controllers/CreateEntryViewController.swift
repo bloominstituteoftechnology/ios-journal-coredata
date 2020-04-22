@@ -35,7 +35,7 @@ class CreateEntryViewController: UIViewController {
         
         let moodIndex = moodControl.selectedSegmentIndex
         let mood = EntryMood.allCases[moodIndex]
-        
+            
         Entry(title: title, bodyText: entryTextView.text, mood: mood)
         do {
             try CoreDataStack.shared.mainContext.save()

@@ -16,7 +16,7 @@ class EntriesTableViewController: UITableViewController {
    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
           let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
           fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
-                                          NSSortDescriptor(key: "title", ascending: true)]
+                                          NSSortDescriptor(key: "timestamp", ascending: true)]
           let context = CoreDataStack.shared.mainContext
           let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "mood", cacheName: nil)
           frc.delegate = self
@@ -50,7 +50,7 @@ class EntriesTableViewController: UITableViewController {
     }
 
 
-    // Override to support editing the table view.
+    // User is able to delete a row.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
