@@ -9,6 +9,12 @@
 import Foundation
 import CoreData
 
+enum EntryMood: String, CaseIterable {
+    case a = "☹️"
+    case b = "😐"
+    case c = "🙂"
+}
+
 extension Entry {
     
     @discardableResult convenience init(identifier: UUID = UUID(),

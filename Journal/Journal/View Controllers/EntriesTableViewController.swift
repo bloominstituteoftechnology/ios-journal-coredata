@@ -11,24 +11,16 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
-    var entries: [Entry] {
+    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let moc = CoreDataStack.shared.mainContext
-        do {
-            return try moc.fetch(fetchRequest)
-        } catch {
-            NSLog("Error fetching tasks: \(error)")
-            return []
-        }
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        tableView.reloadData()
-    }
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "priority", ascending: true),
+                                        NSSortDescriptor(key: "name", ascending: true)]
+        let context = CoreDataStack.shared.mainContext
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "priority", cacheName: nil)
+        fetchedResultsController.delegate = self
+        try! fetchedResultsController.performFetch()
+        return fetchedResultsController
+    }()
     
     // MARK: - Table view data source
     
@@ -57,7 +49,6 @@ class EntriesTableViewController: UITableViewController {
     
     // MARK: - Navigation
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.

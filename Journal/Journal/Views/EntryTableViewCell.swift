@@ -30,9 +30,9 @@ class EntryTableViewCell: UITableViewCell {
             dateFormatter.dateFormat = "MMM d, h:mm a"
             return dateFormatter
         }()
-        dateLabel.text = dateFormatter.string(from: entry.timestamp!) // TODO: dateformatting
+        dateLabel.text = dateFormatter.string(from: entry.timestamp!)
         
-        bodyTextLabel.text = entry.bodyText ?? "No Content" // FIXME: - <-- empty string if body is empty
+        bodyTextLabel.text = entry.bodyText
     }
     
 }
