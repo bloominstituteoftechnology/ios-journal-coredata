@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Journal-->
+        <!--Create-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
@@ -59,10 +59,22 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Journal" id="nz9-AA-rj2">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="45z-of-WbJ"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="99D-eX-6CA"/>
+                    <navigationItem key="navigationItem" title="Create" id="nz9-AA-rj2">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="45z-of-WbJ">
+                            <connections>
+                                <action selector="cancelCreate:" destination="BYZ-38-t0r" id="vNK-bi-NKa"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="99D-eX-6CA">
+                            <connections>
+                                <action selector="saveJournal:" destination="BYZ-38-t0r" id="ftr-bu-c3V"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="entryTextView" destination="cnE-mt-ko6" id="5zP-p2-ZWl"/>
+                        <outlet property="titleTextField" destination="IPJ-M7-9xE" id="yMo-ho-qqV"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
