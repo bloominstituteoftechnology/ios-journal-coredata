@@ -17,31 +17,24 @@ enum EntryMood: String, CaseIterable {
 
 extension Entry {
     
-    convenience init(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext) {
-
-        self.init(context: context)
-//        self.entryRepresentation = entryRepresentation
-    
-    }
-  
-
     var entryRepresentation: EntryRepresentation? {
         guard let id = identifier,
-        let title = title,
-        let timestamp = timestamp,
-        let mood = mood else {
-            return nil
+            let title = title,
+            let timestamp = timestamp,
+            let mood = mood else {
+                return nil
         }
         
-        return EntryRepresentation(identifier: id,
-                                   title: title,
-                                   timestamp: timestamp,
-                                   mood: mood)
+        return EntryRepresentation(identifier: id, title: title, timestamp: timestamp, mood: mood)
         
     }
     
-
-    
+//    @discardableResult convenience init(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+//        
+//        self.init(context: context)
+//        
+//    }
+//    
     @discardableResult convenience init(identifier: String = String(),
                                         title: String,
                                         timestamp: Date,

@@ -22,10 +22,7 @@ class EntriesTableViewController: UITableViewController {
         try! frc.performFetch()
         return frc
     }()
-    
-    
-    
-//    let entries: [Entry] = []
+    //    let entries: [Entry] = []
     
     //    override func viewDidLoad() {
     //        super.viewDidLoad()
@@ -51,7 +48,7 @@ class EntriesTableViewController: UITableViewController {
             return nil }
         
         return sectionInfo.indexTitle?.capitalized
-        }
+    }
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

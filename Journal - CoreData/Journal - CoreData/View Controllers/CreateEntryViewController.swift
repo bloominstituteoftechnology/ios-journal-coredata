@@ -38,7 +38,6 @@ class CreateEntryViewController: UIViewController {
             self.title = "Create Entry"
         }
         
-        
         if entry != nil {
             titleTextField.text = entry?.title
             entryTextView.text = entry?.bodyText
