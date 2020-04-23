@@ -43,7 +43,7 @@ class EntryController {
                 completion(.failure(.noData))
                 return
             }
-            print(String(data:data,encoding: .utf8))
+            //            print(String(data:data,encoding: .utf8))
             do {
                 let entryRepresentations = Array(try JSONDecoder().decode([ String : EntryRepresentation].self, from: data).values)
                 try self.updateEntries(with: entryRepresentations)
@@ -126,28 +126,28 @@ class EntryController {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
         
-        let context = CoreDataStack.shared.mainContext
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         
-        do {
-            let existingEntries = try context.fetch(fetchRequest)
-            print(existingEntries)
-            
-            for entry in existingEntries {
-                guard let id = entry.identifier,
-                    let representation = representationsByID[id] else { continue }
-                self.update(entry: entry, with: representation)
-                entriesToCreate.removeValue(forKey: id)
-                
-            }
-            
-            for representation in entriesToCreate.values {
-                Entry(entryRepresentation: representation)
-            }
-        } catch {
-            NSLog("error fetching entries with UUIDs \(identifiersToFetch), with error: \(error)")
-        }
-        try CoreDataStack.shared.mainContext.save()
-    }
+        context.perform {
+                   do {
+                       let existingEntries = try context.fetch(fetchRequest)
+                       
+                       for entry in existingEntries {
+                           guard let id = entry.identifier,
+                               let representation = representationsByID[id] else { continue }
+                           self.update(entry: entry, with: representation)
+                           entriesToCreate.removeValue(forKey: id)
+                       }
+                       
+                       for representation in entriesToCreate.values {
+                           Entry(entryRepresentation: representation, context: context)
+                       }
+                       try context.save()
+                   } catch {
+                       NSLog("Error fetching entries with UUIDs: \(identifiersToFetch), with error: \(error)")
+                   }
+               }
+           }
     
     private func update(entry: Entry, with representation: EntryRepresentation) {
         entry.title = representation.title
