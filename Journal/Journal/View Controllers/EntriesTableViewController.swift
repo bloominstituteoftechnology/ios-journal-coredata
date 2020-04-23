@@ -11,6 +11,10 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
+    // MARK: - Properties
+    
+    var entryController: EntryController?
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
@@ -62,8 +66,13 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            let task = fetchedResultsController.object(at: indexPath)
-            CoreDataStack.shared.mainContext.delete(task)
+            let entry = fetchedResultsController.object(at: indexPath)
+            entryController.deleteTaskFromServer(entry: entry) { result in
+                guard let _ = try? result.get() else {
+                    return
+                }
+            }
+            CoreDataStack.shared.mainContext.delete(entry)
             do {
                 try CoreDataStack.shared.mainContext.save()
             } catch {
