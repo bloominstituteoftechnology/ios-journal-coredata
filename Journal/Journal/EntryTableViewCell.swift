@@ -43,8 +43,8 @@ class EntryTableViewCell: UITableViewCell {
     
     var dateFormatter: DateFormatter =  {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MM-dd-yyyy HH:mm"
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        formatter.dateFormat = "MM-dd-yyyy h:mm a"
+        formatter.timeZone = TimeZone(abbreviation: "PST")
         return formatter
     }()
     
