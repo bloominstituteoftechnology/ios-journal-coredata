@@ -43,9 +43,9 @@ class EntryController {
                 completion(.failure(.noData))
                 return
             }
-            
+            print(String(data:data,encoding: .utf8))
             do {
-                let entryRepresentations = Array(arrayLiteral: try JSONDecoder().decode(EntryRepresentation.self, from: data))
+                let entryRepresentations = Array(try JSONDecoder().decode([ String : EntryRepresentation].self, from: data).values)
                 try self.updateEntries(with: entryRepresentations)
                 completion(.success(true))
             } catch {
@@ -130,6 +130,7 @@ class EntryController {
         
         do {
             let existingEntries = try context.fetch(fetchRequest)
+            print(existingEntries)
             
             for entry in existingEntries {
                 guard let id = entry.identifier,
@@ -143,17 +144,15 @@ class EntryController {
                 Entry(entryRepresentation: representation)
             }
         } catch {
-            NSLog("error fetching tasks with UUIDs \(identifiersToFetch), with error: \(error)")
+            NSLog("error fetching entries with UUIDs \(identifiersToFetch), with error: \(error)")
         }
         try CoreDataStack.shared.mainContext.save()
     }
     
     private func update(entry: Entry, with representation: EntryRepresentation) {
-        
         entry.title = representation.title
         entry.bodyText = representation.bodyText
         entry.mood = representation.mood
         
     }
-    
 }
