@@ -24,7 +24,7 @@ class EntriesTableViewController: UITableViewController {
         frc.delegate = self
         try! frc.performFetch()
         return frc
-    }()
+    }() 
     
     override func viewDidLoad() {
         self.tableView.rowHeight = 100
@@ -67,7 +67,7 @@ class EntriesTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             let entry = fetchedResultsController.object(at: indexPath)
-            entryController.deleteEntryFromServer(entry: entry) { result in
+            entryController?.deleteEntryFromServer(entry: entry) { result in
                 guard let _ = try? result.get() else {
                     return
                 }
