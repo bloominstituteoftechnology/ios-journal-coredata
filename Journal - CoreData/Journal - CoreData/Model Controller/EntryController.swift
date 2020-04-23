@@ -79,70 +79,42 @@ class EntryController {
         }.resume()
     }
     
+    func updateEntries(with representations: [EntryRepresentation]) {
+        
+        let identifiersToFetch = representations.compactMap { UUID(uuidString: $0.identifier)}
+        
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+        
+        var entriesToCreate = representationsByID
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let context = CoreDataStack.shared.mainContext
+        
+        do {
+            let existingEntries = try context.fetch(fetchRequest)
+            
+            for entry in existingEntries {
+                guard let id = entry.identifier,
+                    let representation = representationsByID else { continue }
+                self.update(entry: entry, with: representation)
+                entriesToCreate.removeValue(forKey: id)
+            }
+            
+            for representation in entriesToCreate.values {
+                En
+            }
+        }catch {
+            
+        }
+    }
     
-//    var entry: Entry?
-//
-//    func saveToPersistentStore() {
-//        guard entry != nil else { return }
-//
-//        do {
-//            try CoreDataStack.shared.mainContext.save()
-//        } catch {
-//            NSLog("Error saving managed object context: \(error)")
-//            return
-//        }
-//
-//    }
-//
-//    func loadFromPersistentStore() -> [Entry] {
-//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//        let context = CoreDataStack.shared.mainContext
-//        do {
-//            return try context.fetch(fetchRequest)
-//        } catch {
-//            NSLog("Error fetching entries: \(error)")
-//            return []
-//        }
-//    }
-//
-//    var entries: [Entry] {
-//           loadFromPersistentStore()
-//          }
-//
-//    func create(title: String, timestamp: Date, bodyText: String, mood: String) {
-//
-//        let _ = Entry(title: title, timestamp: timestamp, mood: mood)
-//
-//        do {
-//            try CoreDataStack.shared.mainContext.save()
-//        } catch {
-//            NSLog("Error creating new managed object context: \(error)")
-//        }
-//
-//        saveToPersistentStore()
-//    }
-//
-//    func update(title: String, timestamp: Date, bodyText: String, mood: String) {
-//
-//        entry?.title = title
-//        entry?.bodyText = bodyText
-//        let date = Date()
-//        entry?.timestamp = date
-//        entry?.mood = mood
-//
-//        saveToPersistentStore()
-//
-//    }
-//
-//    func delete(entry: Entry) {
-//
-//        CoreDataStack.shared.mainContext.delete(entry)
-//
-//        do {
-//            try CoreDataStack.shared.mainContext.save()
-//        } catch {
-//            NSLog("Error deleting the entry: \(error)")
-//            return
-//        }
-//    }
+    func update(entry: Entry, with representation: EntryRepresentation) {
+        entry.title = representation.title
+        entry.identifier = representation.identifier
+        entry.timestamp = representation.timestamp
+        entry.bodyText = representation.bodyText
+        entry.mood = representation.mood
+    }
 }
