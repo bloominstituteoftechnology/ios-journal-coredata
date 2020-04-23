@@ -19,6 +19,8 @@
 		DD2CEAEB244E333A0049B37E /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2CEAEA244E333A0049B37E /* CoreDataStack.swift */; };
 		DD2CEAED244E33620049B37E /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD2CEAEC244E33620049B37E /* Entry+Convenience.swift */; };
 		DD4F34632451104D0048617E /* ShowEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4F34622451104D0048617E /* ShowEntryViewController.swift */; };
+		DD553EFB2452281000FEA663 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD553EFA2452281000FEA663 /* EntryController.swift */; };
+		DD553EFE24522AB200FEA663 /* EntryRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD553EFD24522AB200FEA663 /* EntryRepresentation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +39,8 @@
 		DD2CEAEC244E33620049B37E /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
 		DD2CEB1E244F854C0049B37E /* Journal 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Journal 2.xcdatamodel"; sourceTree = "<group>"; };
 		DD4F34622451104D0048617E /* ShowEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowEntryViewController.swift; sourceTree = "<group>"; };
+		DD553EFA2452281000FEA663 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
+		DD553EFD24522AB200FEA663 /* EntryRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryRepresentation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +73,7 @@
 		DD2CEAC9244E31AE0049B37E /* Journal */ = {
 			isa = PBXGroup;
 			children = (
+				DD553EFC2452281600FEA663 /* Controllers */,
 				DD2CEAE0244E32430049B37E /* Models */,
 				DD2CEADF244E323E0049B37E /* Views */,
 				DD2CEADE244E32370049B37E /* View Controllers */,
@@ -103,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				DD2CEAE6244E33060049B37E /* CoreData */,
+				DD553EFD24522AB200FEA663 /* EntryRepresentation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -124,6 +130,14 @@
 				DD2CEAEC244E33620049B37E /* Entry+Convenience.swift */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		DD553EFC2452281600FEA663 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				DD553EFA2452281000FEA663 /* EntryController.swift */,
+			);
+			path = Controllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -199,11 +213,13 @@
 			files = (
 				DD2CEAEB244E333A0049B37E /* CoreDataStack.swift in Sources */,
 				DD2CEAE3244E32DF0049B37E /* EntriesTableViewController.swift in Sources */,
+				DD553EFB2452281000FEA663 /* EntryController.swift in Sources */,
 				DD2CEAE5244E32FB0049B37E /* EntryTableViewCell.swift in Sources */,
 				DD2CEACF244E31AE0049B37E /* CreateEntryViewController.swift in Sources */,
 				DD4F34632451104D0048617E /* ShowEntryViewController.swift in Sources */,
 				DD2CEAED244E33620049B37E /* Entry+Convenience.swift in Sources */,
 				DD2CEAE9244E332C0049B37E /* Entries.xcdatamodeld in Sources */,
+				DD553EFE24522AB200FEA663 /* EntryRepresentation.swift in Sources */,
 				DD2CEACB244E31AE0049B37E /* AppDelegate.swift in Sources */,
 				DD2CEACD244E31AE0049B37E /* SceneDelegate.swift in Sources */,
 			);

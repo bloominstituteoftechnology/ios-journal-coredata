@@ -29,7 +29,7 @@ class EntryTableViewCell: UITableViewCell {
     func updateViews() {
         guard let entry = entry else { return }
         titleLabel.text = entry.title
-        dateLabel.text = entry.timestamp?.description
+        dateLabel.text = entry.timeStamp?.description
         textView.text = entry.bodyText
     }
 }
