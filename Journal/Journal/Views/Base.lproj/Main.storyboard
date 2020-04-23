@@ -48,7 +48,7 @@
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pwy-dX-FA0">
                                                 <rect key="frame" x="0.0" y="39" width="394" height="226"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -82,9 +82,21 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" id="JG2-yu-G97">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="OKV-Um-kLl"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="yhC-rk-Fj1"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="OKV-Um-kLl">
+                            <connections>
+                                <action selector="cancelButtonTapped:" destination="BYZ-38-t0r" id="Mj2-HC-MQe"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="yhC-rk-Fj1">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="BYZ-38-t0r" id="hK1-ia-Dxc"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="bodyTextView" destination="pwy-dX-FA0" id="rfX-wJ-bTf"/>
+                        <outlet property="titleTextField" destination="gdu-zI-eHR" id="zKi-ut-KdA"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -99,7 +111,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="189" id="m1S-u1-X5n">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="189" id="m1S-u1-X5n" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="189"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="m1S-u1-X5n" id="5Uh-4x-Nkp">
@@ -142,6 +154,11 @@
                                         <constraint firstAttribute="bottom" secondItem="kD7-4b-tTx" secondAttribute="bottom" id="gd8-cJ-MeZ"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="bodyTextLabel" destination="zsy-aT-OVo" id="EU1-sG-CZQ"/>
+                                    <outlet property="timestampLabel" destination="99V-Lr-cw6" id="he0-9c-Uk7"/>
+                                    <outlet property="titleLabel" destination="FyY-xb-B8S" id="pJA-sg-bbt"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

@@ -9,12 +9,36 @@
 import UIKit
 
 class CreateEntryViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
+    
+    //MARK: - Properties and IBOutlets -
+    
+    @IBOutlet var titleTextField: UITextField!
+    @IBOutlet var bodyTextView: UITextView!
+    
+    //MARK: - Methods and IBOutlets -
+    
+    @IBAction func saveButtonTapped(_ sender: Any) {
+        
+        guard let title = titleTextField.text,
+              let body = bodyTextView.text,
+              !title.isEmpty,
+              !body.isEmpty else { return }
+        
+        Entry(title: title, bodyText: body, timestamp: Date(), context: CoreDataStack.shared.mainContext)
+        
+        do {
+        try CoreDataStack.shared.mainContext.save()
+        } catch {
+            NSLog("Could not save new user entry: \(error)")
+        }
+        
+        
     }
-
-
-}
+    
+    @IBAction func cancelButtonTapped(_ sender: Any) {
+        navigationController?.dismiss(animated: true, completion: nil)
+    }
+    
+    
+} //End of class
 
