@@ -10,36 +10,18 @@ import Foundation
 import CoreData
 
 enum Mood: String, CaseIterable {
-    case sad = "☹️"
-    case neutral = "😐"
-    case happy = "😊"
+    case a = "☹️"
+    case b = "😐"
+    case c = "😊"
 }
 
 extension Entry {
-    
-    var entryRepresentation: EntryRepresentation? {
-        
-        guard let id = identifier,
-        let title = title,
-        let bodyText = bodyText,
-        let timestamp = timestamp?.stringDate(),
-        let mood = mood else { return nil }
-        
-        return EntryRepresentation(identifier: id.uuidString,
-                                   title: title,
-                                   bodyText: bodyText,
-                                   timestamp: timestamp,
-                                   mood: mood)
-    }
-    
-//    @discardableResult convenience init(EntryRepresentation: EntryRepresentation = entryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext)
-//
     
     @discardableResult convenience init(identifier: UUID = UUID(),
                                         title: String,
                                         bodyText: String,
                                         timestamp: Date,
-                                        mood: Mood = .happy,
+                                        mood: String,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
 
         self.init(context: context)
@@ -47,7 +29,28 @@ extension Entry {
         self.bodyText = bodyText
         self.timestamp = timestamp
         self.identifier = identifier
-        self.mood = mood.rawValue
+        self.mood = mood
+    }
+    
+    
+    @discardableResult convenience init?(entryRepresenation: EntryRepresentation, context: NSManagedObjectContext) {
+        
+        guard let title = entryRepresenation.title,
+            let bodyText = entryRepresenation.bodyText,
+            let timeStamp = entryRepresenation.timestamp,
+            let identifier = entryRepresenation.identifier,
+            let mood = entryRepresenation.mood else { return nil }
+        
+        self.init(identifier: UUID(uuidString: identifier)!, title: title, bodyText: bodyText, timestamp: timeStamp, mood: mood)
+    }
+    
+    var entryRepresentation: EntryRepresentation? {
+        
+        return EntryRepresentation(identifier: identifier?.uuidString,
+                                   title: title,
+                                   bodyText: bodyText,
+                                   timestamp: timestamp,
+                                   mood: mood)
     }
 }
 

@@ -41,7 +41,7 @@ class EntryDetailViewController: UIViewController {
         if let chosenMood = entry.mood {
             mood = Mood(rawValue: chosenMood)!
         } else {
-            mood = .happy
+            mood = .c
         }
         
         moodSegementedController.selectedSegmentIndex = Mood.allCases.firstIndex(of: mood) ?? 1
@@ -80,23 +80,7 @@ class EntryDetailViewController: UIViewController {
                 NSLog("Error saving managed object context: \(error)")
             }
         }
-        
-//        if wasEdited == true {
-//
-//            guard let title = entryTextField?.text,
-//                let body = entryTextView?.text else { return }
-//
-//            let moodIndex = moodSegementedController.selectedSegmentIndex
-//            let mood = Mood.allCases[moodIndex]
-//
-//            Entry(title: title, bodyText: body, timestamp: Date(), mood: mood)
-//            do {
-//                try CoreDataStack.shared.mainContext.save()
-//            } catch {
-//                NSLog("Error saving managed object context: \(error)")
-//                return
-//            }
-//        }
+
     }
     
 }
