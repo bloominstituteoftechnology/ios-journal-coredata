@@ -51,6 +51,7 @@ class EntriesTableViewController: UITableViewController {
         cell.excerptLabel.text = entry.bodyText
         let dateFormatter = DateFormatter()
         dateFormatter.timeStyle = .short
+        dateFormatter.dateStyle = .short
         cell.dateAndTimeLabel.text = "\(dateFormatter.string(from: entry.timestamp ?? Date() ))"
         return cell
     }
