@@ -28,7 +28,17 @@ class EntriesTableViewController: UITableViewController {
         }
     }
     
-    
+    var dateFormatter: DateFormatter =  {
+                      let formatter = DateFormatter()
+                      formatter.dateFormat = "MM-dd-yyyy HH:mm"
+                      formatter.timeZone = TimeZone(secondsFromGMT: 0)
+                      return formatter
+                  }()
+                  
+                  func string(from date: Date) -> String {
+                         
+                         return dateFormatter.string(from: date)
+                     }
     
 
     override func viewDidLoad() {
@@ -60,7 +70,7 @@ class EntriesTableViewController: UITableViewController {
         
         cell.textLabel?.text = entry.title
         cell.textLabel?.text = entry.bodyText
-        cell.textLabel?.text = entry.timestamp
+        cell.textLabel?.text = dateFormatter.string(from: entry.timestamp!)
 
         return cell
     }
@@ -107,6 +117,4 @@ class EntriesTableViewController: UITableViewController {
         // Get the new view controller using segue.destination.
         // Pass the selected object to the new view controller.
     }
-    
-
 }
