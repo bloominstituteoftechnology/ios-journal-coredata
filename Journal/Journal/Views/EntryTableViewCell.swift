@@ -25,7 +25,7 @@ class EntryTableViewCell: UITableViewCell {
             let date = entry?.timestamp,
             let notes = entry?.bodyText {
             titleLabel.text = title
-            dateLabel.text = date.toString(dateFormat: "MM/dd/yy, h:mm")
+            dateLabel.text = date.toString(dateFormat: "MM/dd/yy, h:mm a")
             notesLabel.text = notes
         }
     }
