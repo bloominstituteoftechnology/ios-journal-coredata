@@ -59,6 +59,11 @@
                                         <constraint firstItem="YEo-EE-QK4" firstAttribute="top" secondItem="bls-GY-3cM" secondAttribute="top" constant="10" id="uEP-ox-4UO"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="entryLabel" destination="hZa-mg-83d" id="veL-F9-Yq3"/>
+                                    <outlet property="timestampLabel" destination="z9m-kC-H0Y" id="4tb-KN-MJF"/>
+                                    <outlet property="titleLabel" destination="4wd-AX-Yuu" id="xgO-Xw-Qy5"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -69,6 +74,7 @@
                     <navigationItem key="navigationItem" title="Journal" id="neU-xm-NV0">
                         <barButtonItem key="rightBarButtonItem" image="plus.app" catalog="system" id="8AP-hS-ndE">
                             <connections>
+                                <action selector="createEntryButtonTapped:" destination="yax-nz-6K1" id="fTZ-H8-XXo"/>
                                 <segue destination="7QV-w8-SYC" kind="presentation" identifier="CreateEntrySegue" modalPresentationStyle="fullScreen" id="A3b-6b-uBo"/>
                             </connections>
                         </barButtonItem>
@@ -132,9 +138,21 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Entry" id="dAA-zF-wBS">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="r5z-7k-FIQ"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="vCM-rU-gZA"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="r5z-7k-FIQ">
+                            <connections>
+                                <action selector="cancelButtonTapped:" destination="BYZ-38-t0r" id="iMZ-9M-hVD"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="vCM-rU-gZA">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="BYZ-38-t0r" id="ZAo-lA-smB"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="bodyTextView" destination="aTu-Hu-S43" id="IXg-ci-eIP"/>
+                        <outlet property="titleTextField" destination="JZZ-t7-bAq" id="khE-In-50j"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

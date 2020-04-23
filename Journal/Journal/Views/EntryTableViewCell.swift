@@ -9,6 +9,32 @@
 import UIKit
 
 class EntryTableViewCell: UITableViewCell {
+    
+    // MARK: - Properties
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    // MARK: - IBOutlets
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var timestampLabel: UILabel!
+    @IBOutlet weak var entryLabel: UILabel!
+    
+    
+    // MARK: - IBActions
+    @IBAction func createEntryButtonTapped(_ sender: Any) {
+        
+    }
+    
+    
+    // MARK: - Methods
+    func updateViews() {
+        titleLabel.text = entry?.title
+        timestampLabel.text = "\(entry?.timestamp)"
+        entryLabel.text = entry?.bodyText
+    }
 
     override func awakeFromNib() {
         super.awakeFromNib()
