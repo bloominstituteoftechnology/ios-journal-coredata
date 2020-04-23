@@ -15,7 +15,6 @@ class DetailViewController: UIViewController {
     var entry: Entry?
     var wasEdited = false
     var entryController = EntryController()
-    
 
     
     // MARK: - Outlets
@@ -42,7 +41,7 @@ class DetailViewController: UIViewController {
                 let entry = entry else {
                     return
             }
-            
+
             entry.title = title
             entry.bodyText = bodyText
             entry.timestamp = Date()

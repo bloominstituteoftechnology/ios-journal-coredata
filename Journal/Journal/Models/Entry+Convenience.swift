@@ -23,18 +23,18 @@ extension Entry {
                 
         }
         
-        return EntryRepresentation(identifier: identifier,
-                                  title: title,
-                                  bodyText: bodyText,
-                                  mood: mood, timestamp: timestamp)
+        return EntryRepresentation(identifier: identifier.uuidString,
+                                   title: title,
+                                   bodyText: bodyText,
+                                   mood: mood, timestamp: timestamp)
     }
     
-    @discardableResult convenience init(identifier: String = String(),
-                     title: String,
-                     bodyText: String,
-                     timestamp: Date = Date(),
-                     mood: MoodPriority = .neutral,
-                     context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    @discardableResult convenience init(identifier: UUID = UUID(),
+                                        title: String,
+                                        bodyText: String,
+                                        timestamp: Date = Date(),
+                                        mood: MoodPriority = .neutral,
+                                        context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(context: context)
         self.identifier = identifier
@@ -45,4 +45,14 @@ extension Entry {
         
     }
     
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        guard let mood = MoodPriority(rawValue: entryRepresentation.mood),
+            let identifier = UUID(uuidString: entryRepresentation.identifier)
+            else {
+                return nil
+        }
+        
+        self.init(identifier: identifier, title: entryRepresentation.title, bodyText: entryRepresentation.bodyText ?? "", mood: MoodPriority(rawValue: entryRepresentation.mood) ?? MoodPriority.neutral, context: context)
+    }
+
 }

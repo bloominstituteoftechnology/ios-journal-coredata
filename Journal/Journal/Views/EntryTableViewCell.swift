@@ -20,6 +20,12 @@ class EntryTableViewCell: UITableViewCell {
         formatter.timeZone = TimeZone(secondsFromGMT: 0)
         return formatter
     }()
+    
+    var entry: Entry? {
+           didSet {
+               updateViews()
+           }
+       }
 
     // MARK: - Outlets
     
@@ -27,11 +33,7 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var entryTextView: UILabel!
     
-    var entry: Entry? {
-        didSet {
-            updateViews()
-        }
-    }
+   
     
     private func updateViews() {
         guard let entry = entry else {return}
