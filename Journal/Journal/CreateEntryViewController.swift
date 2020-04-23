@@ -22,13 +22,13 @@ class ViewController: UIViewController {
         navigationController?.dismiss(animated: true)
     }
     
-    @IBAction func saveJournal(_ sender: Any) {
+    @IBAction func saveJournal(_ sender: UIButton) {
         guard let title = titleTextField.text,
-            let entry = entryTextView.text,
+            let body = entryTextView.text,
             !title.isEmpty,
-            !entry.isEmpty else { return }
+            !body.isEmpty else { return }
         
-        Entry(title: title, bodyText: entry, timestamp: Date(), context: CoreDataStack.shared.mainContext)
+        Entry(title: title, bodyText: body)
         
         do {
             try CoreDataStack.shared.mainContext.save()

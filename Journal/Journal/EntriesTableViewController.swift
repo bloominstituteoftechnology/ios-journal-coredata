@@ -36,41 +36,30 @@ class EntriesTableViewController: UITableViewController {
                   }()
                   
                   func string(from date: Date) -> String {
-                         
                          return dateFormatter.string(from: date)
                      }
-    
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
-
+ 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         tableView.reloadData()
     }
     
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       
+       print(entries)
         return entries.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
 
         let entry = entries[indexPath.row]
         
         cell.textLabel?.text = entry.title
-        cell.textLabel?.text = entry.bodyText
-        cell.textLabel?.text = dateFormatter.string(from: entry.timestamp!)
+//        cell.textLabel?.text = entry.bodyText
+//        cell.textLabel?.text = dateFormatter.string(from: entry.timestamp!)
 
         return cell
     }

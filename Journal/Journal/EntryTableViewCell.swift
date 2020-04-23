@@ -41,6 +41,7 @@ class EntryTableViewCell: UITableViewCell {
         dateLabel.text = dateFormatter.string(from: entry.timestamp!)
     }
     
+    
     var dateFormatter: DateFormatter =  {
         let formatter = DateFormatter()
         formatter.dateFormat = "MM-dd-yyyy HH:mm"
@@ -48,7 +49,6 @@ class EntryTableViewCell: UITableViewCell {
         return formatter
     }()
     
-
     func string(from date: Date) -> String {
            
            return dateFormatter.string(from: date)
