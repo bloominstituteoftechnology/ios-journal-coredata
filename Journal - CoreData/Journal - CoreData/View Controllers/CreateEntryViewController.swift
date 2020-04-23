@@ -51,13 +51,14 @@ class CreateEntryViewController: UIViewController {
         guard let title = titleTextField.text,
             !title.isEmpty else { return }
         
-       guard let entryText = entryTextView.text,
-        !entryText.isEmpty else { return }
+       guard let bodyText = entryTextView.text,
+        !bodyText.isEmpty else { return }
         let date = Date()
         
         let moodIndex = moodControl.selectedSegmentIndex
         let mood = EntryMood.allCases[moodIndex]
-        let entry = Entry(title: title, timestamp: date, mood: mood)
+        let entry = Entry(title: title, timestamp: date, bodyText: bodyText, mood: mood)
+//            Entry(title: title, timestamp: date, mood: mood)
         entryController?.sendEntryToServer(entry: entry)
         
 //        if entry != nil {
