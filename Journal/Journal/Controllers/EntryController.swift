@@ -63,6 +63,23 @@ class EntryController {
     
     //Deletes entry from the server
     func deleteEntryFromServer(entry: Entry, completion: @escaping () -> Void) {
+        guard let baseURL = baseURL else {
+            print("Bad URL")
+            return
+        }
         
+        let requestURL = baseURL.appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                NSLog("Error deleting task from server: \(error)")
+                completion()
+                return
+            }
+            
+            completion()
+        }.resume()
     }
 }

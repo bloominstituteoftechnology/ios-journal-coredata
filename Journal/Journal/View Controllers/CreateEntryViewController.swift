@@ -51,7 +51,5 @@ class CreateEntryViewController: UIViewController {
         
         navigationController?.dismiss(animated: true, completion: nil)
     }
-    
-    
 }
 

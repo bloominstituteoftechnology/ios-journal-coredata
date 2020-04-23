@@ -68,8 +68,11 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            let task = fetchedResultsController.object(at: indexPath)
-            CoreDataStack.shared.mainContext.delete(task)
+            let entry = fetchedResultsController.object(at: indexPath)
+            CoreDataStack.shared.mainContext.delete(entry)
+            entryController.deleteEntryFromServer(entry: entry) {
+                //Do Nothing
+            }
             do {
                 try CoreDataStack.shared.mainContext.save()
             } catch {
