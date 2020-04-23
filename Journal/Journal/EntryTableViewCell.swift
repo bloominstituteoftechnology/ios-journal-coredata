@@ -34,21 +34,24 @@ class EntryTableViewCell: UITableViewCell {
     func updateViews() {
         guard let entry = entry else { return }
         // MM-dd-yyyy HH:mm
-        var dateFormatter: DateFormatter =  {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MM-dd-yyyy HH:mm"
-            formatter.timeZone = TimeZone(secondsFromGMT: 0)
-            return formatter
-        }()
-        
-        func string(from date: Date) -> String {
-               
-               return dateFormatter.string(from: date)
-           }
         
         titleLabel.text = entry.title
         dateLabel.text = entry.title
         entryLabel.text = entry.bodyText
         dateLabel.text = dateFormatter.string(from: entry.timestamp!)
     }
+    
+    var dateFormatter: DateFormatter =  {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM-dd-yyyy HH:mm"
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
+        return formatter
+    }()
+    
+
+    func string(from date: Date) -> String {
+           
+           return dateFormatter.string(from: date)
+       }
+    
 }
