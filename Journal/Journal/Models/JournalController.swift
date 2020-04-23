@@ -24,6 +24,37 @@ class JournalController {
     
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
+    init(){
+        fetchEntriesFromServer()
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, response, error) in
+            if let error = error {
+                NSLog("Error fetching tasks: \(error)")
+                completion(.failure(.otherError))
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned from fetch")
+                completion(.failure(.noData))
+                return
+            }
+            
+            do {
+                let journalRepresentations = Array(try JSONDecoder().decode([String: JournalRepresentation].self, from: data).values)
+                try self.updateEntries(with: journalRepresentations)
+                completion(.success(true))
+            } catch {
+                NSLog("Error decoding tasks from server: \(error)")
+                completion(.failure(.noDecode))
+            }
+        }.resume()
+    }
+    
     func sendEntryToServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         guard let uuid = entry.identifier else {
             completion(.failure(.noIdentifier))
@@ -76,5 +107,42 @@ class JournalController {
             
             completion(.success(true))
         }.resume()
+    }
+    
+    private func updateEntries(with representations: [JournalRepresentation]) throws {
+        let identifiersToFetch = representations.compactMap { UUID(uuidString: $0.identifier)}
+        let representationsbyID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+        var entryToCreate = representationsbyID
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
+        
+        context.perform {
+            do {
+                let existingEntry = try context.fetch(fetchRequest)
+                
+                for entry in existingEntry {
+                    guard let id = entry.identifier,
+                        let representation = representationsbyID[id] else { continue }
+                    self.update(entry: entry, with: representation)
+                    entryToCreate.removeValue(forKey: id)
+                }
+                
+                for representation in entryToCreate.values {
+                    Entry(journalRepresentation: representation, context: context)
+                }
+                 try context.save()
+            } catch {
+                NSLog("Error fetching tasks with UUIDs: \(identifiersToFetch), with error: \(error)")
+            }
+        }
+    }
+    private func update(entry: Entry, with representation: JournalRepresentation) {
+        entry.title = representation.title
+        entry.bodyText = representation.bodyText
+        entry.mood = representation.mood
+        entry.timestamp = representation.timestamp
     }
 }

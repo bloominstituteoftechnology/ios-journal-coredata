@@ -46,4 +46,17 @@ extension Entry {
         self.mood = mood.rawValue
         
     }
+    @discardableResult convenience init?(journalRepresentation: JournalRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        guard let mood = EntryMood(rawValue: journalRepresentation.mood),
+            let identifier = UUID(uuidString: journalRepresentation.identifier) else {
+                return nil
+        }
+        
+        self.init(title: journalRepresentation.title,
+                  bodyText: journalRepresentation.bodyText,
+                  timestamp: journalRepresentation.timestamp,
+                  identifier: identifier,
+                  mood: mood,
+                  context: context)
+    }
 }

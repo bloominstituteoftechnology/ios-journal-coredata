@@ -56,7 +56,7 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
-            journalController.deleteTaskFromServer(entry: entry) { result in
+            journalController.deleteEntryFromServer(entry: entry) { result in
                 guard let _ = try? result.get() else {
                     return
                 }
