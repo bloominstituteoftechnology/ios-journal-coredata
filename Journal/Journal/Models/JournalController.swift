@@ -24,7 +24,7 @@ class JournalController {
     
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
-    func sendTaskToServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+    func sendEntryToServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         guard let uuid = entry.identifier else {
             completion(.failure(.noIdentifier))
             return
@@ -57,7 +57,7 @@ class JournalController {
         }.resume()
     }
     
-    func deleteTaskFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+    func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         guard let uuid = entry.identifier else {
             completion(.failure(.noIdentifier))
             return

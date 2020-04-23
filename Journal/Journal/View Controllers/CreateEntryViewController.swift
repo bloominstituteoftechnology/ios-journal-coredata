@@ -37,7 +37,7 @@ class CreateEntryViewController: UIViewController {
         let mood = EntryMood.allCases[moodIndex]
             
         let entry = Entry(title: title, bodyText: entryTextView.text, mood: mood)
-        journalController?.sendTaskToServer(entry: entry)
+        journalController?.sendEntryToServer(entry: entry)
         do {
             try CoreDataStack.shared.mainContext.save()
         } catch {
