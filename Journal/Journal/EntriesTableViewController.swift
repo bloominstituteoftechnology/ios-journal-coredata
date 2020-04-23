@@ -57,9 +57,7 @@ class EntriesTableViewController: UITableViewController {
 
         let entry = entries[indexPath.row]
         
-        cell.textLabel?.text = entry.title
-//        cell.textLabel?.text = entry.bodyText
-//        cell.textLabel?.text = dateFormatter.string(from: entry.timestamp!)
+        cell.entry = entry
 
         return cell
     }

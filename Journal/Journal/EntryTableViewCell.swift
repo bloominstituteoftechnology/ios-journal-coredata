@@ -36,7 +36,6 @@ class EntryTableViewCell: UITableViewCell {
         // MM-dd-yyyy HH:mm
         
         titleLabel.text = entry.title
-        dateLabel.text = entry.title
         entryLabel.text = entry.bodyText
         dateLabel.text = dateFormatter.string(from: entry.timestamp!)
     }
