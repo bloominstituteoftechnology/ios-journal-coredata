@@ -12,11 +12,11 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="Dxw-gg-VXr">
-                                <rect key="frame" x="8" y="96" width="398" height="337.5"/>
+                                <rect key="frame" x="8" y="8" width="398" height="337.5"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Journal Entry Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IPJ-M7-9xE">
                                         <rect key="frame" x="0.0" y="0.0" width="398" height="34"/>
@@ -122,14 +122,14 @@
                                                         <constraint firstItem="Vbc-iT-IlA" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="oTH-uJ-OAK" secondAttribute="trailing" constant="8" id="o4H-YJ-05i"/>
                                                     </constraints>
                                                 </stackView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entry" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m9F-0r-ndE">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entry" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m9F-0r-ndE">
                                                     <rect key="frame" x="0.0" y="28" width="398" height="85"/>
                                                     <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="85" id="ySf-4f-quc"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                    <nil key="textColor"/>
+                                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -146,6 +146,7 @@
                                     <outlet property="dateLabel" destination="Vbc-iT-IlA" id="hyi-VP-Aeh"/>
                                     <outlet property="entryLabel" destination="m9F-0r-ndE" id="7tg-hy-TAX"/>
                                     <outlet property="titleLabel" destination="oTH-uJ-OAK" id="Uez-xl-j2O"/>
+                                    <segue destination="BYZ-38-t0r" kind="showDetail" identifier="ShowEntry" id="fz1-VE-Wj9"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -200,9 +201,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A5I-MB-O9N" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="137.68115942028987" y="137.94642857142856"/>
+            <point key="canvasLocation" x="30" y="519"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="fz1-VE-Wj9"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="plus.square" catalog="system" width="128" height="114"/>
     </resources>

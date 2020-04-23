@@ -11,6 +11,7 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
+    var  ce = EntryTableViewCell()
     
     var entries: [Entry] {
         
@@ -27,6 +28,7 @@ class EntriesTableViewController: UITableViewController {
             return []
         }
     }
+   
     
     var dateFormatter: DateFormatter =  {
                       let formatter = DateFormatter()
@@ -101,7 +103,9 @@ class EntriesTableViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "ShowEntry" {
+          //  if let detailVC = segue.destination as? ShowJournalDetailViewController
+        }
+        // work on detail vc after tappinig on cell
     }
 }
