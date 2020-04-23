@@ -10,13 +10,13 @@
         <!--Journal-->
         <scene sceneID="N3a-QF-1Lq">
             <objects>
-                <tableViewController id="QgB-6G-Hea" sceneMemberID="viewController">
+                <tableViewController id="QgB-6G-Hea" customClass="EntriesTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="zag-9Q-eRe">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" id="fi8-gY-Z0a">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" id="fi8-gY-Z0a" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="105.66666412353516"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fi8-gY-Z0a" id="vzr-mM-kmd">
@@ -59,6 +59,11 @@
                                         <constraint firstAttribute="trailing" secondItem="MhM-a1-xGg" secondAttribute="trailing" constant="15" id="n1U-dh-eR7"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="bodyTextLabel" destination="YWP-tg-BXI" id="Ma8-sT-aDm"/>
+                                    <outlet property="dateLabel" destination="qTf-vJ-Puh" id="vzz-Zk-r50"/>
+                                    <outlet property="titleLabel" destination="NLh-DW-Ou3" id="Xbj-sL-ULO"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
