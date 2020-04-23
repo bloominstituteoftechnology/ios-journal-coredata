@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  CreateEntryViewController.swift
 //  Journal
 //
 //  Created by Elizabeth Thomas on 4/22/20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CreateEntryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

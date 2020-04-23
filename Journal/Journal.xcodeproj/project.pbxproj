@@ -9,21 +9,31 @@
 /* Begin PBXBuildFile section */
 		68DEB56F24511F18007E9312 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68DEB56E24511F18007E9312 /* AppDelegate.swift */; };
 		68DEB57124511F18007E9312 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68DEB57024511F18007E9312 /* SceneDelegate.swift */; };
-		68DEB57324511F18007E9312 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68DEB57224511F18007E9312 /* ViewController.swift */; };
+		68DEB57324511F18007E9312 /* CreateEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68DEB57224511F18007E9312 /* CreateEntryViewController.swift */; };
 		68DEB57624511F18007E9312 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68DEB57424511F18007E9312 /* Main.storyboard */; };
 		68DEB57824511F23007E9312 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68DEB57724511F23007E9312 /* Assets.xcassets */; };
 		68DEB57B24511F23007E9312 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68DEB57924511F23007E9312 /* LaunchScreen.storyboard */; };
+		68DEB58724511FE2007E9312 /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68DEB58624511FE2007E9312 /* EntriesTableViewController.swift */; };
+		68DEB58924512001007E9312 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68DEB58824512001007E9312 /* EntryTableViewCell.swift */; };
+		68DEB58B2451200E007E9312 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68DEB58A2451200E007E9312 /* CoreDataStack.swift */; };
+		68DEB58D2451201E007E9312 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68DEB58C2451201E007E9312 /* Entry+Convenience.swift */; };
+		68DEB5902451202F007E9312 /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 68DEB58E2451202F007E9312 /* Journal.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		68DEB56B24511F18007E9312 /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		68DEB56E24511F18007E9312 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		68DEB57024511F18007E9312 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		68DEB57224511F18007E9312 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		68DEB57224511F18007E9312 /* CreateEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEntryViewController.swift; sourceTree = "<group>"; };
 		68DEB57524511F18007E9312 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		68DEB57724511F23007E9312 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		68DEB57A24511F23007E9312 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		68DEB57C24511F23007E9312 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		68DEB58624511FE2007E9312 /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
+		68DEB58824512001007E9312 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
+		68DEB58A2451200E007E9312 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		68DEB58C2451201E007E9312 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
+		68DEB58F2451202F007E9312 /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +66,52 @@
 		68DEB56D24511F18007E9312 /* Journal */ = {
 			isa = PBXGroup;
 			children = (
-				68DEB56E24511F18007E9312 /* AppDelegate.swift */,
-				68DEB57024511F18007E9312 /* SceneDelegate.swift */,
-				68DEB57224511F18007E9312 /* ViewController.swift */,
-				68DEB57424511F18007E9312 /* Main.storyboard */,
-				68DEB57724511F23007E9312 /* Assets.xcassets */,
-				68DEB57924511F23007E9312 /* LaunchScreen.storyboard */,
 				68DEB57C24511F23007E9312 /* Info.plist */,
+				68DEB57724511F23007E9312 /* Assets.xcassets */,
+				68DEB58524511F73007E9312 /* Application */,
+				68DEB57924511F23007E9312 /* LaunchScreen.storyboard */,
+				68DEB58424511F6F007E9312 /* Model */,
+				68DEB58324511F64007E9312 /* View Controllers */,
+				68DEB58224511F5B007E9312 /* Views */,
 			);
 			path = Journal;
+			sourceTree = "<group>";
+		};
+		68DEB58224511F5B007E9312 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				68DEB57424511F18007E9312 /* Main.storyboard */,
+				68DEB58824512001007E9312 /* EntryTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		68DEB58324511F64007E9312 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				68DEB57224511F18007E9312 /* CreateEntryViewController.swift */,
+				68DEB58624511FE2007E9312 /* EntriesTableViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		68DEB58424511F6F007E9312 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				68DEB58A2451200E007E9312 /* CoreDataStack.swift */,
+				68DEB58C2451201E007E9312 /* Entry+Convenience.swift */,
+				68DEB58E2451202F007E9312 /* Journal.xcdatamodeld */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		68DEB58524511F73007E9312 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				68DEB56E24511F18007E9312 /* AppDelegate.swift */,
+				68DEB57024511F18007E9312 /* SceneDelegate.swift */,
+			);
+			path = Application;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,9 +185,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				68DEB57324511F18007E9312 /* ViewController.swift in Sources */,
+				68DEB58724511FE2007E9312 /* EntriesTableViewController.swift in Sources */,
+				68DEB58924512001007E9312 /* EntryTableViewCell.swift in Sources */,
+				68DEB57324511F18007E9312 /* CreateEntryViewController.swift in Sources */,
+				68DEB58B2451200E007E9312 /* CoreDataStack.swift in Sources */,
 				68DEB56F24511F18007E9312 /* AppDelegate.swift in Sources */,
 				68DEB57124511F18007E9312 /* SceneDelegate.swift in Sources */,
+				68DEB58D2451201E007E9312 /* Entry+Convenience.swift in Sources */,
+				68DEB5902451202F007E9312 /* Journal.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,6 +390,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		68DEB58E2451202F007E9312 /* Journal.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				68DEB58F2451202F007E9312 /* Journal.xcdatamodel */,
+			);
+			currentVersion = 68DEB58F2451202F007E9312 /* Journal.xcdatamodel */;
+			path = Journal.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 68DEB56324511F17007E9312 /* Project object */;
 }
