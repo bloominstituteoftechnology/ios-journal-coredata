@@ -9,16 +9,25 @@
 import UIKit
 
 class EntryTableViewCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var notesLabel: UILabel!
+    
+    func updateViews() {
+        if let title = entry?.title,
+            let date = entry?.timestamp,
+            let notes = entry?.bodyText {
+            titleLabel.text = title
+            dateLabel.text = date.toString(dateFormat: "MM/dd/yy, h:mm")
+            notesLabel.text = notes
+        }
     }
-
+    
 }

@@ -11,12 +11,33 @@ import UIKit
 class CreateEntryViewController: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var entryLabel: UILabel!
+    @IBOutlet weak var notesTextView: UITextView!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
 
+    @IBAction func cancelButton(_ sender: UIBarButtonItem) {
+        navigationController?.dismiss(animated: true)
+    }
+    
+    @IBAction func saveButton(_ sender: UIBarButtonItem) {
+        if let title = titleTextField.text,
+            !title.isEmpty,
+            let notes = notesTextView.text,
+            !notes.isEmpty {
+            
+            Entry(title: title, bodyText: notes, context: CoreDataStack.shared.mainContext)
+            
+            do {
+                try CoreDataStack.shared.mainContext.save()
+                navigationController?.dismiss(animated: true)
+            } catch {
+                NSLog("Error saving Entry to context: \(error)")
+                
+            }
+        }
+    }
 }
 

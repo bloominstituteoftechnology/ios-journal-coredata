@@ -15,7 +15,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="uIY-TW-Lid">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="uIY-TW-Lid">
                                 <rect key="frame" x="15" y="103" width="384" height="272"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Journal Entry Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jRd-Lr-FQi">
@@ -55,11 +55,27 @@
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="uIY-TW-Lid" secondAttribute="trailing" constant="15" id="3Fn-J6-FEB"/>
+                            <constraint firstItem="uIY-TW-Lid" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="15" id="Nfi-hM-Yxl"/>
+                            <constraint firstItem="uIY-TW-Lid" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="15" id="vLe-lb-QKR"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Create Entry" id="tja-nB-0us"/>
+                    <navigationItem key="navigationItem" title="Create Entry" id="tja-nB-0us">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="ZVX-Iz-Gv7">
+                            <connections>
+                                <action selector="cancelButton:" destination="BYZ-38-t0r" id="Z8Y-Tg-328"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Byb-NH-dmp">
+                            <connections>
+                                <action selector="saveButton:" destination="BYZ-38-t0r" id="bcG-4L-8TW"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
-                        <outlet property="entryLabel" destination="eYt-Pu-3IV" id="Zy7-p4-QjN"/>
+                        <outlet property="notesTextView" destination="PtT-Jl-eDa" id="R3g-oZ-qTf"/>
                         <outlet property="titleTextField" destination="jRd-Lr-FQi" id="f7L-LY-ujn"/>
                     </connections>
                 </viewController>
@@ -76,7 +92,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="244" id="fjj-bW-6eH" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="244" id="fjj-bW-6eH" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="244"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fjj-bW-6eH" id="xvA-Ri-PBw">
@@ -120,6 +136,11 @@
                                         <constraint firstAttribute="bottom" secondItem="R98-EB-RT6" secondAttribute="bottom" constant="15" id="e7u-SE-zTx"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="dateLabel" destination="1OH-mm-9tN" id="pOG-Du-sAk"/>
+                                    <outlet property="notesLabel" destination="WTZ-yv-09f" id="tQx-D6-HIL"/>
+                                    <outlet property="titleLabel" destination="Eat-nm-7G0" id="c2L-WL-dGh"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
