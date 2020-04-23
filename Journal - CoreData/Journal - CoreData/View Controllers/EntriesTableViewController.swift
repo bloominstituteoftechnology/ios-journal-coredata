@@ -93,8 +93,9 @@ class EntriesTableViewController: UITableViewController {
                 detailVC.entry = fetchedResultsController.object(at: indexPath)
             }
         } else if segue.identifier == "AddEntryModalSegue" {
-            if let addVC = segue.destination as? CreateEntryViewController {
-                addVC.entryController = entryController
+            if let navC = segue.destination as? UINavigationController,
+                let createEntryVC = navC.viewControllers.first as? CreateEntryViewController {
+                createEntryVC.entryController = entryController
             }
         }
     }
