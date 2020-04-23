@@ -264,13 +264,14 @@
                                 <action selector="cancelButtonPressed:" destination="kxR-ib-cM0" id="pDb-BF-GKm"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="fBL-qm-Z22">
+                        <barButtonItem key="rightBarButtonItem" title="Edit" id="fBL-qm-Z22">
                             <connections>
-                                <action selector="saveButtonPressed:" destination="kxR-ib-cM0" id="QpC-vu-omN"/>
+                                <action selector="editButtonPressed:" destination="kxR-ib-cM0" id="36k-PO-VnL"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="cancelButton" destination="Fcb-q8-uF2" id="8RX-RJ-qqi"/>
                         <outlet property="segmentedControlMood" destination="Yqx-vl-hQi" id="GTm-Yr-aAv"/>
                         <outlet property="textFieldTitle" destination="s0T-Dc-thd" id="gRH-co-Zhe"/>
                         <outlet property="textViewDescription" destination="oTN-jb-bb6" id="CD2-T4-0KX"/>
