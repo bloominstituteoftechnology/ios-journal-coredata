@@ -24,6 +24,7 @@ class EntryController {
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
     func sendEntryToServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        print("posting to server")
         guard let uuid = entry.identifier else {
             completion(.failure(.noIdentifier))
             return
@@ -57,6 +58,7 @@ class EntryController {
     }
     
     func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        print("deleting from server")
         guard let uuid = entry.identifier else {
             completion(.failure(.noIdentifier))
             return

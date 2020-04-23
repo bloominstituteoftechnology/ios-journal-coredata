@@ -72,15 +72,14 @@ class EntriesTableViewController: UITableViewController {
             if let entryDetailViewController = segue.destination as? EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow {
                 entryDetailViewController.entry = fetchedResultsController.object(at: indexPath)
-            } else if segue.identifier == "CreateSeg" {
-                if let navigationController = segue.destination as? UINavigationController,
-                    let createEntryViewController = navigationController.viewControllers.first as? CreateEntryViewController {
-                    createEntryViewController.entryController = entryController
-                }
+            }
+        } else if segue.identifier == "CreateSeg" {
+            if let navigationController = segue.destination as? UINavigationController,
+                let createEntryViewController = navigationController.viewControllers.first as? CreateEntryViewController {
+                createEntryViewController.entryController = entryController
             }
         }
     }
-    
 }
 
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
