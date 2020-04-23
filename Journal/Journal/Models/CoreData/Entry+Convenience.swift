@@ -17,6 +17,14 @@ enum MoodType: String, CaseIterable {
 
 
 extension Entry {
+    
+    var entryRepresentation: EntryRepresentation? {
+        guard let identifier = identifier, let title = title, let mood = mood, let bodyText = bodyText else {
+            return nil
+        }
+        return EntryRepresentation(identifier: identifier, bodyText: bodyText, mood: mood, timeStamp: "Current Date", title: title)
+    }
+        
     @discardableResult convenience init(identifier: String = "No Identifier", title: String = "No Title", bodyText: String = "No Description", timestamp: Date = Date(), mood: MoodType = .moderate, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         //Standard init
@@ -24,7 +32,7 @@ extension Entry {
         self.identifier = identifier
         self.title = title
         self.bodyText = bodyText
-        self.timestamp = timestamp
+        self.timeStamp = timeStamp
         self.mood = mood.rawValue
     }
 }

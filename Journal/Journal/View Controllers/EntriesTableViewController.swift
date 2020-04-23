@@ -13,16 +13,9 @@ class EntriesTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
         updateView()
     }
     
@@ -31,6 +24,8 @@ class EntriesTableViewController: UITableViewController {
     }
     
     //MARK: - Variables
+    let entryController = EntryController()
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
@@ -97,6 +92,11 @@ class EntriesTableViewController: UITableViewController {
             if let detailVC = segue.destination as? ShowEntryViewController,
                 let indexPath = tableView.indexPathForSelectedRow {
                 detailVC.entry = fetchedResultsController.object(at: indexPath)
+            }
+        } else if (identifier == "createSegue") {
+            if let navC = segue.destination as? UINavigationController,
+                let createTaskVC = navC.viewControllers.first as? CreateEntryViewController {
+                createTaskVC.entryController = entryController
             }
         }
     }

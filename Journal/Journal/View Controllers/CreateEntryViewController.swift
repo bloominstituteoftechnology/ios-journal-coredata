@@ -15,6 +15,9 @@ class CreateEntryViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    //MARK: - Variables
+    var entryController: EntryController?
+    
     //MARK: - Outlets
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var entryLabel: UILabel!
@@ -28,12 +31,22 @@ class CreateEntryViewController: UIViewController {
     
     @IBAction func saveButtonPressed(_ sender: UIBarButtonItem) {
         let mood = MoodType.allCases[moodSegmentedControl.selectedSegmentIndex]
-        Entry(title: titleTextField.text!, bodyText: bodyTextView.text, mood: mood)
+        let entry = Entry(title: titleTextField.text!, bodyText: bodyTextView.text, mood: mood)
         do {
             try CoreDataStack.shared.mainContext.save()
         } catch {
             print("Error saving managed object context: \(error)")
             return
+        }
+        
+        //Send Entry to Server
+        if let entryController = entryController {
+            print("Calling SendTaskToServer")
+            entryController.sendTaskToServer(entry: entry) {
+                print("Finished Sending")
+            }
+        } else {
+            print("Entry Controller is null")
         }
         
         navigationController?.dismiss(animated: true, completion: nil)
