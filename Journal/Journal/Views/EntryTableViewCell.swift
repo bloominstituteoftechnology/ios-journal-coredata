@@ -9,16 +9,33 @@
 import UIKit
 
 class EntryTableViewCell: UITableViewCell {
+    
+    // MARK: - Properties
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    // MARK: - IBOutlets
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var timeStampLabel: UILabel!
+    @IBOutlet weak var bodyTextLabel: UILabel!
+    
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
-
+    
+    func updateViews() {
+        guard let entry = entry else { return }
+        titleLabel.text = entry.title
+        timeStampLabel.text = "\(entry.timeStamp ?? Date())"
+        bodyTextLabel.text = entry.bodyText
+    }
 }

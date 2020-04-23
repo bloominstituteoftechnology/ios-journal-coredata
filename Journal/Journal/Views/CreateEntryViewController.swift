@@ -9,12 +9,34 @@
 import UIKit
 
 class CreateEntryViewController: UIViewController {
-
+    
+    // MARK: - IBOutlets
+    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var bodyTextTextField: UITextView!
+    
+    // MARK: - IBActions
+    @IBAction func saveTapped(_ sender: Any) {
+        guard let title = titleTextField.text,
+            !title.isEmpty,
+            let body = bodyTextTextField.text,
+            !body.isEmpty else { return }
+                
+        Entry(title: title, bodyText: body,context: CoreDataStack.shared.mainContext)
+        
+        do {
+            try CoreDataStack.shared.mainContext.save()
+            navigationController?.dismiss(animated: true, completion: nil)
+        } catch {
+            NSLog("Error saving Entry to persistent store: \(error)")
+        }
+    }
+    
+    @IBAction func cancelTapped(_ sender: Any) {
+        navigationController?.dismiss(animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
-
-
 }
 
