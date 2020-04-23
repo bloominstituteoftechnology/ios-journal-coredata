@@ -34,7 +34,7 @@ Create a single view application called `Journal` in Xcode and do not check the 
 
 #### CoreDataStack
 
-Feel free to take the core data stack you used in the guided project and paste it in this file. You may need to change the name of the persistent container to match the name of your data model file.
+Feel free to take the core data stack you used in the guided project and paste it in this file. You may need to change the name of the persistent container to match the name of your data model file.  
 
 #### Entry
 
