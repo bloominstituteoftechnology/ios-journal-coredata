@@ -10,6 +10,13 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
 
+    // MARK: - IBOutlets
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var dateAndTimeLabel: UILabel!
+    @IBOutlet var excerptLabel: UILabel!
+    
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

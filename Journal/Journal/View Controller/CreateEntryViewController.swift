@@ -10,11 +10,23 @@ import UIKit
 
 class CreateEntryViewController: UIViewController {
 
+    // MARK: - IBOutlets
+    
+    @IBOutlet var journalEntryTextField: UITextField!
+    @IBOutlet var journalTextView: UITextView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-
+    
+    // MARK: - IBAction
+    @IBAction func cancelButtonTapped(_ sender: Any) {
+    }
+    
+    @IBAction func saveButtonTapped(_ sender: Any) {
+    }
+    
 
 }
 
