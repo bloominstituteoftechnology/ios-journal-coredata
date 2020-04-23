@@ -13,6 +13,8 @@ class EntriesTableViewController: UITableViewController {
     
     // MARK: - Properties
     
+    var entryController = EntryController()
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         // TODO: Organize the as Happy, Neutral, Sad
@@ -28,7 +30,17 @@ class EntriesTableViewController: UITableViewController {
         return frc
     }()
     
-    var entryController = EntryController()
+    // MARK: - Actions
+    
+    @IBAction func refresh(_ sender: UIRefreshControl) {
+        entryController.fetchEntriesFromServer { _ in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+                self.tableView.reloadData()
+            }
+        }
+    }
+    
 
     // MARK: - Table view data source
     

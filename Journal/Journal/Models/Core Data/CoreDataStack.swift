@@ -22,6 +22,7 @@ class CoreDataStack {
             }
         }
         
+        container.viewContext.automaticallyMergesChangesFromParent = true
         return container
     }()
     

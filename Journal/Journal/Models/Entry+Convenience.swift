@@ -44,4 +44,16 @@ extension Entry {
         self.identifier = identifier
         self.mood = mood.rawValue
     }
+    
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        guard let identifier = UUID(uuidString: entryRepresentation.identifier),
+            let mood = MoodProperties(rawValue: entryRepresentation.mood) else { return nil }
+        
+        self.init(title: entryRepresentation.title,
+                  bodyText: entryRepresentation.bodyText,
+                  timestamp: entryRepresentation.timestamp,
+                  identifier: identifier,
+                  mood: mood,
+                  context: context)
+    }
 }
