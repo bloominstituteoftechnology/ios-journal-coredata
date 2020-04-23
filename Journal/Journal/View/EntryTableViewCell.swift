@@ -16,6 +16,13 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet var excerptLabel: UILabel!
     
     
+    // MARK: - Properties
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,6 +33,10 @@ class EntryTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    
+    func updateViews() {
+        
     }
 
 }
