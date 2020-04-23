@@ -7,9 +7,27 @@
 //
 
 import UIKit
+import CoreData
 
 class EntriesTableViewController: UITableViewController {
 
+    var entries: [Entry] {
+      //Fetch request to fetch Tasks specifically
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        
+        //context you want to fetch the model object into
+        let context = CoreDataStack.shared.mainContext
+        
+        do {
+            let fetchedEntries = try context.fetch(fetchRequest)
+            return fetchedEntries
+            
+        } catch {
+            NSLog("Error fetching entries: \(error)")
+            return []
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -21,18 +39,13 @@ class EntriesTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return 0
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
 
@@ -40,7 +53,7 @@ class EntriesTableViewController: UITableViewController {
 
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -50,17 +63,26 @@ class EntriesTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
+        let entry = entries[indexPath.row]
+            let context = CoreDataStack.shared.mainContext
+            
+            context.delete(entry)
+            
+            do {
+                try context.save()
+            } catch {
+                NSLog("Error saving context after deleting Entry: \(error)")
+                context.reset()
+            }
+            
+            
             tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.
@@ -87,4 +109,5 @@ class EntriesTableViewController: UITableViewController {
     }
     */
 
-}
+
+

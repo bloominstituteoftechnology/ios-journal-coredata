@@ -9,7 +9,44 @@
 import UIKit
 
 class CreateEntryViewController: UIViewController {
+    
+    var dateFormatter: DateFormatter {
+           let formatter = DateFormatter()
+           formatter.dateFormat = "MMM/dd/yy, HH:mm"
+           formatter.timeZone = TimeZone(secondsFromGMT: 0)
+           return formatter
+       }
 
+    @IBOutlet weak var journalTitle: UITextField!
+    
+    @IBOutlet weak var journalText: UITextView!
+    
+    @IBAction func cancelButton(_ sender: UIBarButtonItem) {
+        navigationController?.dismiss(animated: true, completion: nil)
+    }
+    
+    let timestamp = Date()
+
+    
+    @IBAction func saveButton(_ sender: UIBarButtonItem) {
+    
+        // Grab the individual values from the views
+           guard let title = journalText.text, !title.isEmpty else { return }
+           
+           let bodyText = journalText.text
+          // timestamp = DateFormatter.string(from: timestamp)
+           
+        Entry(title: title, timestamp: timestamp, bodyText: bodyText, context: CoreDataStack.shared.mainContext)
+           
+           do {
+               try CoreDataStack.shared.mainContext.save()
+               navigationController?.dismiss(animated: true, completion: nil)
+           } catch {
+               NSLog("Error saving manage object contedxt: \(error)")
+           }
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
