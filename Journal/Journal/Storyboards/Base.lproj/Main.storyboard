@@ -54,12 +54,12 @@
                     <navigationItem key="navigationItem" title="Create Entry" id="bDG-4S-PTZ">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Lsy-fZ-LWr">
                             <connections>
-                                <action selector="CancelTapped:" destination="BYZ-38-t0r" id="PUe-iK-i8p"/>
+                                <action selector="cancelTapped:" destination="BYZ-38-t0r" id="Xhr-A3-9BT"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="Chb-hs-9RD">
                             <connections>
-                                <action selector="SaveTapped:" destination="BYZ-38-t0r" id="nsI-w1-Q7Y"/>
+                                <action selector="saveTapped:" destination="BYZ-38-t0r" id="Cwb-gi-qsU"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -81,7 +81,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="mFm-yQ-xZy" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" id="mFm-yQ-xZy" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="mFm-yQ-xZy" id="djP-N0-Dv8" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
