@@ -26,6 +26,10 @@ class EntryController {
     
     let baseURL = URL(string: "https://coredata-journal.firebaseio.com/")!
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in}) {
         let requestURL = baseURL.appendingPathExtension("json")
         
@@ -50,7 +54,7 @@ class EntryController {
             do {
                 let entryRepresentations = Array(try JSONDecoder().decode([String: EntryRepresentation].self, from: data).values)
                 entries = entryRepresentations
-                try self.updateEntries(with: entryRepresentations)
+                self.updateEntries(with: entryRepresentations)
                 completion(.success(true))
                 return
             } catch {
