@@ -12,6 +12,7 @@ class CreateEntryViewController: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var notesTextView: UITextView!
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     
     
     override func viewDidLoad() {
@@ -28,14 +29,20 @@ class CreateEntryViewController: UIViewController {
             let notes = notesTextView.text,
             !notes.isEmpty {
             
-            Entry(title: title, bodyText: notes, context: CoreDataStack.shared.mainContext)
+            let selectedMood = moodSegmentedControl.selectedSegmentIndex
+            let mood = Mood.allCases[selectedMood]
+            
+            Entry(title: title,
+                  bodyText: notes,
+                  mood: mood,
+                  context: CoreDataStack.shared.mainContext)
             
             do {
                 try CoreDataStack.shared.mainContext.save()
                 navigationController?.dismiss(animated: true)
             } catch {
                 NSLog("Error saving Entry to context: \(error)")
-                
+                CoreDataStack.shared.mainContext.reset()
             }
         }
     }
