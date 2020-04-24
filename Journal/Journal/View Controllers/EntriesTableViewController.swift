@@ -25,6 +25,14 @@ class EntriesTableViewController: UITableViewController {
           try! frc.performFetch()
           return frc
       }()
+    
+    @IBAction func refresh(_ sender: UIRefreshControl) {
+        journalController.fetchEntriesFromServer { _ in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
+    }
 
     // MARK: - Table view data source
     
@@ -79,6 +87,7 @@ class EntriesTableViewController: UITableViewController {
             if let detailVC = segue.destination as? EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow {
                 detailVC.entry = fetchedResultsController.object(at: indexPath)
+                detailVC.journalController = journalController
             }
         }else if segue.identifier == "CreateEntryModalSegue" {
             if let navC = segue.destination as? UINavigationController,
