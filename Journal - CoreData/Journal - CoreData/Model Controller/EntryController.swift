@@ -5,6 +5,8 @@
 //  Created by Nichole Davidson on 4/20/20.
 //  Copyright © 2020 Nichole Davidson. All rights reserved.
 //
+import Foundation
+import UIKit
 
 import CoreData
 
@@ -23,6 +25,41 @@ class EntryController {
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
     let baseURL = URL(string: "https://coredata-journal.firebaseio.com/")!
+    
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in}) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "GET"
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                NSLog("Error fetching entries: \(error)")
+                completion(.failure(.otherError))
+                return
+            }
+            
+            guard let data = data else {
+                NSLog("No data returned from fetch")
+                completion(.failure(.noData))
+                return
+            }
+            
+            var entries: [EntryRepresentation] = []
+            
+            do {
+                let entryRepresentations = Array(try JSONDecoder().decode([String: EntryRepresentation].self, from: data).values)
+                entries = entryRepresentations
+                try self.updateEntries(with: entryRepresentations)
+                completion(.success(true))
+                return
+            } catch {
+                NSLog("Error decoding entries from server: \(error)")
+                completion(.failure(.noDecode))
+                return
+            }
+        }.resume()
+    }
     
     func sendEntryToServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         guard let uuid = entry.identifier else {
@@ -126,8 +163,9 @@ class EntryController {
     //    var entry: Entry?
     //
         func saveToPersistentStore() {
-            guard entry != nil else { return }
-    
+            
+//            guard entry != nil else { return }
+
             do {
                 try CoreDataStack.shared.mainContext.save()
             } catch {
