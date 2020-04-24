@@ -68,12 +68,15 @@ class EntriesTableViewController: UITableViewController {
                 guard let _ = try? result.get() else {
                     return
                 }
-                CoreDataStack.shared.mainContext.delete(entry)
-                do {
-                    try CoreDataStack.shared.mainContext.save()
-                } catch {
-                    CoreDataStack.shared.mainContext.reset()
-                    NSLog("Error saving managed object context: \(error)")
+                DispatchQueue.main.async {
+                    CoreDataStack.shared.mainContext.delete(entry)
+                    do {
+                        try CoreDataStack.shared.mainContext.save()
+                    } catch {
+                        CoreDataStack.shared.mainContext.reset()
+                        NSLog("Error saving managed object context: \(error)")
+                    }
+                    
                 }
             }
         }

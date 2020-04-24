@@ -33,7 +33,7 @@ class JournalController {
         
         URLSession.shared.dataTask(with: requestURL) { (data, response, error) in
             if let error = error {
-                NSLog("Error fetching tasks: \(error)")
+                NSLog("Error fetching entries: \(error)")
                 completion(.failure(.otherError))
                 return
             }
@@ -49,7 +49,7 @@ class JournalController {
                 try self.updateEntries(with: journalRepresentations)
                 completion(.success(true))
             } catch {
-                NSLog("Error decoding tasks from server: \(error)")
+                NSLog("Error decoding entries from server: \(error)")
                 completion(.failure(.noDecode))
             }
         }.resume()
@@ -135,7 +135,7 @@ class JournalController {
                 }
                  try context.save()
             } catch {
-                NSLog("Error fetching tasks with UUIDs: \(identifiersToFetch), with error: \(error)")
+                NSLog("Error fetching entries with UUIDs: \(identifiersToFetch), with error: \(error)")
             }
         }
     }
