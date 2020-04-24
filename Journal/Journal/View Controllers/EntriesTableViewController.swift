@@ -99,6 +99,7 @@ class EntriesTableViewController: UITableViewController {
             }
         }
     }
+
 }
 
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {

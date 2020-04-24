@@ -18,6 +18,7 @@ class EntryDetailViewController: UIViewController {
     
     var entry: Entry?
     var wasEdited: Bool = false
+    var entryController: EntryController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,6 +74,7 @@ class EntryDetailViewController: UIViewController {
             entry.bodyText = entryTextView.text
             let moodIndex = moodSegementedController.selectedSegmentIndex
             entry.mood = Mood.allCases[moodIndex].rawValue
+            entryController?.sendEntryToServer(entry: entry)
             
             do {
                 try CoreDataStack.shared.mainContext.save()

@@ -32,7 +32,7 @@ class CreateEntryViewController: UIViewController {
         let moodIndex = moodControl.selectedSegmentIndex
         let mood = Mood.allCases[moodIndex]
         
-        let entry = Entry(title: titleText, bodyText: entryText, timestamp: Date(), mood: mood.rawValue)
+        let entry = Entry(title: titleText, bodyText: entryText, timestamp: Date(), mood: mood)
         entryController?.sendEntryToServer(entry: entry)
         do {
             try CoreDataStack.shared.mainContext.save()
