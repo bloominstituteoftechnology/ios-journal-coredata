@@ -16,7 +16,8 @@ class CreateEntryViewController: UIViewController {
            formatter.timeZone = TimeZone(secondsFromGMT: 0)
            return formatter
        }
-
+    @IBOutlet weak var journalMood: UISegmentedControl!
+    
     @IBOutlet weak var journalTitle: UITextField!
     
     @IBOutlet weak var journalText: UITextView!
@@ -34,10 +35,13 @@ class CreateEntryViewController: UIViewController {
            guard let title = journalText.text, !title.isEmpty else { return }
            
         guard let bodyText = journalText.text, !bodyText.isEmpty else { return }
+        
+        let selectedMood = journalMood.selectedSegmentIndex
+        let mood = EntryMood.allCases[selectedMood]
           
           // timestamp = DateFormatter.string(from: timestamp)
            
-        Entry(title: title, timestamp: timestamp, bodyText: bodyText, context: CoreDataStack.shared.mainContext)
+        Entry(title: title, timestamp: timestamp, bodyText: bodyText, mood: mood, context: CoreDataStack.shared.mainContext)
            
            do {
                try CoreDataStack.shared.mainContext.save()

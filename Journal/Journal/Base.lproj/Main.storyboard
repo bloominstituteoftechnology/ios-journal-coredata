@@ -23,14 +23,22 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Yag-tC-QeL">
+                                        <rect key="frame" x="0.0" y="42" width="394" height="32"/>
+                                        <segments>
+                                            <segment title="😀"/>
+                                            <segment title="😔"/>
+                                            <segment title="😶"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ek-Px-Elp">
-                                        <rect key="frame" x="0.0" y="42" width="394" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="81" width="394" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="fVm-WU-bIx">
-                                        <rect key="frame" x="0.0" y="70.5" width="394" height="223.5"/>
+                                        <rect key="frame" x="0.0" y="109.5" width="394" height="184.5"/>
                                         <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -63,6 +71,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="journalMood" destination="Yag-tC-QeL" id="ph7-i0-8Nc"/>
                         <outlet property="journalText" destination="fVm-WU-bIx" id="0CN-eE-4M5"/>
                         <outlet property="journalTitle" destination="rQ1-tL-AuZ" id="4JW-yc-7kn"/>
                     </connections>
@@ -139,6 +148,7 @@
                                     <outlet property="entryDate" destination="JdF-1D-0Hk" id="idF-ws-vC5"/>
                                     <outlet property="entryDes" destination="a0l-bE-Snx" id="ZZN-zy-XjT"/>
                                     <outlet property="entryTitle" destination="Zk6-n1-eDk" id="n0X-1t-TbR"/>
+                                    <segue destination="JOY-Cs-INQ" kind="show" trigger="accessoryAction" id="7Av-3p-8ui"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -158,6 +168,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="81Z-vO-S4j" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2847.826086956522" y="105.80357142857143"/>
+        </scene>
+        <!--Entry Details-->
+        <scene sceneID="suz-Lo-xYa">
+            <objects>
+                <viewController id="JOY-Cs-INQ" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="W75-19-KhQ">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="ebS-tZ-a1O"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Entry Details" id="Rt1-sN-VAW"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4kj-Gk-V2m" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4236" y="332"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="bof-ov-WVS">
