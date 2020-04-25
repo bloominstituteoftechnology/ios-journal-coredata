@@ -11,6 +11,7 @@ import UIKit
 class CreateEntryViewController: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var moodSegmentControl: UISegmentedControl!
     @IBOutlet weak var bodyTextView: UITextView!
     
     override func viewDidLoad() {
