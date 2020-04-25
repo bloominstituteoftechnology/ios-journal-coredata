@@ -14,6 +14,8 @@ class CreateEntryViewController: UIViewController {
     
     @IBOutlet var journalEntryTextField: UITextField!
     @IBOutlet var journalTextView: UITextView!
+    @IBAction func moodSegmentControl(_ sender: Any) {
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
