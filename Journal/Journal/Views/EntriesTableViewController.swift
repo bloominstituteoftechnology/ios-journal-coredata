@@ -114,15 +114,15 @@ class EntriesTableViewController: UITableViewController {
             return nil
         }
         
-        return sectionInfo.name.capitalized
+        return sectionInfo.name
     }
     
     
      // MARK: - Navigation
      
 //     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//         if segue.identifier == "CreateEntryModalSegue" {
-//                  let createEntryVC = segue.destination as! CreateEntryViewController
+//         if segue.identifier == "DetailSegue" {
+//                  let createEntryVC = segue.destination as! EntryDetailViewController
 //        }
 //    }
 }
