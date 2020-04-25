@@ -12,18 +12,26 @@ import CoreData
 class EntriesTableViewController: UITableViewController {
 
     // MARK: - Properties
-    var entries: [Entry] {
+    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+        // Create a fetch request from the Entry object.
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let context = CoreDataStack.shared.mainContext
         
-        do {
-            let fetchTasks = try context.fetch(fetchRequest)
-            return fetchTasks
-        } catch {
-            NSLog("Error fetching tasks: \(error)")
-            return []
-        }
-    }
+        // Create a sort descriptor that will sort the entries based on their mood and timestamp
+        fetchRequest.sortDescriptors = [
+            NSSortDescriptor(key: "mood", ascending: true),
+            NSSortDescriptor(key: "timestamp", ascending: true)
+        ]
+        // Create a constant that references your core data stack's mainContext.
+        let fetchRequestController = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                                                managedObjectContext: CoreDataStack.shared.mainContext,
+                                                                sectionNameKeyPath: "mood",
+                                                                cacheName: nil)
+        
+        fetchRequestController.delegate = self
+        // Perform the fetch request using the fetched results controller
+        try! fetchRequestController.performFetch()
+        return fetchRequestController
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,17 +45,17 @@ class EntriesTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return fetchedResultsController.sections?.count ?? 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return entries.count
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "journalTitleCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell() }
 
-        let entry = entries[indexPath.row]
+        let entry = fetchedResultsController.object(at: indexPath)
         cell.titleLabel.text = entry.title
         cell.excerptLabel.text = entry.bodyText
         let dateFormatter = DateFormatter()
@@ -61,7 +69,7 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             
-            let entry = entries[indexPath.row]
+            let entry = fetchedResultsController.object(at: indexPath)
             let context = CoreDataStack.shared.mainContext
             
             context.delete(entry)
@@ -76,31 +84,51 @@ class EntriesTableViewController: UITableViewController {
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
+}
 
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
+// MARK: - Extension
+extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
     }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
     }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange sectionInfo: NSFetchedResultsSectionInfo,
+                    atSectionIndex sectionIndex: Int,
+                    for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert:
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
+        case .delete:
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
+        default:
+            break
+        }
     }
-    */
-
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            guard let newIndexPath = newIndexPath else { return }
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .update:
+            guard let indexPath = indexPath else { return }
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        case .move:
+            guard let oldIndexPath = indexPath,
+            let newIndexPath = newIndexPath else { return }
+            tableView.deleteRows(at: [oldIndexPath], with: .automatic)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .delete:
+            guard let indexPath = indexPath else { return }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        @unknown default:
+            break
+        }
+    }
 }
