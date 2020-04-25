@@ -15,7 +15,6 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet var dateAndTimeLabel: UILabel!
     @IBOutlet var excerptLabel: UILabel!
     
-    
     // MARK: - Properties
     var entry: Entry? {
         didSet {

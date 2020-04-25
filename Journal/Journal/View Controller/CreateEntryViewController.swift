@@ -14,8 +14,8 @@ class CreateEntryViewController: UIViewController {
     
     @IBOutlet var journalEntryTextField: UITextField!
     @IBOutlet var journalTextView: UITextView!
-    @IBAction func moodSegmentControl(_ sender: Any) {
-    }
+    @IBOutlet var moodSegmentedControl: UISegmentedControl!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,8 +32,10 @@ class CreateEntryViewController: UIViewController {
             let text = journalTextView.text, !text.isEmpty else { return }
         
         let currentDateTime = Date()
-        
-        Entry(identifier: "", title: title, bodyText: text, timestamp: currentDateTime, context: CoreDataStack.shared.mainContext)
+        let moodEntry = moodSegmentedControl.selectedSegmentIndex
+        let moodSelection = MoodSelection.allCases[moodEntry]
+
+        Entry(identifier: "", title: title, bodyText: text, timestamp: currentDateTime, mood: moodSelection, context: CoreDataStack.shared.mainContext)
         
         do {
             try CoreDataStack.shared.mainContext.save()
