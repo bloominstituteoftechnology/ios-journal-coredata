@@ -27,8 +27,11 @@ class CreateEntryViewController: UIViewController {
             let title = titleTextField.text,
             !title.isEmpty,
             let body = bodyTextView.text else { return }
+        
+        let mood = Mood.allCases[moodSegmentControl.selectedSegmentIndex]
             
         Entry(title: title,
+              mood: mood,
               bodyText: body,
               context: CoreDataStack.shared.mainContext)
         do {
