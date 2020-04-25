@@ -12,6 +12,7 @@ class CreateEntryViewController: UIViewController {
     
     // MARK: - IBOutlets
     @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var moodControl: UISegmentedControl!
     @IBOutlet weak var bodyTextTextField: UITextView!
     
     // MARK: - IBActions
@@ -20,8 +21,14 @@ class CreateEntryViewController: UIViewController {
             !title.isEmpty,
             let body = bodyTextTextField.text,
             !body.isEmpty else { return }
-                
-        Entry(title: title, bodyText: body, context: CoreDataStack.shared.mainContext)
+        
+        let selectedMood = moodControl.selectedSegmentIndex
+        let mood = Mood.allCases[selectedMood]
+        
+        Entry(title: title,
+              bodyText: body,
+              mood: mood,
+              context: CoreDataStack.shared.mainContext)
         
         do {
             try CoreDataStack.shared.mainContext.save()

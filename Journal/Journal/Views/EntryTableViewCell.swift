@@ -11,6 +11,7 @@ import UIKit
 class EntryTableViewCell: UITableViewCell {
     
     // MARK: - Properties
+    static let reuseIdentifier = "EntryCell"
     var entry: Entry? {
         didSet {
             updateViews()
