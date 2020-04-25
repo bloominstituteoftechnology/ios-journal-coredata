@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="tQ2-oI-7UA">
-                                <rect key="frame" x="20" y="94" width="374" height="255"/>
+                                <rect key="frame" x="20" y="94" width="374" height="301"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Journal Entry Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DDq-rH-0E0">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="40"/>
@@ -26,8 +26,16 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="4hn-7f-4W9">
+                                        <rect key="frame" x="0.0" y="55" width="374" height="32"/>
+                                        <segments>
+                                            <segment title="Happy"/>
+                                            <segment title="Sad"/>
+                                            <segment title="Neutral"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="9Rh-wC-bNl">
-                                        <rect key="frame" x="0.0" y="55" width="374" height="200"/>
+                                        <rect key="frame" x="0.0" y="101" width="374" height="200"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kdk-bN-djx">
                                                 <rect key="frame" x="0.0" y="0.0" width="60" height="30"/>
@@ -49,7 +57,7 @@
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="z36-n9-Grf">
                                                 <rect key="frame" x="0.0" y="48" width="374" height="152"/>
                                                 <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
@@ -58,12 +66,17 @@
                                             <constraint firstAttribute="height" constant="200" id="2Fq-sG-boC"/>
                                             <constraint firstItem="z36-n9-Grf" firstAttribute="top" secondItem="IUc-0P-mSl" secondAttribute="bottom" constant="8" id="4E1-mI-9a4"/>
                                             <constraint firstAttribute="trailing" secondItem="z36-n9-Grf" secondAttribute="trailing" id="thN-fP-QE0"/>
+                                            <constraint firstItem="IUc-0P-mSl" firstAttribute="top" secondItem="Kdk-bN-djx" secondAttribute="bottom" constant="8" id="xWM-Id-qSZ"/>
                                         </constraints>
                                     </stackView>
                                 </subviews>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="4hn-7f-4W9" secondAttribute="trailing" id="4YE-2w-9pt"/>
+                                    <constraint firstItem="4hn-7f-4W9" firstAttribute="top" secondItem="DDq-rH-0E0" secondAttribute="bottom" constant="15" id="C7P-X0-3W1"/>
                                     <constraint firstItem="9Rh-wC-bNl" firstAttribute="leading" secondItem="tQ2-oI-7UA" secondAttribute="leading" id="SDU-9N-oKX"/>
+                                    <constraint firstItem="4hn-7f-4W9" firstAttribute="leading" secondItem="tQ2-oI-7UA" secondAttribute="leading" id="ZjE-8h-RCy"/>
                                     <constraint firstAttribute="trailing" secondItem="9Rh-wC-bNl" secondAttribute="trailing" id="eCk-PL-5fr"/>
+                                    <constraint firstItem="9Rh-wC-bNl" firstAttribute="top" secondItem="4hn-7f-4W9" secondAttribute="bottom" constant="15" id="oVD-k1-cvK"/>
                                     <constraint firstItem="9Rh-wC-bNl" firstAttribute="top" secondItem="DDq-rH-0E0" secondAttribute="bottom" constant="15" id="tMb-ou-Jcl"/>
                                 </constraints>
                             </stackView>
@@ -89,6 +102,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="emojiMoodControl" destination="4hn-7f-4W9" id="YhX-w9-pDJ"/>
                         <outlet property="journalTextView" destination="z36-n9-Grf" id="bNM-O0-qgi"/>
                         <outlet property="titleTextField" destination="DDq-rH-0E0" id="PCw-db-usl"/>
                     </connections>
@@ -106,7 +120,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="222" id="6DE-rJ-HXR" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="222" id="6DE-rJ-HXR" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="222"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6DE-rJ-HXR" id="L2g-ax-FAI">

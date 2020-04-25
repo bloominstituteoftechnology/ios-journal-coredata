@@ -11,46 +11,47 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
 
-    var entries: [Entry] {
-        // Fetch Request to fetch Tasks specifically
+    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+       
+        // I want to fetch Tasks from Core Data
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
-        // Context you want to fetch the model objects into
-        let context = CoreDataStack.shared.mainContext
+        var moodSort = NSSortDescriptor(key: "mood", ascending: true)
+        var timeStampSort = NSSortDescriptor(key: "timestamp", ascending: true)
         
-        do {
-            let fetchedTasks = try context.fetch(fetchRequest)
-            
-            return fetchedTasks
-        } catch {
-            NSLog("Error fetching tasks: \(error)")
-            return []
-        }
-    }
+        fetchRequest.sortDescriptors = [moodSort, timeStampSort]
+        
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
+                                             managedObjectContext: CoreDataStack.shared.mainContext,
+                                             sectionNameKeyPath: <#T##String?#>,
+                                             cacheName: <#T##String?#>)
+        frc.delegate = self
+        
+        try! frc.performFetch()
+        
+        return frc
+    }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
     }
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
-    }
-
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return entries.count
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as! EntryTableViewCell
 
-        // Configure the cell...
-
+        let entry = fetchedResultsController.object(at: indexPath)
+        
+        cell.entry = entry
+        
         return cell
     }
     

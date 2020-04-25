@@ -13,6 +13,7 @@ class CreateEntryViewController: UIViewController {
     // MARK: IBOutlets
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var journalTextView: UITextView!
+    @IBOutlet weak var emojiMoodControl: UISegmentedControl!
     
     
     override func viewDidLoad() {
@@ -33,7 +34,15 @@ class CreateEntryViewController: UIViewController {
         
         guard let journal = journalTextView.text,
             !journal.isEmpty else { return }
-        Entry(title: title, bodyText: journal, context: CoreDataStack.shared.mainContext)
+        
+        let selectedMood = emojiMoodControl.selectedSegmentIndex
+        
+        let mood = Mood.allCases[selectedMood]
+        
+        Entry(title: title,
+              bodyText: journal,
+              mood: mood,
+              context: CoreDataStack.shared.mainContext)
         
         do {
             try CoreDataStack.shared.mainContext.save()
