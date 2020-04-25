@@ -12,6 +12,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +30,14 @@ class ViewController: UIViewController {
             !title.isEmpty,
             !body.isEmpty else { return }
         
-        Entry(title: title, bodyText: body)
+        
+        let selectedMood = segmentedControl.selectedSegmentIndex
+        
+        let mood = Mood.allCases[selectedMood]
+        
+        Entry(title: title,
+              bodyText: body,
+              mood: mood)
         
         do {
             try CoreDataStack.shared.mainContext.save()
