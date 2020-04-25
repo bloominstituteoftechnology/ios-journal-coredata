@@ -148,7 +148,7 @@
                                     <outlet property="entryDate" destination="JdF-1D-0Hk" id="idF-ws-vC5"/>
                                     <outlet property="entryDes" destination="a0l-bE-Snx" id="ZZN-zy-XjT"/>
                                     <outlet property="entryTitle" destination="Zk6-n1-eDk" id="n0X-1t-TbR"/>
-                                    <segue destination="JOY-Cs-INQ" kind="show" trigger="accessoryAction" id="7Av-3p-8ui"/>
+                                    <segue destination="JOY-Cs-INQ" kind="show" identifier="showDetail" trigger="accessoryAction" id="7Av-3p-8ui"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -176,10 +176,55 @@
                     <view key="view" contentMode="scaleToFill" id="W75-19-KhQ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="9oo-uk-taw">
+                                <rect key="frame" x="20" y="108" width="374" height="234"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Journal Title" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0pN-d0-o9u">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="39"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ZvC-IL-P2A">
+                                        <rect key="frame" x="0.0" y="47" width="374" height="32"/>
+                                        <segments>
+                                            <segment title="😀"/>
+                                            <segment title="😔"/>
+                                            <segment title="😶"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pHY-I2-EuP">
+                                        <rect key="frame" x="0.0" y="86" width="374" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="hI8-R3-NOa">
+                                        <rect key="frame" x="0.0" y="114.5" width="374" height="119.5"/>
+                                        <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="9oo-uk-taw" firstAttribute="leading" secondItem="ebS-tZ-a1O" secondAttribute="leading" constant="20" id="9uo-qp-rgx"/>
+                            <constraint firstItem="ebS-tZ-a1O" firstAttribute="trailing" secondItem="9oo-uk-taw" secondAttribute="trailing" constant="20" id="Jdh-eI-8xR"/>
+                            <constraint firstItem="ebS-tZ-a1O" firstAttribute="bottom" secondItem="9oo-uk-taw" secondAttribute="bottom" constant="520" id="u6f-Hd-cbV"/>
+                            <constraint firstItem="9oo-uk-taw" firstAttribute="top" secondItem="ebS-tZ-a1O" secondAttribute="top" constant="20" id="w8z-kd-h0X"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="ebS-tZ-a1O"/>
                     </view>
                     <navigationItem key="navigationItem" title="Entry Details" id="Rt1-sN-VAW"/>
+                    <connections>
+                        <outlet property="journalMood" destination="ZvC-IL-P2A" id="mZe-0f-HK4"/>
+                        <outlet property="journalText" destination="hI8-R3-NOa" id="wn6-aw-7Xw"/>
+                        <outlet property="journalTitle" destination="0pN-d0-o9u" id="5ld-kE-hGK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4kj-Gk-V2m" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
