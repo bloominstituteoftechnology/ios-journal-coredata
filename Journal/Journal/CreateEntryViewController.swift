@@ -21,7 +21,7 @@ class CreateEntryViewController: UIViewController {
     
     @IBOutlet weak var journalText: UITextView!
     
-    @IBAction func cancelButton(_ sender: UIBarButtonItem) {
+    @IBAction func cancelButton(_ sender: Any) {
         navigationController?.dismiss(animated: true, completion: nil)
     }
     

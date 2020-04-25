@@ -16,6 +16,13 @@ class EntryTableViewCell: UITableViewCell {
     
     @IBOutlet weak var entryDes: UILabel!
     
+    var dateFormatter: DateFormatter {
+              let formatter = DateFormatter()
+              formatter.dateFormat = "MMM/dd/yy, HH:mm"
+              formatter.timeZone = TimeZone(secondsFromGMT: 0)
+              return formatter
+          }
+    
     var entry: Entry? {
         didSet {
             updateViews()
@@ -25,8 +32,9 @@ class EntryTableViewCell: UITableViewCell {
     func updateViews() {
         guard let entry = entry else { return }
         entryTitle.text = entry.title
-        //entryDate.text = String(entry.timestamp)
+        entryDate.text = dateFormatter.string(from: entry.timestamp!)
         entryDes.text = entry.bodyText
+    
     }
     
     
