@@ -23,8 +23,8 @@ class EntryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let editButtonItem = UIBarButtonItem()
-        navigationItem.rightBarButtonItem = editButtonItem
+navigationItem.rightBarButtonItem = editButtonItem
+
         updateViews()
     }
     
@@ -35,6 +35,39 @@ class EntryDetailViewController: UIViewController {
         
         journalTitle.text = entry.title
         journalText.text = entry.bodyText
+        
+        journalTitle.isUserInteractionEnabled = isEditing
+        journalMood.isUserInteractionEnabled = isEditing
+        journalText.isUserInteractionEnabled = isEditing
+    }
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: true)
+        
+        if editing == true {
+            wasEdited = true
+        }
+        journalTitle.isUserInteractionEnabled = editing
+        journalMood.isUserInteractionEnabled = editing
+        journalText.isUserInteractionEnabled = editing
+        
+        navigationItem.hidesBackButton = editing
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if wasEdited == true {
+            let selectedMood = journalMood.selectedSegmentIndex
+            entry!.mood = EntryMood.allCases[selectedMood].rawValue
+            entry?.bodyText = journalText.text
+            entry?.title = journalTitle.text
+        }
+        do {
+            try CoreDataStack.shared.mainContext.save()
+            navigationController?.dismiss(animated: true, completion: nil)
+        } catch {
+            NSLog("Error saving manage object contedxt: \(error)")
+        }
     }
     
 
