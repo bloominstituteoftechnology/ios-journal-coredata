@@ -11,6 +11,13 @@ import UIKit
 class EntryTableViewCell: UITableViewCell {
     
     // MARK: - Properties
+    let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter
+    }()
+    
     static let reuseIdentifier = "EntryCell"
     var entry: Entry? {
         didSet {
@@ -35,8 +42,9 @@ class EntryTableViewCell: UITableViewCell {
     
     func updateViews() {
         guard let entry = entry else { return }
+        
         titleLabel.text = entry.title
-        timeStampLabel.text = "\(entry.timeStamp ?? Date())"
+        timeStampLabel.text = "\(dateFormatter.string(from: entry.timeStamp!))"
         bodyTextLabel.text = entry.bodyText
     }
 }
