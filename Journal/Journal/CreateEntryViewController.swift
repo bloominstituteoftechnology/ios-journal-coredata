@@ -33,7 +33,8 @@ class CreateEntryViewController: UIViewController {
         // Grab the individual values from the views
            guard let title = journalText.text, !title.isEmpty else { return }
            
-           let bodyText = journalText.text
+        guard let bodyText = journalText.text, !bodyText.isEmpty else { return }
+          
           // timestamp = DateFormatter.string(from: timestamp)
            
         Entry(title: title, timestamp: timestamp, bodyText: bodyText, context: CoreDataStack.shared.mainContext)
