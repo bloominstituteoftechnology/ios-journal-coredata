@@ -19,6 +19,7 @@ class EntryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.rightBarButtonItem = editButtonItem
         updateViews()
     }
     
@@ -56,18 +57,16 @@ class EntryDetailViewController: UIViewController {
             titleTextField.isUserInteractionEnabled = editing
             notesTextView.isUserInteractionEnabled = editing
             moodSegmentedControl.isUserInteractionEnabled = editing
-            navigationItem.hidesBackButton = editing
+//            navigationItem.hidesBackButton = editing
         }
-    }
-    
-    @IBAction func editButton(_ sender: UIBarButtonItem) {
-        
     }
     
     func updateViews() {
         titleTextField.text = entry?.title
         notesTextView.text = entry?.bodyText
         
+        titleTextField.isUserInteractionEnabled = isEditing
+        notesTextView.isUserInteractionEnabled = isEditing
         moodSegmentedControl.isUserInteractionEnabled = isEditing
     }
     
