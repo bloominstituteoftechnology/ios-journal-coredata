@@ -25,7 +25,7 @@ class EntryDetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if wasEdited {
+        if wasEdited == true {
             if let title = titleTextField.text,
                 !title.isEmpty,
                 let notes = notesTextView.text,
@@ -51,19 +51,31 @@ class EntryDetailViewController: UIViewController {
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: true)
+        super.setEditing(editing, animated: animated)
         if editing {
             wasEdited = true
-            titleTextField.isUserInteractionEnabled = editing
-            notesTextView.isUserInteractionEnabled = editing
-            moodSegmentedControl.isUserInteractionEnabled = editing
-//            navigationItem.hidesBackButton = editing
+            
         }
+        titleTextField.isUserInteractionEnabled = editing
+        notesTextView.isUserInteractionEnabled = editing
+        moodSegmentedControl.isUserInteractionEnabled = editing
+        navigationItem.hidesBackButton = editing
     }
     
     func updateViews() {
         titleTextField.text = entry?.title
         notesTextView.text = entry?.bodyText
+        
+        switch entry?.mood {
+        case Mood.sad.rawValue:
+            moodSegmentedControl.selectedSegmentIndex = 0
+        case Mood.neutral.rawValue:
+            moodSegmentedControl.selectedSegmentIndex = 1
+        case Mood.happy.rawValue:
+            moodSegmentedControl.selectedSegmentIndex = 2
+        default:
+            break
+        }
         
         titleTextField.isUserInteractionEnabled = isEditing
         notesTextView.isUserInteractionEnabled = isEditing
