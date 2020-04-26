@@ -29,3 +29,7 @@ class CoreDataStack {
         return container.viewContext
     }
 }
+
+extension NSManagedObjectContext {
+    static let mainContext = CoreDataStack.shared.mainContext
+}
