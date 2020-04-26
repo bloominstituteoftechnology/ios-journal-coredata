@@ -80,7 +80,7 @@ class EntriesTableViewController: UITableViewController {
             } catch {
                 NSLog("Error deleting object: \(error)")
             }
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            //tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
 
