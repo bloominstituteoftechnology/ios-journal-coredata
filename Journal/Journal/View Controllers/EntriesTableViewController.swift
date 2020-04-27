@@ -113,7 +113,6 @@ class EntriesTableViewController: UITableViewController {
                 NSLog("Error saviing context after deleting Entry: \(error)")
                 context.reset()
             }
-            tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
     
@@ -133,7 +132,6 @@ class EntriesTableViewController: UITableViewController {
             if let editVC = segue.destination as? EntryDetailViewController {
                 if let indextPath = tableView.indexPathForSelectedRow {
                 editVC.entry = entryFor(indexPath: indextPath)
-             //       editVC.delegate = self
                 }
             }
         }

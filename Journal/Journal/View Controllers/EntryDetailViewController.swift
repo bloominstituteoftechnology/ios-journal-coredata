@@ -17,7 +17,6 @@ class EntryDetailViewController: UIViewController {
     
     @IBOutlet weak var journalTitle: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
-    
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
     
@@ -30,6 +29,7 @@ class EntryDetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
         if wasEdited {
             guard let title = journalTitle.text,
                        let body = entryTextView.text,
@@ -50,7 +50,7 @@ class EntryDetailViewController: UIViewController {
                    } catch {
                        NSLog("Error saving managed object context: \(error)")
                    }
-        }
+        } 
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {
@@ -61,6 +61,10 @@ class EntryDetailViewController: UIViewController {
             entryTextView.isUserInteractionEnabled = editing
             segmentedControl.isUserInteractionEnabled = editing
             navigationItem.hidesBackButton = editing
+        } else if !editing {
+            journalTitle.isUserInteractionEnabled = false
+            entryTextView.isUserInteractionEnabled = false
+            segmentedControl.isUserInteractionEnabled = false
         }
     }
     
