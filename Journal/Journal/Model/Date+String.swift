@@ -14,5 +14,5 @@ extension Date {
         let dateFormat = DateFormatter()
         dateFormat.dateFormat = format
         return dateFormat.string(from: self)
-    } 
+    }
 }

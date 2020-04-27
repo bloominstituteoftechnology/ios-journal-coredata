@@ -16,6 +16,7 @@ class CreateEntryViewController: UIViewController {
     // MARK: - IBOutlets
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var moodControl: UISegmentedControl!
     
     
     // MARK: - IBActions
@@ -25,7 +26,10 @@ class CreateEntryViewController: UIViewController {
             let bodyText = bodyTextView.text,
             !bodyText.isEmpty else { return }
         
-        Entry(title: title, bodyText: bodyText, timestamp: timestamp, context: CoreDataStack.shared.mainContext)
+        let selectedMood = moodControl.selectedSegmentIndex
+        let mood = Mood.allCases[selectedMood]
+        
+        Entry(title: title, bodyText: bodyText, timestamp: timestamp, mood: mood, context: CoreDataStack.shared.mainContext)
         
         do {
             try CoreDataStack.shared.mainContext.save()
@@ -39,12 +43,4 @@ class CreateEntryViewController: UIViewController {
     @IBAction func cancelButtonTapped(_ sender: Any) {
         navigationController?.dismiss(animated: true, completion: nil)
     }
-    
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-
-
 }
