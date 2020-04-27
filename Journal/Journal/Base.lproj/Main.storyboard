@@ -39,8 +39,16 @@
                                                     <constraint firstAttribute="height" constant="2" id="rhO-25-Keb"/>
                                                 </constraints>
                                             </view>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="mJ6-FE-baR">
+                                                <rect key="frame" x="0.0" y="38.5" width="374" height="32"/>
+                                                <segments>
+                                                    <segment title="Sad"/>
+                                                    <segment title="Neutral"/>
+                                                    <segment title="Happy"/>
+                                                </segments>
+                                            </segmentedControl>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Qml-CR-UWS">
-                                                <rect key="frame" x="0.0" y="38.5" width="374" height="150.5"/>
+                                                <rect key="frame" x="0.0" y="77.5" width="374" height="111.5"/>
                                                 <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -76,6 +84,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bodyTextView" destination="Qml-CR-UWS" id="kIr-Jl-dTb"/>
+                        <outlet property="moodSegmentedControl" destination="mJ6-FE-baR" id="7pb-h0-Dxm"/>
                         <outlet property="titleTextField" destination="8FY-UX-TYu" id="oYD-6u-l29"/>
                     </connections>
                 </viewController>

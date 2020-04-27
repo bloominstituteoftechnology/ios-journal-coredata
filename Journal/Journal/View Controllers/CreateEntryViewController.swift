@@ -12,9 +12,11 @@ class CreateEntryViewController: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpMoodSegmentedControl()
         // Do any additional setup after loading the view.
     }
 
@@ -42,6 +44,12 @@ class CreateEntryViewController: UIViewController {
         } catch {
             NSLog("Error saving manage object context: \(error)")
         }
+    }
+    
+    func setUpMoodSegmentedControl() {
+        moodSegmentedControl.setTitle("😢", forSegmentAt: 0)
+        moodSegmentedControl.setTitle("😐", forSegmentAt: 1)
+        moodSegmentedControl.setTitle("😊", forSegmentAt: 2)
     }
 }
 
