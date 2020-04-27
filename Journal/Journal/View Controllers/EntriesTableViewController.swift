@@ -33,7 +33,8 @@ class EntriesTableViewController: UITableViewController {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         
         fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "mood", ascending: true)
+            NSSortDescriptor(key: "mood", ascending: true),
+            NSSortDescriptor(key: "timestamp", ascending: true)
         ]
         
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
@@ -84,6 +85,19 @@ class EntriesTableViewController: UITableViewController {
         return cell
     }
     
+    
+    private func entryFor(indexPath: IndexPath) -> Entry {
+        var journalEntry: Entry?
+        if indexPath.section == 0 {
+            journalEntry = fetchedResultsController.object(at: indexPath)
+        } else if indexPath.section == 1 {
+            journalEntry = fetchedResultsController.object(at: indexPath)
+        } else if indexPath.section == 2 {
+            journalEntry = fetchedResultsController.object(at: indexPath)
+        }
+        return journalEntry!
+    }
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -111,30 +125,18 @@ class EntriesTableViewController: UITableViewController {
     }
     
     
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ShowEntry" {
-            //  if let detailVC = segue.destination as? ShowJournalDetailViewController
+        if segue.identifier == "EntryDetailSegue" {
+            if let editVC = segue.destination as? EntryDetailViewController {
+                if let indextPath = tableView.indexPathForSelectedRow {
+                editVC.entry = entryFor(indexPath: indextPath)
+             //       editVC.delegate = self
+                }
+            }
         }
-        // work on detail vc after tappinig on cell
     }
 }
 
@@ -183,5 +185,10 @@ extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
              break
          }
      }
-    
+}
+
+extension EntriesTableViewController: EntryDelegate {
+    func entryWasCreated(_ entry: Entry) {
+       let x = 1
+    }
 }

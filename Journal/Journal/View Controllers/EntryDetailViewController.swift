@@ -23,6 +23,7 @@ class EntryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        changeValue(sender: segmentedControl)
         navigationItem.rightBarButtonItem = editButtonItem
         updateViews()
     }
@@ -65,9 +66,24 @@ class EntryDetailViewController: UIViewController {
     
     func updateViews() {
         guard let entry = entry else { return }
+        var which: Int = 0
         journalTitle.text = entry.title
         entryTextView.text = entry.bodyText
         segmentedControl.isUserInteractionEnabled = isEditing
+        switch entry.mood {
+        case "😀":
+            which = 0
+             segmentedControl.selectedSegmentTintColor = UIColor.green
+        case "😫":
+            which = 1
+            segmentedControl.selectedSegmentTintColor = UIColor.brown
+        case "😐":
+            which = 2
+            segmentedControl.selectedSegmentTintColor = UIColor.orange
+        default:
+            break
+        }
+        segmentedControl.selectedSegmentIndex = which
     }
 
     /*
@@ -79,5 +95,18 @@ class EntryDetailViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    func changeValue(sender: UISegmentedControl) {
+          let i = sender.selectedSegmentIndex
+              if i == 0 {
+                  segmentedControl.selectedSegmentTintColor = UIColor.green
+              } else if i == 1 {
+                  segmentedControl.selectedSegmentTintColor = UIColor.brown
+              } else if i == 2 {
+                  segmentedControl.selectedSegmentTintColor = UIColor.orange
+              }
+      }
+      
+    @IBAction func sControl(_ sender: UISegmentedControl) {
+        changeValue(sender: sender)
+    }
 }

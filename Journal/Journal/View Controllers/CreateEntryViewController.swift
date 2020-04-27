@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol EntryDelegate {
+    func entryWasCreated(_ entry: Entry)
+}
+
 class ViewController: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
@@ -16,10 +20,23 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-       
+        changeValue(sender: segmentedControl)
     }
-
+    
+    var delegate: EntryDelegate?
+    
+    
+    func changeValue(sender: UISegmentedControl) {
+        let i = sender.selectedSegmentIndex
+            if i == 0 {
+                segmentedControl.selectedSegmentTintColor = UIColor.green
+            } else if i == 1 {
+                segmentedControl.selectedSegmentTintColor = UIColor.brown
+            } else if i == 2 {
+                segmentedControl.selectedSegmentTintColor = UIColor.orange
+            }
+    }
+    
     @IBAction func cancelCreate(_ sender: Any) {
         navigationController?.dismiss(animated: true)
     }
@@ -45,6 +62,9 @@ class ViewController: UIViewController {
         } catch {
             NSLog("Error saving managed object context: \(error)")
         }
+    }
+    @IBAction func sControl(_ sender: UISegmentedControl) {
+        changeValue(sender: sender)
     }
 }
 
