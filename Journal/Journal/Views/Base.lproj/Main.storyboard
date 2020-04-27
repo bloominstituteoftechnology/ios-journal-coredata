@@ -26,11 +26,11 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="YEo-EE-QK4">
                                             <rect key="frame" x="20" y="10" width="374" height="120"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="238" translatesAutoresizingMaskIntoConstraints="NO" id="o3Z-Kr-6Mc">
+                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="100" translatesAutoresizingMaskIntoConstraints="NO" id="o3Z-Kr-6Mc">
                                                     <rect key="frame" x="0.0" y="0.0" width="374" height="24"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4wd-AX-Yuu">
-                                                            <rect key="frame" x="0.0" y="0.0" width="42" height="24"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4wd-AX-Yuu">
+                                                            <rect key="frame" x="0.0" y="0.0" width="180" height="24"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -74,7 +74,6 @@
                     <navigationItem key="navigationItem" title="Journal" id="neU-xm-NV0">
                         <barButtonItem key="rightBarButtonItem" image="plus.app" catalog="system" id="8AP-hS-ndE">
                             <connections>
-                                <action selector="createEntryButtonTapped:" destination="yax-nz-6K1" id="fTZ-H8-XXo"/>
                                 <segue destination="7QV-w8-SYC" kind="presentation" identifier="CreateEntrySegue" modalPresentationStyle="fullScreen" id="A3b-6b-uBo"/>
                             </connections>
                         </barButtonItem>
@@ -156,7 +155,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1982.608695652174" y="-313.39285714285711"/>
+            <point key="canvasLocation" x="1857" y="-313"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="tFf-HV-LKx">
@@ -174,7 +173,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9OD-4A-ApX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-562.31884057971024" y="95.758928571428569"/>
+            <point key="canvasLocation" x="-346" y="96"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="PNU-ue-361">

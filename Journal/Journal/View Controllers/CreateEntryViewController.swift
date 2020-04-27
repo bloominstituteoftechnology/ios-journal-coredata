@@ -25,7 +25,7 @@ class CreateEntryViewController: UIViewController {
             let bodyText = bodyTextView.text,
             !bodyText.isEmpty else { return }
         
-        let entry = Entry(title: title, bodyText: bodyText, timestamp: timestamp, context: CoreDataStack.shared.mainContext)
+        Entry(title: title, bodyText: bodyText, timestamp: timestamp, context: CoreDataStack.shared.mainContext)
         
         do {
             try CoreDataStack.shared.mainContext.save()

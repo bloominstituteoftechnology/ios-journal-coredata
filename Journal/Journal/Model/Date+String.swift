@@ -7,3 +7,12 @@
 //
 
 import Foundation
+import CoreData
+
+extension Date {
+    func getFormattedDate(format: String) -> String {
+        let dateFormat = DateFormatter()
+        dateFormat.dateFormat = format
+        return dateFormat.string(from: self)
+    } 
+}

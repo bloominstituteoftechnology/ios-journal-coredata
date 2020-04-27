@@ -11,29 +11,28 @@ import UIKit
 class EntryTableViewCell: UITableViewCell {
     
     // MARK: - Properties
+    static var reuseIdentifier = "EntryCell"
+    
     var entry: Entry? {
         didSet {
             updateViews()
         }
     }
+    var date = Date()
     
     // MARK: - IBOutlets
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var entryLabel: UILabel!
     
-    
-    // MARK: - IBActions
-    @IBAction func createEntryButtonTapped(_ sender: Any) {
-        
-    }
-    
-    
+ 
     // MARK: - Methods
     func updateViews() {
-        titleLabel.text = entry?.title
-        timestampLabel.text = "\(entry?.timestamp)"
-        entryLabel.text = entry?.bodyText
+        guard let entry = entry else { return }
+        
+        titleLabel.text = entry.title
+        entryLabel.text = entry.bodyText
+        timestampLabel.text = date.getFormattedDate(format: "MM/dd/yy, HH:mm")
     }
 
     override func awakeFromNib() {
