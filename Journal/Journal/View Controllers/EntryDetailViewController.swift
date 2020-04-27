@@ -25,19 +25,17 @@ class EntryDetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if wasEdited == true {
+        if wasEdited {
             if let title = titleTextField.text,
                 !title.isEmpty,
                 let notes = notesTextView.text,
                 !notes.isEmpty {
                 
-                let selectedMood = moodSegmentedControl.selectedSegmentIndex
-                let mood = Mood.allCases[selectedMood]
+                entry?.title = title
+                entry?.bodyText = notes
                 
-                Entry(title: title,
-                      bodyText: notes,
-                      mood: mood,
-                      context: CoreDataStack.shared.mainContext)
+                let moodIndex = moodSegmentedControl.selectedSegmentIndex
+                entry?.mood = Mood.allCases[moodIndex].rawValue
                 
                 do {
                     try CoreDataStack.shared.mainContext.save()
@@ -52,13 +50,12 @@ class EntryDetailViewController: UIViewController {
     
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
-        if editing {
-            wasEdited = true
-            
-        }
+        if editing { wasEdited = true }
+        
         titleTextField.isUserInteractionEnabled = editing
         notesTextView.isUserInteractionEnabled = editing
         moodSegmentedControl.isUserInteractionEnabled = editing
+        
         navigationItem.hidesBackButton = editing
     }
     
