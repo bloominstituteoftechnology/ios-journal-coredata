@@ -32,6 +32,7 @@ class CreateEntryViewController: UIViewController {
             NSLog("Could not save new user entry: \(error)")
         }
         
+        navigationController?.dismiss(animated: true, completion: nil)
         
     }
     
