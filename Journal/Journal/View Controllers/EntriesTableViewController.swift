@@ -11,19 +11,6 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
-//    var entries: [Entry] {
-//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//
-//        let context = CoreDataStack.shared.mainContext
-//
-//        do {
-//            return try context.fetch(fetchRequest)
-//        } catch {
-//            NSLog("Error fetching entries: \(error)")
-//            return []
-//        }
-//    }
-    
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
        
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -93,7 +80,6 @@ class EntriesTableViewController: UITableViewController {
                 NSLog("Error saving context after deleting entry: \(error)")
                 context.reset()
             }
-            tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
     
