@@ -11,6 +11,9 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
+    // MARK: - Properties
+    let taskController = TaskController()
+    
     //    var entrys: [Entry] {
     //        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
     //
@@ -104,8 +107,6 @@ class EntriesTableViewController: UITableViewController {
                 NSLog("Error saving context after deleting Task: \(error)")
                 context.reset()
             }
-            
-            tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
     
@@ -120,11 +121,20 @@ class EntriesTableViewController: UITableViewController {
     
      // MARK: - Navigation
      
-//     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//         if segue.identifier == "DetailSegue" {
-//                  let createEntryVC = segue.destination as! EntryDetailViewController
-//        }
-//    }
+override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "ShowDetailSegue" {
+        if let detailVC = segue.destination as? EntryDetailViewController,
+            let indexPath = tableView.indexPathForSelectedRow {
+            detailVC.entry = fetchedResultsController.object(at: indexPath)
+            detailVC.taskController = taskController
+        }
+    } else if segue.identifier == "CreateEntryModalSegue" {
+            if let navC = segue.destination as? UINavigationController,
+                let createEntryVC = navC.viewControllers.first as? CreateEntryViewController {
+                createEntryVC.taskController = taskController
+        }
+    }
+}
 }
 
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {

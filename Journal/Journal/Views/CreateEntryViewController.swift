@@ -10,6 +10,9 @@ import UIKit
 
 class CreateEntryViewController: UIViewController {
     
+    // MARK: - Properties
+    var taskController: TaskController?
+    
     // MARK: - IBOutlets
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var moodControl: UISegmentedControl!

@@ -13,13 +13,18 @@ class EntryDetailViewController: UIViewController {
     // MARK: - Properties
     var entry: Entry?
     var wasEdited: Bool = false
+    var taskController: TaskController?
     
     // MARK: - IBOutlets
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var moodControl: UISegmentedControl!
     @IBOutlet weak var bodyTextField: UITextView!
     
-
+    // MARK: - IBActions
+    @IBAction func moodControlChanged(_ sender: Any) {
+        wasEdited = true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -28,62 +33,78 @@ class EntryDetailViewController: UIViewController {
         updateViews()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
+    override func viewWillDisappear(_ animated: Bool) {
+         super.viewWillDisappear(animated)
+         
+         if wasEdited {
+             guard let title = titleTextField.text,
+                 !title.isEmpty,
+                 let entry = entry else {
+                 return
+             }
+             let body = bodyTextField.text
+             entry.title = title
+             entry.bodyText = body
+             let priorityIndex = moodControl.selectedSegmentIndex
+             entry.mood = Mood.allCases[priorityIndex].rawValue
+//            taskController?.put(entry: entry, completion: { _ in })
+//             do {
+//                 try CoreDataStack.shared.mainContext.save()
+//             } catch {
+//                 NSLog("Error saving managed object context: \(error)")
+//             }
+         }
+     }
+    
     
     func updateViews() {
-        guard let entry = entry else { return }
-        titleTextField.text = entry.title
+        titleTextField.text = entry?.title
         titleTextField.isUserInteractionEnabled = isEditing
         
-//        moodControl.selectedSegmentIndex = entry.mood
+        let mood: Mood
+        if let chosenMood = entry?.mood {
+          mood = Mood(rawValue: chosenMood)!
+        } else {
+            mood = .neutral
+        }
+        moodControl.selectedSegmentIndex = Mood.allCases.firstIndex(of: mood) ?? 1
+        moodControl.isUserInteractionEnabled = isEditing
         
-        bodyTextField.text = entry.bodyText
+        bodyTextField.text = entry?.bodyText
         bodyTextField.isUserInteractionEnabled = isEditing
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         
-        if editing == true {
-            wasEdited = true
-            titleTextField.isUserInteractionEnabled = editing
-            bodyTextField.isUserInteractionEnabled = editing
-            navigationItem.hidesBackButton = editing
-        }
+         if editing { wasEdited = true }
+              
+              titleTextField.isUserInteractionEnabled = editing
+              bodyTextField.isUserInteractionEnabled = editing
+              moodControl.isUserInteractionEnabled = editing
+              navigationItem.hidesBackButton = editing
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if wasEdited == true {
+    @objc func save() {
             guard let title = titleTextField.text,
                 !title.isEmpty else { return }
-            
+
             guard let body = bodyTextField.text,
                 !body.isEmpty else { return }
-            
+
             let selctedPriority = moodControl.selectedSegmentIndex
             let mood = Mood.allCases[selctedPriority]
-            
+
             Entry(title: title,
                   bodyText: body,
                   mood: mood,
                   context: CoreDataStack.shared.mainContext)
-            
+
             do {
                 try CoreDataStack.shared.mainContext.save()
                 navigationController?.dismiss(animated: true, completion: nil)
             } catch {
                 NSLog("Error saving manage object context: \(error)")
-            }
         }
     }
 }
