@@ -13,6 +13,6 @@ struct EntryRepresentation: Codable {
     var identifier: String
     var title: String
     var bodyText: String
-    var timestamp: String
+    var timestamp: Date
     var mood: String
 }

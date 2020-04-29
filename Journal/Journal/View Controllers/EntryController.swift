@@ -118,15 +118,15 @@ class EntryContoller {
             
             // Let's update the entries that already exist in Core Data
             
-            for task in existingEntries {
+            for entry in existingEntries {
                 
                 guard let id = entry.identifier,
                     let representation = representationsByID[id] else { continue }
                 
-                entry.title = representation.name
-                entry.bodyText = representation.notes
+                entry.title = representation.title
+                entry.bodyText = representation.bodyText
                 entry.timestamp = representation.timestamp
-                entry.mood = representation.priority
+                entry.mood = representation.mood
                 
                 // If we updated the entry, that means we don't need to make a copy of it. It already exists in Core Data, so remove it from the entries we still need to create
                 

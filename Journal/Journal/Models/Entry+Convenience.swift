@@ -21,7 +21,7 @@ extension Entry {
                                         title: String,
                                         bodyText: String,
                                         timestamp: Date = Date(),
-                                        mood: Mood,
+                                        mood: String,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(context: context)
@@ -30,7 +30,7 @@ extension Entry {
         self.title = title
         self.bodyText = bodyText
         self.timestamp = timestamp
-        self.mood = mood.rawValue
+        self.mood = mood
     }
     
     @discardableResult convenience init?(entryRepresentation: EntryRepresentation,
@@ -38,38 +38,36 @@ extension Entry {
         guard let identifier = UUID(uuidString: entryRepresentation.identifier) else {
             return nil
         }
-  
+        // convert string to date
         self.init(identifier: identifier,
                   title: entryRepresentation.title,
                   bodyText: entryRepresentation.bodyText,
                   timestamp: entryRepresentation.timestamp,
-                  mood: entryRepresentation.mood,
-                  context: entryRepresentation.context)
+                  mood: entryRepresentation.mood)
+                 
     }
     
     var entryRepresentation: EntryRepresentation? {
         guard let title = title,
             let bodyText = bodyText,
-            let timestamp = timestamp,
+            let timeStamp = timestamp,
+            let id = identifier,
             let mood = mood else { return  nil }
-        
-        let id = identifier ?? UUID()
-        
-        
-        
-        let encoder = JSONEncoder()
-        encoder.outputFormatting = .prettyPrinted
-        
-        do {
-            let timestampData = try encoder.encode(timestamp)
-        } catch {
-            NSLog("Oops \(error)")
-        }
+
+      
         
         return EntryRepresentation(identifier: id.uuidString,
                                   title: title,
                                   bodyText: bodyText,
-                                  timestamp: timestampData,
+                                  timestamp: timeStamp,
                                   mood: mood)
+    }
+}
+
+extension Date {
+    func getFormattedDate(format: String) -> String {
+        let dateFormat = DateFormatter()
+        dateFormat.dateFormat = format
+        return dateFormat.string(from: self)
     }
 }

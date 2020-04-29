@@ -26,6 +26,8 @@ class EntryDetailViewController: UIViewController {
         changeValue(sender: segmentedControl)
         navigationItem.rightBarButtonItem = editButtonItem
         updateViews()
+        /// hopefully keeps the title edit mode
+        journalTitle.clearsOnBeginEditing = false
     }
     
     override func viewWillDisappear(_ animated: Bool) {

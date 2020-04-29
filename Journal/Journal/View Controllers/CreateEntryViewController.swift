@@ -49,7 +49,7 @@ class ViewController: UIViewController {
         
         let entry = Entry(title: title,
               bodyText: body,
-              mood: mood)
+              mood: mood.rawValue)
          entryController?.sendEntryToServer(entry: entry, completion: { _ in })
         do {
             try CoreDataStack.shared.mainContext.save()
