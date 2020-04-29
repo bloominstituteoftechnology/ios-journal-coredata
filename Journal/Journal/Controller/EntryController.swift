@@ -77,7 +77,7 @@ class EntryController {
         }
         
         // Create a URL from the baseURL and append the entry parameter's identifier to it. Also append the "json" extension to the URL as well. This URL should be formatted the same as the URL you would use to PUT an entry to Firebase.
-        let requestURL = baseURL.appendingPathExtension(identifier).appendingPathExtension("json")
+        let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
         
         // Create a URLRequest object, and set its HTTP method to DELETE.
         var request = URLRequest(url: requestURL)
@@ -118,7 +118,7 @@ class EntryController {
         var entriesToCreate = representationsByID
         
         // Give the fetch request an NSPredicate. This predicate should see if the identifier attribute in the Entry is in identifiers array that you made from the previous step. Refer to the hint below if you need help with the predicate.
-        let predicate = NSPredicate(format: "identifier in %@", identifiersToFetch)
+        let predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
         fetchRequest.predicate = predicate
 
         // Perform the fetch request on your core data stack's mainContext. This will return an array of Entry objects whose identifier was in the array you passed in to the predicate. Make sure you handle a potential error from the fetch method on your managed object context, as it is a throwing method.
@@ -133,10 +133,7 @@ class EntryController {
                 guard let id = entry.identifier,
                     let representation = representationsByID[id] else { continue }
                 
-                entry.title = representation.title
-                entry.bodyText = representation.bodyText
-                entry.mood = representation.mood
-                entry.timestamp = representation.timestamp
+                update(entry: entry, entryRepresentation: representation)
                 
                 entriesToCreate.removeValue(forKey: id)
             }
@@ -158,8 +155,11 @@ class EntryController {
         // Take the baseURL and add the "json" extension to it.
         let requestURL = baseURL.appendingPathExtension("json")
         
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "GET"
+        
         // Perform a GET URLSessionDataTask with the url you just set up.
-        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
             // In the completion of the data task, check for errors
             if let error = error {
                 NSLog("Error fetching tasks: \(error)")

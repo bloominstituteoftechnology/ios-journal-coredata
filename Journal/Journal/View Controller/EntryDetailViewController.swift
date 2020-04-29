@@ -16,31 +16,31 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet var journalTextView: UITextView!
     
     // MARK: - Properties
-    var entry: Entry? {
-        didSet {
-            updateViews()
-        }
-    }
+    var entry: Entry?
     var wasEdited = false
     var entryController: EntryController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let editButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(editTapped))
-        navigationItem.rightBarButtonItems = [editButton]
+        navigationItem.rightBarButtonItems = [editButtonItem]
+        updateViews()
     }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if wasEdited == true {
+        
+        guard let entry = entry else { return }
+        
+        if wasEdited {
             guard let title = journalTitle.text, !title.isEmpty,
                 let text = journalTextView.text, !text.isEmpty else { return }
+            entry.title = title
+            entry.bodyText = text
             
-            let currentDateTime = Date()
             let moodEntry = journalMoodSelector.selectedSegmentIndex
             let moodSelection = MoodSelection.allCases[moodEntry]
-
-            let entry = Entry(identifier: "", title: title, bodyText: text, timestamp: currentDateTime, mood: moodSelection, context: CoreDataStack.shared.mainContext)
+            entry.mood = moodSelection.rawValue
             
             entryController?.sendEntryToServer(entry: entry)
             
