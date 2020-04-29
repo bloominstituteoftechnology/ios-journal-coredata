@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-enum Mood: String, CaseIterable {
+enum Mood: String, CaseIterable, Codable {
     case sad = "😢"
     case neutral = "😐"
     case happy = "😄"
@@ -31,4 +31,35 @@ extension Entry {
         self.identifier = identifier
         self.mood = mood.rawValue
     }
+    
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation,
+                                        context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        
+        guard let mood = Mood(rawValue: entryRepresentation.mood),
+            let bodyText = entryRepresentation.bodyText,
+            let identifier = UUID(uuidString: entryRepresentation.identifier) else { return nil }
+    
+    
+        self.init(title: entryRepresentation.title,
+                  bodyText: bodyText,
+                  timestamp: entryRepresentation.timestamp,
+                  identifier: identifier,
+                  mood: mood,
+                  context: context)
+    }
+    
+    var entryRepresentation: EntryRepresentation? {
+        guard let title = title,
+            let timestamp = timestamp,
+            let mood = mood else { return nil }
+        
+        let id = identifier ?? UUID()
+        
+        return EntryRepresentation(title: title,
+                                   bodyText: bodyText,
+                                   timestamp: timestamp,
+                                   identifier: id.uuidString,
+                                   mood: mood)
+    }
+    
 }
