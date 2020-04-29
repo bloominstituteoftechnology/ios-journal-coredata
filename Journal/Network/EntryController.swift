@@ -58,4 +58,28 @@ class EntryController {
             }
         }.resume()
     }
+    
+    func deleteEntryFromServer(_ entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        guard let identifier = entry.identifier else {
+            completion(.failure(.noIdentifier))
+            return
+        }
+        let url = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        var request = URLRequest(url: url)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            guard error == nil else {
+                NSLog("Error DELETEing entry on server: \(error!)")
+                DispatchQueue.main.async {
+                    completion(.failure(.otherError))
+                }
+                return
+            }
+            
+            DispatchQueue.main.async {
+                completion(.success(true))
+            }
+        }.resume()
+    }
 }
