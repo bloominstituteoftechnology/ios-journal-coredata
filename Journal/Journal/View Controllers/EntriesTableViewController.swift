@@ -122,6 +122,12 @@ var entryController = EntryContoller()
                 }
             }
         }
+        if segue.identifier == "JournalEntrySegue" {
+            if let navVC = segue.destination as? UINavigationController,
+                let createVC = navVC.viewControllers.first as? CreateEntryViewController {
+                createVC.entryController = self.entryController
+            }
+        }
     }
 }
 

@@ -28,7 +28,7 @@ class EntryContoller {
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
     let baseURL = URL(string: "https://journal-fc20b.firebaseio.com/")!
-    
+  
     func sendEntryToServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         guard let identifier =  entry.identifier else {
             completion(.failure(.noIdentifier))
@@ -67,17 +67,22 @@ class EntryContoller {
         }.resume()
     }
     
-    func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+    func deleteEntryFromServer(entry: Entry, completion: @escaping () -> Void = {}) {
+        guard let identifier = entry.identifier else {
+            completion()
+            return
+        }
         
-        let removeURL = baseURL.appendingPathExtension("\(String(describing: entry.identifier))").appendingPathComponent("json")
-        var request = URLRequest(url: removeURL)
+        
+        let requestURL = baseURL.appendingPathExtension(identifier.uuidString).appendingPathComponent("json")
+        var request = URLRequest(url: requestURL)
                request.httpMethod = "DELETE"
         
-        URLSession.shared.dataTask(with: request) { (data, _, error) in
+        URLSession.shared.dataTask(with: request) { (_, _, error) in
             if let error = error {
-                NSLog("Error deleting entry: \(error)")
+                NSLog("Error deleting entry from server: \(error)")
                 DispatchQueue.main.async {
-                    completion(.failure(.otherError))
+                    completion()
                 }
                 return
             }
