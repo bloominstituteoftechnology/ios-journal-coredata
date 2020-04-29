@@ -60,26 +60,28 @@ class EntriesTableViewController: UITableViewController {
         
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "ShowTaskDetail" {
-//            if let detailVC = segue.destination as? TaskDetailViewController,
-//                let indexPath = tableView.indexPathForSelectedRow {
-//                detailVC.task = fetchedResultsController.object(at: indexPath)
-//                detailVC.taskController = taskController
-//            }
-//        } else if segue.identifier == "CreateTaskModalSegue" {
-//            if let navC = segue.destination as? UINavigationController,
-//                let createTaskVC = navC.viewControllers.first as? CreateTaskViewController {
-//                createTaskVC.taskController = taskController
-//            }
-//        }
-//    }
+    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    //        if segue.identifier == "ShowTaskDetail" {
+    //            if let detailVC = segue.destination as? TaskDetailViewController,
+    //                let indexPath = tableView.indexPathForSelectedRow {
+    //                detailVC.task = fetchedResultsController.object(at: indexPath)
+    //                detailVC.taskController = taskController
+    //            }
+    //        } else if segue.identifier == "CreateTaskModalSegue" {
+    //            if let navC = segue.destination as? UINavigationController,
+    //                let createTaskVC = navC.viewControllers.first as? CreateTaskViewController {
+    //                createTaskVC.taskController = taskController
+    //            }
+    //        }
+    //    }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        //let entry = fetchedResultsController.object(at: tableView!.indexPathForSelectedRow!)
-        
-        
+        if segue.identifier == "EntryDetailSegue" {
+            guard let index = tableView.indexPathForSelectedRow,
+                let detailVC = segue.destination as? EntryDetailViewController else { return }
+            detailVC.entry = fetchedResultsController.object(at: index)
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {

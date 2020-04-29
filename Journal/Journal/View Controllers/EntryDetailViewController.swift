@@ -23,7 +23,6 @@ class EntryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         navigationItem.rightBarButtonItem = editButtonItem
         updateViews()
     }
@@ -33,7 +32,14 @@ class EntryDetailViewController: UIViewController {
         
         titleTextField.text = entry.title
         notesTextView.text = entry.bodyText
-        moodSegmentedControl.selectedSegmentIndex = 1
+        switch entry.mood {
+        case Mood.sad.rawValue:
+            moodSegmentedControl.selectedSegmentIndex = 0
+        case Mood.happy.rawValue:
+            moodSegmentedControl.selectedSegmentIndex = 2
+        default:
+            moodSegmentedControl.selectedSegmentIndex = 1
+        }
         
         titleTextField.isUserInteractionEnabled = isEditing
         moodSegmentedControl.isUserInteractionEnabled = isEditing
@@ -64,10 +70,24 @@ class EntryDetailViewController: UIViewController {
                 !title.isEmpty,
                 !notes.isEmpty else { return }
             
-            
-            
+            let selectedMoodIndex = moodSegmentedControl.selectedSegmentIndex
+            if selectedMoodIndex == 0 {
+                self.entry?.mood = Mood.sad.rawValue
+            } else if selectedMoodIndex == 1 {
+                self.entry?.mood = Mood.neutral.rawValue
+            } else if selectedMoodIndex == 2 {
+                self.entry?.mood = Mood.happy.rawValue
+            }
+            self.entry?.title = title
+            self.entry?.bodyText = notes
+        }
+        
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        }  catch {
+            NSLog("Could not save becuase: \(error)")
         }
         
     }
 
-}
+} //End of class
