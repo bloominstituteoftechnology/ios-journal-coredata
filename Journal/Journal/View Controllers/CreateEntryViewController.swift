@@ -12,12 +12,20 @@ class CreateEntryViewController: UIViewController {
     
     // MARK: - Properties
     var timestamp = NSDate.now
+    var entryController: EntryController?
     
     // MARK: - IBOutlets
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
     @IBOutlet weak var moodControl: UISegmentedControl!
     
+    // MARK: - View Lifecycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        titleTextField.becomeFirstResponder()
+    }
     
     // MARK: - IBActions
     @IBAction func saveButtonTapped(_ sender: Any) {
@@ -29,7 +37,9 @@ class CreateEntryViewController: UIViewController {
         let selectedMood = moodControl.selectedSegmentIndex
         let mood = Mood.allCases[selectedMood]
         
-        Entry(title: title, bodyText: bodyText, timestamp: timestamp, mood: mood, context: CoreDataStack.shared.mainContext)
+        let entry = Entry(title: title, bodyText: bodyText, timestamp: timestamp, mood: mood, context: CoreDataStack.shared.mainContext)
+        
+        entryController?.put(entry: entry, completion: { (_) in })
         
         do {
             try CoreDataStack.shared.mainContext.save()

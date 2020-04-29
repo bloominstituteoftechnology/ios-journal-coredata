@@ -11,6 +11,18 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
+    let entryController = EntryController()
+    
+    // MARK: - IBActions
+    @IBAction func refresh(_ sender: Any) {
+            self.entryController.fetchEntriesFromServer { (_) in
+                DispatchQueue.main.async {
+                    self.refreshControl?.endRefreshing()
+            }
+        }
+    }
+    
+    
     // MARK: - Properties
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         
@@ -36,7 +48,7 @@ class EntriesTableViewController: UITableViewController {
         super.viewWillAppear(true)
         tableView.reloadData()
     }
-
+    
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
@@ -45,22 +57,22 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else {
             fatalError("Can't dequeue cell of type \(EntryTableViewCell.reuseIdentifier)")
         }
-
+        
         let entry = fetchedResultsController.object(at: indexPath)
         cell.entry = entry
-                
+        
         return cell
     }
-
-
+    
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-
+            
             let entry = fetchedResultsController.object(at: indexPath)
             let context = CoreDataStack.shared.mainContext
             
@@ -82,9 +94,16 @@ class EntriesTableViewController: UITableViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "EntryDetailSegue" {
-            guard let indexPath = tableView.indexPathForSelectedRow, let entryDetailVC = segue.destination as? EntryDetailViewController else { return }
-            
-            entryDetailVC.entry = fetchedResultsController.object(at: indexPath)
+            if let detailVC = segue.destination as? EntryDetailViewController,
+                let indexPath = tableView.indexPathForSelectedRow {
+                detailVC.entry = fetchedResultsController.object(at: indexPath)
+                detailVC.entryController = entryController
+            } else if segue.identifier == "CreateEntrySegue" {
+                if let navC = segue.destination as? UINavigationController,
+                    let createEntryVC = navC.viewControllers.first as? CreateEntryViewController {
+                    createEntryVC.entryController = entryController
+                }
+            }
         }
     }
 }
