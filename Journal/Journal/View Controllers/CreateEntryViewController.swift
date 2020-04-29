@@ -14,6 +14,7 @@ class CreateEntryViewController: UIViewController {
     
     @IBOutlet var titleTextField: UITextField!
     @IBOutlet var bodyTextView: UITextView!
+    @IBOutlet var moodSegmentedControl: UISegmentedControl!
     
     //MARK: - Methods and IBOutlets -
     
@@ -24,7 +25,19 @@ class CreateEntryViewController: UIViewController {
               !title.isEmpty,
               !body.isEmpty else { return }
         
-        Entry(title: title, bodyText: body, timestamp: Date(), context: CoreDataStack.shared.mainContext)
+        let index = moodSegmentedControl.selectedSegmentIndex
+        var mood = "😐"
+        
+        if index == 0 {
+            mood = Mood.sad.rawValue
+        } else if index == 1 {
+            mood = Mood.neutral.rawValue
+        } else if index == 2 {
+            mood = Mood.happy.rawValue
+        }
+        
+        Entry(title: title, bodyText: body, timestamp: Date(), mood: mood, context: CoreDataStack.shared.mainContext)
+        
         
         do {
         try CoreDataStack.shared.mainContext.save()
