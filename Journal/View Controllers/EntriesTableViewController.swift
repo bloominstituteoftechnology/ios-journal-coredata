@@ -11,6 +11,7 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
+    // If you have a fetchedResultsController that uses the sectionNameKeyPath to provide sections, you MUST have the first sort descriptor of the fetch request have the key for the same key path as the sections
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [
