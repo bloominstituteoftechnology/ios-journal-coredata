@@ -14,6 +14,7 @@ class EntryDetailViewController: UIViewController {
     var entry: Entry? 
     var wasEdited: Bool = false
     
+     var entryController: EntryContoller?
     
     @IBOutlet weak var journalTitle: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
@@ -32,18 +33,20 @@ class EntryDetailViewController: UIViewController {
         
         if wasEdited {
             guard let title = journalTitle.text,
-                       let body = entryTextView.text,
-                       !title.isEmpty,
-                       !body.isEmpty else { return }
+                let body = entryTextView.text,
+                !title.isEmpty,
+                !body.isEmpty,
+                let entry = entry else { return }
             
-                   let selectedMood = segmentedControl.selectedSegmentIndex
-                   
-                   let mood = Mood.allCases[selectedMood]
-                   
-                   Entry(title: title,
-                         bodyText: body,
-                         mood: mood)
-                   
+            let selectedMood = segmentedControl.selectedSegmentIndex
+            
+            let mood = Mood.allCases[selectedMood]
+            
+            // Update the entry that already exists
+            entry.title = title
+            entry.bodyText = body
+            entry.mood = mood.rawValue
+            entryController?.sendEntryToServer(entry: entry, completion: { _ in })
                    do {
                        try CoreDataStack.shared.mainContext.save()
                        navigationController?.dismiss(animated: true)
@@ -54,51 +57,41 @@ class EntryDetailViewController: UIViewController {
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {
-        super.setEditing(editing, animated: true)
-        if editing {
-            wasEdited = true
+        super.setEditing(editing, animated: animated)
+        
+        if editing { wasEdited = true }
+       
             journalTitle.isUserInteractionEnabled = editing
             entryTextView.isUserInteractionEnabled = editing
             segmentedControl.isUserInteractionEnabled = editing
             navigationItem.hidesBackButton = editing
-        } else if !editing {
-            journalTitle.isUserInteractionEnabled = false
-            entryTextView.isUserInteractionEnabled = false
-            segmentedControl.isUserInteractionEnabled = false
-        }
     }
     
     func updateViews() {
-        guard let entry = entry else { return }
-        var which: Int = 0
-        journalTitle.text = entry.title
-        entryTextView.text = entry.bodyText
+        var indexMatched: Int = 0
+        journalTitle.text = entry?.title
+        journalTitle.isUserInteractionEnabled = isEditing
+        
+        entryTextView.text = entry?.bodyText
+        entryTextView.isUserInteractionEnabled = isEditing
+        
         segmentedControl.isUserInteractionEnabled = isEditing
-        switch entry.mood {
+        switch entry?.mood {
         case "😀":
-            which = 0
+            indexMatched = 0
              segmentedControl.selectedSegmentTintColor = UIColor.green
         case "😫":
-            which = 1
+            indexMatched = 1
             segmentedControl.selectedSegmentTintColor = UIColor.brown
         case "😐":
-            which = 2
+            indexMatched = 2
             segmentedControl.selectedSegmentTintColor = UIColor.orange
         default:
             break
         }
-        segmentedControl.selectedSegmentIndex = which
+        segmentedControl.selectedSegmentIndex = indexMatched
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     func changeValue(sender: UISegmentedControl) {
           let i = sender.selectedSegmentIndex
               if i == 0 {
@@ -110,7 +103,7 @@ class EntryDetailViewController: UIViewController {
               }
       }
       
-    @IBAction func sControl(_ sender: UISegmentedControl) {
+    @IBAction func segmentedControlValueChange(_ sender: UISegmentedControl) {
         changeValue(sender: sender)
     }
 }

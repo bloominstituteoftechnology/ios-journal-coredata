@@ -8,23 +8,18 @@
 
 import UIKit
 
-protocol EntryDelegate {
-    func entryWasCreated(_ entry: Entry)
-}
-
 class ViewController: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
     @IBOutlet weak var segmentedControl: UISegmentedControl!
     
+    var entryController: EntryContoller?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         changeValue(sender: segmentedControl)
     }
-    
-    var delegate: EntryDelegate?
-    
     
     func changeValue(sender: UISegmentedControl) {
         let i = sender.selectedSegmentIndex
@@ -52,10 +47,10 @@ class ViewController: UIViewController {
         
         let mood = Mood.allCases[selectedMood]
         
-        Entry(title: title,
+        let entry = Entry(title: title,
               bodyText: body,
               mood: mood)
-        
+         entryController?.sendEntryToServer(entry: entry, completion: { _ in })
         do {
             try CoreDataStack.shared.mainContext.save()
             navigationController?.dismiss(animated: true)
@@ -63,7 +58,8 @@ class ViewController: UIViewController {
             NSLog("Error saving managed object context: \(error)")
         }
     }
-    @IBAction func sControl(_ sender: UISegmentedControl) {
+    
+    @IBAction func segmentedValueChange(_ sender: UISegmentedControl) {
         changeValue(sender: sender)
     }
 }

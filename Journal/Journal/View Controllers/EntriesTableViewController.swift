@@ -11,22 +11,7 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
-//    var entries: [Entry] {
-//
-//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//
-//        let context = CoreDataStack.shared.mainContext
-//
-//        do {
-//            let fetchedTasks = try context.fetch(fetchRequest)
-//
-//            return fetchedTasks
-//        } catch {
-//            NSLog("Error fetching tasks: \(error)")
-//            return []
-//        }
-//    }
-    
+var entryController = EntryContoller()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         
@@ -86,18 +71,6 @@ class EntriesTableViewController: UITableViewController {
     }
     
     
-    private func entryFor(indexPath: IndexPath) -> Entry {
-        var journalEntry: Entry?
-        if indexPath.section == 0 {
-            journalEntry = fetchedResultsController.object(at: indexPath)
-        } else if indexPath.section == 1 {
-            journalEntry = fetchedResultsController.object(at: indexPath)
-        } else if indexPath.section == 2 {
-            journalEntry = fetchedResultsController.object(at: indexPath)
-        }
-        return journalEntry!
-    }
-    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
@@ -106,7 +79,7 @@ class EntriesTableViewController: UITableViewController {
             let context = CoreDataStack.shared.mainContext
             
             context.delete(entry)
-            
+            entryController.deleteEntryFromServer(entry: entry)
             do {
                 try context.save()
             } catch {
@@ -123,6 +96,20 @@ class EntriesTableViewController: UITableViewController {
         return sectionInfo.name
     }
     
+    override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        
+        switch section {
+        case 0:
+            (view as! UITableViewHeaderFooterView).contentView.backgroundColor = UIColor.green.withAlphaComponent(0.75)
+        case 1:
+            (view as! UITableViewHeaderFooterView).contentView.backgroundColor = UIColor.orange.withAlphaComponent(0.75)
+        case 2:
+            (view as! UITableViewHeaderFooterView).contentView.backgroundColor = UIColor.brown.withAlphaComponent(0.75)
+        default:
+            break
+        }
+    }
+    
     
     // MARK: - Navigation
     
@@ -131,7 +118,7 @@ class EntriesTableViewController: UITableViewController {
         if segue.identifier == "EntryDetailSegue" {
             if let editVC = segue.destination as? EntryDetailViewController {
                 if let indextPath = tableView.indexPathForSelectedRow {
-                editVC.entry = entryFor(indexPath: indextPath)
+                    editVC.entry = fetchedResultsController.object(at: indextPath)
                 }
             }
         }
@@ -183,10 +170,4 @@ extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
              break
          }
      }
-}
-
-extension EntriesTableViewController: EntryDelegate {
-    func entryWasCreated(_ entry: Entry) {
-       let x = 1
-    }
 }
