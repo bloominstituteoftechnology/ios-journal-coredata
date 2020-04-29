@@ -34,4 +34,35 @@ extension Entry {
         self.mood = mood.rawValue
         
             }
+    @discardableResult convenience init?(EntryRepresentation: EntryRepresentation,
+                                        context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+                
+        guard let mood = EntryMood(rawValue: entryRepresentation.mood), let identifier = EntryRepresentation.identifier else {
+                return nil
+        }
+        
+        self.init(identifier: entryRepresentation.identifier,
+                  title: entryRepresentation.title,
+                  bodyText: entryRepresentation.bodyText,
+                  timestamp: entryRepresentation.timestamp,
+                  mood: mood,
+                  context: context)
+        
+    }
+    
+    // The way we convert our Task into a TaskRepresentation to be encoded and sent to a remote server as JSON
+    var entryRepresentation: EntryRepresentation? {
+        
+        guard let title = title,
+            let mood = mood, let bodyText = bodyText, let timestamp = timestamp else { return nil }
+    
+        let id = identifier ?? UUID().uuidString
+        
+        return EntryRepresentation(title: title,
+                                   timestamp: timestamp,
+                                   bodyText: bodyText,
+                                   identifier: id,
+                                  mood: mood)
+        
+    }
 }

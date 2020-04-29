@@ -32,7 +32,7 @@ class CreateEntryViewController: UIViewController {
     @IBAction func saveButton(_ sender: UIBarButtonItem) {
     
         // Grab the individual values from the views
-           guard let title = journalText.text, !title.isEmpty else { return }
+        guard let title = journalTitle.text, !title.isEmpty else { return }
            
         guard let bodyText = journalText.text, !bodyText.isEmpty else { return }
         
