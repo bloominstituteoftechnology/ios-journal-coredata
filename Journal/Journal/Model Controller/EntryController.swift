@@ -20,7 +20,12 @@ enum NetworkError: Error {
 
 class EntryController {
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
+    typealias errorCompletionHandler = (Error?) -> Void
     
     let baseURL = URL(string: "https://lambdajournal-2718e.firebaseio.com/")!
     
@@ -116,10 +121,7 @@ class EntryController {
                 guard let id = entry.identifier,
                     let representation = representationsById[id] else { continue }
                 
-                entry.title = representation.title
-                entry.bodyText = representation.bodyText
-                entry.timestamp = representation.timestamp
-                entry.mood = representation.mood
+                update(entry: entry, entryRepresentation: representation)
                 
                 entriesToCreate.removeValue(forKey: id)
             }
@@ -134,8 +136,32 @@ class EntryController {
         try self.saveToPersistentStore()
     }
     
-    func fetchEntriesFromServer(completion: @escaping () -> Void = {}) {
+    func fetchEntriesFromServer(completion: @escaping errorCompletionHandler = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
         
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "GET"
+        
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                NSLog("Error GETTING entries from Firebase: \(error)")
+                completion(error)
+                return
+            }
+            
+            guard let data = data else { return }
+            
+            var entryRepresentation: [EntryRepresentation] = []
+            
+            do {
+                entryRepresentation = try JSONDecoder().decode([String : EntryRepresentation].self, from: data).map({ $0.value })
+                try self.updateEntries(with: entryRepresentation)
+                completion(nil)
+            } catch {
+                NSLog("Error decoding entryRepresentations: \(error)")
+                completion(error)
+            }
+        }.resume()
     }
     
     func saveToPersistentStore() throws {
