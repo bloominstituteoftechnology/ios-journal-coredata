@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 enum NetworkError: Error {
     case noIdentifier
@@ -63,8 +64,7 @@ class EntryController {
         }.resume()
     }
     
-    func deleteEntryFromServer(entry: Entry, completion: @escaping () -> Error? = { nil } ) {
-        
+    func deleteEntryFromServer(entry: Entry, completion: @escaping () -> Void = {}) {
         guard let identifier = entry.identifier else {
             completion()
             return
@@ -86,6 +86,61 @@ class EntryController {
             }
         }.resume()
         
+    }
+    
+    func update(entry: Entry, entryRepresentation: EntryRepresentation) {
+        entry.title = entryRepresentation.title
+        entry.bodyText = entryRepresentation.bodyText
+        entry.timestamp = entryRepresentation.timestamp
+        entry.mood = entryRepresentation.mood
+    }
+    
+    func updateEntries(with representations: [EntryRepresentation]) throws {
+        let identifiersToFetch = representations.compactMap({ UUID(uuidString: $0.identifier) })
+        
+        let representationsById = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+        
+        var entriesToCreate = representationsById
+        
+        let predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = predicate
+        
+        let context = CoreDataStack.shared.mainContext
+        
+        do {
+            let existingEntries = try context.fetch(fetchRequest)
+            
+            for entry in existingEntries {
+                guard let id = entry.identifier,
+                    let representation = representationsById[id] else { continue }
+                
+                entry.title = representation.title
+                entry.bodyText = representation.bodyText
+                entry.timestamp = representation.timestamp
+                entry.mood = representation.mood
+                
+                entriesToCreate.removeValue(forKey: id)
+            }
+            
+            for representation in entriesToCreate.values {
+                Entry(entryRepresentation: representation, context: context)
+            }
+            
+        } catch {
+            NSLog("Error fetching entries for UUIDs: \(error)")
+        }
+        try self.saveToPersistentStore()
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping () -> Void = {}) {
+        
+    }
+    
+    func saveToPersistentStore() throws {
+        let moc = CoreDataStack.shared.mainContext
+        try moc.save()
     }
     
 }
