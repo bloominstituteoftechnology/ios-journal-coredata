@@ -28,11 +28,11 @@ class CreateEntryViewController: UIViewController {
         let selectedMood = moodControl.selectedSegmentIndex
         let mood = Mood.allCases[selectedMood]
         
-        Entry(title: title,
+        let entry = Entry(title: title,
               bodyText: body,
               mood: mood.rawValue,
               context: CoreDataStack.shared.mainContext)
-        
+        taskController?.sendEntryToServer(entry: entry, completion: { _ in })
         do {
             try CoreDataStack.shared.mainContext.save()
             navigationController?.dismiss(animated: true, completion: nil)

@@ -26,7 +26,7 @@ class TaskController {
     
     func sendEntryToServer(entry: Entry, completion: @escaping CompletionHandler) {
         
-        guard let identifier = entry.identifier else {
+        guard let identifier = entry.identifier?.uuidString else {
             completion(.failure(.noIdentifier))
             return
         }
@@ -64,6 +64,47 @@ class TaskController {
                 }
             }.resume()
         }
+    
+    func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+        
+        guard let identifier = entry.identifier?.uuidString else {
+            completion(.failure(.noIdentifier))
+            return
+        }
+        
+        let requestURL = baseURL.appendingPathComponent(identifier).appendingPathExtension("json")
+        
+            var request = URLRequest(url: requestURL)
+            request.httpMethod = "DELETE"
+            
+            // Turn the task into a task representation, then TR into JSon.
+            
+            do {
+                guard let taskRepresentation = entry.entryRepresentation else {
+                    completion(.failure(.noRep))
+                    return
+                }
+                
+                request.httpBody = try JSONEncoder().encode(taskRepresentation)
+            } catch {
+                NSLog("Error encoding task \(entry): \(error)")
+                completion(.failure(.noEncode))
+                return
+            }
+            
+            URLSession.shared.dataTask(with: request) { (data, _, error) in
+                if let error = error {
+                    NSLog("Error putting tassk to server: \(error)")
+                    DispatchQueue.main.async {
+                        completion(.failure(.otherError))
+                    }
+                    return
+                }
+                DispatchQueue.main.async {
+                    completion(.success(true))
+                }
+            }.resume()
+    }
     
     func fetchTasksFromServer(completion: @escaping CompletionHandler = { _ in }) {
 
@@ -114,7 +155,7 @@ class TaskController {
         )
 
         // Make a copy of the representations by ID for later use
-        var tasksToCreate = representationsByID
+        var entriesToCreate = representationsByID
 
         // Ask CoreData to find any tasks with these identifiers
         // if identifiersToFetch.contains(someTaskincoreData)
@@ -134,10 +175,10 @@ class TaskController {
                 guard let id = task.identifier,
                     let representation = representationsByID[id] else { continue }
 
-                task.name = representation.name
-                task.notes = representation.notes
-                task.complete = representation.complete
-                task.priority = representation.priority
+//                entry.title = representation.title
+//                entry.bodyText = representation.bodyText
+//                entry.complete = representation.complete
+//                entry.priority = representation.priority
 
                 // If we updated the task, tht means we dont need to make a copy of it, it already exists in Core Data, so remove it from te task we still need to create.
                 entriesToCreate.removeValue(forKey: id)

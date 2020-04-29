@@ -99,6 +99,7 @@ class EntriesTableViewController: UITableViewController {
             let entry = fetchedResultsController.object(at: indexPath)
             let context = CoreDataStack.shared.mainContext
             
+            taskController.deleteEntryFromServer(entry: entry, completion: { _ in })
             context.delete(entry)
             
             do {

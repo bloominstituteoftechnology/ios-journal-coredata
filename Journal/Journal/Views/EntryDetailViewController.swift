@@ -47,12 +47,12 @@ class EntryDetailViewController: UIViewController {
              entry.bodyText = body
              let priorityIndex = moodControl.selectedSegmentIndex
              entry.mood = Mood.allCases[priorityIndex].rawValue
-//            taskController?.put(entry: entry, completion: { _ in })
-//             do {
-//                 try CoreDataStack.shared.mainContext.save()
-//             } catch {
-//                 NSLog("Error saving managed object context: \(error)")
-//             }
+            taskController?.sendEntryToServer(entry: entry, completion: { _ in })
+             do {
+                 try CoreDataStack.shared.mainContext.save()
+             } catch {
+                 NSLog("Error saving managed object context: \(error)")
+             }
          }
      }
     
