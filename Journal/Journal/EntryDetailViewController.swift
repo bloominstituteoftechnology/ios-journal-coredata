@@ -19,6 +19,7 @@ class EntryDetailViewController: UIViewController {
     
     var entry: Entry?
     var wasEdited: Bool = false
+    var entryController: EntryController?
     
     
     override func viewDidLoad() {
@@ -56,17 +57,23 @@ navigationItem.rightBarButtonItem = editButtonItem
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if wasEdited == true {
-            let selectedMood = journalMood.selectedSegmentIndex
-            entry!.mood = EntryMood.allCases[selectedMood].rawValue
-            entry?.bodyText = journalText.text
-            entry?.title = journalTitle.text
-        }
+        if wasEdited { guard let title = journalTitle.text, !title.isEmpty, let bodyText = journalText.text, !bodyText.isEmpty, let entry = entry else {
+            return
+            }
+        
+        entry.title = title
+        entry.bodyText = bodyText
+        let selectedMood = journalMood.selectedSegmentIndex
+        entry.mood = EntryMood.allCases[selectedMood].rawValue
+
+        entryController?.sendEntryToServer(entry: entry, completion: { _ in })
+            
         do {
             try CoreDataStack.shared.mainContext.save()
             navigationController?.dismiss(animated: true, completion: nil)
         } catch {
             NSLog("Error saving manage object contedxt: \(error)")
+        }
         }
     }
     

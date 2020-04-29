@@ -10,6 +10,8 @@ import UIKit
 import CoreData
 
 class EntriesTableViewController: UITableViewController {
+    
+    var entryController: EntryController?
 
     /*
     var entries: [Entry] {
@@ -105,6 +107,7 @@ class EntriesTableViewController: UITableViewController {
                 context.reset()
             }
             
+        entryController?.deleteEntryFromServer(entry: entry)
             
             tableView.deleteRows(at: [indexPath], with: .fade)
         }

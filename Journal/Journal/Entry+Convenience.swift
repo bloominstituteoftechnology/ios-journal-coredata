@@ -20,7 +20,7 @@ extension Entry {
                                         timestamp: Date,
                                         bodyText: String,
                                         identifier: String = UUID().uuidString,
-                                        mood: EntryMood,
+                                        mood: String = "😔",
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         //set up the NSManagaedObject portion of the task object
@@ -31,26 +31,26 @@ extension Entry {
         self.timestamp = timestamp
         self.bodyText = bodyText
         self.identifier = identifier
-        self.mood = mood.rawValue
+        self.mood = mood
         
             }
-    @discardableResult convenience init?(EntryRepresentation: EntryRepresentation,
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
                 
-        guard let mood = EntryMood(rawValue: entryRepresentation.mood), let identifier = EntryRepresentation.identifier else {
+        guard let identifier = entryRepresentation.identifier else {
                 return nil
         }
         
-        self.init(identifier: entryRepresentation.identifier,
+        self.init(
                   title: entryRepresentation.title,
-                  bodyText: entryRepresentation.bodyText,
                   timestamp: entryRepresentation.timestamp,
-                  mood: mood,
-                  context: context)
+                  bodyText: entryRepresentation.bodyText,
+                  identifier: identifier,
+                  mood: entryRepresentation.mood)
         
     }
     
-    // The way we convert our Task into a TaskRepresentation to be encoded and sent to a remote server as JSON
+    
     var entryRepresentation: EntryRepresentation? {
         
         guard let title = title,

@@ -27,7 +27,9 @@ class CreateEntryViewController: UIViewController {
     }
     
     let timestamp = Date()
-
+    
+    var entryController: EntryController?
+    
     
     @IBAction func saveButton(_ sender: UIBarButtonItem) {
     
@@ -41,8 +43,10 @@ class CreateEntryViewController: UIViewController {
           
           // timestamp = DateFormatter.string(from: timestamp)
            
-        Entry(title: title, timestamp: timestamp, bodyText: bodyText, mood: mood, context: CoreDataStack.shared.mainContext)
-           
+       let entry = Entry(title: title, timestamp: timestamp, bodyText: bodyText, mood: mood.rawValue)
+        
+        entryController?.sendEntryToServer(entry: entry, completion: { _ in })
+        
            do {
                try CoreDataStack.shared.mainContext.save()
                navigationController?.dismiss(animated: true, completion: nil)
