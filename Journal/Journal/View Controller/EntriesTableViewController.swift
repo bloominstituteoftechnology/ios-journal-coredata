@@ -12,6 +12,8 @@ import CoreData
 class EntriesTableViewController: UITableViewController {
 
     // MARK: - Properties
+    var entryController = EntryController()
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         // Create a fetch request from the Entry object.
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -47,6 +49,10 @@ class EntriesTableViewController: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
     }
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+        return sectionInfo.name.capitalized
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
@@ -73,6 +79,7 @@ class EntriesTableViewController: UITableViewController {
             let context = CoreDataStack.shared.mainContext
             
             context.delete(entry)
+            entryController.deleteEntryFromServer(entry: entry)
             
             do {
                 try context.save()
@@ -81,7 +88,22 @@ class EntriesTableViewController: UITableViewController {
                 context.reset()
             }
             
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            //tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
+    
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowEntryDetailSegue" {
+            guard let detailVC = segue.destination as? EntryDetailViewController,
+                let indexPath = tableView.indexPathForSelectedRow else { return }
+
+            detailVC.entry = fetchedResultsController.object(at: indexPath)
+        } else if segue.identifier == "CreateEntrySegue" {
+            if let navC = segue.destination as? UINavigationController,
+                let createEntryVC = navC.viewControllers.first as? CreateEntryViewController {
+                createEntryVC.entryController = entryController
+            }
         }
     }
 }
