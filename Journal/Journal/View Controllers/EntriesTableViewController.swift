@@ -76,6 +76,8 @@ class EntriesTableViewController: UITableViewController {
             
             context.delete(entry)
             
+            entryController.deleteEntryFromServer(entry: entry)
+            
             do {
                 try context.save()
             } catch {
@@ -86,8 +88,9 @@ class EntriesTableViewController: UITableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let indexPath = tableView.indexPathForSelectedRow else { return }
+       
         if segue.identifier == "EntryDetailVC" {
+             guard let indexPath = tableView.indexPathForSelectedRow else { return }
             let detailVC = segue.destination as! EntryDetailViewController
             let entry = fetchedResultsController.object(at: indexPath)
             
@@ -95,8 +98,10 @@ class EntriesTableViewController: UITableViewController {
             
             detailVC.entry = entry
         } else if segue.identifier == "CreateEntry" {
-            let createVC = segue.destination as! CreateEntryViewController
-            createVC.entryController = entryController
+            if let navC = segue.destination as? UINavigationController,
+                let createEntryVC = navC.viewControllers.first as? CreateEntryViewController {
+                createEntryVC.entryController = entryController
+            }
         }
     }
 
