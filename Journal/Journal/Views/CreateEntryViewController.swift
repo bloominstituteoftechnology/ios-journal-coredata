@@ -30,7 +30,7 @@ class CreateEntryViewController: UIViewController {
         
         Entry(title: title,
               bodyText: body,
-              mood: mood,
+              mood: mood.rawValue,
               context: CoreDataStack.shared.mainContext)
         
         do {

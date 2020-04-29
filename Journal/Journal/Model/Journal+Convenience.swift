@@ -17,16 +17,48 @@ enum Mood: String, CaseIterable {
 
 extension Entry {
     @discardableResult convenience init(title: String,
-                     bodyText: String,
-                     timeStamp: Date = Date(),
-                     identifier: UUID = UUID(),
-                     mood: Mood,
-                     context: NSManagedObjectContext) {
+                                        bodyText: String,
+                                        timeStamp: Date = Date(),
+                                        identifier: String = UUID().uuidString,
+                                        mood: String,
+                                        context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.title = title
         self.timeStamp = timeStamp
         self.identifier = identifier
         self.bodyText = bodyText
-        self.mood = mood.rawValue
+        self.mood = mood
+    }
+    
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+                
+        self.init(title: entryRepresentation.title,
+                  bodyText: entryRepresentation.bodyText,
+                  timeStamp: entryRepresentation.timeStamp,
+                  identifier: entryRepresentation.identifier,
+                  mood: entryRepresentation.mood)
+    }
+    
+    var entryRepresentation: EntryRepresentation? {
+        guard let title = title,
+            let mood = mood,
+            let body = bodyText,
+            let identifier = identifier,
+            let timeStamp = timeStamp else { return nil }
+        
+        return EntryRepresentation(title: title,
+                                   bodyText: body,
+                                   timeStamp: timeStamp,
+                                   identifier: identifier,
+                                   mood: mood)
+        
+    }
+}
+
+extension Date {
+    func getFormattedDate(format: String) -> String {
+        let dateFormat = DateFormatter()
+        dateFormat.dateFormat = format
+        return dateFormat.string(from: self)
     }
 }
