@@ -11,11 +11,13 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
+    let entryController = EntryController()
+    
     // If you have a fetchedResultsController that uses the sectionNameKeyPath to provide sections, you MUST have the first sort descriptor of the fetch request have the key for the same key path as the sections
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [
-            NSSortDescriptor(key: "mood", ascending: false)
+            NSSortDescriptor(key: "mood", ascending: true)
         ]
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                              managedObjectContext: CoreDataStack.shared.mainContext,
@@ -104,9 +106,8 @@ class EntriesTableViewController: UITableViewController {
         if let entryDetailVC = segue.destination as? EntryDetailViewController {
             guard let indexPath = tableView.indexPathForSelectedRow else { return }
             entryDetailVC.entry = fetchedResultsController.object(at: indexPath)
+            entryDetailVC.entryController = entryController
         }
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
     }
 }
 

@@ -9,6 +9,8 @@
 import UIKit
 
 class CreateEntryViewController: UIViewController {
+    
+    let entryController = EntryController()
 
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var moodSegmentControl: UISegmentedControl!
@@ -30,12 +32,13 @@ class CreateEntryViewController: UIViewController {
         
         let mood = Mood.allCases[moodSegmentControl.selectedSegmentIndex]
             
-        Entry(title: title,
+        let entry = Entry(title: title,
               mood: mood,
               bodyText: body,
               context: CoreDataStack.shared.mainContext)
         do {
             try CoreDataStack.shared.mainContext.save()
+            entryController.sendEntryToServer(entry)
             navigationController?.dismiss(animated: true, completion: nil)
         } catch {
             NSLog("Error saving managed object context: \(error)")

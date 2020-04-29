@@ -12,6 +12,7 @@ import CoreData
 class EntryDetailViewController: UIViewController {
     
     var entry: Entry?
+    var entryController: EntryController?
     
     private var wasEdited = false
     
@@ -66,11 +67,6 @@ class EntryDetailViewController: UIViewController {
             
             let mood = Mood.allCases[moodSegmentControl.selectedSegmentIndex]
             
-//            Entry(title: title,
-//                  mood: mood,
-//                  bodyText: body,
-//                  context: .mainContext)
-            
             let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "identifier == %@", id)
             
@@ -81,6 +77,7 @@ class EntryDetailViewController: UIViewController {
                 existingEntry.mood = mood.rawValue
                 existingEntry.bodyText = body
                 try CoreDataStack.shared.mainContext.save()
+                entryController?.sendEntryToServer(existingEntry)
             } catch {
                 NSLog("Error saving: \(error)")
             }
