@@ -11,6 +11,8 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
+    let entryController = EntryController()
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
        
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -89,7 +91,12 @@ class EntriesTableViewController: UITableViewController {
             let detailVC = segue.destination as! EntryDetailViewController
             let entry = fetchedResultsController.object(at: indexPath)
             
+            detailVC.entryController = entryController
+            
             detailVC.entry = entry
+        } else if segue.identifier == "CreateEntry" {
+            let createVC = segue.destination as! CreateEntryViewController
+            createVC.entryController = entryController
         }
     }
 

@@ -10,6 +10,8 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
     
+    var entryController: EntryController?
+    
     var entry: Entry?
     var wasEdited: Bool = false
     
@@ -25,17 +27,22 @@ class EntryDetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        guard let entry = entry else { return }
+        
         if wasEdited {
             if let title = titleTextField.text,
                 !title.isEmpty,
                 let notes = notesTextView.text,
                 !notes.isEmpty {
                 
-                entry?.title = title
-                entry?.bodyText = notes
+                entry.title = title
+                entry.bodyText = notes
                 
                 let moodIndex = moodSegmentedControl.selectedSegmentIndex
-                entry?.mood = Mood.allCases[moodIndex].rawValue
+                entry.mood = Mood.allCases[moodIndex].rawValue
+                
+                entryController?.sendEntryToServer(entry: entry, completion: { _ in })
                 
                 do {
                     try CoreDataStack.shared.mainContext.save()
