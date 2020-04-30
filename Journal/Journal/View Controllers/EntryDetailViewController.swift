@@ -47,10 +47,9 @@ class EntryDetailViewController: UIViewController {
             entry.title = title
             entry.bodyText = body
             entry.mood = mood.rawValue
-            entryController?.put(entry: entry, completion: { _ in })
+            entryController?.put(entry: entry, completion: {_ in })
             do {
                 try CoreDataStack.shared.mainContext.save()
-                //       navigationController?.dismiss(animated: true)
             } catch {
                 NSLog("Error saving managed object context: \(error)")
             }
