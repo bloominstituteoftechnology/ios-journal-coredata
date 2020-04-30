@@ -90,7 +90,6 @@ class EntryController {
                 return
             }
         }.resume()
-        
     }
     
     func update(entry: Entry, entryRepresentation: EntryRepresentation) {
