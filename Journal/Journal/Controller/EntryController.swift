@@ -159,7 +159,7 @@ class EntryController {
         request.httpMethod = "GET"
         
         // Perform a GET URLSessionDataTask with the url you just set up.
-        URLSession.shared.dataTask(with: request) { (data, _, error) in
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
             // In the completion of the data task, check for errors
             if let error = error {
                 NSLog("Error fetching tasks: \(error)")

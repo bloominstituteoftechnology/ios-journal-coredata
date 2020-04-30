@@ -76,10 +76,12 @@ class EntriesTableViewController: UITableViewController {
         if editingStyle == .delete {
             
             let entry = fetchedResultsController.object(at: indexPath)
+            
+            entryController.deleteEntryFromServer(entry: entry)
+            
             let context = CoreDataStack.shared.mainContext
             
             context.delete(entry)
-            entryController.deleteEntryFromServer(entry: entry)
             
             do {
                 try context.save()

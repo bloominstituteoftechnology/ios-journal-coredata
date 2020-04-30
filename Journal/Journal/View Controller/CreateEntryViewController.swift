@@ -37,7 +37,7 @@ class CreateEntryViewController: UIViewController {
         let moodEntry = moodSegmentedControl.selectedSegmentIndex
         let moodSelection = MoodSelection.allCases[moodEntry]
 
-        let entry = Entry(identifier: "", title: title, bodyText: text, timestamp: currentDateTime, mood: moodSelection, context: CoreDataStack.shared.mainContext)
+        let entry = Entry(identifier: UUID().uuidString, title: title, bodyText: text, timestamp: currentDateTime, mood: moodSelection, context: CoreDataStack.shared.mainContext)
         
         entryController?.sendEntryToServer(entry: entry)
         
