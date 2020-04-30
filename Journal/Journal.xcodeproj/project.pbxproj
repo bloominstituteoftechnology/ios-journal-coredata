@@ -9,21 +9,31 @@
 /* Begin PBXBuildFile section */
 		123252072458DC4700208C6F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123252062458DC4700208C6F /* AppDelegate.swift */; };
 		123252092458DC4700208C6F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123252082458DC4700208C6F /* SceneDelegate.swift */; };
-		1232520B2458DC4700208C6F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1232520A2458DC4700208C6F /* ViewController.swift */; };
 		1232520E2458DC4700208C6F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1232520C2458DC4700208C6F /* Main.storyboard */; };
 		123252102458DC4B00208C6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1232520F2458DC4B00208C6F /* Assets.xcassets */; };
 		123252132458DC4B00208C6F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 123252112458DC4B00208C6F /* LaunchScreen.storyboard */; };
+		1279655B24590D04001F618C /* CreateEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1279655A24590D04001F618C /* CreateEntryViewController.swift */; };
+		1279655D24590D18001F618C /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1279655C24590D18001F618C /* EntriesTableViewController.swift */; };
+		1279656024590D34001F618C /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1279655F24590D34001F618C /* EntryTableViewCell.swift */; };
+		1279656224590D43001F618C /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1279656124590D43001F618C /* CoreDataStack.swift */; };
+		1279656424590D56001F618C /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1279656324590D56001F618C /* Entry+Convenience.swift */; };
+		1279656724590D61001F618C /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1279656524590D61001F618C /* Journal.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		123252032458DC4700208C6F /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		123252062458DC4700208C6F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		123252082458DC4700208C6F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		1232520A2458DC4700208C6F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		1232520D2458DC4700208C6F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1232520F2458DC4B00208C6F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		123252122458DC4B00208C6F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		123252142458DC4B00208C6F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1279655A24590D04001F618C /* CreateEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEntryViewController.swift; sourceTree = "<group>"; };
+		1279655C24590D18001F618C /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
+		1279655F24590D34001F618C /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
+		1279656124590D43001F618C /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		1279656324590D56001F618C /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
+		1279656624590D61001F618C /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +66,84 @@
 		123252052458DC4700208C6F /* Journal */ = {
 			isa = PBXGroup;
 			children = (
-				123252062458DC4700208C6F /* AppDelegate.swift */,
-				123252082458DC4700208C6F /* SceneDelegate.swift */,
-				1232520A2458DC4700208C6F /* ViewController.swift */,
-				1232520C2458DC4700208C6F /* Main.storyboard */,
-				1232520F2458DC4B00208C6F /* Assets.xcassets */,
-				123252112458DC4B00208C6F /* LaunchScreen.storyboard */,
-				123252142458DC4B00208C6F /* Info.plist */,
+				1232521C24590AEC00208C6F /* Models */,
+				1232521B24590AE000208C6F /* Views */,
+				1232521A24590AD500208C6F /* Controllers */,
+				1232521D24590AFD00208C6F /* Resources */,
 			);
 			path = Journal;
+			sourceTree = "<group>";
+		};
+		1232521A24590AD500208C6F /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				1232522024590BC200208C6F /* ModelControllers */,
+				1232521F24590BB700208C6F /* ViewControllers */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		1232521B24590AE000208C6F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1279655E24590D24001F618C /* Cells */,
+				1232521E24590BAB00208C6F /* Storyboards */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		1232521C24590AEC00208C6F /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1279656124590D43001F618C /* CoreDataStack.swift */,
+				1279656324590D56001F618C /* Entry+Convenience.swift */,
+				1279656524590D61001F618C /* Journal.xcdatamodeld */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		1232521D24590AFD00208C6F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				123252062458DC4700208C6F /* AppDelegate.swift */,
+				123252082458DC4700208C6F /* SceneDelegate.swift */,
+				1232520F2458DC4B00208C6F /* Assets.xcassets */,
+				123252142458DC4B00208C6F /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		1232521E24590BAB00208C6F /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				1232520C2458DC4700208C6F /* Main.storyboard */,
+				123252112458DC4B00208C6F /* LaunchScreen.storyboard */,
+			);
+			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		1232521F24590BB700208C6F /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				1279655A24590D04001F618C /* CreateEntryViewController.swift */,
+				1279655C24590D18001F618C /* EntriesTableViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		1232522024590BC200208C6F /* ModelControllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ModelControllers;
+			sourceTree = "<group>";
+		};
+		1279655E24590D24001F618C /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				1279655F24590D34001F618C /* EntryTableViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,9 +217,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1232520B2458DC4700208C6F /* ViewController.swift in Sources */,
+				1279655D24590D18001F618C /* EntriesTableViewController.swift in Sources */,
+				1279656024590D34001F618C /* EntryTableViewCell.swift in Sources */,
 				123252072458DC4700208C6F /* AppDelegate.swift in Sources */,
+				1279656224590D43001F618C /* CoreDataStack.swift in Sources */,
+				1279655B24590D04001F618C /* CreateEntryViewController.swift in Sources */,
 				123252092458DC4700208C6F /* SceneDelegate.swift in Sources */,
+				1279656424590D56001F618C /* Entry+Convenience.swift in Sources */,
+				1279656724590D61001F618C /* Journal.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,7 +370,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6R6MQNLHPL;
-				INFOPLIST_FILE = Journal/Info.plist;
+				INFOPLIST_FILE = Journal/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -304,7 +388,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 6R6MQNLHPL;
-				INFOPLIST_FILE = Journal/Info.plist;
+				INFOPLIST_FILE = Journal/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -338,6 +422,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		1279656524590D61001F618C /* Journal.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				1279656624590D61001F618C /* Journal.xcdatamodel */,
+			);
+			currentVersion = 1279656624590D61001F618C /* Journal.xcdatamodel */;
+			path = Journal.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 123251FB2458DC4700208C6F /* Project object */;
 }
