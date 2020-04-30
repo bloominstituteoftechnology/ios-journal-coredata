@@ -10,6 +10,8 @@ import UIKit
 
 class CreateEntryViewController: UIViewController {
 
+    var entryController: EntryController?
+    
     // MARK: IBOutlets
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var journalTextView: UITextView!
@@ -39,11 +41,11 @@ class CreateEntryViewController: UIViewController {
         
         let mood = Mood.allCases[selectedMood]
         
-        Entry(title: title,
+        let entry = Entry(title: title,
               bodyText: journal,
               mood: mood,
               context: CoreDataStack.shared.mainContext)
-        
+        entryController?.sendEntryToServer(entry: entry)
         do {
             try CoreDataStack.shared.mainContext.save()
             navigationController?.dismiss(animated: true, completion: nil)
