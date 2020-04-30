@@ -41,12 +41,14 @@ class CreateEntryViewController: UIViewController {
             
             entryController?.sendEntryToServer(entry: entry, completion: { _ in })
             
+            let context = CoreDataStack.shared.container.newBackgroundContext()
+            
             do {
-                try CoreDataStack.shared.mainContext.save()
+                try CoreDataStack.shared.save(context: context)
                 navigationController?.dismiss(animated: true)
             } catch {
                 NSLog("Error saving Entry to context: \(error)")
-                CoreDataStack.shared.mainContext.reset()
+                context.reset()
             }
         }
     }

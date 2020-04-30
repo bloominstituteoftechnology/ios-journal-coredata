@@ -21,7 +21,7 @@ extension Entry {
                      timestamp: Date = Date(),
                      identifier: UUID = UUID(),
                      mood: Mood,
-                     context: NSManagedObjectContext) {
+                     context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(context: context)
         

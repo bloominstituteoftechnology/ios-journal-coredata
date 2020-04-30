@@ -111,28 +111,31 @@ class EntryController {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = predicate
         
-        let context = CoreDataStack.shared.mainContext
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         
-        do {
-            let existingEntries = try context.fetch(fetchRequest)
+        context.performAndWait {
             
-            for entry in existingEntries {
-                guard let id = entry.identifier,
-                    let representation = representationsById[id] else { continue }
+            do {
+                let existingEntries = try context.fetch(fetchRequest)
                 
-                update(entry: entry, entryRepresentation: representation)
+                for entry in existingEntries {
+                    guard let id = entry.identifier,
+                        let representation = representationsById[id] else { continue }
+                    
+                    update(entry: entry, entryRepresentation: representation)
+                    
+                    entriesToCreate.removeValue(forKey: id)
+                }
                 
-                entriesToCreate.removeValue(forKey: id)
+                for representation in entriesToCreate.values {
+                    Entry(entryRepresentation: representation, context: context)
+                }
+                
+            } catch {
+                NSLog("Error fetching entries for UUIDs: \(error)")
             }
-            
-            for representation in entriesToCreate.values {
-                Entry(entryRepresentation: representation, context: context)
-            }
-            
-        } catch {
-            NSLog("Error fetching entries for UUIDs: \(error)")
         }
-        try self.saveToPersistentStore()
+        try CoreDataStack.shared.save(context: context)
     }
     
     func fetchEntriesFromServer(completion: @escaping errorCompletionHandler = { _ in }) {
@@ -161,11 +164,6 @@ class EntryController {
                 completion(error)
             }
         }.resume()
-    }
-    
-    func saveToPersistentStore() throws {
-        let moc = CoreDataStack.shared.mainContext
-        try moc.save()
     }
     
 }
