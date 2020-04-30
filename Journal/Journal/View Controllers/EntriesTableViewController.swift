@@ -13,19 +13,21 @@ class EntriesTableViewController: UITableViewController {
     
     //MARK: - Properties -
     
-    var entries: [Entry] {
-        
-        let context = CoreDataStack.shared.mainContext
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
-        do {
-            let fetchedEntries = try context.fetch(fetchRequest)
-            return fetchedEntries
-        } catch {
-            NSLog("Error fetching entries: \(error)")
-            return []
-        }
-    }
+//    var entries: [Entry] {
+//
+//        let context = CoreDataStack.shared.mainContext
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//
+//        do {
+//            let fetchedEntries = try context.fetch(fetchRequest)
+//            return fetchedEntries
+//        } catch {
+//            NSLog("Error fetching entries: \(error)")
+//            return []
+//        }
+//    }
+    
+    let entryController = EntryController()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         
@@ -45,6 +47,20 @@ class EntriesTableViewController: UITableViewController {
         return fetchedResultsController.sections?.count ?? 1
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        var emojiToReturn = ""
+        
+        if section == 2 {
+            emojiToReturn = "😔"
+        } else if section == 1 {
+            emojiToReturn = "😐"
+        } else if section == 0 {
+            emojiToReturn = "😄"
+        }
+        return emojiToReturn
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
@@ -60,27 +76,16 @@ class EntriesTableViewController: UITableViewController {
         
     }
     
-    //    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    //        if segue.identifier == "ShowTaskDetail" {
-    //            if let detailVC = segue.destination as? TaskDetailViewController,
-    //                let indexPath = tableView.indexPathForSelectedRow {
-    //                detailVC.task = fetchedResultsController.object(at: indexPath)
-    //                detailVC.taskController = taskController
-    //            }
-    //        } else if segue.identifier == "CreateTaskModalSegue" {
-    //            if let navC = segue.destination as? UINavigationController,
-    //                let createTaskVC = navC.viewControllers.first as? CreateTaskViewController {
-    //                createTaskVC.taskController = taskController
-    //            }
-    //        }
-    //    }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "EntryDetailSegue" {
             guard let index = tableView.indexPathForSelectedRow,
                 let detailVC = segue.destination as? EntryDetailViewController else { return }
             detailVC.entry = fetchedResultsController.object(at: index)
+            detailVC.entryController = entryController
+        } else if segue.identifier == "CreateEntrySegue" {
+            let createVC = segue.destination as! CreateEntryViewController
+            createVC.entryController = entryController
         }
     }
     
@@ -96,6 +101,8 @@ class EntriesTableViewController: UITableViewController {
             let entry = fetchedResultsController.object(at: indexPath)
             let context = CoreDataStack.shared.mainContext
             context.delete(entry)
+            
+            entryController.deleteEntryFromServer(entry: entry, completion: { _ in })
             
             do {
                 try context.save()

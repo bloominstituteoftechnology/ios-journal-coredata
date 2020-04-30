@@ -12,6 +12,8 @@ class CreateEntryViewController: UIViewController {
     
     //MARK: - Properties and IBOutlets -
     
+    var entryController: EntryController?
+    
     @IBOutlet var titleTextField: UITextField!
     @IBOutlet var bodyTextView: UITextView!
     @IBOutlet var moodSegmentedControl: UISegmentedControl!
@@ -21,9 +23,9 @@ class CreateEntryViewController: UIViewController {
     @IBAction func saveButtonTapped(_ sender: Any) {
         
         guard let title = titleTextField.text,
-              let body = bodyTextView.text,
-              !title.isEmpty,
-              !body.isEmpty else { return }
+            let body = bodyTextView.text,
+            !title.isEmpty,
+            !body.isEmpty else { return }
         
         let index = moodSegmentedControl.selectedSegmentIndex
         var mood = "😐"
@@ -36,15 +38,16 @@ class CreateEntryViewController: UIViewController {
             mood = Mood.happy.rawValue
         }
         
-        Entry(title: title, bodyText: body, timestamp: Date(), mood: mood, context: CoreDataStack.shared.mainContext)
+        let entry = Entry(title: title, bodyText: body, timestamp: Date(), mood: mood, context: CoreDataStack.shared.mainContext)
         
         
         do {
-        try CoreDataStack.shared.mainContext.save()
+            try CoreDataStack.shared.mainContext.save()
         } catch {
             NSLog("Could not save new user entry: \(error)")
         }
         
+        entryController?.sendEntryToServer(entry: entry, completion: { _ in })
         navigationController?.dismiss(animated: true, completion: nil)
         
     }

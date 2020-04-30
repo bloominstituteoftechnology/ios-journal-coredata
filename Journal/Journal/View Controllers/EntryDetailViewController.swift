@@ -16,6 +16,7 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet var moodSegmentedControl: UISegmentedControl!
     @IBOutlet var notesTextView: UITextView!
     
+    var entryController: EntryController?
     var entry: Entry?
     var wasEdited: Bool = false
     
@@ -63,6 +64,8 @@ class EntryDetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        guard let entry = entry else { return }
+        
         if wasEdited {
             
             guard let title = titleTextField.text,
@@ -87,6 +90,8 @@ class EntryDetailViewController: UIViewController {
         }  catch {
             NSLog("Could not save becuase: \(error)")
         }
+        
+        entryController?.sendEntryToServer(entry: entry, completion: { _ in })
         
     }
 
