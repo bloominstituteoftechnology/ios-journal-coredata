@@ -38,7 +38,7 @@ extension Entry {
         guard let identifier = UUID(uuidString: entryRepresentation.identifier) else {
             return nil
         }
-        // convert string to date
+       
         self.init(identifier: identifier,
                   title: entryRepresentation.title,
                   bodyText: entryRepresentation.bodyText,
@@ -52,7 +52,7 @@ extension Entry {
             let bodyText = bodyText,
             let timeStamp = timestamp,
             let id = identifier,
-            let mood = mood else { return  nil }
+            let mood = mood else { return nil }
 
       
         
@@ -61,13 +61,5 @@ extension Entry {
                                   bodyText: bodyText,
                                   timestamp: timeStamp,
                                   mood: mood)
-    }
-}
-
-extension Date {
-    func getFormattedDate(format: String) -> String {
-        let dateFormat = DateFormatter()
-        dateFormat.dateFormat = format
-        return dateFormat.string(from: self)
     }
 }

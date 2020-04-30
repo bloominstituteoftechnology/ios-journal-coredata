@@ -28,8 +28,8 @@ class EntryContoller {
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
     let baseURL = URL(string: "https://journal-fc20b.firebaseio.com/")!
-  
-    func sendEntryToServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+    
+    func put(entry: Entry, completion: @escaping CompletionHandler) {
         guard let identifier =  entry.identifier else {
             completion(.failure(.noIdentifier))
             return
@@ -63,28 +63,30 @@ class EntryContoller {
             DispatchQueue.main.async {
                 completion(.success(true))
             }
-            return
+            
         }.resume()
     }
     
-    func deleteEntryFromServer(entry: Entry, completion: @escaping () -> Void = {}) {
+    func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         guard let identifier = entry.identifier else {
-            completion()
+            completion(.failure(.noIdentifier))
             return
         }
         
-        
-        let requestURL = baseURL.appendingPathExtension(identifier.uuidString).appendingPathComponent("json")
+        let requestURL = baseURL.appendingPathComponent(identifier.uuidString).appendingPathExtension("json")
         var request = URLRequest(url: requestURL)
-               request.httpMethod = "DELETE"
+        request.httpMethod = "DELETE"
         
         URLSession.shared.dataTask(with: request) { (_, _, error) in
             if let error = error {
                 NSLog("Error deleting entry from server: \(error)")
                 DispatchQueue.main.async {
-                    completion()
+                    completion(.failure(.otherError))
                 }
                 return
+            }
+            DispatchQueue.main.async {
+                completion(.success(true))
             }
         }.resume()
     }
@@ -109,53 +111,54 @@ class EntryContoller {
         var entriesToCreate = representationsByID
         
         // Ask Core Data to find any tasks with these identifiers
-    
+        
         let predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
         
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = predicate
         
-        let context = CoreDataStack.shared.mainContext
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         
-        do {
-            // This will only fetch the entries that match the criteria in our predicate
-            let existingEntries = try context.fetch(fetchRequest)
+        context.performAndWait {
             
-            // Let's update the entries that already exist in Core Data
-            
-            for entry in existingEntries {
+            do {
+                // This will only fetch the entries that match the criteria in our predicate
+                let existingEntries = try context.fetch(fetchRequest)
                 
-                guard let id = entry.identifier,
-                    let representation = representationsByID[id] else { continue }
+                // Let's update the entries that already exist in Core Data
                 
-                entry.title = representation.title
-                entry.bodyText = representation.bodyText
-                entry.timestamp = representation.timestamp
-                entry.mood = representation.mood
+                for entry in existingEntries {
+                    
+                    guard let id = entry.identifier,
+                        let representation = representationsByID[id] else { continue }
+                    
+                    update(entry: entry, representation: representation)
+                    
+                    
+                    // If we updated the entry, that means we don't need to make a copy of it. It already exists in Core Data, so remove it from the entries we still need to create
+                    
+                    entriesToCreate.removeValue(forKey: id)
+                }
+                // Add entries that don't exist
                 
-                // If we updated the entry, that means we don't need to make a copy of it. It already exists in Core Data, so remove it from the entries we still need to create
+                for representation in entriesToCreate.values {
+                    Entry(entryRepresentation: representation, context: context)
+                }
                 
-                entriesToCreate.removeValue(forKey: id)
+            } catch {
+                NSLog("Error fetching tasks for UUIDs: \(error)")
             }
-            // Add entries that don't exist
-            
-            for representation in entriesToCreate.values {
-                Entry(entryRepresentation: representation, context: context)
-            }
-            
-        } catch {
-            NSLog("Error fetching tasks for UUIDs: \(error)")
         }
-        try self.saveToPersistentStore()
+        try CoreDataStack.shared.save(context: context)
     }
-   
+    
     
     func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
         
         let requestURL = baseURL.appendingPathExtension("json")
         
         var request = URLRequest(url: requestURL)
-               request.httpMethod = "GET"
+        request.httpMethod = "GET"
         
         
         URLSession.shared.dataTask(with: request) { (data, _, error) in
@@ -183,7 +186,9 @@ class EntryContoller {
                 // Figure out which entry representions don't exist in Core Data, so we can add them and figure out which ones have changed
                 try self.updateEntries(with: entryRepresentations)
                 
-                completion(.success(true))
+                DispatchQueue.main.async {
+                    completion(.success(true))
+                }
             } catch {
                 NSLog("Error decoding entry representation: \(error)")
                 DispatchQueue.main.async {
@@ -191,11 +196,5 @@ class EntryContoller {
                 }
             }
         }.resume()
-    }
-    
-    
-    func saveToPersistentStore() throws {
-        let moc = CoreDataStack.shared.mainContext
-        try moc.save()
     }
 }

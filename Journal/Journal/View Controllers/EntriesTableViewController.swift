@@ -76,15 +76,23 @@ var entryController = EntryContoller()
         if editingStyle == .delete {
             
             let entry = fetchedResultsController.object(at: indexPath)
-            let context = CoreDataStack.shared.mainContext
             
-            context.delete(entry)
-            entryController.deleteEntryFromServer(entry: entry)
-            do {
-                try context.save()
-            } catch {
-                NSLog("Error saviing context after deleting Entry: \(error)")
-                context.reset()
+            entryController.deleteEntryFromServer(entry: entry) { (result) in
+                
+                guard let _ = try? result.get() else {
+                    return
+                }
+                
+                let context = CoreDataStack.shared.mainContext
+                
+                context.delete(entry)
+              //  entryController.deleteEntryFromServer(entry: entry)
+                do {
+                    try context.save()
+                } catch {
+                    NSLog("Error saving context after deleting Entry: \(error)")
+                    context.reset()
+                }
             }
         }
     }
@@ -119,6 +127,7 @@ var entryController = EntryContoller()
             if let editVC = segue.destination as? EntryDetailViewController {
                 if let indextPath = tableView.indexPathForSelectedRow {
                     editVC.entry = fetchedResultsController.object(at: indextPath)
+                     editVC.entryController = self.entryController
                 }
             }
         }

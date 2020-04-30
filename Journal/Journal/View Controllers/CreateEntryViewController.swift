@@ -50,7 +50,7 @@ class CreateEntryViewController: UIViewController {
         let entry = Entry(title: title,
               bodyText: body,
               mood: mood.rawValue)
-         entryController?.sendEntryToServer(entry: entry, completion: { _ in })
+         entryController?.put(entry: entry, completion: { _ in })
         do {
             try CoreDataStack.shared.mainContext.save()
             navigationController?.dismiss(animated: true)
