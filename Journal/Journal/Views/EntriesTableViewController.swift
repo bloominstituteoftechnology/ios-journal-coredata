@@ -64,7 +64,7 @@ class EntriesTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-         return fetchedResultsController.sections?.count ?? 1
+        return fetchedResultsController.sections?.count ?? 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -78,7 +78,7 @@ class EntriesTableViewController: UITableViewController {
         let entry = fetchedResultsController.object(at: indexPath)
         
         cell.entry = entry
-
+        
         return cell
     }
     
@@ -120,22 +120,22 @@ class EntriesTableViewController: UITableViewController {
     }
     
     
-     // MARK: - Navigation
-     
-override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    if segue.identifier == "ShowDetailSegue" {
-        if let detailVC = segue.destination as? EntryDetailViewController,
-            let indexPath = tableView.indexPathForSelectedRow {
-            detailVC.entry = fetchedResultsController.object(at: indexPath)
-            detailVC.taskController = taskController
-        }
-    } else if segue.identifier == "CreateEntryModalSegue" {
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowDetailSegue" {
+            if let detailVC = segue.destination as? EntryDetailViewController,
+                let indexPath = tableView.indexPathForSelectedRow {
+                detailVC.entry = fetchedResultsController.object(at: indexPath)
+                detailVC.taskController = taskController
+            }
+        } else if segue.identifier == "CreateEntryModalSegue" {
             if let navC = segue.destination as? UINavigationController,
                 let createEntryVC = navC.viewControllers.first as? CreateEntryViewController {
                 createEntryVC.taskController = taskController
+            }
         }
     }
-}
 }
 
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {

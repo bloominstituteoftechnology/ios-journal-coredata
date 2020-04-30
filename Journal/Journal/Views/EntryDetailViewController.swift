@@ -21,14 +21,14 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var bodyTextField: UITextView!
     
     // MARK: - IBActions
-    @IBAction func moodControlChanged(_ sender: Any) {
+    @IBAction func moodControlChanged(_ sender: UIButton) {
         wasEdited = true
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: UIBarButtonItem.Style.plain, target: self, action: nil)
+        navigationItem.rightBarButtonItem = editButtonItem
         
         updateViews()
     }
