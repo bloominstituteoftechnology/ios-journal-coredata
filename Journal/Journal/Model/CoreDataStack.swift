@@ -11,27 +11,40 @@ import CoreData
 
 class CoreDataStack {
     
-    // This is a shared instance of the CoreDataStack
+    //This is a shared instance of the Core Data Stack
     static let shared = CoreDataStack()
     
     lazy var container: NSPersistentContainer = {
-        
-        // "Tasks" needs to be named what the .xcdatamodeld file is named
-        let container = NSPersistentContainer(name: "Journal")
-        container.loadPersistentStores { (_ , error) in
+       let container = NSPersistentContainer(name: "Journal")
+        container.loadPersistentStores { (_, error) in
             if let error = error {
                 fatalError("Failed to load persistent stores: \(error)")
             }
         }
-        
+        container.viewContext.automaticallyMergesChangesFromParent = true
         return container
     }()
     
-    // Makes the access to the context faster
-    // Reminds you to use the context on the maine queue
+    //Makes the access to the context faster
+    // Reminds you to use the context on the main queue
     
     var mainContext: NSManagedObjectContext {
         return container.viewContext
     }
     
+    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
+        var error: Error?
+        
+        context.performAndWait {
+            do {
+                try context.save()
+            } catch let saveError {
+                error = saveError
+            }
+        }
+        
+        if let error = error {
+            throw error
+        }
+    }
 }
