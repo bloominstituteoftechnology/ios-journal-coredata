@@ -28,6 +28,15 @@ class EntriesTableViewController: UITableViewController {
     //        }
     //    }
     
+    // MARK: - IBActions
+    @IBAction func refresh(_ sender: Any) {
+        taskController.fetchTasksFromServer { (_) in
+            
+            self.refreshControl?.endRefreshing()
+        }
+    }
+    
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         
         let fetchedRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -48,6 +57,7 @@ class EntriesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        taskController.fetchTasksFromServer()
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -58,6 +68,7 @@ class EntriesTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
+        taskController.fetchTasksFromServer()
     }
     
     
@@ -75,9 +86,7 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: EntryTableViewCell.reuseIdentifier, for: indexPath) as! EntryTableViewCell
         
-        let entry = fetchedResultsController.object(at: indexPath)
-        
-        cell.entry = entry
+        cell.entry = fetchedResultsController.object(at: indexPath)
         
         return cell
     }

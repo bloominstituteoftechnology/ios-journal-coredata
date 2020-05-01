@@ -108,43 +108,44 @@ class TaskController {
     
     func fetchTasksFromServer(completion: @escaping CompletionHandler = { _ in }) {
         
-        let requestURL = baseURL.appendingPathExtension("json")
-        
-        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+         let requestURL = baseURL.appendingPathExtension("json")
             
-            if let error = error {
-                NSLog("Error fetching tasks: \(error)")
-                DispatchQueue.main.async {
-                    completion(.failure(.otherError))
-                }
-                return
-            }
-            
-            guard let data = data else {
-                NSLog("Error: No data return from data task")
-                DispatchQueue.main.async {
-                    completion(.failure(.noData))
-                }
-                return
-            }
-            
-            // Pull the Json out of the data, and turn it into Task Representation.
-            do {
-                let entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({ $0.value })
+            URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
                 
-                // Figure out which task representations dont exist in core data so we can add them, and figure out which ones have changed.
-                try self.updateTasks(with: entryRepresentations)
-                DispatchQueue.main.async {
-                    completion(.success(true))
+                if let error = error {
+                    NSLog("Error fetching tasks: \(error)")
+                    DispatchQueue.main.async {
+                        completion(.failure(.otherError))
+                    }
+                    return
                 }
-            } catch {
-                NSLog("Error decoding task representation: \(error)")
-                DispatchQueue.main.async {
-                    completion(.failure(.noDecode))
+                
+                guard let data = data else {
+                    NSLog("Error: No data returned from data task")
+                    DispatchQueue.main.async {
+                        completion(.failure(.noData))
+                    }
+                    return
                 }
-            }
+                
+                // Pull the JSON out of the data, and turn it into [TaskRepresentation]
+                do {
+                    let entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({ $0.value })
+                    
+                    // Figure out which task representations don't exist in Core Data, so we can add them, and figure out which ones have changed
+                    try self.updateTasks(with: entryRepresentations)
+                    
+                    DispatchQueue.main.async {
+                        completion(.success(true))
+                    }
+                } catch {
+                    NSLog("Error decoding task representations: \(error)")
+                    DispatchQueue.main.async {
+                        completion(.failure(.noDecode))
+                    }
+                }
+            }.resume()
         }
-    }
     
     func updateTasks(with representations: [EntryRepresentation]) throws {
         
