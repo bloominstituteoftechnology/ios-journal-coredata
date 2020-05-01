@@ -39,7 +39,7 @@ class EntriesTableViewController: UITableViewController {
            fetchRequest.sortDescriptors = [
                NSSortDescriptor(key: "mood", ascending: true), NSSortDescriptor(key: "timestamp", ascending: true)
            ]
-           
+            let moc = CoreDataStack.shared.mainContext
            let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
                                                 managedObjectContext: CoreDataStack.shared.mainContext,
                                                 sectionNameKeyPath: "mood",
