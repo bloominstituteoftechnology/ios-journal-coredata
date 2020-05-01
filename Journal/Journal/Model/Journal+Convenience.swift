@@ -40,7 +40,8 @@ extension Entry {
                   bodyText: entryRepresentation.bodyText,
                   timeStamp: entryRepresentation.timeStamp,
                   identifier: identifier,
-                  mood: entryRepresentation.mood)
+                  mood: entryRepresentation.mood,
+                  context: context)
     }
     
     var entryRepresentation: EntryRepresentation? {
