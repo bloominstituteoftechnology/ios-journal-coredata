@@ -113,12 +113,12 @@ class EntryContoller {
         // Ask Core Data to find any tasks with these identifiers
         
         let predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
-        
+       
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = predicate
         
         let context = CoreDataStack.shared.container.newBackgroundContext()
-        
+       
         context.performAndWait {
             
             do {
@@ -128,7 +128,6 @@ class EntryContoller {
                 // Let's update the entries that already exist in Core Data
                 
                 for entry in existingEntries {
-                    
                     guard let id = entry.identifier,
                         let representation = representationsByID[id] else { continue }
                     

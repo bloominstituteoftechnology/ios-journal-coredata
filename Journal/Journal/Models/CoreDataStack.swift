@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 class CoreDataStack {
-    //kCFBundleNameKey as String
+    
     static let shared = CoreDataStack()
     
     lazy var container: NSPersistentContainer = {
@@ -37,6 +37,7 @@ class CoreDataStack {
         context.performAndWait {
             do {
                 try context.save()
+              
             } catch let saveError {
                 error = saveError
             }

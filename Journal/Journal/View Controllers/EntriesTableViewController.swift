@@ -26,7 +26,6 @@ var entryController = EntryContoller()
                                              managedObjectContext: CoreDataStack.shared.mainContext,
                                              sectionNameKeyPath: "mood",
                                              cacheName: nil)
-        
         frc.delegate = self
         try! frc.performFetch()
         return frc
@@ -56,6 +55,7 @@ var entryController = EntryContoller()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
@@ -123,18 +123,19 @@ var entryController = EntryContoller()
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "EntryDetailSegue" {
-            if let editVC = segue.destination as? EntryDetailViewController {
-                if let indextPath = tableView.indexPathForSelectedRow {
-                    editVC.entry = fetchedResultsController.object(at: indextPath)
-                     editVC.entryController = self.entryController
-                }
-            }
-        }
         if segue.identifier == "JournalEntrySegue" {
             if let navVC = segue.destination as? UINavigationController,
                 let createVC = navVC.viewControllers.first as? CreateEntryViewController {
                 createVC.entryController = self.entryController
+            }
+            
+        }
+        if segue.identifier == "EntryDetailSegue" {
+            if let editVC = segue.destination as? EntryDetailViewController {
+                if let indextPath = tableView.indexPathForSelectedRow {
+                    editVC.entry = fetchedResultsController.object(at: indextPath)
+                    editVC.entryController = self.entryController
+                }
             }
         }
     }
