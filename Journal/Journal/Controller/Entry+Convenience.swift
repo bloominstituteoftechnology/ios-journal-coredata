@@ -20,7 +20,7 @@ extension Entry {
                                         title: String,
                                         bodyText: String,
                                         timestamp: Date,
-                                        mood: MoodSelection,
+                                        mood: MoodSelection = .neutral,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         // Set up the NSManagedObject portion of the Task object
@@ -54,7 +54,7 @@ extension Entry {
         let bodyText = bodyText,
         let timestamp = timestamp else { return nil }
         
-        let id = identifier ?? ""
+        let id = identifier ?? UUID().uuidString
         
         return EntryRepresentation(identifier: id,
                                    title: title,

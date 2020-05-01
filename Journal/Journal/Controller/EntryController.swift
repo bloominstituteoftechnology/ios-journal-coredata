@@ -122,33 +122,35 @@ class EntryController {
         fetchRequest.predicate = predicate
 
         // Perform the fetch request on your core data stack's mainContext. This will return an array of Entry objects whose identifier was in the array you passed in to the predicate. Make sure you handle a potential error from the fetch method on your managed object context, as it is a throwing method.
-        let context = CoreDataStack.shared.mainContext
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         
-        do {
-            
-            let existingEntries = try context.fetch(fetchRequest)
-            
-            // From here, loop through the fetched entries and call your update(entry: ... method that you made earlier. One you have updated the entry, remove the entry from the dictionary you made a few points earlier. This will make it so you only create entries from the remaining objects in the dictionary. The only ones that would remain after this loop are ones that didn't exist in Core Data already.
-            for entry in existingEntries {
-                guard let id = entry.identifier,
-                    let representation = representationsByID[id] else { continue }
+        context.performAndWait {
+            do {
                 
-                update(entry: entry, entryRepresentation: representation)
+                let existingEntries = try context.fetch(fetchRequest)
                 
-                entriesToCreate.removeValue(forKey: id)
+                // From here, loop through the fetched entries and call your update(entry: ... method that you made earlier. One you have updated the entry, remove the entry from the dictionary you made a few points earlier. This will make it so you only create entries from the remaining objects in the dictionary. The only ones that would remain after this loop are ones that didn't exist in Core Data already.
+                for entry in existingEntries {
+                    guard let id = entry.identifier,
+                        let representation = representationsByID[id] else { continue }
+                    
+                    update(entry: entry, entryRepresentation: representation)
+                    
+                    entriesToCreate.removeValue(forKey: id)
+                }
+                
+                 // Then make a second loop through your dictionary's values property. This should create an entry for each of the values in that dictionary using the Entry initializer that takes in an EntryRepresentation and an NSManagedObjectContext
+                for representation in entriesToCreate.values {
+                    Entry(entryRepresentation: representation, context: context)
+                }
+                
+            } catch {
+                NSLog("Error fetching tasks for Identifier: \(error)")
             }
-            
-             // Then make a second loop through your dictionary's values property. This should create an entry for each of the values in that dictionary using the Entry initializer that takes in an EntryRepresentation and an NSManagedObjectContext
-            for representation in entriesToCreate.values {
-                Entry(entryRepresentation: representation, context: context)
-            }
-            
-        } catch {
-            NSLog("Error fetching tasks for Identifier: \(error)")
         }
         
         //  Under both loops, call saveToPersistentStore() to persist the changes and effectively synchronize the data in the device's persistent store with the data on the server. Since you are using an NSFetchedResultsController, as soon as you save the managed object context, the fetched results controller will observe those changes and automatically update the table view with the updated entries.
-        try self.saveToPersistentStore()
+        try CoreDataStack.shared.save(context: context)
     }
     
     func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
@@ -201,11 +203,6 @@ class EntryController {
         }.resume()
         // Don't forget to resume the data task.
         
-    }
-    
-    func saveToPersistentStore() throws {
-        let moc = CoreDataStack.shared.mainContext
-        try moc.save()
     }
 }
 
