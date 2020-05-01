@@ -28,6 +28,12 @@ class EntriesTableViewController: UITableViewController {
         return frc
     }()
     
+    @IBAction func refresh(_ sender: Any) {
+        entryController.fetchEntriesFromServer { _ in
+            self.refreshControl?.endRefreshing()
+        }
+    }
+    
     // MARK: - View Lifecycle
 
     override func viewDidLoad() {
