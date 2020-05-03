@@ -9,16 +9,21 @@
 import Foundation
 import CoreData
 
-extension Entry {
-    @discardableResult convenience init(title: String,
-                                        bodyText: String,
-                                        timeStamp: Date,
-                                        identifier: String,
-                                        context: NSManagedObjectContext) {
-        self.init(context: context)
-        self.title = title
-        self.bodyText = bodyText
-        self.timeStamp = timeStamp
-        self.identifier = identifier
-    }
+enum EntryMood: String, CaseIterable {
+    case happy = "Happy"
+    case sad = "Sad"
+    case neutral = "Neutral"
 }
+
+extension Entry {
+    
+    @discardableResult convenience init(title: String, bodyText: String, timestamp: Date = Date(), mood: EntryMood = .neutral, identifier: String = UUID().uuidString, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        
+            self.init(context: context)
+            self.title = title
+            self.bodyText = bodyText
+            self.mood = mood.rawValue
+            self.timeStamp = timeStamp
+            self.identifier = identifier
+        }
+    }

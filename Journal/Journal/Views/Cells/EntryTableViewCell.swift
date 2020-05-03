@@ -9,6 +9,8 @@
 import UIKit
 
 class EntryTableViewCell: UITableViewCell {
+    
+    static let reuseIdentifier = "EntryCell"
 
     @IBOutlet weak var entryTitle: UILabel!
     @IBOutlet weak var entryDate: UILabel!
@@ -24,6 +26,7 @@ class EntryTableViewCell: UITableViewCell {
         guard let entry = entry else { return }
         entryTitle.text = entry.title
         notesText.text = entry.bodyText
+        entryDate.text = TimeStamper.formatter(for: entry)
     }
 
 }
