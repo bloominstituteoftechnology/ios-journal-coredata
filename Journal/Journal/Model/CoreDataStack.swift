@@ -11,10 +11,10 @@ import CoreData
 
 class CoreDataStack {
     
-    //This is a shared instance of the Core Data Stack
     static let shared = CoreDataStack()
     
     lazy var container: NSPersistentContainer = {
+        
        let container = NSPersistentContainer(name: "Journal")
         container.loadPersistentStores { (_, error) in
             if let error = error {
@@ -24,9 +24,6 @@ class CoreDataStack {
         container.viewContext.automaticallyMergesChangesFromParent = true
         return container
     }()
-    
-    //Makes the access to the context faster
-    // Reminds you to use the context on the main queue
     
     var mainContext: NSManagedObjectContext {
         return container.viewContext
@@ -42,9 +39,9 @@ class CoreDataStack {
                 error = saveError
             }
         }
-        
         if let error = error {
             throw error
         }
     }
+    
 }

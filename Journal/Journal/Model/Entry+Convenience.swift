@@ -9,20 +9,57 @@
 import Foundation
 import CoreData
 
+enum Mood: String, CaseIterable, Codable {
+    case sad = "😢"
+    case neutral = "😐"
+    case happy = "😄"
+}
+
 extension Entry {
-    @discardableResult convenience init(identifier: UUID = UUID(),
-                                        title: String,
-                                        bodyText: String?,
-                                        timestamp: Date = Date(),
-                                        context: NSManagedObjectContext) {
-        // Set up the NSManagedObject portion of the Task object
+    @discardableResult convenience init(title: String,
+                     bodyText: String,
+                     timestamp: Date = Date(),
+                     identifier: UUID = UUID(),
+                     mood: Mood,
+                     context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        
         self.init(context: context)
-            
-        // Assign our unique values to the attributes we created in the data model file
-        self.identifier = identifier
+        
         self.title = title
         self.bodyText = bodyText
         self.timestamp = timestamp
-            
-        }
+        self.identifier = identifier
+        self.mood = mood.rawValue
+    }
+    
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation,
+                                        context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        
+        guard let mood = Mood(rawValue: entryRepresentation.mood),
+            let bodyText = entryRepresentation.bodyText,
+            let identifier = UUID(uuidString: entryRepresentation.identifier) else { return nil }
+    
+    
+        self.init(title: entryRepresentation.title,
+                  bodyText: bodyText,
+                  timestamp: entryRepresentation.timestamp,
+                  identifier: identifier,
+                  mood: mood,
+                  context: context)
+    }
+    
+    var entryRepresentation: EntryRepresentation? {
+        guard let title = title,
+            let timestamp = timestamp,
+            let mood = mood else { return nil }
+        
+        let id = identifier ?? UUID()
+        
+        return EntryRepresentation(title: title,
+                                   bodyText: bodyText,
+                                   timestamp: timestamp,
+                                   identifier: id.uuidString,
+                                   mood: mood)
+    }
+    
 }

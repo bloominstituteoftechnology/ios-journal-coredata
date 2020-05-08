@@ -14,6 +14,8 @@ class CreateEntryViewController: UIViewController {
     @IBOutlet weak var bodyTextView: UITextView!
     @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     
+    var entryController: EntryController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpMoodSegmentedControl()
@@ -26,23 +28,30 @@ class CreateEntryViewController: UIViewController {
     
     @IBAction func saveBarButtonTapped(_ sender: UIBarButtonItem) {
         
-        // Get values from the views
-        guard let title = titleTextField.text, !title.isEmpty else { return }
-        
-        let bodyText = bodyTextView.text
-        
-        // Create the context
-        Entry(title: title,
-              bodyText: bodyText,
-              timestamp: Date(),
-              context: CoreDataStack.shared.mainContext)
-        
-        // do try catch to save the context we have created
-        do {
-            try CoreDataStack.shared.mainContext.save()
-            navigationController?.dismiss(animated: true, completion: nil)
-        } catch {
-            NSLog("Error saving manage object context: \(error)")
+        if let title = titleTextField.text,
+            !title.isEmpty,
+            let notes = bodyTextView.text,
+            !notes.isEmpty {
+            
+            let selectedMood = moodSegmentedControl.selectedSegmentIndex
+            let mood = Mood.allCases[selectedMood]
+            
+            let entry = Entry(title: title,
+                  bodyText: notes,
+                  mood: mood,
+                  context: CoreDataStack.shared.mainContext)
+            
+            entryController?.sendEntryToServer(entry: entry, completion: { _ in })
+            
+            let context = CoreDataStack.shared.container.newBackgroundContext()
+            
+            do {
+                try CoreDataStack.shared.save(context: context)
+                navigationController?.dismiss(animated: true)
+            } catch {
+                NSLog("Error saving Entry to context: \(error)")
+                context.reset()
+            }
         }
     }
     
