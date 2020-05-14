@@ -70,7 +70,7 @@ In the `CreateEntryViewController`:
 3. For cancel, simply dismiss this view's navigation controller.
 4. For save, collect the data from the user, validate that it isn't empty, create a new `Entry` managed object, and finally issue a save on Core Data, with the appropriate error handling.
 
-In the `EntryTableViewController`:
+In the `EntriesTableViewController`:
 
 1. Create an `entries` computed property that fetches all entry entities from Core Data and returns them in an array.
 2. Implement the `numberOfRows` method using the entries array property.
