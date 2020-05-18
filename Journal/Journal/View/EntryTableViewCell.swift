@@ -23,6 +23,13 @@ class EntryTableViewCell: UITableViewCell {
     }
     
     static let reuseIdentifier = "EntryCell"
+    
+    let dateFormatter: DateFormatter = {
+        var formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        return formatter
+    }()
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -36,6 +43,13 @@ class EntryTableViewCell: UITableViewCell {
     }
     
     private func updateViews() {
+        guard let entry = entry,
+            let timestamp = entry.timestamp else { return }
+        
+        entryTitleLabel.text = entry.title
+        entryBodyTextView.text = entry.bodyText
+        let entryTimestamp = dateFormatter.string(from: timestamp)
+        entryTimestampLabel.text = entryTimestamp
         
     }
 
