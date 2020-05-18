@@ -10,6 +10,8 @@ import UIKit
 
 class CreateEntryViewController: UIViewController {
     
+    var timeStamp = NSDate.now
+    
     // MARK: - OUTLETS
     
     @IBOutlet weak var journalEntryTitleText: UITextField!
@@ -23,9 +25,23 @@ class CreateEntryViewController: UIViewController {
     // MARK: - ACTIONS
     
     @IBAction func saveEntryTapped(_ sender: Any) {
+        guard let title = journalEntryTitleText.text,
+            !title.isEmpty,
+            let bodyText = journalTextView.text,
+            !bodyText.isEmpty else { return }
+        
+        let entry = Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, context: CoreDataStack.shared.mainContext)
+        
+        do {
+            try CoreDataStack.shared.mainContext.save()
+            navigationController?.dismiss(animated: true, completion: nil)
+        } catch {
+            NSLog("Error saving managed object context \(error)")
+        }
     }
     
     @IBAction func cancelEntryTapped(_ sender: Any) {
+        navigationController?.dismiss(animated: true, completion: nil)
     }
     
     
