@@ -24,12 +24,15 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var journalEntryLabel: UILabel!
     @IBOutlet weak var journalEntryDate: UILabel!
     
-    
-    private var dateFormatter: DateFormatter = {
+    var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMM dd, yyyy"
+        formatter.dateFormat = "MMM dd, yyyy HH:mm"
         return formatter
     }()
+    
+    func string(from date: Date) -> String {
+        return dateFormatter.string(from: date)
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -42,6 +45,7 @@ class EntryTableViewCell: UITableViewCell {
         journalTitleLabel.text = entry.title
         journalEntryDate.text = "\(entry.timeStamp!)"
         journalEntryLabel.text = entry.bodyText
+        journalEntryDate.text = dateFormatter.string(from: entry.timeStamp!)
         
     }
     
