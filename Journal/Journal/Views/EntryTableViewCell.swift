@@ -31,7 +31,7 @@ class EntryTableViewCell: UITableViewCell {
     
     let dateFormatter = DateFormatter()
     
-    dateFormatter.dateFormat = "MM-dd-YY, hh-mm"
+    dateFormatter.dateFormat = "MM/dd/YY, h:mm a"
     let now = dateFormatter.string(from: entry.timeStamp!)
     
     
