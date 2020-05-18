@@ -69,7 +69,7 @@
             </objects>
             <point key="canvasLocation" x="2398.5507246376815" y="527.67857142857144"/>
         </scene>
-        <!--Entries Table View Controller-->
+        <!--Journal-->
         <scene sceneID="aab-RD-E5d">
             <objects>
                 <tableViewController id="9r8-ZA-lPD" customClass="EntriesTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
@@ -78,12 +78,47 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Wxj-F8-uni" customClass="EntryTableViewCell" customModule="EntryCell">
-                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="140" id="Wxj-F8-uni" customClass="EntryTableViewCell" customModule="EntryCell">
+                                <rect key="frame" x="0.0" y="28" width="414" height="140"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Wxj-F8-uni" id="QpA-jI-Nb9">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="140"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="AoE-Ge-MSj">
+                                            <rect key="frame" x="20" y="11" width="374" height="113"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="AON-DJ-wz4">
+                                                    <rect key="frame" x="0.0" y="0.0" width="374" height="48"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="249" verticalHuggingPriority="251" text="The Adventure of the Three Students" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LR8-Fy-iM1">
+                                                            <rect key="frame" x="0.0" y="0.0" width="254.5" height="48"/>
+                                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="5/18/20, 2:34 PM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="im3-EU-LCe">
+                                                            <rect key="frame" x="262.5" y="0.0" width="111.5" height="48"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <nil key="textColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Blah blah this happened to me today, blah blah, code stuff, blah blah, more code stuff, blah blah, the end!" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="drk-Yu-j5K">
+                                                    <rect key="frame" x="0.0" y="52" width="374" height="61"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="AoE-Ge-MSj" firstAttribute="top" secondItem="QpA-jI-Nb9" secondAttribute="topMargin" id="2hs-EP-waY"/>
+                                        <constraint firstAttribute="trailing" secondItem="AoE-Ge-MSj" secondAttribute="trailing" constant="20" id="4gO-Du-qHa"/>
+                                        <constraint firstItem="AoE-Ge-MSj" firstAttribute="leading" secondItem="QpA-jI-Nb9" secondAttribute="leading" constant="20" id="Zl1-Ju-Eti"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -92,7 +127,7 @@
                             <outlet property="delegate" destination="9r8-ZA-lPD" id="Rf6-EZ-MoL"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="nDh-UN-Wko">
+                    <navigationItem key="navigationItem" title="Journal" id="nDh-UN-Wko">
                         <barButtonItem key="rightBarButtonItem" title="Item" id="ALw-rD-8Iw">
                             <connections>
                                 <segue destination="lBj-J5-s30" kind="presentation" modalPresentationStyle="fullScreen" id="Tr1-9z-j3v"/>
@@ -102,7 +137,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nGQ-T2-W4E" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="870" y="528"/>
+            <point key="canvasLocation" x="869.56521739130437" y="527.67857142857144"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="6sb-Fq-IYN">
@@ -127,8 +162,8 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="9OG-Pg-hsJ" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="3BT-TI-NNa">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="3BT-TI-NNa">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
