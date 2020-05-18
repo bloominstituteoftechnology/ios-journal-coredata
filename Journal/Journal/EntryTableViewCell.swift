@@ -12,10 +12,11 @@ class EntryTableViewCell: UITableViewCell {
     
     var entry: Entry? {
         didSet {
+
             updateViews()
         }
     }
-      static let reuseIndentifier = "EntryCell"
+    static let reuseIndentifier = "EntryCell"
     
     // MARK: - OUTLETS
     
@@ -23,22 +24,31 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var journalEntryLabel: UILabel!
     @IBOutlet weak var journalEntryDate: UILabel!
     
+    
+    private var dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM dd, yyyy"
+        return formatter
+    }()
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
     
     private func updateViews() {
-        journalTitleLabel.text = entry?.title
-        journalEntryDate.text = "\(entry?.timeStamp)"
-        journalEntryLabel.text = entry?.bodyText
+        guard let entry = entry else { return }
+        
+        journalTitleLabel.text = entry.title
+        journalEntryDate.text = "\(entry.timeStamp!)"
+        journalEntryLabel.text = entry.bodyText
         
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
-
+    
 }

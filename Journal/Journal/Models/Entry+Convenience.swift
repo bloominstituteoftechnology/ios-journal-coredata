@@ -14,13 +14,15 @@ extension Entry {
     @discardableResult convenience init(indentifier: String = String(),
                                         title: String,
                                         bodyText: String,
-                                        timeStamp: Date,
+                                        timeStamp: Date = Date(),
                                         context: NSManagedObjectContext) {
         self.init(context: context)
         self.identifier = identifier
         self.title = title
         self.bodyText = bodyText
         self.timeStamp = timeStamp
+        
+      
     }
 }
-    
+
