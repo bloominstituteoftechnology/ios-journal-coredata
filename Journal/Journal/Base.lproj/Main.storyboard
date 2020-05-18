@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -70,27 +71,27 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="107" id="NE8-JS-GRv" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="107"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" id="NE8-JS-GRv" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="129.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NE8-JS-GRv" id="l6q-dL-Skt">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="107"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="129.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" fixedFrame="YES" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="rnh-a1-Rga">
-                                            <rect key="frame" x="18.5" y="30" width="377.5" height="47.5"/>
+                                        <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="rnh-a1-Rga">
+                                            <rect key="frame" x="38.5" y="41" width="337.5" height="48"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="290" translatesAutoresizingMaskIntoConstraints="NO" id="SX8-IP-ogy">
-                                                    <rect key="frame" x="0.0" y="0.0" width="377.5" height="24"/>
+                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="SX8-IP-ogy">
+                                                    <rect key="frame" x="0.0" y="0.0" width="337.5" height="24"/>
                                                     <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UBG-3m-n0C">
-                                                            <rect key="frame" x="0.0" y="0.0" width="52" height="24"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UBG-3m-n0C">
+                                                            <rect key="frame" x="0.0" y="0.0" width="294" height="24"/>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hnk-Cw-b9L">
-                                                            <rect key="frame" x="342" y="0.0" width="35.5" height="24"/>
+                                                            <rect key="frame" x="302" y="0.0" width="35.5" height="24"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -98,7 +99,7 @@
                                                     </subviews>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZLq-to-lrQ">
-                                                    <rect key="frame" x="0.0" y="28" width="377.5" height="19.5"/>
+                                                    <rect key="frame" x="0.0" y="28" width="337.5" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -106,6 +107,12 @@
                                             </subviews>
                                         </stackView>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="rnh-a1-Rga" firstAttribute="top" secondItem="l6q-dL-Skt" secondAttribute="topMargin" constant="30" id="6lo-cm-0es"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="rnh-a1-Rga" secondAttribute="trailing" constant="18" id="A87-8K-bvv"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="rnh-a1-Rga" secondAttribute="bottom" constant="29.5" id="Gro-ea-EhE"/>
+                                        <constraint firstItem="rnh-a1-Rga" firstAttribute="leading" secondItem="l6q-dL-Skt" secondAttribute="leadingMargin" constant="18.5" id="qSZ-pq-3OH"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="journalEntryDate" destination="hnk-Cw-b9L" id="YMN-wx-v9b"/>
