@@ -2,7 +2,7 @@
 //  EntryTableViewCell.swift
 //  Journal
 //
-//  Created by Dahna on 4/20/20.
+//  Created by Dahna on 5/18/20.
 //  Copyright © 2020 Dahna Buenrostro. All rights reserved.
 //
 
@@ -10,10 +10,12 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
     
-    @IBOutlet weak var entryTitle: UILabel!
-    @IBOutlet weak var entryDate: UILabel!
-    @IBOutlet weak var entryText: UILabel!
+    // MARK: Outlets
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var bodyTextLabel: UILabel!
     
+    // MARK: Properties
     static let reuseIdentifier = "EntryCell"
     
     var entry: Entry? {
@@ -21,9 +23,7 @@ class EntryTableViewCell: UITableViewCell {
             updateViews()
         }
     }
-    
 
-    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -36,15 +36,13 @@ class EntryTableViewCell: UITableViewCell {
     }
     
     func updateViews() {
-        
-        guard let entry = entry else { return }
+        guard let entry = entry else { return}
         guard let date = entry.timestamp else { return }
-            
-        
-        entryTitle.text = entry.title
-        entryDate.text = date.stringDate()
-        entryText.text = entry.bodyText
+        titleLabel.text = entry.title
+        dateLabel.text = date.stringDate()
+        bodyTextLabel.text = entry.bodyText
     }
+
 }
 
 extension Date {

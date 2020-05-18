@@ -2,7 +2,7 @@
 //  SceneDelegate.swift
 //  Journal
 //
-//  Created by Dahna on 4/20/20.
+//  Created by Dahna on 5/18/20.
 //  Copyright © 2020 Dahna Buenrostro. All rights reserved.
 //
 

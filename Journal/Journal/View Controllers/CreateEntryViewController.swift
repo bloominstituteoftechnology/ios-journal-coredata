@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  Journal
 //
-//  Created by Dahna on 4/20/20.
+//  Created by Dahna on 5/18/20.
 //  Copyright © 2020 Dahna Buenrostro. All rights reserved.
 //
 
@@ -10,40 +10,32 @@ import UIKit
 
 class CreateEntryViewController: UIViewController {
     
-
+    // MARK: Outlets
     @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var entryTextView: UITextView!
-    @IBOutlet weak var moodControl: UISegmentedControl!
+    @IBOutlet weak var bodyTextView: UITextView!
     
-    
-    var entry: Entry?
-    var entryController: EntryController?
-    
-    @IBAction func cancelButtonTapped(_ sender: Any) {
+    // MARK: Actions
+    @IBAction func cancelTapped(_ sender: Any) {
         navigationController?.dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func saveButtonTapped(_ sender: Any) {
-        guard let titleText = titleTextField.text,
-            !titleText.isEmpty else { return }
-        guard let entryText = entryTextView.text,
-            !entryText.isEmpty else { return }
+    @IBAction func saveTapped(_ sender: Any) {
+        guard let title = titleTextField.text,
+            !title.isEmpty else { return }
+        guard let bodyText = bodyTextView.text,
+            !bodyText.isEmpty else { return }
         
-        let moodIndex = moodControl.selectedSegmentIndex
-        let mood = Mood.allCases[moodIndex]
+        Entry(identifier: UUID().uuidString, title: title, bodyText: bodyText)
         
-        let entry = Entry(title: titleText, bodyText: entryText, timestamp: Date(), mood: mood)
-        entryController?.sendEntryToServer(entry: entry)
         do {
             try CoreDataStack.shared.mainContext.save()
         } catch {
-            NSLog("Error saving managed object: \(error)")
-            return
+            NSLog("Error saving entry: \(error)")
         }
         navigationController?.dismiss(animated: true, completion: nil)
     }
-
-
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
