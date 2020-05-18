@@ -9,21 +9,31 @@
 /* Begin PBXBuildFile section */
 		5AC91F3F2473219B006686A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC91F3E2473219B006686A4 /* AppDelegate.swift */; };
 		5AC91F412473219B006686A4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC91F402473219B006686A4 /* SceneDelegate.swift */; };
-		5AC91F432473219B006686A4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC91F422473219B006686A4 /* ViewController.swift */; };
+		5AC91F432473219B006686A4 /* CreateEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC91F422473219B006686A4 /* CreateEntryViewController.swift */; };
 		5AC91F462473219B006686A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AC91F442473219B006686A4 /* Main.storyboard */; };
 		5AC91F482473219C006686A4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AC91F472473219C006686A4 /* Assets.xcassets */; };
 		5AC91F4B2473219C006686A4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5AC91F492473219C006686A4 /* LaunchScreen.storyboard */; };
+		5AC91F5324732B25006686A4 /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC91F5224732B25006686A4 /* EntriesTableViewController.swift */; };
+		5AC91F5524732B3D006686A4 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC91F5424732B3D006686A4 /* EntryTableViewCell.swift */; };
+		5AC91F5724732B54006686A4 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC91F5624732B54006686A4 /* CoreDataStack.swift */; };
+		5AC91F5924732B64006686A4 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC91F5824732B64006686A4 /* Entry+Convenience.swift */; };
+		5AC91F5C24732B75006686A4 /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5AC91F5A24732B75006686A4 /* Journal.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		5AC91F3B2473219B006686A4 /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AC91F3E2473219B006686A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5AC91F402473219B006686A4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		5AC91F422473219B006686A4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		5AC91F422473219B006686A4 /* CreateEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEntryViewController.swift; sourceTree = "<group>"; };
 		5AC91F452473219B006686A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5AC91F472473219C006686A4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5AC91F4A2473219C006686A4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5AC91F4C2473219C006686A4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5AC91F5224732B25006686A4 /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
+		5AC91F5424732B3D006686A4 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
+		5AC91F5624732B54006686A4 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		5AC91F5824732B64006686A4 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
+		5AC91F5B24732B75006686A4 /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,7 +68,12 @@
 			children = (
 				5AC91F3E2473219B006686A4 /* AppDelegate.swift */,
 				5AC91F402473219B006686A4 /* SceneDelegate.swift */,
-				5AC91F422473219B006686A4 /* ViewController.swift */,
+				5AC91F422473219B006686A4 /* CreateEntryViewController.swift */,
+				5AC91F5224732B25006686A4 /* EntriesTableViewController.swift */,
+				5AC91F5424732B3D006686A4 /* EntryTableViewCell.swift */,
+				5AC91F5624732B54006686A4 /* CoreDataStack.swift */,
+				5AC91F5824732B64006686A4 /* Entry+Convenience.swift */,
+				5AC91F5A24732B75006686A4 /* Journal.xcdatamodeld */,
 				5AC91F442473219B006686A4 /* Main.storyboard */,
 				5AC91F472473219C006686A4 /* Assets.xcassets */,
 				5AC91F492473219C006686A4 /* LaunchScreen.storyboard */,
@@ -138,9 +153,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5AC91F432473219B006686A4 /* ViewController.swift in Sources */,
+				5AC91F5324732B25006686A4 /* EntriesTableViewController.swift in Sources */,
+				5AC91F5524732B3D006686A4 /* EntryTableViewCell.swift in Sources */,
+				5AC91F432473219B006686A4 /* CreateEntryViewController.swift in Sources */,
+				5AC91F5724732B54006686A4 /* CoreDataStack.swift in Sources */,
 				5AC91F3F2473219B006686A4 /* AppDelegate.swift in Sources */,
 				5AC91F412473219B006686A4 /* SceneDelegate.swift in Sources */,
+				5AC91F5924732B64006686A4 /* Entry+Convenience.swift in Sources */,
+				5AC91F5C24732B75006686A4 /* Journal.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,6 +356,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		5AC91F5A24732B75006686A4 /* Journal.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				5AC91F5B24732B75006686A4 /* Journal.xcdatamodel */,
+			);
+			currentVersion = 5AC91F5B24732B75006686A4 /* Journal.xcdatamodel */;
+			path = Journal.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 5AC91F332473219B006686A4 /* Project object */;
 }
