@@ -9,10 +9,23 @@
 import UIKit
 
 class EntryTableViewCell: UITableViewCell {
-
+    
+    var entry: Entry?
+    
+    // MARK: - OUTLETS
+    
+    @IBOutlet weak var journalTitleLabel: UILabel!
+    @IBOutlet weak var journalEntryLabel: UILabel!
+    @IBOutlet weak var journalEntryDate: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+    }
+    
+    private func updateViews() {
+        guard let entry = entry else { return }
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
