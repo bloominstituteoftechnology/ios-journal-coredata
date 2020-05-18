@@ -24,20 +24,3 @@ extension Entry {
     }
 }
     
-
-
-//extension Task {
-//    //give these default values
-//    @discardableResult convenience init(indentifier: UUID = UUID(),
-//                     name: String,
-//                     notes: String? = nil,
-//                     complete: Bool = false,
-//                     context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
-//        self.init(context: context)
-//        self.identifier = identifier
-//        self.name = name
-//        self.notes = notes
-//        self.complete = complete
-//    }
-//}
-

@@ -10,7 +10,11 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
     
-    var entry: Entry?
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
     
     // MARK: - OUTLETS
     
@@ -24,7 +28,9 @@ class EntryTableViewCell: UITableViewCell {
     }
     
     private func updateViews() {
-        guard let entry = entry else { return }
+        journalTitleLabel.text = entry?.title
+        journalEntryDate.text = "\(entry?.timeStamp)"
+        journalEntryLabel.text = entry?.bodyText
         
     }
 
