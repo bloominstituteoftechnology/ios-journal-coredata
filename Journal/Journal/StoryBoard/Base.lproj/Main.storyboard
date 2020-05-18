@@ -87,7 +87,7 @@
         <!--Journal-->
         <scene sceneID="Cy7-mj-CHA">
             <objects>
-                <tableViewController id="076-yh-S2w" customClass="EnteriesTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="076-yh-S2w" customClass="EntriesTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="hTs-IY-0ET">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -161,7 +161,7 @@
                     <navigationItem key="navigationItem" title="Journal" largeTitleDisplayMode="always" id="gfK-PV-Trk">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="plus.square" catalog="system" id="3av-jV-Xk0">
                             <connections>
-                                <segue destination="WSH-sK-UK3" kind="presentation" modalPresentationStyle="fullScreen" id="ZrI-y0-3f7"/>
+                                <segue destination="WSH-sK-UK3" kind="presentation" identifier="createEntrySegue" modalPresentationStyle="fullScreen" id="ZrI-y0-3f7"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

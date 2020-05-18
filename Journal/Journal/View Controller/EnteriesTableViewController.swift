@@ -33,14 +33,14 @@ class EntriesTableViewController: UITableViewController {
    
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
+      
         return entries.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: EntryTableViewCell.reuseIdentifier, for: indexPath) as? EntryTableViewCell else {
-        fatalError("Can't deque cell of type \(EntryTableViewCell.reuseIdentifier)")
+        fatalError("Can't dequeue cell of type \(EntryTableViewCell.reuseIdentifier)")
         }
         cell.entry = entries[indexPath.row]
 
