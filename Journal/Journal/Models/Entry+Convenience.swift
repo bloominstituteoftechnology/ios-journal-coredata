@@ -12,9 +12,8 @@ import CoreData
 extension Entry {
     @discardableResult convenience init(identifier: String = String(),
                                         bodyText: String,
-                                        timeStamp: Date? = Date(),
+                                        timeStamp: Date = Date(),
                                         title: String,
-                                        complete: Bool = false,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         self.init(context: context)
@@ -22,11 +21,6 @@ extension Entry {
         self.bodyText = bodyText
         self.timeStamp = timeStamp
         self.title = title
-        self.complete = complete
-        
         
     }
-    
-    
-    
 }

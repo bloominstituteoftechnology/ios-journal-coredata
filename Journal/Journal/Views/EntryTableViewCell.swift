@@ -19,19 +19,24 @@ class EntryTableViewCell: UITableViewCell {
     
     
     // MARK: - Properties
-
+    
     var entry: Entry? {
         didSet {
             updateViews()
         }
     }
-
     
    private func updateViews() {
     guard let entry = entry else { return }
     
+    let dateFormatter = DateFormatter()
+    
+    dateFormatter.dateFormat = "MM-dd-YY, hh-mm"
+    let now = dateFormatter.string(from: entry.timeStamp!)
+    
+    
     journalTitleLabel.text = entry.title
-    //journalDateLabel.text = String(entry.timeStamp)
+    journalDateLabel.text = now
     journalTextEntryLabel.text = entry.bodyText
     
     

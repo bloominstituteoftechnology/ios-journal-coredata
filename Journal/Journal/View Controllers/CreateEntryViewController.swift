@@ -33,8 +33,8 @@ class CreateEntryViewController: UIViewController {
         guard let textEntry = journalTextEntryTextView.text,
             !textEntry.isEmpty else { return }
         
-        
-        Entry(bodyText: textEntry, title: title, complete: complete)
+        Entry(bodyText: textEntry, title: title)
+//        Entry(bodyText: textEntry, title: title, complete: complete)
     
         do {
             try CoreDataStack.shared.mainContext.save()
