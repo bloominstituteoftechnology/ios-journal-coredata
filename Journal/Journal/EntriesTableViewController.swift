@@ -36,9 +36,12 @@ class EntriesTableViewController: UITableViewController {
 
    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+      guard let cell = tableView.dequeueReusableCell(withIdentifier: EntryTableViewCell.reuseIdentifer, for: indexPath) as? EntryTableViewCell else {
+            fatalError("Can't dequeue cell of type \(EntryTableViewCell.reuseIdentifer)")
+        }
 
         // Configure the cell...
+        cell.entry = entry[indexPath.row]
 
         return cell
     }
