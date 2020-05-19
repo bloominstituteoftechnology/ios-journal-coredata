@@ -9,6 +9,11 @@
 import UIKit
 
 class CreateEntryViewController: UIViewController {
+    
+    // MARK: - Outlets
+    @IBOutlet weak var titleTextField: UITextField! // title
+    @IBOutlet weak var bodyTextView: UITextView! // bodyText
+    @IBOutlet weak var moodControl: UISegmentedControl!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +27,14 @@ class CreateEntryViewController: UIViewController {
        }
     
     @IBAction func save(_ sender: UIBarButtonItem) {
+        guard let title = titleTextField.text, !title.isEmpty else { return }
+        
+        guard let bodyText = bodyTextView.text, !bodyText.isEmpty else { return }
+        
+        let timestamp = Date()
+        
+        let moodIndex = moodControl.selectedSegmentIndex
+        let mood = MoodPriority.allCases[moodIndex]
     
     }
     
