@@ -9,6 +9,12 @@
 import UIKit
 
 class EntryTableViewCell: UITableViewCell {
+    
+    // MARK: - Outlets
+     
+     @IBOutlet weak var titleLabel: UILabel!
+     @IBOutlet weak var dateLabel: UILabel!
+     @IBOutlet weak var bodyTextLabel: UILabel!
 
     // MARK: - Properties
     
@@ -19,7 +25,13 @@ class EntryTableViewCell: UITableViewCell {
             updateViews()
         }
     }
-    // MARK: - IBOutlets
+    
+    var dateFormatter: DateFormatter = {
+           let newDate = DateFormatter()
+           newDate.calendar = .current
+           newDate.dateFormat = "MM-dd-yyyy h:mm a"
+           return newDate
+       }()
     
     
     
@@ -27,7 +39,9 @@ class EntryTableViewCell: UITableViewCell {
     private func updateViews() {
         guard let entry = entry else { return }
         
-        // add IBOutlets here once created...
+        titleLabel.text = entry.title
+        dateLabel.text = dateFormatter.string(from: entry.timestamp!)
+        bodyTextLabel.text = entry.bodyText
     }
 
 }
