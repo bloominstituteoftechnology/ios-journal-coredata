@@ -13,6 +13,7 @@ class CreateEntryViewController: UIViewController {
     // MARK: - Outlets -
     @IBOutlet weak var entryTitleTextField: UITextField!
     @IBOutlet weak var entryBodyTextView: UITextView!
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()

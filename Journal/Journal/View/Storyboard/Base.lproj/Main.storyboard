@@ -23,8 +23,16 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="9Z2-ah-41i">
+                                        <rect key="frame" x="0.0" y="37" width="374" height="32"/>
+                                        <segments>
+                                            <segment title="☀️"/>
+                                            <segment title="⛅️"/>
+                                            <segment title="🌧"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="2gt-Kf-QhV">
-                                        <rect key="frame" x="0.0" y="37" width="374" height="282"/>
+                                        <rect key="frame" x="0.0" y="83" width="374" height="236"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENTRY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IxX-5J-OGF">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="17"/>
@@ -40,7 +48,7 @@
                                                 </constraints>
                                             </view>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="iog-af-24l">
-                                                <rect key="frame" x="0.0" y="33" width="374" height="249"/>
+                                                <rect key="frame" x="0.0" y="33" width="374" height="203"/>
                                                 <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -75,6 +83,7 @@
                     <connections>
                         <outlet property="entryBodyTextView" destination="iog-af-24l" id="EXb-SF-BU1"/>
                         <outlet property="entryTitleTextField" destination="9gi-qo-v2b" id="Qxw-d8-Y4O"/>
+                        <outlet property="moodSegmentedControl" destination="9Z2-ah-41i" id="yCt-hX-5XK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
