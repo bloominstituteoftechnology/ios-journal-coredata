@@ -28,7 +28,7 @@ class CreateEntryViewController: UIViewController {
             let entryBody = entryBodyTextView.text,
             !entryTitle.isEmpty else { return }
         
-        Entry(title: entryTitle, bodyText: entryBody, timestamp: Date())
+        Entry(title: entryTitle, bodyText: entryBody)
         do {
             try CoreDataStack.shared.mainContext.save()
             navigationController?.dismiss(animated: true, completion: nil)
