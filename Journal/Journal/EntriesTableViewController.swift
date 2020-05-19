@@ -10,28 +10,13 @@ import UIKit
 import CoreData
 
 class EntriesTableViewController: UITableViewController {
-//
-//    var entry: [Entry] {
-//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//        let context = CoreDataStack.shared.mainContext
-//        do {
-//            return try context.fetch(fetchRequest)
-//        } catch {
-//            NSLog("Error fetching tasks: \(error)")
-//            return []
-//        }
-//    }
-    
+
     lazy var fetchedResultController: NSFetchedResultsController<Entry> = {
-           //pass thru what you are passing thru
            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-           //sort descriptors, by priority first then sort by name after
            fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
                                            NSSortDescriptor(key: "title", ascending: true)]
            let context = CoreDataStack.shared.mainContext
            let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "mood", cacheName: nil)
-           //we set priority to be the keypath so it could have its own section ^
-           //create delegate, make this vc our controller so we can be in charge of changes. we have to create an extension so this vc can conform to the delegate
            frc.delegate = self
            do {
                try frc.performFetch()
@@ -41,7 +26,7 @@ class EntriesTableViewController: UITableViewController {
            return frc
            
        }()
-    
+    // DATE FORMATTER
     var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM dd, yyyy HH:mm"
@@ -113,19 +98,6 @@ class EntriesTableViewController: UITableViewController {
         }
     }
     
-    
-    /*
-     // Override to support editing the table view.
-     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-     if editingStyle == .delete {
-     // Delete the row from the data source
-     tableView.deleteRows(at: [indexPath], with: .fade)
-     } else if editingStyle == .insert {
-     // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-     }
-     }
-     */
-    
     /*
      // Override to support rearranging the table view.
      override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
@@ -152,7 +124,7 @@ class EntriesTableViewController: UITableViewController {
      */
     
 }
-
+    // MARK: - EXTENSION
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()

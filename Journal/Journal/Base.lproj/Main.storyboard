@@ -132,6 +132,7 @@
                                     <outlet property="journalEntryDate" destination="hnk-Cw-b9L" id="YMN-wx-v9b"/>
                                     <outlet property="journalEntryLabel" destination="ZLq-to-lrQ" id="u2n-1U-IhP"/>
                                     <outlet property="journalTitleLabel" destination="UBG-3m-n0C" id="3Dd-3a-K1I"/>
+                                    <segue destination="GcG-z5-46g" kind="show" id="iuc-5e-i2m"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -151,6 +152,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jSK-7C-Qmf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1701" y="437"/>
+        </scene>
+        <!--Entry Details-->
+        <scene sceneID="B5n-Gc-J5X">
+            <objects>
+                <viewController id="GcG-z5-46g" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="scT-c8-iBf">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="I70-nU-xuo"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Entry Details" id="G3z-w1-1pV"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lrh-WJ-CyY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2596" y="431"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="E8I-ku-fcO">
