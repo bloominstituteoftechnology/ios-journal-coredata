@@ -106,6 +106,15 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="frr-KC-vmL">
+                                <rect key="frame" x="8" y="148" width="398" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="😀"/>
+                                    <segment title="😞"/>
+                                    <segment title="😐"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -133,6 +142,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="entryTextView" destination="dMI-Mp-qO9" id="wVL-bx-M8M"/>
+                        <outlet property="moodSegmentControl" destination="frr-KC-vmL" id="19A-sG-btk"/>
                         <outlet property="titleTextField" destination="zl7-n8-UnY" id="EOK-0u-0MG"/>
                     </connections>
                 </viewController>

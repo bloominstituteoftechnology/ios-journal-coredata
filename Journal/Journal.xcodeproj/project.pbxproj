@@ -34,6 +34,7 @@
 		0DA9DFD024732B14002A5DDC /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		0DA9DFD224732B48002A5DDC /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
 		0DA9DFD524732B63002A5DDC /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
+		0DF60CDC2474812D005FA329 /* Journal 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Journal 2.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,13 +68,10 @@
 			isa = PBXGroup;
 			children = (
 				0DA9DFCB24732811002A5DDC /* application */,
-				0DA9DFBB24732802002A5DDC /* CreateEntryViewController.swift */,
-				0DA9DFCC24732AD7002A5DDC /* EntryTableViewCell.swift */,
-				0DA9DFCE24732AFB002A5DDC /* EntriesTableViewController.swift */,
-				0DA9DFD024732B14002A5DDC /* CoreDataStack.swift */,
+				0DBD1EA3247487710021A36C /* vIeW cOnTrOlLeRs */,
+				0DF60CDB247480A3005FA329 /* models */,
+				0DF60CDA24747E7A005FA329 /* views */,
 				0DA9DFD224732B48002A5DDC /* Entry+Convenience.swift */,
-				0DA9DFD424732B63002A5DDC /* Journal.xcdatamodeld */,
-				0DA9DFBD24732802002A5DDC /* Main.storyboard */,
 				0DA9DFC024732803002A5DDC /* Assets.xcassets */,
 				0DA9DFC224732803002A5DDC /* LaunchScreen.storyboard */,
 				0DA9DFC524732803002A5DDC /* Info.plist */,
@@ -88,6 +86,33 @@
 				0DA9DFB924732802002A5DDC /* SceneDelegate.swift */,
 			);
 			path = application;
+			sourceTree = "<group>";
+		};
+		0DBD1EA3247487710021A36C /* vIeW cOnTrOlLeRs */ = {
+			isa = PBXGroup;
+			children = (
+				0DA9DFBB24732802002A5DDC /* CreateEntryViewController.swift */,
+				0DA9DFCE24732AFB002A5DDC /* EntriesTableViewController.swift */,
+			);
+			path = "vIeW cOnTrOlLeRs";
+			sourceTree = "<group>";
+		};
+		0DF60CDA24747E7A005FA329 /* views */ = {
+			isa = PBXGroup;
+			children = (
+				0DA9DFBD24732802002A5DDC /* Main.storyboard */,
+				0DA9DFCC24732AD7002A5DDC /* EntryTableViewCell.swift */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
+		0DF60CDB247480A3005FA329 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				0DA9DFD024732B14002A5DDC /* CoreDataStack.swift */,
+				0DA9DFD424732B63002A5DDC /* Journal.xcdatamodeld */,
+			);
+			path = models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -369,9 +394,10 @@
 		0DA9DFD424732B63002A5DDC /* Journal.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				0DF60CDC2474812D005FA329 /* Journal 2.xcdatamodel */,
 				0DA9DFD524732B63002A5DDC /* Journal.xcdatamodel */,
 			);
-			currentVersion = 0DA9DFD524732B63002A5DDC /* Journal.xcdatamodel */;
+			currentVersion = 0DF60CDC2474812D005FA329 /* Journal 2.xcdatamodel */;
 			path = Journal.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
