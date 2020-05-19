@@ -24,8 +24,7 @@ class EntriesTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        tableView.reloadData()
+        self.tableView.rowHeight = 100 
     }
 
     // MARK: - Table view data source
