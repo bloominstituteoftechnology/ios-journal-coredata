@@ -11,7 +11,7 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
-    //ok
+    //o
 
     
     lazy var fetchedResultController: NSFetchedResultsController<Entry> = {

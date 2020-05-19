@@ -19,7 +19,7 @@ import CoreData
 
 extension Entry {
     
-    //ok
+    //o
 
     @discardableResult convenience init(identifier: String = String(),
                                         bodyText: String,

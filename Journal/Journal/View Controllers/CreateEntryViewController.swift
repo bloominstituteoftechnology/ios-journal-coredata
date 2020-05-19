@@ -10,7 +10,7 @@ import UIKit
 
 class CreateEntryViewController: UIViewController {
     
-    //ok
+    //o
 
     
     var complete = false
