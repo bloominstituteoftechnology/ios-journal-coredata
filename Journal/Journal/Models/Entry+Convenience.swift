@@ -18,6 +18,9 @@ import CoreData
     }
 
 extension Entry {
+    
+    //ok
+
     @discardableResult convenience init(identifier: String = String(),
                                         bodyText: String,
                                         timeStamp: Date = Date(),

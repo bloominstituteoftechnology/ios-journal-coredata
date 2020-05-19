@@ -10,6 +10,9 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
     
+    //ok
+
+    
     static let reuseIdentifier = "EntryCell"
     
     // MARK: - IBOutlets

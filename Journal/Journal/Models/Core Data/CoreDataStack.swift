@@ -10,6 +10,7 @@ import Foundation
 import CoreData
 
 class CoreDataStack {
+    //ok
     
     //taking a type and creating an instance (singelton)
     static let shared = CoreDataStack()

@@ -11,6 +11,9 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
+    //ok
+
+    
     lazy var fetchedResultController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
