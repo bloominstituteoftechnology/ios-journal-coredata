@@ -50,6 +50,53 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FE71D14A2474796D000D3926 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				FEB3A318247376FB00B6654A /* AppDelegate.swift */,
+				FEB3A31A247376FB00B6654A /* SceneDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		FE71D14B2474797E000D3926 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				FEB3A332247377CB00B6654A /* Entry+Convenience.swift */,
+				FE71D14C247479A0000D3926 /* Core Data */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		FE71D14C247479A0000D3926 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
+				FEB3A330247377B500B6654A /* CoreDataStack.swift */,
+				FEB3A334247377D900B6654A /* Journal.xcdatamodeld */,
+			);
+			path = "Core Data";
+			sourceTree = "<group>";
+		};
+		FE71D14D247479CD000D3926 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				FEB3A31C247376FB00B6654A /* CreateEntryViewController.swift */,
+				FEB3A32C2473776800B6654A /* EntriesTableViewController.swift */,
+				FE71D14824747733000D3926 /* EntryDetailViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		FE71D14E247479E1000D3926 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FEB3A31E247376FB00B6654A /* Main.storyboard */,
+				FEB3A32E2473779100B6654A /* EntryTableViewCell.swift */,
+				FEB3A323247376FC00B6654A /* LaunchScreen.storyboard */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		FEB3A30C247376FB00B6654A = {
 			isa = PBXGroup;
 			children = (
@@ -69,19 +116,12 @@
 		FEB3A317247376FB00B6654A /* Journal */ = {
 			isa = PBXGroup;
 			children = (
-				FEB3A318247376FB00B6654A /* AppDelegate.swift */,
-				FEB3A31A247376FB00B6654A /* SceneDelegate.swift */,
-				FEB3A31C247376FB00B6654A /* CreateEntryViewController.swift */,
-				FEB3A31E247376FB00B6654A /* Main.storyboard */,
-				FEB3A321247376FC00B6654A /* Assets.xcassets */,
-				FEB3A323247376FC00B6654A /* LaunchScreen.storyboard */,
+				FE71D14A2474796D000D3926 /* App */,
+				FE71D14B2474797E000D3926 /* Model */,
+				FE71D14D247479CD000D3926 /* View Controllers */,
+				FE71D14E247479E1000D3926 /* Views */,
 				FEB3A326247376FC00B6654A /* Info.plist */,
-				FEB3A32C2473776800B6654A /* EntriesTableViewController.swift */,
-				FEB3A32E2473779100B6654A /* EntryTableViewCell.swift */,
-				FEB3A330247377B500B6654A /* CoreDataStack.swift */,
-				FEB3A332247377CB00B6654A /* Entry+Convenience.swift */,
-				FEB3A334247377D900B6654A /* Journal.xcdatamodeld */,
-				FE71D14824747733000D3926 /* EntryDetailViewController.swift */,
+				FEB3A321247376FC00B6654A /* Assets.xcassets */,
 			);
 			path = Journal;
 			sourceTree = "<group>";
