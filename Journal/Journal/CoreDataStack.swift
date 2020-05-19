@@ -15,10 +15,9 @@ class CoreDataStack {
     // singleton - a single object to  access this type anywhere in the project.
     static let shared = CoreDataStack()
     
-    // part of the initizializer of core data .. booting up and connecting to data base
+    
     lazy var container: NSPersistentContainer = {
-        //1. Tasks is a data model.. Grabbing the container
-        let container = NSPersistentContainer(name: "Tasks")
+        let container = NSPersistentContainer(name: "Journal")
         //2. tells the container what kinds of data are in there. Gives it an index. knows how to find information it needs, when it goes to fetch or save that data. Needs to know where to put things.
         container.loadPersistentStores { (_, error) in
             if let error = error {
