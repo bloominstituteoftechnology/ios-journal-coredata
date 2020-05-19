@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		50022CFE247438CB00C4847A /* EntryRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50022CFD247438CB00C4847A /* EntryRepresentation.swift */; };
+		50022D0024743C4100C4847A /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50022CFF24743C4100C4847A /* EntryController.swift */; };
+		50022D07247470F900C4847A /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50022D06247470F900C4847A /* EntryDetailViewController.swift */; };
 		5090E5A32471FBAD00978AC2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5090E5A22471FBAD00978AC2 /* AppDelegate.swift */; };
 		5090E5A52471FBAD00978AC2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5090E5A42471FBAD00978AC2 /* SceneDelegate.swift */; };
 		5090E5A72471FBAD00978AC2 /* CreateEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5090E5A62471FBAD00978AC2 /* CreateEntryViewController.swift */; };
@@ -21,6 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		50022CFD247438CB00C4847A /* EntryRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryRepresentation.swift; sourceTree = "<group>"; };
+		50022CFF24743C4100C4847A /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
+		50022D06247470F900C4847A /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
 		5031DC72247331F20044150A /* Journal 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Journal 2.xcdatamodel"; sourceTree = "<group>"; };
 		5090E59F2471FBAD00978AC2 /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5090E5A22471FBAD00978AC2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -48,6 +54,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		50022D0524746C6B00C4847A /* Model Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				50022CFF24743C4100C4847A /* EntryController.swift */,
+			);
+			path = "Model Controllers";
+			sourceTree = "<group>";
+		};
 		5090E5962471FBAD00978AC2 = {
 			isa = PBXGroup;
 			children = (
@@ -67,6 +81,7 @@
 		5090E5A12471FBAD00978AC2 /* Journal */ = {
 			isa = PBXGroup;
 			children = (
+				50022D0524746C6B00C4847A /* Model Controllers */,
 				5090E5C4247233AC00978AC2 /* Application */,
 				5090E5C32472339E00978AC2 /* View Controllers */,
 				5090E5C22472339900978AC2 /* Views */,
@@ -82,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				5090E5BF2472335400978AC2 /* Entry+Convenience.swift */,
+				50022CFD247438CB00C4847A /* EntryRepresentation.swift */,
 				5090E5C6247233D100978AC2 /* Core Data */,
 			);
 			path = Models;
@@ -100,6 +116,7 @@
 			children = (
 				5090E5A62471FBAD00978AC2 /* CreateEntryViewController.swift */,
 				5090E5B62471FD0000978AC2 /* EntriesTableViewController.swift */,
+				50022D06247470F900C4847A /* EntryDetailViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -204,11 +221,14 @@
 			files = (
 				5090E5BE2471FD9000978AC2 /* Journal.xcdatamodeld in Sources */,
 				5090E5B72471FD0000978AC2 /* EntriesTableViewController.swift in Sources */,
+				50022D0024743C4100C4847A /* EntryController.swift in Sources */,
 				5090E5B92471FD1A00978AC2 /* EntryTableViewCell.swift in Sources */,
 				5090E5A72471FBAD00978AC2 /* CreateEntryViewController.swift in Sources */,
 				5090E5C02472335400978AC2 /* Entry+Convenience.swift in Sources */,
+				50022D07247470F900C4847A /* EntryDetailViewController.swift in Sources */,
 				5090E5BB2471FD3100978AC2 /* CoreDataStack.swift in Sources */,
 				5090E5A32471FBAD00978AC2 /* AppDelegate.swift in Sources */,
+				50022CFE247438CB00C4847A /* EntryRepresentation.swift in Sources */,
 				5090E5A52471FBAD00978AC2 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

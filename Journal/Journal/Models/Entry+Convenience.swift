@@ -18,8 +18,19 @@ import CoreData
     }
 
 extension Entry {
+    var entryRepresentation: EntryRepresentation? {
+        guard let id = identifier,
+        let title = title,
+        let mood = mood,
+        let bodyText = bodyText else { return nil }
+        
+        return EntryRepresentation(bodyText: bodyText,
+                                   identifier: id,
+                                   mood: mood,
+                                   timeStamp: timeStamp!,
+                                   title: title)
+    }
     
-    //o
 
     @discardableResult convenience init(identifier: String = String(),
                                         bodyText: String,

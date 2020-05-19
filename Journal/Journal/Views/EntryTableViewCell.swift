@@ -9,8 +9,6 @@
 import UIKit
 
 class EntryTableViewCell: UITableViewCell {
-    
-    //o
 
     
     static let reuseIdentifier = "EntryCell"
