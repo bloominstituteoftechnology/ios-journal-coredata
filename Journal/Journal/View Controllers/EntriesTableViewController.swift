@@ -11,9 +11,8 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
-    //o
+    let entryController = EntryController()
 
-    
     lazy var fetchedResultController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
@@ -79,7 +78,17 @@ class EntriesTableViewController: UITableViewController {
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
+        if segue.identifier == "showDetailSegue" {
+                   if let detailVc = segue.destination as? EntryDetailViewController,
+                       let indexPath = tableView.indexPathForSelectedRow {
+                    detailVc.entry = fetchedResultController.object(at: indexPath)
+                   }
+               } else if segue.identifier == "presentModalCreateTask" {
+                   if let navC = segue.destination as? UINavigationController,
+                       let createTaskVc = navC.viewControllers.first as? CreateEntryViewController {
+                    createTaskVc.entryController = entryController
+                   }
+               }
     }
 }
 

@@ -18,6 +18,7 @@ enum NetworkError: Error {
     
 }
 
+
 let baseURL = URL(string: "https://journal-e990c.firebaseio.com/")
 
 class EntryController {

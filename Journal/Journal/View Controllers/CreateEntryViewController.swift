@@ -10,10 +10,9 @@ import UIKit
 
 class CreateEntryViewController: UIViewController {
     
-    //o
-
-    
+   
     var complete = false
+    var entryController: EntryController?
     
     @IBOutlet weak var journalTitleTextField: UITextField!
     @IBOutlet weak var journalTextEntryTextView: UITextView!

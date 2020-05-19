@@ -64,6 +64,7 @@
                                     <outlet property="journalDateLabel" destination="CtQ-vC-u2a" id="kIE-J7-ZlG"/>
                                     <outlet property="journalTextEntryLabel" destination="l5q-jg-wxt" id="hBU-EP-zgb"/>
                                     <outlet property="journalTitleLabel" destination="4en-YE-ijw" id="94D-Oj-OfO"/>
+                                    <segue destination="NCg-kz-06z" kind="show" identifier="showDetailSegue" id="Req-D9-Uy2"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -75,7 +76,7 @@
                     <navigationItem key="navigationItem" title="Journal" largeTitleDisplayMode="always" id="VOQ-mL-qQO">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="plus.square" catalog="system" id="roV-vp-p97">
                             <connections>
-                                <segue destination="ElQ-96-xvF" kind="presentation" modalPresentationStyle="fullScreen" id="qrN-CX-RBR"/>
+                                <segue destination="ElQ-96-xvF" kind="presentation" identifier="presentModalCreateTask" modalPresentationStyle="fullScreen" id="qrN-CX-RBR"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -83,6 +84,79 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IiW-5G-GL7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="365" y="-532"/>
+        </scene>
+        <!--Entry Detail View Controller-->
+        <scene sceneID="hO5-js-jVy">
+            <objects>
+                <viewController id="NCg-kz-06z" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="sBG-0h-dNe">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="xT3-NX-Pju">
+                                <rect key="frame" x="20" y="108" width="374" height="358.5"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1SX-F7-GkF">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="18.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Yi2-5S-Zdv">
+                                        <rect key="frame" x="0.0" y="33.5" width="374" height="325"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENTRY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6KQ-S6-r3s">
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="18.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vEE-I4-M3Q">
+                                                <rect key="frame" x="0.0" y="26.5" width="374" height="2"/>
+                                                <color key="backgroundColor" systemColor="systemGray2Color" red="0.68235294120000001" green="0.68235294120000001" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="2" id="NaV-Xd-Yfs"/>
+                                                </constraints>
+                                            </view>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="1" id="80h-Zr-mP5">
+                                                <rect key="frame" x="0.0" y="36.5" width="374" height="32"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <segments>
+                                                    <segment title="☹️"/>
+                                                    <segment title="😐"/>
+                                                    <segment title="😄"/>
+                                                </segments>
+                                            </segmentedControl>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="8ek-db-Y8F">
+                                                <rect key="frame" x="0.0" y="75.5" width="374" height="249.5"/>
+                                                <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="xT3-NX-Pju" firstAttribute="top" secondItem="bYU-Db-ktE" secondAttribute="top" constant="20" id="G8H-ZY-Lar"/>
+                            <constraint firstItem="bYU-Db-ktE" firstAttribute="trailing" secondItem="xT3-NX-Pju" secondAttribute="trailing" constant="20" id="M8g-1k-r6V"/>
+                            <constraint firstItem="xT3-NX-Pju" firstAttribute="height" secondItem="sBG-0h-dNe" secondAttribute="height" multiplier="0.4" id="Wob-g8-XOk"/>
+                            <constraint firstItem="xT3-NX-Pju" firstAttribute="leading" secondItem="bYU-Db-ktE" secondAttribute="leading" constant="20" id="tce-vN-rc5"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="bYU-Db-ktE"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Y13-j6-5Dw"/>
+                    <connections>
+                        <outlet property="emojiSegmentedControl" destination="80h-Zr-mP5" id="gO0-3I-DPm"/>
+                        <outlet property="textEntryTextView" destination="8ek-db-Y8F" id="Tek-WU-vJp"/>
+                        <outlet property="titleTextField" destination="1SX-F7-GkF" id="ShQ-9G-m0e"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="b4V-6f-FSj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1195" y="-469"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="BSa-db-50H">
@@ -175,9 +249,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="emojiSegmentedControl" destination="q8y-8V-nyH" id="J8N-t0-uya"/>
-                        <outlet property="journalTextEntryTextView" destination="HvP-r5-sed" id="ml2-IE-fx4"/>
-                        <outlet property="journalTitleTextField" destination="CUh-Fj-En4" id="fpX-Tf-bDz"/>
+                        <outlet property="emojiSegmentedControl" destination="q8y-8V-nyH" id="UUd-Sk-1iQ"/>
+                        <outlet property="journalTextEntryTextView" destination="HvP-r5-sed" id="IjX-Sy-Xuf"/>
+                        <outlet property="journalTitleTextField" destination="CUh-Fj-En4" id="ggX-iu-rl5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
