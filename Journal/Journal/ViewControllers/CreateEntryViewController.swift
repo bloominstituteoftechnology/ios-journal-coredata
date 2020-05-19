@@ -29,7 +29,11 @@ class CreateEntryViewController: UIViewController {
             let entryBody = entryBodyTextView.text,
             !entryTitle.isEmpty else { return }
         
-        Entry(title: entryTitle, bodyText: entryBody)
+        let moodIndex = moodSegmentedControl.selectedSegmentIndex
+        let mood = Mood.allCases[moodIndex]
+        
+        Entry(title: entryTitle, bodyText: entryBody, mood: mood.rawValue)
+//        print(newEntry.mood)
         do {
             try CoreDataStack.shared.mainContext.save()
             navigationController?.dismiss(animated: true, completion: nil)
