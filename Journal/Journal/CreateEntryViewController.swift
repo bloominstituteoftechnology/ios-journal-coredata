@@ -17,9 +17,13 @@ class CreateEntryViewController: UIViewController {
     @IBOutlet weak var journalEntryTitleText: UITextField!
     
     @IBOutlet weak var journalTextView: UITextView!
+    
+    @IBOutlet weak var moodControl: UISegmentedControl!
+
+    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
 
     // MARK: - ACTIONS
@@ -29,8 +33,10 @@ class CreateEntryViewController: UIViewController {
             !title.isEmpty,
             let bodyText = journalTextView.text,
             !bodyText.isEmpty else { return }
+        let moodIndex = moodControl.selectedSegmentIndex
+        let mood = Mood.allCases[moodIndex]
         
-        let entry = Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, context: CoreDataStack.shared.mainContext)
+        let entry = Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, mood: mood, context: CoreDataStack.shared.mainContext)
         
         do {
             try CoreDataStack.shared.mainContext.save()

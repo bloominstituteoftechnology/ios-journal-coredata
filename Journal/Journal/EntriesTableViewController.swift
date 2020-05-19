@@ -10,17 +10,37 @@ import UIKit
 import CoreData
 
 class EntriesTableViewController: UITableViewController {
+//
+//    var entry: [Entry] {
+//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+//        let context = CoreDataStack.shared.mainContext
+//        do {
+//            return try context.fetch(fetchRequest)
+//        } catch {
+//            NSLog("Error fetching tasks: \(error)")
+//            return []
+//        }
+//    }
     
-    var entry: [Entry] {
-        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        let context = CoreDataStack.shared.mainContext
-        do {
-            return try context.fetch(fetchRequest)
-        } catch {
-            NSLog("Error fetching tasks: \(error)")
-            return []
-        }
-    }
+    lazy var fetchedResultController: NSFetchedResultsController<Entry> = {
+           //pass thru what you are passing thru
+           let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+           //sort descriptors, by priority first then sort by name after
+           fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
+                                           NSSortDescriptor(key: "title", ascending: true)]
+           let context = CoreDataStack.shared.mainContext
+           let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "mood", cacheName: nil)
+           //we set priority to be the keypath so it could have its own section ^
+           //create delegate, make this vc our controller so we can be in charge of changes. we have to create an extension so this vc can conform to the delegate
+           frc.delegate = self
+           do {
+               try frc.performFetch()
+           }catch {
+               NSLog("Error performing intital fetch inside fetchResultController: \(error)")
+           }
+           return frc
+           
+       }()
     
     var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -51,10 +71,13 @@ class EntriesTableViewController: UITableViewController {
     
     // MARK: - Table view data source
     
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return fetchedResultController.sections?.count ?? 1
+    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return entry.count
+        return fetchedResultController.sections?[section].numberOfObjects ?? 0
     }
     
     
@@ -62,19 +85,34 @@ class EntriesTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: EntryTableViewCell.reuseIndentifier, for: indexPath) as? EntryTableViewCell else {
             fatalError("Can't dequeue cell of type \(EntryTableViewCell.reuseIndentifier)")
         }
-        cell.entry = entry[indexPath.row]
+        cell.entry = fetchedResultController.object(at: indexPath)
         
         return cell
     }
     
+    // MARK: - HEADER FUNCTION
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+          guard let sectionInfo = fetchedResultController.sections?[section]
+              else { return nil }
+          return sectionInfo.name.capitalized
+      }
     
-    /*
-     // Override to support conditional editing of the table view.
-     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the specified item to be editable.
-     return true
-     }
-     */
+    // MARK: - DELETE FROM ROW FUNCTION
+      override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let entry = fetchedResultController.object(at: indexPath)
+            let context = CoreDataStack.shared.mainContext
+            context.delete(entry)
+            do {
+                try context.save()
+                tableView.reloadData()
+            } catch {
+                context.reset()
+                NSLog("Error saving managed object context (delete task): \(error)")
+            }
+        }
+    }
+    
     
     /*
      // Override to support editing the table view.
@@ -114,3 +152,50 @@ class EntriesTableViewController: UITableViewController {
      */
     
 }
+
+extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.beginUpdates()
+    }
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        tableView.endUpdates()
+    }
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange sectionInfo: NSFetchedResultsSectionInfo,
+                    atSectionIndex sectionIndex: Int,
+                    for type: NSFetchedResultsChangeType) {
+        switch type {
+        case .insert:
+            tableView.insertSections(IndexSet(integer: sectionIndex), with: .automatic)
+        case .delete:
+            tableView.deleteSections(IndexSet(integer: sectionIndex), with: .automatic)
+        default:
+            break
+        }
+    }
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            guard let newIndexPath = newIndexPath else { return }
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .update:
+            guard let indexPath = indexPath else { return }
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        case .move:
+            guard let oldIndexPath = indexPath,
+                let newIndexPath = newIndexPath else { return }
+            tableView.deleteRows(at: [oldIndexPath], with: .automatic)
+            tableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .delete:
+            guard let indexPath = indexPath else { return }
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        @unknown default:
+            break
+        }
+    }
+}
+

@@ -37,8 +37,21 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="Qg6-Qs-vXS">
+                                <rect key="frame" x="142" y="353" width="131" height="32"/>
+                                <segments>
+                                    <segment title="😄"/>
+                                    <segment title="☹️"/>
+                                    <segment title="😐"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Qg6-Qs-vXS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="142" id="PYJ-95-Wg0"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Qg6-Qs-vXS" secondAttribute="bottom" constant="478" id="h4m-bV-tl0"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Qg6-Qs-vXS" secondAttribute="trailing" constant="141" id="o2j-Y1-c2m"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Entry" id="fFP-uF-wRc">
@@ -56,6 +69,7 @@
                     <connections>
                         <outlet property="journalEntryTitleText" destination="ApA-bS-nkd" id="KOX-sV-dIa"/>
                         <outlet property="journalTextView" destination="dSf-NA-qeB" id="NSK-ft-2pm"/>
+                        <outlet property="moodControl" destination="Qg6-Qs-vXS" id="l67-XG-EtF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
