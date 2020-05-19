@@ -10,15 +10,24 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
 
-  
+    // MARK: - Properties
+    
+  static let reuseIdentifer = "EntryCell"
+    
     var entry: Entry? {
         didSet {
             updateViews()
         }
     }
+    // MARK: - IBOutlets
     
+    
+    
+    // MARK: - Method
     private func updateViews() {
+        guard let entry = entry else { return }
         
+        // add IBOutlets here once created...
     }
 
 }
