@@ -65,13 +65,16 @@ class EntriesTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             let entry = fetchedResultController.object(at: indexPath)
+            entryController.deleteTaskFromServer(entry: entry) { result in
+                guard let _ = try? result.get() else { return }
+            
             CoreDataStack.shared.mainContext.delete(entry)
             do {
                 try CoreDataStack.shared.mainContext.save()
             } catch {
                 CoreDataStack.shared.mainContext.reset()
                 NSLog("Error saving managed object context: \(error)")
-                
+                }
             }
         }
     }
@@ -85,7 +88,7 @@ class EntriesTableViewController: UITableViewController {
                    }
                } else if segue.identifier == "presentModalCreateTask" {
                    if let navC = segue.destination as? UINavigationController,
-                       let createTaskVc = navC.viewControllers.first as? CreateEntryViewController {
+                       let createTaskVc = navC.viewControllers.first as?  CreateAnEntryViewController {
                     createTaskVc.entryController = entryController
                    }
                }

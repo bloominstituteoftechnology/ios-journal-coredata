@@ -50,13 +50,33 @@ class EntryController {
             return
         }
         
-        URLSession.shared.dataTask(with: request) { data, _, error in
+        URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 NSLog("Error sending task to server: \(error)")
                 completion(.failure(.otherError))
                 return
             }
             
+            completion(.success(true))
+        }.resume()
+    }
+    
+    func deleteTaskFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in}) {
+        guard let id = entry.identifier else {
+            completion(.failure(.noIdentifier))
+            return
+        }
+        let requestURL = baseURL!.appendingPathComponent(id).appendingPathComponent("json")
+        var request = URLRequest(url: requestURL)
+        
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                NSLog("Error deleting entry from server: \(error)")
+                completion(.failure(.otherError))
+                return
+            }
             completion(.success(true))
         }.resume()
     }

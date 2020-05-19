@@ -1,14 +1,15 @@
 //
-//  ViewController.swift
+//  CreateAnEntryViewController.swift
 //  Journal
 //
-//  Created by Kelson Hartle on 5/17/20.
+//  Created by Kelson Hartle on 5/19/20.
 //  Copyright © 2020 Kelson Hartle. All rights reserved.
 //
 
 import UIKit
 
-class CreateEntryViewController: UIViewController {
+
+class CreateAnEntryViewController: UIViewController {
     
    
     var complete = false
@@ -40,8 +41,10 @@ class CreateEntryViewController: UIViewController {
         let moodIndex = emojiSegmentedControl.selectedSegmentIndex
         let mood = Mood.allCases[moodIndex]
         
-        Entry(bodyText: textEntry, title: title, mood: mood)
-    
+       let entry = Entry(bodyText: textEntry, title: title, mood: mood)
+        entryController?.sendTaskToServer(entry: entry)
+        
+        
         do {
             try CoreDataStack.shared.mainContext.save()
             
@@ -57,4 +60,3 @@ class CreateEntryViewController: UIViewController {
 
 
 }
-

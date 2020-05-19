@@ -2,7 +2,7 @@
 //  Entry+Convenience.swift
 //  Journal
 //
-//  Created by Kelson Hartle on 5/17/20.
+//  Created by Kelson Hartle on 5/19/20.
 //  Copyright © 2020 Kelson Hartle. All rights reserved.
 //
 
@@ -18,12 +18,13 @@ import CoreData
     }
 
 extension Entry {
+    
     var entryRepresentation: EntryRepresentation? {
         guard let id = identifier,
         let title = title,
         let mood = mood,
         let bodyText = bodyText else { return nil }
-        
+
         return EntryRepresentation(bodyText: bodyText,
                                    identifier: id,
                                    mood: mood,
