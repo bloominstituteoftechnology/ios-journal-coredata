@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 extension Entry {
-    @discardableResult convenience init(identifier: String,
+    @discardableResult convenience init(identifier: String = UUID().uuidString,
                                           title: String,
                                           bodyText: String,
                                           timestamp: Date = Date(),
