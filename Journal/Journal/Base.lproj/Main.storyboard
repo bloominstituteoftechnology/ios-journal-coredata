@@ -41,7 +41,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AhK-tb-c3w" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1042.0289855072465" y="137.94642857142856"/>
+            <point key="canvasLocation" x="957" y="-384"/>
         </scene>
         <!--Journal-->
         <scene sceneID="lhu-aq-hdQ">
@@ -98,6 +98,7 @@
                                     <outlet property="bodyTextLabel" destination="dFW-7o-cbC" id="Dbe-HX-v9J"/>
                                     <outlet property="dateLabel" destination="gXd-EZ-QBm" id="U3G-s4-d3q"/>
                                     <outlet property="titleLabel" destination="fAW-Fj-tyk" id="Yt3-pT-DGO"/>
+                                    <segue destination="qbF-IU-pV7" kind="show" id="LeW-Mh-GzM"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -199,7 +200,79 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Dl-3e-Up6" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1948" y="138"/>
+            <point key="canvasLocation" x="1761" y="-384"/>
+        </scene>
+        <!--Entry Details-->
+        <scene sceneID="8pk-Cj-Kg2">
+            <objects>
+                <viewController id="qbF-IU-pV7" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3lH-J5-Ywl">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="EYv-QS-wB8">
+                                <rect key="frame" x="20" y="108" width="374" height="441.5"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="JMf-Fo-hmf">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="32"/>
+                                        <segments>
+                                            <segment title="🙁"/>
+                                            <segment title="😐"/>
+                                            <segment title="😃"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Journal Entry Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gGn-wa-31z">
+                                        <rect key="frame" x="0.0" y="46" width="374" height="22"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="8vo-oH-atT">
+                                        <rect key="frame" x="0.0" y="83" width="374" height="358.5"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENTRY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="htu-4i-SS7">
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="14.5"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Mu2-dK-UGw">
+                                                <rect key="frame" x="0.0" y="22.5" width="374" height="2"/>
+                                                <color key="backgroundColor" systemColor="systemGray3Color" red="0.78039215689999997" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="2" id="Syn-vq-B8C"/>
+                                                </constraints>
+                                            </view>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Cqn-VU-VGH">
+                                                <rect key="frame" x="0.0" y="32.5" width="374" height="326"/>
+                                                <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="SGq-Hw-vyY" firstAttribute="trailing" secondItem="EYv-QS-wB8" secondAttribute="trailing" constant="20" id="2dh-A6-UFi"/>
+                            <constraint firstItem="EYv-QS-wB8" firstAttribute="leading" secondItem="SGq-Hw-vyY" secondAttribute="leading" constant="20" id="VrU-z2-G5C"/>
+                            <constraint firstItem="EYv-QS-wB8" firstAttribute="top" secondItem="SGq-Hw-vyY" secondAttribute="top" constant="20" id="ytH-p5-xF1"/>
+                            <constraint firstItem="EYv-QS-wB8" firstAttribute="height" secondItem="3lH-J5-Ywl" secondAttribute="height" multiplier="0.492746" id="zfe-4C-mLu"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="SGq-Hw-vyY"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Entry Details" id="9sS-qi-i1c"/>
+                    <connections>
+                        <outlet property="entryTextView" destination="Cqn-VU-VGH" id="goc-uy-pqd"/>
+                        <outlet property="moodController" destination="JMf-Fo-hmf" id="NNS-oV-ad9"/>
+                        <outlet property="titleTextField" destination="gGn-wa-31z" id="eY7-qh-XoC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1FI-TD-bqt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="957" y="283"/>
         </scene>
     </scenes>
     <resources>
