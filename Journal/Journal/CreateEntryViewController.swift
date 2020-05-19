@@ -17,7 +17,6 @@ class CreateEntryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
 
     // MARK: - Actions
@@ -36,6 +35,16 @@ class CreateEntryViewController: UIViewController {
         let moodIndex = moodControl.selectedSegmentIndex
         let mood = MoodPriority.allCases[moodIndex]
     
+        Entry(title: title, bodyText: bodyText, timestamp: timestamp, mood: mood)
+        
+        // Saving
+            do {
+                try CoreDataStack.shared.mainContext.save()
+            } catch {
+                NSLog("Error saving managed object context: \(error)")
+                return
+            }
+            navigationController?.dismiss(animated: true, completion: nil)
     }
     
    
