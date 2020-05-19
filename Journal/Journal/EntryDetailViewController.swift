@@ -9,22 +9,62 @@
 import UIKit
 
 class EntryDetailViewController: UIViewController {
+    
+      // MARK: - Properties
+    
+    var entry: Entry?
+    var wasEdited = false
+    
+    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var entryTextView: UITextView!
+    @IBOutlet weak var moodController: UISegmentedControl!
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+       navigationItem.rightBarButtonItem = editButtonItem
+        updateViews()
+
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
 
-    /*
-    // MARK: - Navigation
+        if wasEdited {
+            guard let title = titleTextField.text,
+                let entry = entry else { return }
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+            entry.title = title
+            entry.bodyText = entryTextView.text
+            let moodIndex = moodController.selectedSegmentIndex
+            entry.mood = MoodPriority.allCases[moodIndex].rawValue
+
+            do {
+                try CoreDataStack.shared.mainContext.save()
+            } catch {
+                NSLog("Error saving managed object context: \(error)")
+            }
+        }
     }
-    */
+    
+  private func updateViews() {
+         titleTextField.text = entry?.title
+         titleTextField.isUserInteractionEnabled = isEditing
+
+         entryTextView.text = entry?.bodyText
+         entryTextView.isUserInteractionEnabled = isEditing
+
+         let mood: MoodPriority
+         
+         if let moodPriority = entry?.mood {
+             mood = MoodPriority(rawValue: moodPriority)!
+         } else {
+             mood = .😐
+         }
+         moodController.selectedSegmentIndex = MoodPriority.allCases.firstIndex(of: mood) ?? 1
+         moodController.isUserInteractionEnabled = isEditing
+     }
+
 
 }
