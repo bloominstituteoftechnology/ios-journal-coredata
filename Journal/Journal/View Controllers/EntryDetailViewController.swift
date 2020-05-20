@@ -43,7 +43,7 @@ class EntryDetailViewController: UIViewController {
 
             do {
                 try CoreDataStack.shared.mainContext.save()
-                entryController?.sendTaskToServer(entry: entry)
+                entryController?.sendEntryToServer(entry: entry)
             } catch {
                 NSLog("Error saving managed object context: \(error)")
             }

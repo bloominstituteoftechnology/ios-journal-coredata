@@ -38,7 +38,7 @@ class CreateEntryViewController: UIViewController {
         let mood = MoodPriority.allCases[moodIndex]
     
         let entry = Entry(title: title, bodyText: bodyText, timestamp: timestamp, mood: mood)
-        entryController?.sendTaskToServer(entry: entry)
+        entryController?.sendEntryToServer(entry: entry)
         
         // Saving
             do {
