@@ -9,20 +9,22 @@
 import Foundation
 import CoreData
 
-    enum Mood: String, CaseIterable {
-        case happy = "😄"
-        case sad = "☹️"
-        case neutral = "😐"
-    }
+enum Mood: String, CaseIterable {
+    case happy = "😄"
+    case sad = "☹️"
+    case neutral = "😐"
+}
 
-    extension Entry {
+extension Entry {
+    
+    
     @discardableResult convenience init(indentifier: String = String(),
                                         title: String,
                                         bodyText: String,
                                         timeStamp: Date = Date(),
                                         mood: Mood = .neutral,
                                         context: NSManagedObjectContext) {
-                                
+        
         self.init(context: context)
         self.identifier = identifier
         self.title = title
@@ -30,7 +32,31 @@ import CoreData
         self.timeStamp = timeStamp
         self.mood = mood.rawValue
         
-      
+        
+    }
+    
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        
+        guard let mood = Mood(rawValue: entryRepresentation.mood),
+            let identifier = entryRepresentation.identifier else { return nil }
+        
+        self.init(indentifier: entryRepresentation.identifier!, title: entryRepresentation.title, bodyText: entryRepresentation.bodyText, timeStamp: entryRepresentation.timeStamp, mood: mood, context: context)
+    }
+    
+    var entryRepresentation: EntryRepresentation? {
+        guard let title = title,
+            let mood = mood,
+            let bodyText = bodyText,
+            let timeStamp = timeStamp else { return nil }
+        
+        let id = identifier ?? UUID().uuidString
+        
+        return EntryRepresentation(title: title,
+                                   bodyText: bodyText,
+                                   mood: mood,
+                                   identifier: id,
+                                   timeStamp: timeStamp)
+        
     }
 }
 
