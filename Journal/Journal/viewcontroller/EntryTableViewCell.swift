@@ -35,7 +35,7 @@ class EntryTableViewCell: UITableViewCell {
             
             let df = DateFormatter()
             
-            df.timeStyle = .medium
+            df.timeStyle = .short
             df.dateStyle = .short
             
             let date = df.string(from: timeStamp)

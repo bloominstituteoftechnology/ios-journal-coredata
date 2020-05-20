@@ -123,13 +123,24 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                             </textView>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="4WR-xK-LMa">
+                                <rect key="frame" x="20" y="486" width="335" height="32"/>
+                                <segments>
+                                    <segment title="😀"/>
+                                    <segment title="😐"/>
+                                    <segment title="☹️"/>
+                                </segments>
+                            </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="fcO-9a-hbt" firstAttribute="top" secondItem="bvL-nt-bPo" secondAttribute="bottom" constant="8" id="31b-T4-FI1"/>
+                            <constraint firstItem="4WR-xK-LMa" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="3Fc-8A-c0y"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YA9-b1-Nox" secondAttribute="trailing" constant="20" id="8Js-xw-kcC"/>
                             <constraint firstItem="z8y-EK-br4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="8tv-KW-GYr"/>
                             <constraint firstItem="bvL-nt-bPo" firstAttribute="top" secondItem="z8y-EK-br4" secondAttribute="bottom" constant="8" id="B3V-L8-URK"/>
+                            <constraint firstItem="4WR-xK-LMa" firstAttribute="top" secondItem="YA9-b1-Nox" secondAttribute="bottom" constant="8" id="Gvb-ZQ-eok"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="4WR-xK-LMa" secondAttribute="trailing" constant="20" id="IF2-0b-j7Y"/>
                             <constraint firstItem="z8y-EK-br4" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="JjJ-jh-bMA"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="z8y-EK-br4" secondAttribute="trailing" constant="20" id="LY3-d4-7z8"/>
                             <constraint firstItem="bvL-nt-bPo" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="MaN-mr-4LK"/>
@@ -156,6 +167,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bodyTextView" destination="YA9-b1-Nox" id="piH-f3-nnb"/>
+                        <outlet property="moodSegmentedControl" destination="4WR-xK-LMa" id="uk1-lp-dba"/>
                         <outlet property="saveButton" destination="E8u-9Z-Bll" id="2VR-Wb-QUP"/>
                         <outlet property="titleTextField" destination="z8y-EK-br4" id="z8O-fI-cD0"/>
                     </connections>

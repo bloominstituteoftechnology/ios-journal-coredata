@@ -52,7 +52,7 @@ class EntriesTableViewController: UITableViewController{
             NSLog("Dequeued cell is not of type EntryTableViewCell")
             
             let errorCell = EntryTableViewCell()
-            errorCell.entry = Entry(title: "Error", bodyText: "", timeStamp: Date())
+            errorCell.entry = Entry(title: "Error", bodyText: "", timeStamp: Date(), mood: Mood.neutral)
             
             return errorCell
         }

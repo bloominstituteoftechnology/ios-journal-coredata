@@ -13,6 +13,7 @@ class CreateEntryViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var titleTextField: UITextField!
     @IBOutlet var bodyTextView: UITextView!
     @IBOutlet var saveButton: UIBarButtonItem!
+    @IBOutlet var moodSegmentedControl: UISegmentedControl!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +41,7 @@ class CreateEntryViewController: UIViewController, UITextFieldDelegate {
         let body = bodyTextView.text ?? ""
         
         if !title.isEmpty {
-            Entry(title: title, bodyText: body, timeStamp: Date())
+            Entry(title: title, bodyText: body, timeStamp: Date(), mood: getMood())
             do {
                 try CoreDataStack.shared.mainContext.save()
                 dismiss(animated: true, completion: nil)
@@ -56,6 +57,20 @@ class CreateEntryViewController: UIViewController, UITextFieldDelegate {
         
         NSLog("User initiated cancel action. Dismissing view")
         dismiss(animated: true, completion: nil)
+    }
+    
+    private func getMood() -> Mood {
+        switch moodSegmentedControl.selectedSegmentIndex {
+        case 0:
+            return Mood.happy
+        case 1:
+            return Mood.neutral
+        case 2:
+            return Mood.unhappy
+        default:
+            NSLog("moodSegmentedControl did not return a proper index value; Default value used")
+            return Mood.neutral
+        }
     }
 }
 
