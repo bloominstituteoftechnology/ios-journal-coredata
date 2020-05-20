@@ -20,7 +20,7 @@ enum NetworkError: Error {
 
 
 class EntryController {
-    let baseURL = URL(string: "https://journal---day-3.firebaseio.com/")
+    let baseURL = URL(string: "https://journal---day-3.firebaseio.com/")!
     
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
@@ -29,7 +29,7 @@ class EntryController {
     }
     
     func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
-        let requestURL = baseURL!.appendingPathExtension("json")
+        let requestURL = baseURL.appendingPathExtension("json")
         
         URLSession.shared.dataTask(with: requestURL) { data, _, error in
             if let error = error {
@@ -61,7 +61,7 @@ class EntryController {
             return
         }
         
-        let requestURL = baseURL!.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
@@ -92,7 +92,7 @@ class EntryController {
             completion(.failure(.noIdentifier))
             return
         }
-        let requestURL = baseURL!.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         
         var request = URLRequest(url: requestURL)
         request.httpMethod = "DELETE"

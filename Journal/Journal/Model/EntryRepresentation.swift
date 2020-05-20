@@ -14,4 +14,12 @@ struct EntryRepresentation: Codable {
     var bodyText: String?
     var timestamp: Date
     var mood: String
+    
+    enum CodingKeys: String, CodingKey {
+        case identifier
+        case title
+        case bodyText
+        case timestamp
+        case mood 
+    }
 }

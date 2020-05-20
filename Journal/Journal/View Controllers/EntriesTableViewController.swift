@@ -85,14 +85,14 @@ class EntriesTableViewController: UITableViewController {
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ShowEntryDetailSegue" {
-            if let detailVC = segue.destination as? EntryDetailViewController,
-                let indexPath = tableView.indexPathForSelectedRow {
-                detailVC.entry = fetchedResultsController.object(at: indexPath)
+        if segue.identifier == "CreateEntryModalSegue" {
+            if let navC = segue.destination as? UINavigationController,
+                let createEntryVC = navC.viewControllers.first as?
+                CreateEntryViewController {
+                createEntryVC.entryController = entryController
             }
         }
     }
-    
 }
 
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
