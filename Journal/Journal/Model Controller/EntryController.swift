@@ -77,5 +77,40 @@ class EntryController {
             completion(.success(true))
         }.resume()
     }
+    
+    
+    private func updateEntries(with representations: [EntryRepresentation]) throws {
+        let identifiersToFetch = representations.compactMap { UUID(uuidString: $0.identifier) }
+        let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
+        var entriesToCreate = representationsByID
+        
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
+        
+        let context = CoreDataStack.shared.mainContext
+        
+        let existingEntries = try context.fetch(fetchRequest)
+        
+        for entry in existingEntries {
+            guard let id = entry.identifier,
+                let representation = representationsByID[id] else { continue }
+            
+            self.update(entry: entry, with: representation)
+            entriesToCreate.removeValue(forKey: id)
+        }
+        
+        for representation in entriesToCreate.values {
+            Entry(entryRepresentation: representation, context: context)
+        }
+        
+        try context.save()
+    }
+    
+    private func update(entry: Entry, with representation: EntryRepresentation) {
+        entry.title = representation.title
+        entry.bodyText = representation.bodyText
+        entry.mood = representation.mood
+        entry.timestamp = representation.timestamp
+    }
+    
 }
-
