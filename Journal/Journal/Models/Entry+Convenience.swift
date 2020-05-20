@@ -30,7 +30,7 @@ extension Entry {
         return EntryRepresentation(identifier: id,
                                     title: title,
                                     bodyText: bodyText,
-                                    timeStamp: timestamp,
+                                    timestamp: timestamp,
                                     mood: mood)
     }
     
@@ -58,7 +58,7 @@ extension Entry {
         self.init(identifier: identifier.uuidString,
                   title: entryRepresentation.title,
                   bodyText: entryRepresentation.bodyText,
-                  timestamp: entryRepresentation.timeStamp,
+                  timestamp: entryRepresentation.timestamp,
                   mood: mood,
                   context: context)
     }

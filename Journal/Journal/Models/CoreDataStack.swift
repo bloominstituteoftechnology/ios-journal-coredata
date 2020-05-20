@@ -18,7 +18,7 @@ class CoreDataStack {
         let container = NSPersistentContainer(name: "Journal") // The name of the container needs to match the name of the Data Model you're going to use/name of your app
         container.loadPersistentStores { _, error in
             if let error = error {
-                fatalError("Failed to load persisten stores: \(error)")
+                fatalError("Failed to load persistent stores: \(error)")
             }
         }
         return container
