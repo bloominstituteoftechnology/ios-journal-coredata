@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		21352E032474FC1B00E959B8 /* EntryRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21352E022474FC1B00E959B8 /* EntryRepresentation.swift */; };
+		21352E052474FCEC00E959B8 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21352E042474FCEC00E959B8 /* EntryController.swift */; };
 		2160E7112474479A00D909D9 /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2160E7102474479A00D909D9 /* EntryDetailViewController.swift */; };
 		21BDACD624725A0A00ADA127 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BDACD524725A0A00ADA127 /* AppDelegate.swift */; };
 		21BDACD824725A0A00ADA127 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BDACD724725A0A00ADA127 /* SceneDelegate.swift */; };
@@ -18,11 +20,12 @@
 		21BDACF024725ACC00ADA127 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BDACEF24725ACC00ADA127 /* EntryTableViewCell.swift */; };
 		21BDACF324725AE400ADA127 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BDACF224725AE400ADA127 /* CoreDataStack.swift */; };
 		21BDACF92472609200ADA127 /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 21BDACF72472609200ADA127 /* Journal.xcdatamodeld */; };
-		21BDACFB2472717D00ADA127 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BDACFA2472717D00ADA127 /* EntryController.swift */; };
 		21BDACFC2472978200ADA127 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21BDACF424725AF400ADA127 /* Entry+Convenience.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		21352E022474FC1B00E959B8 /* EntryRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryRepresentation.swift; sourceTree = "<group>"; };
+		21352E042474FCEC00E959B8 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
 		2160E7102474479A00D909D9 /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
 		21BDACD224725A0A00ADA127 /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21BDACD524725A0A00ADA127 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -37,7 +40,6 @@
 		21BDACF224725AE400ADA127 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		21BDACF424725AF400ADA127 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
 		21BDACF82472609200ADA127 /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
-		21BDACFA2472717D00ADA127 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +53,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		21352E012474FC0800E959B8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				21352E022474FC1B00E959B8 /* EntryRepresentation.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		21BDACC924725A0A00ADA127 = {
 			isa = PBXGroup;
 			children = (
@@ -70,6 +80,7 @@
 		21BDACD424725A0A00ADA127 /* Journal */ = {
 			isa = PBXGroup;
 			children = (
+				21352E012474FC0800E959B8 /* Model */,
 				21BDACF124725AD700ADA127 /* Utility */,
 				21BDACEE24725AB600ADA127 /* Cells */,
 				21BDACE924725A6600ADA127 /* Controllers */,
@@ -90,6 +101,7 @@
 				21BDACEA24725A7D00ADA127 /* CreateEntryViewController.swift */,
 				21BDACEC24725AAC00ADA127 /* EntriesTableViewController.swift */,
 				2160E7102474479A00D909D9 /* EntryDetailViewController.swift */,
+				21352E042474FCEC00E959B8 /* EntryController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -107,7 +119,6 @@
 			children = (
 				21BDACF224725AE400ADA127 /* CoreDataStack.swift */,
 				21BDACF424725AF400ADA127 /* Entry+Convenience.swift */,
-				21BDACFA2472717D00ADA127 /* EntryController.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -187,10 +198,11 @@
 				21BDACFC2472978200ADA127 /* Entry+Convenience.swift in Sources */,
 				21BDACF024725ACC00ADA127 /* EntryTableViewCell.swift in Sources */,
 				21BDACD624725A0A00ADA127 /* AppDelegate.swift in Sources */,
-				21BDACFB2472717D00ADA127 /* EntryController.swift in Sources */,
 				21BDACF324725AE400ADA127 /* CoreDataStack.swift in Sources */,
+				21352E052474FCEC00E959B8 /* EntryController.swift in Sources */,
 				21BDACEB24725A7D00ADA127 /* CreateEntryViewController.swift in Sources */,
 				21BDACD824725A0A00ADA127 /* SceneDelegate.swift in Sources */,
+				21352E032474FC1B00E959B8 /* EntryRepresentation.swift in Sources */,
 				2160E7112474479A00D909D9 /* EntryDetailViewController.swift in Sources */,
 				21BDACF92472609200ADA127 /* Journal.xcdatamodeld in Sources */,
 			);
@@ -343,7 +355,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.BrianRouse.Journal;
+				PRODUCT_BUNDLE_IDENTIFIER = com.BrianRouse.Journal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -361,7 +373,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.BrianRouse.Journal;
+				PRODUCT_BUNDLE_IDENTIFIER = com.BrianRouse.Journal;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

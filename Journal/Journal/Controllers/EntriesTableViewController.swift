@@ -13,7 +13,7 @@ class EntriesTableViewController: UITableViewController {
     
     // MARK: - iVars
     
-    //    let entries = EntryController()
+    var entryController = EntryController()
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [
@@ -45,6 +45,11 @@ class EntriesTableViewController: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return fetchedResultsController.sections?.count ?? 1
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+        return sectionInfo.name.capitalized
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -79,16 +84,20 @@ class EntriesTableViewController: UITableViewController {
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let context = CoreDataStack.shared.mainContext
             let entry = fetchedResultsController.object(at: indexPath)
+            entryController.deleteEntryFromServer(entry: entry)
+            
+            let context = CoreDataStack.shared.mainContext
+            
             context.delete(entry)
+            
             do {
                 try context.save()
             } catch {
                 NSLog("Error deleting object: \(error)")
             }
             
-            tableView.deleteRows(at: [indexPath], with: .automatic)
+            //            tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
     
@@ -108,12 +117,17 @@ class EntriesTableViewController: UITableViewController {
      */
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let entryDetailVC = segue.destination as? EntryDetailViewController {
-            guard let indexPath = tableView.indexPathForSelectedRow else { return }
-            entryDetailVC.entry = fetchedResultsController.object(at: indexPath)
+        if segue.identifier == "ShowEntryDetailSegue" {
+            guard let detailVC = segue.destination as? EntryDetailViewController,
+                let indexPath = tableView.indexPathForSelectedRow else { return }
+            
+            detailVC.entry = fetchedResultsController.object(at: indexPath)
+        } else if segue.identifier == "CreateEntrySegue" {
+            if let navC = segue.destination as? UINavigationController,
+                let createEntryVC = navC.viewControllers.first as? CreateEntryViewController {
+                createEntryVC.entryController = entryController
+            }
         }
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
     }
     
 }

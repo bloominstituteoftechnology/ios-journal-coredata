@@ -15,6 +15,12 @@ class CreateEntryViewController: UIViewController {
     @IBOutlet var journalTextView: UITextView!
     @IBOutlet weak var moodSegmentControl: UISegmentedControl!
     
+    // MARK: - iVars
+    
+    var entryController: EntryController?
+    
+    //MARK: - ViewLifeCycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,7 +37,9 @@ class CreateEntryViewController: UIViewController {
         
         let mood = Mood.allCases[moodSegmentControl.selectedSegmentIndex]
         
-        Entry(identifier: "", title: title, bodyText: text, timestamp: Date(), mood: mood, context: CoreDataStack.shared.mainContext)
+        let entry = Entry(identifier: UUID().uuidString, title: title, bodyText: text, timestamp: Date(), mood: mood, context: CoreDataStack.shared.mainContext)
+
+        entryController?.sendEntryToServer(entry: entry)
         
         do {
             try CoreDataStack.shared.mainContext.save()

@@ -2,9 +2,10 @@
 //  EntryDetailViewController.swift
 //  Journal
 //
-//  Created by Brian Rouse on 5/18/20.
+//  Created by Brian Rouse on 5/19/20.
 //  Copyright © 2020 Brian Rouse. All rights reserved.
 //
+
 
 import UIKit
 import CoreData
@@ -16,13 +17,14 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet private weak var bodyTextView: UITextView!
     
     var entry: Entry?
+    var entryController: EntryController?
     
     private var wasEdited = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.setRightBarButton(editButtonItem, animated: false)
+        navigationItem.rightBarButtonItems = [editButtonItem]
         updateViews()
     }
     
@@ -57,24 +59,28 @@ class EntryDetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        guard let entry = entry else { return }
+        
         if wasEdited {
-            guard
-                let entry = entry,
-                let id = entry.identifier,
-                let title = titleTextField.text,
-                let body = bodyTextView.text else { return }
+            guard let title = titleTextField.text, !title.isEmpty,
+                let text = bodyTextView.text, !text.isEmpty else { return }
+            entry.title = title
+            entry.bodyText = text
             
             let mood = Mood.allCases[moodSegmentControl.selectedSegmentIndex]
-            
+            entry.mood = mood.rawValue
+
             let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-            fetchRequest.predicate = NSPredicate(format: "identifier == %@", id)
+            fetchRequest.predicate = NSPredicate(format: "identifier == %@", entry.identifier ?? "")
             
             do {
                 let matchingEntries = try CoreDataStack.shared.mainContext.fetch(fetchRequest)
                 let existingEntry = matchingEntries[0]
                 existingEntry.title = title
                 existingEntry.mood = mood.rawValue
-                existingEntry.bodyText = body
+                existingEntry.bodyText = text
+                
+                entryController?.sendEntryToServer(entry: existingEntry)
                 try CoreDataStack.shared.mainContext.save()
             } catch {
                 NSLog("Error saving: \(error)")

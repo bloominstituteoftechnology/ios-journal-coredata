@@ -2,7 +2,7 @@
 //  EntryTableViewCell.swift
 //  Journal
 //
-//  Created by Brian Rouse on 5/18/20.
+//  Created by Brian Rouse on 5/20/20.
 //  Copyright © 2020 Brian Rouse. All rights reserved.
 //
 
