@@ -9,31 +9,39 @@
 import Foundation
 import CoreData
 
-enum Mood: String, CaseIterable {
-    case sad = "☹️"
-    case meh = "😐"
+enum EntryMood: String, CaseIterable {
+    case sad = "🙁"
+    case okay = "😐"
     case happy = "🙂"
-
-    static var allMoods: [Mood] {
-        return [.sad, .meh, .happy]
-    }
 }
 
-
 extension Entry {
-    
-    @discardableResult convenience init(identifier: UUID = UUID(),
-                     title: String,
-                     bodyText: String,
-                     mood: Mood = .meh,
-                     timeStamp: Date,
-                     context: NSManagedObjectContext) {
+    convenience init(mood: EntryMood = .okay, title: String, bodyText: String? = nil, timestamp: Date = Date(), identifier: UUID = UUID(), context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
-        self.identifier = identifier
+        
+        self.mood = mood.rawValue
         self.title = title
         self.bodyText = bodyText
-        self.timeStamp = timeStamp
-        self.mood = mood.rawValue
+        self.timestamp = timestamp
+        self.identifier = identifier
     }
     
+    convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        
+        guard let identifierString = entryRepresentation.identifier,
+            let identifier = UUID(uuidString: identifierString) else { return nil }
+        
+        self.init(mood: EntryMood(rawValue: entryRepresentation.mood) ?? .okay, title: entryRepresentation.title, bodyText: entryRepresentation.bodyText, identifier: identifier, context: context)
+        
+    }
+    
+    var entryRepresentation: EntryRepresentation? {
+        guard let title = title,
+            let mood = mood,
+            let bodyText = bodyText,
+            let timestamp = timestamp
+        else { return nil }
+        
+        return EntryRepresentation(title: title, bodyText: bodyText, mood: mood, timestamp: timestamp, identifier: identifier?.uuidString ?? "")
+    }
 }

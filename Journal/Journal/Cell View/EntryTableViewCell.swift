@@ -9,12 +9,6 @@
 import UIKit
 
 class EntryTableViewCell: UITableViewCell {
-
-    static var reuseIdentifier = "EntryCell"
-    
-    @IBOutlet weak var entryTitleLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
     
     var entry: Entry? {
         didSet {
@@ -22,21 +16,36 @@ class EntryTableViewCell: UITableViewCell {
         }
     }
     
-    var dateFormatter: DateFormatter = {
-          let newDate = DateFormatter()
-          newDate.calendar = .current
-          newDate.dateFormat = "MM-dd-yyyy h:mm a"
-          return newDate
-      }()
-
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var timestampLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
     
-    private func updateViews() {
-      
-        guard let entry = entry else { return }
-        
-        entryTitleLabel.text = entry.title
-        descriptionLabel.text = entry.bodyText
-        timeLabel.text = dateFormatter.string(from: entry.timeStamp!)
-        
+    func updateViews() {
+        self.titleLabel.text = entry?.title
+        self.timestampLabel.text = self.dateString(for: entry)
+        self.descriptionLabel.text = entry?.bodyText
+    }
+    
+    private var dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
+        return dateFormatter
+    }()
+    
+    func dateString(for entry: Entry?) -> String? {
+        // execute with map if there is any date
+        return entry?.timestamp.map { dateFormatter.string(from: $0) }
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        // Configure the view for the selected state
     }
 }
