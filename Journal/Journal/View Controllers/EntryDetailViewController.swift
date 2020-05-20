@@ -14,6 +14,7 @@ class EntryDetailViewController: UIViewController {
     
     var entry: Entry?
     var wasEdited = false
+    var entryController: EntryController?
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
@@ -42,6 +43,7 @@ class EntryDetailViewController: UIViewController {
 
             do {
                 try CoreDataStack.shared.mainContext.save()
+                entryController?.sendTaskToServer(entry: entry)
             } catch {
                 NSLog("Error saving managed object context: \(error)")
             }

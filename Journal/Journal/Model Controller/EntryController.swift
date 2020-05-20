@@ -32,7 +32,7 @@ class EntryController {
         return
     }
         
-    let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+    let requestURL = baseURL!.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
         
     var request = URLRequest(url: requestURL)
     request.httpMethod = "PUT"
