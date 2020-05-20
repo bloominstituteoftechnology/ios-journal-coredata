@@ -27,6 +27,8 @@ class EntryController {
     
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
+    let jsonDecoder = JSONDecoder()
+    
     init() {
         fetchEntriesFromServer()
     }
@@ -36,22 +38,23 @@ class EntryController {
         
         URLSession.shared.dataTask(with: requestURL) { data, _, error in
             if let error = error {
-                NSLog("Error fetching tasks: \(error)")
+                NSLog("Error fetching entries: \(error)")
                 completion(.failure(.otherError))
                 return
             }
             
             guard let data = data else {
-                NSLog("No data returned from Firebase (fetching tasks).")
+                NSLog("No data returned from Firebase (fetching entries).")
                 completion(.failure(.noData))
                 return
             }
             
             do {
-                let entryRepresentations = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
+                self.jsonDecoder.dateDecodingStrategy = .secondsSince1970
+                let entryRepresentations = Array(try self.jsonDecoder.decode([String : EntryRepresentation].self, from: data).map({$0.value}))
                 try self.updateEntries(with: entryRepresentations)
             } catch {
-                NSLog("Error deocding tasks from Firebase: \(error)")
+                NSLog("Error deocding entries from Firebase: \(error)")
                 completion(.failure(.noDecode))
             }
         }.resume()
@@ -80,14 +83,14 @@ class EntryController {
             request.httpBody = try JSONEncoder().encode(representation)
 
         } catch {
-            NSLog("Error encoding task \(entry): \(error)")
+            NSLog("Error encoding entries \(entry): \(error)")
             completion(.failure(.noEncode))
             return
         }
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
-                NSLog("Error sending task to server: \(error)")
+                NSLog("Error sending entries to server: \(error)")
                 completion(.failure(.otherError))
                 return
             }
