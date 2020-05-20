@@ -10,6 +10,8 @@ import UIKit
 import CoreData
 
 class EntriesTableViewController: UITableViewController {
+    
+    var entryController: EntryController?
 
     lazy var fetchedResultController: NSFetchedResultsController<Entry> = {
            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -67,8 +69,8 @@ class EntriesTableViewController: UITableViewController {
     
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: EntryTableViewCell.reuseIndentifier, for: indexPath) as? EntryTableViewCell else {
-            fatalError("Can't dequeue cell of type \(EntryTableViewCell.reuseIndentifier)")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: EntryTableViewCell.reuseIdentifier, for: indexPath) as? EntryTableViewCell else {
+            fatalError("Can't dequeue cell of type \(EntryTableViewCell.reuseIdentifier)")
         }
         cell.entry = fetchedResultController.object(at: indexPath)
         

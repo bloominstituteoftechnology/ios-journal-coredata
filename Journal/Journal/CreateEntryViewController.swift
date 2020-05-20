@@ -12,6 +12,8 @@ class CreateEntryViewController: UIViewController {
     
     var timeStamp = NSDate.now
     
+    var entryController: EntryController?
+    
     // MARK: - OUTLETS
     
     @IBOutlet weak var journalEntryTitleText: UITextField!
@@ -35,9 +37,9 @@ class CreateEntryViewController: UIViewController {
             !bodyText.isEmpty else { return }
         let moodIndex = moodControl.selectedSegmentIndex
         let mood = Mood.allCases[moodIndex]
-        
-        let entry = Entry(title: title, bodyText: bodyText, timeStamp: timeStamp, mood: mood, context: CoreDataStack.shared.mainContext)
-        
+        //MARK: - HELP
+        let entry = Entry(identifier: identifier, title: title, bodyText: bodyText, timeStamp: timeStamp, context: _)
+        entryController?.sendEntryToServer(entry: entry, completion: { _ in })
         do {
             try CoreDataStack.shared.mainContext.save()
             navigationController?.dismiss(animated: true, completion: nil)

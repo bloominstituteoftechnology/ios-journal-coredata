@@ -16,7 +16,7 @@ class EntryTableViewCell: UITableViewCell {
             updateViews()
         }
     }
-    static let reuseIndentifier = "EntryCell"
+    static let reuseIdentifier = "EntryCell"
     
     // MARK: - OUTLETS
     

@@ -10,6 +10,11 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
 
+    var entry: Entry?
+    var wasEdited: Bool = false
+    var entryController: EntryController?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -26,5 +31,8 @@ class EntryDetailViewController: UIViewController {
         // Pass the selected object to the new view controller.
     }
     */
-
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+    }
 }
