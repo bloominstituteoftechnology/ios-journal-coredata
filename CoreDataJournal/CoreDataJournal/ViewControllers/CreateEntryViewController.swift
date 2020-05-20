@@ -9,15 +9,21 @@
 import UIKit
 
 class CreateEntryViewController: UIViewController {
-    
+    // MARK: - Outlets
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     @IBOutlet weak var entryDetailTextField: UITextView!
     @IBOutlet weak var entryTitleTextField: UITextField!
+    
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
     }
     
+    // MARK: - Actions
     @IBAction func save(_ sender: UIButton) {
+        let moodIndex = moodSegmentedControl.selectedSegmentIndex
+        let mood = Mood.allCases[moodIndex]
         
         guard let entryTitle = entryTitleTextField.text,
             !entryTitle.isEmpty else { return }
@@ -25,7 +31,7 @@ class CreateEntryViewController: UIViewController {
         guard let entryDetail = entryDetailTextField.text,
             !entryDetail.isEmpty else { return }
         
-        Entry(title: entryTitle, bodyText: entryDetail, context: CoreDataStack.shared.mainContext)
+        Entry(title: entryTitle, bodyText: entryDetail, mood: mood, context: CoreDataStack.shared.mainContext)
         
         do {
             try CoreDataStack.shared.mainContext.save()

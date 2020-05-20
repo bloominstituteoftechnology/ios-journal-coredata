@@ -16,6 +16,8 @@ class EntryTableViewCell: UITableViewCell {
         }
     }
     
+    static let reuseIdentifier = "EntryCell"
+    
     //MARK: - Outlets
     @IBOutlet weak var entryTitleLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
