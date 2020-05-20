@@ -65,6 +65,7 @@
                                     <outlet property="entryLabel" destination="FCL-x7-F5z" id="C2C-gv-PJv"/>
                                     <outlet property="timestampLabel" destination="Z1c-Mo-cOf" id="sGG-ev-5BC"/>
                                     <outlet property="titleLabel" destination="mbr-pN-Ql5" id="hRO-EG-CCB"/>
+                                    <segue destination="bK2-qY-hhB" kind="show" id="AJ1-lg-Uwm"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -84,6 +85,61 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="se6-yV-Vtb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="244.92753623188409" y="129.91071428571428"/>
+        </scene>
+        <!--Entry Details-->
+        <scene sceneID="SpV-Wf-84c">
+            <objects>
+                <viewController title="Entry Details" id="bK2-qY-hhB" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="63H-Xw-ZI2">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="bu3-fh-yuc">
+                                <rect key="frame" x="20" y="108" width="374" height="377"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="journal entry title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jpg-53-1Af">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="72"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="nwo-F4-ghb">
+                                        <rect key="frame" x="0.0" y="74" width="374" height="32"/>
+                                        <segments>
+                                            <segment title="😀"/>
+                                            <segment title="😞"/>
+                                            <segment title="😐"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6eq-QY-JI0">
+                                        <rect key="frame" x="0.0" y="107" width="374" height="270"/>
+                                        <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="fqW-T5-POc" firstAttribute="trailing" secondItem="bu3-fh-yuc" secondAttribute="trailing" constant="20" id="EBE-9H-Ho7"/>
+                            <constraint firstItem="bu3-fh-yuc" firstAttribute="top" secondItem="fqW-T5-POc" secondAttribute="top" constant="20" id="NZD-le-iTt"/>
+                            <constraint firstItem="fqW-T5-POc" firstAttribute="bottom" secondItem="bu3-fh-yuc" secondAttribute="bottom" constant="377" id="Tl7-5a-hWQ"/>
+                            <constraint firstItem="bu3-fh-yuc" firstAttribute="leading" secondItem="fqW-T5-POc" secondAttribute="leading" constant="20" id="vdD-Tv-kXG"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="fqW-T5-POc"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="entry details" id="XHs-dO-8eQ"/>
+                    <connections>
+                        <outlet property="bodyTextView" destination="6eq-QY-JI0" id="RC0-K9-uJ0"/>
+                        <outlet property="moodSegmentControl" destination="nwo-F4-ghb" id="d5F-ot-Dxp"/>
+                        <outlet property="titleTextField" destination="jpg-53-1Af" id="yRK-oz-Znn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FXn-wm-pSX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="684" y="822"/>
         </scene>
         <!--create entry-->
         <scene sceneID="tne-QT-ifu">
@@ -106,9 +162,8 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="frr-KC-vmL">
-                                <rect key="frame" x="8" y="148" width="398" height="32"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="frr-KC-vmL">
+                                <rect key="frame" x="8" y="154" width="398" height="32"/>
                                 <segments>
                                     <segment title="😀"/>
                                     <segment title="😞"/>
@@ -119,11 +174,14 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="dMI-Mp-qO9" secondAttribute="bottom" constant="405" id="0Yn-VF-kQp"/>
+                            <constraint firstItem="frr-KC-vmL" firstAttribute="leading" secondItem="zl7-n8-UnY" secondAttribute="leading" id="468-yg-ZDh"/>
                             <constraint firstItem="dMI-Mp-qO9" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="J36-N5-Pqp"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="dMI-Mp-qO9" secondAttribute="trailing" constant="16" id="JxH-pd-00f"/>
                             <constraint firstItem="dMI-Mp-qO9" firstAttribute="top" secondItem="zl7-n8-UnY" secondAttribute="bottom" constant="32" id="Z5k-zQ-4WF"/>
+                            <constraint firstItem="frr-KC-vmL" firstAttribute="trailing" secondItem="zl7-n8-UnY" secondAttribute="trailing" id="ZDB-sm-w0h"/>
                             <constraint firstItem="zl7-n8-UnY" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="33" id="ZjI-wu-nuo"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="zl7-n8-UnY" secondAttribute="trailing" constant="8" id="aDr-gd-2Gh"/>
+                            <constraint firstItem="frr-KC-vmL" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="66" id="fMS-he-39l"/>
                             <constraint firstItem="zl7-n8-UnY" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="8" id="nu7-U2-DnJ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
