@@ -50,7 +50,7 @@ class EntryController {
             }
             
             do {
-                self.jsonDecoder.dateDecodingStrategy = .secondsSince1970
+                self.jsonDecoder.dateDecodingStrategy = .millisecondsSince1970
                 let entryRepresentations = Array(try self.jsonDecoder.decode([String : EntryRepresentation].self, from: data).map({$0.value}))
                 try self.updateEntries(with: entryRepresentations)
             } catch {
