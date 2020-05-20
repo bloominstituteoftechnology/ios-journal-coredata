@@ -28,4 +28,13 @@ extension Entry {
         self.bodyText = bodyText
         self.timestamp = timestamp
     }
+    
+    // Failable Initalizer 
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        guard let identifier = UUID(uuidString: entryRepresentation.identifier),
+            let mood = MoodPriority(rawValue: entryRepresentation.mood) else { return nil
+        }
+        
+        self.init(identifier: identifier, title: entryRepresentation.title, bodyText: entryRepresentation.bodyText, timestamp: entryRepresentation.timestamp, mood: mood, context: context)
+    }
 }
