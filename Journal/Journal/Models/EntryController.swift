@@ -10,7 +10,8 @@ import Foundation
 import CoreData
 
 class EntryController {
-    let baseURL = URL(string: "FirebaseURL")!
+    let baseURL = URL(string: // TO DO: FireBase URL
+       "https://journal-dbeea.firebaseio.com/" )!
     
     init() {
         self.fetchEntriesFromServer()
