@@ -14,6 +14,7 @@ class EntryDetailViewController: UIViewController {
     
     var entry: Entry?
     var wasEdited: Bool = false
+    var entryController: EntryController?
     
     // MARK: Outlets
     
@@ -71,6 +72,7 @@ class EntryDetailViewController: UIViewController {
             entry.bodyText = bodyTextView.text
             let moodIndex = moodControl.selectedSegmentIndex
             entry.mood = Mood.allCases[moodIndex].rawValue
+            entryController?.sendEntryToServer(entry: entry)
             
             do {
                 try CoreDataStack.shared.mainContext.save()

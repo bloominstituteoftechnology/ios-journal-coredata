@@ -10,6 +10,8 @@ import UIKit
 
 class CreateEntryViewController: UIViewController {
     
+    var entryController: EntryController?
+    
     // MARK: Outlets
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
@@ -28,9 +30,10 @@ class CreateEntryViewController: UIViewController {
             !bodyText.isEmpty else { return }
         
         let moodIndex = moodSegmentedControl.selectedSegmentIndex
-        let mood = Mood.allCases[moodIndex].rawValue
+        let mood = Mood.allCases[moodIndex]
         
-        Entry(title: title, bodyText: bodyText, mood: mood)
+        let entry = Entry(title: title, bodyText: bodyText, mood: mood)
+        entryController?.sendEntryToServer(entry: entry)
         
         do {
             try CoreDataStack.shared.mainContext.save()

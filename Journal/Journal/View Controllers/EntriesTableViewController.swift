@@ -12,16 +12,16 @@ import CoreData
 class EntriesTableViewController: UITableViewController {
     
     // MARK: - Properties
-
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: false),
                                         NSSortDescriptor(key: "timestamp", ascending: false)]
         let context = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest,
-                                               managedObjectContext: context,
-                                               sectionNameKeyPath: "mood",
-                                               cacheName: nil)
+                                             managedObjectContext: context,
+                                             sectionNameKeyPath: "mood",
+                                             cacheName: nil)
         frc.delegate = self
         do {
             try frc.performFetch()
@@ -30,6 +30,8 @@ class EntriesTableViewController: UITableViewController {
         }
         return frc
     }()
+    
+    let entryController = EntryController()
     
     // MARK: - View Lifecycle
     
@@ -88,19 +90,25 @@ class EntriesTableViewController: UITableViewController {
         }
     }
     
-
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowDetailSegue" {
             if let detailVC = segue.destination as? EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow {
                 detailVC.entry = fetchedResultsController.object(at: indexPath)
             }
+        } else if segue.identifier == "CreateEntryModalSegue" {
+            if let navC = segue.destination as? UINavigationController,
+                let createEntryVC = navC.viewControllers.first as? CreateEntryViewController {
+                createEntryVC.entryController = entryController
+            }
         }
-     }
+    }
 }
+
 
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
