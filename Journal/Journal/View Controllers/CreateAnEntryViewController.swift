@@ -42,7 +42,7 @@ class CreateAnEntryViewController: UIViewController {
         let mood = Mood.allCases[moodIndex]
         
        let entry = Entry(bodyText: textEntry, title: title, mood: mood)
-        entryController?.sendTaskToServer(entry: entry)
+        entryController?.sendEntryToServer(entry: entry)
         
         
         do {

@@ -11,8 +11,7 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
-    let entryController = EntryController()
-
+    
     lazy var fetchedResultController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
@@ -27,11 +26,8 @@ class EntriesTableViewController: UITableViewController {
         
     }()
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        tableView.reloadData()
-    }
+    let entryController = EntryController()
+    
     
     // MARK: - Table view data source
     
@@ -65,15 +61,17 @@ class EntriesTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             let entry = fetchedResultController.object(at: indexPath)
-            entryController.deleteTaskFromServer(entry: entry) { result in
+            entryController.deleteEntryFromServer(entry) { result in
                 guard let _ = try? result.get() else { return }
-            
-            CoreDataStack.shared.mainContext.delete(entry)
-            do {
-                try CoreDataStack.shared.mainContext.save()
-            } catch {
-                CoreDataStack.shared.mainContext.reset()
-                NSLog("Error saving managed object context: \(error)")
+                
+                let context = CoreDataStack.shared.mainContext
+                context.delete(entry)
+                
+                do {
+                    try context.save()
+                } catch {
+                    context.reset()
+                    NSLog("Error saving managed object context: \(error)")
                 }
             }
         }
@@ -82,16 +80,16 @@ class EntriesTableViewController: UITableViewController {
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showDetailSegue" {
-                   if let detailVc = segue.destination as? EntryDetailViewController,
-                       let indexPath = tableView.indexPathForSelectedRow {
-                    detailVc.entry = fetchedResultController.object(at: indexPath)
-                   }
-               } else if segue.identifier == "presentModalCreateTask" {
-                   if let navC = segue.destination as? UINavigationController,
-                       let createTaskVc = navC.viewControllers.first as?  CreateAnEntryViewController {
-                    createTaskVc.entryController = entryController
-                   }
-               }
+            if let detailVc = segue.destination as? EntryDetailViewController,
+                let indexPath = tableView.indexPathForSelectedRow {
+                detailVc.entry = fetchedResultController.object(at: indexPath)
+            }
+        } else if segue.identifier == "presentModalCreateTask" {
+            if let navC = segue.destination as? UINavigationController,
+                let createTaskVc = navC.viewControllers.first as?  CreateAnEntryViewController {
+                createTaskVc.entryController = entryController
+            }
+        }
     }
 }
 
@@ -125,7 +123,7 @@ extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
             tableView.reloadRows(at: [indexPath], with: .automatic)
         case .move: //I.E. change the priority on  a task
             guard let oldIndexPath = indexPath,
-            let newIndexPath = newIndexPath else { return }
+                let newIndexPath = newIndexPath else { return }
             tableView.deleteRows(at: [oldIndexPath], with: .automatic)
             tableView.insertRows(at: [newIndexPath], with: .automatic)
         case .delete:

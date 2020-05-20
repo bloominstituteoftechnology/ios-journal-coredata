@@ -23,17 +23,30 @@ extension Entry {
         guard let id = identifier,
         let title = title,
         let mood = mood,
+        let timeStamp = timeStamp,
         let bodyText = bodyText else { return nil }
 
         return EntryRepresentation(bodyText: bodyText,
                                    identifier: id,
                                    mood: mood,
-                                   timeStamp: timeStamp!,
+                                   timeStamp: timeStamp,
                                    title: title)
     }
     
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext) {
+        
+        
+        self.init(context: context)
+        self.bodyText = entryRepresentation.bodyText
+        self.identifier = entryRepresentation.identifier
+        self.mood = entryRepresentation.mood
+        self.timeStamp = entryRepresentation.timeStamp
+        self.title = entryRepresentation.title
+        
+    }
+    
 
-    @discardableResult convenience init(identifier: String = String(),
+    @discardableResult convenience init(identifier: String = UUID().uuidString,
                                         bodyText: String,
                                         timeStamp: Date = Date(),
                                         title: String,
