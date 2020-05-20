@@ -10,29 +10,31 @@ import UIKit
 import CoreData
 
 class EntriesTableViewController: UITableViewController {
-
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
-           let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-           fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
-                                           NSSortDescriptor(key: "timestamp", ascending: true)]
-           let context = CoreDataStack.shared.mainContext
-           let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "mood", cacheName: nil)
-           frc.delegate = self
-           try! frc.performFetch()
-           return frc
-       }()
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
+                                        NSSortDescriptor(key: "timestamp", ascending: true)]
+        let context = CoreDataStack.shared.mainContext
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "mood", cacheName: nil)
+        frc.delegate = self
+        try! frc.performFetch()
+        return frc
+    }()
+    
+    let entryController = EntryController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tableView.rowHeight = 100 
     }
-
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
-           return fetchedResultsController.sections?.count ?? 1
-       }
-
+        return fetchedResultsController.sections?.count ?? 1
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
         
@@ -43,41 +45,46 @@ class EntriesTableViewController: UITableViewController {
         
         return sectionInfo.name.capitalized
     }
-
-
-   
+    
+    
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-      guard let cell = tableView.dequeueReusableCell(withIdentifier: EntryTableViewCell.reuseIdentifer, for: indexPath) as? EntryTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: EntryTableViewCell.reuseIdentifer, for: indexPath) as? EntryTableViewCell else {
             fatalError("Can't dequeue cell of type \(EntryTableViewCell.reuseIdentifer)")
         }
-
+        
         // Configure the cell...
         cell.entry = fetchedResultsController.object(at: indexPath)
         return cell
     }
     
-
+    
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-           if editingStyle == .delete {
-               // Delete the row from the data source
-               let entry = fetchedResultsController.object(at: indexPath)
-              
-               CoreDataStack.shared.mainContext.delete(entry)
-               do {
-                   try CoreDataStack.shared.mainContext.save()
-               } catch {
-                   CoreDataStack.shared.mainContext.reset()
-                   NSLog("Error saving managed object context: \(error)")
-               }
-           }
-       }
+        if editingStyle == .delete {
+            // Delete the row from the data source
+            let entry = fetchedResultsController.object(at: indexPath)
+            entryController.deleteEntryFromServer(entry: entry) { result in
+                guard let _ = try? result.get() else {
+                    return
+                }
+            }
+            
+            CoreDataStack.shared.mainContext.delete(entry)
+            do {
+                try CoreDataStack.shared.mainContext.save()
+            } catch {
+                CoreDataStack.shared.mainContext.reset()
+                NSLog("Error saving managed object context: \(error)")
+            }
+        }
+    }
     
-
+    
     // MARK: - Navigation
-
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowEntryDetailSegue" {
             if let detailVC = segue.destination as? EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow {
@@ -85,7 +92,7 @@ class EntriesTableViewController: UITableViewController {
             }
         }
     }
-
+    
 }
 
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
