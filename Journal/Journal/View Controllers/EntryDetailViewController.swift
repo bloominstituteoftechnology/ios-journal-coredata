@@ -10,11 +10,10 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
     
-      // MARK: - Properties
-    
+    // MARK: - Properties
     var entry: Entry?
-    var wasEdited = false
     var entryController: EntryController?
+    var wasEdited = false
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
@@ -34,20 +33,35 @@ class EntryDetailViewController: UIViewController {
 
         if wasEdited {
             guard let title = titleTextField.text,
+                !title.isEmpty,
                 let entry = entry else { return }
 
             entry.title = title
             entry.bodyText = entryTextView.text
             let moodIndex = moodController.selectedSegmentIndex
             entry.mood = MoodPriority.allCases[moodIndex].rawValue
+            entryController?.sendEntryToServer(entry: entry)
 
             do {
-                try CoreDataStack.shared.mainContext.save()
-                entryController?.sendEntryToServer(entry: entry)
+                try CoreDataStack.shared.save()
+               
             } catch {
-                NSLog("Error saving managed object context: \(error)")
+                NSLog("Error saving managed object context (during entry edit): \(error)")
             }
         }
+    }
+    
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        
+        if editing { wasEdited = true }
+        
+        titleTextField.isUserInteractionEnabled = editing
+        entryTextView.isUserInteractionEnabled = editing
+        moodController.isUserInteractionEnabled = editing
+        
+        navigationItem.hidesBackButton = editing
     }
     
   private func updateViews() {

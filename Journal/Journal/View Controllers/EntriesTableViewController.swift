@@ -40,14 +40,6 @@ class EntriesTableViewController: UITableViewController {
         
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
-        
-        return sectionInfo.name.capitalized
-    }
-    
-    
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: EntryTableViewCell.reuseIdentifer, for: indexPath) as? EntryTableViewCell else {
             fatalError("Can't dequeue cell of type \(EntryTableViewCell.reuseIdentifer)")
@@ -58,7 +50,12 @@ class EntriesTableViewController: UITableViewController {
         return cell
     }
     
-    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+           guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+           
+           return sectionInfo.name.capitalized
+       }
+       
     
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -90,6 +87,11 @@ class EntriesTableViewController: UITableViewController {
                 let createEntryVC = navC.viewControllers.first as?
                 CreateEntryViewController {
                 createEntryVC.entryController = entryController
+            }
+        } else if segue.identifier == "ShowEntryDetailSegue" {
+            if let detailVC = segue.destination as? EntryDetailViewController,
+                let indexPath = tableView.indexPathForSelectedRow {
+                detailVC.entry = fetchedResultsController.object(at: indexPath)
             }
         }
     }
