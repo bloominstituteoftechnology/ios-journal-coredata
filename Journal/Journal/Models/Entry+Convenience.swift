@@ -16,8 +16,7 @@ enum Mood: String, CaseIterable {
 }
 
 extension Entry {
-    
-    
+
     @discardableResult convenience init(identifier: String = String(),
                                         title: String,
                                         bodyText: String,
@@ -31,8 +30,6 @@ extension Entry {
         self.bodyText = bodyText
         self.timeStamp = timeStamp
         self.mood = mood.rawValue
-        
-        
     }
     
     @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
@@ -55,7 +52,6 @@ extension Entry {
                                    mood: mood,
                                    identifier: id,
                                    timeStamp: timeStamp)
-        
     }
 }
 

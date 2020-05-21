@@ -28,7 +28,6 @@ class EntryController {
         fetchEntriesFromServer()
     }
     
-    
     // MARK: - SEND ENTRY FUNC
     func sendEntryToServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
        
@@ -89,7 +88,6 @@ class EntryController {
                 let entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({ $0.value })
                 
                 try self.updateEntries(with: entryRepresentations)
-                
                 DispatchQueue.main.async {
                     completion(.success(true))
                 }

@@ -12,7 +12,6 @@ class EntryTableViewCell: UITableViewCell {
     
     var entry: Entry? {
         didSet {
-
             updateViews()
         }
     }
@@ -24,6 +23,7 @@ class EntryTableViewCell: UITableViewCell {
     @IBOutlet weak var journalEntryLabel: UILabel!
     @IBOutlet weak var journalEntryDate: UILabel!
     
+    // MARK: - DATE FORMATTER
     var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "MMM dd, yyyy HH:mm"
@@ -46,7 +46,6 @@ class EntryTableViewCell: UITableViewCell {
         journalEntryDate.text = "\(entry.timeStamp!)"
         journalEntryLabel.text = entry.bodyText
         journalEntryDate.text = dateFormatter.string(from: entry.timeStamp!)
-        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

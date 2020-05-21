@@ -10,6 +10,7 @@ import UIKit
 
 class CreateEntryViewController: UIViewController {
     
+    // MARK: - PROPERTIES
     var timeStamp = NSDate.now
     var entryController: EntryController?
     
