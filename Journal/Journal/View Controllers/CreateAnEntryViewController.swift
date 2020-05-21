@@ -43,10 +43,6 @@ class CreateAnEntryViewController: UIViewController {
         
         let entry = Entry(bodyText: textEntry, title: title, mood: mood)
         entryController?.sendEntryToServer(entry: entry)
-        
-        let context = CoreDataStack.shared.mainContext
-        
-        context.perform {
             do {
                 try CoreDataStack.shared.mainContext.save()
                 self.navigationController?.dismiss(animated: true, completion: nil)
@@ -54,6 +50,5 @@ class CreateAnEntryViewController: UIViewController {
                 NSLog("Error saving managed object context: \(error)")
                 return
             }
-        }
     }
 }

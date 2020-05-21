@@ -50,7 +50,6 @@ class EntryController {
             }
             
             do {
-                //unecessary//self.jsonDecoder.dateDecodingStrategy = .secondsSince1970
                 let entryRepresentations = Array(try self.jsonDecoder.decode([String : EntryRepresentation].self, from: data).values)
                 try self.updateEntries(with: entryRepresentations)
             } catch {
@@ -153,7 +152,7 @@ class EntryController {
         }
         
         if let error = error { throw error }
-        try CoreDataStack.shared.save()
+        try CoreDataStack.shared.save(context: context)
     }
     
     private func update(entry: Entry, entryRepresentation: EntryRepresentation) {
