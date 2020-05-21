@@ -16,41 +16,48 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ApA-bS-nkd">
-                                <rect key="frame" x="20" y="96" width="374" height="34"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Journal Entry Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Shh-MG-R9t">
+                                <rect key="frame" x="20" y="100" width="374" height="22"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Entry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kdh-A7-asF">
-                                <rect key="frame" x="20" y="138" width="40" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XBw-cc-Ojc">
+                                <rect key="frame" x="20" y="137.5" width="42" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="dSf-NA-qeB">
-                                <rect key="frame" x="20" y="172" width="374" height="152"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="Qg6-Qs-vXS">
-                                <rect key="frame" x="142" y="353" width="131" height="32"/>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="6AX-co-wet">
+                                <rect key="frame" x="142" y="312" width="131" height="32"/>
                                 <segments>
                                     <segment title="😄"/>
                                     <segment title="☹️"/>
                                     <segment title="😐"/>
                                 </segments>
                             </segmentedControl>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="jzb-Tq-S0H">
+                                <rect key="frame" x="20" y="166.5" width="374" height="137.5"/>
+                                <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="Qg6-Qs-vXS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="142" id="PYJ-95-Wg0"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Qg6-Qs-vXS" secondAttribute="bottom" constant="478" id="h4m-bV-tl0"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Qg6-Qs-vXS" secondAttribute="trailing" constant="141" id="o2j-Y1-c2m"/>
+                            <constraint firstItem="6AX-co-wet" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="142" id="Avo-Ic-5EW"/>
+                            <constraint firstItem="jzb-Tq-S0H" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Ghw-ua-Yqu"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="6AX-co-wet" secondAttribute="trailing" constant="141" id="HjP-xL-Wh1"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="XBw-cc-Ojc" secondAttribute="trailing" constant="352" id="PVk-HC-HAC"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Shh-MG-R9t" secondAttribute="trailing" constant="20" id="VKN-z1-WzK"/>
+                            <constraint firstItem="XBw-cc-Ojc" firstAttribute="top" secondItem="Shh-MG-R9t" secondAttribute="bottom" constant="15.5" id="ZjS-Ka-Nx4"/>
+                            <constraint firstItem="Shh-MG-R9t" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="c9a-iJ-cFa"/>
+                            <constraint firstItem="XBw-cc-Ojc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="ixk-h5-sqG"/>
+                            <constraint firstItem="6AX-co-wet" firstAttribute="top" secondItem="jzb-Tq-S0H" secondAttribute="bottom" constant="8" id="lKu-jo-02o"/>
+                            <constraint firstItem="Shh-MG-R9t" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="12" id="neb-a2-tY8"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="jzb-Tq-S0H" secondAttribute="trailing" constant="20" id="npr-yH-3kZ"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="6AX-co-wet" secondAttribute="bottom" constant="519" id="vIG-G5-ZUN"/>
+                            <constraint firstItem="jzb-Tq-S0H" firstAttribute="top" secondItem="XBw-cc-Ojc" secondAttribute="bottom" constant="8" id="wuq-St-Czf"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -67,9 +74,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="journalEntryTitleText" destination="ApA-bS-nkd" id="KOX-sV-dIa"/>
-                        <outlet property="journalTextView" destination="dSf-NA-qeB" id="NSK-ft-2pm"/>
-                        <outlet property="moodControl" destination="Qg6-Qs-vXS" id="l67-XG-EtF"/>
+                        <outlet property="journalEntryTitleText" destination="Shh-MG-R9t" id="ceJ-Ca-6Pl"/>
+                        <outlet property="journalTextView" destination="jzb-Tq-S0H" id="lRN-uh-LHc"/>
+                        <outlet property="moodControl" destination="6AX-co-wet" id="urj-Zi-VAc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -132,7 +139,7 @@
                                     <outlet property="journalEntryDate" destination="hnk-Cw-b9L" id="YMN-wx-v9b"/>
                                     <outlet property="journalEntryLabel" destination="ZLq-to-lrQ" id="u2n-1U-IhP"/>
                                     <outlet property="journalTitleLabel" destination="UBG-3m-n0C" id="3Dd-3a-K1I"/>
-                                    <segue destination="GcG-z5-46g" kind="show" id="iuc-5e-i2m"/>
+                                    <segue destination="GcG-z5-46g" kind="show" identifier="ShowEntryDetailSegue" id="iuc-5e-i2m"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -144,7 +151,7 @@
                     <navigationItem key="navigationItem" title="Journal" id="vXC-RQ-791">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="XhY-R9-TMf">
                             <connections>
-                                <segue destination="ldm-C1-7VR" kind="presentation" modalPresentationStyle="fullScreen" id="C8A-VT-zei"/>
+                                <segue destination="ldm-C1-7VR" kind="presentation" identifier="CreateEntrySegue" modalPresentationStyle="fullScreen" id="C8A-VT-zei"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -160,14 +167,66 @@
                     <view key="view" contentMode="scaleToFill" id="scT-c8-iBf">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ajK-qv-yxh">
+                                <rect key="frame" x="20" y="96" width="374" height="22"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="c2R-t7-iUm">
+                                <rect key="frame" x="20" y="138" width="374" height="241"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="a9a-VQ-WE5">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="170"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xAB-yJ-ElP">
+                                                <rect key="frame" x="0.0" y="0.0" width="40" height="20.5"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="0jv-f4-6xg">
+                                                <rect key="frame" x="0.0" y="36.5" width="374" height="133.5"/>
+                                                <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                        </subviews>
+                                    </stackView>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="hue-VX-qUm">
+                                        <rect key="frame" x="130.5" y="200" width="113" height="42"/>
+                                        <segments>
+                                            <segment title="😄"/>
+                                            <segment title="☹️"/>
+                                            <segment title="😐"/>
+                                        </segments>
+                                    </segmentedControl>
+                                </subviews>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="I70-nU-xuo" firstAttribute="bottom" secondItem="c2R-t7-iUm" secondAttribute="bottom" constant="483" id="0PS-6r-dBe"/>
+                            <constraint firstItem="ajK-qv-yxh" firstAttribute="top" secondItem="I70-nU-xuo" secondAttribute="top" constant="8" id="QT0-5b-jmk"/>
+                            <constraint firstItem="I70-nU-xuo" firstAttribute="trailing" secondItem="c2R-t7-iUm" secondAttribute="trailing" constant="20" id="UyS-IZ-sbU"/>
+                            <constraint firstItem="c2R-t7-iUm" firstAttribute="leading" secondItem="I70-nU-xuo" secondAttribute="leading" constant="20" id="XsL-Lq-37c"/>
+                            <constraint firstItem="ajK-qv-yxh" firstAttribute="leading" secondItem="I70-nU-xuo" secondAttribute="leading" constant="20" id="YoO-DR-igc"/>
+                            <constraint firstItem="c2R-t7-iUm" firstAttribute="top" secondItem="ajK-qv-yxh" secondAttribute="bottom" constant="20" id="ZNh-CC-lPR"/>
+                            <constraint firstItem="I70-nU-xuo" firstAttribute="trailing" secondItem="ajK-qv-yxh" secondAttribute="trailing" constant="20" id="fw4-XI-wZ3"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="I70-nU-xuo"/>
                     </view>
                     <navigationItem key="navigationItem" title="Entry Details" id="G3z-w1-1pV"/>
+                    <connections>
+                        <outlet property="journalEntryTitleText" destination="ajK-qv-yxh" id="OLf-Lm-PzK"/>
+                        <outlet property="journalTextView" destination="0jv-f4-6xg" id="XsY-dK-FeK"/>
+                        <outlet property="moodControl" destination="hue-VX-qUm" id="YfL-AD-2xs"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Lrh-WJ-CyY" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2596" y="431"/>
+            <point key="canvasLocation" x="2594.202898550725" y="430.58035714285711"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="E8I-ku-fcO">

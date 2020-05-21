@@ -18,91 +18,53 @@ enum NetworkError: Error {
 }
 
 class EntryController {
- 
+
     let baseURL = URL(string: "https://journal-5e323.firebaseio.com/")!
     
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
-    func fetchTasksFromServer(completion: @escaping CompletionHandler = { _ in }) {
-        guard let identifier = entry.identifier else {
-            
+    //Initializer
+    init() {
+        fetchEntriesFromServer()
+    }
+    
+    
+    // MARK: - SEND ENTRY FUNC
+    func sendEntryToServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+       
+        guard let uuid = entry.identifier else {
+            NSLog("No identifier found.")
             completion(.failure(.noIdentifier))
             return
         }
-        
-        let requestURL = baseURL
-            .appendingPathComponent(identifier)
-            .appendingPathExtension("json")
+        //HELP
+        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
         
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
         
         do {
-            guard let entryRepresentation = entry.entryRepresentation else {
-                completion(.failure(.noData))
+            guard let representation = entry.entryRepresentation else {
+                NSLog("Entry unable to be encoded.")
+                completion(.failure(.failedEncode))
                 return
             }
-            request.httpBody = try JSONEncoder().encode(entryRepresentation)
+            request.httpBody = try JSONEncoder().encode(representation)
         } catch {
-            NSLog("Error encoding task \(error)")
+            print("Error encoding entry \(entry): \(error)")
+            completion(.failure(.failedEncode))
             return
         }
-        URLSession.shared.dataTask(with: request) { (data, _, error) in
+        URLSession.shared.dataTask(with: request) { data, _, error in
             if let error = error {
-                NSLog("Error sending error to server: \(error)")
-                DispatchQueue.main.async {
-                    completion(.failure(.otherData))
-                }
-                return
-            }
-            DispatchQueue.main.async {
-                completion(.success(true))
-            }
-        } .resume()
-        
-    }
-    func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
-        
-        guard let identifier = entry.identifier else {
-            completion(.failure(.noIdentifier))
-            return
-        }
-        let requestURL = baseURL
-            .appendingPathComponent(identifier)
-            .appendingPathExtension("json")
-        
-        var request = URLRequest(url: requestURL)
-        request.httpMethod = "DELETE"
-        
-        do {
-            guard let entryRepresentation = entry.entryRepresentation else {
+                print("Error sending task to server \(entry): \(error)")
                 completion(.failure(.otherError))
                 return
             }
-            
-            request.httpBody = try JSONEncoder().encode(entryRepresentation)
-        } catch {
-            NSLog("Error encoding entry \(entry): \(error)")
-            completion(.failure(.failedDecode))
-            return
-        }
-        
-        URLSession.shared.dataTask(with: request) { (data, _, error) in
-            
-            if let error = error {
-                NSLog("Error Deleting entry from server: \(error)")
-                DispatchQueue.main.async {
-                    completion(.failure(.otherError))
-                }
-                return
-            }
-            
-            DispatchQueue.main.async {
-                completion(.success(true))
-            }
+            completion(.success(true))
         }.resume()
     }
-    
+    // MARK: - FETCH FROM SERVER FUNC
     func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
         
         let requestURL = baseURL.appendingPathExtension("json")
@@ -116,7 +78,6 @@ class EntryController {
                 }
                 return
             }
-            
             guard let data = data else {
                 NSLog("Error: No data returned from data task")
                 DispatchQueue.main.async {
@@ -124,7 +85,6 @@ class EntryController {
                 }
                 return
             }
-            
             do {
                 let entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({ $0.value })
                 
@@ -142,6 +102,47 @@ class EntryController {
         }.resume()
     }
     
+    // MARK: - DELETE FUNC
+    func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
+      
+        guard let identifier = entry.identifier else {
+            completion(.failure(.noIdentifier))
+            return
+        }
+        let requestURL = baseURL
+            .appendingPathComponent(identifier)
+            .appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        do {
+            guard let entryRepresentation = entry.entryRepresentation else {
+                completion(.failure(.otherError))
+                return
+            }
+            request.httpBody = try JSONEncoder().encode(entryRepresentation)
+        } catch {
+            NSLog("Error encoding entry \(entry): \(error)")
+            completion(.failure(.failedDecode))
+            return
+        }
+        URLSession.shared.dataTask(with: request) { (data, _, error) in
+            
+            if let error = error {
+                NSLog("Error Deleting entry from server: \(error)")
+                DispatchQueue.main.async {
+                    completion(.failure(.otherError))
+                }
+                return
+            }
+            DispatchQueue.main.async {
+                completion(.success(true))
+            }
+        }.resume()
+    }
+    
+    //MARK: - UPDATE ENTERIES FUNC
     func updateEntries(with representations: [EntryRepresentation]) throws {
         
         let identifiersToFetch = representations.compactMap({ ($0.identifier) })
@@ -149,7 +150,6 @@ class EntryController {
         let representationsByID = Dictionary(uniqueKeysWithValues:
             zip(identifiersToFetch, representations)
         )
-        
         var entriesToCreate = representationsByID
         
         let predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
@@ -174,7 +174,6 @@ class EntryController {
                 
                 entriesToCreate.removeValue(forKey: id)
             }
-            
             for representation in entriesToCreate.values {
                 Entry(entryRepresentation: representation, context: context)
             }
@@ -182,16 +181,19 @@ class EntryController {
         } catch {
             NSLog("Error fetching entries for UUIDs: \(error)")
         }
-        
         try self.saveToPersistentStore()
     }
     
-    
+    // MARK: - SAVE FUNC - needs to be changed, watch lec
     func saveToPersistentStore() throws {
         let moc = CoreDataStack.shared.mainContext
         try moc.save()
     }
     
-    
-    
+    // MARK: - UPDATE FUNCTION
+    private func update(entry: Entry, with representation: EntryRepresentation) {
+        entry.title = representation.title
+        entry.bodyText = representation.bodyText
+        entry.mood = representation.mood
+    }
 } // END OF CLASS

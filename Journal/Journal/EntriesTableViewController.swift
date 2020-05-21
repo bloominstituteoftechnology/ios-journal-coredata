@@ -11,7 +11,7 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
-    var entryController: EntryController?
+    let entryController = EntryController()
 
     lazy var fetchedResultController: NSFetchedResultsController<Entry> = {
            let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -97,43 +97,39 @@ class EntriesTableViewController: UITableViewController {
                 context.reset()
                 NSLog("Error saving managed object context (delete task): \(error)")
             }
+            entryController.deleteEntryFromServer(entry: entry)
         }
     }
     
-    /*
-     // Override to support rearranging the table view.
-     override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-     
-     }
-     */
-    
-    /*
-     // Override to support conditional rearranging of the table view.
-     override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-     // Return false if you do not want the item to be re-orderable.
-     return true
-     }
-     */
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
+     // MARK: - NAVIGATION
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowEntryDetailSegue" {
+            if let entryDetailVC = segue.destination as? EntryDetailViewController,
+                let indexPath = tableView.indexPathForSelectedRow {
+                entryDetailVC.entry = fetchedResultController.object(at: indexPath)
+                entryDetailVC.entryController = entryController
+            }
+        }
+        if segue.identifier == "CreateEntrySegue" {
+            if let navC = segue.destination as? UINavigationController,
+                let createEntryVC = navC.viewControllers.first as? CreateEntryViewController {
+                createEntryVC.entryController = entryController
+            }
+        }
+    }
 }
     // MARK: - EXTENSION
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
+    
+    // MARK: - CONTENT CHANGED
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
+    
+    // MARK: - INSERT DELETE ROWS
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange sectionInfo: NSFetchedResultsSectionInfo,
                     atSectionIndex sectionIndex: Int,
@@ -147,6 +143,8 @@ extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
             break
         }
     }
+    
+    // MARK: - INDIVIDUAL ROW EDITS
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
                     didChange anObject: Any,
                     at indexPath: IndexPath?,
