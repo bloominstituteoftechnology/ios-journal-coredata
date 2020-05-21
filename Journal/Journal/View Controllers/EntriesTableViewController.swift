@@ -66,18 +66,20 @@ class EntriesTableViewController: UITableViewController {
                 guard let _ = try? result.get() else {
                     return
                 }
-            }
-            
-            CoreDataStack.shared.mainContext.delete(entry)
-            do {
-                try CoreDataStack.shared.mainContext.save()
-            } catch {
-                CoreDataStack.shared.mainContext.reset()
-                NSLog("Error saving managed object context: \(error)")
+                DispatchQueue.main.async {
+                    let context = CoreDataStack.shared.mainContext
+                    
+                    context.delete(entry)
+                    do {
+                        try context.save()
+                    } catch {
+                        context.reset()
+                        NSLog("Error saving managed object context (delete entry): \(error)")
+                    }
+                }
             }
         }
     }
-    
     
     // MARK: - Navigation
     
@@ -88,6 +90,7 @@ class EntriesTableViewController: UITableViewController {
                 CreateEntryViewController {
                 createEntryVC.entryController = entryController
             }
+            
         } else if segue.identifier == "ShowEntryDetailSegue" {
             if let detailVC = segue.destination as? EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow {
