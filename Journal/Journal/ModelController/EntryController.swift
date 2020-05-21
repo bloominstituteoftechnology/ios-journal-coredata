@@ -83,6 +83,32 @@ class EntryController {
         
     }
     
+    func fetchEntriesFromServer(completion: @escaping CompletionHander =  { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { data, _, error in
+            if let error = error {
+                print("Error fetching entries: \(error)")
+                completion(.failure(.otherError))
+                return
+            }
+            
+            guard let data = data else {
+                print("No data returned from Firebase (fetching entries).")
+                completion(.failure(.noData))
+                return
+            }
+            
+            do {
+                let entryRepresentations = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
+                try self.updateEntries(with: entryRepresentations)
+            } catch {
+                print("Error decoding entries from Firebase: \(error)")
+                completion(.failure(.failedDecode))
+            }
+        }.resume()
+    }
+    
     private func updateEntries(with representations: [EntryRepresentation]) throws {
         let identifiersToFetch = representations.compactMap { UUID(uuidString: $0.identifier) }
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
