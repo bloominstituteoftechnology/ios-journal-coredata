@@ -20,7 +20,11 @@ enum NetworkError: Error {
 class EntryController {
     private let baseURL: URL = URL(string: "https://journal-1f869.firebaseio.com/")!
     
-    func sendEntryToServer(_ entry: Entry, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
+    init() {
+        fetchEntriesFromServer(completion:  { _ in })
+    }
+    
+    func fetchEntriesFromServer(completion: @escaping (Result<Bool, NetworkError>) -> Void) {
         let requestURL = baseURL.appendingPathExtension("json")
         
         URLSession.shared.dataTask(with: requestURL) { data, _, error in
@@ -43,7 +47,41 @@ class EntryController {
                 NSLog("Error decoding entries from Firebase: \(error)")
                 completion(.failure(.failedDecode))
             }
+        }.resume()
+    }
+    
+    func sendEntryToServer(entry: Entry, completion: @escaping (Result<Bool, NetworkError>) -> Void) {
+        guard let uuid = entry.identifier else {
+            completion(.failure(.noIdentifier))
+            return
         }
+        
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "PUT"
+        
+        do {
+            guard let representation = entry.entryRepresentation else {
+                completion(.failure(.failedEncode))
+                return
+            }
+            request.httpBody = try JSONEncoder().encode(representation)
+        } catch {
+            NSLog("Error encoding entry \(entry): \(error)")
+            completion(.failure(.failedEncode))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            if let error = error {
+                NSLog("Error sending entry to server \(entry): \(error)")
+                completion(.failure(.otherError))
+                return
+            }
+            
+            completion(.success(true))
+        }.resume()
     }
     
     private func updateEntries(with representations: [EntryRepresentation]) throws {

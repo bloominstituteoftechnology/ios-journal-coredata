@@ -15,7 +15,7 @@ class EntriesTableViewController: UITableViewController {
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: false),
-                                        NSSortDescriptor(key: "name", ascending: true)]
+                                        NSSortDescriptor(key: "timeStamp", ascending: true)]
         
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "mood", cacheName: nil)
         frc.delegate = self
@@ -28,6 +28,8 @@ class EntriesTableViewController: UITableViewController {
         
         return frc
     }()
+    
+    let entryController = EntryController()
     
     var entries: [Entry] {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -81,6 +83,20 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else {
             return nil
+        }
+        
+        let sectionHeader = sectionInfo.name.lowercased()
+        
+        if sectionHeader == "happy" {
+            return "😀"
+        }
+        
+        if sectionHeader == "neutral" {
+            return "😐"
+        }
+        
+        if sectionHeader == "unhappy" {
+            return "☹️"
         }
         
         return sectionInfo.name.capitalized
