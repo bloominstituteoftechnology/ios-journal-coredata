@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BE02DAD32475F600007E0357 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE02DAD22475F600007E0357 /* EntryController.swift */; };
+		BE02DAD52475F7D5007E0357 /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE02DAD42475F7D5007E0357 /* EntryDetailViewController.swift */; };
 		BE7A601424730CCF00635255 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7A601324730CCF00635255 /* AppDelegate.swift */; };
 		BE7A601624730CCF00635255 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7A601524730CCF00635255 /* SceneDelegate.swift */; };
 		BE7A601824730CCF00635255 /* CreateEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE7A601724730CCF00635255 /* CreateEntryViewController.swift */; };
@@ -41,6 +43,8 @@
 
 /* Begin PBXFileReference section */
 		BE02DAD02475D050007E0357 /* Journal 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Journal 2.xcdatamodel"; sourceTree = "<group>"; };
+		BE02DAD22475F600007E0357 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
+		BE02DAD42475F7D5007E0357 /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
 		BE7A601024730CCF00635255 /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE7A601324730CCF00635255 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE7A601524730CCF00635255 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -87,6 +91,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BE02DAD12475F5F4007E0357 /* modelcontroller */ = {
+			isa = PBXGroup;
+			children = (
+				BE02DAD22475F600007E0357 /* EntryController.swift */,
+			);
+			path = modelcontroller;
+			sourceTree = "<group>";
+		};
 		BE7A600724730CCF00635255 = {
 			isa = PBXGroup;
 			children = (
@@ -110,6 +122,7 @@
 		BE7A601224730CCF00635255 /* Journal */ = {
 			isa = PBXGroup;
 			children = (
+				BE02DAD12475F5F4007E0357 /* modelcontroller */,
 				BE7A604D24730E3000635255 /* model */,
 				BE7A604824730D0E00635255 /* storyboard */,
 				BE7A604724730CFE00635255 /* viewcontroller */,
@@ -154,6 +167,7 @@
 				BE7A601724730CCF00635255 /* CreateEntryViewController.swift */,
 				BE7A604924730DBE00635255 /* EntriesTableViewController.swift */,
 				BE7A604B24730DCE00635255 /* EntryTableViewCell.swift */,
+				BE02DAD42475F7D5007E0357 /* EntryDetailViewController.swift */,
 			);
 			path = viewcontroller;
 			sourceTree = "<group>";
@@ -310,10 +324,12 @@
 				BE7A604F24730E3A00635255 /* CoreDataStack.swift in Sources */,
 				BE7A604C24730DCE00635255 /* EntryTableViewCell.swift in Sources */,
 				BE7A601824730CCF00635255 /* CreateEntryViewController.swift in Sources */,
+				BE02DAD32475F600007E0357 /* EntryController.swift in Sources */,
 				BE7A601424730CCF00635255 /* AppDelegate.swift in Sources */,
 				BE7A605124731D9400635255 /* Entry+Convenience.swift in Sources */,
 				BE7A601624730CCF00635255 /* SceneDelegate.swift in Sources */,
 				BE7A601E24730CCF00635255 /* Journal.xcdatamodeld in Sources */,
+				BE02DAD52475F7D5007E0357 /* EntryDetailViewController.swift in Sources */,
 				BE7A604A24730DBE00635255 /* EntriesTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

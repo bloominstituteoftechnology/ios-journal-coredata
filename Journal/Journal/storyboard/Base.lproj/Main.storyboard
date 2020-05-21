@@ -64,6 +64,7 @@
                                     <outlet property="bodyLabel" destination="xBL-tg-mNs" id="Cf4-J2-MCP"/>
                                     <outlet property="dateLabel" destination="wOW-h4-fQ2" id="2ha-Wn-gkm"/>
                                     <outlet property="titleLabel" destination="fxw-4T-gMQ" id="2hy-oi-XGd"/>
+                                    <segue destination="ibb-2F-Ldj" kind="show" id="5DG-nV-eVc"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -211,6 +212,64 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fxI-6C-UMM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1041" y="234"/>
+        </scene>
+        <!--Entry Details-->
+        <scene sceneID="f9b-aD-85S">
+            <objects>
+                <viewController title="Entry Details" id="ibb-2F-Ldj" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="O2e-63-Aay">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="a8x-g2-XdP" userLabel="Vertical Stack View">
+                                <rect key="frame" x="20" y="160" width="335" height="185.66666666666663"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="lUd-qA-8MN" userLabel="Horizontal Stack View">
+                                        <rect key="frame" x="0.0" y="0.0" width="335" height="48"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The Adventure of the Three Students" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GTH-2L-q5S">
+                                                <rect key="frame" x="0.0" y="0.0" width="217" height="48"/>
+                                                <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="4/19/20, 12:39 PM" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="crP-RZ-J7e">
+                                                <rect key="frame" x="217" y="0.0" width="118" height="48"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="io1-dl-KFf">
+                                        <rect key="frame" x="0.0" y="52" width="335" height="133.66666666666666"/>
+                                        <string key="text">It was the year '95 that a combination of events, into which I need not enter, caused Mr. Sherlock Holmes and myself to spend some weeks in one of our great University towns, and is was during this time that the small but instructive adventure which I am about to relate befell us.</string>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="a8x-g2-XdP" firstAttribute="leading" secondItem="p7a-xv-8wD" secondAttribute="leading" constant="20" id="L5q-X5-L19"/>
+                            <constraint firstItem="p7a-xv-8wD" firstAttribute="trailing" secondItem="a8x-g2-XdP" secondAttribute="trailing" constant="20" id="QZN-iP-hon"/>
+                            <constraint firstItem="a8x-g2-XdP" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="O2e-63-Aay" secondAttribute="bottom" multiplier="0.4" id="aSI-JB-A3j"/>
+                            <constraint firstItem="a8x-g2-XdP" firstAttribute="top" secondItem="p7a-xv-8wD" secondAttribute="top" constant="20" id="iv6-I1-7Yj"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="p7a-xv-8wD"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="4sv-Ga-o8G"/>
+                    <connections>
+                        <outlet property="bodyLabel" destination="io1-dl-KFf" id="V98-Ii-Nbz"/>
+                        <outlet property="dateLabel" destination="crP-RZ-J7e" id="yFE-5M-ucL"/>
+                        <outlet property="titleLabel" destination="GTH-2L-q5S" id="WTC-O7-aPi"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NQh-nr-cPM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1962" y="-541"/>
         </scene>
     </scenes>
     <resources>
