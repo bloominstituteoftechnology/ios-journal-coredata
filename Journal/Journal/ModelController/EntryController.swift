@@ -59,7 +59,27 @@ class EntryController {
         }.resume()
     }
     
-    func deleteEntryFromServer() {
+    func deleteEntryFromServer(_ entry: Entry, completion: @escaping CompletionHander = { _ in }) {
+        guard let uuid = entry.identifier else {
+            print("No identifier found for this entry.")
+            completion(.failure(.noIdentifier))
+            return
+        }
+        
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { _, _, error in
+            if let error = error {
+                print("Error deleting entry from server \(entry): \(error)")
+                completion(.failure(.otherError))
+                return
+            }
+            
+            completion(.success(true))
+        }.resume()
         
     }
 }
