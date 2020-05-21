@@ -10,6 +10,8 @@ import UIKit
 
 class CreateEntryViewController: UIViewController {
     
+    let entryController = EntryController()
+    
     // MARK: - Outlets -
     @IBOutlet weak var entryTitleTextField: UITextField!
     @IBOutlet weak var entryBodyTextView: UITextView!
@@ -32,7 +34,7 @@ class CreateEntryViewController: UIViewController {
         let moodIndex = moodSegmentedControl.selectedSegmentIndex
         let mood = Mood.allCases[moodIndex]
         
-        Entry(title: entryTitle, bodyText: entryBody, mood: mood.rawValue)
+        let newEntry = Entry(title: entryTitle, bodyText: entryBody, mood: mood.rawValue)
 //        print(newEntry.mood)
         do {
             try CoreDataStack.shared.mainContext.save()
@@ -40,6 +42,8 @@ class CreateEntryViewController: UIViewController {
         } catch {
             print("Error saving managed object context: \(error)")
         }
+        
+        entryController.sendEntryToServer(entry: newEntry)
     }
 }
 

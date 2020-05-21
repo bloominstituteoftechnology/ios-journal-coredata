@@ -14,6 +14,7 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     @IBOutlet weak var entryBodyTextView: UITextView!
     
+    var entryController: EntryController?
     var entry: Entry?
     var wasEdited: Bool = false
     
@@ -46,6 +47,7 @@ class EntryDetailViewController: UIViewController {
             print("Error saving edited Entry: \(error)")
         }
         
+        entryController?.sendEntryToServer(entry: entry)
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {

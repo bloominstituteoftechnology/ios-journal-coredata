@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5A6BEA0324761D99001308A9 /* GoogleService-Info-3.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5A6BEA0224761D99001308A9 /* GoogleService-Info-3.plist */; };
 		5A6BEA0524762E15001308A9 /* EntryRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6BEA0424762E15001308A9 /* EntryRepresentation.swift */; };
+		5A6BEA0824763BF0001308A9 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6BEA0724763BF0001308A9 /* EntryController.swift */; };
 		5AC91F3F2473219B006686A4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC91F3E2473219B006686A4 /* AppDelegate.swift */; };
 		5AC91F412473219B006686A4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC91F402473219B006686A4 /* SceneDelegate.swift */; };
 		5AC91F432473219B006686A4 /* CreateEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC91F422473219B006686A4 /* CreateEntryViewController.swift */; };
@@ -26,6 +27,7 @@
 /* Begin PBXFileReference section */
 		5A6BEA0224761D99001308A9 /* GoogleService-Info-3.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-3.plist"; sourceTree = "<group>"; };
 		5A6BEA0424762E15001308A9 /* EntryRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryRepresentation.swift; sourceTree = "<group>"; };
+		5A6BEA0724763BF0001308A9 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
 		5AC91F3B2473219B006686A4 /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AC91F3E2473219B006686A4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		5AC91F402473219B006686A4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -54,6 +56,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5A6BEA0624763BC2001308A9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5AC91F5E24732DAD006686A4 /* CoreData */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		5A6BEA0924763BFE001308A9 /* ModelController */ = {
+			isa = PBXGroup;
+			children = (
+				5A6BEA0724763BF0001308A9 /* EntryController.swift */,
+			);
+			path = ModelController;
+			sourceTree = "<group>";
+		};
 		5AC91F322473219B006686A4 = {
 			isa = PBXGroup;
 			children = (
@@ -74,7 +92,8 @@
 			isa = PBXGroup;
 			children = (
 				5AC91F5D24732D8C006686A4 /* Resources */,
-				5AC91F5E24732DAD006686A4 /* CoreData */,
+				5A6BEA0624763BC2001308A9 /* Models */,
+				5A6BEA0924763BFE001308A9 /* ModelController */,
 				5AC91F5F24732DBD006686A4 /* ViewControllers */,
 				5AC91F6024732DCB006686A4 /* View */,
 				5AC91F4C2473219C006686A4 /* Info.plist */,
@@ -205,6 +224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5AC91F5324732B25006686A4 /* EntriesTableViewController.swift in Sources */,
+				5A6BEA0824763BF0001308A9 /* EntryController.swift in Sources */,
 				5A6BEA0524762E15001308A9 /* EntryRepresentation.swift in Sources */,
 				5AC91F5524732B3D006686A4 /* EntryTableViewCell.swift in Sources */,
 				5AC91F432473219B006686A4 /* CreateEntryViewController.swift in Sources */,
