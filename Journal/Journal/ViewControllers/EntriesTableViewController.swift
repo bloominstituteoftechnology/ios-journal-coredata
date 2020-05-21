@@ -10,6 +10,8 @@ import UIKit
 import CoreData
 
 class EntriesTableViewController: UITableViewController {
+    
+    var entryController: EntryController?
 
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -78,8 +80,10 @@ class EntriesTableViewController: UITableViewController {
                     context.reset()
                     print("Error saving managed object context (delete entry): \(error)")
                 }
+            
+            entryController?.deleteEntryFromServer(entry)
             }
-    }
+        }
     
     /*
      // MARK: - Navigation

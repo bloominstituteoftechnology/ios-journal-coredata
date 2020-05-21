@@ -179,15 +179,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="lJS-5F-u74">
-                                <rect key="frame" x="20" y="160" width="374" height="319"/>
+                                <rect key="frame" x="20" y="160" width="374" height="358.5"/>
                                 <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Journal Entry Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="j8U-Ul-5Jd">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
+                                    <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Journal Entry Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="j8U-Ul-5Jd">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="61.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="vCJ-ZL-Nt7">
-                                        <rect key="frame" x="0.0" y="37" width="374" height="32"/>
+                                        <rect key="frame" x="0.0" y="76.5" width="374" height="32"/>
                                         <segments>
                                             <segment title="☀️"/>
                                             <segment title="⛅️"/>
@@ -195,7 +195,7 @@
                                         </segments>
                                     </segmentedControl>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="EeV-r1-D7A">
-                                        <rect key="frame" x="0.0" y="83" width="374" height="236"/>
+                                        <rect key="frame" x="0.0" y="122.5" width="374" height="236"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENTRY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XsB-j9-zEy">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="17"/>
@@ -225,7 +225,6 @@
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="EeV-r1-D7A" firstAttribute="top" secondItem="vCJ-ZL-Nt7" secondAttribute="bottom" constant="15" id="gHg-yh-Yvz"/>
-                                    <constraint firstAttribute="height" constant="319" id="yts-Tm-HGm"/>
                                 </constraints>
                             </stackView>
                         </subviews>
@@ -234,7 +233,6 @@
                             <constraint firstItem="lJS-5F-u74" firstAttribute="leading" secondItem="oPK-xa-7hk" secondAttribute="leading" constant="20" id="5TS-L1-zow"/>
                             <constraint firstItem="oPK-xa-7hk" firstAttribute="trailing" secondItem="lJS-5F-u74" secondAttribute="trailing" constant="20" id="D3W-H4-Vpj"/>
                             <constraint firstItem="lJS-5F-u74" firstAttribute="height" secondItem="gtp-cj-09z" secondAttribute="height" multiplier="0.4" id="JgL-h5-Gd5"/>
-                            <constraint firstItem="oPK-xa-7hk" firstAttribute="bottom" secondItem="lJS-5F-u74" secondAttribute="bottom" constant="343.5" id="jlV-qN-Qzq"/>
                             <constraint firstItem="lJS-5F-u74" firstAttribute="top" secondItem="oPK-xa-7hk" secondAttribute="top" constant="20" id="uas-Gz-7KH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="oPK-xa-7hk"/>
