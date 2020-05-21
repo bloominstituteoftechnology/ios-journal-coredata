@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E0DD893247613BD00478B65 /* EntryRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0DD892247613BD00478B65 /* EntryRepresentation.swift */; };
+		8E0DD8962476159100478B65 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0DD8952476159100478B65 /* EntryController.swift */; };
 		8E2DC1E924732FE200ACAF40 /* EntryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2DC1E824732FE200ACAF40 /* EntryTableViewController.swift */; };
 		8E77505324731F100071258C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77505224731F100071258C /* AppDelegate.swift */; };
 		8E77505524731F100071258C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E77505424731F100071258C /* SceneDelegate.swift */; };
@@ -21,6 +23,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8E0DD892247613BD00478B65 /* EntryRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryRepresentation.swift; sourceTree = "<group>"; };
+		8E0DD8952476159100478B65 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
 		8E2DC1E824732FE200ACAF40 /* EntryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EntryTableViewController.swift; path = CoreDataJournal/Views/EntryTableViewController.swift; sourceTree = SOURCE_ROOT; };
 		8E2DC1EB24756CF900ACAF40 /* Journal 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Journal 2.xcdatamodel"; sourceTree = "<group>"; };
 		8E77504F24731F100071258C /* CoreDataJournal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreDataJournal.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -48,6 +52,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8E0DD8942476156700478B65 /* Model Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				8E0DD8952476159100478B65 /* EntryController.swift */,
+			);
+			path = "Model Controllers";
+			sourceTree = "<group>";
+		};
 		8E77504624731F0F0071258C = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +95,7 @@
 				8E77505B24731F140071258C /* Assets.xcassets */,
 				8E77505224731F100071258C /* AppDelegate.swift */,
 				8E77505424731F100071258C /* SceneDelegate.swift */,
+				8E0DD8942476156700478B65 /* Model Controllers */,
 			);
 			path = Application;
 			sourceTree = "<group>";
@@ -101,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				8E77506924731F950071258C /* CoreDataStack.swift */,
+				8E0DD892247613BD00478B65 /* EntryRepresentation.swift */,
 				8E77506B24731FA00071258C /* Entry + Convenience.swift */,
 				8E77506D24731FB80071258C /* Journal.xcdatamodeld */,
 			);
@@ -189,11 +203,13 @@
 			files = (
 				8E77506F24731FB80071258C /* Journal.xcdatamodeld in Sources */,
 				8E77506A24731F950071258C /* CoreDataStack.swift in Sources */,
+				8E0DD8962476159100478B65 /* EntryController.swift in Sources */,
 				8E2DC1E924732FE200ACAF40 /* EntryTableViewController.swift in Sources */,
 				8E77506824731F8B0071258C /* EntryTableViewCell.swift in Sources */,
 				8E77506C24731FA00071258C /* Entry + Convenience.swift in Sources */,
 				8E77505724731F100071258C /* CreateEntryViewController.swift in Sources */,
 				8E77505324731F100071258C /* AppDelegate.swift in Sources */,
+				8E0DD893247613BD00478B65 /* EntryRepresentation.swift in Sources */,
 				8E77505524731F100071258C /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

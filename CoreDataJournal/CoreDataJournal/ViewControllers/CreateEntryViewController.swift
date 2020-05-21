@@ -9,6 +9,10 @@
 import UIKit
 
 class CreateEntryViewController: UIViewController {
+    
+    // MARK: - Properties
+    var entryController: EntryController?
+    
     // MARK: - Outlets
     @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     @IBOutlet weak var entryDetailTextField: UITextView!
@@ -17,7 +21,6 @@ class CreateEntryViewController: UIViewController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     // MARK: - Actions
@@ -31,18 +34,16 @@ class CreateEntryViewController: UIViewController {
         guard let entryDetail = entryDetailTextField.text,
             !entryDetail.isEmpty else { return }
         
-        Entry(title: entryTitle, bodyText: entryDetail, mood: mood, context: CoreDataStack.shared.mainContext)
-        
+        let entry = Entry(title: entryTitle, bodyText: entryDetail, mood: mood, context: CoreDataStack.shared.mainContext)
+        entryController?.sendEntryToServer(entry: entry)
         do {
             try CoreDataStack.shared.mainContext.save()
-            
+            navigationController?.dismiss(animated: true, completion: nil)
         } catch {
             NSLog("Error saving managed object context: \(error)")
-            return
         }
-        
-        navigationController?.dismiss(animated: true, completion: nil)
     }
+    
     @IBAction func cancel(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
     }

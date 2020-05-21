@@ -11,20 +11,24 @@ import CoreData
 
 class EntryTableViewController: UITableViewController {
     
+    // MARK: - Properties
     //Fetch Request Controller
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+        
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true), NSSortDescriptor(key: "title", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
+                                        NSSortDescriptor(key: "timestamp", ascending: true)]
+        
         let context = CoreDataStack.shared.mainContext
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "title", cacheName: nil)
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "mood", cacheName: nil)
         frc.delegate = self
-        do {
-            try frc.performFetch()
-        } catch {
-            NSLog("Error")
-        }
+        
+        try! frc.performFetch()
         return frc
+        
     }()
+    
+    let entryController = EntryController()
     
     // MARK: - Table view data source
     
@@ -49,25 +53,40 @@ class EntryTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
+            entryController.deleteEntryFromServer(entry: entry) { result in
+                guard let _ = try? result.get() else { return }
+                
+                DispatchQueue.main.async {
             let context = CoreDataStack.shared.mainContext
-            context.delete(entry)
-            do {
-                try context.save()
-                tableView.reloadData()
-            } catch {
-                context.reset()
-                NSLog("Error saving object context (delete task): \(error)")
+                context.delete(entry)
+                do {
+                    try context.save()
+                } catch {
+                    context.reset()
+                    NSLog("Error saving object context (delete task): \(error)")
+                }
             }
         }
     }
+}
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+        
+        return sectionInfo.name.capitalized
+    }
     
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "DetailSegue" {
+            if let navC = segue.destination as? UINavigationController,
+                let createEntryVC = navC.viewControllers.first as? CreateEntryViewController {
+                createEntryVC.entryController = entryController
+            }
+            
+        }
     }
 }
 

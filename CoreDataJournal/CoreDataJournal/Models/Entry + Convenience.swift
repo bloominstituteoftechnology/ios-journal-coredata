@@ -15,10 +15,26 @@ import Foundation
 import CoreData
 
 extension Entry {
+    
+    var entryRepresentation: EntryRepresentation? {
+        guard let id = identifier,
+            let title = title,
+            let bodyText = bodyText,
+            let timestamp = timestamp,
+            let mood = mood else {
+                return nil
+        }
+        
+        return EntryRepresentation(bodyText: bodyText,identifier:  id.uuidString, mood: mood, timestamp: timestamp, title: title)
+        
+    }
+    
+    
+    
     @discardableResult convenience init(title: String,
                                         bodyText: String,
                                         timestamp: Date? = Date(),
-                                        identifier: String = "",
+                                        identifier: UUID = UUID(),
                                         mood: Mood = .neutral,
                                         context: NSManagedObjectContext){
         self.init(context : context)
@@ -27,6 +43,18 @@ extension Entry {
         self.bodyText = bodyText
         self.timestamp = timestamp
         self.mood = mood.rawValue
+        
+    }
+    
+    @discardableResult convenience init?(entryRepresentation: EntryRepresentation, context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+        guard let identifier = UUID(uuidString: entryRepresentation.identifier),
+            let mood = Mood(rawValue: entryRepresentation.mood)
+             else { return nil }
+        let bodyText = entryRepresentation.bodyText
+        
+        
+        self.init(title: entryRepresentation.title, bodyText: bodyText, timestamp: entryRepresentation.timestamp, identifier: identifier, mood: mood, context: context)
+        
         
     }
 }
