@@ -116,23 +116,35 @@ class EntryController {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
         
-        let context = CoreDataStack.shared.mainContext
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         
-        let existingEntries = try context.fetch(fetchRequest)
+        var error: Error?
         
-        for entry in existingEntries {
-            guard let id = entry.identifier,
-                let representation = representationsByID[id] else { continue }
+        context.performAndWait {
             
-            self.update(entry: entry, with: representation)
-            entriesToCreate.removeValue(forKey: id)
+            do {
+                let existingEntries = try context.fetch(fetchRequest)
+                
+                for entry in existingEntries {
+                    guard let id = entry.identifier,
+                        let representation = representationsByID[id] else { continue }
+                    
+                    self.update(entry: entry, with: representation)
+                    entriesToCreate.removeValue(forKey: id)
+                }
+            } catch let fetchError {
+                error = fetchError
+            }
+            
+            for representation in entriesToCreate.values {
+                Entry(entryRepresentation: representation, context: context)
+            }
         }
         
-        for representation in entriesToCreate.values {
-            Entry(entryRepresentation: representation, context: context)
-        }
+        if let error = error { throw error }
         
-        try context.save()
+        try CoreDataStack.shared.save(context: context)
+        
     }
     
     private func update(entry: Entry, with representation: EntryRepresentation) {
