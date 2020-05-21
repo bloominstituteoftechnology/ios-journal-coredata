@@ -23,6 +23,10 @@ class EntryController {
     
     typealias CompletionHander = (Result<Bool, NetworkError>) -> Void
     
+    init() {
+        fetchEntriesFromServer()
+    }
+    
     func sendEntryToServer(entry: Entry, completion: @escaping CompletionHander = { _ in }) {
         guard let uuid = entry.identifier else {
             print("No identifier found")
