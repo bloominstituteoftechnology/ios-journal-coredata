@@ -23,6 +23,31 @@ class EntryDetailViewController: UIViewController {
         updateViews()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        guard let entry = entry,
+            let bodyText = entryBodyTextView.text,
+            !bodyText.isEmpty,
+            
+            let entryTitle = entryTitleTextField.text,
+            !entryTitle.isEmpty else { return }
+            
+            let entryMood = Mood.allCases[moodSegmentedControl.selectedSegmentIndex].rawValue
+        
+        if wasEdited {
+            entry.bodyText = bodyText
+            entry.title = entryTitle
+            entry.mood = entryMood
+        }
+        do {
+            try CoreDataStack.shared.mainContext.save()
+        } catch {
+            print("Error saving edited Entry: \(error)")
+        }
+        
+    }
+    
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         wasEdited = true
