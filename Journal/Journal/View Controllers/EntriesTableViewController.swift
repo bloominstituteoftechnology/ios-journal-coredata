@@ -34,22 +34,7 @@ class EntriesTableViewController: UITableViewController {
     let entryController = EntryController()
     
     // MARK: - View Lifecycle
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tableView.reloadData()
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-    }
-    
+
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -82,14 +67,15 @@ class EntriesTableViewController: UITableViewController {
                 guard let _ = try? result.get() else {
                     return
                 }
-                
-                let context = CoreDataStack.shared.mainContext
-                context.delete(entry)
-                do {
-                    try context.save()
-                } catch {
-                    context.reset()
-                    NSLog("Error saving managed object context (delete task): \(error)")
+                DispatchQueue.main.async {
+                    let context = CoreDataStack.shared.mainContext
+                    context.delete(entry)
+                    do {
+                        try context.save()
+                    } catch {
+                        context.reset()
+                        NSLog("Error saving managed object context (delete task): \(error)")
+                    }
                 }
             }
         }

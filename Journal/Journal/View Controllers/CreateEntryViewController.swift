@@ -37,10 +37,10 @@ class CreateEntryViewController: UIViewController {
         
         do {
             try CoreDataStack.shared.mainContext.save()
+            navigationController?.dismiss(animated: true, completion: nil)
         } catch {
             NSLog("Error saving entry: \(error)")
         }
-        navigationController?.dismiss(animated: true, completion: nil)
     }
     
     
@@ -49,7 +49,5 @@ class CreateEntryViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-
-
 }
 
