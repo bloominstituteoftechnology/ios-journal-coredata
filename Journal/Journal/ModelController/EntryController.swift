@@ -82,4 +82,10 @@ class EntryController {
         }.resume()
         
     }
+    
+    private func update(entry: Entry, with representation: EntryRepresentation) {
+        entry.title = representation.title
+        entry.bodyText = representation.bodyText
+        entry.mood = representation.mood
+    }
 }
