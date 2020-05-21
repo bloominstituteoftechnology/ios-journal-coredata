@@ -10,7 +10,7 @@ import UIKit
 
 class CreateEntryViewController: UIViewController {
     
-    let entryController = EntryController()
+    var entryController: EntryController?
     
     // MARK: - Outlets -
     @IBOutlet weak var entryTitleTextField: UITextField!
@@ -43,7 +43,7 @@ class CreateEntryViewController: UIViewController {
             print("Error saving managed object context: \(error)")
         }
         
-        entryController.sendEntryToServer(entry: newEntry)
+        entryController?.sendEntryToServer(entry: newEntry)
     }
 }
 

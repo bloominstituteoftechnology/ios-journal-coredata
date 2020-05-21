@@ -52,7 +52,7 @@ class EntryDetailViewController: UIViewController {
     
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
-        wasEdited = true
+        if editing { wasEdited = true }
         
         entryTitleTextField.isUserInteractionEnabled = editing
         entryBodyTextView.isUserInteractionEnabled = editing

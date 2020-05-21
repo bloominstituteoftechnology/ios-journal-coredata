@@ -11,8 +11,8 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
-    var entryController: EntryController?
-
+    let entryController = EntryController()
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
@@ -71,29 +71,38 @@ class EntriesTableViewController: UITableViewController {
         if editingStyle == .delete {
             // Delete the row from the data source
             let entry = fetchedResultsController.object(at: indexPath)
-                let context = CoreDataStack.shared.mainContext
-                context.delete(entry)
-                do {
-                    try context.save()
-                    tableView.reloadData()
-                } catch {
-                    context.reset()
-                    print("Error saving managed object context (delete entry): \(error)")
-                }
+            let context = CoreDataStack.shared.mainContext
+            context.delete(entry)
+            do {
+                try context.save()
+                tableView.reloadData()
+            } catch {
+                context.reset()
+                print("Error saving managed object context (delete entry): \(error)")
+            }
             
-            entryController?.deleteEntryFromServer(entry)
+            entryController.deleteEntryFromServer(entry)
+        }
+    }
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "AddEntrySegue" {
+            if let navC = segue.destination as? UINavigationController,
+                let addEntryVC = navC.viewControllers.first as? CreateEntryViewController {
+                addEntryVC.entryController = entryController
             }
         }
-    
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
+        
+        if segue.identifier == "EntryDetailsSegue" {
+            if let entryDetailVC = segue.destination as? EntryDetailViewController,
+                let indexPath = tableView.indexPathForSelectedRow {
+                entryDetailVC.entry = fetchedResultsController.object(at: indexPath)
+                entryDetailVC.entryController = entryController
+            }
+        }
+    }
     
 }
 
