@@ -11,7 +11,7 @@ import UIKit
 
 class CreateAnEntryViewController: UIViewController {
     
-   
+    
     var complete = false
     var entryController: EntryController?
     
@@ -22,7 +22,7 @@ class CreateAnEntryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         journalTitleTextField.becomeFirstResponder()
     }
     
@@ -41,18 +41,19 @@ class CreateAnEntryViewController: UIViewController {
         let moodIndex = emojiSegmentedControl.selectedSegmentIndex
         let mood = Mood.allCases[moodIndex]
         
-       let entry = Entry(bodyText: textEntry, title: title, mood: mood)
+        let entry = Entry(bodyText: textEntry, title: title, mood: mood)
         entryController?.sendEntryToServer(entry: entry)
         
+        let context = CoreDataStack.shared.mainContext
         
-        do {
-            try CoreDataStack.shared.mainContext.save()
-            
-        } catch {
-            NSLog("Error saving managed object context: \(error)")
-            return
+        context.perform {
+            do {
+                try CoreDataStack.shared.mainContext.save()
+                self.navigationController?.dismiss(animated: true, completion: nil)
+            } catch {
+                NSLog("Error saving managed object context: \(error)")
+                return
+            }
         }
-        
-        navigationController?.dismiss(animated: true, completion: nil)
     }
 }

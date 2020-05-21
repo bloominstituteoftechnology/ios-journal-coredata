@@ -35,7 +35,6 @@ class EntryTableViewCell: UITableViewCell {
     dateFormatter.dateFormat = "MM/dd/YY, h:mm a"
     let now = dateFormatter.string(from: entry.timeStamp!)
     
-    
     journalTitleLabel.text = entry.title
     journalDateLabel.text = now
     journalTextEntryLabel.text = entry.bodyText

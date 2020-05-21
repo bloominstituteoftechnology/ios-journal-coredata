@@ -65,6 +65,8 @@ class EntryDetailViewController: UIViewController {
     
     
     private func updateViews() {
+        
+        
         titleTextField.text = entry?.title
         titleTextField.isUserInteractionEnabled = isEditing
         

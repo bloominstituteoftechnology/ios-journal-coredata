@@ -50,8 +50,8 @@ class EntryController {
             }
             
             do {
-                self.jsonDecoder.dateDecodingStrategy = .millisecondsSince1970
-                let entryRepresentations = Array(try self.jsonDecoder.decode([String : EntryRepresentation].self, from: data).map({$0.value}))
+                //unecessary//self.jsonDecoder.dateDecodingStrategy = .secondsSince1970
+                let entryRepresentations = Array(try self.jsonDecoder.decode([String : EntryRepresentation].self, from: data).values)
                 try self.updateEntries(with: entryRepresentations)
             } catch {
                 NSLog("Error deocding entries from Firebase: \(error)")
@@ -81,7 +81,7 @@ class EntryController {
             try CoreDataStack.shared.mainContext.save()
             
             request.httpBody = try JSONEncoder().encode(representation)
-
+            
         } catch {
             NSLog("Error encoding entries \(entry): \(error)")
             completion(.failure(.noEncode))
@@ -127,24 +127,33 @@ class EntryController {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
         
-        let context = CoreDataStack.shared.mainContext
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         
-        let existingEntries = try context.fetch(fetchRequest)
+        var error: Error?
         
-        for entry in existingEntries {
-            guard let id = entry.identifier,
-                let representation = representationsByID[id] else { continue }
-            
-            self.update(entry: entry, entryRepresentation: representation)
-            entriesToCreate.removeValue(forKey: id)
+        context.performAndWait {
+            do {
+                let existingEntries = try context.fetch(fetchRequest)
+                
+                for entry in existingEntries {
+                    guard let id = entry.identifier,
+                        let representation = representationsByID[id] else { continue }
+                    
+                    self.update(entry: entry, entryRepresentation: representation)
+                    entriesToCreate.removeValue(forKey: id)
+                }
+                
+            } catch let fetchError {
+                error = fetchError
+            }
+            // tasksToCreate should now contain FB tasks that we DON'T have in Core Data
+            for representation in entriesToCreate.values {
+                Entry(entryRepresentation: representation, context: context)
+            }
         }
         
-        // tasksToCreate should now contain FB tasks that we DON'T have in Core Data
-        for representation in entriesToCreate.values {
-            Entry(entryRepresentation: representation, context: context)
-        }
-        
-        try context.save()
+        if let error = error { throw error }
+        try CoreDataStack.shared.save()
     }
     
     private func update(entry: Entry, entryRepresentation: EntryRepresentation) {
