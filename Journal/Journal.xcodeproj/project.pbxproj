@@ -15,8 +15,9 @@
 		0BEEEBB124883EC4005858ED /* CreateEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEEEBB024883EC4005858ED /* CreateEntryViewController.swift */; };
 		0BEEEBB424883EE1005858ED /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEEEBB324883EE1005858ED /* EntriesTableViewController.swift */; };
 		0BEEEBB924883F26005858ED /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEEEBB824883F26005858ED /* EntryTableViewCell.swift */; };
-		0BEEEBBD24883F43005858ED /* CoreDataStack.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0BEEEBBB24883F43005858ED /* CoreDataStack.xcdatamodeld */; };
 		0BEEEBBF24883F58005858ED /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEEEBBE24883F58005858ED /* Entry+Convenience.swift */; };
+		0BEEEBC1248847AC005858ED /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEEEBC0248847AC005858ED /* CoreDataStack.swift */; };
+		0BEEEBC4248847B8005858ED /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0BEEEBC2248847B8005858ED /* Journal.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,8 +31,9 @@
 		0BEEEBB024883EC4005858ED /* CreateEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEntryViewController.swift; sourceTree = "<group>"; };
 		0BEEEBB324883EE1005858ED /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 		0BEEEBB824883F26005858ED /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
-		0BEEEBBC24883F43005858ED /* CoreDataStack.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataStack.xcdatamodel; sourceTree = "<group>"; };
 		0BEEEBBE24883F58005858ED /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
+		0BEEEBC0248847AC005858ED /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		0BEEEBC3248847B8005858ED /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,8 +107,9 @@
 		0BEEEBBA24883F2D005858ED /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				0BEEEBBB24883F43005858ED /* CoreDataStack.xcdatamodeld */,
 				0BEEEBBE24883F58005858ED /* Entry+Convenience.swift */,
+				0BEEEBC0248847AC005858ED /* CoreDataStack.swift */,
+				0BEEEBC2248847B8005858ED /* Journal.xcdatamodeld */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -182,13 +185,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BEEEBC1248847AC005858ED /* CoreDataStack.swift in Sources */,
 				0BEEEBB424883EE1005858ED /* EntriesTableViewController.swift in Sources */,
 				0BEEEBB924883F26005858ED /* EntryTableViewCell.swift in Sources */,
 				0BEEEB9D24883DC6005858ED /* AppDelegate.swift in Sources */,
 				0BEEEBB124883EC4005858ED /* CreateEntryViewController.swift in Sources */,
 				0BEEEB9F24883DC6005858ED /* SceneDelegate.swift in Sources */,
-				0BEEEBBD24883F43005858ED /* CoreDataStack.xcdatamodeld in Sources */,
 				0BEEEBBF24883F58005858ED /* Entry+Convenience.swift in Sources */,
+				0BEEEBC4248847B8005858ED /* Journal.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,13 +390,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		0BEEEBBB24883F43005858ED /* CoreDataStack.xcdatamodeld */ = {
+		0BEEEBC2248847B8005858ED /* Journal.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				0BEEEBBC24883F43005858ED /* CoreDataStack.xcdatamodel */,
+				0BEEEBC3248847B8005858ED /* Journal.xcdatamodel */,
 			);
-			currentVersion = 0BEEEBBC24883F43005858ED /* CoreDataStack.xcdatamodel */;
-			path = CoreDataStack.xcdatamodeld;
+			currentVersion = 0BEEEBC3248847B8005858ED /* Journal.xcdatamodel */;
+			path = Journal.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
