@@ -57,6 +57,11 @@
                                         <constraint firstItem="kYo-14-cpg" firstAttribute="leading" secondItem="tcZ-t6-XGY" secondAttribute="leadingMargin" id="lPB-Nn-clP"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="entryTextLabel" destination="tYR-CZ-8Qk" id="Apy-Nc-GFT"/>
+                                    <outlet property="entryTimestampLabel" destination="ajj-da-JC6" id="Ufh-En-zHg"/>
+                                    <outlet property="entryTitleLabel" destination="OHr-2c-RgP" id="bkJ-qk-1lq"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -76,7 +81,7 @@
             </objects>
             <point key="canvasLocation" x="423.1884057971015" y="26.785714285714285"/>
         </scene>
-        <!--Create Entry View Controller-->
+        <!--Create Entry-->
         <scene sceneID="wCt-41-Ogf">
             <objects>
                 <viewController id="ucJ-Mo-ioF" customClass="CreateEntryViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
@@ -121,19 +126,33 @@
                             <constraint firstItem="YqP-77-N6Z" firstAttribute="leading" secondItem="s0O-5a-EkA" secondAttribute="leading" constant="20" id="6jY-1i-hzK"/>
                             <constraint firstItem="YqP-77-N6Z" firstAttribute="top" secondItem="cPk-Sb-Cip" secondAttribute="bottom" constant="8" id="7na-b8-fpg"/>
                             <constraint firstItem="8X2-7S-tWM" firstAttribute="leading" secondItem="s0O-5a-EkA" secondAttribute="leading" constant="20" id="7uH-GO-BL8"/>
+                            <constraint firstItem="s0O-5a-EkA" firstAttribute="trailing" secondItem="YqP-77-N6Z" secondAttribute="trailing" constant="360" id="81R-Ai-EDW"/>
                             <constraint firstItem="s0O-5a-EkA" firstAttribute="trailing" secondItem="cPk-Sb-Cip" secondAttribute="trailing" constant="20" id="Jny-tJ-1Gn"/>
                             <constraint firstItem="cPk-Sb-Cip" firstAttribute="leading" secondItem="s0O-5a-EkA" secondAttribute="leading" constant="20" id="NLD-IP-8Wl"/>
                             <constraint firstItem="cPk-Sb-Cip" firstAttribute="top" secondItem="s0O-5a-EkA" secondAttribute="top" constant="10" id="hkU-lX-eQa"/>
                             <constraint firstItem="CmP-kH-O8x" firstAttribute="leading" secondItem="s0O-5a-EkA" secondAttribute="leading" constant="20" id="sIA-f9-srz"/>
+                            <constraint firstItem="s0O-5a-EkA" firstAttribute="trailing" secondItem="8X2-7S-tWM" secondAttribute="trailing" constant="22" id="sOb-gq-sKz"/>
                             <constraint firstItem="CmP-kH-O8x" firstAttribute="top" secondItem="8X2-7S-tWM" secondAttribute="bottom" id="ucz-hX-qoL"/>
                             <constraint firstItem="8X2-7S-tWM" firstAttribute="top" secondItem="YqP-77-N6Z" secondAttribute="bottom" id="w7B-ZV-Jnt"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="s0O-5a-EkA"/>
                     </view>
-                    <navigationItem key="navigationItem" id="0Hw-Oy-6RS">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="VLO-0u-bj2"/>
-                        <barButtonItem key="rightBarButtonItem" title="Save" id="16b-iL-5S1"/>
+                    <navigationItem key="navigationItem" title="Create Entry" id="0Hw-Oy-6RS">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="VLO-0u-bj2">
+                            <connections>
+                                <action selector="cancelButtonTapped:" destination="ucJ-Mo-ioF" id="1Tr-jF-wKo"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="16b-iL-5S1">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="ucJ-Mo-ioF" id="7qz-8s-Ct3"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="entryTextView" destination="CmP-kH-O8x" id="wWN-Gj-Ymb"/>
+                        <outlet property="entryTitleTextField" destination="cPk-Sb-Cip" id="8tO-di-oKK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aEH-wh-zxK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

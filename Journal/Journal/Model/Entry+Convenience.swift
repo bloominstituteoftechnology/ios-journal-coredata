@@ -23,7 +23,5 @@ extension Entry {
         self.title = title
         self.bodyText = bodyText
     }
-    
-    
 }
 

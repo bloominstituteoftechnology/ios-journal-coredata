@@ -9,22 +9,34 @@
 import UIKit
 
 class CreateEntryViewController: UIViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+   
+    //MARK: - IBOutlets
+    @IBOutlet weak var entryTitleTextField: UITextField!
+    @IBOutlet weak var entryTextView: UITextView!
+    
+    //MARK: - IBActions
+    @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
+        navigationController?.dismiss(animated: true, completion: nil)
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
+        guard let entryTitle = entryTitleTextField.text, !entryTitle.isEmpty,
+            let entryTextView = entryTextView.text, !entryTextView.isEmpty else { return }
+        let currentTime = Date()
+        func getRandomIdentifier(in range: ClosedRange<Int>) -> Int{
+            let myIdentifier = Int.random(in: range)
+            return myIdentifier
+        }
+        let randomIdentifier = getRandomIdentifier(in: 1...100_000)
+        
+        Entry(identifier: "\(randomIdentifier)", timestamp: currentTime, title: entryTitle, bodyText: entryTextView)
+        
+        do{
+            try CoreDataStack.shared.mainContext.save()
+            navigationController?.dismiss(animated: true, completion: nil)
+        } catch {
+            NSLog("Error saving managed object context: \(error)")
+        }
     }
-    */
-
+    
 }
