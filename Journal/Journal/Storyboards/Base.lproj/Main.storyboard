@@ -67,7 +67,22 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="B1m-aE-Wpu"/>
+                    <navigationItem key="navigationItem" id="B1m-aE-Wpu">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="EKo-5J-UY4">
+                            <connections>
+                                <action selector="cancelButtonTapped:" destination="BYZ-38-t0r" id="OtN-Ab-OzX"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="xkF-e0-WFm">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="BYZ-38-t0r" id="LXq-X5-uX2"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="journalBodyTextView" destination="a6m-HS-mVq" id="8Ut-TS-Oqc"/>
+                        <outlet property="journalTitleTextField" destination="pGY-V9-T7x" id="q1R-QH-qQd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -82,7 +97,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" id="z38-MH-iMd">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" id="z38-MH-iMd" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="72"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="z38-MH-iMd" id="QGr-Je-F2I" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
@@ -101,7 +116,7 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Timestamp" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V5x-84-hN5">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Timestamp" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V5x-84-hN5">
                                                             <rect key="frame" x="278" y="0.0" width="104" height="24"/>
                                                             <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="14"/>
                                                             <nil key="textColor"/>
@@ -125,6 +140,11 @@
                                         <constraint firstItem="0fW-aG-CgW" firstAttribute="leading" secondItem="QGr-Je-F2I" secondAttribute="leading" constant="16" id="tf2-wT-jFs"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="entryTextLabel" destination="IEk-Fe-2T7" id="b1a-uc-s50"/>
+                                    <outlet property="entryTitle" destination="Ahl-zB-GSZ" id="BDF-r4-YK8"/>
+                                    <outlet property="timestampLabel" destination="V5x-84-hN5" id="9bL-pF-FRh"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
