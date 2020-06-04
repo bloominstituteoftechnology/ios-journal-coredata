@@ -30,8 +30,8 @@ class EntryTableViewCell: UITableViewCell {
     
     func updateViews() {
         guard let entry = entry else { return }
-        // MM-dd-yyyy HH:mm
-        
+        // MM-dd-yyyy HH:mm a
+    
         titleLabel.text = entry.title
         entryLabel.text = entry.bodyText
         dateLabel.text = dateFormatter.string(from: entry.timestamp!)

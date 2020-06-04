@@ -134,11 +134,11 @@ class EntryContoller {
                     update(entry: entry, representation: representation)
                     
                     
-                    // If we updated the entry, that means we don't need to make a copy of it. It already exists in Core Data, so remove it from the entries we still need to create
+// If we updated the entry, that means we don't need to make a copy of it. It already exists in Core Data, so remove it from the entries we still need to create
                     
                     entriesToCreate.removeValue(forKey: id)
                 }
-                // Add entries that don't exist
+// Add entries that don't exist
                 
                 for representation in entriesToCreate.values {
                     Entry(entryRepresentation: representation, context: context)

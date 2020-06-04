@@ -13,10 +13,22 @@ class EntriesTableViewController: UITableViewController {
     
 var entryController = EntryContoller()
     
-    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
-        
+    
+    var entries : [Entry] {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        
+        let context =  CoreDataStack.shared.mainContext
+        do {
+            return try context.fetch(fetchRequest)
+        } catch {
+           NSLog("Error fetching entries: \(error)")
+            return []
+        }
+    }
+    
+    
+    
+    lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [
             NSSortDescriptor(key: "mood", ascending: true),
             NSSortDescriptor(key: "timestamp", ascending: true)
@@ -42,9 +54,10 @@ var entryController = EntryContoller()
     func string(from date: Date) -> String {
         return dateFormatter.string(from: date)
     }
-    
+ 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         tableView.reloadData()
     }
     
@@ -74,19 +87,13 @@ var entryController = EntryContoller()
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            
             let entry = fetchedResultsController.object(at: indexPath)
-            
             entryController.deleteEntryFromServer(entry: entry) { (result) in
-                
                 guard let _ = try? result.get() else {
                     return
                 }
-                
                 let context = CoreDataStack.shared.mainContext
-                
                 context.delete(entry)
-              //  entryController.deleteEntryFromServer(entry: entry)
                 do {
                     try context.save()
                 } catch {
@@ -106,13 +113,25 @@ var entryController = EntryContoller()
     
     override func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         
+        func headerImage(_ num: Int) {
+        let header = view as! UITableViewHeaderFooterView
+               header.textLabel?.textColor = UIColor.white
+               let headerImage = UIImage(named: "headerImage\(num).jpg")
+               let headerImageView = UIImageView(image: headerImage)
+               header.backgroundView = headerImageView
+        }
+        
+        
         switch section {
         case 0:
             (view as! UITableViewHeaderFooterView).contentView.backgroundColor = UIColor.green.withAlphaComponent(0.75)
+            headerImage(section)
         case 1:
             (view as! UITableViewHeaderFooterView).contentView.backgroundColor = UIColor.orange.withAlphaComponent(0.75)
+            headerImage(section)
         case 2:
             (view as! UITableViewHeaderFooterView).contentView.backgroundColor = UIColor.brown.withAlphaComponent(0.75)
+            headerImage(section)
         default:
             break
         }
