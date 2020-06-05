@@ -13,6 +13,7 @@ class CreateEntryViewController: UIViewController {
     // MARK: - IBOutlets
     @IBOutlet weak var journalTitleTextField: UITextField!
     @IBOutlet weak var journalBodyTextView: UITextView!
+    @IBOutlet weak var moodControl: UISegmentedControl!
     
     // MARK: - IBActions
     @IBAction func saveButtonTapped(_ sender: Any) {
