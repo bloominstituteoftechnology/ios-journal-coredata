@@ -12,7 +12,7 @@ import CoreData
 enum Mood: String, CaseIterable{
     case 🥺
     case 😐
-    case 😃
+    case 😁
 }
 
 extension Entry {

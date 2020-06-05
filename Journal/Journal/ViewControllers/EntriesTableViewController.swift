@@ -36,6 +36,11 @@ class EntriesTableViewController: UITableViewController {
         return fetchedResultsController.sections?.count ?? 1
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+        return sectionInfo.name.capitalized
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
@@ -64,9 +69,15 @@ class EntriesTableViewController: UITableViewController {
         }
     }
     
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ToEntryDetail"{
+            if let detailVC = segue.destination as? EntryDetailViewController,
+                let indexPath = tableView.indexPathForSelectedRow{
+                detailVC.entry = fetchedResultsController.object(at: indexPath)
+            }
+        }
+    }
 }
-
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate{
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
