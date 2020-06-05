@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Create Entry View Controller-->
+        <!--Create Entry-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="CreateEntryViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="22" translatesAutoresizingMaskIntoConstraints="NO" id="IXf-yt-hXV">
-                                <rect key="frame" x="20" y="107.99999999999997" width="374" height="366.33333333333326"/>
+                                <rect key="frame" x="20" y="159.99999999999997" width="374" height="366.33333333333326"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Journal Entry Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pGY-V9-T7x">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="34"/>
@@ -30,7 +30,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="NO9-7t-WxX">
-                                        <rect key="frame" x="0.0" y="98.333333333333343" width="374" height="32"/>
+                                        <rect key="frame" x="0.0" y="98.333333333333314" width="374" height="32"/>
                                         <segments>
                                             <segment title="Happy"/>
                                             <segment title="Neutral"/>
@@ -76,7 +76,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" id="B1m-aE-Wpu">
+                    <navigationItem key="navigationItem" title="Create Entry" id="B1m-aE-Wpu">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="EKo-5J-UY4">
                             <connections>
                                 <action selector="cancelButtonTapped:" destination="BYZ-38-t0r" id="OtN-Ab-OzX"/>
@@ -96,7 +96,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1049" y="453"/>
+            <point key="canvasLocation" x="1839" y="453"/>
         </scene>
         <!--Journal-->
         <scene sceneID="Pfq-fi-YQO">
@@ -154,6 +154,7 @@
                                     <outlet property="entryTextLabel" destination="xCl-vR-3Sa" id="qUy-NR-5Kt"/>
                                     <outlet property="entryTitle" destination="5h0-9T-Udv" id="sDo-h5-j4z"/>
                                     <outlet property="timestampLabel" destination="4Do-WD-64J" id="YJa-GM-ppw"/>
+                                    <segue destination="Wch-5P-ol8" kind="show" identifier="ToEntryDetail" id="z5V-gz-uQn"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -174,13 +175,94 @@
             </objects>
             <point key="canvasLocation" x="1048" y="-275"/>
         </scene>
+        <!--Entry Details-->
+        <scene sceneID="MdN-NA-uPA">
+            <objects>
+                <viewController id="Wch-5P-ol8" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UoQ-cr-y8K">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="22" translatesAutoresizingMaskIntoConstraints="NO" id="ZRi-KI-iHn">
+                                <rect key="frame" x="20" y="159.99999999999997" width="374" height="366.33333333333326"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Journal Entry Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Y94-6D-Mpd">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="34"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mood" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bsv-Hv-CGd">
+                                        <rect key="frame" x="0.0" y="56.000000000000007" width="374" height="20.333333333333336"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="I7O-He-MVd">
+                                        <rect key="frame" x="0.0" y="98.333333333333314" width="374" height="32"/>
+                                        <segments>
+                                            <segment title="Happy"/>
+                                            <segment title="Neutral"/>
+                                            <segment title="Sad"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="0cK-zJ-nVS">
+                                        <rect key="frame" x="0.0" y="151.33333333333331" width="374" height="215"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENTRY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gl0-mX-bTA">
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="17"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="14"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dBJ-Dx-d0E">
+                                                <rect key="frame" x="0.0" y="25" width="374" height="2"/>
+                                                <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="2" id="JU3-US-0qm"/>
+                                                </constraints>
+                                            </view>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="kES-hc-sS3">
+                                                <rect key="frame" x="0.0" y="35" width="374" height="180"/>
+                                                <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="180" id="fKe-se-zt7"/>
+                                                </constraints>
+                                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                            </textView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="EMd-CI-2aR" firstAttribute="trailing" secondItem="ZRi-KI-iHn" secondAttribute="trailing" constant="20" id="W1p-WL-upZ"/>
+                            <constraint firstItem="ZRi-KI-iHn" firstAttribute="height" secondItem="UoQ-cr-y8K" secondAttribute="height" multiplier="0.408854" id="WvS-IQ-0c2"/>
+                            <constraint firstItem="ZRi-KI-iHn" firstAttribute="top" secondItem="EMd-CI-2aR" secondAttribute="top" constant="20" id="j9O-pa-LdY"/>
+                            <constraint firstItem="ZRi-KI-iHn" firstAttribute="leading" secondItem="EMd-CI-2aR" secondAttribute="leading" constant="20" id="nlb-x3-E1S"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="EMd-CI-2aR"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Entry Details" id="el8-fb-hOd"/>
+                    <connections>
+                        <outlet property="entryBody" destination="kES-hc-sS3" id="KSv-hM-yP6"/>
+                        <outlet property="entryTitle" destination="Y94-6D-Mpd" id="Imu-rZ-ZVZ"/>
+                        <outlet property="moodControl" destination="I7O-He-MVd" id="ziH-8m-ka5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aiV-Kg-vQt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1838" y="-275"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="Qv0-zh-1Ts">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xqV-f3-VBa" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Ykd-f8-P9K">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="Ykd-f8-P9K">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -190,7 +272,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ovN-SV-rx5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="139" y="453"/>
+            <point key="canvasLocation" x="1048" y="453"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="qGa-g8-WH3">
