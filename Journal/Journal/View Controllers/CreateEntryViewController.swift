@@ -20,8 +20,11 @@ class CreateEntryViewController: UIViewController {
         guard let title = journalTitleTextField.text, !journalBodyTextView.text.isEmpty else { return }
         
         let bodyText = journalBodyTextView.text ?? ""
+        let moodIndex = moodControl.selectedSegmentIndex
+        let mood = Mood.allCases[moodIndex]
         
         Entry( identifier: "",
+               mood: mood,
                title: title,
                bodyText: bodyText,
                timestamp: Date())
