@@ -105,8 +105,16 @@
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="FjL-Hd-4bn">
+                                        <rect key="frame" x="0.0" y="45" width="374" height="32"/>
+                                        <segments>
+                                            <segment title="😃"/>
+                                            <segment title="😐"/>
+                                            <segment title="😭"/>
+                                        </segments>
+                                    </segmentedControl>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="EdC-Ed-p6E">
-                                        <rect key="frame" x="0.0" y="45" width="374" height="322"/>
+                                        <rect key="frame" x="0.0" y="91" width="374" height="276"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENTRY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UkK-DR-QjU">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="20.5"/>
@@ -122,7 +130,7 @@
                                                 </constraints>
                                             </view>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="7JS-iw-9JE">
-                                                <rect key="frame" x="0.0" y="38.5" width="374" height="283.5"/>
+                                                <rect key="frame" x="0.0" y="38.5" width="374" height="237.5"/>
                                                 <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -157,6 +165,7 @@
                     <connections>
                         <outlet property="entryBody" destination="7JS-iw-9JE" id="3PW-7j-Udw"/>
                         <outlet property="entryTitle" destination="zQV-6y-2b9" id="98Z-Jg-dPY"/>
+                        <outlet property="moodControl" destination="FjL-Hd-4bn" id="Jm0-g7-bIo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
