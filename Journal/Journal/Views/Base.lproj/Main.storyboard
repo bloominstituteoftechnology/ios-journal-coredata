@@ -84,6 +84,7 @@
         <!--Create Entry-->
         <scene sceneID="wCt-41-Ogf">
             <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aEH-wh-zxK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController id="ucJ-Mo-ioF" customClass="CreateEntryViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UBr-TV-zCD">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -97,43 +98,48 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_________________________________________________________________________________" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8X2-7S-tWM">
-                                <rect key="frame" x="20" y="159" width="372" height="12"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YqP-77-N6Z">
-                                <rect key="frame" x="20" y="142" width="34" height="17"/>
-                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
-                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CmP-kH-O8x">
-                                <rect key="frame" x="20" y="171" width="374" height="307"/>
-                                <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="307" id="Ksc-he-0h5"/>
-                                    <constraint firstAttribute="width" constant="374" id="Un6-Hm-iqg"/>
-                                </constraints>
-                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="oY1-wn-Ltl">
+                                <rect key="frame" x="20" y="142" width="374" height="379"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="S3J-i0-eFG">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="32"/>
+                                        <segments>
+                                            <segment title="  🥺"/>
+                                            <segment title="😐"/>
+                                            <segment title="😃"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YqP-77-N6Z">
+                                        <rect key="frame" x="0.0" y="35" width="374" height="17"/>
+                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                                        <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_________________________________________________________________________________" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8X2-7S-tWM">
+                                        <rect key="frame" x="0.0" y="56" width="374" height="12"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                        <color key="textColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CmP-kH-O8x">
+                                        <rect key="frame" x="0.0" y="72" width="374" height="307"/>
+                                        <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="307" id="Ksc-he-0h5"/>
+                                            <constraint firstAttribute="width" constant="374" id="Un6-Hm-iqg"/>
+                                        </constraints>
+                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="YqP-77-N6Z" firstAttribute="leading" secondItem="s0O-5a-EkA" secondAttribute="leading" constant="20" id="6jY-1i-hzK"/>
-                            <constraint firstItem="YqP-77-N6Z" firstAttribute="top" secondItem="cPk-Sb-Cip" secondAttribute="bottom" constant="8" id="7na-b8-fpg"/>
-                            <constraint firstItem="8X2-7S-tWM" firstAttribute="leading" secondItem="s0O-5a-EkA" secondAttribute="leading" constant="20" id="7uH-GO-BL8"/>
-                            <constraint firstItem="s0O-5a-EkA" firstAttribute="trailing" secondItem="YqP-77-N6Z" secondAttribute="trailing" constant="360" id="81R-Ai-EDW"/>
                             <constraint firstItem="s0O-5a-EkA" firstAttribute="trailing" secondItem="cPk-Sb-Cip" secondAttribute="trailing" constant="20" id="Jny-tJ-1Gn"/>
                             <constraint firstItem="cPk-Sb-Cip" firstAttribute="leading" secondItem="s0O-5a-EkA" secondAttribute="leading" constant="20" id="NLD-IP-8Wl"/>
                             <constraint firstItem="cPk-Sb-Cip" firstAttribute="top" secondItem="s0O-5a-EkA" secondAttribute="top" constant="10" id="hkU-lX-eQa"/>
-                            <constraint firstItem="CmP-kH-O8x" firstAttribute="leading" secondItem="s0O-5a-EkA" secondAttribute="leading" constant="20" id="sIA-f9-srz"/>
-                            <constraint firstItem="s0O-5a-EkA" firstAttribute="trailing" secondItem="8X2-7S-tWM" secondAttribute="trailing" constant="22" id="sOb-gq-sKz"/>
-                            <constraint firstItem="CmP-kH-O8x" firstAttribute="top" secondItem="8X2-7S-tWM" secondAttribute="bottom" id="ucz-hX-qoL"/>
-                            <constraint firstItem="8X2-7S-tWM" firstAttribute="top" secondItem="YqP-77-N6Z" secondAttribute="bottom" id="w7B-ZV-Jnt"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="s0O-5a-EkA"/>
                     </view>
@@ -150,11 +156,11 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="emotionSegementedController" destination="S3J-i0-eFG" id="bdd-ZP-t2A"/>
                         <outlet property="entryTextView" destination="CmP-kH-O8x" id="wWN-Gj-Ymb"/>
                         <outlet property="entryTitleTextField" destination="cPk-Sb-Cip" id="8tO-di-oKK"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aEH-wh-zxK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2086.9565217391305" y="-143.30357142857142"/>
         </scene>

@@ -13,6 +13,7 @@ class CreateEntryViewController: UIViewController {
     //MARK: - IBOutlets
     @IBOutlet weak var entryTitleTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
+    @IBOutlet weak var emotionSegementedController: UISegmentedControl!
     
     //MARK: - IBActions
     @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
@@ -28,6 +29,8 @@ class CreateEntryViewController: UIViewController {
             return myIdentifier
         }
         let randomIdentifier = getRandomIdentifier(in: 1...100_000)
+        let moodIndex = emotionSegementedController.selectedSegmentIndex
+        let mood = 
         
         Entry(identifier: "\(randomIdentifier)", timestamp: currentTime, title: entryTitle, bodyText: entryTextView)
         
