@@ -30,9 +30,9 @@ class CreateEntryViewController: UIViewController {
         }
         let randomIdentifier = getRandomIdentifier(in: 1...100_000)
         let moodIndex = emotionSegementedController.selectedSegmentIndex
-        let mood = 
+        let mood = Mood.allCases[moodIndex]
         
-        Entry(identifier: "\(randomIdentifier)", timestamp: currentTime, title: entryTitle, bodyText: entryTextView)
+        Entry(identifier: "\(randomIdentifier)", timestamp: currentTime, title: entryTitle, bodyText: entryTextView, mood: mood)
         
         do{
             try CoreDataStack.shared.mainContext.save()

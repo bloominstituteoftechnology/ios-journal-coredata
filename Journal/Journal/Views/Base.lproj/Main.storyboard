@@ -98,7 +98,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="oY1-wn-Ltl">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="oY1-wn-Ltl">
                                 <rect key="frame" x="20" y="142" width="374" height="379"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="1" translatesAutoresizingMaskIntoConstraints="NO" id="S3J-i0-eFG">
@@ -137,9 +137,12 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="oY1-wn-Ltl" firstAttribute="leading" secondItem="s0O-5a-EkA" secondAttribute="leading" constant="20" id="3OI-nY-a6j"/>
+                            <constraint firstItem="oY1-wn-Ltl" firstAttribute="top" secondItem="cPk-Sb-Cip" secondAttribute="bottom" constant="8" id="HF3-xe-zxS"/>
                             <constraint firstItem="s0O-5a-EkA" firstAttribute="trailing" secondItem="cPk-Sb-Cip" secondAttribute="trailing" constant="20" id="Jny-tJ-1Gn"/>
                             <constraint firstItem="cPk-Sb-Cip" firstAttribute="leading" secondItem="s0O-5a-EkA" secondAttribute="leading" constant="20" id="NLD-IP-8Wl"/>
                             <constraint firstItem="cPk-Sb-Cip" firstAttribute="top" secondItem="s0O-5a-EkA" secondAttribute="top" constant="10" id="hkU-lX-eQa"/>
+                            <constraint firstItem="s0O-5a-EkA" firstAttribute="trailing" secondItem="oY1-wn-Ltl" secondAttribute="trailing" constant="20" id="i8P-Wt-Ahd"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="s0O-5a-EkA"/>
                     </view>
