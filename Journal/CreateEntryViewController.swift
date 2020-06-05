@@ -14,10 +14,6 @@ class CreateEntryViewController: UIViewController {
     @IBOutlet weak var entryBody: UITextView!
     @IBOutlet weak var moodControl: UISegmentedControl!
     
-    
-    
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
