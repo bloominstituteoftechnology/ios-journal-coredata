@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class CreateEntryViewController: UIViewController {
     @IBOutlet weak var entryTitleTextField: UITextField!
@@ -16,12 +17,18 @@ class CreateEntryViewController: UIViewController {
         super.viewDidLoad()
         entryTitleTextField.becomeFirstResponder()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
 
     @IBAction func saveButtonTapped(_ sender: UIBarButtonItem) {
         guard let title = entryTitleTextField.text,
-            !title.isEmpty else { return }
+            !title.isEmpty, let bodyText = articleTextView.text,
+            !bodyText.isEmpty else { return }
                
-               let bodyText = articleTextView.text
+                
                Entry(title: title, bodyText: bodyText)
                
                do {

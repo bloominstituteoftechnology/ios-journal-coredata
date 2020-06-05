@@ -74,10 +74,10 @@
             </objects>
             <point key="canvasLocation" x="3541" y="98"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Journal-->
         <scene sceneID="bcX-ig-bdU">
             <objects>
-                <tableViewController id="9iq-Td-sqU" sceneMemberID="viewController">
+                <tableViewController id="9iq-Td-sqU" customClass="EntriesTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="ONw-ly-DrS">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -138,7 +138,7 @@
                             <outlet property="delegate" destination="9iq-Td-sqU" id="LaR-qf-7fZ"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="xpA-7c-SHw">
+                    <navigationItem key="navigationItem" title="Journal" id="xpA-7c-SHw">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="T1l-Im-7Bt">
                             <connections>
                                 <segue destination="zjx-1G-7tM" kind="presentation" modalPresentationStyle="fullScreen" id="0QJ-2g-XWa"/>

@@ -27,6 +27,11 @@ class EntriesTableViewController: UITableViewController {
         
         tableView.reloadData()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        tableView.reloadData()
+    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return entries.count
@@ -34,7 +39,7 @@ class EntriesTableViewController: UITableViewController {
 
  
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as? EntryTableViewCell else { fatalError("Can't deque cell of type \(EntryTableViewCell.reuseIdentifier)")}
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: EntryTableViewCell.reuseIdentifier, for: indexPath) as? EntryTableViewCell else { fatalError("Can't deque cell of type \(EntryTableViewCell.reuseIdentifier)")}
         
         cell.entry = entries[indexPath.row]
         
@@ -55,4 +60,8 @@ class EntriesTableViewController: UITableViewController {
             }
         }
     }
+    
+//    @IBAction func unwindToEntryTVC(_ sender: UIStoryboardSegue) {
+//        tableView.reloadData()
+//    }
 }
