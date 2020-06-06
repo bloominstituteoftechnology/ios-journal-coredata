@@ -13,6 +13,7 @@ class CreateEntryViewController: UIViewController {
     // Mark: - IBOutlets
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var detailTextField: UITextView!
+    @IBOutlet weak var moodSegmentControl: UISegmentedControl!
     
     
     override func viewDidLoad() {
@@ -30,7 +31,10 @@ class CreateEntryViewController: UIViewController {
         guard let entryTitle = titleTextField.text, !entryTitle.isEmpty,
             let entryDetail = detailTextField.text, !entryDetail.isEmpty else { return }
         
-        Entry(title: entryTitle, bodyText: entryDetail, context: CoreDataStack.shared.mainContext)
+        let moodPriorityIndex = moodSegmentControl.selectedSegmentIndex
+        let mood = MoodPriority.allCases[moodPriorityIndex]
+        let timestamp = Date()
+        Entry(title: entryTitle, bodyText: entryDetail,timestamp: timestamp, mood: mood)
         
         do {
             try CoreDataStack.shared.mainContext.save()
