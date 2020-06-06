@@ -23,16 +23,6 @@ class EntryTableViewCell: UITableViewCell {
 
     private func updatViews() {
         guard let entry = entry else { return }
-//
-//        var dateFormatted: String? {
-//        let unixtimeInterval = 1480134638.0
-//        let date = Date(timeIntervalSince1970: unixtimeInterval)
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
-//        dateFormatter.locale = NSLocale.current
-//        dateFormatter.dateFormat = "mm/dd/yyyy, HH:mm"
-//        return dateFormatter.string(from: date)
-//        }
         
         titleLabel.text = entry.title
         dateLabel.text = entry.timestamp?.description

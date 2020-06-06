@@ -12,6 +12,7 @@ import CoreData
 class CreateEntryViewController: UIViewController {
     @IBOutlet weak var entryTitleTextField: UITextField!
     @IBOutlet weak var articleTextView: UITextView!
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,8 +29,9 @@ class CreateEntryViewController: UIViewController {
             !title.isEmpty, let bodyText = articleTextView.text,
             !bodyText.isEmpty else { return }
                
-                
-               Entry(title: title, bodyText: bodyText)
+                let moodIndex = moodSegmentedControl.selectedSegmentIndex
+                let mood = Mood.allCases[moodIndex]
+                Entry(title: title, bodyText: bodyText, mood: mood)
                
                do {
                    try CoreDataStack.shared.mainContext.save()
