@@ -79,15 +79,14 @@ class EntriesTableViewController: UITableViewController {
         }
     }
     
-    // Uncomment prepare for segue after implementing EntryDetailViewController
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "ShowEntryDetail" {
-//            if let detailVC = segue.destination as? EntryDetailViewController,
-//                let indexPath = tableView.indexPathForSelectedRow {
-//                detailVC.entry = fetchedResultsController.object(at: indexPath)
-//            }
-//        }
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowEntryDetail" {
+            if let detailVC = segue.destination as? EntryDetailViewController,
+                let indexPath = tableView.indexPathForSelectedRow {
+                detailVC.entry = fetchedResultsController.object(at: indexPath)
+            }
+        }
+    }
 }
 
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
