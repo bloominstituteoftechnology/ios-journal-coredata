@@ -7,11 +7,12 @@
 //
 
 import Foundation
+import CoreData
 
 struct EntryRepresentation: Codable {
     var title: String
     var timestamp: Date
-    var bodyText: String
+    var bodyText: String?
     var identifier: String?
     var mood: String
 }

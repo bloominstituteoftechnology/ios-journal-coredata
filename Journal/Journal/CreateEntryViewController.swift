@@ -43,7 +43,7 @@ class CreateEntryViewController: UIViewController {
           
           // timestamp = DateFormatter.string(from: timestamp)
            
-       let entry = Entry(title: title, timestamp: timestamp, bodyText: bodyText, mood: mood.rawValue)
+        let entry = Entry(title: title, timestamp: timestamp, bodyText: bodyText, mood: mood)
         
         entryController?.sendEntryToServer(entry: entry, completion: { _ in })
         
