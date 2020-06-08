@@ -55,7 +55,7 @@ class EntriesTableViewController: UITableViewController {
     }
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil}
-        return sectionInfo.name.capitalized
+        return sectionInfo.name.capitalized 
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ShowEntryDetailSegue" {
