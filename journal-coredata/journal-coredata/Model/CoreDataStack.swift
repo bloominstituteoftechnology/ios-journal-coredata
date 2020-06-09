@@ -19,8 +19,8 @@ class CoreDataStack {
          // make sure container name is the same as the xcdatamodeld name
         let container = NSPersistentContainer(name: "Journal")
         container.loadPersistentStores { (_, error) in
-            if let error = error {
-                fatalError("Failed to load persistent stores: \(error)")
+            if let error = error as NSError? {
+                fatalError("Failed to load persistent stores: \(error), \(error.userInfo)")
             }
         }
         return container

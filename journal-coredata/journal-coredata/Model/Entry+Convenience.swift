@@ -17,7 +17,7 @@ enum MoodPriority: String, CaseIterable {
 
 extension Entry {
     @discardableResult convenience init(title: String?,
-                                        bodyText: String? = nil,
+                                        bodyText: String?,
                                         timestamp: Date = Date(),
                                         identifier: UUID = UUID(),
                                         mood: MoodPriority = .😐,
