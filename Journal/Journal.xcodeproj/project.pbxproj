@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0B191074248AD23F0080E0C3 /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B191073248AD23F0080E0C3 /* EntryDetailViewController.swift */; };
+		0B1D109D2491613700BBC118 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B1D109C2491613700BBC118 /* EntryController.swift */; };
 		0BEC120124915B4D002D14A6 /* EntryRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEC120024915B4D002D14A6 /* EntryRepresentation.swift */; };
 		0BEEEB9D24883DC6005858ED /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEEEB9C24883DC6005858ED /* AppDelegate.swift */; };
 		0BEEEB9F24883DC6005858ED /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEEEB9E24883DC6005858ED /* SceneDelegate.swift */; };
@@ -25,6 +26,7 @@
 /* Begin PBXFileReference section */
 		0B191072248ACFD50080E0C3 /* Journal 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Journal 2.xcdatamodel"; sourceTree = "<group>"; };
 		0B191073248AD23F0080E0C3 /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
+		0B1D109C2491613700BBC118 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
 		0BEC11FF2491550F002D14A6 /* Journal 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Journal 3.xcdatamodel"; sourceTree = "<group>"; };
 		0BEC120024915B4D002D14A6 /* EntryRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryRepresentation.swift; sourceTree = "<group>"; };
 		0BEEEB9924883DC6005858ED /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -53,6 +55,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0B1D109B2491612500BBC118 /* Model Controller */ = {
+			isa = PBXGroup;
+			children = (
+				0B1D109C2491613700BBC118 /* EntryController.swift */,
+			);
+			path = "Model Controller";
+			sourceTree = "<group>";
+		};
 		0BEEEB9024883DC6005858ED = {
 			isa = PBXGroup;
 			children = (
@@ -72,6 +82,7 @@
 		0BEEEB9B24883DC6005858ED /* Journal */ = {
 			isa = PBXGroup;
 			children = (
+				0B1D109B2491612500BBC118 /* Model Controller */,
 				0BEEEBBA24883F2D005858ED /* Model */,
 				0BEEEBB224883EC8005858ED /* ViewControllers */,
 				0BEEEBB524883EE8005858ED /* Views */,
@@ -193,6 +204,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B1D109D2491613700BBC118 /* EntryController.swift in Sources */,
 				0BEEEBC1248847AC005858ED /* CoreDataStack.swift in Sources */,
 				0BEEEBB424883EE1005858ED /* EntriesTableViewController.swift in Sources */,
 				0BEEEBB924883F26005858ED /* EntryTableViewCell.swift in Sources */,

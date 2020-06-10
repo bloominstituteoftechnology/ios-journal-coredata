@@ -10,8 +10,10 @@ import UIKit
 import CoreData
 
 class EntriesTableViewController: UITableViewController {
-
+    
     //MARK: - Properties
+    private let entryController = EntryController()
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [
@@ -27,7 +29,7 @@ class EntriesTableViewController: UITableViewController {
     //MARK: - View LifeCycle
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-            tableView.reloadData()
+        tableView.reloadData()
     }
     
     
@@ -44,7 +46,7 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
-
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else { return UITableViewCell()}
@@ -53,7 +55,7 @@ class EntriesTableViewController: UITableViewController {
         
         return cell
     }
-
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
@@ -75,9 +77,17 @@ class EntriesTableViewController: UITableViewController {
                 let indexPath = tableView.indexPathForSelectedRow{
                 detailVC.entry = fetchedResultsController.object(at: indexPath)
             }
+        } else if segue.identifier == "ToCreateEntrySegue"{
+            if let navController = segue.destination as? UINavigationController,
+                let createVC = navController.viewControllers.first as? CreateEntryViewController{
+                createVC.entryController = self.entryController
+            }
         }
     }
+    
+    
 }
+
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate{
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()

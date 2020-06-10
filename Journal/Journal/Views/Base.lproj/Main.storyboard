@@ -73,7 +73,7 @@
                     <navigationItem key="navigationItem" title="Journal" id="jTC-Lw-IZJ">
                         <barButtonItem key="rightBarButtonItem" title="Item" image="plus.square" catalog="system" id="3yo-UQ-K18">
                             <connections>
-                                <segue destination="owj-cd-7sP" kind="presentation" modalPresentationStyle="fullScreen" id="IFH-BJ-Rjd"/>
+                                <segue destination="owj-cd-7sP" kind="presentation" identifier="ToCreateEntrySegue" modalPresentationStyle="fullScreen" id="IFH-BJ-Rjd"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -160,7 +160,6 @@
         <!--Create Entry-->
         <scene sceneID="wCt-41-Ogf">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="aEH-wh-zxK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController id="ucJ-Mo-ioF" customClass="CreateEntryViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UBr-TV-zCD">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -240,6 +239,7 @@
                         <outlet property="entryTitleTextField" destination="cPk-Sb-Cip" id="8tO-di-oKK"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aEH-wh-zxK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2086.9565217391305" y="-143.30357142857142"/>
         </scene>

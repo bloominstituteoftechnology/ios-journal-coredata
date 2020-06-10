@@ -15,6 +15,9 @@ class CreateEntryViewController: UIViewController {
     @IBOutlet weak var entryTextView: UITextView!
     @IBOutlet weak var emotionSegementedController: UISegmentedControl!
     
+    //MARK: - Properties
+    var entryController: EntryController?
+    
     //MARK: - IBActions
     @IBAction func cancelButtonTapped(_ sender: UIBarButtonItem) {
         navigationController?.dismiss(animated: true, completion: nil)
@@ -36,9 +39,9 @@ class CreateEntryViewController: UIViewController {
         
         let moodIndex = emotionSegementedController.selectedSegmentIndex
         let mood = Mood.allCases[moodIndex]
-        
+
         let entry = Entry(timestamp: currentTime, title: entryTitle, bodyText: entryTextView, mood: mood)
-        
+        entryController?.sendEntryToServer(entry: entry)
         do{
             try CoreDataStack.shared.mainContext.save()
             navigationController?.dismiss(animated: true, completion: nil)
