@@ -17,6 +17,7 @@ class EntriesTableViewController: UITableViewController {
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [
+            NSSortDescriptor(key: "mood", ascending: true),
             NSSortDescriptor(key: "timestamp", ascending: true)
         ]
         let moc = CoreDataStack.shared.mainContext
@@ -30,6 +31,15 @@ class EntriesTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
+    }
+    
+    //MARK: - IBAction
+    @IBAction func refreshData(_ sender: UIRefreshControl) {
+        entryController.fetchEntriesFromServer { (_) in
+            DispatchQueue.main.async {
+                self.refreshControl?.endRefreshing()
+            }
+        }
     }
     
     

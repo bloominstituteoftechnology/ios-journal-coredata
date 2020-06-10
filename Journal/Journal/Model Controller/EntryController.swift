@@ -26,6 +26,11 @@ class EntryController {
     
     // MARK: - Properties
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
+
+    // MARK: - Initializer
+    init(){
+        fetchEntriesFromServer()
+    }
     
     // MARK: - Network Functions
     
@@ -82,7 +87,34 @@ class EntryController {
             }
         }.resume()
     }
-    
+
+    // This will allow us to pull entries from our database
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }){
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error{
+                print("Error fetching tasks: \(error)")
+                completion(.failure(.otherError))
+                return
+            }
+            
+            guard let data = data else{
+                print("No data returned by task")
+                completion(.failure(.noData))
+                return
+            }
+            
+            do{
+                let taskRepresentation = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
+                try self.updateTasks(with: taskRepresentation)
+                completion(.success(true))
+            } catch {
+                print("Error decoding task representation: \(error)")
+                completion(.failure(.noDecode))
+            }
+        }.resume()
+    }
     
     
     // MARK: - Private Functions
@@ -108,7 +140,7 @@ class EntryController {
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
         var tasksToCreate = representationsByID
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "identifer IN %@", identifiersToFetch)
+        fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
         
         let context = CoreDataStack.shared.mainContext
         do{
