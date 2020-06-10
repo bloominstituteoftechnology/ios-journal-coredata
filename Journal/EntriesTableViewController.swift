@@ -28,17 +28,6 @@ class EntriesTableViewController: UITableViewController {
         }
         return frc
     }()
-    
-//    var entries: [Entry] {
-//        let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-//        let context = CoreDataStack.shared.mainContext
-//        do {
-//            return try context.fetch(fetchRequest)
-//        } catch {
-//            NSLog("Error fetching tasks: \(error)")
-//            return []
-//        }
-//    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
