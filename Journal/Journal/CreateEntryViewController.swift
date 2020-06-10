@@ -36,7 +36,7 @@ class CreateEntryViewController: UIViewController {
         // Grab the individual values from the views
         guard let title = journalTitle.text, !title.isEmpty else { return }
            
-        guard let bodyText = journalText.text, !bodyText.isEmpty else { return }
+        let bodyText = journalText.text
         
         let selectedMood = journalMood.selectedSegmentIndex
         let mood = EntryMood.allCases[selectedMood]
@@ -45,7 +45,7 @@ class CreateEntryViewController: UIViewController {
            
         let entry = Entry(title: title, timestamp: timestamp, bodyText: bodyText, mood: mood)
         
-        entryController?.sendEntryToServer(entry: entry, completion: { _ in })
+        entryController?.sendEntryToServer(entry: entry)
         
            do {
                try CoreDataStack.shared.mainContext.save()

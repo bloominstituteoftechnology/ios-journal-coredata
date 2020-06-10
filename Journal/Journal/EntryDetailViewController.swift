@@ -30,16 +30,22 @@ navigationItem.rightBarButtonItem = editButtonItem
     }
     
     func updateViews() {
-        guard let entry = entry else { return }
-        
-        journalMood.selectedSegmentIndex = EntryMood.allCases.firstIndex(of: EntryMood(rawValue: entry.mood!)!) ?? 1
-        
-        journalTitle.text = entry.title
-        journalText.text = entry.bodyText
+        journalTitle.text = entry?.title
+        journalText.text = entry?.bodyText
         
         journalTitle.isUserInteractionEnabled = isEditing
         journalMood.isUserInteractionEnabled = isEditing
-        journalText.isUserInteractionEnabled = isEditing
+        
+        let mood: EntryMood
+        if let entryMood = entry?.mood {
+            mood = EntryMood(rawValue: entryMood)!
+        } else {
+            mood = .😶
+        }
+        
+         journalMood.selectedSegmentIndex = EntryMood.allCases.firstIndex(of: mood) ?? 1
+         journalMood.isUserInteractionEnabled = isEditing
+     
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {
@@ -57,16 +63,16 @@ navigationItem.rightBarButtonItem = editButtonItem
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if wasEdited { guard let title = journalTitle.text, !title.isEmpty, let bodyText = journalText.text, !bodyText.isEmpty, let entry = entry else {
+        if wasEdited { guard let title = journalTitle.text, !title.isEmpty, let entry = entry else {
             return
             }
-        
+        let bodyText = journalText.text
         entry.title = title
         entry.bodyText = bodyText
         let selectedMood = journalMood.selectedSegmentIndex
         entry.mood = EntryMood.allCases[selectedMood].rawValue
 
-        entryController?.sendEntryToServer(entry: entry, completion: { _ in })
+        entryController?.sendEntryToServer(entry: entry)
             
         do {
             try CoreDataStack.shared.mainContext.save()

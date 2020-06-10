@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol EntryTableViewCellDelegate: class {
+    func didUpdateEntry(entry: Entry)
+}
+
 class EntryTableViewCell: UITableViewCell {
     
     @IBOutlet weak var entryTitle: UILabel!
@@ -22,6 +26,8 @@ class EntryTableViewCell: UITableViewCell {
               formatter.timeZone = TimeZone(secondsFromGMT: 0)
               return formatter
           }
+    
+    weak var delegate: EntryTableViewCellDelegate?
     
     var entry: Entry? {
         didSet {

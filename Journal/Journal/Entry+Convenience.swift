@@ -19,11 +19,11 @@ enum EntryMood: String, CaseIterable {
 extension Entry {
     var entryRepresentation: EntryRepresentation? {
         
-        guard let mood = mood, let bodyText = bodyText else { return nil }
+        guard let mood = mood, let title = title else { return nil }
     
         let id = identifier ?? UUID().uuidString
         
-        return EntryRepresentation(title: title!,
+        return EntryRepresentation(title: title,
                                    timestamp: timestamp!,
                                    bodyText: bodyText,
                                    identifier: id,
@@ -31,11 +31,11 @@ extension Entry {
         
     }
     
-                        convenience init(title: String,
+       @discardableResult convenience init(title: String,
                                         timestamp: Date = Date.init(timeIntervalSinceNow: 0),
                                         bodyText: String? = nil,
                                         identifier: String = UUID().uuidString,
-                                        mood: EntryMood,
+                                        mood: EntryMood = .😶,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         
         //set up the NSManagaedObject portion of the task object
@@ -52,14 +52,14 @@ extension Entry {
     @discardableResult convenience init?(entryRepresentation: EntryRepresentation,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
                 
-        guard let identifier = entryRepresentation.identifier, let mood = EntryMood(rawValue: entryRepresentation.mood) else {
+        guard let mood = EntryMood(rawValue: entryRepresentation.mood) else {
                 return nil
         }
         
         self.init(
                   title: entryRepresentation.title,
                   bodyText: entryRepresentation.bodyText,
-                  identifier: identifier,
+                  identifier: entryRepresentation.identifier,
                   mood: mood,
                   context: context)
         

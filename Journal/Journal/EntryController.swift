@@ -18,11 +18,15 @@ enum NetworkError: Error {
     case noRep
 }
 
+let baseURL = URL(string: "https://journaldatabase-5e039.firebaseio.com/")!
+
 class EntryController {
     
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
     
-    let baseURL = URL(string: "https://journaldatabase-5e039.firebaseio.com/")!
+    init() {
+        fetchEntriesFromServer()
+    }
     
     func sendEntryToServer(entry: Entry, completion: @escaping CompletionHandler = { _ in}) {
         
@@ -53,10 +57,14 @@ class EntryController {
             
             if let error = error {
                 NSLog("Error PUTting entry to server: \(error)")
-                completion(.failure(.otherError))
+                DispatchQueue.main.async {
+                   completion(.failure(.otherError))
+                }
                 return
             }
+            DispatchQueue.main.async {
                 completion(.success(true))
+            }
         }.resume()
     }
     
@@ -118,9 +126,13 @@ class EntryController {
             }
             
             do {
-                let entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({ $0.value })
+               // let entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({ $0.value })
+                let entryRepresentations = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
                 
                 try self.updateEntries(with: entryRepresentations)
+                DispatchQueue.main.async {
+                               completion(.success(true))
+                           }
             
             } catch {
                 NSLog("Error decoding entry representations: \(error)")
@@ -128,9 +140,7 @@ class EntryController {
                     completion(.failure(.noDecode))
                 }
             }
-            DispatchQueue.main.async {
-                completion(.success(true))
-            }
+         
         }.resume()
     }
     
