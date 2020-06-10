@@ -24,15 +24,20 @@ class CreateEntryViewController: UIViewController {
         guard let entryTitle = entryTitleTextField.text, !entryTitle.isEmpty,
             let entryTextView = entryTextView.text, !entryTextView.isEmpty else { return }
         let currentTime = Date()
-        func getRandomIdentifier(in range: ClosedRange<Int>) -> Int{
-            let myIdentifier = Int.random(in: range)
-            return myIdentifier
-        }
-        let randomIdentifier = getRandomIdentifier(in: 1...100_000)
+        
+        // As of day 2 I had been using a random Int for my identifier
+        // However, I feel that is in my best interest to instead use a UUID
+        
+        //        func getRandomIdentifier(in range: ClosedRange<Int>) -> Int{
+        //            let myIdentifier = Int.random(in: range)
+        //            return myIdentifier
+        //        }
+        //        let randomIdentifier = getRandomIdentifier(in: 1...100_000)
+        
         let moodIndex = emotionSegementedController.selectedSegmentIndex
         let mood = Mood.allCases[moodIndex]
         
-        Entry(identifier: "\(randomIdentifier)", timestamp: currentTime, title: entryTitle, bodyText: entryTextView, mood: mood)
+        let entry = Entry(timestamp: currentTime, title: entryTitle, bodyText: entryTextView, mood: mood)
         
         do{
             try CoreDataStack.shared.mainContext.save()
