@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 class EntriesTableViewController: UITableViewController {
     
+    
     // Mark: Properties
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
     let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -26,6 +27,8 @@ class EntriesTableViewController: UITableViewController {
         return frc
     }()
 
+    let entryController = EntryController()
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
@@ -74,6 +77,7 @@ class EntriesTableViewController: UITableViewController {
             let entry = fetchedResultsController.object(at: indexPath)
             let moc = CoreDataStack.shared.mainContext
             moc.delete(entry)
+            entryController.deleteEntryFromServer(entry: entry)
             do {
                 try moc.save()
                 tableView.reloadData()

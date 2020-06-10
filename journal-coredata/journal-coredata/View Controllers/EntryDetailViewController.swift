@@ -13,6 +13,7 @@ class EntryDetailViewController: UIViewController {
     // Mark: - Properties
     var entry: Entry?
     var wasEdited = false
+    var entryController: EntryController?
     
     // Mark: - Outlets
     @IBOutlet weak var titleTextField: UITextField!
@@ -37,6 +38,7 @@ class EntryDetailViewController: UIViewController {
             entry.bodyText = entryTextView.text
             let moodIndex = moodController.selectedSegmentIndex
             entry.mood = MoodPriority.allCases[moodIndex].rawValue
+            entryController?.sendEntryToServer(entry: entry)
             
             do {
                 try CoreDataStack.shared.mainContext.save()

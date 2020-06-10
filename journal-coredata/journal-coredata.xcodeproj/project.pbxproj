@@ -19,6 +19,8 @@
 		E40D4DE72487520B0065CF11 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40D4DE62487520B0065CF11 /* CoreDataStack.swift */; };
 		E40D4DE9248752260065CF11 /* Entry+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = E40D4DE8248752260065CF11 /* Entry+Convenience.swift */; };
 		E40D4DEC2487541E0065CF11 /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E40D4DEA2487541E0065CF11 /* Journal.xcdatamodeld */; };
+		E484DDE72490755500C57E87 /* EntryRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E484DDE62490755500C57E87 /* EntryRepresentation.swift */; };
+		E484DDE924907A2C00C57E87 /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E484DDE824907A2C00C57E87 /* EntryController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +39,8 @@
 		E40D4DE62487520B0065CF11 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		E40D4DE8248752260065CF11 /* Entry+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry+Convenience.swift"; sourceTree = "<group>"; };
 		E40D4DEB2487541E0065CF11 /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
+		E484DDE62490755500C57E87 /* EntryRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryRepresentation.swift; sourceTree = "<group>"; };
+		E484DDE824907A2C00C57E87 /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +76,7 @@
 				E40D4DE1248751360065CF11 /* Application */,
 				E40D4DE0248751240065CF11 /* Views */,
 				E40D4DDF248751160065CF11 /* Model */,
+				E484DDE5249072E200C57E87 /* Model Controllers */,
 				E40D4DDE248750EF0065CF11 /* View Controllers */,
 				E40D4DD3248750620065CF11 /* Assets.xcassets */,
 				E40D4DD5248750620065CF11 /* LaunchScreen.storyboard */,
@@ -93,6 +98,7 @@
 		E40D4DDF248751160065CF11 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E484DDE62490755500C57E87 /* EntryRepresentation.swift */,
 				E40D4DE62487520B0065CF11 /* CoreDataStack.swift */,
 				E40D4DE8248752260065CF11 /* Entry+Convenience.swift */,
 				E40D4DEA2487541E0065CF11 /* Journal.xcdatamodeld */,
@@ -116,6 +122,14 @@
 				E40D4DCC248750600065CF11 /* SceneDelegate.swift */,
 			);
 			path = Application;
+			sourceTree = "<group>";
+		};
+		E484DDE5249072E200C57E87 /* Model Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E484DDE824907A2C00C57E87 /* EntryController.swift */,
+			);
+			path = "Model Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -190,6 +204,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E40D4DE3248751CE0065CF11 /* EntryTableViewCell.swift in Sources */,
+				E484DDE924907A2C00C57E87 /* EntryController.swift in Sources */,
+				E484DDE72490755500C57E87 /* EntryRepresentation.swift in Sources */,
 				E40D4DCF248750600065CF11 /* CreateEntryViewController.swift in Sources */,
 				E40D4DCB248750600065CF11 /* AppDelegate.swift in Sources */,
 				E40D4DE72487520B0065CF11 /* CoreDataStack.swift in Sources */,

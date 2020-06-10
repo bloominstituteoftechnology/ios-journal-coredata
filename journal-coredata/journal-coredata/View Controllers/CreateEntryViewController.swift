@@ -10,6 +10,7 @@ import UIKit
 
 class CreateEntryViewController: UIViewController {
 
+    var entryController: EntryController?
     // Mark: - IBOutlets
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var detailTextField: UITextView!
@@ -34,7 +35,8 @@ class CreateEntryViewController: UIViewController {
         let moodPriorityIndex = moodSegmentControl.selectedSegmentIndex
         let mood = MoodPriority.allCases[moodPriorityIndex]
         let timestamp = Date()
-        Entry(title: entryTitle, bodyText: entryDetail,timestamp: timestamp, mood: mood)
+       let entry = Entry(title: entryTitle, bodyText: entryDetail,timestamp: timestamp, mood: mood)
+        entryController?.sendEntryToServer(entry: entry)
         
         do {
             try CoreDataStack.shared.mainContext.save()
