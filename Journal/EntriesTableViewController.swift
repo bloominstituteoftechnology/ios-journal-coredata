@@ -11,6 +11,8 @@ import CoreData
 
 class EntriesTableViewController: UITableViewController {
     
+    private let entryController = EntryController()
+    
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [
@@ -58,6 +60,7 @@ class EntriesTableViewController: UITableViewController {
             let entry = fetchedResultsController.object(at: indexPath)
             let moc = CoreDataStack.shared.mainContext
             moc.delete(entry)
+            entryController.deleteEntryFromServer(entry)
             do {
                 try moc.save()
                 tableView.reloadData()
