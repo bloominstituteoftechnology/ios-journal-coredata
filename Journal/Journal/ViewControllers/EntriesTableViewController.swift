@@ -60,6 +60,7 @@ class EntriesTableViewController: UITableViewController {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
             let moc = CoreDataStack.shared.mainContext
+            entryController.deleteEntryFromServer(entry: entry)
             moc.delete(entry)
             do{
                 try moc.save()
@@ -76,6 +77,7 @@ class EntriesTableViewController: UITableViewController {
             if let detailVC = segue.destination as? EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow{
                 detailVC.entry = fetchedResultsController.object(at: indexPath)
+                detailVC.entryController = self.entryController
             }
         } else if segue.identifier == "ToCreateEntrySegue"{
             if let navController = segue.destination as? UINavigationController,

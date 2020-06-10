@@ -64,5 +64,22 @@ class EntryController {
         }.resume()
     }
     
+    func deleteEntryFromServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }){
+        guard let uuid = entry.identifier else {
+            completion(.failure(.noIdentifier))
+            return
+        }
+        let requestURL = baseURL.appendingPathComponent(uuid).appendingPathExtension("json")
+        var request = URLRequest(url: requestURL)
+        request.httpMethod = "DELETE"
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            print(response!)
+            DispatchQueue.main.async {
+                completion(.success(true))
+            }
+        }.resume()
+    }
+    
     
 }

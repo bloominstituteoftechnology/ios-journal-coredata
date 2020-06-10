@@ -19,6 +19,8 @@ class EntryDetailViewController: UIViewController {
     //MARK: - Properties
     var entry: Entry?
     var wasEdited: Bool = false
+    var entryController: EntryController?
+    
     
     private func foo(){
         print("This is a test function")
@@ -55,7 +57,7 @@ class EntryDetailViewController: UIViewController {
             entry.title = title
             entry.bodyText = entryText
             entry.mood = Mood.allCases[moodIndex].rawValue
-
+            entryController?.sendEntryToServer(entry: entry)
             do{
                 try CoreDataStack.shared.mainContext.save()
             } catch {
