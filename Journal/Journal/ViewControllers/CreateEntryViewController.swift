@@ -9,7 +9,7 @@
 import UIKit
 
 class CreateEntryViewController: UIViewController {
-   
+    
     //MARK: - IBOutlets
     @IBOutlet weak var entryTitleTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
