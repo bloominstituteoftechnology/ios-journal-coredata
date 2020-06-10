@@ -37,6 +37,12 @@ class EntriesTableViewController: UITableViewController {
         tableView.reloadData()
     }
     
+    @IBAction func refreshData(_ sender: Any) {
+        entryController.fetchEntriesFromServer { (_) in
+            self.refreshControl?.endRefreshing()
+        }
+    }
+    
     override func numberOfSections(in tableView: UITableView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
     }
@@ -49,10 +55,17 @@ class EntriesTableViewController: UITableViewController {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: EntryTableViewCell.reuseIdentifier, for: indexPath) as? EntryTableViewCell else {
             fatalError("Can't dequeue cell of type \(EntryTableViewCell.reuseIdentifier)")
         }
-
+        
+        cell.delegate = self
         cell.entry = fetchedResultsController.object(at: indexPath)
 
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
+        
+        return sectionInfo.name.capitalized
     }
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -76,6 +89,12 @@ class EntriesTableViewController: UITableViewController {
             if let detailVC = segue.destination as? EntryDetailViewController,
                 let indexPath = tableView.indexPathForSelectedRow {
                 detailVC.entry = fetchedResultsController.object(at: indexPath)
+                detailVC.entryController = entryController
+            }
+        } else if segue.identifier == "CreateEntrySegue" {
+            if let navController = segue.destination as? UINavigationController,
+                let createEntryVC = navController.viewControllers.first as? CreateEntryViewController {
+                createEntryVC.entryController = self.entryController
             }
         }
     }
@@ -124,5 +143,11 @@ extension EntriesTableViewController: NSFetchedResultsControllerDelegate {
         @unknown default:
             break
         }
+    }
+}
+
+extension EntriesTableViewController: EntryTableViewCellDelegate {
+    func didUpdateEntry(entry: Entry) {
+        entryController.sendEntryToServer(entry: entry)
     }
 }

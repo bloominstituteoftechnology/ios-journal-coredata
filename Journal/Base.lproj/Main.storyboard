@@ -78,10 +78,16 @@
                     <navigationItem key="navigationItem" title="Journal" id="fRw-M8-i6Z">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="8Qo-FF-nzo">
                             <connections>
-                                <segue destination="2FC-vl-8kX" kind="presentation" modalPresentationStyle="fullScreen" id="bDu-8H-nPP"/>
+                                <segue destination="2FC-vl-8kX" kind="presentation" identifier="CreateEntrySegue" modalPresentationStyle="fullScreen" id="bDu-8H-nPP"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="DCl-9s-LT4">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="refreshData:" destination="VCd-RC-aNE" eventType="valueChanged" id="x82-Sx-WIh"/>
+                        </connections>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZRC-8y-g47" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

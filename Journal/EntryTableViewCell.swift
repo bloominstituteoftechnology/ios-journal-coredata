@@ -8,12 +8,17 @@
 
 import UIKit
 
+protocol EntryTableViewCellDelegate: class {
+    func didUpdateEntry(entry: Entry)
+}
+
 class EntryTableViewCell: UITableViewCell {
     
     @IBOutlet weak var entryTitle: UILabel!
     @IBOutlet weak var entryBody: UILabel!
     @IBOutlet weak var entryDate: UILabel!
     
+    weak var delegate: EntryTableViewCellDelegate?
     static let reuseIdentifier = "EntryCell"
     
     var entry: Entry? {

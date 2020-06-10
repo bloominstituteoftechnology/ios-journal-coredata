@@ -18,7 +18,8 @@ class CreateEntryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        entryTitle.becomeFirstResponder()
     }
 
     @IBAction func save(_ sender: UIBarButtonItem) {
