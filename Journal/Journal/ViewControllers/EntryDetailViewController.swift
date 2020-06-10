@@ -20,6 +20,9 @@ class EntryDetailViewController: UIViewController {
     var entry: Entry?
     var wasEdited: Bool = false
     
+    private func foo(){
+        print("This is a test function")
+    }
     
     //MARK: - View Lifecycle
     override func viewDidLoad() {
