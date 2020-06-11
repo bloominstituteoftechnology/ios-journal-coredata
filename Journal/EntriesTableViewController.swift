@@ -73,13 +73,16 @@ class EntriesTableViewController: UITableViewController {
             let entry = fetchedResultsController.object(at: indexPath)
             let moc = CoreDataStack.shared.mainContext
             moc.delete(entry)
-            entryController.deleteEntryFromServer(entry)
-            do {
-                try moc.save()
-                tableView.reloadData()
-            } catch {
-                moc.reset()
-                NSLog("Error saving managed object context: \(error)")
+            entryController.deleteEntryFromServer(entry) { (result) in
+                DispatchQueue.main.async {
+                    do {
+                        try moc.save()
+                        tableView.reloadData()
+                    } catch {
+                        moc.reset()
+                        NSLog("Error saving managed object context: \(error)")
+                    }
+                }
             }
         }
     }
