@@ -22,7 +22,7 @@ class EntryTableViewCell: UITableViewCell {
     
     var dateFormatter: DateFormatter {
               let formatter = DateFormatter()
-              formatter.dateFormat = "MM/dd/yy, HH:mm"
+              formatter.dateFormat = "MM/dd/yy, HH:mm a"
               formatter.timeZone = TimeZone(secondsFromGMT: 0)
               return formatter
           }
