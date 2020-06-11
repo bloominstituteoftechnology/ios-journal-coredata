@@ -26,7 +26,7 @@ class EntryController {
     
     // MARK: - Properties
     typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
-
+    
     // MARK: - Initializer
     init(){
         fetchEntriesFromServer()
@@ -87,7 +87,7 @@ class EntryController {
             }
         }.resume()
     }
-
+    
     // This will allow us to pull entries from our database
     func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }){
         let requestURL = baseURL.appendingPathExtension("json")
@@ -127,41 +127,35 @@ class EntryController {
         entry.mood = representation.mood
     }
     
-    private func saveToPersistentStore() throws{
-        let moc = CoreDataStack.shared.mainContext
-        try moc.save()
-    }
-        
     private func updateTasks(with representations: [EntryRepresentation]) throws {
-        
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         // Creating an array of UUIDs
         let identifiersToFetch = representations.compactMap({ $0.identifier })
-        // Creating Dictionaries of our representations by create a key value pair of UUID : representation
+        // Creating Dictionaries of our representations by create a key value pair of UUID : representattion
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
         var tasksToCreate = representationsByID
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
-        
-        let context = CoreDataStack.shared.mainContext
-        do{
-            let existingTasks = try context.fetch(fetchRequest)
-            
-            // For already existing tasks
-            for entry in existingTasks{
-                guard let id = entry.identifier,
-                    let representation = representationsByID[id] else { continue }
-                // Update Task
-                self.update(entry: entry, with: representation)
-                tasksToCreate.removeValue(forKey: id)
+        context.performAndWait {
+            do{
+                let existingTasks = try context.fetch(fetchRequest)
+                
+                // For already existing tasks
+                for entry in existingTasks{
+                    guard let id = entry.identifier,
+                        let representation = representationsByID[id] else { continue }
+                    // Update Task
+                    self.update(entry: entry, with: representation)
+                    tasksToCreate.removeValue(forKey: id)
+                }
+                
+                for representation in tasksToCreate.values{
+                    Entry(entryRepresentation: representation, context: context)
+                }
+            } catch {
+                print("Error fetching tasks for UUIDs: \(error)")
             }
-            
-            for representation in tasksToCreate.values{
-                Entry(entryRepresentation: representation, context: context)
-            }
-        } catch {
-            print("Error fetching tasks for UUIDs: \(error)")
         }
-        try self.saveToPersistentStore()
+        try CoreDataStack.shared.save(context: context)
     }
-    
 }
