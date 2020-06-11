@@ -58,7 +58,7 @@ class EntryController {
             if let error = error {
                 NSLog("Error PUTting entry to server: \(error)")
                 DispatchQueue.main.async {
-                   completion(.failure(.otherError))
+                    completion(.failure(.otherError))
                 }
                 return
             }
@@ -126,21 +126,20 @@ class EntryController {
             }
             
             do {
-               // let entryRepresentations = try JSONDecoder().decode([String: EntryRepresentation].self, from: data).map({ $0.value })
                 let entryRepresentations = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
                 
                 try self.updateEntries(with: entryRepresentations)
                 DispatchQueue.main.async {
-                               completion(.success(true))
-                           }
-            
+                    completion(.success(true))
+                }
+                
             } catch {
                 NSLog("Error decoding entry representations: \(error)")
                 DispatchQueue.main.async {
                     completion(.failure(.noDecode))
                 }
             }
-         
+            
         }.resume()
     }
     
@@ -189,13 +188,6 @@ class EntryController {
         
         try CoreDataStack.shared.save(context: context)
         
-        //try self.saveToPersistentStore()
     }
-    
-    /*
-     func saveToPersistentStore() throws {
-     let moc = CoreDataStack.shared.mainContext
-     try moc.save()
-     }*/
     
 }

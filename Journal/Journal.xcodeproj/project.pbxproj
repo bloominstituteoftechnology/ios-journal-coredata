@@ -53,6 +53,53 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		02569B572492D72100B819EB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0245C2272459222300F2C433 /* EntryRepresentation.swift */,
+				027CC2012451245C00903FD9 /* Journal.xcdatamodeld */,
+				027CC1FD245123B600903FD9 /* CoreDataStack.swift */,
+				027CC1FF245123CC00903FD9 /* Entry+Convenience.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		02569B582492D72A00B819EB /* Model Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				0245C22B245A2CC000F2C433 /* EntryController.swift */,
+			);
+			path = "Model Controllers";
+			sourceTree = "<group>";
+		};
+		02569B592492D73400B819EB /* Applications */ = {
+			isa = PBXGroup;
+			children = (
+				027CC1E5245121ED00903FD9 /* AppDelegate.swift */,
+				027CC1E7245121ED00903FD9 /* SceneDelegate.swift */,
+			);
+			path = Applications;
+			sourceTree = "<group>";
+		};
+		02569B5A2492D74500B819EB /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				0212976D2454BEC000D7C371 /* EntryDetailViewController.swift */,
+				027CC1E9245121ED00903FD9 /* CreateEntryViewController.swift */,
+				027CC1F92451237E00903FD9 /* EntriesTableViewController.swift */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		02569B5B2492D75000B819EB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				027CC1EB245121ED00903FD9 /* Main.storyboard */,
+				027CC1FB245123A000903FD9 /* EntryTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		027CC1D9245121EC00903FD9 = {
 			isa = PBXGroup;
 			children = (
@@ -72,21 +119,14 @@
 		027CC1E4245121ED00903FD9 /* Journal */ = {
 			isa = PBXGroup;
 			children = (
-				027CC1E5245121ED00903FD9 /* AppDelegate.swift */,
-				027CC1E7245121ED00903FD9 /* SceneDelegate.swift */,
-				027CC1E9245121ED00903FD9 /* CreateEntryViewController.swift */,
-				027CC1F92451237E00903FD9 /* EntriesTableViewController.swift */,
-				027CC1FB245123A000903FD9 /* EntryTableViewCell.swift */,
-				027CC1FD245123B600903FD9 /* CoreDataStack.swift */,
-				027CC1FF245123CC00903FD9 /* Entry+Convenience.swift */,
-				027CC2012451245C00903FD9 /* Journal.xcdatamodeld */,
-				027CC1EB245121ED00903FD9 /* Main.storyboard */,
-				027CC1EE245121F400903FD9 /* Assets.xcassets */,
+				02569B5A2492D74500B819EB /* View Controllers */,
+				02569B592492D73400B819EB /* Applications */,
+				02569B582492D72A00B819EB /* Model Controllers */,
+				02569B572492D72100B819EB /* Model */,
+				02569B5B2492D75000B819EB /* Views */,
 				027CC1F0245121F400903FD9 /* LaunchScreen.storyboard */,
 				027CC1F3245121F400903FD9 /* Info.plist */,
-				0212976D2454BEC000D7C371 /* EntryDetailViewController.swift */,
-				0245C2272459222300F2C433 /* EntryRepresentation.swift */,
-				0245C22B245A2CC000F2C433 /* EntryController.swift */,
+				027CC1EE245121F400903FD9 /* Assets.xcassets */,
 			);
 			path = Journal;
 			sourceTree = "<group>";

@@ -40,8 +40,6 @@ class CreateEntryViewController: UIViewController {
         
         let selectedMood = journalMood.selectedSegmentIndex
         let mood = EntryMood.allCases[selectedMood]
-          
-          // timestamp = DateFormatter.string(from: timestamp)
            
         let entry = Entry(title: title, timestamp: timestamp, bodyText: bodyText, mood: mood)
         

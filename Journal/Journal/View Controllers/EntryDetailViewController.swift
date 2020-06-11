@@ -9,13 +9,13 @@
 import UIKit
 
 class EntryDetailViewController: UIViewController {
-
+    
     
     @IBOutlet weak var journalMood: UISegmentedControl!
-      
-      @IBOutlet weak var journalTitle: UITextField!
-      
-      @IBOutlet weak var journalText: UITextView!
+    
+    @IBOutlet weak var journalTitle: UITextField!
+    
+    @IBOutlet weak var journalText: UITextView!
     
     var entry: Entry?
     var wasEdited: Bool = false
@@ -24,8 +24,8 @@ class EntryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-navigationItem.rightBarButtonItem = editButtonItem
-
+        navigationItem.rightBarButtonItem = editButtonItem
+        
         updateViews()
     }
     
@@ -43,9 +43,9 @@ navigationItem.rightBarButtonItem = editButtonItem
             mood = .😶
         }
         
-         journalMood.selectedSegmentIndex = EntryMood.allCases.firstIndex(of: mood) ?? 1
-         journalMood.isUserInteractionEnabled = isEditing
-     
+        journalMood.selectedSegmentIndex = EntryMood.allCases.firstIndex(of: mood) ?? 1
+        journalMood.isUserInteractionEnabled = isEditing
+        
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {
@@ -66,32 +66,21 @@ navigationItem.rightBarButtonItem = editButtonItem
         if wasEdited { guard let title = journalTitle.text, !title.isEmpty, let entry = entry else {
             return
             }
-        let bodyText = journalText.text
-        entry.title = title
-        entry.bodyText = bodyText
-        let selectedMood = journalMood.selectedSegmentIndex
-        entry.mood = EntryMood.allCases[selectedMood].rawValue
-
-        entryController?.sendEntryToServer(entry: entry)
+            let bodyText = journalText.text
+            entry.title = title
+            entry.bodyText = bodyText
+            let selectedMood = journalMood.selectedSegmentIndex
+            entry.mood = EntryMood.allCases[selectedMood].rawValue
             
-        do {
-            try CoreDataStack.shared.mainContext.save()
-            navigationController?.dismiss(animated: true, completion: nil)
-        } catch {
-            NSLog("Error saving manage object contedxt: \(error)")
-        }
+            entryController?.sendEntryToServer(entry: entry)
+            
+            do {
+                try CoreDataStack.shared.mainContext.save()
+                navigationController?.dismiss(animated: true, completion: nil)
+            } catch {
+                NSLog("Error saving manage object contedxt: \(error)")
+            }
         }
     }
     
-
-    
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    
-
 }

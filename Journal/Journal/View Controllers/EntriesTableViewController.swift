@@ -12,26 +12,7 @@ import CoreData
 class EntriesTableViewController: UITableViewController {
     
     private let entryController = EntryController()
-    
-    /*
-     var entries: [Entry] {
-     //Fetch request to fetch Tasks specifically
-     let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
-     
-     //context you want to fetch the model object into
-     let context = CoreDataStack.shared.mainContext
-     
-     do {
-     let fetchedEntries = try context.fetch(fetchRequest)
-     return fetchedEntries
-     
-     } catch {
-     NSLog("Error fetching entries: \(error)")
-     return []
-     }
-     }
-     */
-    
+
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -75,7 +56,6 @@ class EntriesTableViewController: UITableViewController {
         
         cell.delegate = self
         let entry = fetchedResultsController.object(at: indexPath)
-        // let entry = entries[indexPath.row]
         cell.entry = entry
         
         return cell
@@ -87,7 +67,6 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
          if editingStyle == .delete {
         let entry = fetchedResultsController.object(at: indexPath)
-        //let entry = entries[indexPath.row]
         let context = CoreDataStack.shared.mainContext
         
         context.delete(entry)
