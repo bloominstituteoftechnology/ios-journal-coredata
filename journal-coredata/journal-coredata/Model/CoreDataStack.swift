@@ -17,7 +17,7 @@ class CoreDataStack {
     // lazy = not going to create until someone uses
     lazy var container: NSPersistentContainer = {
          // make sure container name is the same as the xcdatamodeld name
-        let container = NSPersistentContainer(name: "Journal")
+        let container = NSPersistentContainer(name: "Journal" as String)
         container.loadPersistentStores { (_, error) in
             if let error = error {
                 fatalError("Failed to load persistent stores: \(error)")
@@ -30,21 +30,18 @@ class CoreDataStack {
     var mainContext: NSManagedObjectContext {
         return container.viewContext
     }
-    func save(context: NSManagedObjectContext =
-        CoreDataStack.shared.mainContext) throws {
+    func save(context: NSManagedObjectContext = CoreDataStack.shared.mainContext) throws {
         // A
-        var error: Error?
         // performAndWait will excute every line below and and wont skip to C. It follows A B then C Asyncronous Will skip B and go to C
         // Syncronous B
         context.performAndWait {
             do {
                 try context.save()
-            } catch let saveError {
-                error = saveError
+            } catch {
+                NSLog("Unable to save context \(error)")
+                context.reset()
             }
         }
-        //C
-        if let error = error  { throw error }
     }
 }
 

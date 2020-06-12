@@ -19,9 +19,6 @@ enum NetworkError: Error {
     case noRep
 }
 
-
-
-
 let baseURL = URL(string: "https://coredata3-dc2ab.firebaseio.com/")!
 
 class EntryController {
@@ -30,6 +27,12 @@ class EntryController {
     init() {
         fetchEntriesFromServer()
     }
+    
+    var entries: [Entry] = []
+    //Create
+    //Update
+    //Delete
+    //Save
 
     func sendEntryToServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
         guard let uuid = entry.identifier else {
@@ -138,23 +141,22 @@ class EntryController {
         URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
             if let error = error {
                 print("Error fetching entries: \(error)")
-                DispatchQueue.main.async {
-                    completion(.failure(.otherError))
-                }
+                
+                completion(.failure(.otherError))
+                
                 return
             }
 
             guard let data = data else {
                 print("No data returned by data task")
-                DispatchQueue.main.async {
-                    completion(.failure(.noData))
-                }
+                
+                completion(.failure(.noData))
+                
                 return
             }
 
             do {
                 let entryRepresentations = Array(try JSONDecoder().decode([String : EntryRepresentation].self, from: data).values)
-
                 try self.updateEntries(with: entryRepresentations)
                 DispatchQueue.main.async {
                     completion(.success(true))
@@ -164,7 +166,6 @@ class EntryController {
                 DispatchQueue.main.async {
                     completion(.failure(.noDecode))
                 }
-                return
             }
         }.resume()
     }
