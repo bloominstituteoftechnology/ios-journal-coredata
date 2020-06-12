@@ -19,14 +19,32 @@ class CoreDataStack {
          // make sure container name is the same as the xcdatamodeld name
         let container = NSPersistentContainer(name: "Journal")
         container.loadPersistentStores { (_, error) in
-            if let error = error as NSError? {
-                fatalError("Failed to load persistent stores: \(error), \(error.userInfo)")
+            if let error = error {
+                fatalError("Failed to load persistent stores: \(error)")
             }
         }
+        container.viewContext.automaticallyMergesChangesFromParent = true
         return container
     }()
     
     var mainContext: NSManagedObjectContext {
         return container.viewContext
     }
+    func save(context: NSManagedObjectContext =
+        CoreDataStack.shared.mainContext) throws {
+        // A
+        var error: Error?
+        // performAndWait will excute every line below and and wont skip to C. It follows A B then C Asyncronous Will skip B and go to C
+        // Syncronous B
+        context.performAndWait {
+            do {
+                try context.save()
+            } catch let saveError {
+                error = saveError
+            }
+        }
+        //C
+        if let error = error  { throw error }
+    }
 }
+

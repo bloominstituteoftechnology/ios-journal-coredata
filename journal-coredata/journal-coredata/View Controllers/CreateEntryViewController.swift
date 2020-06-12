@@ -11,6 +11,7 @@ import UIKit
 class CreateEntryViewController: UIViewController {
 
     var entryController: EntryController?
+    
     // Mark: - IBOutlets
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var detailTextField: UITextView!
