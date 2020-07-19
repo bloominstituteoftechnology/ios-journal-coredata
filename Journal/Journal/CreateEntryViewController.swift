@@ -13,6 +13,7 @@ class CreateEntryViewController: UIViewController {
     
     @IBOutlet weak var entryTextField: UITextField!
     @IBOutlet weak var entryTextView: UITextView!
+    @IBOutlet weak var moodControl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +25,13 @@ class CreateEntryViewController: UIViewController {
     }
     
     @IBAction func save(_ sender: UIBarButtonItem) {
+        guard let entry = entryTextField.text, !entry.isEmpty else { return }
+        
+        let diary = entryTextView.text ?? nil
+        let moodIndex = moodControl.selectedSegmentIndex
+        let mood = Mood.allCases[moodIndex]
+        
+        Entry(mood: mood, title: entry, bodyText: diary ?? "ho hum", timestamp: Date())
         
         do {
             try CoreDataStack.shared.mainContext.save()
