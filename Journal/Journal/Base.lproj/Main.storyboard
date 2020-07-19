@@ -42,6 +42,7 @@
                                 <connections>
                                     <outlet property="detailLabel" destination="01S-EH-uHi" id="6ZC-oB-0nP"/>
                                     <outlet property="titleLabel" destination="h2b-br-gnv" id="Dkt-8x-4ib"/>
+                                    <segue destination="YDh-5T-jY2" kind="show" id="MAr-Yj-kfP"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -63,6 +64,63 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xpZ-KP-yx7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="592.75362318840587" y="26.785714285714285"/>
+        </scene>
+        <!--entry details-->
+        <scene sceneID="Sfw-s6-A03">
+            <objects>
+                <viewController title="entry details" id="YDh-5T-jY2" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="UHn-NO-ZJT">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="gUh-xI-dU8">
+                                <rect key="frame" x="8" y="136" width="398" height="365.5"/>
+                                <subviews>
+                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="journal entry title" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oe5-f4-4vT">
+                                        <rect key="frame" x="0.0" y="0.0" width="398" height="26.5"/>
+                                        <color key="backgroundColor" systemColor="systemGray3Color" red="0.78039215689999997" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textField>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="XsF-3a-AXe">
+                                        <rect key="frame" x="0.0" y="37.5" width="398" height="286"/>
+                                        <color key="backgroundColor" systemColor="systemGray4Color" red="0.81960784310000001" green="0.81960784310000001" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits"/>
+                                    </textView>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="eIY-eV-eNB">
+                                        <rect key="frame" x="0.0" y="334.5" width="398" height="32"/>
+                                        <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <segments>
+                                            <segment title="😀"/>
+                                            <segment title="😞"/>
+                                            <segment title="😐" enabled="NO"/>
+                                        </segments>
+                                    </segmentedControl>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="pKa-H4-gAO" firstAttribute="bottom" secondItem="gUh-xI-dU8" secondAttribute="bottom" constant="311.5" id="8ZI-mQ-ZKa"/>
+                            <constraint firstItem="gUh-xI-dU8" firstAttribute="leading" secondItem="pKa-H4-gAO" secondAttribute="leading" constant="8" id="FTB-lr-hre"/>
+                            <constraint firstItem="XsF-3a-AXe" firstAttribute="centerX" secondItem="pKa-H4-gAO" secondAttribute="centerX" id="isZ-qT-wHS"/>
+                            <constraint firstItem="gUh-xI-dU8" firstAttribute="top" secondItem="pKa-H4-gAO" secondAttribute="top" constant="48" id="qqV-2m-d6p"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="pKa-H4-gAO"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="KzH-T6-7gG"/>
+                    <connections>
+                        <outlet property="diaryTextView" destination="XsF-3a-AXe" id="GiP-dG-j7W"/>
+                        <outlet property="entryTextField" destination="oe5-f4-4vT" id="aG1-5U-w6c"/>
+                        <outlet property="moodSelector" destination="eIY-eV-eNB" id="8I5-9h-WN0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Ha-Of-cpc" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1333" y="-662"/>
         </scene>
         <!--Journal Detail View Controller-->
         <scene sceneID="0vW-ph-jbU">
@@ -110,6 +168,7 @@
                             </stackView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="2" translatesAutoresizingMaskIntoConstraints="NO" id="68g-zK-klQ">
                                 <rect key="frame" x="8" y="569" width="398" height="32"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <segments>
                                     <segment title="😀"/>
                                     <segment title="😞"/>
