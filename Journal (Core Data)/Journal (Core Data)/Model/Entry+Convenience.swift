@@ -7,3 +7,22 @@
 //
 
 import Foundation
+import CoreData
+
+extension Entry {
+    @discardableResult convenience init(identifier: UUID = UUID(),
+                                        bodyText: String,
+                                        title: String,
+                                        timestamp: Date,
+                                        context: NSManagedObjectContext = CoreDataStack.shared.mainContext
+                                        ) {
+        self.init(context: context)
+        self.identifier = identifier
+        self.bodyText = bodyText
+        self.title = title
+        self.timestamp = timestamp
+    }
+}
+
+
+
