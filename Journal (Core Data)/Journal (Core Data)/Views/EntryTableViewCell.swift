@@ -9,6 +9,9 @@
 import UIKit
 
 class EntryTableViewCell: UITableViewCell {
+
+    static let resuseIdentifier = "JournalCell"
+
     var entry: Entry? {
         didSet {
             updateViews()

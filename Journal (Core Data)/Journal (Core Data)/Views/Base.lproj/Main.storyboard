@@ -7,7 +7,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Table View Controller-->
+        <!--Journal-->
         <scene sceneID="NYf-U8-fQI">
             <objects>
                 <tableViewController id="ogP-3E-kab" sceneMemberID="viewController">
@@ -30,7 +30,7 @@
                             <outlet property="delegate" destination="ogP-3E-kab" id="k0Y-ev-ptz"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="nPw-kR-oqi">
+                    <navigationItem key="navigationItem" title="Journal" leftItemsSupplementBackButton="YES" id="nPw-kR-oqi">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="5Lc-Y6-Agg">
                             <connections>
                                 <segue destination="Ts6-Nt-wMU" kind="presentation" modalPresentationStyle="fullScreen" id="GnA-IV-2md"/>
@@ -63,8 +63,8 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Kzf-Bj-Yij" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="uyl-Lx-qRH">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="uyl-Lx-qRH">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
