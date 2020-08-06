@@ -63,9 +63,21 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <navigationItem key="navigationItem" title="Create Entry" id="Wvi-Ht-hEV">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="V73-JS-kQO"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Dw1-np-0xy"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="V73-JS-kQO">
+                            <connections>
+                                <action selector="cancel:" destination="BYZ-38-t0r" id="Roq-cA-gb9"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="Dw1-np-0xy">
+                            <connections>
+                                <action selector="save:" destination="BYZ-38-t0r" id="l8f-Ih-KuX"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="bodyTextView" destination="bHf-Se-Pu3" id="foS-Y2-2XV"/>
+                        <outlet property="titleTextField" destination="f04-XZ-sNx" id="FxK-BC-ZNd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -80,15 +92,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="180" id="ANd-c4-Qgx" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="414" height="180"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" id="ANd-c4-Qgx" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="28" width="414" height="104"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ANd-c4-Qgx" id="GHz-WV-BfP">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="180"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="104"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="8Wt-Og-GOh">
-                                            <rect key="frame" x="40" y="31" width="334" height="71.5"/>
+                                            <rect key="frame" x="40" y="16" width="334" height="72"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="VCf-tw-p4k">
                                                     <rect key="frame" x="0.0" y="0.0" width="334" height="48"/>
@@ -110,7 +122,7 @@ Title Line 2</string>
                                                     </subviews>
                                                 </stackView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="249" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7DW-BW-x2p">
-                                                    <rect key="frame" x="0.0" y="52" width="334" height="19.5"/>
+                                                    <rect key="frame" x="0.0" y="52" width="334" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -120,10 +132,16 @@ Title Line 2</string>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="trailingMargin" secondItem="8Wt-Og-GOh" secondAttribute="trailing" constant="20" id="GKw-n8-EhZ"/>
-                                        <constraint firstItem="8Wt-Og-GOh" firstAttribute="top" secondItem="GHz-WV-BfP" secondAttribute="topMargin" constant="20" id="Pna-kv-oLk"/>
+                                        <constraint firstItem="8Wt-Og-GOh" firstAttribute="top" secondItem="GHz-WV-BfP" secondAttribute="topMargin" constant="5" id="Pna-kv-oLk"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="8Wt-Og-GOh" secondAttribute="bottom" constant="5" id="lpF-l3-9BF"/>
                                         <constraint firstItem="8Wt-Og-GOh" firstAttribute="leading" secondItem="GHz-WV-BfP" secondAttribute="leadingMargin" constant="20" id="xFv-sa-jNg"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="bodyTextLabel" destination="7DW-BW-x2p" id="TZp-aT-Xc3"/>
+                                    <outlet property="timestampLabel" destination="fvU-Um-E5v" id="7uR-SH-JqA"/>
+                                    <outlet property="titleLabel" destination="D9i-VM-USo" id="dQR-m0-tKB"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
