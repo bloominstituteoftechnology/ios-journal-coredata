@@ -11,15 +11,15 @@ import CoreData
 
 extension Entry {
     @discardableResult convenience init(identifier: UUID = UUID(),
-                                        name: String,
-                                        notes: String?,
-                                        complete: Bool = false,
+                                        bodyText: String?,
+                                        timeStamp: Date,
+                                        title: String,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext
     ) {
         self.init(context: context)
         self.identifier = identifier
-        self.name = name
-        self.notes = notes
-        self.complete = complete
+        self.bodyText = bodyText
+        self.timeStamp = timeStamp
+        self.title = title
     }
 }
