@@ -10,15 +10,15 @@ import Foundation
 import CoreData
 
 extension Entry {
-    @discardableResult convenience init(identifier: String,
+    @discardableResult convenience init(identifier: String = String(describing: UUID()),
                                         title: String,
                                         bodyText: String,
-                                        timestamp: Date,
+                                        timestamp: Date = Date(),
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
-        self.identifier = identifier
         self.title = title
         self.bodyText = bodyText
+        self.identifier = identifier
         self.timestamp = timestamp
     }
 }

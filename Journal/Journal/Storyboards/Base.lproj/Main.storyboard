@@ -10,13 +10,13 @@
         <!--Journal-->
         <scene sceneID="vcK-cN-lmV">
             <objects>
-                <tableViewController id="wty-BH-B3g" sceneMemberID="viewController">
+                <tableViewController id="wty-BH-B3g" customClass="EntriesTableViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Tew-cK-Xfe">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="180" id="TUd-vB-3DM">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="180" id="TUd-vB-3DM" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="180"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TUd-vB-3DM" id="h6G-Il-5Lk">
@@ -59,6 +59,11 @@
                                         <constraint firstAttribute="bottomMargin" secondItem="917-jq-98Q" secondAttribute="bottom" id="zem-xU-FII"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="dateLabel" destination="RzN-aq-mRh" id="irC-ow-CFB"/>
+                                    <outlet property="descriptionLabel" destination="DZX-Ut-Ehi" id="QxD-o1-INV"/>
+                                    <outlet property="titleLabel" destination="5Bb-SJ-fDj" id="g2A-QR-IKK"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -69,33 +74,27 @@
                     <navigationItem key="navigationItem" title="Journal" largeTitleDisplayMode="always" id="cpy-1P-A7t">
                         <barButtonItem key="rightBarButtonItem" title="Item" id="QYl-Ge-h48">
                             <connections>
-                                <segue destination="BYZ-38-t0r" kind="presentation" modalPresentationStyle="fullScreen" id="Cut-5I-GbR"/>
+                                <segue destination="QVP-hd-Duc" kind="presentation" modalPresentationStyle="fullScreen" id="Cut-5I-GbR"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="addEntryButton" destination="QYl-Ge-h48" id="wj6-N8-dXH"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Saz-wt-jhR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="17.39130434782609" y="137.94642857142856"/>
         </scene>
-        <!--View Controller-->
+        <!--Create Entry-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="CreateEntryViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hjq-8x-4f1">
-                                <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                                <items>
-                                    <navigationItem title="Title" id="J2L-d3-fFu">
-                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="M24-NP-lgL"/>
-                                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="N2V-N0-YTe"/>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
-                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="CP1-cn-dOV">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="CP1-cn-dOV">
                                 <rect key="frame" x="20" y="108" width="374" height="275.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="wdJ-Oe-PQd">
@@ -136,16 +135,34 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="Hjq-8x-4f1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Nlh-sw-m6P"/>
-                            <constraint firstItem="Hjq-8x-4f1" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Q5z-Fb-7DO"/>
-                            <constraint firstItem="Hjq-8x-4f1" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="vnX-nh-egf"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="CP1-cn-dOV" secondAttribute="trailing" constant="20" id="46p-7z-JIh"/>
+                            <constraint firstItem="CP1-cn-dOV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="6A9-ad-Pfx"/>
+                            <constraint firstItem="CP1-cn-dOV" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="VUw-xy-jSn"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Create Entry" id="gmt-Jj-6Bl">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="mK1-ea-Oz6">
+                            <connections>
+                                <action selector="cancelButtonTapped:" destination="BYZ-38-t0r" id="waF-OZ-bga"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="ibE-k3-DWQ">
+                            <connections>
+                                <action selector="saveButtonTapped:" destination="BYZ-38-t0r" id="Mge-yl-sto"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="cancelButton" destination="mK1-ea-Oz6" id="Eqw-Su-Aja"/>
+                        <outlet property="descriptionTextView" destination="k7P-Px-sNN" id="iV8-sM-jPs"/>
+                        <outlet property="saveButton" destination="ibE-k3-DWQ" id="D6J-HL-Tyq"/>
+                        <outlet property="titleTextField" destination="QZJ-QP-iJm" id="nH3-Uh-sVZ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="868.11594202898561" y="137.94642857142856"/>
+            <point key="canvasLocation" x="1790" y="138"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="cAS-gD-Jlk">
@@ -164,6 +181,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JkX-m9-bf8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-894.20289855072474" y="137.94642857142856"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="Kfh-if-Xwo">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="QVP-hd-Duc" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="otZ-pf-Bur">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="7lY-tM-GQF"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3my-CC-LlJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1047.8260869565217" y="137.94642857142856"/>
         </scene>
     </scenes>
 </document>

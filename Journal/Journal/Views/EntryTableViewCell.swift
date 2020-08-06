@@ -10,7 +10,36 @@ import UIKit
 
 class EntryTableViewCell: UITableViewCell {
 
-    override func awakeFromNib() {
+    //MARK: - PROPERTIES
+    static let reuseIdentifier = "EntryCell"
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
+    }
+    
+    //MARK: - IBOUTLETS
+    @IBOutlet weak var titleLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    
+    //MARK: - PRIVATE FUNCTIONS
+    private func updateViews() {
+        guard let entry = entry else { return }
+        titleLabel.text = entry.title
+        
+        //Format Date as Long and then assign to label.text property
+        let df = DateFormatter()
+        df.dateStyle = .short
+        df.timeStyle = .short
+        if let date = entry.timestamp {
+            dateLabel.text = df.string(from: date)
+        }
+        
+        descriptionLabel.text = entry.bodyText
+    }
+    
+    /*override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
@@ -20,5 +49,5 @@ class EntryTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
+    */
 }
