@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="6K5-hR-X8x">
-                                <rect key="frame" x="20" y="103" width="374" height="287.5"/>
+                                <rect key="frame" x="20" y="103" width="374" height="326.5"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Journal Entry Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="f04-XZ-sNx">
                                         <rect key="frame" x="0.0" y="0.0" width="374" height="34"/>
@@ -24,7 +24,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="i8I-4H-hef">
-                                        <rect key="frame" x="0.0" y="49" width="374" height="238.5"/>
+                                        <rect key="frame" x="0.0" y="49" width="374" height="277.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ENTRY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RQe-VM-1dh">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="20.5"/>
@@ -49,6 +49,14 @@
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="vb4-54-hHz">
+                                                <rect key="frame" x="0.0" y="246.5" width="374" height="32"/>
+                                                <segments>
+                                                    <segment title="😀"/>
+                                                    <segment title="☹️"/>
+                                                    <segment title="😐"/>
+                                                </segments>
+                                            </segmentedControl>
                                         </subviews>
                                     </stackView>
                                 </subviews>
@@ -76,6 +84,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="bodyTextView" destination="bHf-Se-Pu3" id="foS-Y2-2XV"/>
+                        <outlet property="moodSegmentedControl" destination="vb4-54-hHz" id="UPe-Mk-bGq"/>
                         <outlet property="titleTextField" destination="f04-XZ-sNx" id="FxK-BC-ZNd"/>
                     </connections>
                 </viewController>

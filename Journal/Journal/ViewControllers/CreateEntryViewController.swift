@@ -13,6 +13,7 @@ class CreateEntryViewController: UIViewController {
 
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +28,8 @@ class CreateEntryViewController: UIViewController {
             !title.isEmpty,
             let bodyText = bodyTextView.text,
             !bodyText.isEmpty else { return }
-        Entry(title: title, bodyText: bodyText)
+        let mood = Entry.Mood.allCases[moodSegmentedControl.selectedSegmentIndex]
+        Entry(title: title, bodyText: bodyText, mood: mood)
         do {
             try CoreDataStack.shared.mainContext.save()
             navigationController?.dismiss(animated: true, completion: nil)
