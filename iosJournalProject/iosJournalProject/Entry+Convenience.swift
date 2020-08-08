@@ -9,11 +9,18 @@
 import Foundation
 import CoreData
 
+enum EntryMood: String, CaseIterable {
+    case neutral = "😐"
+    case happy = "😃"
+    case sad = "🥺"
+}
+
 extension Entry {
     @discardableResult convenience init(identifier: UUID = UUID(),
                                         title: String,
                                         timestamp: Date = Date(),
                                         bodyText: String,
+                                        mood: EntryMood = .neutral,
                                         context: NSManagedObjectContext  = CoreDataStack.shared.mainContext) {
 
                                         
@@ -23,6 +30,7 @@ extension Entry {
         self.title = title
         self.timestamp = timestamp
         self.bodyText = bodyText
+        self.mood = mood.rawValue
     }
                                         
     

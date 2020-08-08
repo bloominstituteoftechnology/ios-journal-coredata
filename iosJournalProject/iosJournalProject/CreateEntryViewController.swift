@@ -16,6 +16,7 @@ class CreateEntryViewController: UIViewController {
     // MARK: - IBOutlets
     @IBOutlet weak var entryTitleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var emojiSementedControl: UISegmentedControl!
     
     // MARK: - View Lifecycle
 
@@ -37,10 +38,12 @@ class CreateEntryViewController: UIViewController {
             !title.isEmpty,
             let bodyText = bodyTextView.text,
             !bodyText.isEmpty else { return }
+        let moodIndex = emojiSementedControl.selectedSegmentIndex
+        let mood = EntryMood.allCases[moodIndex]
                 
        
                 
-        Entry(title: title, timestamp: Date(), bodyText: bodyText)
+        Entry(title: title, timestamp: Date(), bodyText: bodyText, mood: mood)
                 
        
                 do {
