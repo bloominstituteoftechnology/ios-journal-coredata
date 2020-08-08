@@ -7,18 +7,38 @@
 //
 
 import UIKit
+import CoreData
 
 class EntryTableViewCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    
+    //MARK: - Properties
+    
+    static let reuseIdentifier = "EntryCell"
+    private let formatter = DateFormatter()
+    
+    var entry: Entry? {
+        didSet {
+            updateViews()
+        }
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
+    // MARK: - IBOutlets
+       @IBOutlet weak var titleLabel: UILabel!
+       @IBOutlet weak var timestampLabel: UILabel!
+       @IBOutlet weak var bodyTextLabel: UITextView!
+    
+    private func updateViews() {
+        //Create an `updateViews()` function that takes the values from the `entry` variable and places them in the outlets.
+        guard let entry = entry else { return }
+        titleLabel.text = entry.title
+        bodyTextLabel.text = entry.bodyText
+        formatter.dateStyle = .short
+        formatter.timeStyle = .short
+        if let timestamp = entry.timestamp {
+            timestampLabel.text = formatter.string(from: timestamp)
+        }
 
-        // Configure the view for the selected state
     }
 
 }
+

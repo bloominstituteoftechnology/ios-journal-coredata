@@ -7,14 +7,49 @@
 //
 
 import UIKit
+import CoreData
 
 class CreateEntryViewController: UIViewController {
+    
+    // MARK: - Properties
+    
+    // MARK: - IBOutlets
+    @IBOutlet weak var entryTitleTextField: UITextField!
+    @IBOutlet weak var bodyTextView: UITextView!
+    
+    // MARK: - View Lifecycle
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
+    
+    //MARK: - Actions
+    @IBAction func cancel(_ sender: Any) {
+        navigationController?.dismiss(animated:true, completion: nil)
 
+    }
+    
+    @IBAction func save(_ sender: UIBarButtonItem) {
+        
+        guard let title = entryTitleTextField.text,
+            !title.isEmpty,
+            let bodyText = bodyTextView.text,
+            !bodyText.isEmpty else { return }
+                
+       
+                
+        Entry(title: title, timestamp: Date(), bodyText: bodyText)
+                
+       
+                do {
+                    try CoreDataStack.shared.mainContext.save()
+                    navigationController?.dismiss(animated: true, completion: nil)
+                } catch {
+                    NSLog("Error saving managed object context \(error)")
+                }
+            }
 
 }
 
