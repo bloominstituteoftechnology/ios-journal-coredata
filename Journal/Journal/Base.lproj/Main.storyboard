@@ -42,7 +42,7 @@
                                 <connections>
                                     <outlet property="detailLabel" destination="01S-EH-uHi" id="6ZC-oB-0nP"/>
                                     <outlet property="titleLabel" destination="h2b-br-gnv" id="Dkt-8x-4ib"/>
-                                    <segue destination="YDh-5T-jY2" kind="show" id="MAr-Yj-kfP"/>
+                                    <segue destination="YDh-5T-jY2" kind="show" identifier="ShowDetailSegue" id="MAr-Yj-kfP"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -55,7 +55,7 @@
                     <navigationItem key="navigationItem" id="ngn-wo-0iG">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="Jr8-Bh-n57">
                             <connections>
-                                <segue destination="367-YN-duR" kind="presentation" modalPresentationStyle="fullScreen" id="b0y-AO-ai7"/>
+                                <segue destination="367-YN-duR" kind="presentation" identifier="AddEntryModalSegue" modalPresentationStyle="fullScreen" id="b0y-AO-ai7"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -111,7 +111,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="pKa-H4-gAO"/>
                     </view>
-                    <navigationItem key="navigationItem" id="KzH-T6-7gG"/>
+                    <navigationItem key="navigationItem" title="entry details" id="KzH-T6-7gG"/>
                     <connections>
                         <outlet property="diaryTextView" destination="XsF-3a-AXe" id="GiP-dG-j7W"/>
                         <outlet property="entryTextField" destination="oe5-f4-4vT" id="aG1-5U-w6c"/>

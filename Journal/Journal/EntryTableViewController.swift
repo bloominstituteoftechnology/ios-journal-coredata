@@ -12,12 +12,14 @@ import CoreData
 class EntryTableViewController: UITableViewController {
     
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
+        
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
                                         NSSortDescriptor(key: "timestamp", ascending: false)]
         let context = CoreDataStack.shared.mainContext
-        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "title", cacheName: nil)
+        let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "mood", cacheName: nil)
         frc.delegate = self
+        
         do {
            try frc.performFetch()
         } catch {
@@ -44,8 +46,8 @@ class EntryTableViewController: UITableViewController {
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath)
-        //  need to configure the cell... using .object() method
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "EntryCell", for: indexPath) as? EntryTableViewCell else { fatalError() }
+        cell.entry = fetchedResultsController.object(at: indexPath)
         return cell
     }
     
@@ -58,9 +60,9 @@ class EntryTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            let task = fetchedResultsController.object(at: indexPath)
+            let entry = fetchedResultsController.object(at: indexPath)
             let context = CoreDataStack.shared.mainContext
-            context.delete(task)
+            context.delete(entry)
             //  the delete() method simply marks an object for deletion
             //  perform a save to effectively delete
             do {
@@ -71,17 +73,30 @@ class EntryTableViewController: UITableViewController {
                 context.reset()
                 NSLog("error saving managed object context (delete task): \(error)")
             }
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            
         }
         
+    }
+    
+    //  MARK: - navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowDetailSegue" {
+            if let detailVC = segue.destination as? EntryDetailViewController,
+                let indexPath = self.tableView.indexPathForSelectedRow {
+                detailVC.entry = fetchedResultsController.object(at: indexPath)
+            }
+        }
     }
 
 }
 
 extension EntryTableViewController: NSFetchedResultsControllerDelegate {
+    
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.beginUpdates()
     }
+    
     func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         tableView.endUpdates()
     }
