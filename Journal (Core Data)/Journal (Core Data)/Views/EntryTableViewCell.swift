@@ -39,24 +39,22 @@ class EntryTableViewCell: UITableViewCell {
 
     // MARK: - IBAction
 
+    lazy var dateFormatter: DateFormatter = {
+        let dateformat = DateFormatter()
+//        dateformat.dateStyle = .medium
+//        dateformat.timeStyle = .short
+        dateformat.dateFormat = "dd/MM/yyyy, HH:mm a"
+        return dateformat
+    }()
+
+
 
     private func updateViews() {
         guard let entry = entry else { return }
 
         entryTitleLabel.text = entry.title
         entryTextDetialLabel.text = entry.bodyText
-        entryDateLabel.text = String("\(entry.timestamp)")
-
-//        let dateFormatterGet = DateFormatter()
-//        dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss"
-//        dateFormatterGet.dateStyle = .short
-
-
-
-//        let dateFormatterPrint = DateFormatter()
-//        dateFormatterPrint.dateFormat = "MMM dd,yyyy"
-//
-//        entryDateLabel == DateFormatter.date(<#T##self: DateFormatter##DateFormatter#>)
+        entryDateLabel.text = self.dateFormatter.string(from: entry.timestamp ?? Date())
 
     }
 

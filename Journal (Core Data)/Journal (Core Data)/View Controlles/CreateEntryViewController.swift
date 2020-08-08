@@ -27,6 +27,7 @@ class CreateEntryViewController: UIViewController {
 
         let entry = entryTextField.text!
         let timestamp = Date()
+        
         Entry(bodyText: entry, title: title, timestamp: timestamp)
 
         do {
