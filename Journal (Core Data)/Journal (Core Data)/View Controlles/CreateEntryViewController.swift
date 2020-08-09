@@ -22,8 +22,7 @@ class CreateEntryViewController: UIViewController {
 
     // MARK: - IBAaction
     @IBAction func saveButton(_ sender: UIBarButtonItem) {
-        guard let title = entryTitleLabel.t
-        ext,
+        guard let title = entryTitleLabel.text,
             !title.isEmpty else { return }
 
         let entry = entryTextField.text!
