@@ -22,13 +22,15 @@ class CreateEntryViewController: UIViewController {
 
     // MARK: - IBAaction
     @IBAction func saveButton(_ sender: UIBarButtonItem) {
-        guard let title = entryTitleLabel.text,
+        guard let title = entryTitleLabel.t
+        ext,
             !title.isEmpty else { return }
 
         let entry = entryTextField.text!
         let timestamp = Date()
         
         Entry(bodyText: entry, title: title, timestamp: timestamp)
+
 
         do {
             try CoreDataStack.shared.mainContext.save()
