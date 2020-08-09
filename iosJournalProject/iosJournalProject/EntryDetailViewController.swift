@@ -13,6 +13,8 @@ class EntryDetailViewController: UIViewController {
     // MARK: Properties
     
     var entry: Entry?
+    var wasEdited: Bool = false
+    
     
     // MARK: - IBOutlets
     
@@ -32,6 +34,39 @@ class EntryDetailViewController: UIViewController {
         navigationItem.rightBarButtonItem = editButtonItem
         updateViews()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+           super.viewWillDisappear(animated)
+           
+           if wasEdited {
+               guard let title = titleTextField.text,
+                   !title.isEmpty,
+                   let entry = entry else { return }
+               
+               let bodytext = bodyTextView.text
+               entry.title = title
+               entry.bodyText = bodytext
+               let moodIndex = moodSegControl.selectedSegmentIndex
+               entry.mood = EntryMood.allCases[moodIndex].rawValue
+               
+               do {
+                   try CoreDataStack.shared.mainContext.save()
+               } catch {
+                   NSLog("Error saving managed object context")
+               }
+           }
+       }
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+           super.setEditing(editing, animated: animated)
+           
+           if editing { wasEdited = true }
+           
+           titleTextField.isUserInteractionEnabled = editing
+           bodyTextView.isUserInteractionEnabled = editing
+           moodSegControl.isUserInteractionEnabled = editing
+           navigationItem.hidesBackButton = editing
+       }
     
     func updateViews() {
         titleTextField.text = entry?.title

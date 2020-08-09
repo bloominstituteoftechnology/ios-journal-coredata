@@ -86,7 +86,7 @@ class EntriesTableViewController: UITableViewController{
     }
    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "entryDetailShowSegue" {
+        if segue.identifier == "ToEntryDetail" {
             if let entryDetailVC = segue.destination as? EntryDetailViewController,
                 let index = self.tableView.indexPathForSelectedRow {
                 entryDetailVC.entry = fetchedResultsController.object(at: index)

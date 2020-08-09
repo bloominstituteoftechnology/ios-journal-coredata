@@ -32,12 +32,10 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="1Eq-Q0-8mN">
-                                            <rect key="frame" x="50" y="63" width="314" height="128"/>
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="1Eq-Q0-8mN">
+                                            <rect key="frame" x="50" y="63" width="314" height="74"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                            <constraints>
-                                                <constraint firstAttribute="height" constant="128" id="HZX-KK-lNc"/>
-                                            </constraints>
                                             <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                             <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -54,10 +52,7 @@
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="bottomMargin" secondItem="1Eq-Q0-8mN" secondAttribute="bottom" constant="10" id="Nrs-Y6-5xS"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="1Eq-Q0-8mN" secondAttribute="trailing" constant="30" id="XNG-AZ-oKS"/>
                                         <constraint firstItem="9lA-5c-zAa" firstAttribute="trailing" secondItem="ItX-4Q-0Jf" secondAttribute="trailingMargin" id="Z5E-gj-mKq"/>
-                                        <constraint firstItem="1Eq-Q0-8mN" firstAttribute="leading" secondItem="ItX-4Q-0Jf" secondAttribute="leadingMargin" constant="30" id="bVn-wd-HJH"/>
                                         <constraint firstItem="9lA-5c-zAa" firstAttribute="top" secondItem="ItX-4Q-0Jf" secondAttribute="topMargin" constant="17" id="jJ0-fU-CnL"/>
                                         <constraint firstItem="xs9-lt-76Y" firstAttribute="leading" secondItem="ItX-4Q-0Jf" secondAttribute="leadingMargin" id="jl6-XV-HTD"/>
                                         <constraint firstItem="xs9-lt-76Y" firstAttribute="top" secondItem="ItX-4Q-0Jf" secondAttribute="topMargin" constant="1" id="lpG-7u-sDV"/>
@@ -68,7 +63,7 @@
                                     <outlet property="bodyTextLabel" destination="1Eq-Q0-8mN" id="PDc-Z6-pYo"/>
                                     <outlet property="timestampLabel" destination="9lA-5c-zAa" id="oMb-cA-Oyx"/>
                                     <outlet property="titleLabel" destination="xs9-lt-76Y" id="fIf-RG-2TA"/>
-                                    <segue destination="JUd-fB-MGw" kind="show" id="SRa-Pd-Vbl"/>
+                                    <segue destination="JUd-fB-MGw" kind="show" identifier="ToEntryDetail" id="SRa-Pd-Vbl"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -275,14 +270,10 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Kna-aY-jy2"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Entry Details" id="LTA-Lc-4cH">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="w2e-YB-o0B"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="8RJ-km-VIs"/>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Entry Details" id="LTA-Lc-4cH"/>
                     <connections>
                         <outlet property="bodyTextView" destination="zsL-I8-KmD" id="Wsl-Gp-CrU"/>
                         <outlet property="moodSegControl" destination="y2a-Nz-lum" id="vuG-1H-fyw"/>
-                        <outlet property="saveButton" destination="8RJ-km-VIs" id="MTd-ic-fWH"/>
                         <outlet property="titleTextField" destination="s0b-KO-ZBb" id="lpv-ed-8ZL"/>
                     </connections>
                 </viewController>
