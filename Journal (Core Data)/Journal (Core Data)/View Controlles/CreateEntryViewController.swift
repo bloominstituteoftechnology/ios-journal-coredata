@@ -13,7 +13,8 @@ class CreateEntryViewController: UIViewController {
     // MARK: - IBOutlet
     @IBOutlet weak var entryTitleLabel: UITextField!
     @IBOutlet weak var entryTextField: UITextView!
-
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
