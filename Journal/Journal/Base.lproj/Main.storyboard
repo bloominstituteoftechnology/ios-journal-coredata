@@ -100,7 +100,7 @@
             </objects>
             <point key="canvasLocation" x="-1637" y="113"/>
         </scene>
-        <!--Create Entry-->
+        <!--Create Entry View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="CreateEntryViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
@@ -150,12 +150,22 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Create Entry" id="tx4-f6-SaS">
+                    <navigationItem key="navigationItem" id="tx4-f6-SaS">
+                        <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="4Z7-Nc-N5o">
                             <connections>
                                 <action selector="cancel:" destination="BYZ-38-t0r" id="MUj-Lw-MMD"/>
                             </connections>
                         </barButtonItem>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="2RM-bK-NGE" userLabel="Mood Segemented Controller">
+                            <rect key="frame" x="150.5" y="5.5" width="113" height="33"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="😀"/>
+                                <segment title="😐"/>
+                                <segment title="☹️"/>
+                            </segments>
+                        </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="UTE-nc-VLM">
                             <connections>
                                 <action selector="save:" destination="BYZ-38-t0r" id="IiL-PF-F8V"/>
@@ -164,6 +174,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="descriptionTextView" destination="U5E-9S-ezh" id="cfg-Xk-qgW"/>
+                        <outlet property="emotionSegementedController" destination="2RM-bK-NGE" id="HLj-wd-q5e"/>
                         <outlet property="entryTextField" destination="MNq-3T-h9p" id="BSQ-sq-G78"/>
                     </connections>
                 </viewController>

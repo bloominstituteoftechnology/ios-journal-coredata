@@ -12,6 +12,7 @@ class CreateEntryViewController: UIViewController {
     
     @IBOutlet weak var entryTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var moodSegementedController: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,11 +25,10 @@ class CreateEntryViewController: UIViewController {
     @IBAction func save(_ sender: Any) {
         guard let title = entryTextField.text,
             !title.isEmpty,
-            let bodyText = descriptionTextView.text, !bodyText.isEmpty else {
-                return
-        }
+            let bodyText = descriptionTextView.text, !bodyText.isEmpty else { return }
+        let mood = Mood.allCases[moodSegmentedControl.selectedSegmentIndex]
         
-        Entry(bodyText: bodyText, timeStamp: Date(), title: title,  context: CoreDataStack.shared.mainContext)
+        Entry(bodyText: bodyText, timeStamp: Date(), title: title, mood: mood,  context: CoreDataStack.shared.mainContext)
         
         do {
             try CoreDataStack.shared.mainContext.save()
