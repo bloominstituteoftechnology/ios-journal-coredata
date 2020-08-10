@@ -7,6 +7,80 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Entry Details-->
+        <scene sceneID="9BN-Zr-wXq">
+            <objects>
+                <viewController title="Entry Details" id="GjK-EW-IKg" customClass="EntryDetailViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="6ad-mi-OdF">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="EXe-Ra-4se">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" rowHeight="110" id="JoG-Cz-ZiV" customClass="EntryTableViewCell" customModule="Journal" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="110"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JoG-Cz-ZiV" id="Sgd-4J-7G4">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="110"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="86O-6U-ogv">
+                                                    <rect key="frame" x="20" y="33" width="88" height="49"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zeb-wD-JIG">
+                                                            <rect key="frame" x="0.0" y="0.0" width="88" height="20.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="252" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SDS-Jd-9Y1">
+                                                            <rect key="frame" x="0.0" y="28.5" width="88" height="20.5"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                </stackView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qod-VI-kO8">
+                                                    <rect key="frame" x="310" y="45" width="84" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" systemColor="systemBlueColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <constraints>
+                                                <constraint firstItem="Qod-VI-kO8" firstAttribute="trailing" secondItem="Sgd-4J-7G4" secondAttribute="trailingMargin" id="WQt-d3-rpR"/>
+                                                <constraint firstItem="86O-6U-ogv" firstAttribute="leading" secondItem="Sgd-4J-7G4" secondAttribute="leadingMargin" id="jmd-kI-5rD"/>
+                                                <constraint firstItem="86O-6U-ogv" firstAttribute="top" secondItem="Sgd-4J-7G4" secondAttribute="topMargin" constant="22" id="nCt-LQ-oqE"/>
+                                                <constraint firstItem="Qod-VI-kO8" firstAttribute="centerY" secondItem="Sgd-4J-7G4" secondAttribute="centerY" id="soi-Sv-YCo"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="descriptionLabel" destination="SDS-Jd-9Y1" id="WSj-4h-zrY"/>
+                                            <outlet property="entryTitleLabel" destination="zeb-wD-JIG" id="Upo-fW-4ik"/>
+                                            <outlet property="timeLabel" destination="Qod-VI-kO8" id="BRo-rx-ghO"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="asA-Ti-HZo" id="vXs-fY-0np"/>
+                                    <outlet property="delegate" destination="asA-Ti-HZo" id="Kxa-I3-Uyf"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="u9I-jm-d89"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="chm-vw-ZCs"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SLF-VU-1hD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-720" y="-560"/>
+        </scene>
         <!--Journal-->
         <scene sceneID="59J-aq-Bhh">
             <objects>
@@ -64,6 +138,7 @@
                                     <outlet property="descriptionLabel" destination="5Pc-i3-KIB" id="Rqi-c7-9ep"/>
                                     <outlet property="entryTitleLabel" destination="QKX-TP-nYD" id="Gia-yf-6jA"/>
                                     <outlet property="timeLabel" destination="Sz1-kU-xTs" id="8Cd-Vd-vQp"/>
+                                    <segue destination="GjK-EW-IKg" kind="show" id="y7U-Dt-EJG"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
