@@ -10,12 +10,13 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
     
+  
     var entry: Entry?
     private var wasEdited: Bool = false
     
-    @IBOutlet weak var titleTextField: UITextField!
-    @IBOutlet weak var bodyTextView: UITextView!
-    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
+    @IBOutlet weak var entryTextField: UITextField!
+    @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var moodSegementedController: UISegmentedControl!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,14 +27,14 @@ class EntryDetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if wasEdited {
-            guard let title = titleTextField.text,
+            guard let title = entryTextField.text,
                 !title.isEmpty,
-                let bodyText = bodyTextView.text,
+                let bodyText = descriptionTextView.text,
                 !bodyText.isEmpty,
                 let entry = entry else { return }
             entry.title = title
             entry.bodyText = bodyText
-            let moodIndex = moodSegmentedControl.selectedSegmentIndex
+            let moodIndex = moodSegementedController.selectedSegmentIndex
             entry.mood = Mood.allCases[moodIndex].rawValue
             do {
                 try CoreDataStack.shared.mainContext.save()
@@ -43,30 +44,21 @@ class EntryDetailViewController: UIViewController {
         }
     }
     
-    /*
-     // MARK: - Navigation
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
         if editing { wasEdited = true }
-        titleTextField.isUserInteractionEnabled = editing
-        bodyTextView.isUserInteractionEnabled = editing
-        moodSegmentedControl.isUserInteractionEnabled = editing
+        entryTextField.isUserInteractionEnabled = editing
+        descriptionTextView.isUserInteractionEnabled = editing
+        moodSegementedController.isUserInteractionEnabled = editing
         navigationItem.hidesBackButton = editing
     }
     
     private func updateViews() {
-        titleTextField.text = entry?.title
-        titleTextField.isUserInteractionEnabled = isEditing
+        entryTextField.text = entry?.title
+        entryTextField.isUserInteractionEnabled = isEditing
         
-        bodyTextView.text = entry?.bodyText
-        bodyTextView.isUserInteractionEnabled = isEditing
+        descriptionTextView.text = entry?.bodyText
+        descriptionTextView.isUserInteractionEnabled = isEditing
         
         let mood: Mood
         if let entryMood = entry?.mood {
@@ -74,8 +66,8 @@ class EntryDetailViewController: UIViewController {
         } else {
             mood = .neutral
         }
-        moodSegmentedControl.selectedSegmentIndex = Mood.allCases.firstIndex(of: mood) ?? 1
-        moodSegmentedControl.isUserInteractionEnabled = isEditing
+        moodSegementedController.selectedSegmentIndex = Mood.allCases.firstIndex(of: mood) ?? 1
+        moodSegementedController.isUserInteractionEnabled = isEditing
     }
-    
+
 }

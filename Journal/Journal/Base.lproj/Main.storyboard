@@ -29,16 +29,9 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AbS-dF-51K">
-                                        <rect key="frame" x="0.0" y="64.5" width="374" height="50"/>
-                                        <color key="backgroundColor" systemColor="systemGray3Color" red="0.78039215689999997" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </view>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="ZtY-B0-e9q">
-                                        <rect key="frame" x="0.0" y="122.5" width="374" height="299.5"/>
+                                        <rect key="frame" x="0.0" y="64.5" width="374" height="357.5"/>
                                         <color key="backgroundColor" systemColor="systemGray3Color" red="0.78039215689999997" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="299.5" id="QFy-72-h9g"/>
-                                        </constraints>
                                         <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -48,16 +41,17 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="u9I-jm-d89" firstAttribute="bottom" secondItem="JwY-wU-5Pv" secondAttribute="bottom" constant="312" id="NKk-2c-OJV"/>
-                            <constraint firstItem="JwY-wU-5Pv" firstAttribute="top" secondItem="u9I-jm-d89" secondAttribute="top" constant="40" id="V8Z-9j-cBp"/>
-                            <constraint firstItem="JwY-wU-5Pv" firstAttribute="leading" secondItem="u9I-jm-d89" secondAttribute="leading" constant="20" id="bXk-9x-Hc1"/>
-                            <constraint firstItem="u9I-jm-d89" firstAttribute="trailing" secondItem="JwY-wU-5Pv" secondAttribute="trailing" constant="20" id="j4S-Tj-zrC"/>
+                            <constraint firstItem="u9I-jm-d89" firstAttribute="bottom" secondItem="JwY-wU-5Pv" secondAttribute="bottom" constant="312" id="AAH-LT-XRd"/>
+                            <constraint firstItem="JwY-wU-5Pv" firstAttribute="trailing" secondItem="6ad-mi-OdF" secondAttribute="trailingMargin" id="Ngw-ML-DWT"/>
+                            <constraint firstItem="JwY-wU-5Pv" firstAttribute="top" secondItem="u9I-jm-d89" secondAttribute="top" constant="40" id="q0G-Sq-DOX"/>
+                            <constraint firstItem="JwY-wU-5Pv" firstAttribute="leading" secondItem="6ad-mi-OdF" secondAttribute="leadingMargin" id="wud-IS-nJh"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="u9I-jm-d89"/>
                     </view>
                     <navigationItem key="navigationItem" id="chm-vw-ZCs">
                         <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="Lc0-pV-EHn" userLabel="Mood Segemented Controller">
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="Lc0-pV-EHn" userLabel="Mood Segemented Controller">
+                            <rect key="frame" x="150.5" y="6" width="113" height="32"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
                                 <segment title="😀"/>
@@ -67,8 +61,9 @@
                         </segmentedControl>
                     </navigationItem>
                     <connections>
-                        <outlet property="bodyTextView" destination="ZtY-B0-e9q" id="fFQ-mO-gGT"/>
-                        <outlet property="titleTextField" destination="cYw-gT-IPc" id="gYH-R0-k0b"/>
+                        <outlet property="descriptionTextView" destination="ZtY-B0-e9q" id="phw-Zn-FHU"/>
+                        <outlet property="entryTextField" destination="cYw-gT-IPc" id="Kxn-zm-c24"/>
+                        <outlet property="moodSegementedController" destination="Lc0-pV-EHn" id="wgg-Pv-Vcw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SLF-VU-1hD" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -132,7 +127,7 @@
                                     <outlet property="descriptionLabel" destination="5Pc-i3-KIB" id="Rqi-c7-9ep"/>
                                     <outlet property="entryTitleLabel" destination="QKX-TP-nYD" id="Gia-yf-6jA"/>
                                     <outlet property="timeLabel" destination="Sz1-kU-xTs" id="8Cd-Vd-vQp"/>
-                                    <segue destination="GjK-EW-IKg" kind="show" id="y7U-Dt-EJG"/>
+                                    <segue destination="GjK-EW-IKg" kind="show" identifier="entryDetailShowSegue" id="y7U-Dt-EJG"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
