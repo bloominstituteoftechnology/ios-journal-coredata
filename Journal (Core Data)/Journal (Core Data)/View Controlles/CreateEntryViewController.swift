@@ -28,8 +28,10 @@ class CreateEntryViewController: UIViewController {
 
         let entry = entryTextField.text!
         let timestamp = Date()
+        let moodIndex = segmentedControl.selectedSegmentIndex
+        let mood = Mood.allCases[moodIndex]
         
-        Entry(bodyText: entry, title: title, timestamp: timestamp)
+        Entry(bodyText: entry, title: title, timestamp: timestamp, mood: mood)
 
 
         do {
