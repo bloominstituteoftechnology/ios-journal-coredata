@@ -9,21 +9,21 @@
 import Foundation
 import CoreData
 
-@objc(Entry)
-public class Entry: NSManagedObject {
-
-}
+//@objc(Entry)
+//public class Entry: NSManagedObject {
+//
+//}
 
 extension Entry {
     
-    @discardableResult convenience init(UIidentifier: UUID = UUID(),
+    @discardableResult convenience init(mainIdentifier: UUID = UUID(),
                                         title: String,
                                         bodyText: String,
                                         timestamp: Date,
                                         identifier: String,
                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
-        self.UIidentifier = UIidentifier
+        self.mainIdentifier = mainIdentifier
         self.title = title
         self.bodyText = bodyText
         self.timestamp = timestamp

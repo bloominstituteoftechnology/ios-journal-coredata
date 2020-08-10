@@ -16,21 +16,42 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="OOx-v2-Ofa">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="EntryCell" id="OOx-v2-Ofa">
                                 <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OOx-v2-Ofa" id="J9Y-BC-lbh">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tOV-9t-zuB">
-                                            <rect key="frame" x="20" y="11" width="42" height="21"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="17"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ys4-5c-kd4">
+                                            <rect key="frame" x="10" y="2" width="34" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S2l-Qj-Fic">
+                                            <rect key="frame" x="10" y="27" width="318" height="18"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eQq-ph-4Ls">
+                                            <rect key="frame" x="348" y="13" width="56" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="eQq-ph-4Ls" firstAttribute="leading" secondItem="S2l-Qj-Fic" secondAttribute="trailing" constant="20" id="0r4-FC-i3L"/>
+                                        <constraint firstItem="eQq-ph-4Ls" firstAttribute="top" secondItem="J9Y-BC-lbh" secondAttribute="topMargin" constant="2" id="Aw6-Rd-Awo"/>
+                                        <constraint firstAttribute="trailing" secondItem="eQq-ph-4Ls" secondAttribute="trailing" constant="10" id="LJw-Bp-Pei"/>
+                                        <constraint firstItem="ys4-5c-kd4" firstAttribute="leading" secondItem="J9Y-BC-lbh" secondAttribute="leading" constant="10" id="Qfw-s8-R7E"/>
+                                        <constraint firstItem="S2l-Qj-Fic" firstAttribute="top" secondItem="ys4-5c-kd4" secondAttribute="bottom" constant="4" id="csI-Ng-11W"/>
+                                        <constraint firstItem="S2l-Qj-Fic" firstAttribute="leading" secondItem="J9Y-BC-lbh" secondAttribute="leading" constant="10" id="iHK-ZT-fPw"/>
+                                        <constraint firstItem="ys4-5c-kd4" firstAttribute="top" secondItem="J9Y-BC-lbh" secondAttribute="top" constant="2" id="qw1-nc-vjb"/>
+                                        <constraint firstItem="eQq-ph-4Ls" firstAttribute="leading" secondItem="ys4-5c-kd4" secondAttribute="trailing" constant="304" id="xRN-C5-mC3"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                             </tableViewCell>
                         </prototypes>
@@ -51,7 +72,7 @@
             </objects>
             <point key="canvasLocation" x="1616" y="-413"/>
         </scene>
-        <!--Journal-->
+        <!--Create Entry-->
         <scene sceneID="PKn-nQ-EeR">
             <objects>
                 <viewController id="aSa-Qo-k27" customClass="CreateEntryViewController" customModule="Journal" customModuleProvider="target" sceneMemberID="viewController">
@@ -101,7 +122,7 @@
                         <barButtonItem width="275" style="plain" systemItem="fixedSpace" id="F7A-Jb-PqJ"/>
                         <barButtonItem systemItem="cancel" id="lb2-Fg-mWn"/>
                     </toolbarItems>
-                    <navigationItem key="navigationItem" title="Journal" id="cAg-CP-Pd3"/>
+                    <navigationItem key="navigationItem" title="Create Entry" id="cAg-CP-Pd3"/>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eDZ-rJ-UR3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
