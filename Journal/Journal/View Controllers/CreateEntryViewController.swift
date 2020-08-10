@@ -15,6 +15,7 @@ class CreateEntryViewController: UIViewController {
     @IBOutlet weak var saveButton: UIBarButtonItem!
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
     
     //MARK: - VIEW LIFECYCLE
     override func viewDidLoad() {

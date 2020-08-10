@@ -95,24 +95,32 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="CP1-cn-dOV">
-                                <rect key="frame" x="20" y="108" width="374" height="275.5"/>
+                                <rect key="frame" x="20" y="108" width="374" height="314.5"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="wdJ-Oe-PQd">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="60.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="99.5"/>
                                         <subviews>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="NdA-pQ-vXZ">
+                                                <rect key="frame" x="0.0" y="0.0" width="374" height="32"/>
+                                                <segments>
+                                                    <segment title="😀"/>
+                                                    <segment title="😐"/>
+                                                    <segment title="😞"/>
+                                                </segments>
+                                            </segmentedControl>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Journal Entry Title..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QZJ-QP-iJm">
-                                                <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
+                                                <rect key="frame" x="0.0" y="39" width="374" height="22"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iia-yv-MOb">
-                                                <rect key="frame" x="0.0" y="30" width="374" height="20.5"/>
+                                                <rect key="frame" x="0.0" y="69" width="374" height="20.5"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5kl-Vh-jOS">
-                                                <rect key="frame" x="0.0" y="58.5" width="374" height="2"/>
+                                                <rect key="frame" x="0.0" y="97.5" width="374" height="2"/>
                                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="2" id="j5b-3d-Vj6"/>
@@ -121,7 +129,7 @@
                                         </subviews>
                                     </stackView>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="k7P-Px-sNN">
-                                        <rect key="frame" x="0.0" y="75.5" width="374" height="200"/>
+                                        <rect key="frame" x="0.0" y="114.5" width="374" height="200"/>
                                         <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="200" id="mJq-Y2-7Oz"/>
@@ -156,6 +164,7 @@
                     <connections>
                         <outlet property="cancelButton" destination="mK1-ea-Oz6" id="Eqw-Su-Aja"/>
                         <outlet property="descriptionTextView" destination="k7P-Px-sNN" id="iV8-sM-jPs"/>
+                        <outlet property="moodSegmentedControl" destination="NdA-pQ-vXZ" id="zUY-Xi-uId"/>
                         <outlet property="saveButton" destination="ibE-k3-DWQ" id="D6J-HL-Tyq"/>
                         <outlet property="titleTextField" destination="QZJ-QP-iJm" id="nH3-Uh-sVZ"/>
                     </connections>
