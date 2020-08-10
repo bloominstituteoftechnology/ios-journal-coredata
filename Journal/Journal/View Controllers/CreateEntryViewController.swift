@@ -36,7 +36,21 @@ class CreateEntryViewController: UIViewController {
                 return
         }
         
-        let _ = Entry(title: title, bodyText: description)
+        let selectedMoodIndex = moodSegmentedControl.selectedSegmentIndex
+        let mood: Mood
+        
+        switch selectedMoodIndex {
+        case 0:
+            mood = .happy
+        case 1:
+            mood = .neutral
+        case 2:
+            mood = .sad
+        default:
+            mood = .neutral
+        }
+        
+        let _ = Entry(title: title, bodyText: description, mood: mood)
         let moc = CoreDataStack.shared.mainContext
         
         do {
