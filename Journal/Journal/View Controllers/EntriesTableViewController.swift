@@ -30,7 +30,7 @@ class EntriesTableViewController: UITableViewController {
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: false),
-                                        NSSortDescriptor(key: "name", ascending: true)]
+                                        NSSortDescriptor(key: "title", ascending: true)]
         let moc = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
         frc.delegate = self
@@ -101,15 +101,15 @@ class EntriesTableViewController: UITableViewController {
     }
     */
 
-    /*
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.description == "EntryDetailShowSegue" {
+            if let destinationVC = segue.destination as? EntryDetailViewController {
+                guard let index = tableView.indexPathForSelectedRow else { return }
+                destinationVC.entry = fetchedResultsController.object(at: index)
+            }
+        }
     }
-    */
 
 }
 
