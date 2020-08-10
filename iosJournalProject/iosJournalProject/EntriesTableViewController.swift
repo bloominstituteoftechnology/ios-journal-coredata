@@ -16,7 +16,8 @@ class EntriesTableViewController: UITableViewController{
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "mood", ascending: true),
-                                        NSSortDescriptor(key: "timestamp", ascending: true)]
+                                        NSSortDescriptor(key: "timestamp", ascending: true),
+                                        NSSortDescriptor(key: "bodyText", ascending: true)]
         let moc = CoreDataStack.shared.mainContext
         let frc = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: moc, sectionNameKeyPath: "mood", cacheName: nil)
         frc.delegate = self
@@ -39,7 +40,9 @@ class EntriesTableViewController: UITableViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 300
+        
     }
 
     // MARK: - Table view data source
@@ -69,6 +72,10 @@ class EntriesTableViewController: UITableViewController{
         guard let sectionInfo = fetchedResultsController.sections?[section] else { return nil }
         return sectionInfo.name
     }
+    
+    
+    
+    
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {

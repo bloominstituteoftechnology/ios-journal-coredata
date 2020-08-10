@@ -25,13 +25,13 @@ class EntryTableViewCell: UITableViewCell {
     // MARK: - IBOutlets
        @IBOutlet weak var titleLabel: UILabel!
        @IBOutlet weak var timestampLabel: UILabel!
-       @IBOutlet weak var bodyTextLabel: UITextView!
+       @IBOutlet weak var bodyTextView: UILabel!
     
     private func updateViews() {
         //Create an `updateViews()` function that takes the values from the `entry` variable and places them in the outlets.
         guard let entry = entry else { return }
         titleLabel.text = entry.title
-        bodyTextLabel.text = entry.bodyText
+        bodyTextView.text = entry.bodyText
         formatter.dateStyle = .short
         formatter.timeStyle = .short
         if let timestamp = entry.timestamp {

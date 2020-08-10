@@ -31,8 +31,10 @@ class EntryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.rightBarButtonItem = editButtonItem
-        updateViews()
+      navigationItem.rightBarButtonItem = editButtonItem
+        navigationItem.rightBarButtonItem?.tintColor = .black
+        navigationItem.leftBarButtonItem?.tintColor = .black
+      updateViews()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
