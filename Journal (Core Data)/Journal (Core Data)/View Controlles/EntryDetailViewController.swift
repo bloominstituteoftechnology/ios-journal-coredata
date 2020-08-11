@@ -25,7 +25,7 @@ class EntryDetailViewController: UIViewController {
         updateViews()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
         if wasEdited {
@@ -45,13 +45,6 @@ class EntryDetailViewController: UIViewController {
             }
         }
     }
-
-    /*
-     Override the viewWillDisappear(_:) method
-     Call the superclass implementation
-     Check if wasEdited is true. If so, collect entry data from the user interface controls and update the entry managed object
-     Call save on the main context from your CoreDataStack singleton
-     */
 
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
