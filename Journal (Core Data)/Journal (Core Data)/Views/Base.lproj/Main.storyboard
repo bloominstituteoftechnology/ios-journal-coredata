@@ -134,6 +134,10 @@
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                         </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="3ed-U8-uja" secondAttribute="trailing" id="DYa-9c-Yqv"/>
+                                            <constraint firstItem="3ed-U8-uja" firstAttribute="leading" secondItem="vTc-Lw-0bx" secondAttribute="leading" id="vGo-Jv-97P"/>
+                                        </constraints>
                                     </stackView>
                                 </subviews>
                                 <constraints>
@@ -143,12 +147,19 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="gGC-aV-ApB" firstAttribute="trailing" secondItem="q9g-bP-3Sn" secondAttribute="trailing" constant="20" id="81L-lF-heE"/>
+                            <constraint firstItem="q9g-bP-3Sn" firstAttribute="leading" secondItem="gGC-aV-ApB" secondAttribute="leading" constant="20" id="NIS-yP-Rk4"/>
                             <constraint firstItem="q9g-bP-3Sn" firstAttribute="leading" secondItem="D4S-0d-F45" secondAttribute="leadingMargin" id="R7y-32-9VB"/>
                             <constraint firstItem="q9g-bP-3Sn" firstAttribute="top" secondItem="gGC-aV-ApB" secondAttribute="top" id="yaX-cu-qp2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="gGC-aV-ApB"/>
                     </view>
                     <navigationItem key="navigationItem" title="Entry Details" id="rL1-9N-6FX"/>
+                    <connections>
+                        <outlet property="entryTextView" destination="3ed-U8-uja" id="Lpt-Qs-5Bm"/>
+                        <outlet property="moodSegmentedControl" destination="ls0-Fj-Rzs" id="3ad-yr-5DU"/>
+                        <outlet property="titleTextField" destination="UV7-cJ-CiT" id="8ci-Kf-Tlx"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YL2-ew-Jj5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
