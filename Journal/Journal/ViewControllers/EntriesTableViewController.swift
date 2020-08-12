@@ -12,6 +12,8 @@ import CoreData
 class EntriesTableViewController: UITableViewController {
 
     // MARK: - Properties
+    
+    let entryController = EntryController()
 
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -61,13 +63,16 @@ class EntriesTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
-            let moc = CoreDataStack.shared.mainContext
-            moc.delete(entry)
-            do {
-                try moc.save()
-            } catch {
-                moc.reset()
-                NSLog("Error saving managed object context: \(error)")
+            entryController.deleteEntryFromServer(entry) { (result) in
+                guard let _ = try? result.get() else { return }
+                let moc = CoreDataStack.shared.mainContext
+                moc.delete(entry)
+                do {
+                    try moc.save()
+                } catch {
+                    moc.reset()
+                    NSLog("Error saving managed object context: \(error)")
+                }
             }
         }
     }
@@ -80,6 +85,12 @@ class EntriesTableViewController: UITableViewController {
             if let entryDetailVC = segue.destination as? EntryDetailViewController,
                 let index = self.tableView.indexPathForSelectedRow {
                 entryDetailVC.entry = fetchedResultsController.object(at: index)
+                entryDetailVC.entryController = entryController
+            }
+        } else if segue.identifier == "createEntryModalSegue" {
+            if let navVC = segue.destination as? UINavigationController,
+                let createEntryVC = navVC.viewControllers.first as? CreateEntryViewController {
+                createEntryVC.entryController = entryController
             }
         }
     }

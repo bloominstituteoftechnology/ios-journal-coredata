@@ -13,6 +13,8 @@
 		1A38AFCD24D9151F0027A59F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A38AFCB24D9151F0027A59F /* Main.storyboard */; };
 		1A38AFCF24D915230027A59F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A38AFCE24D915230027A59F /* Assets.xcassets */; };
 		1A38AFD224D915230027A59F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A38AFD024D915230027A59F /* LaunchScreen.storyboard */; };
+		1AA956C824E37CEB00C67F4E /* EntryRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA956C724E37CEB00C67F4E /* EntryRepresentation.swift */; };
+		1AA956CB24E3828500C67F4E /* EntryController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AA956CA24E3828500C67F4E /* EntryController.swift */; };
 		1AAD13D124DB8EF700E80467 /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAD13D024DB8EF700E80467 /* EntriesTableViewController.swift */; };
 		1AAD13D424DB8F4500E80467 /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAD13D324DB8F4500E80467 /* EntryTableViewCell.swift */; };
 		1AAD13D624DB8F5F00E80467 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AAD13D524DB8F5F00E80467 /* CoreDataStack.swift */; };
@@ -30,6 +32,8 @@
 		1A38AFCE24D915230027A59F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A38AFD124D915230027A59F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1A38AFD324D915230027A59F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1AA956C724E37CEB00C67F4E /* EntryRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryRepresentation.swift; sourceTree = "<group>"; };
+		1AA956CA24E3828500C67F4E /* EntryController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryController.swift; sourceTree = "<group>"; };
 		1AAD13D024DB8EF700E80467 /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
 		1AAD13D324DB8F4500E80467 /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
 		1AAD13D524DB8F5F00E80467 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
@@ -71,6 +75,7 @@
 			children = (
 				1A38AFC524D9151F0027A59F /* AppDelegate.swift */,
 				1A38AFC724D9151F0027A59F /* SceneDelegate.swift */,
+				1AA956C924E3826F00C67F4E /* ModelController */,
 				1AAD13DC24DB8FD100E80467 /* Model */,
 				1AAD13CF24DB8ECA00E80467 /* ViewControllers */,
 				1AAD13D224DB8F0300E80467 /* Views */,
@@ -79,6 +84,14 @@
 				1A38AFD324D915230027A59F /* Info.plist */,
 			);
 			path = Journal;
+			sourceTree = "<group>";
+		};
+		1AA956C924E3826F00C67F4E /* ModelController */ = {
+			isa = PBXGroup;
+			children = (
+				1AA956CA24E3828500C67F4E /* EntryController.swift */,
+			);
+			path = ModelController;
 			sourceTree = "<group>";
 		};
 		1AAD13CF24DB8ECA00E80467 /* ViewControllers */ = {
@@ -106,6 +119,7 @@
 				1AAD13D924DB8FB700E80467 /* Journal.xcdatamodeld */,
 				1AAD13D724DB8F8C00E80467 /* Entry+Convenience.swift */,
 				1AAD13D524DB8F5F00E80467 /* CoreDataStack.swift */,
+				1AA956C724E37CEB00C67F4E /* EntryRepresentation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -182,6 +196,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				1AAD13D124DB8EF700E80467 /* EntriesTableViewController.swift in Sources */,
+				1AA956CB24E3828500C67F4E /* EntryController.swift in Sources */,
+				1AA956C824E37CEB00C67F4E /* EntryRepresentation.swift in Sources */,
 				1AAD13D424DB8F4500E80467 /* EntryTableViewCell.swift in Sources */,
 				1A38AFCA24D9151F0027A59F /* CreateEntryViewController.swift in Sources */,
 				1AAD13D624DB8F5F00E80467 /* CoreDataStack.swift in Sources */,
