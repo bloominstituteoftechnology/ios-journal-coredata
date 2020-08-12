@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0D153DBE24C501F900012F4C /* EntryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D153DBD24C501F900012F4C /* EntryDetailViewController.swift */; };
+		0D34EB7624E3849B0098185D /* EntryRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D34EB7524E3849B0098185D /* EntryRepresentation.swift */; };
 		0D4FEC1424BB9EC6008C6383 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4FEC1324BB9EC6008C6383 /* AppDelegate.swift */; };
 		0D4FEC1624BB9EC6008C6383 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4FEC1524BB9EC6008C6383 /* SceneDelegate.swift */; };
 		0D4FEC1824BB9EC6008C6383 /* CreateEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D4FEC1724BB9EC6008C6383 /* CreateEntryViewController.swift */; };
@@ -24,6 +25,7 @@
 /* Begin PBXFileReference section */
 		0D0968E824C4DA7700D9B113 /* Entry 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Entry 2.xcdatamodel"; sourceTree = "<group>"; };
 		0D153DBD24C501F900012F4C /* EntryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDetailViewController.swift; sourceTree = "<group>"; };
+		0D34EB7524E3849B0098185D /* EntryRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryRepresentation.swift; sourceTree = "<group>"; };
 		0D4FEC1024BB9EC6008C6383 /* Journal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D4FEC1324BB9EC6008C6383 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0D4FEC1524BB9EC6008C6383 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -69,21 +71,54 @@
 		0D4FEC1224BB9EC6008C6383 /* Journal */ = {
 			isa = PBXGroup;
 			children = (
-				0D4FEC1324BB9EC6008C6383 /* AppDelegate.swift */,
-				0D4FEC1524BB9EC6008C6383 /* SceneDelegate.swift */,
-				0D4FEC1724BB9EC6008C6383 /* CreateEntryViewController.swift */,
-				0D153DBD24C501F900012F4C /* EntryDetailViewController.swift */,
-				0D4FEC2724BB9F4A008C6383 /* EntryTableViewController.swift */,
+				0D8F5E6C24E38428003548DE /* model */,
+				0D8F5E6A24E383BA003548DE /* app */,
+				0D8F5E6924E383A6003548DE /* model controller */,
+				0D8F5E6B24E383ED003548DE /* view controllers */,
 				0D4FEC2924BB9F64008C6383 /* EntryTableViewCell.swift */,
-				0D4FEC2B24BB9F8D008C6383 /* CoreDataStack.swift */,
-				0DECA10D24C3BA8800964352 /* Entry.xcdatamodeld */,
-				0D4FEC2D24BB9FA1008C6383 /* Entry+Convenience.swift */,
 				0D4FEC1924BB9EC6008C6383 /* Main.storyboard */,
 				0D4FEC1C24BB9EC7008C6383 /* Assets.xcassets */,
 				0D4FEC1E24BB9EC7008C6383 /* LaunchScreen.storyboard */,
 				0D4FEC2124BB9EC7008C6383 /* Info.plist */,
 			);
 			path = Journal;
+			sourceTree = "<group>";
+		};
+		0D8F5E6924E383A6003548DE /* model controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "model controller";
+			sourceTree = "<group>";
+		};
+		0D8F5E6A24E383BA003548DE /* app */ = {
+			isa = PBXGroup;
+			children = (
+				0D4FEC1324BB9EC6008C6383 /* AppDelegate.swift */,
+				0D4FEC1524BB9EC6008C6383 /* SceneDelegate.swift */,
+			);
+			path = app;
+			sourceTree = "<group>";
+		};
+		0D8F5E6B24E383ED003548DE /* view controllers */ = {
+			isa = PBXGroup;
+			children = (
+				0D4FEC2724BB9F4A008C6383 /* EntryTableViewController.swift */,
+				0D4FEC1724BB9EC6008C6383 /* CreateEntryViewController.swift */,
+				0D153DBD24C501F900012F4C /* EntryDetailViewController.swift */,
+			);
+			path = "view controllers";
+			sourceTree = "<group>";
+		};
+		0D8F5E6C24E38428003548DE /* model */ = {
+			isa = PBXGroup;
+			children = (
+				0D4FEC2D24BB9FA1008C6383 /* Entry+Convenience.swift */,
+				0DECA10D24C3BA8800964352 /* Entry.xcdatamodeld */,
+				0D4FEC2B24BB9F8D008C6383 /* CoreDataStack.swift */,
+				0D34EB7524E3849B0098185D /* EntryRepresentation.swift */,
+			);
+			path = model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -158,6 +193,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D4FEC2824BB9F4A008C6383 /* EntryTableViewController.swift in Sources */,
+				0D34EB7624E3849B0098185D /* EntryRepresentation.swift in Sources */,
 				0D4FEC2A24BB9F64008C6383 /* EntryTableViewCell.swift in Sources */,
 				0D4FEC1824BB9EC6008C6383 /* CreateEntryViewController.swift in Sources */,
 				0D4FEC2C24BB9F8D008C6383 /* CoreDataStack.swift in Sources */,
