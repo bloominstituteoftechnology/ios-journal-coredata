@@ -10,7 +10,7 @@ import UIKit
 
 class EntryDetailViewController: UIViewController {
     
-  
+    
     var entry: Entry?
     private var wasEdited: Bool = false
     
@@ -69,5 +69,5 @@ class EntryDetailViewController: UIViewController {
         moodSegementedController.selectedSegmentIndex = Mood.allCases.firstIndex(of: mood) ?? 1
         moodSegementedController.isUserInteractionEnabled = isEditing
     }
-
+    
 }
