@@ -12,6 +12,7 @@ import CoreData
 class EntriesTableViewController: UITableViewController{
     
     // MARK: - Properties
+    let entryController = EntryController()
     
     lazy var fetchedResultsController: NSFetchedResultsController<Entry> = {
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
@@ -80,18 +81,22 @@ class EntriesTableViewController: UITableViewController{
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let entry = fetchedResultsController.object(at: indexPath)
-            let moc = CoreDataStack.shared.mainContext
-            moc.delete(entry)
-            do {
-                try moc.save()
-                tableView.reloadData()
-            } catch {
-                moc.reset()
-                NSLog("Error saving managed object context: \(error)")
+            entryController.deleteEntryFromServer(entry) { (result) in
+                guard let _ = try? result.get() else { return }
+                
+                let moc = CoreDataStack.shared.mainContext
+                moc.delete(entry)
+                do {
+                    try moc.save()
+                    tableView.reloadData()
+                } catch {
+                    moc.reset()
+                    NSLog("Error saving managed object context: \(error)")
+                }
             }
         }
     }
-   
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ToEntryDetail" {
             if let entryDetailVC = segue.destination as? EntryDetailViewController,
@@ -100,9 +105,6 @@ class EntriesTableViewController: UITableViewController{
             }
         }
     }
-
-   
-
 }
 
 extension EntriesTableViewController: NSFetchedResultsControllerDelegate {

@@ -13,6 +13,8 @@ class CreateEntryViewController: UIViewController {
     
     // MARK: - Properties
     
+    var entryController: EntryController?
+    
     // MARK: - IBOutlets
     @IBOutlet weak var entryTitleTextField: UITextField!
     @IBOutlet weak var bodyTextView: UITextView!
@@ -40,10 +42,13 @@ class CreateEntryViewController: UIViewController {
             !bodyText.isEmpty else { return }
         let moodIndex = emojiSementedControl.selectedSegmentIndex
         let mood = EntryMood.allCases[moodIndex]
+        let entry = Entry(title: title, timestamp: Date(), bodyText: bodyText, mood: mood)
+        
+        entryController?.sendEntryToServer(entry: entry)
                 
        
                 
-        Entry(title: title, timestamp: Date(), bodyText: bodyText, mood: mood)
+        
                 
        
                 do {
