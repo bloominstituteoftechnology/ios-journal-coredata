@@ -78,28 +78,30 @@ class EntryController {
     }
     
     private func updateEntries(with representations: [EntryRepresentation]) throws {
+        let context = CoreDataStack.shared.container.newBackgroundContext()
         let identifiersToFetch = representations.compactMap({UUID(uuidString: $0.identifier)})
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
         var entriesToCreate = representationsByID
         let fetchRequest: NSFetchRequest<Entry> = Entry.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "identifier IN %@", identifiersToFetch)
-        let context = CoreDataStack.shared.mainContext
-        do {
-            let existingEntries = try context.fetch(fetchRequest)
-            for entry in existingEntries {
-                guard let id = entry.identifier,
-                    let representation = representationsByID[id] else {
-                        continue }
-                update(entry: entry, representation: representation)
-                entriesToCreate.removeValue(forKey: id)
+        context.performAndWait {
+            do {
+                let existingEntries = try context.fetch(fetchRequest)
+                for entry in existingEntries {
+                    guard let id = entry.identifier,
+                        let representation = representationsByID[id] else {
+                            continue }
+                    update(entry: entry, representation: representation)
+                    entriesToCreate.removeValue(forKey: id)
+                }
+                for representation in entriesToCreate.values {
+                    Entry(entryRepresentation: representation, context: context)
+                }
+            } catch {
+                print("Error fetching entries for UUIDs: \(error)")
             }
-            for representation in entriesToCreate.values {
-                Entry(entryRepresentation: representation, context: context)
-            }
-        } catch {
-            print("Error fetching entries for UUIDs: \(error)")
         }
-        try CoreDataStack.shared.mainContext.save()
+        try CoreDataStack.shared.save(context: context)
     }
     
     func sendEntryToServer(entry: Entry, completion: @escaping CompletionHandler = { _ in }) {
