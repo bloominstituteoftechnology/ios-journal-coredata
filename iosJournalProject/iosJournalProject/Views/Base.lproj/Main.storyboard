@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="DAj-bx-B1V">
-    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -220,11 +220,11 @@
         <scene sceneID="HOU-rT-dDO">
             <objects>
                 <viewController id="JUd-fB-MGw" customClass="EntryDetailViewController" customModule="iosJournalProject" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="klI-s7-QJi">
+                    <view key="view" contentMode="scaleToFill" id="klI-s7-QJi">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="ZUX-GT-6aZ">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="ZUX-GT-6aZ">
                                 <rect key="frame" x="20" y="108" width="374" height="353"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Journal Entry Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="s0b-KO-ZBb">
@@ -246,7 +246,7 @@
                                             <segment title="🙃"/>
                                         </segments>
                                     </segmentedControl>
-                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="5Rc-pe-ARU">
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="5Rc-pe-ARU">
                                         <rect key="frame" x="0.0" y="117.5" width="374" height="235.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Entry" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BPm-8X-r52">
@@ -265,7 +265,7 @@
                                                     <constraint firstAttribute="height" constant="2" id="hwx-EE-fd6"/>
                                                 </constraints>
                                             </view>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zsL-I8-KmD">
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="zsL-I8-KmD">
                                                 <rect key="frame" x="0.0" y="68" width="374" height="167.5"/>
                                                 <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
@@ -283,10 +283,9 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="ZUX-GT-6aZ" firstAttribute="top" secondItem="Kna-aY-jy2" secondAttribute="top" constant="20" id="3fm-zl-bn7"/>
-                            <constraint firstItem="ZUX-GT-6aZ" firstAttribute="leading" secondItem="klI-s7-QJi" secondAttribute="leadingMargin" id="Bz6-6d-KpX"/>
-                            <constraint firstItem="ZUX-GT-6aZ" firstAttribute="trailing" secondItem="klI-s7-QJi" secondAttribute="trailingMargin" id="a8w-HN-XJH"/>
-                            <constraint firstItem="Kna-aY-jy2" firstAttribute="bottom" secondItem="ZUX-GT-6aZ" secondAttribute="bottom" constant="343" id="dtO-MV-iFa"/>
+                            <constraint firstItem="ZUX-GT-6aZ" firstAttribute="top" secondItem="Kna-aY-jy2" secondAttribute="top" constant="20" id="3MP-x4-A2I"/>
+                            <constraint firstItem="ZUX-GT-6aZ" firstAttribute="trailing" secondItem="klI-s7-QJi" secondAttribute="trailingMargin" id="4c6-2G-aPg"/>
+                            <constraint firstItem="ZUX-GT-6aZ" firstAttribute="leading" secondItem="klI-s7-QJi" secondAttribute="leadingMargin" id="llu-vB-ZqX"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Kna-aY-jy2"/>
                     </view>

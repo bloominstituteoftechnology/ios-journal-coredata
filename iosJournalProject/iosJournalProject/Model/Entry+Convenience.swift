@@ -8,7 +8,7 @@
 
 import Foundation
 import CoreData
-
+//helloworld
 enum EntryMood: String, CaseIterable {
     case neutral = "🤩"
     case happy = "🤬"
@@ -25,7 +25,7 @@ extension Entry {
               let timestamp = timestamp
               else { return nil }
         
-        return EntryRepresentation(identifier: identifier.uuidString ,
+        return EntryRepresentation(identifier: identifier.uuidString ?? "",
                                    title: title,
                                    timestamp: timestamp,
                                    bodyText: bodyText,
@@ -40,8 +40,6 @@ extension Entry {
                                         mood: EntryMood = .neutral,
                                         context: NSManagedObjectContext  = CoreDataStack.shared.mainContext) {
 
-                                        
-                                        
         self.init(context: context)
         self.identifier = identifier
         self.title = title
@@ -60,16 +58,5 @@ extension Entry {
                   timestamp: entryRepresentation.timestamp,
                   bodyText: entryRepresentation.bodyText,
                   mood: mood)
-        
-        
-    }
-    
-    
-    
-    
-    
-    
-    
-                                        
-    
+     }
 }

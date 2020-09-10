@@ -21,13 +21,39 @@ enum NetworkError: Error {
 
 let baseURL = URL(string: "https://iosjournalproject2.firebaseio.com/")!
 
-typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
-
 class EntryController {
     
+    init() {
+        fetchEntriesFromServer()
+    }
     
-    func fetchEntriesFromServer() {
-     
+    typealias CompletionHandler = (Result<Bool, NetworkError>) -> Void
+    
+    func fetchEntriesFromServer(completion: @escaping CompletionHandler = { _ in }) {
+        let requestURL = baseURL.appendingPathExtension("json")
+        
+        let task = URLSession.shared.dataTask(with: requestURL) { (data, _, error) in
+            if let error = error {
+                print("Error fetching entries: \(error)")
+                completion(.failure(.otherError))
+                return
+            }
+            guard let data = data else {
+                print("No data returned by data task.")
+                completion(.failure(.noData))
+                return
+            }
+            do {
+                let entryRepresentations = Array(try JSONDecoder().decode([String: EntryRepresentation].self, from: data).values)
+                try self.updateEntries(with: entryRepresentations)
+                completion(.success(true))
+            } catch {
+                print("Error decoding entry representations: \(error)")
+                completion(.failure(.noDecode))
+                return
+            }
+        }
+        task.resume()
     }
     
     //Put the task to the server
@@ -37,7 +63,7 @@ class EntryController {
             return
         }
         
-        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension("json")
+        let requestURL = baseURL.appendingPathComponent(uuid.uuidString).appendingPathExtension(".json")
         var request = URLRequest(url: requestURL)
         request.httpMethod = "PUT"
         
@@ -86,6 +112,7 @@ class EntryController {
         
         
     func updateEntries(with representations: [EntryRepresentation]) throws {
+        //let context = CoreDataStack.shared.container.newBackgroundContext()
         let identifiersToFetch = representations.compactMap({UUID(uuidString: $0.identifier)})
         
         let representationsByID = Dictionary(uniqueKeysWithValues: zip(identifiersToFetch, representations))
@@ -97,10 +124,10 @@ class EntryController {
         let context = CoreDataStack.shared.mainContext
         
         do {
-        let existingTasks = try context.fetch(fetchRequest)
+        let existingEntries = try context.fetch(fetchRequest)
         
         // Update Existing
-        for entry in existingTasks {
+        for entry in existingEntries {
             guard let id = entry.identifier,
                 let representation = representationsByID[id] else { continue }
             
@@ -110,9 +137,7 @@ class EntryController {
             entry.timestamp = representation.timestamp
             
             entriesToCreate.removeValue(forKey: id)
-            
         }
-            
             for representation in entriesToCreate.values {
                 Entry(entryRepresentation: representation, context: context)
             }
@@ -120,26 +145,20 @@ class EntryController {
             print("Error fetching entries for UUIDs: \(error)")
         }
         try CoreDataStack.shared.mainContext.save()
-        
     }
     
-    
-    func update(entry: Entry) {
-        
+    func update(entry: Entry, representation: EntryRepresentation) {
+        entry.title = representation.title
+        entry.bodyText = representation.bodyText
+        entry.mood = representation.mood
+        entry.timestamp = representation.timestamp
     }
-        
-    
-    
-    
-    
-    
-    
-    
     
 
 }
     
 
     
+
 
 

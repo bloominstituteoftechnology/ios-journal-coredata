@@ -25,17 +25,13 @@ class EntryDetailViewController: UIViewController {
     @IBOutlet weak var bodyTextView: UITextView!
     
     
-    
-    
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
-      navigationItem.rightBarButtonItem = editButtonItem
+        navigationItem.rightBarButtonItem = editButtonItem
         navigationItem.rightBarButtonItem?.tintColor = .black
         navigationItem.leftBarButtonItem?.tintColor = .black
-      updateViews()
+        updateViews()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
