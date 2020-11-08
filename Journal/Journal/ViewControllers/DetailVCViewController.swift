@@ -9,7 +9,7 @@
 import UIKit
 
 
-   class EntryDetailViewController: UIViewController {
+class EntryDetailViewController: UIViewController {
     
     //MARK: Properties
     
@@ -18,48 +18,46 @@ import UIKit
             updateViews()
         }
     }
-        var entryController: EntryController?
-        
-        @IBOutlet weak var txtTitle: UITextField!
-        @IBOutlet weak var txtvBody: UITextView!
-        @IBOutlet weak var segmentedControl: UISegmentedControl!
+    var entryController: EntryController?
     
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            updateViews()
-        }
+    @IBOutlet weak var txtTitle: UITextField!
+    @IBOutlet weak var txtvBody: UITextView!
+    @IBOutlet weak var segmentedControl: UISegmentedControl!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        updateViews()
+    }
+    
+    
+    @IBAction func saveTapped(_ sender: Any) {
+        guard let entryController = entryController,
+              let title = txtTitle.text, !title.isEmpty,
+              let body = txtvBody.text
+        else { return }
         
-
-        @IBAction func saveTapped(_ sender: Any) {
-            guard let entryController = entryController,
-                let title = txtTitle.text, !title.isEmpty,
-                let body = txtvBody.text
-            else { return }
-            
-            let selectedMoodIndex = segmentedControl.selectedSegmentIndex
-            let mood = MoodPriority.allPriorities[selectedMoodIndex]
-            
-            if let entry = entry {
-//                entryController.updateEntry(entry: entry, newTitle: title, newBody: body, newMood: )
-                entryController.updateEntry(entry, updatedTitle: title, updatedBodyText: body, updatedMood: mood.rawValue)
-            } else {
-                entryController.createEntry(withTitle: title, bodyText: body, mood: mood.rawValue)
-            }
-            
-            navigationController?.popViewController(animated: true)
-        }
+        let selectedMoodIndex = segmentedControl.selectedSegmentIndex
+        let mood = MoodPriority.allPriorities[selectedMoodIndex]
         
-        func updateViews() {
-            guard isViewLoaded else { return }
-            title = entry?.title ?? "Create Journal Entry"
-            txtTitle.text = entry?.title ?? ""
-            txtvBody.text = entry?.bodyText ?? ""
-            let mood: MoodPriority
-            if let moodPriority = entry?.mood {
-                mood = MoodPriority(rawValue: moodPriority)!
-            } else {
-                mood = .😐
-            }
-            segmentedControl.selectedSegmentIndex = MoodPriority.allPriorities.firstIndex(of: mood)!
+        if let entry = entry {
+            entryController.updateEntry(entry, updatedTitle: title, updatedBodyText: body, updatedMood: mood.rawValue)
+        } else {
+            entryController.createEntry(withTitle: title, bodyText: body, mood: mood.rawValue)
+        }
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func updateViews() {
+        guard isViewLoaded else { return }
+        title = entry?.title ?? "Create Journal Entry"
+        txtTitle.text = entry?.title ?? ""
+        txtvBody.text = entry?.bodyText ?? ""
+        let mood: MoodPriority
+        if let moodPriority = entry?.mood {
+            mood = MoodPriority(rawValue: moodPriority)!
+        } else {
+            mood = .😐
+        }
+        segmentedControl.selectedSegmentIndex = MoodPriority.allPriorities.firstIndex(of: mood)!
     }
 }

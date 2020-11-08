@@ -44,10 +44,10 @@ class EntryController {
             let jsonDecoder = JSONDecoder()
             jsonDecoder.dateDecodingStrategy = .iso8601
             do {
-                let entryRepresentations = Array(try jsonDecoder.decode([String : EntryRepresentation].self, from: data).values)
+                var entryRepresentations = Array(try jsonDecoder.decode([String : EntryRepresentation].self, from: data).values)
                 //                var entryRepresentations: [EntryRepresentation] = []
-                //                let entryRepresentationsByID = try jsonDecoder.decode([String : EntryRepresentation].self, from: data)
-                //                entryRepresentations = entryRepresentationsByID.map { $0.value }
+                                let entryRepresentationsByID = try jsonDecoder.decode([String : EntryRepresentation].self, from: data)
+                                entryRepresentations = entryRepresentationsByID.map { $0.value }
                 
                 try self.updateEntries(with: entryRepresentations)
                 completion(nil)

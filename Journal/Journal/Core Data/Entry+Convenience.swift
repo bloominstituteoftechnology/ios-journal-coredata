@@ -31,12 +31,12 @@ extension Entry {
                                    title: title ?? "")
     }
     
-   @discardableResult convenience init(mood: MoodPriority = .😐,
-                     title: String,
-                     bodyText: String,
-                     timestamp: Date = Date(),
-                     identifier: String = "",
-                     context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+    @discardableResult convenience init(mood: MoodPriority = .😐,
+                                        title: String,
+                                        bodyText: String,
+                                        timestamp: Date = Date(),
+                                        identifier: String = "",
+                                        context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         self.init(context: context)
         self.mood = mood.rawValue
         self.title = title
@@ -45,11 +45,11 @@ extension Entry {
     }
     
     @discardableResult convenience init?(entryRepresentation: EntryRepresentation,
-                                        context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
+                                         context: NSManagedObjectContext = CoreDataStack.shared.mainContext) {
         guard let moodPriority = MoodPriority(rawValue: entryRepresentation.mood),
-            let date = entryRepresentation.timestamp  else {
-                      return nil
-              }
+              let date = entryRepresentation.timestamp  else {
+            return nil
+        }
         
         self.init(mood: moodPriority,
                   title: entryRepresentation.title,
