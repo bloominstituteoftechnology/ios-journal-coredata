@@ -12,6 +12,12 @@
 		A847461F25E9D31C00B8F72A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A847461D25E9D31C00B8F72A /* Main.storyboard */; };
 		A847462125E9D31E00B8F72A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A847462025E9D31E00B8F72A /* Assets.xcassets */; };
 		A847462425E9D31E00B8F72A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A847462225E9D31E00B8F72A /* LaunchScreen.storyboard */; };
+		A8A5419325E9E533002574EF /* CreateEntryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8A5419225E9E533002574EF /* CreateEntryViewController.swift */; };
+		A8A5419625E9E553002574EF /* EntriesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8A5419525E9E553002574EF /* EntriesTableViewController.swift */; };
+		A8A5419925E9E565002574EF /* EntryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8A5419825E9E565002574EF /* EntryTableViewCell.swift */; };
+		A8A5419D25E9E580002574EF /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8A5419C25E9E580002574EF /* CoreDataStack.swift */; };
+		A8A541A125E9E58E002574EF /* Entry + Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8A541A025E9E58E002574EF /* Entry + Convenience.swift */; };
+		A8A541A525E9E59F002574EF /* Journal.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A8A541A325E9E59F002574EF /* Journal.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +28,12 @@
 		A847462025E9D31E00B8F72A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A847462325E9D31E00B8F72A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A847462525E9D31E00B8F72A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A8A5419225E9E533002574EF /* CreateEntryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateEntryViewController.swift; sourceTree = "<group>"; };
+		A8A5419525E9E553002574EF /* EntriesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntriesTableViewController.swift; sourceTree = "<group>"; };
+		A8A5419825E9E565002574EF /* EntryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryTableViewCell.swift; sourceTree = "<group>"; };
+		A8A5419C25E9E580002574EF /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		A8A541A025E9E58E002574EF /* Entry + Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entry + Convenience.swift"; sourceTree = "<group>"; };
+		A8A541A425E9E59F002574EF /* Journal.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Journal.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +78,8 @@
 		A847462C25E9D32400B8F72A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				A8A5419025E9E3D4002574EF /* ModelControllers */,
+				A8A5418F25E9E3CE002574EF /* ViewControllers */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -81,6 +95,9 @@
 		A847462E25E9D32800B8F72A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				A8A5419C25E9E580002574EF /* CoreDataStack.swift */,
+				A8A541A025E9E58E002574EF /* Entry + Convenience.swift */,
+				A8A541A325E9E59F002574EF /* Journal.xcdatamodeld */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -102,6 +119,23 @@
 				A847462225E9D31E00B8F72A /* LaunchScreen.storyboard */,
 			);
 			path = Storyboards;
+			sourceTree = "<group>";
+		};
+		A8A5418F25E9E3CE002574EF /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				A8A5419225E9E533002574EF /* CreateEntryViewController.swift */,
+				A8A5419525E9E553002574EF /* EntriesTableViewController.swift */,
+				A8A5419825E9E565002574EF /* EntryTableViewCell.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		A8A5419025E9E3D4002574EF /* ModelControllers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ModelControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -174,8 +208,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A8A5419625E9E553002574EF /* EntriesTableViewController.swift in Sources */,
+				A8A5419925E9E565002574EF /* EntryTableViewCell.swift in Sources */,
 				A847461825E9D31C00B8F72A /* AppDelegate.swift in Sources */,
+				A8A5419D25E9E580002574EF /* CoreDataStack.swift in Sources */,
+				A8A5419325E9E533002574EF /* CreateEntryViewController.swift in Sources */,
 				A847461A25E9D31C00B8F72A /* SceneDelegate.swift in Sources */,
+				A8A541A125E9E58E002574EF /* Entry + Convenience.swift in Sources */,
+				A8A541A525E9E59F002574EF /* Journal.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,6 +417,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		A8A541A325E9E59F002574EF /* Journal.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				A8A541A425E9E59F002574EF /* Journal.xcdatamodel */,
+			);
+			currentVersion = A8A541A425E9E59F002574EF /* Journal.xcdatamodel */;
+			path = Journal.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = A847460C25E9D31C00B8F72A /* Project object */;
 }
