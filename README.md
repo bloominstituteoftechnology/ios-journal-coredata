@@ -31,8 +31,13 @@ Remember that **any** use of managed objects or a managed object context must be
 2. Update each function to do its work using `perform()` or `performAndWait()` on the main context for now.
 3. Run your app with the `-com.apple.CoreData.ConcurrencyDebug 1` launch argument. Exercise all functions of the app and verify that no Core Data concurrency assertions are triggered (i.e. the app shouldn't crash). 
 
+The goal when fetching the entries from Firebase is to go through each fetched entry and check a couple things:
+- **Is there a corresponding entry in the device's persistent store?**
+    - No, so create a new `Entry` object. (This would happen if someone else created an entry on their device and you don't have it on your device yet)
+    - Yes. Are its values different from the entry fetched from Firebase? If so, then update the entry in the persistent store with the new values from the entry from Firebase.
 ### Part 3 - Use a Background Context for Syncing
 
+You'll use the `EntryRepresentation` to do this. It will let you decode the JSON as `EntryRepresentation`s, perform these checks and either create an actual `Entry` if one doesn't exist on the device or update an existing one with its decoded values.
 While the app shouldn't crash anymore, it's still using the main context for operations that could potentially take a long time and block the main queue. In order to fix this:
 
 1. Update your `updateEntries(with representations: ...)` method so that it creates a new background context, and does all Core Data work on this context. It should update/create tasks from the fetched data on this context.
