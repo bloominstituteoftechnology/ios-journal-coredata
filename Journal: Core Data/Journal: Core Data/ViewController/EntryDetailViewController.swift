@@ -1,0 +1,74 @@
+//
+//  EntryDetailViewController.swift
+//  Journal: Core Data
+//
+//  Created by Ivan Caldwell on 1/22/19.
+//  Copyright © 2019 Ivan Caldwell. All rights reserved.
+//
+
+import UIKit
+
+class EntryDetailViewController: UIViewController {
+
+    var entryController: EntryController? // Don't think this is needed...
+    var entry: Entry?{
+        didSet{
+            updateViews()
+        }
+    }
+    
+    @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var bodyTextView: UITextView!
+    @IBOutlet weak var moodSegmentedControl: UISegmentedControl!
+    
+    func updateViews(){
+        guard isViewLoaded == true else { return }
+        if let e = entry {
+            titleTextField.text = e.title
+            bodyTextView.text = e.bodyText
+            let mood = e.moodEmoji
+            let index = MoodEmoji.allCases.index(of: mood)!
+            moodSegmentedControl.selectedSegmentIndex = index
+            title = e.title
+        } else {
+            // createa task
+            title = "Create Entry"
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        updateViews()
+    }
+    
+
+    @IBAction func saveButtonTapped(_ sender: Any) {
+        let maybeName = titleTextField.text
+        guard let title = maybeName, title.isEmpty == false else {
+            return
+        }
+        let bodyText = bodyTextView.text
+        
+        if let existingEntry = entry {
+            // editing a entry
+            existingEntry.title = title
+            existingEntry.bodyText = bodyText
+            let index = moodSegmentedControl.selectedSegmentIndex
+            existingEntry.mood = moodSegmentedControl.titleForSegment(at: index)!
+        } else {
+            // creating a new entry
+            let newEntry = Entry(context: CoreDataStack.shared.mainContext)
+            newEntry.title = title
+            newEntry.bodyText = bodyText
+            let index = moodSegmentedControl.selectedSegmentIndex
+            newEntry.mood = moodSegmentedControl.titleForSegment(at: index)!
+        }
+        
+        do {
+            try CoreDataStack.shared.mainContext.save()
+            navigationController?.popViewController(animated: true)
+        } catch {
+            print("EntryDetailViewController: Line 61\nFailed to save: \(error)")
+        }
+    }
+}
